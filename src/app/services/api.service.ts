@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { AuthService } from './auth-service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +13,7 @@ export class ApiService {
    */
   private proxyUrl = 'http://192.168.178.188:9090/backend/proxy.php';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
   /**
    * Sends a GET request to the specified endpoint.
@@ -21,7 +22,21 @@ export class ApiService {
    */
   get<T>(endpoint: string): Observable<T> {
     const url = `${this.proxyUrl}${endpoint}`;
-    const response$ = this.http.get<T>(url);
+    let headers = new HttpHeaders({});
+
+    // Temporarily add authentication headers if the user is logged in
+    if (this.authService.isLoggedIn()) {
+      const token = this.authService.getToken();
+      const deviceFingerprint = this.authService.getDeviceFingerprint();
+      if (token) {
+        headers = headers.set('Authorization', `Bearer ${token}`);
+      }
+      if (deviceFingerprint) {
+        headers = headers.set('X-Device-Fingerprint', deviceFingerprint);
+      }
+    }
+
+    const response$ = this.http.get<T>(url, { headers });
     return response$;
   }
 
