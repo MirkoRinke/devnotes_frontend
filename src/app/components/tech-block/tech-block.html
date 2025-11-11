@@ -1,0 +1,5 @@
+<p>{{ heading }}</p>
+
+@for (tile of tiles; track $index) {
+<app-tech-tile [name]="tile.name" [counts]="tile.total_counts"></app-tech-tile>
+}
