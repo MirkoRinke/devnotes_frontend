@@ -1,0 +1,28 @@
+<p>community-home works!</p>
+
+@if (authService.isLoggedIn()) {
+<app-tech-block
+  [heading]="'Favoriten'"
+  [urls]="[
+    '/user/favorites/posts/?select=count:languages.name',
+    '/user/favorites/posts/?select=count:technologies.name'
+  ]"
+></app-tech-block>
+} @else {
+<app-guest-teaser-prompt
+  [title]="'Favoriten'"
+  [message]="'Bitte melde dich an, um deine Favoriten zu sehen.'"
+  [buttonText]="'Anmelden'"
+  [buttonLink]="'/login'"
+></app-guest-teaser-prompt>
+}
+
+<app-tech-block
+  [heading]="'Sprachen / Frameworks'"
+  [urls]="['/posts/?select=count:post_type&select=count:languages.name']"
+></app-tech-block>
+
+<app-tech-block
+  [heading]="'Tools'"
+  [urls]="['/posts/?select=count:post_type&select=count:technologies.name']"
+></app-tech-block>
