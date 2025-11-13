@@ -1,2 +1,6 @@
-<span>{{ name }} {{ counts }}</span>
+<a
+  [routerLink]="'/post-types-selection'"
+  [queryParams]="{ tech: name, endPoint: endPoint, entity: entity }"
+  >{{ name }} {{ counts }} {{ entity }}</a
+>
 <br />
