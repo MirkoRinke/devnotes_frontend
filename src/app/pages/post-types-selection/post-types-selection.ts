@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { HttpParams } from '@angular/common/http';
 
 import { ApiService } from '../../services/api.service';
@@ -12,7 +12,7 @@ import { AllowedPostTypesEnums } from '../../enums/allowed-post-types';
 
 @Component({
   selector: 'app-post-types-selection',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './post-types-selection.html',
   styleUrl: './post-types-selection.scss',
 })
