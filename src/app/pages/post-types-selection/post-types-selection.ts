@@ -7,7 +7,8 @@ import { ApiService } from '../../services/api.service';
 import type { PostTypes } from '../../interfaces/post-types.ts';
 import type { ApiResponse } from '../../interfaces/api-response';
 
-import { ApiEndpointName } from '../../enums/api-endpoint';
+import { ApiEndpointEnums } from '../../enums/api-endpoint';
+import { AllowedPostTypesEnums } from '../../enums/allowed-post-types';
 
 @Component({
   selector: 'app-post-types-selection',
@@ -31,28 +32,35 @@ export class PostTypesSelection {
       const endPoint = params['endPoint'];
       const entity = params['entity'];
 
-      console.log('Query Params:', params);
-
-      if (!tech || !endPoint || !entity) {
+      if (!tech || !(endPoint in ApiEndpointEnums) || !entity) {
         this.router.navigate(['/']);
         return;
       }
 
       this.selectedTech = tech;
-      this.getPostTypes(tech, endPoint, entity);
+
+      this.getPostTypesForEntity(tech, endPoint, entity);
     });
   }
 
-  getPostTypes(tech: string, endPoint: string, entity: string) {
+  /**
+   * Get the post types for the selected Entity
+   *
+   * @param tech
+   * @param endPoint
+   * @param entity
+   * @param allowedPostTypes
+   */
+  getPostTypesForEntity(tech: string, endPoint: string, entity: string) {
     const options = {
       params: new HttpParams()
-        .set('filter[post_type]', 'tutorial,snippet,feedback,showcase,question,resources')
+        .set('filter[post_type]', AllowedPostTypesEnums.ALL)
         .set(`filter[${entity}.name]`, `eq:${tech}`)
         .set('select', 'count:post_type'),
     };
 
     const url =
-      ApiEndpointName[endPoint as keyof typeof ApiEndpointName] + '?' + options.params.toString();
+      ApiEndpointEnums[endPoint as keyof typeof ApiEndpointEnums] + '?' + options.params.toString();
 
     this.apiService.get<ApiResponse<PostTypes>>(url).subscribe({
       next: (response) => {
