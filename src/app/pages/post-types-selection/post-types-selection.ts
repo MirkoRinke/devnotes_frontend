@@ -65,7 +65,11 @@ export class PostTypesSelection {
     this.apiService.get<ApiResponse<PostTypes>>(url).subscribe({
       next: (response) => {
         this.postTypes = response.data.data;
-        console.log(this.postTypes);
+
+        if (this.postTypes.length === 0) {
+          this.router.navigate(['/']);
+          console.warn('No post types found for the selected entity and tech.');
+        }
       },
       error: (error) => {
         console.error('Error fetching post types:', error);
