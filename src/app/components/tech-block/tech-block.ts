@@ -6,7 +6,7 @@ import type { Tile } from '../../interfaces/tile';
 import type { ApiResponse } from '../../interfaces/api-response';
 
 import { ApiService } from '../../services/api.service';
-import { ApiEndpointName } from '../../enums/api-endpoint';
+import { ApiEndpointEnums } from '../../enums/api-endpoint';
 
 @Component({
   selector: 'app-tech-block',
@@ -25,9 +25,15 @@ export class TechBlock {
 
   ngOnInit() {
     if (!this.params || this.params.length === 0) {
-      console.error('URL input is required for TechBlock component.');
+      console.error(`URL input is required for TechBlock component ${this.heading}`);
       return;
     }
+
+    if (!(this.endPoint in ApiEndpointEnums)) {
+      console.error(`Invalid endPoint provided to TechBlock component ${this.heading}`);
+      return;
+    }
+
     this.getTiles();
   }
 
@@ -35,7 +41,7 @@ export class TechBlock {
     this.params.forEach((params) => {
       this.apiService
         .get<ApiResponse<Tile>>(
-          `${ApiEndpointName[this.endPoint as keyof typeof ApiEndpointName]}${params}`
+          `${ApiEndpointEnums[this.endPoint as keyof typeof ApiEndpointEnums]}${params}`
         )
         .subscribe({
           next: (response) => {
