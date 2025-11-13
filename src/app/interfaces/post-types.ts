@@ -1,5 +1,5 @@
 export interface PostTypes {
   name: string;
-  counts: number;
+  total_counts: number;
   entity: string;
 }
