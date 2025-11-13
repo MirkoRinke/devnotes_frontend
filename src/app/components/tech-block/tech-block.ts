@@ -6,6 +6,7 @@ import type { Tile } from '../../interfaces/tile';
 import type { ApiResponse } from '../../interfaces/api-response';
 
 import { ApiService } from '../../services/api.service';
+import { ApiEndpointName } from '../../enums/api-endpoint';
 
 @Component({
   selector: 'app-tech-block',
@@ -15,14 +16,15 @@ import { ApiService } from '../../services/api.service';
 })
 export class TechBlock {
   @Input() heading!: string;
-  @Input() urls!: Array<string>;
+  @Input() endPoint!: string;
+  @Input() params!: Array<string>;
 
   constructor(private apiService: ApiService) {}
 
   tiles: Tile[] = [];
 
   ngOnInit() {
-    if (!this.urls || this.urls.length === 0) {
+    if (!this.params || this.params.length === 0) {
       console.error('URL input is required for TechBlock component.');
       return;
     }
@@ -30,15 +32,20 @@ export class TechBlock {
   }
 
   getTiles() {
-    this.urls.forEach((url) => {
-      this.apiService.get<ApiResponse<Tile>>(url).subscribe({
-        next: (response) => {
-          this.tiles = this.tiles.concat(response.data.data);
-        },
-        error: (error) => {
-          console.error('Error fetching posts:', error);
-        },
-      });
+    this.params.forEach((params) => {
+      this.apiService
+        .get<ApiResponse<Tile>>(
+          `${ApiEndpointName[this.endPoint as keyof typeof ApiEndpointName]}${params}`
+        )
+        .subscribe({
+          next: (response) => {
+            const newTiles = response.data.data;
+            this.tiles = this.tiles.concat(newTiles);
+          },
+          error: (error) => {
+            console.error('Error fetching posts:', error);
+          },
+        });
     });
   }
 }

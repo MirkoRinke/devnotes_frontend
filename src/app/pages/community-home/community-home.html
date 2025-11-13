@@ -3,10 +3,8 @@
 @if (authService.isLoggedIn()) {
 <app-tech-block
   [heading]="'Favoriten'"
-  [urls]="[
-    '/user/favorites/posts/?select=count:languages.name',
-    '/user/favorites/posts/?select=count:technologies.name'
-  ]"
+  [endPoint]="'FAVORITE_POSTS'"
+  [params]="['?select=count:languages.name', '?select=count:technologies.name']"
 ></app-tech-block>
 } @else {
 <app-guest-teaser-prompt
@@ -19,10 +17,12 @@
 
 <app-tech-block
   [heading]="'Sprachen / Frameworks'"
-  [urls]="['/posts/?select=count:post_type&select=count:languages.name']"
+  [endPoint]="'POSTS'"
+  [params]="['?select=count:languages.name']"
 ></app-tech-block>
 
 <app-tech-block
   [heading]="'Tools'"
-  [urls]="['/posts/?select=count:post_type&select=count:technologies.name']"
+  [endPoint]="'POSTS'"
+  [params]="['?select=count:technologies.name']"
 ></app-tech-block>
