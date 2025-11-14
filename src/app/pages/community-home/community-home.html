@@ -3,7 +3,7 @@
 @if (authService.isLoggedIn()) {
 <app-tech-block
   [heading]="'Favoriten'"
-  [endPoint]="'FAVORITE_POSTS'"
+  [endPoint]="'POSTS'"
   [params]="['?select=count:languages.name', '?select=count:technologies.name']"
 ></app-tech-block>
 } @else {
