@@ -2,7 +2,9 @@
 <p>Selected tech: {{ selectedTech }}</p>
 
 @for (postType of postTypes; track $index) {
-<a [routerLink]="'/posts-list'" [queryParams]="{}"
+<a
+  [routerLink]="'/posts-list'"
+  [queryParams]="{ tech: selectedTech, entity: selectedEntity, postType: postType.name }"
   >{{ postType.name }} {{ postType.total_counts }}</a
 >
 <br />

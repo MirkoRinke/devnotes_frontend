@@ -4,8 +4,8 @@ import { HttpParams } from '@angular/common/http';
 
 import { ApiService } from '../../services/api.service';
 
-import type { PostTypes } from '../../interfaces/post-types.ts';
-import type { ApiResponse } from '../../interfaces/api-response';
+import type { PostTypesInterface } from '../../interfaces/post-types.ts';
+import type { ApiResponseArrayInterface } from '../../interfaces/api-response';
 
 import { ApiEndpointEnums } from '../../enums/api-endpoint';
 import { AllowedPostTypesEnums } from '../../enums/allowed-post-types';
@@ -18,7 +18,8 @@ import { AllowedPostTypesEnums } from '../../enums/allowed-post-types';
 })
 export class PostTypesSelection {
   selectedTech: string | null = null;
-  postTypes: PostTypes[] = [];
+  selectedEntity: string | null = null;
+  postTypes: PostTypesInterface[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -38,6 +39,7 @@ export class PostTypesSelection {
       }
 
       this.selectedTech = tech;
+      this.selectedEntity = entity;
 
       this.getPostTypesForEntity(tech, endPoint, entity);
     });
@@ -62,7 +64,7 @@ export class PostTypesSelection {
     const url =
       ApiEndpointEnums[endPoint as keyof typeof ApiEndpointEnums] + '?' + options.params.toString();
 
-    this.apiService.get<ApiResponse<PostTypes>>(url).subscribe({
+    this.apiService.get<ApiResponseArrayInterface<PostTypesInterface>>(url).subscribe({
       next: (response) => {
         this.postTypes = response.data.data;
 
