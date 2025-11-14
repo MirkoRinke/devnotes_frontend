@@ -14,7 +14,7 @@ export class AuthService {
     // Temporary implementation, returns a mock token or null
     const TemporaryLoggedIn = true; // Set to 'true' to simulate a logged-in user
     if (TemporaryLoggedIn) {
-      return '19|4rH3N15hcWokF5ZwJbVCxyMEl9iZGvFCUfZk90YU07bb08cc';
+      return '25|FEtDy1tSzTm48YlpXOF9c5kIARDQq6XCJODDvB0vdcc4aafe';
     }
     return null;
   }
@@ -22,5 +22,14 @@ export class AuthService {
   getDeviceFingerprint(): string {
     // Temporary implementation, returns a mock fingerprint
     return '73a90acaae2b1ccc0e969709665bc62f';
+  }
+
+  getCurrentUserId(): number | null {
+    // Temporary implementation, returns a mock user ID or null
+    const TemporaryLoggedIn = true; // Set to 'true' to simulate a logged-in user
+    if (TemporaryLoggedIn) {
+      return 1;
+    }
+    return null;
   }
 }
