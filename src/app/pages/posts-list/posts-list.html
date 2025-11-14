@@ -1,1 +1,11 @@
-<p>posts-list works!</p>
+<p>posts-list works! for {{ selectedTech }} and post type {{ selectedPostType }}</p>
+
+@for (post of postsList; track $index) {
+<div class="post-item">
+  <h3>{{ post.title }} {{ post.id }}</h3>
+  <p>Category: {{ post.category }}</p>
+  <p>Likes: {{ post.likes_count }}</p>
+  <p>Comments: {{ post.comments_count }}</p>
+  <p>Created at: {{ post.created_at | date : 'mediumDate' }}</p>
+</div>
+}
