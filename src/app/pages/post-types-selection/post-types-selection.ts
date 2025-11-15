@@ -9,6 +9,7 @@ import type { ApiResponseArrayInterface } from '../../interfaces/api-response';
 
 import { ApiEndpointEnums } from '../../enums/api-endpoint';
 import { AllowedPostTypesEnums } from '../../enums/allowed-post-types';
+import { PostListAllowedEntitiesEnums } from '../../enums/post-list-allowed-entities';
 
 @Component({
   selector: 'app-post-types-selection',
@@ -17,7 +18,7 @@ import { AllowedPostTypesEnums } from '../../enums/allowed-post-types';
   styleUrl: './post-types-selection.scss',
 })
 export class PostTypesSelection {
-  selectedTech: string | null = null;
+  selectedEntityValue: string | null = null;
   selectedEntity: string | null = null;
   postTypes: PostTypesInterface[] = [];
 
@@ -29,19 +30,23 @@ export class PostTypesSelection {
 
   ngOnInit() {
     this.route.queryParams.subscribe((params) => {
-      const tech = params['tech'];
+      const entityValue = params['entityValue'];
       const endPoint = params['endPoint'];
       const entity = params['entity'];
 
-      if (!tech || !(endPoint in ApiEndpointEnums) || !entity) {
+      if (
+        !entityValue ||
+        !Object.values(PostListAllowedEntitiesEnums).includes(entity) ||
+        !(endPoint in ApiEndpointEnums)
+      ) {
         this.router.navigate(['/']);
         return;
       }
 
-      this.selectedTech = tech;
+      this.selectedEntityValue = entityValue;
       this.selectedEntity = entity;
 
-      this.getPostTypesForEntity(tech, endPoint, entity);
+      this.getPostTypesForEntity(entityValue, endPoint, entity);
     });
   }
 
@@ -53,11 +58,11 @@ export class PostTypesSelection {
    * @param entity
    * @param allowedPostTypes
    */
-  getPostTypesForEntity(tech: string, endPoint: string, entity: string) {
+  getPostTypesForEntity(entityValue: string, endPoint: string, entity: string) {
     const options = {
       params: new HttpParams()
         .set('filter[post_type]', AllowedPostTypesEnums.ALL)
-        .set(`filter[${entity}.name]`, `eq:${tech}`)
+        .set(`filter[${entity}.name]`, `eq:${entityValue}`)
         .set('select', 'count:post_type'),
     };
 

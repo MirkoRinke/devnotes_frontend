@@ -1,10 +1,14 @@
 <p>post-types-selection works!</p>
-<p>Selected tech: {{ selectedTech }}</p>
+<p>Selected tech: {{ selectedEntityValue }}</p>
 
 @for (postType of postTypes; track $index) {
 <a
   [routerLink]="'/posts-list'"
-  [queryParams]="{ tech: selectedTech, entity: selectedEntity, postType: postType.name }"
+  [queryParams]="{
+    entityValue: selectedEntityValue,
+    entity: selectedEntity,
+    postType: postType.name
+  }"
   >{{ postType.name }} {{ postType.total_counts }}</a
 >
 <br />
