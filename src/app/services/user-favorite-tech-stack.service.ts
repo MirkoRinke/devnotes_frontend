@@ -25,7 +25,7 @@ export class UserFavoriteTechStackService {
 
     this.loaded = true;
 
-    console.log('API-Call: Load User Favorite Tech Stack');
+    // console.log('API-Call: Load User Favorite Tech Stack');
 
     const options = {
       params: new HttpParams().set('select', 'favorite_languages'),
