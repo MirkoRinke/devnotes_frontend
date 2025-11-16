@@ -1,18 +1,14 @@
 import { Component, Input } from '@angular/core';
-import { HttpParams } from '@angular/common/http';
 
 import { TechTile } from '../tech-tile/tech-tile';
 
 import type { TileInterface } from '../../interfaces/tile';
-import type {
-  ApiResponseArrayInterface,
-  ApiResponseObjektInterface,
-} from '../../interfaces/api-response';
-import type { UserProfileInterface } from '../../interfaces/user-profile';
+import type { ApiResponseArrayInterface } from '../../interfaces/api-response';
+
+import { ApiEndpointEnums } from '../../enums/api-endpoint';
 
 import { ApiService } from '../../services/api.service';
-import { AuthService } from '../../services/auth-service';
-import { ApiEndpointEnums } from '../../enums/api-endpoint';
+import { UserFavoriteTechStackService } from '../../services/user-favorite-tech-stack.service';
 
 @Component({
   selector: 'app-tech-block',
@@ -25,7 +21,10 @@ export class TechBlock {
   @Input() endPoint!: string;
   @Input() params!: Array<string>;
 
-  constructor(private apiService: ApiService, private authService: AuthService) {}
+  constructor(
+    private apiService: ApiService,
+    private userFavoriteTechStackService: UserFavoriteTechStackService
+  ) {}
 
   tiles: TileInterface[] = [];
   favoriteTechStack: Array<string> = [];
@@ -64,25 +63,9 @@ export class TechBlock {
   }
 
   getUserFavoriteTechStack() {
-    const options = {
-      params: new HttpParams().set('select', 'favorite_languages'),
-    };
-
-    const url =
-      ApiEndpointEnums.FAVORITE_TECH_STACK +
-      this.authService.getCurrentUserId() +
-      '?' +
-      options.params.toString();
-
-    this.apiService.get<ApiResponseObjektInterface<UserProfileInterface>>(url).subscribe({
-      next: (response) => {
-        const favoriteLanguages = response.data.data.favorite_languages ?? [];
-        this.favoriteTechStack = favoriteLanguages.map((lang) => lang.name);
-        console.log('Favorite Tech Stack:', this.favoriteTechStack, this.heading);
-      },
-      error: (error) => {
-        console.error('Error fetching user favorite tiles:', error);
-      },
+    this.userFavoriteTechStackService.favoriteTechStack$.subscribe((stack) => {
+      this.favoriteTechStack = stack;
     });
+    this.userFavoriteTechStackService.loadFavoriteTechStack();
   }
 }
