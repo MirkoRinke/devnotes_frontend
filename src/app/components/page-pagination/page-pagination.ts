@@ -17,10 +17,6 @@ export class PagePagination<T> {
 
   constructor() {}
 
-  ngOnInit() {
-    console.log('PagePagination initialized with paginationInfo:', this.paginationInfo);
-  }
-
   getPages(): number[] {
     const total = this.paginationInfo.last_page;
     const current = this.paginationInfo.current_page;
