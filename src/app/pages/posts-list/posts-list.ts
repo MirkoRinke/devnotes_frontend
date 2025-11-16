@@ -4,6 +4,8 @@ import { HttpParams } from '@angular/common/http';
 
 import { DatePipe } from '@angular/common';
 
+import { PagePagination } from '../../components/page-pagination/page-pagination';
+
 import { ApiService } from '../../services/api.service';
 
 import type { ApiResponseArrayInterface } from '../../interfaces/api-response';
@@ -16,13 +18,15 @@ import { PostListAllowedEntitiesEnums } from '../../enums/post-list-allowed-enti
 
 @Component({
   selector: 'app-posts-list',
-  imports: [DatePipe],
+  imports: [DatePipe, PagePagination],
   templateUrl: './posts-list.html',
   styleUrl: './posts-list.scss',
 })
 export class PostsList {
-  selectedTech: string | null = null;
+  selectedEntityValue: string | null = null;
+  selectedEntity: string | null = null;
   selectedPostType: string | null = null;
+
   postsList: PostInterface[] = [];
   paginationInfo: PaginationInfoInterface<PostInterface> =
     {} as PaginationInfoInterface<PostInterface>;
@@ -39,7 +43,8 @@ export class PostsList {
       const entity = params['entity'];
       const postType = params['postType'] ? params['postType'] : AllowedPostTypesEnums.ALL;
       const page = params['page'] ? params['page'] : '1';
-      const perPage = params['per_page'] ? params['per_page'] : '5';
+      // TODO: per_page set to 2 for testing, change to a higher value later ( Default: 5)
+      const perPage = params['per_page'] ? params['per_page'] : '2';
 
       console.log('PostsList params:', params);
 
@@ -52,7 +57,8 @@ export class PostsList {
         return;
       }
 
-      this.selectedTech = entityValue;
+      this.selectedEntityValue = entityValue;
+      this.selectedEntity = entity;
       this.selectedPostType = postType;
       this.getPostsList(entityValue, postType, entity, page, perPage);
     });
