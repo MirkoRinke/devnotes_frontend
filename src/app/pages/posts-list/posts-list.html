@@ -1,8 +1,21 @@
-<p>posts-list works! for {{ selectedEntityValue }} and post type {{ selectedPostType }}</p>
+<!-- Todo Temporary for testing routing and query params -->
+
+<h1>posts-list works! for {{ selectedEntityValue }} and post type {{ selectedPostType }}</h1>
 
 @for (post of postsList; track $index) {
-<div class="post-item">
-  <h3>{{ post.title }} {{ post.id }}</h3>
+<div>
+  <h3
+    [routerLink]="'/post/'"
+    [queryParams]="{
+      post_id: post.id,
+      selectedEntityValue: selectedEntityValue,
+      selectedPostType: selectedPostType
+    }"
+    [style.cursor]="'pointer'"
+    [style.maxWidth]="'fit-content'"
+  >
+    {{ post.title }} {{ post.id }}
+  </h3>
   <p>Category: {{ post.category }}</p>
   <p>Likes: {{ post.likes_count }}</p>
   <p>Comments: {{ post.comments_count }}</p>

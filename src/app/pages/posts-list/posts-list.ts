@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { HttpParams } from '@angular/common/http';
 
 import { DatePipe } from '@angular/common';
@@ -15,10 +15,11 @@ import type { PaginationInfoInterface } from '../../interfaces/pagination-info';
 import { ApiEndpointEnums } from '../../enums/api-endpoint';
 import { AllowedPostTypesEnums } from '../../enums/allowed-post-types';
 import { PostListAllowedEntitiesEnums } from '../../enums/post-list-allowed-entities';
+import { RegesEnums } from '../../enums/regex';
 
 @Component({
   selector: 'app-posts-list',
-  imports: [DatePipe, PagePagination],
+  imports: [DatePipe, PagePagination, RouterLink],
   templateUrl: './posts-list.html',
   styleUrl: './posts-list.scss',
 })
@@ -42,18 +43,22 @@ export class PostsList {
       const entityValue = params['entityValue'];
       const entity = params['entity'];
       const postType = params['postType'] ? params['postType'] : AllowedPostTypesEnums.ALL;
-      const page = params['page'] ? params['page'] : '1';
+      const page = parseInt(params['page']) ? parseInt(params['page']) : 1;
       // TODO: per_page set to 2 for testing, change to a higher value later ( Default: 5)
-      const perPage = params['per_page'] ? params['per_page'] : '2';
+      const perPage = parseInt(params['per_page']) ? parseInt(params['per_page']) : 2;
 
-      console.log('PostsList params:', params);
+      // console.log('PostsList params:', params);
 
       if (
         !entityValue ||
+        !new RegExp(RegesEnums.entityValue).test(entityValue) ||
         !Object.values(PostListAllowedEntitiesEnums).includes(entity) ||
-        !Object.values(AllowedPostTypesEnums).includes(postType)
+        !Object.values(AllowedPostTypesEnums).includes(postType) ||
+        !Number.isInteger(page) ||
+        !Number.isInteger(perPage)
       ) {
         this.router.navigate(['/']);
+        console.warn('Missing required query parameters');
         return;
       }
 
@@ -68,8 +73,8 @@ export class PostsList {
     entityValue: string,
     postType: string,
     entity: string,
-    page: string,
-    perPage: string
+    page: number,
+    perPage: number
   ) {
     const options = {
       params: new HttpParams()
@@ -82,14 +87,14 @@ export class PostsList {
 
     const url = ApiEndpointEnums.POSTS + '?' + options.params.toString();
 
-    console.log('Fetching PostsList with URL:', url);
+    // console.log('Fetching PostsList with URL:', url);
 
     this.apiService.get<ApiResponseArrayInterface<PostInterface>>(url).subscribe({
       next: (response) => {
         this.postsList = response.data.data;
         this.paginationInfo = response.data as PaginationInfoInterface<PostInterface>;
-        console.log('PostsList response:', this.postsList);
-        console.log('Pagination info:', this.paginationInfo);
+        // console.log('PostsList response:', this.postsList);
+        // console.log('Pagination info:', this.paginationInfo);
 
         if (this.postsList.length === 0) {
           this.router.navigate(['/']);
