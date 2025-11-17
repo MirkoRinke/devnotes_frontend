@@ -1,0 +1,10 @@
+<!-- Todo Temporary HTML for testing purposes -->
+
+<h1>posts works! for {{ selectedEntityValue }} and post type {{ selectedPostType }}</h1>
+
+<h2>{{ post.title }} {{ post.id }}</h2>
+<p><strong>Kategorie:</strong> {{ post.category }}</p>
+<p><strong>Beschreibung:</strong> {{ post.description }}</p>
+<p><strong>Likes:</strong> {{ post.likes_count }}</p>
+<p><strong>Kommentare:</strong> {{ post.comments_count }}</p>
+<p><strong>Erstellt am:</strong> {{ post.created_at | date : 'mediumDate' }}</p>
