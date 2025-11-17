@@ -10,7 +10,7 @@ import type { ApiResponseArrayInterface } from '../../interfaces/api-response';
 import { ApiEndpointEnums } from '../../enums/api-endpoint';
 import { AllowedPostTypesEnums } from '../../enums/allowed-post-types';
 import { PostListAllowedEntitiesEnums } from '../../enums/post-list-allowed-entities';
-import { regesEnums } from '../../enums/regex';
+import { RegesEnums } from '../../enums/regex';
 
 @Component({
   selector: 'app-post-types-selection',
@@ -37,7 +37,7 @@ export class PostTypesSelection {
 
       if (
         !entityValue ||
-        !new RegExp(regesEnums.entityValue).test(entityValue) ||
+        !new RegExp(RegesEnums.entityValue).test(entityValue) ||
         !Object.values(PostListAllowedEntitiesEnums).includes(entity) ||
         !(endPoint in ApiEndpointEnums)
       ) {
