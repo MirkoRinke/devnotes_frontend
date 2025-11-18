@@ -6,12 +6,8 @@
   <!-- First Page -->
   <a
     [routerLink]="[]"
-    [queryParams]="{
-      page: 1,
-      entityValue: selectedEntityValue,
-      entity: selectedEntity,
-      postType: selectedPostType
-    }"
+    [queryParams]="{ page: 1 }"
+    [queryParamsHandling]="'merge'"
     [class.disabled]="paginationInfo.current_page === 1"
   >
     «
@@ -20,12 +16,8 @@
   <!-- Previous Page -->
   <a
     [routerLink]="[]"
-    [queryParams]="{
-      page: paginationInfo.current_page - 1,
-      entityValue: selectedEntityValue,
-      entity: selectedEntity,
-      postType: selectedPostType
-    }"
+    [queryParams]="{ page: paginationInfo.current_page - 1 }"
+    [queryParamsHandling]="'merge'"
     [class.disabled]="paginationInfo.current_page === 1"
   >
     ‹
@@ -36,11 +28,8 @@
   @for (page of getPages(); track page) {
   <a
     [routerLink]="[]"
-    [queryParams]="{ page, 
-      entityValue: selectedEntityValue,
-      entity: selectedEntity,
-      postType: selectedPostType
-        }"
+    [queryParams]="{ page: page }"
+    [queryParamsHandling]="'merge'"
     [style.color]="
       page === paginationInfo.current_page
         ? 'red'
@@ -75,12 +64,8 @@
   <!-- Next Page -->
   <a
     [routerLink]="[]"
-    [queryParams]="{
-      page: paginationInfo.current_page + 1,
-      entityValue: selectedEntityValue,
-      entity: selectedEntity,
-      postType: selectedPostType
-    }"
+    [queryParams]="{ page: paginationInfo.current_page + 1 }"
+    [queryParamsHandling]="'merge'"
     [class.disabled]="paginationInfo.current_page === paginationInfo.last_page"
   >
     ›
@@ -89,12 +74,8 @@
   <!-- Last Page -->
   <a
     [routerLink]="[]"
-    [queryParams]="{
-      page: paginationInfo.last_page,
-      entityValue: selectedEntityValue,
-      entity: selectedEntity,
-      postType: selectedPostType
-    }"
+    [queryParams]="{ page: paginationInfo.last_page }"
+    [queryParamsHandling]="'merge'"
     [class.disabled]="paginationInfo.current_page === paginationInfo.last_page"
   >
     »
