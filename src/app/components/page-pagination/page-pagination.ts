@@ -11,9 +11,6 @@ import type { PaginationInfoInterface } from '../../interfaces/pagination-info';
 })
 export class PagePagination<T> {
   @Input() paginationInfo!: PaginationInfoInterface<T>;
-  @Input() selectedEntityValue!: string | null;
-  @Input() selectedEntity!: string | null;
-  @Input() selectedPostType!: string | null;
 
   constructor() {}
 
