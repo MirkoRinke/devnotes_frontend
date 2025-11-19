@@ -2,6 +2,20 @@
 
 <h1>posts-list works! for {{ selectedEntityValue }} and post type {{ selectedPostType }}</h1>
 
+<app-query-params-dropdown
+  [label]="'Tech-Stack'"
+  [placeholder]="'Bitte wählen...'"
+  [key]="'entityValue'"
+  [dropdownValues]="entityValueDropdownValues"
+></app-query-params-dropdown>
+
+<app-query-params-dropdown
+  [label]="'Beitrags Typ'"
+  [placeholder]="'Bitte wählen...'"
+  [key]="'postType'"
+  [dropdownValues]="postTypeDropdownValues"
+></app-query-params-dropdown>
+
 @for (post of postsList; track $index) {
 <div>
   <h3
