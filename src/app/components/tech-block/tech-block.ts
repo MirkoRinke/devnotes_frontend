@@ -3,12 +3,11 @@ import { Component, Input } from '@angular/core';
 import { TechTile } from '../tech-tile/tech-tile';
 
 import type { TileInterface } from '../../interfaces/tile';
-import type { ApiResponseArrayInterface } from '../../interfaces/api-response';
 
 import { ApiEndpointEnums } from '../../enums/api-endpoint';
 
-import { ApiService } from '../../services/api.service';
 import { UserFavoriteTechStackService } from '../../services/user-favorite-tech-stack.service';
+import { UsedTechnologiesService } from '../../services/used-technologies.service';
 
 @Component({
   selector: 'app-tech-block',
@@ -22,8 +21,8 @@ export class TechBlock {
   @Input() params!: Array<string>;
 
   constructor(
-    private apiService: ApiService,
-    private userFavoriteTechStackService: UserFavoriteTechStackService
+    private userFavoriteTechStackService: UserFavoriteTechStackService,
+    private usedTechnologiesService: UsedTechnologiesService
   ) {}
 
   tiles: TileInterface[] = [];
@@ -40,25 +39,14 @@ export class TechBlock {
       return;
     }
 
-    this.getTiles();
+    this.getUsedTechnologies();
     this.getUserFavoriteTechStack();
   }
 
-  getTiles() {
-    this.params.forEach((params) => {
-      this.apiService
-        .get<ApiResponseArrayInterface<TileInterface>>(
-          `${ApiEndpointEnums[this.endPoint as keyof typeof ApiEndpointEnums]}${params}`
-        )
-        .subscribe({
-          next: (response) => {
-            const newTiles = response.data.data;
-            this.tiles = this.tiles.concat(newTiles);
-          },
-          error: (error) => {
-            console.error('Error fetching posts:', error);
-          },
-        });
+  getUsedTechnologies() {
+    this.usedTechnologiesService.getUsedTechnologies(this.params, this.endPoint);
+    this.usedTechnologiesService.usedTechnologies$.subscribe((tiles) => {
+      this.tiles = tiles;
     });
   }
 
