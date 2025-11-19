@@ -5,6 +5,7 @@ import { HttpParams } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 
 import { PagePagination } from '../../components/page-pagination/page-pagination';
+import { QueryParamsDropdown } from '../../components/query-params-dropdown/query-params-dropdown';
 
 import { ApiService } from '../../services/api.service';
 
@@ -19,7 +20,7 @@ import { RegesEnums } from '../../enums/regex';
 
 @Component({
   selector: 'app-posts-list',
-  imports: [DatePipe, PagePagination, RouterLink],
+  imports: [DatePipe, PagePagination, RouterLink, QueryParamsDropdown],
   templateUrl: './posts-list.html',
   styleUrl: './posts-list.scss',
 })
@@ -27,6 +28,11 @@ export class PostsList {
   selectedEntityValue: string | null = null;
   selectedEntity: string | null = null;
   selectedPostType: string | null = null;
+  selectedFields: string = 'id,title,category,likes_count,comments_count,created_at';
+  postTypeDropdownValues: string[] = AllowedPostTypesEnums.ALL.split(',');
+
+  temporaryEntityDropdownValues: string = 'Laravel,Angular,React,Vue';
+  entityValueDropdownValues: string[] = this.temporaryEntityDropdownValues.split(',');
 
   postsList: PostInterface[] = [];
   paginationInfo: PaginationInfoInterface<PostInterface> =
@@ -47,7 +53,10 @@ export class PostsList {
       // TODO: per_page set to 2 for testing, change to a higher value later ( Default: 5)
       const perPage = parseInt(params['per_page']) ? parseInt(params['per_page']) : 2;
 
-      // console.log('PostsList params:', params);
+      const category = params['category'] ? params['category'] : null;
+      const dateFrom = params['dateFrom'] ? params['dateFrom'] : null; // 2025-11-25
+      const dateTo = params['dateTo'] ? params['dateTo'] : null; // 2025-11-25
+      const sort = params['sort'] ? params['sort'] : null;
 
       if (
         !entityValue ||
@@ -65,7 +74,17 @@ export class PostsList {
       this.selectedEntityValue = entityValue;
       this.selectedEntity = entity;
       this.selectedPostType = postType;
-      this.getPostsList(entityValue, postType, entity, page, perPage);
+      this.getPostsList(
+        entityValue,
+        postType,
+        entity,
+        page,
+        perPage,
+        category,
+        dateFrom,
+        dateTo,
+        sort
+      );
     });
   }
 
@@ -74,20 +93,28 @@ export class PostsList {
     postType: string,
     entity: string,
     page: number,
-    perPage: number
+    perPage: number,
+    category: string | null,
+    dateFrom: string | null,
+    dateTo: string | null,
+    sort: string | null
   ) {
-    const options = {
-      params: new HttpParams()
-        .set(`filter[${entity}.name]`, `eq:${entityValue}`)
-        .set('filter[post_type]', postType)
-        .set('select', 'id,title,category,likes_count,comments_count,created_at')
-        .set('page', page.toString())
-        .set('per_page', perPage.toString()),
-    };
+    let params = new HttpParams()
+      .set(`filter[${entity}.name]`, `eq:${entityValue}`)
+      .set('filter[post_type]', postType)
+      .set('select', this.selectedFields)
+      .set('page', page.toString())
+      .set('per_page', perPage.toString());
+
+    if (category) params = params.set('filter[category]', `eq:${category}`);
+    if (dateFrom && dateTo) {
+      params = params.set('filter[created_at]', `between:[${dateFrom},${dateTo}]`);
+    }
+    if (sort) params = params.set('sort', `${sort}`);
+
+    const options = { params };
 
     const url = ApiEndpointEnums.POSTS + '?' + options.params.toString();
-
-    // console.log('Fetching PostsList with URL:', url);
 
     this.apiService.get<ApiResponseArrayInterface<PostInterface>>(url).subscribe({
       next: (response) => {
