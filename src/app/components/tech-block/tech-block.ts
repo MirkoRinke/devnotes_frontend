@@ -6,7 +6,7 @@ import type { TileInterface } from '../../interfaces/tile';
 
 import { ApiEndpointEnums } from '../../enums/api-endpoint';
 
-import { UserFavoriteTechStackService } from '../../services/user-favorite-tech-stack.service';
+import { UserFavoriteTechnologiesService } from '../../services/user-favorite-technologies.service';
 import { UsedTechnologiesService } from '../../services/used-technologies.service';
 
 @Component({
@@ -21,7 +21,7 @@ export class TechBlock {
   @Input() params!: Array<string>;
 
   constructor(
-    private userFavoriteTechStackService: UserFavoriteTechStackService,
+    private userFavoriteTechnologiesService: UserFavoriteTechnologiesService,
     private usedTechnologiesService: UsedTechnologiesService
   ) {}
 
@@ -51,9 +51,9 @@ export class TechBlock {
   }
 
   getUserFavoriteTechStack() {
-    this.userFavoriteTechStackService.favoriteTechStack$.subscribe((stack) => {
+    this.userFavoriteTechnologiesService.favoriteTechStack$.subscribe((stack) => {
       this.favoriteTechStack = stack;
     });
-    this.userFavoriteTechStackService.loadFavoriteTechStack();
+    this.userFavoriteTechnologiesService.loadFavoriteTechStack();
   }
 }

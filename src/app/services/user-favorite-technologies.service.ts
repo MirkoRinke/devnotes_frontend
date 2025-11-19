@@ -11,7 +11,7 @@ import { ApiService } from './api.service';
 import { AuthService } from './auth.service';
 
 @Injectable({ providedIn: 'root' })
-export class UserFavoriteTechStackService {
+export class UserFavoriteTechnologiesService {
   private favoriteTechStackSubject = new BehaviorSubject<Array<string>>([]);
   favoriteTechStack$ = this.favoriteTechStackSubject.asObservable();
   private loaded = false;
