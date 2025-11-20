@@ -29,10 +29,8 @@ export class PostsList {
   selectedEntity: string | null = null;
   selectedPostType: string | null = null;
   selectedFields: string = 'id,title,category,likes_count,comments_count,created_at';
-  postTypeDropdownValues: string[] = AllowedPostTypesEnums.ALL.split(',');
 
-  temporaryEntityDropdownValues: string = 'Laravel,Angular,React,Vue';
-  entityValueDropdownValues: string[] = this.temporaryEntityDropdownValues.split(',');
+  allowedPostTypes: string = AllowedPostTypesEnums.ALL;
 
   postsList: PostInterface[] = [];
   paginationInfo: PaginationInfoInterface<PostInterface> =
