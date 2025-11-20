@@ -21,7 +21,7 @@ export class UsedTechnologiesService {
     params.forEach((param) => {
       this.apiService
         .get<ApiResponseArrayInterface<TileInterface>>(
-          `${ApiEndpointEnums[endPoint as keyof typeof ApiEndpointEnums]}${params}`
+          `${ApiEndpointEnums[endPoint as keyof typeof ApiEndpointEnums]}${param}`
         )
         .subscribe({
           next: (response) => {
