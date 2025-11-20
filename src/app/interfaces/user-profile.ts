@@ -28,5 +28,5 @@ export interface UserProfileInterface {
   reports_count?: number;
   created_at?: string;
   updated_at?: string;
-  favorite_languages?: Array<LanguagesInterface>;
+  favorite_techs?: Array<LanguagesInterface>;
 }

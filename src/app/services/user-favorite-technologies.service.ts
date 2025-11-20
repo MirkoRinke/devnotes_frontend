@@ -28,7 +28,7 @@ export class UserFavoriteTechnologiesService {
     // console.log('API-Call: Load User Favorite Tech Stack');
 
     const options = {
-      params: new HttpParams().set('select', 'favorite_languages'),
+      params: new HttpParams().set('select', 'favorite_techs'),
     };
 
     const url =
@@ -36,8 +36,8 @@ export class UserFavoriteTechnologiesService {
 
     this.apiService.get<ApiResponseObjektInterface<UserProfileInterface>>(url).subscribe({
       next: (response) => {
-        const favoriteLanguages = response.data.data.favorite_languages ?? [];
-        const stack = favoriteLanguages.map((language) => language.name);
+        const favoriteTechs = response.data.data.favorite_techs ?? [];
+        const stack = favoriteTechs.map((tech) => tech.name);
         this.favoriteTechStackSubject.next(stack);
       },
       error: (error) => {
