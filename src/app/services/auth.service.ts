@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -12,22 +13,19 @@ export class AuthService {
 
   getToken(): string | null {
     // Temporary implementation, returns a mock token or null
-    const TemporaryLoggedIn = true; // Set to 'true' to simulate a logged-in user
-    if (TemporaryLoggedIn) {
-      return '25|FEtDy1tSzTm48YlpXOF9c5kIARDQq6XCJODDvB0vdcc4aafe';
+    if (environment.loggedIn) {
+      return environment.TEMP_TOKEN;
     }
     return null;
   }
 
   getDeviceFingerprint(): string {
     // Temporary implementation, returns a mock fingerprint
-    return '73a90acaae2b1ccc0e969709665bc62f';
+    return environment.TEMP_FINGERPRINT;
   }
 
   getCurrentUserId(): number | null {
-    // Temporary implementation, returns a mock user ID or null
-    const TemporaryLoggedIn = true; // Set to 'true' to simulate a logged-in user
-    if (TemporaryLoggedIn) {
+    if (this.isLoggedIn()) {
       return 1;
     }
     return null;
