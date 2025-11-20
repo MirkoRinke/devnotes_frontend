@@ -14,6 +14,7 @@ import { UsedTechnologiesService } from '../../services/used-technologies.servic
   imports: [TechTile],
   templateUrl: './tech-block.html',
   styleUrl: './tech-block.scss',
+  providers: [UsedTechnologiesService],
 })
 export class TechBlock {
   @Input() heading!: string;
