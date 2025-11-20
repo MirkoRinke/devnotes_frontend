@@ -1,9 +1,7 @@
 <span>{{ label }}</span>
 <select #dropdown (change)="onSelect(dropdown.value)">
-  <option [value]="defaultValue">
-    {{ defaultValue ? defaultValue.charAt(0).toUpperCase() + defaultValue.slice(1) : defaultValue }}
-  </option>
+  <option [value]="defaultValue">{{ defaultValue }}</option>
   @for (value of dropdownValues; track $index) { @if (value !== defaultValue) {
-  <option [value]="value">{{ value.charAt(0).toUpperCase() + value.slice(1) }}</option>
+  <option [value]="value">{{ value }}</option>
   } }
 </select>
