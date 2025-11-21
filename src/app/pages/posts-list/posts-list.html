@@ -5,6 +5,7 @@
 <app-query-params-dropdown
   [label]="'Tech-Stack'"
   [key]="'entityValue'"
+  [defaultValueLabel]="selectedEntityValue"
   [defaultValue]="selectedEntityValue"
   [endPoint]="'POSTS'"
   [params]="['?select=count:' + selectedEntity + '.name']"
@@ -13,6 +14,7 @@
 <app-query-params-dropdown
   [label]="'Beitrags Typ'"
   [key]="'postType'"
+  [defaultValueLabel]="selectedPostType"
   [defaultValue]="selectedPostType"
   [endPoint]="'POSTS'"
   [params]="[
@@ -25,6 +27,34 @@
       '&select=count:post_type'
   ]"
 ></app-query-params-dropdown>
+
+<app-query-params-dropdown
+  [label]="'Kategorie'"
+  [key]="'category'"
+  [defaultValueLabel]="'Alle Kategorien'"
+  [defaultValue]="''"
+  [endPoint]="'POSTS'"
+  [params]="[
+    '?filter[' +
+      selectedEntity +
+      '.name]=eq:' +
+      selectedEntityValue +
+      '&filter[post_type]=' +
+      selectedPostType +
+      '&select=count:category'
+  ]"
+></app-query-params-dropdown>
+
+<app-query-params-dropdown
+  [label]="'Sortiere nach'"
+  [key]="'sort'"
+  [defaultValueLabel]="'Neuste zuerst'"
+  [defaultValue]="'created_at'"
+  [endPoint]="'POSTS'"
+  [valuesLabel]="['Neuste zuerst', 'Älteste zuerst', 'Meiste Likes', 'Wenigste Likes']"
+  [values]="['created_at', '-created_at', 'likes_count', '-likes_count']"
+>
+</app-query-params-dropdown>
 
 @for (post of postsList; track $index) {
 <div>
