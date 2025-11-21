@@ -1,7 +1,8 @@
 <span>{{ label }}</span>
 <select #dropdown (change)="onSelect(dropdown.value)">
-  <option [value]="defaultValue">{{ defaultValue }}</option>
-  @for (value of dropdownValues; track $index) { @if (value !== defaultValue) {
-  <option [value]="value">{{ value }}</option>
+  <option [value]="defaultValue">{{ defaultValueLabel }}</option>
+  @for (value of dropdownValues; track $index) { @if ((valuesLabel ? valuesLabel[$index] : value)
+  !== defaultValueLabel) {
+  <option [value]="value">{{ valuesLabel ? valuesLabel[$index] : value }}</option>
   } }
 </select>

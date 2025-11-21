@@ -12,10 +12,13 @@ import { UsedTechnologiesService } from '../../services/used-technologies.servic
 export class QueryParamsDropdown {
   @Input() label!: string;
   @Input() key!: string;
+  @Input() defaultValueLabel!: string | null;
   @Input() defaultValue!: string | null;
 
   @Input() endPoint!: string;
   @Input() params!: Array<string>;
+
+  @Input() valuesLabel!: string[];
   @Input() values!: string[];
 
   dropdownValues: string[] = [];
