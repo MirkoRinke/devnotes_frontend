@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { take } from 'rxjs/operators';
 
 import { TechTile } from '../tech-tile/tech-tile';
 
@@ -14,7 +15,6 @@ import { UsedTechnologiesService } from '../../services/used-technologies.servic
   imports: [TechTile],
   templateUrl: './tech-block.html',
   styleUrl: './tech-block.scss',
-  providers: [UsedTechnologiesService],
 })
 export class TechBlock {
   @Input() heading!: string;
@@ -45,10 +45,12 @@ export class TechBlock {
   }
 
   getUsedTechnologies() {
-    this.usedTechnologiesService.getUsedTechnologies(this.params, this.endPoint);
-    this.usedTechnologiesService.usedTechnologies$.subscribe((tiles) => {
-      this.tiles = tiles;
-    });
+    this.usedTechnologiesService
+      .getUsedTechnologies(this.params, this.endPoint)
+      .pipe(take(1))
+      .subscribe((technologies) => {
+        this.tiles = technologies;
+      });
   }
 
   getUserFavoriteTechStack() {

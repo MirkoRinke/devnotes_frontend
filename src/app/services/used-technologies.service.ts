@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import type { TileInterface } from '../interfaces/tile';
 import type { ApiResponseArrayInterface } from '../interfaces/api-response';
@@ -12,26 +13,16 @@ import { ApiService } from './api.service';
   providedIn: 'root',
 })
 export class UsedTechnologiesService {
-  private usedTechnologiesSubject = new BehaviorSubject<TileInterface[]>([]);
-  usedTechnologies$ = this.usedTechnologiesSubject.asObservable();
-
   constructor(private apiService: ApiService) {}
 
-  getUsedTechnologies(params: Array<string>, endPoint: string) {
-    params.forEach((param) => {
-      this.apiService
-        .get<ApiResponseArrayInterface<TileInterface>>(
-          `${ApiEndpointEnums[endPoint as keyof typeof ApiEndpointEnums]}${param}`
-        )
-        .subscribe({
-          next: (response) => {
-            const newTiles = response.data.data;
-            this.usedTechnologiesSubject.next(this.usedTechnologiesSubject.value.concat(newTiles));
-          },
-          error: (error) => {
-            console.error('Error fetching posts:', error);
-          },
-        });
-    });
+  getUsedTechnologies(params: Array<string>, endPoint: string): Observable<TileInterface[]> {
+    const requests = params.map((param) =>
+      this.apiService.get<ApiResponseArrayInterface<TileInterface>>(
+        `${ApiEndpointEnums[endPoint as keyof typeof ApiEndpointEnums]}${param}`
+      )
+    );
+    return forkJoin(requests).pipe(
+      map((responses) => responses.flatMap((response) => response.data.data))
+    );
   }
 }
