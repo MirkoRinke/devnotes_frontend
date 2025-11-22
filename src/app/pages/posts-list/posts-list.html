@@ -7,8 +7,9 @@
   [key]="'entityValue'"
   [defaultValueLabel]="selectedEntityValue"
   [defaultValue]="selectedEntityValue"
-  [endPoint]="'POSTS'"
-  [params]="['?select=count:' + selectedEntity + '.name']"
+  [enableAllOption]="false"
+  [endPoint]="endPoint"
+  [params]="entityValueParams"
 ></app-query-params-dropdown>
 
 <app-query-params-dropdown
@@ -16,33 +17,19 @@
   [key]="'postType'"
   [defaultValueLabel]="selectedPostType"
   [defaultValue]="selectedPostType"
-  [endPoint]="'POSTS'"
-  [params]="[
-    '?filter[' +
-      selectedEntity +
-      '.name]=eq:' +
-      selectedEntityValue +
-      '&filter[post_type]=' +
-      allowedPostTypes +
-      '&select=count:post_type'
-  ]"
+  [enableAllOption]="false"
+  [endPoint]="endPoint"
+  [params]="postTypeParams"
 ></app-query-params-dropdown>
 
 <app-query-params-dropdown
   [label]="'Kategorie'"
   [key]="'category'"
-  [defaultValueLabel]="'Alle Kategorien'"
-  [defaultValue]="''"
-  [endPoint]="'POSTS'"
-  [params]="[
-    '?filter[' +
-      selectedEntity +
-      '.name]=eq:' +
-      selectedEntityValue +
-      '&filter[post_type]=' +
-      selectedPostType +
-      '&select=count:category'
-  ]"
+  [defaultValueLabel]="selectedCategory ? selectedCategory : 'Alle Kategorien'"
+  [defaultValue]="selectedCategory ? selectedCategory : ''"
+  [enableAllOption]="true"
+  [endPoint]="endPoint"
+  [params]="categoryParams"
 ></app-query-params-dropdown>
 
 <app-query-params-dropdown
@@ -50,9 +37,10 @@
   [key]="'sort'"
   [defaultValueLabel]="'Neuste zuerst'"
   [defaultValue]="'created_at'"
-  [endPoint]="'POSTS'"
+  [enableAllOption]="false"
+  [endPoint]="endPoint"
   [valuesLabel]="['Neuste zuerst', 'Älteste zuerst', 'Meiste Likes', 'Wenigste Likes']"
-  [values]="['created_at', '-created_at', 'likes_count', '-likes_count']"
+  [values]="['created_at', '-created_at', '-likes_count', 'likes_count']"
 >
 </app-query-params-dropdown>
 
