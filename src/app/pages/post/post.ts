@@ -10,7 +10,7 @@ import type { PostInterface } from '../../interfaces/post';
 
 import { ApiEndpointEnums } from '../../enums/api-endpoint';
 import { AllowedPostTypesEnums } from '../../enums/allowed-post-types';
-import { RegesEnums } from '../../enums/regex';
+import { RegexEnums } from '../../enums/regex';
 
 @Component({
   selector: 'app-post',
@@ -23,11 +23,7 @@ export class Post {
   selectedEntityValue: string | null = null;
   selectedPostType: string | null = null;
 
-  constructor(
-    private route: ActivatedRoute,
-    private apiService: ApiService,
-    private router: Router
-  ) {}
+  constructor(private route: ActivatedRoute, private apiService: ApiService, private router: Router) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
@@ -35,11 +31,7 @@ export class Post {
       const selectedEntityValue = params['selectedEntityValue'];
       const selectedPostType = params['selectedPostType'];
 
-      if (
-        !Number.isInteger(postId) ||
-        !new RegExp(RegesEnums.entityValue).test(selectedEntityValue) ||
-        !Object.values(AllowedPostTypesEnums).includes(selectedPostType)
-      ) {
+      if (!Number.isInteger(postId) || !new RegExp(RegexEnums.entityValue).test(selectedEntityValue) || !Object.values(AllowedPostTypesEnums).includes(selectedPostType)) {
         this.router.navigate(['/']);
         console.warn('Missing required query parameters');
         return;

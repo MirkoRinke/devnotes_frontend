@@ -18,7 +18,7 @@ import type { PaginationInfoInterface } from '../../interfaces/pagination-info';
 import { ApiEndpointEnums } from '../../enums/api-endpoint';
 import { AllowedPostTypesEnums } from '../../enums/allowed-post-types';
 import { PostListAllowedEntitiesEnums } from '../../enums/post-list-allowed-entities';
-import { RegesEnums } from '../../enums/regex';
+import { RegexEnums } from '../../enums/regex';
 
 @Component({
   selector: 'app-posts-list',
@@ -92,7 +92,7 @@ export class PostsList {
    */
   private areParamsValid({ entityValue, entity, page, perPage }: { entityValue: string; entity: string; page: number; perPage: number }) {
     return (
-      new RegExp(RegesEnums.entityValue).test(entityValue) &&
+      new RegExp(RegexEnums.entityValue).test(entityValue) &&
       Object.values(PostListAllowedEntitiesEnums).includes(entity as PostListAllowedEntitiesEnums) &&
       Number.isInteger(page) &&
       Number.isInteger(perPage)

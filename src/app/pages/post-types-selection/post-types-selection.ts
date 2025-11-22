@@ -10,7 +10,7 @@ import type { ApiResponseArrayInterface } from '../../interfaces/api-response';
 import { ApiEndpointEnums } from '../../enums/api-endpoint';
 import { AllowedPostTypesEnums } from '../../enums/allowed-post-types';
 import { PostListAllowedEntitiesEnums } from '../../enums/post-list-allowed-entities';
-import { RegesEnums } from '../../enums/regex';
+import { RegexEnums } from '../../enums/regex';
 
 @Component({
   selector: 'app-post-types-selection',
@@ -23,11 +23,7 @@ export class PostTypesSelection {
   selectedEntity: string | null = null;
   postTypes: PostTypesInterface[] = [];
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private apiService: ApiService
-  ) {}
+  constructor(private route: ActivatedRoute, private router: Router, private apiService: ApiService) {}
 
   ngOnInit() {
     this.route.queryParams.subscribe((params) => {
@@ -35,12 +31,7 @@ export class PostTypesSelection {
       const endPoint = params['endPoint'];
       const entity = params['entity'];
 
-      if (
-        !entityValue ||
-        !new RegExp(RegesEnums.entityValue).test(entityValue) ||
-        !Object.values(PostListAllowedEntitiesEnums).includes(entity) ||
-        !(endPoint in ApiEndpointEnums)
-      ) {
+      if (!entityValue || !new RegExp(RegexEnums.entityValue).test(entityValue) || !Object.values(PostListAllowedEntitiesEnums).includes(entity) || !(endPoint in ApiEndpointEnums)) {
         this.router.navigate(['/']);
         return;
       }
@@ -62,14 +53,10 @@ export class PostTypesSelection {
    */
   getPostTypesForEntity(entityValue: string, endPoint: string, entity: string) {
     const options = {
-      params: new HttpParams()
-        .set('filter[post_type]', AllowedPostTypesEnums.ALL)
-        .set(`filter[${entity}.name]`, `eq:${entityValue}`)
-        .set('select', 'count:post_type'),
+      params: new HttpParams().set('filter[post_type]', AllowedPostTypesEnums.ALL).set(`filter[${entity}.name]`, `eq:${entityValue}`).set('select', 'count:post_type'),
     };
 
-    const url =
-      ApiEndpointEnums[endPoint as keyof typeof ApiEndpointEnums] + '?' + options.params.toString();
+    const url = ApiEndpointEnums[endPoint as keyof typeof ApiEndpointEnums] + '?' + options.params.toString();
 
     this.apiService.get<ApiResponseArrayInterface<PostTypesInterface>>(url).subscribe({
       next: (response) => {
