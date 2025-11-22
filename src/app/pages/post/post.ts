@@ -57,9 +57,9 @@ export class Post {
     this.apiService.get<ApiResponseObjektInterface<PostInterface>>(url).subscribe({
       next: (response) => {
         this.post = response.data.data;
-        // console.log('Fetched post:', this.post);
       },
       error: (error) => {
+        this.router.navigate(['/']);
         console.error('Error fetching posts list:', error);
       },
     });
