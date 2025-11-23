@@ -60,7 +60,7 @@ export class PostTypesSelection {
 
     this.apiService.get<ApiResponseArrayInterface<PostTypesInterface>>(url).subscribe({
       next: (response) => {
-        this.postTypes = response.data.data;
+        this.postTypes = this.sortAvailablePostTypes(response.data.data);
 
         if (this.postTypes.length === 0) {
           this.router.navigate(['/']);
@@ -71,5 +71,15 @@ export class PostTypesSelection {
         console.error('Error fetching post types:', error);
       },
     });
+  }
+
+  /**
+   * Sort available post types alphabetically
+   *
+   * @param postTypes
+   * @returns
+   */
+  sortAvailablePostTypes(postTypes: PostTypesInterface[]): PostTypesInterface[] {
+    return postTypes.sort((a, b) => a.name.localeCompare(b.name));
   }
 }
