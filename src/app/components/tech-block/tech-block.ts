@@ -3,12 +3,12 @@ import { take } from 'rxjs/operators';
 
 import { TechTile } from '../tech-tile/tech-tile';
 
-import type { TileInterface } from '../../interfaces/tile';
+import type { AvailableValuesInterface } from '../../interfaces/available-values';
 
 import { ApiEndpointEnums } from '../../enums/api-endpoint';
 
 import { UserFavoriteTechnologiesService } from '../../services/user-favorite-technologies.service';
-import { UsedTechnologiesService } from '../../services/used-technologies.service';
+import { AvailableValuesService } from '../../services/available-values.service';
 
 @Component({
   selector: 'app-tech-block',
@@ -21,12 +21,9 @@ export class TechBlock {
   @Input() endPoint!: string;
   @Input() params!: Array<string>;
 
-  constructor(
-    private userFavoriteTechnologiesService: UserFavoriteTechnologiesService,
-    private usedTechnologiesService: UsedTechnologiesService
-  ) {}
+  constructor(private userFavoriteTechnologiesService: UserFavoriteTechnologiesService, private availableValuesService: AvailableValuesService) {}
 
-  tiles: TileInterface[] = [];
+  tiles: AvailableValuesInterface[] = [];
   favoriteTechStack: Array<string> = [];
 
   ngOnInit() {
@@ -40,16 +37,16 @@ export class TechBlock {
       return;
     }
 
-    this.getUsedTechnologies();
+    this.getAvailableValues();
     this.getUserFavoriteTechStack();
   }
 
-  getUsedTechnologies() {
-    this.usedTechnologiesService
-      .getUsedTechnologies(this.params, this.endPoint)
+  getAvailableValues() {
+    this.availableValuesService
+      .getAvailableValues(this.params, this.endPoint)
       .pipe(take(1))
-      .subscribe((technologies) => {
-        this.tiles = technologies;
+      .subscribe((availableValues) => {
+        this.tiles = availableValues;
       });
   }
 

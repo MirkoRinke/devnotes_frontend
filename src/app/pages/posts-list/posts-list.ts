@@ -10,7 +10,7 @@ import { PagePagination } from '../../components/page-pagination/page-pagination
 import { QueryParamsDropdown } from '../../components/query-params-dropdown/query-params-dropdown';
 
 import { ApiService } from '../../services/api.service';
-import { UsedTechnologiesService } from '../../services/used-technologies.service';
+import { AvailableValuesService } from '../../services/available-values.service';
 
 import type { ApiResponseArrayInterface } from '../../interfaces/api-response';
 import type { PostInterface } from '../../interfaces/post';
@@ -44,7 +44,7 @@ export class PostsList {
   postsList: PostInterface[] = [];
   paginationInfo: PaginationInfoInterface<PostInterface> = {} as PaginationInfoInterface<PostInterface>;
 
-  constructor(private route: ActivatedRoute, private router: Router, private apiService: ApiService, private usedTechnologiesService: UsedTechnologiesService) {}
+  constructor(private route: ActivatedRoute, private router: Router, private apiService: ApiService, private availableValuesService: AvailableValuesService) {}
 
   ngOnInit() {
     this.route.queryParams.subscribe((params) => {
@@ -178,20 +178,20 @@ export class PostsList {
       dropdowns.push({ key: 'category', params: this.categoryParams, endPoint: this.endPoint, selected: parsed.category });
     }
 
-    const requests = dropdowns.map((dropdown) => this.usedTechnologiesService.getUsedTechnologies(dropdown.params, dropdown.endPoint).pipe(take(1)));
+    const requests = dropdowns.map((dropdown) => this.availableValuesService.getAvailableValues(dropdown.params, dropdown.endPoint).pipe(take(1)));
 
     forkJoin(requests).subscribe((results) => {
       let fallbackTriggered = false;
 
-      results.forEach((technologies, i) => {
+      results.forEach((availableValues, dropdownIndex) => {
         /**
          * If a fallback has already been triggered, skip further checks.
          * Other checks will be made on the next initialization after the page reload.
          */
         if (fallbackTriggered) return;
 
-        const dropdown = dropdowns[i];
-        const dropdownValues = technologies.map((tech) => tech.name);
+        const dropdown = dropdowns[dropdownIndex];
+        const dropdownValues = availableValues.map((value) => value.name);
         if ((dropdown.selected && !dropdownValues.includes(dropdown.selected)) || dropdown.selected === null) {
           fallbackTriggered = true;
           console.log(`Fallback für "${dropdown.key}"! Ungültiger Wert:`, dropdown.selected, 'Gültige Werte:', dropdownValues);

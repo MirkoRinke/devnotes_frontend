@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { UsedTechnologiesService } from '../../services/used-technologies.service';
+import { AvailableValuesService } from '../../services/available-values.service';
 import { take } from 'rxjs/operators';
 
 @Component({
@@ -24,24 +24,24 @@ export class QueryParamsDropdown {
 
   dropdownValues: string[] = [];
 
-  constructor(private router: Router, private usedTechnologiesService: UsedTechnologiesService) {}
+  constructor(private router: Router, private availableValuesService: AvailableValuesService) {}
 
   ngOnInit() {}
 
   ngOnChanges() {
     if (this.endPoint && this.params) {
-      this.getUsedTechnologies();
+      this.getAvailableValues();
     } else if (this.values) {
       this.dropdownValues = this.values;
     }
   }
 
-  getUsedTechnologies() {
-    this.usedTechnologiesService
-      .getUsedTechnologies(this.params, this.endPoint)
+  getAvailableValues() {
+    this.availableValuesService
+      .getAvailableValues(this.params, this.endPoint)
       .pipe(take(1))
-      .subscribe((technologies) => {
-        this.dropdownValues = technologies.map((tech) => tech.name);
+      .subscribe((availableValues) => {
+        this.dropdownValues = availableValues.map((value) => value.name);
       });
   }
 
