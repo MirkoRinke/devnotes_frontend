@@ -49,7 +49,7 @@ export class PostsList {
   ngOnInit() {
     this.route.queryParams.subscribe((params) => {
       const parsed = this.parseQueryParams(params);
-      if (!this.areParamsValid(parsed)) {
+      if (!this.areParamsInvalid(parsed)) {
         this.router.navigate(['/']);
         console.warn('Missing required query parameters.');
         return;
@@ -82,12 +82,12 @@ export class PostsList {
   }
 
   /**
-   * Validate query params
+   * Check if parsed params are valid
    *
    * @param param0
    * @returns
    */
-  private areParamsValid(parsed: PostListParamsInterface): boolean {
+  private areParamsInvalid(parsed: PostListParamsInterface): boolean {
     return (
       parsed.entityValue !== null &&
       new RegExp(RegexEnums.entityValue).test(parsed.entityValue) &&
@@ -122,7 +122,7 @@ export class PostsList {
    * @param dateTo The end date filter
    * @param sort The sort order
    */
-  getPostsList(parsed: PostListParamsInterface) {
+  private getPostsList(parsed: PostListParamsInterface) {
     let params = new HttpParams().set('select', this.selectedFields).set('page', parsed.page.toString()).set('per_page', parsed.perPage.toString());
     if (parsed.postType) params = params.set('filter[post_type]', parsed.postType);
     if (parsed.entityValue) params = params.set(`filter[${parsed.entity}.name]`, `eq:${parsed.entityValue}`);
@@ -156,7 +156,7 @@ export class PostsList {
    * @param entity  The entity type
    * @param postType The type of the post
    */
-  setParams(parsed: PostListParamsInterface) {
+  private setParams(parsed: PostListParamsInterface) {
     this.entityValueParams = [`?select=count:${encodeURIComponent(parsed.entity)}.name`];
     this.postTypeParams = [`?filter[${encodeURIComponent(parsed.entity)}.name]=eq:${encodeURIComponent(parsed.entityValue!)}&select=count:post_type`];
     this.categoryParams = [
@@ -169,7 +169,7 @@ export class PostsList {
    *
    * @param dropdowns Array of dropdowns to validate
    */
-  validateDropdownParams(parsed: PostListParamsInterface) {
+  private validateDropdownParams(parsed: PostListParamsInterface) {
     const dropdowns = [
       { key: 'entityValue', params: this.entityValueParams, endPoint: this.endPoint, selected: parsed.entityValue },
       { key: 'postType', params: this.postTypeParams, endPoint: this.endPoint, selected: parsed.postType },
