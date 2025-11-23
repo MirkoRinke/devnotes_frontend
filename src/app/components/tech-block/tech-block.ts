@@ -41,16 +41,25 @@ export class TechBlock {
     this.getUserFavoriteTechStack();
   }
 
-  getAvailableValues() {
+  private getAvailableValues() {
     this.availableValuesService
       .getAvailableValues(this.params, this.endPoint)
       .pipe(take(1))
       .subscribe((availableValues) => {
-        this.tiles = availableValues;
+        this.tiles = this.sortAvailableValues(availableValues);
       });
   }
 
-  getUserFavoriteTechStack() {
+  private sortAvailableValues(availableValues: AvailableValuesInterface[]): AvailableValuesInterface[] {
+    return availableValues.sort((a, b) => {
+      if (b.total_counts !== a.total_counts) {
+        return b.total_counts - a.total_counts;
+      }
+      return a.name.localeCompare(b.name);
+    });
+  }
+
+  private getUserFavoriteTechStack() {
     this.userFavoriteTechnologiesService.favoriteTechStack$.subscribe((stack) => {
       this.favoriteTechStack = stack;
     });
