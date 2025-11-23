@@ -6,6 +6,8 @@ import { ApiService } from '../../services/api.service';
 
 import type { PostTypesInterface } from '../../interfaces/post-types.ts';
 import type { ApiResponseArrayInterface } from '../../interfaces/api-response';
+import type { PostTypesParamsInterface } from '../../interfaces/post-types-params';
+import type { Params } from '@angular/router';
 
 import { ApiEndpointEnums } from '../../enums/api-endpoint';
 import { AllowedPostTypesEnums } from '../../enums/allowed-post-types';
@@ -27,20 +29,55 @@ export class PostTypesSelection {
 
   ngOnInit() {
     this.route.queryParams.subscribe((params) => {
-      const entityValue = params['entityValue'];
-      const endPoint = params['endPoint'];
-      const entity = params['entity'];
-
-      if (!entityValue || !new RegExp(RegexEnums.entityValue).test(entityValue) || !Object.values(PostListAllowedEntitiesEnums).includes(entity) || !(endPoint in ApiEndpointEnums)) {
+      const parsed = this.parseQueryParams(params);
+      if (this.areParamsInvalid(parsed)) {
         this.router.navigate(['/']);
         return;
       }
 
-      this.selectedEntityValue = entityValue;
-      this.selectedEntity = entity;
-
-      this.getPostTypesForEntity(entityValue, endPoint, entity);
+      this.setSelectedValues(parsed);
+      this.getPostTypesForEntity(parsed);
     });
+  }
+
+  /**
+   * Parse query params
+   *
+   * @param params
+   * @returns
+   */
+  private parseQueryParams(params: Params) {
+    return {
+      entityValue: params['entityValue'] ?? null,
+      endPoint: params['endPoint'] ?? null,
+      entity: params['entity'] ?? null,
+    };
+  }
+
+  /**
+   * Check if parsed params are valid
+   *
+   * @param param0
+   * @returns
+   */
+  private areParamsInvalid(parsed: PostTypesParamsInterface): boolean {
+    return (
+      !parsed.entityValue ||
+      !parsed.endPoint ||
+      !new RegExp(RegexEnums.entityValue).test(parsed.entityValue) ||
+      !Object.values(PostListAllowedEntitiesEnums).includes(parsed.entity as PostListAllowedEntitiesEnums) ||
+      !(parsed.endPoint in ApiEndpointEnums)
+    );
+  }
+
+  /**
+   * Set selected values from parsed query params
+   *
+   * @param parsed
+   */
+  private setSelectedValues(parsed: PostTypesParamsInterface) {
+    this.selectedEntityValue = parsed.entityValue;
+    this.selectedEntity = parsed.entity;
   }
 
   /**
@@ -51,12 +88,12 @@ export class PostTypesSelection {
    * @param entity
    * @param allowedPostTypes
    */
-  getPostTypesForEntity(entityValue: string, endPoint: string, entity: string) {
+  getPostTypesForEntity(parsed: PostTypesParamsInterface) {
     const options = {
-      params: new HttpParams().set('filter[post_type]', AllowedPostTypesEnums.ALL).set(`filter[${entity}.name]`, `eq:${entityValue}`).set('select', 'count:post_type'),
+      params: new HttpParams().set('filter[post_type]', AllowedPostTypesEnums.ALL).set(`filter[${parsed.entity}.name]`, `eq:${parsed.entityValue}`).set('select', 'count:post_type'),
     };
 
-    const url = ApiEndpointEnums[endPoint as keyof typeof ApiEndpointEnums] + '?' + options.params.toString();
+    const url = ApiEndpointEnums[parsed.endPoint as keyof typeof ApiEndpointEnums] + '?' + options.params.toString();
 
     this.apiService.get<ApiResponseArrayInterface<PostTypesInterface>>(url).subscribe({
       next: (response) => {
