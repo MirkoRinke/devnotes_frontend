@@ -1,18 +1,7 @@
 <p>{{ heading }}</p>
 
-@for (tile of tiles; track $index) { @if (heading === 'Favoriten' &&
-favoriteTechStack.includes(tile.name)) {
-<app-tech-tile
-  [endPoint]="endPoint"
-  [name]="tile.name"
-  [counts]="tile.total_counts"
-  [entity]="tile.entity"
-></app-tech-tile>
+@for (tile of tiles; track $index) { @if (heading === 'Favoriten' && favoriteTechStack.includes(tile.name)) {
+<app-tech-tile [endPoint]="endPoint" [tile]="tile"></app-tech-tile>
 } @else if (heading !== 'Favoriten' && !favoriteTechStack.includes(tile.name)) {
-<app-tech-tile
-  [endPoint]="endPoint"
-  [name]="tile.name"
-  [counts]="tile.total_counts"
-  [entity]="tile.entity"
-></app-tech-tile>
+<app-tech-tile [endPoint]="endPoint" [tile]="tile"></app-tech-tile>
 } }

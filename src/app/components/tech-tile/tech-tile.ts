@@ -1,6 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
+import { AvailableValuesInterface } from '../../interfaces/available-values';
+
 @Component({
   selector: 'app-tech-tile',
   imports: [RouterLink],
@@ -8,8 +10,6 @@ import { RouterLink } from '@angular/router';
   styleUrl: './tech-tile.scss',
 })
 export class TechTile {
-  @Input() name!: string;
-  @Input() counts!: number;
+  @Input() tile!: AvailableValuesInterface;
   @Input() endPoint!: string;
-  @Input() entity!: string;
 }
