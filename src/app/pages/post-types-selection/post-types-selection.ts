@@ -10,7 +10,6 @@ import type { PostTypesParamsInterface } from '../../interfaces/post-types-param
 import type { Params } from '@angular/router';
 
 import { ApiEndpointEnums } from '../../enums/api-endpoint';
-import { AllowedPostTypesEnums } from '../../enums/allowed-post-types';
 import { PostListAllowedEntitiesEnums } from '../../enums/post-list-allowed-entities';
 import { RegexEnums } from '../../enums/regex';
 
@@ -90,7 +89,7 @@ export class PostTypesSelection {
    */
   getPostTypesForEntity(parsed: PostTypesParamsInterface) {
     const options = {
-      params: new HttpParams().set('filter[post_type]', AllowedPostTypesEnums.ALL).set(`filter[${parsed.entity}.name]`, `eq:${parsed.entityValue}`).set('select', 'count:post_type'),
+      params: new HttpParams().set(`filter[${parsed.entity}.name]`, `eq:${parsed.entityValue}`).set('select', 'count:post_type'),
     };
 
     const url = ApiEndpointEnums[parsed.endPoint as keyof typeof ApiEndpointEnums] + '?' + options.params.toString();
