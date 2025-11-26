@@ -6,8 +6,11 @@ import { DatePipe } from '@angular/common';
 import { take } from 'rxjs/operators';
 import { forkJoin } from 'rxjs';
 
+import { environment } from '../../../environments/environment';
+
 import { PagePagination } from '../../components/page-pagination/page-pagination';
 import { QueryParamsDropdown } from '../../components/query-params-dropdown/query-params-dropdown';
+import { QueryParamsDatepicker } from '../../components/query-params-datepicker/query-params-datepicker';
 
 import { ApiService } from '../../services/api.service';
 import { AvailableValuesService } from '../../services/available-values.service';
@@ -24,7 +27,7 @@ import { RegexEnums } from '../../enums/regex';
 
 @Component({
   selector: 'app-posts-list',
-  imports: [DatePipe, PagePagination, RouterLink, QueryParamsDropdown],
+  imports: [DatePipe, PagePagination, RouterLink, QueryParamsDropdown, QueryParamsDatepicker],
   templateUrl: './posts-list.html',
   styleUrl: './posts-list.scss',
 })
@@ -33,6 +36,12 @@ export class PostsList {
   selectedEntity: string | null = null;
   selectedPostType: string | null = null;
   selectedCategory: string | null = null;
+  selectedDateFrom: string | null = null;
+  selectedDateTo: string | null = null;
+
+  today = new Date();
+  minDate: string = environment.RELEASE_DATE;
+  maxDate: string = this.today.getFullYear() + '-' + String(this.today.getMonth() + 1).padStart(2, '0') + '-' + String(this.today.getDate()).padStart(2, '0');
 
   selectedFields: string = 'id,title,category,likes_count,comments_count,created_at';
   endPoint: string = 'POSTS';
@@ -44,11 +53,14 @@ export class PostsList {
   postsList: PostInterface[] = [];
   paginationInfo: PaginationInfoInterface<PostInterface> = {} as PaginationInfoInterface<PostInterface>;
 
+  statusMessage: string | null = null;
+
   constructor(private route: ActivatedRoute, private router: Router, private apiService: ApiService, private availableValuesService: AvailableValuesService) {}
 
   ngOnInit() {
     this.route.queryParams.subscribe((params) => {
       const parsed = this.parseQueryParams(params);
+
       if (!this.areParamsInvalid(parsed)) {
         this.router.navigate(['/']);
         console.warn('Missing required query parameters.');
@@ -93,7 +105,9 @@ export class PostsList {
       new RegExp(RegexEnums.entityValue).test(parsed.entityValue) &&
       Object.values(PostListAllowedEntitiesEnums).includes(parsed.entity as PostListAllowedEntitiesEnums) &&
       Number.isInteger(parsed.page) &&
-      Number.isInteger(parsed.perPage)
+      Number.isInteger(parsed.perPage) &&
+      (parsed.dateFrom === null || new RegExp(RegexEnums.datepicker).test(parsed.dateFrom)) &&
+      (parsed.dateTo === null || new RegExp(RegexEnums.datepicker).test(parsed.dateTo))
     );
   }
 
@@ -107,6 +121,8 @@ export class PostsList {
     this.selectedEntity = parsed.entity;
     this.selectedPostType = parsed.postType;
     this.selectedCategory = parsed.category;
+    this.selectedDateFrom = parsed.dateFrom;
+    this.selectedDateTo = parsed.dateTo;
   }
 
   /**
@@ -136,7 +152,7 @@ export class PostsList {
     if (parsed.postType) params = params.set('filter[post_type]', parsed.postType);
     if (parsed.entityValue) params = params.set(`filter[${parsed.entity}.name]`, `eq:${parsed.entityValue}`);
     if (parsed.category) params = params.set('filter[category]', `eq:${parsed.category}`);
-    if (parsed.dateFrom && parsed.dateTo) params = params.set('filter[created_at]', `between:[${parsed.dateFrom},${parsed.dateTo}]`);
+    if (parsed.dateFrom || parsed.dateTo) params = params.set('filter[created_at]', `between:[${parsed.dateFrom ? parsed.dateFrom : this.minDate},${parsed.dateTo ? parsed.dateTo : this.maxDate}]`);
     if (parsed.sort) params = params.set('sort', `${parsed.sort}`);
 
     const options = { params };
@@ -150,10 +166,12 @@ export class PostsList {
         if (this.postsList.length === 0) {
           console.log('Fetching posts with URL:', url, this.postsList);
           console.warn('No posts found for the selected criteria');
+          this.statusMessage = 'Keine Beiträge gefunden.';
         }
       },
       error: (error) => {
         console.error('Error fetching posts list:', error);
+        this.statusMessage = 'Wir haben grade Probleme. Bitte versuche es später noch einmal.';
       },
     });
   }
@@ -173,6 +191,11 @@ export class PostsList {
     ];
   }
 
+  /**
+   * Validate selected dropdown params against valid values from API
+   *
+   * @param dropdowns Array of dropdowns to validate
+   */
   /**
    * Validate selected dropdown params against valid values from API
    *

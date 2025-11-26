@@ -35,6 +35,9 @@
   [changeDetection]="changeDetectionValue()"
 ></app-query-params-dropdown>
 
+<app-query-params-datepicker [label]="'Startdatum'" [value]="selectedDateFrom" [key]="'dateFrom'" [min]="minDate" [max]="maxDate"></app-query-params-datepicker>
+<app-query-params-datepicker [label]="'Enddatum'" [value]="selectedDateTo" [key]="'dateTo'" [min]="minDate" [max]="maxDate"></app-query-params-datepicker>
+
 <app-query-params-dropdown
   [label]="'Sortiere nach'"
   [key]="'sort'"
@@ -66,6 +69,8 @@
   <p>Comments: {{ post.comments_count }}</p>
   <p>Created at: {{ post.created_at | date : 'mediumDate' }}</p>
 </div>
+} @if (postsList.length === 0) {
+<p>{{ statusMessage ? statusMessage : 'Daten werden geladen...' }}</p>
 }
 
 <app-page-pagination [paginationInfo]="paginationInfo"></app-page-pagination>
