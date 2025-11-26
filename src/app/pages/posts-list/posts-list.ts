@@ -212,39 +212,45 @@ export class PostsList {
 
     const requests = dropdowns.map((dropdown) => this.availableValuesService.getAvailableValues(dropdown.params, dropdown.endPoint).pipe(take(1)));
 
-    forkJoin(requests).subscribe((results) => {
-      let fallbackTriggered = false;
+    forkJoin(requests).subscribe({
+      next: (results) => {
+        let fallbackTriggered = false;
 
-      results.forEach((availableValues, dropdownIndex) => {
-        /**
-         * If a fallback has already been triggered, skip further checks.
-         * Other checks will be made on the next initialization after the page reload.
-         */
-        if (fallbackTriggered) return;
+        results.forEach((availableValues, dropdownIndex) => {
+          /**
+           * If a fallback has already been triggered, skip further checks.
+           * Other checks will be made on the next initialization after the page reload.
+           */
+          if (fallbackTriggered) return;
 
-        const dropdown = dropdowns[dropdownIndex];
-        const dropdownValues = availableValues.map((value) => value.name);
-        if ((dropdown.selected && !dropdownValues.includes(dropdown.selected)) || dropdown.selected === null) {
-          fallbackTriggered = true;
-          console.log(`Fallback für "${dropdown.key}"! Ungültiger Wert:`, dropdown.selected, 'Gültige Werte:', dropdownValues);
-          if (dropdown.key === 'entityValue' || dropdown.key === 'postType') {
-            this.router.navigate([], {
-              queryParams: { [dropdown.key]: dropdownValues[0] },
-              queryParamsHandling: 'merge',
-            });
-          } else {
-            this.router.navigate([], {
-              queryParams: { [dropdown.key]: null },
-              queryParamsHandling: 'merge',
-            });
+          const dropdown = dropdowns[dropdownIndex];
+          const dropdownValues = availableValues.map((value) => value.name);
+          if ((dropdown.selected && !dropdownValues.includes(dropdown.selected)) || dropdown.selected === null) {
+            fallbackTriggered = true;
+            console.log(`Fallback für "${dropdown.key}"! Ungültiger Wert:`, dropdown.selected, 'Gültige Werte:', dropdownValues);
+            if (dropdown.key === 'entityValue' || dropdown.key === 'postType') {
+              this.router.navigate([], {
+                queryParams: { [dropdown.key]: dropdownValues[0] },
+                queryParamsHandling: 'merge',
+              });
+            } else {
+              this.router.navigate([], {
+                queryParams: { [dropdown.key]: null },
+                queryParamsHandling: 'merge',
+              });
+            }
           }
-        }
-      });
+        });
 
-      if (!fallbackTriggered) {
-        console.log('Lade Posts mit Parametern:', parsed);
-        this.getPostsList(parsed);
-      }
+        if (!fallbackTriggered) {
+          console.log('Lade Posts mit Parametern:', parsed);
+          this.getPostsList(parsed);
+        }
+      },
+      error: (error) => {
+        console.error('Error validating dropdown parameters:', error);
+        this.statusMessage = 'Wir haben grade Probleme. Bitte versuche es später noch einmal.';
+      },
     });
   }
 }
