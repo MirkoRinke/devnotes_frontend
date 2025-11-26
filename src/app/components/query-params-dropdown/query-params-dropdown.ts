@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { AvailableValuesService } from '../../services/available-values.service';
 import { take } from 'rxjs/operators';
@@ -22,21 +22,32 @@ export class QueryParamsDropdown {
   @Input() valuesLabel!: string[];
   @Input() values!: string[];
 
+  @Input() changeDetection!: string;
+
   dropdownValues: string[] = [];
 
   constructor(private router: Router, private availableValuesService: AvailableValuesService) {}
 
-  ngOnInit() {}
-
-  ngOnChanges() {
-    if (this.endPoint && this.params) {
-      this.getAvailableValues();
+  /**
+   * Detects changes in input properties and fetches available values if necessary
+   *
+   * @param changes
+   */
+  ngOnChanges(changes: SimpleChanges) {
+    if (this.changeDetection && changes['changeDetection']) {
+      if (this.endPoint && this.params) {
+        this.getAvailableValues();
+      }
     } else if (this.values) {
       this.dropdownValues = this.values;
     }
   }
 
+  /**
+   * Fetches available values from the service based on provided params and endpoint
+   */
   getAvailableValues() {
+    console.log('Fetching available values for', this.key);
     this.availableValuesService
       .getAvailableValues(this.params, this.endPoint)
       .pipe(take(1))
@@ -45,6 +56,12 @@ export class QueryParamsDropdown {
       });
   }
 
+  /**
+   * Handles selection change in the dropdown component
+   * Set or removes the query param in the URL based on selection
+   *
+   * @param value
+   */
   onSelect(value: string) {
     if (value) {
       this.router.navigate([], {

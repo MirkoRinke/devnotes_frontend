@@ -110,6 +110,15 @@ export class PostsList {
   }
 
   /**
+   * Change detection value for dropdowns
+   *
+   * @returns
+   */
+  changeDetectionValue(): string {
+    return 'changeDetectionValues' + this.selectedEntityValue + this.selectedPostType + this.selectedCategory;
+  }
+
+  /**
    * Fetch posts list from API
    *
    * @param entityValue The value of the entity

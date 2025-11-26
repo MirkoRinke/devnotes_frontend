@@ -10,6 +10,7 @@
   [enableAllOption]="false"
   [endPoint]="endPoint"
   [params]="entityValueParams"
+  [changeDetection]="changeDetectionValue()"
 ></app-query-params-dropdown>
 
 <app-query-params-dropdown
@@ -20,16 +21,18 @@
   [enableAllOption]="false"
   [endPoint]="endPoint"
   [params]="postTypeParams"
+  [changeDetection]="changeDetectionValue()"
 ></app-query-params-dropdown>
 
 <app-query-params-dropdown
   [label]="'Kategorie'"
   [key]="'category'"
-  [defaultValueLabel]="selectedCategory ? selectedCategory : 'Alle Kategorien'"
+  [defaultValueLabel]="selectedCategory ? selectedCategory : 'Alle'"
   [defaultValue]="selectedCategory ? selectedCategory : ''"
   [enableAllOption]="true"
   [endPoint]="endPoint"
   [params]="categoryParams"
+  [changeDetection]="changeDetectionValue()"
 ></app-query-params-dropdown>
 
 <app-query-params-dropdown
