@@ -48,12 +48,12 @@ export class QueryParamsDropdown {
   onSelect(value: string) {
     if (value) {
       this.router.navigate([], {
-        queryParams: { [this.key]: value },
+        queryParams: { [this.key]: value, page: null },
         queryParamsHandling: 'merge',
       });
     } else {
       this.router.navigate([], {
-        queryParams: { [this.key]: null },
+        queryParams: { [this.key]: null, page: null },
         queryParamsHandling: 'merge',
       });
     }
