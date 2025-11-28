@@ -25,14 +25,11 @@ export class UserFavoriteTechnologiesService {
 
     this.loaded = true;
 
-    // console.log('API-Call: Load User Favorite Tech Stack');
-
     const options = {
       params: new HttpParams().set('select', 'favorite_techs'),
     };
 
-    const url =
-      ApiEndpointEnums.FAVORITE_TECH_STACK + this.authService.getCurrentUserId() + '?' + options;
+    const url = ApiEndpointEnums.FAVORITE_TECH_STACK + this.authService.getCurrentUserId() + '?' + options;
 
     this.apiService.get<ApiResponseObjektInterface<UserProfileInterface>>(url).subscribe({
       next: (response) => {
