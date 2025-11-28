@@ -41,6 +41,9 @@ export class TechBlock {
     this.getUserFavoriteTechStack();
   }
 
+  /**
+   * Fetches available values from the service and sorts them before assigning to tiles.
+   */
   private getAvailableValues() {
     this.availableValuesService
       .getAvailableValues(this.params, this.endPoint)
@@ -50,6 +53,12 @@ export class TechBlock {
       });
   }
 
+  /**
+   * Sorts available values by total_counts descending and then by name ascending.
+   *
+   * @param availableValues
+   * @returns
+   */
   private sortAvailableValues(availableValues: AvailableValuesInterface[]): AvailableValuesInterface[] {
     return availableValues.sort((a, b) => {
       if (b.total_counts !== a.total_counts) {
@@ -59,6 +68,9 @@ export class TechBlock {
     });
   }
 
+  /**
+   * Fetches the user's favorite tech stack from the service.
+   */
   private getUserFavoriteTechStack() {
     this.userFavoriteTechnologiesService.favoriteTechStack$.subscribe((stack) => {
       this.favoriteTechStack = stack;
