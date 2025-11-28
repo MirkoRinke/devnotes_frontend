@@ -12,11 +12,7 @@ export interface PostInterface {
   images?: string[];
   videos?: string[];
   resources?: string[];
-  external_source_previews?: {
-    url: string;
-    type: string;
-    domain: string;
-  }[];
+  external_source_previews?: Array<ExternalSourcePreviewInterface>;
   category?: string;
   post_type?: string;
   status?: string;
@@ -38,4 +34,10 @@ export interface PostInterface {
   languages?: Array<LanguagesInterface>;
   technologies?: Array<TechnologiesInterface>;
   user?: UserInterface;
+}
+
+export interface ExternalSourcePreviewInterface {
+  url: string;
+  type: string;
+  domain: string;
 }
