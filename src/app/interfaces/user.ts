@@ -6,15 +6,7 @@ export interface UserInterface {
   github_id?: string | null;
   display_name?: string;
   role?: string;
-  avatar_items?: {
-    duck?: string | null;
-    background?: string | null;
-    ear_accessory?: string | null;
-    eye_accessory?: string | null;
-    head_accessory?: string | null;
-    neck_accessory?: string | null;
-    chest_accessory?: string | null;
-  };
+  avatar_items?: AvatarItems | null;
   is_banned?: boolean | null;
   was_ever_banned?: boolean;
   moderation_info?: any[];
@@ -24,4 +16,14 @@ export interface UserInterface {
   updated_at?: string;
   last_post_created_at?: string;
   last_post_updated_at?: string | null;
+}
+
+export interface AvatarItems {
+  duck?: string | null;
+  background?: string | null;
+  ear_accessory?: string | null;
+  eye_accessory?: string | null;
+  head_accessory?: string | null;
+  neck_accessory?: string | null;
+  chest_accessory?: string | null;
 }
