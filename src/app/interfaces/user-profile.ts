@@ -1,5 +1,3 @@
-import type { LanguagesInterface } from './languages';
-
 export interface UserProfileInterface {
   id: number;
   user_id?: number;
@@ -10,13 +8,8 @@ export interface UserProfileInterface {
   location?: string;
   biography?: string;
   skills?: string[];
-  social_links?: {
-    github?: string;
-    linkedin?: string;
-  };
-  contact_channels?: {
-    discord?: string;
-  };
+  social_links?: SocialLinksInterface;
+  contact_channels?: ContactChannelsInterface;
   preferred_theme?: string;
   preferred_language?: string;
   auto_load_external_images?: boolean;
@@ -28,5 +21,19 @@ export interface UserProfileInterface {
   reports_count?: number;
   created_at?: string;
   updated_at?: string;
-  favorite_techs?: Array<LanguagesInterface>;
+  favorite_techs?: FavoriteTechsInterface[];
+}
+
+export interface FavoriteTechsInterface {
+  id: number;
+  name: string;
+}
+
+export interface ContactChannelsInterface {
+  discord?: string;
+}
+
+export interface SocialLinksInterface {
+  github?: string;
+  linkedin?: string;
 }
