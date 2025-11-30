@@ -1,0 +1,76 @@
+@use 'sass:math';
+@use './functions' as *;
+@use './var' as *;
+
+@mixin max-content-settings {
+  max-width: 3440px;
+  width: 100%;
+  margin: auto;
+  padding-inline: px-to-rem(20);
+}
+
+@mixin display-flex($align: flex-start, $justify: flex-start, $direction: row) {
+  display: flex;
+  align-items: $align;
+  justify-content: $justify;
+  flex-direction: $direction;
+}
+
+@mixin display-grid($align: stretch, $justify: stretch) {
+  display: grid;
+  align-items: $align;
+  justify-items: $justify;
+}
+
+@mixin font-settings($font-size: 16, $font-weight: 400, $color: var(--font-primary-color), $font-family: 'FiraCode') {
+  font-size: px-to-rem($font-size);
+  font-weight: $font-weight;
+  color: $color;
+  font-family: $font-family;
+  @include dynamic-font($font-size);
+}
+
+@mixin dynamic-font($font-size: 16, $vw: 1.5, $min-font-size: 14) {
+  font-size: clamp(px-to-rem($min-font-size), #{$vw}vw, px-to-rem($font-size));
+}
+
+@mixin golden-ratio-padding($font-size: 16) {
+  $vertical: math.div($font-size, 2);
+  $horizontal: $vertical * 1.618;
+  padding: px-to-rem($vertical) px-to-rem($horizontal);
+}
+
+@mixin button-preset($padding-factor: 16) {
+  all: unset;
+  display: inline-block;
+  cursor: pointer;
+  text-align: center;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  @include golden-ratio-padding($padding-factor);
+}
+
+@mixin button-style($icon: '', $icon-size: 20) {
+  gap: px-to-rem(10);
+  background-color: var(--page-primary-color-25);
+  border-radius: px-to-rem(10);
+  color: var(--font-primary-color);
+  filter: drop-shadow(0 px-to-rem(4) px-to-rem(4) rgba(0, 0, 0, 1));
+  transition: background-color 0.3s ease-in-out;
+
+  @if ($icon != '') {
+    div {
+      height: px-to-rem($icon-size);
+
+      &::ng-deep .#{$icon} {
+        height: px-to-rem($icon-size);
+        fill: $color;
+      }
+    }
+  }
+
+  &:hover {
+    transition: background-color 0.3s ease-in-out;
+    background-color: var(--page-primary-color-hover);
+  }
+}
