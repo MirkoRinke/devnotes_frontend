@@ -1,0 +1,111 @@
+@use 'functions' as *;
+
+/* Colors */
+
+@mixin color-theme() {
+  --font-primary-color-rgb: 255, 255, 255; // white #FFFFFF
+
+  --page-primary-color-rgb: 217, 217, 217; // light gray #D9D9D9
+  --background-color-rgb: 19, 21, 29; // dark background #13151D
+
+  --page-primary-color: rgb(var(--page-primary-color-rgb));
+  --page-primary-color-80: rgba(var(--page-primary-color-rgb), 0.8);
+  --page-primary-color-50: rgba(var(--page-primary-color-rgb), 0.5);
+  --page-primary-color-25: rgba(var(--page-primary-color-rgb), 0.25);
+  --page-primary-color-10: rgba(var(--page-primary-color-rgb), 0.1);
+  --page-primary-color-hover: rgba(var(--page-primary-color-rgb), 0.8);
+
+  --font-primary-color: rgb(var(--font-primary-color-rgb));
+  --font-primary-color-80: rgba(var(--font-primary-color-rgb), 0.8);
+  --font-primary-color-50: rgba(var(--font-primary-color-rgb), 0.5);
+  --font-primary-color-25: rgba(var(--font-primary-color-rgb), 0.25);
+  --font-primary-color-10: rgba(var(--font-primary-color-rgb), 0.1);
+  --font-primary-color-hover: rgba(var(--font-primary-color-rgb), 0.8);
+
+  --background-color: rgb(var(--background-color-rgb));
+  --background-color-80: rgba(var(--background-color-rgb), 0.8);
+  --background-color-50: rgba(var(--background-color-rgb), 0.5);
+  --background-color-25: rgba(var(--background-color-rgb), 0.25);
+  --background-color-10: rgba(var(--background-color-rgb), 0.1);
+}
+
+:root {
+  @include color-theme();
+}
+
+.dark-mode {
+  @include color-theme();
+}
+
+.light-mode {
+  @include color-theme();
+  --font-primary-color-rgb: 0, 0, 0; // black
+
+  --page-primary-color-rgb: 28, 28, 28; // dark gray
+  --background-color-rgb: 242, 242, 247; // light background
+}
+
+/* @media breakpoints */
+
+/** 3440px or smaller */
+$breakpoint-ultra: px-to-rem(3440) !default;
+
+/** 2560px or smaller (WQHD) */
+$breakpoint-wqhd: px-to-rem(2560) !default;
+
+/** 1920px or smaller */
+$breakpoint-full-hd: px-to-rem(1920) !default;
+
+/** 1280px or smaller */
+$breakpoint-hd: px-to-rem(1280) !default;
+
+/** 1024px or smaller */
+$breakpoint-lg: px-to-rem(1024) !default;
+
+/** 768px or smaller */
+$breakpoint-md: px-to-rem(768) !default;
+
+/** 640px or smaller */
+$breakpoint-sm: px-to-rem(640) !default;
+
+/** 450px or smaller */
+$breakpoint-xs: px-to-rem(450) !default;
+
+/** 384px or smaller */
+$breakpoint-xxs: px-to-rem(384) !default;
+
+/** 3440px or smaller */
+@media (max-width: $breakpoint-ultra) {
+}
+
+/** 2560px or smaller (WQHD) */
+@media (max-width: $breakpoint-wqhd) {
+}
+
+/** 1920px or smaller */
+@media (max-width: $breakpoint-full-hd) {
+}
+
+/** 1280px or smaller */
+@media (max-width: $breakpoint-hd) {
+}
+
+/** 1024px or smaller */
+@media (max-width: $breakpoint-lg) {
+}
+
+/** 768px or smaller */
+@media (max-width: $breakpoint-md) {
+}
+
+/** 640px or smaller */
+@media (max-width: $breakpoint-sm) {
+}
+
+/** 450px or smaller */
+@media (max-width: $breakpoint-xs) {
+}
+
+/** 384px or smaller */
+@media (max-width: $breakpoint-xxs) {
+}
