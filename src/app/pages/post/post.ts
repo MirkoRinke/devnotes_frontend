@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { DatePipe } from '@angular/common';
-
 import { ApiService } from '../../services/api.service';
 
 import type { ApiResponseObjektInterface } from '../../interfaces/api-response';
@@ -11,10 +9,12 @@ import type { PostParamsInterface } from '../../interfaces/post-params';
 import type { Params } from '@angular/router';
 
 import { ApiEndpointEnums } from '../../enums/api-endpoint';
+import { PostView } from '../../components/post/post-view/post-view';
+import { HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-post',
-  imports: [DatePipe],
+  imports: [PostView],
   templateUrl: './post.html',
   styleUrl: './post.scss',
 })
@@ -22,6 +22,8 @@ export class Post {
   post: PostInterface = {} as PostInterface;
   selectedEntityValue: string | null = null;
   selectedPostType: string | null = null;
+
+  necessaryUserFields: string = 'display_name,avatar_items';
 
   constructor(private route: ActivatedRoute, private apiService: ApiService, private router: Router) {}
 
@@ -71,11 +73,22 @@ export class Post {
    * @param postId
    */
   private getPost(post_id: number): void {
-    const url = `${ApiEndpointEnums.POSTS}${post_id}`;
+    let params = new HttpParams();
+    params = params.set('include', 'user');
+
+    // Later only include necessary user fields
+    // params = params.set('user_fields', this.necessaryUserFields);
+
+    const options = { params };
+    const url = `${ApiEndpointEnums.POSTS}${post_id}` + '?' + options.params.toString();
+
+    console.log(url);
 
     this.apiService.get<ApiResponseObjektInterface<PostInterface>>(url).subscribe({
       next: (response) => {
         this.post = response.data.data;
+
+        console.log(this.post);
 
         if (this.checkAllowedEntityValue() || this.checkAllowedPostTypes()) {
           this.router.navigate(['/']);
