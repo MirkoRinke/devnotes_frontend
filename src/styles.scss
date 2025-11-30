@@ -1,1 +1,31 @@
 /* You can add global styles to this file, and also import other style files */
+@use './var' as vars;
+@use './fonts';
+
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+  font-family: 'FiraCode';
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: rgb(60, 60, 60) rgb(28, 28, 28);
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--font-primary-color);
+}
+
+a {
+  color: var(--font-primary-color);
+  text-decoration: none;
+}
+
+svg {
+  user-select: none;
+}
+
+img {
+  user-select: none;
+}
