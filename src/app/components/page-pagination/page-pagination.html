@@ -4,28 +4,14 @@
 
 <nav>
   <!-- First Page -->
-  <a
-    [routerLink]="[]"
-    [queryParams]="{ page: 1 }"
-    [queryParamsHandling]="'merge'"
-    [class.disabled]="paginationInfo.current_page === 1"
-  >
-    «
-  </a>
+  <a [routerLink]="[]" [queryParams]="{ page: 1 }" [queryParamsHandling]="'merge'" [class.disabled]="paginationInfo.current_page === 1"> « </a>
 
   <!-- Previous Page -->
-  <a
-    [routerLink]="[]"
-    [queryParams]="{ page: paginationInfo.current_page - 1 }"
-    [queryParamsHandling]="'merge'"
-    [class.disabled]="paginationInfo.current_page === 1"
-  >
-    ‹
-  </a>
+  <a [routerLink]="[]" [queryParams]="{ page: paginationInfo.current_page - 1 }" [queryParamsHandling]="'merge'" [class.disabled]="paginationInfo.current_page === 1"> ‹ </a>
 
   <!-- Page Numbers (max 4, centered around current page) -->
   <!--TODO Replay style.color and  style.fontSize.px with ngClass-->
-  @for (page of getPages(); track page) {
+  @for (page of getPages(); track $index) {
   <a
     [routerLink]="[]"
     [queryParams]="{ page: page }"
@@ -62,23 +48,9 @@
   }
 
   <!-- Next Page -->
-  <a
-    [routerLink]="[]"
-    [queryParams]="{ page: paginationInfo.current_page + 1 }"
-    [queryParamsHandling]="'merge'"
-    [class.disabled]="paginationInfo.current_page === paginationInfo.last_page"
-  >
-    ›
-  </a>
+  <a [routerLink]="[]" [queryParams]="{ page: paginationInfo.current_page + 1 }" [queryParamsHandling]="'merge'" [class.disabled]="paginationInfo.current_page === paginationInfo.last_page"> › </a>
 
   <!-- Last Page -->
-  <a
-    [routerLink]="[]"
-    [queryParams]="{ page: paginationInfo.last_page }"
-    [queryParamsHandling]="'merge'"
-    [class.disabled]="paginationInfo.current_page === paginationInfo.last_page"
-  >
-    »
-  </a>
+  <a [routerLink]="[]" [queryParams]="{ page: paginationInfo.last_page }" [queryParamsHandling]="'merge'" [class.disabled]="paginationInfo.current_page === paginationInfo.last_page"> » </a>
 </nav>
 }
