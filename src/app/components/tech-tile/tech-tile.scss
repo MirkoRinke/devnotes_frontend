@@ -2,7 +2,7 @@
 @use '../../../var' as var;
 @use '../../../mixins' as *;
 
-a {
+.link {
   @include display-flex(center, center, center);
   text-align: center;
   background-color: var(--page-primary-color-100);
