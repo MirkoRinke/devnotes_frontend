@@ -30,7 +30,6 @@ export class PageNavigation {
       network: this.context === 'network' || url.includes('/network'),
       community: this.context === 'community' || url.includes('/community'),
     };
-    console.log('Active Map:', this.activeMap);
   }
 
   isActive(routeFragment: string): boolean {
