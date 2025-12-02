@@ -1,16 +1,21 @@
-<p>post-types-selection works!</p>
-<p>Selected tech: {{ selectedEntityValue }}</p>
+<section class="post-types-selection">
+  <h2 class="heading">Beitragstyp</h2>
 
-@for (postType of postTypes; track $index) {
-<a
-  [routerLink]="'/posts-list'"
-  [queryParams]="{
-    entityValue: selectedEntityValue,
-    entity: selectedEntity,
-    postType: postType.name,
-    context: context
-  }"
-  >{{ postType.name }} {{ postType.total_counts }}</a
->
-<br />
-}
+  <div class="tiles">
+    @for (postType of postTypes; track $index) {
+    <a
+      class="tile"
+      [routerLink]="'/posts-list'"
+      [queryParams]="{
+        entityValue: selectedEntityValue,
+        entity: selectedEntity,
+        postType: postType.name,
+        context: context
+      }"
+      >{{ postType.name }} {{ postType.total_counts }} Beschreibung für {{ postType.name }}</a
+    >
+    }
+  </div>
+</section>
+
+<!-- Load Description later by using the postType.name and fetching the description from a service or a predefined list -->

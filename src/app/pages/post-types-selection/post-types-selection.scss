@@ -1,0 +1,27 @@
+@use '../../../functions' as *;
+@use '../../../var' as var;
+@use '../../../mixins' as *;
+
+.post-types-selection {
+  margin-bottom: px-to-rem(40);
+
+  .heading {
+    @include font-settings(24);
+    margin-bottom: px-to-rem(25);
+  }
+
+  .tiles {
+    @include display-flex(flex-start, flex-start, row);
+    gap: px-to-rem(50);
+    flex-wrap: wrap;
+
+    .tile {
+      @include display-flex(center, center, center);
+      text-align: center;
+      background-color: var(--page-primary-color-100);
+      width: px-to-rem(160);
+      height: px-to-rem(160);
+      border-radius: px-to-rem(15);
+    }
+  }
+}
