@@ -1,4 +1,4 @@
-<main class="community-page">
+<main class="community">
   @if (authService.isLoggedIn()) {
   <app-tech-block [heading]="'Favoriten'" [endPoint]="'POSTS'" [context]="'community'" [params]="['?select=count:languages.name', '?select=count:technologies.name']"></app-tech-block>
   } @else {
