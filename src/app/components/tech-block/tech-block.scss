@@ -1,0 +1,18 @@
+@use '../../../functions' as *;
+@use '../../../var' as var;
+@use '../../../mixins' as *;
+
+.tech-block {
+  margin-bottom: px-to-rem(40);
+
+  h2 {
+    @include font-settings(24);
+    margin-bottom: px-to-rem(25);
+  }
+
+  .tech-tiles {
+    @include display-flex(flex-start, flex-start, row);
+    gap: px-to-rem(50);
+    flex-wrap: wrap;
+  }
+}
