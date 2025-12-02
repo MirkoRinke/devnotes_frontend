@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { RouterModule, ActivatedRoute } from '@angular/router';
+import { RouterModule, ActivatedRoute, Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-page-navigation',
@@ -11,9 +12,12 @@ export class PageNavigation {
   context: string | null = null;
   activeMap: { [key: string]: boolean } = {};
 
-  constructor(private route: ActivatedRoute) {
+  constructor(private route: ActivatedRoute, private router: Router) {
     this.route.queryParams.subscribe((params) => {
       this.context = params['context'] || null;
+    });
+
+    this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
       this.updateActiveMap();
     });
   }
@@ -26,6 +30,7 @@ export class PageNavigation {
       network: this.context === 'network' || url.includes('/network'),
       community: this.context === 'community' || url.includes('/community'),
     };
+    console.log('Active Map:', this.activeMap);
   }
 
   isActive(routeFragment: string): boolean {
