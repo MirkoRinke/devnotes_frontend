@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { RouterModule, ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 
+import { SvgIconsService } from '../../services/svg.icons.service';
+
 @Component({
   selector: 'app-page-navigation',
   imports: [RouterModule],
@@ -12,7 +14,7 @@ export class PageNavigation {
   context: string | null = null;
   activeMap: { [key: string]: boolean } = {};
 
-  constructor(private route: ActivatedRoute, private router: Router) {
+  constructor(private route: ActivatedRoute, private router: Router, public svgIconsService: SvgIconsService) {
     this.route.queryParams.subscribe((params) => {
       this.context = params['context'] || null;
     });

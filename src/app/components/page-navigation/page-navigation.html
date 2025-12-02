@@ -1,8 +1,24 @@
 <nav>
-  <a [routerLink]="'/'" [class.active]="isActive('my-area')">Mein Bereich</a>
-  <a [routerLink]="'/'" [class.active]="isActive('favorites')">Favoriten</a>
+  <a [routerLink]="'/'" [class.active]="isActive('my-area')">
+    <span [innerHTML]="svgIconsService.returnIcon('myArea')"></span>
+    Mein Bereich
+  </a>
+
+  <a [routerLink]="'/'" [class.active]="isActive('favorites')">
+    <span [innerHTML]="svgIconsService.returnIcon('favorites')"></span>
+    Favoriten
+  </a>
+
   <!-- Todo Make Search Component later, for use query params -->
-  <button>Suche</button>
-  <a [routerLink]="'/'" [class.active]="isActive('network')">Netzwerk</a>
-  <a [routerLink]="'/community'" [class.active]="isActive('community')">Community</a>
+  <button [innerHTML]="svgIconsService.returnIcon('search')"></button>
+
+  <a [routerLink]="'/'" [class.active]="isActive('network')">
+    <span [innerHTML]="svgIconsService.returnIcon('network')"></span>
+    Netzwerk
+  </a>
+
+  <a [routerLink]="'/community'" [class.active]="isActive('community')">
+    <span [innerHTML]="svgIconsService.returnIcon('community')"></span>
+    Community</a
+  >
 </nav>
