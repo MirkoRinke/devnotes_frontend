@@ -4,5 +4,5 @@
 
 header {
   @include display-flex(center, space-between);
-  margin: px-to-rem(50);
+  padding-bottom: px-to-rem(50);
 }
