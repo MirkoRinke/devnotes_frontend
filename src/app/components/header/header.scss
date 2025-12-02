@@ -1,0 +1,8 @@
+@use '../../../functions' as *;
+@use '../../../var' as var;
+@use '../../../mixins' as *;
+
+header {
+  @include display-flex(center, space-between);
+  margin: px-to-rem(50);
+}
