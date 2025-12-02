@@ -1,0 +1,29 @@
+@use '../../../functions' as *;
+@use '../../../var' as var;
+@use '../../../mixins' as *;
+
+nav {
+  @include display-flex(center, center);
+  gap: px-to-rem(25);
+
+  a {
+    @include golden-ratio-padding();
+    @include display-flex(center, center);
+    background-color: var(--page-primary-color-100);
+    border-radius: px-to-rem(15);
+    width: px-to-rem(210);
+    height: px-to-rem(60);
+
+    &:hover {
+      box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-50);
+    }
+
+    &.active {
+      box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-100);
+    }
+  }
+
+  button {
+    @include button-preset();
+  }
+}
