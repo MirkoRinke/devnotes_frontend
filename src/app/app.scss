@@ -1,0 +1,7 @@
+@use '../functions' as *;
+@use '../var' as var;
+@use '../mixins' as *;
+
+.app-container {
+  @include max-content-settings();
+}
