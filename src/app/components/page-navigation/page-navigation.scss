@@ -10,7 +10,6 @@ nav {
     @include golden-ratio-padding();
     @include display-flex(center, center);
     @include font-settings();
-    @include dynamic-font-size();
     background-color: var(--page-primary-color-100);
     border-radius: px-to-rem(15);
     width: px-to-rem(210);
