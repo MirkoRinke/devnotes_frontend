@@ -1,8 +1,8 @@
 <nav>
-  <a [routerLink]="'/'" [routerLinkActive]="'active'" [routerLinkActiveOptions]="{ exact: true }">Mein Bereich</a>
-  <a [routerLink]="'/'" [routerLinkActive]="'active'" [routerLinkActiveOptions]="{ exact: true }">Favoriten</a>
+  <a [routerLink]="'/'" [class.active]="isActive('my-area')">Mein Bereich</a>
+  <a [routerLink]="'/'" [class.active]="isActive('favorites')">Favoriten</a>
   <!-- Todo Make Search Component later, for use query params -->
   <button>Suche</button>
-  <a [routerLink]="'/'" [routerLinkActive]="'active'" [routerLinkActiveOptions]="{ exact: true }">Netzwerk</a>
-  <a [routerLink]="'/community'" [routerLinkActive]="'active'" [routerLinkActiveOptions]="{ exact: true }">Community</a>
+  <a [routerLink]="'/'" [class.active]="isActive('network')">Netzwerk</a>
+  <a [routerLink]="'/community'" [class.active]="isActive('community')">Community</a>
 </nav>

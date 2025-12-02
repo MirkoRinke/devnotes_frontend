@@ -20,6 +20,7 @@ export class TechBlock {
   @Input() heading!: string;
   @Input() endPoint!: string;
   @Input() params!: Array<string>;
+  @Input() context?: string;
 
   constructor(private userFavoriteTechnologiesService: UserFavoriteTechnologiesService, private availableValuesService: AvailableValuesService) {}
 

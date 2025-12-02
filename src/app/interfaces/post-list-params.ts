@@ -1,4 +1,5 @@
 export interface PostListParamsInterface {
+  context: string | null;
   entityValue: string | null;
   entity: string;
   postType: string | null;

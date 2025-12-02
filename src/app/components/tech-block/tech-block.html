@@ -1,7 +1,7 @@
 <p>{{ heading }}</p>
 
 @for (tile of tiles; track $index) { @if (heading === 'Favoriten' && favoriteTechStack.includes(tile.name)) {
-<app-tech-tile [endPoint]="endPoint" [tile]="tile"></app-tech-tile>
+<app-tech-tile [endPoint]="endPoint" [context]="context" [tile]="tile"></app-tech-tile>
 } @else if (heading !== 'Favoriten' && !favoriteTechStack.includes(tile.name)) {
-<app-tech-tile [endPoint]="endPoint" [tile]="tile"></app-tech-tile>
+<app-tech-tile [endPoint]="endPoint" [context]="context" [tile]="tile"></app-tech-tile>
 } }

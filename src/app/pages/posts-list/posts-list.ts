@@ -32,6 +32,7 @@ import { RegexEnums } from '../../enums/regex';
   styleUrl: './posts-list.scss',
 })
 export class PostsList {
+  context: string | null = null;
   selectedEntityValue: string | null = null;
   selectedEntity: string | null = null;
   selectedPostType: string | null = null;
@@ -81,6 +82,7 @@ export class PostsList {
    */
   private parseQueryParams(params: Params): PostListParamsInterface {
     return {
+      context: params['context'] ?? null,
       entityValue: params['entityValue'] ?? null,
       entity: params['entity'] ?? null,
       postType: params['postType'] ?? null,
@@ -117,6 +119,7 @@ export class PostsList {
    * @param parsed
    */
   private setSelectedValues(parsed: PostListParamsInterface) {
+    this.context = parsed.context;
     this.selectedEntityValue = parsed.entityValue;
     this.selectedEntity = parsed.entity;
     this.selectedPostType = parsed.postType;

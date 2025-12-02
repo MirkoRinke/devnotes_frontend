@@ -12,4 +12,5 @@ import { AvailableValuesInterface } from '../../interfaces/available-values';
 export class TechTile {
   @Input() tile!: AvailableValuesInterface;
   @Input() endPoint!: string;
+  @Input() context?: string;
 }
