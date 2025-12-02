@@ -2,31 +2,21 @@
 
 /* Colors */
 
+$colors: --font-primary-color, --page-primary-color, --background-color;
+$opacities: 1, 0.95, 0.9, 0.85, 0.8, 0.75, 0.7, 0.65, 0.6, 0.55, 0.5, 0.45, 0.4, 0.35, 0.3, 0.25, 0.2, 0.15, 0.1, 0.05;
+
 @mixin color-theme() {
   --font-primary-color-rgb: 255, 255, 255; // white #FFFFFF
 
-  --page-primary-color-rgb: 217, 217, 217; // light gray #D9D9D9
+  --page-primary-color-rgb: 29, 31, 38; // dark gray #1D1F26
+
   --background-color-rgb: 19, 21, 29; // dark background #13151D
 
-  --page-primary-color: rgb(var(--page-primary-color-rgb));
-  --page-primary-color-80: rgba(var(--page-primary-color-rgb), 0.8);
-  --page-primary-color-50: rgba(var(--page-primary-color-rgb), 0.5);
-  --page-primary-color-25: rgba(var(--page-primary-color-rgb), 0.25);
-  --page-primary-color-10: rgba(var(--page-primary-color-rgb), 0.1);
-  --page-primary-color-hover: rgba(var(--page-primary-color-rgb), 0.8);
-
-  --font-primary-color: rgb(var(--font-primary-color-rgb));
-  --font-primary-color-80: rgba(var(--font-primary-color-rgb), 0.8);
-  --font-primary-color-50: rgba(var(--font-primary-color-rgb), 0.5);
-  --font-primary-color-25: rgba(var(--font-primary-color-rgb), 0.25);
-  --font-primary-color-10: rgba(var(--font-primary-color-rgb), 0.1);
-  --font-primary-color-hover: rgba(var(--font-primary-color-rgb), 0.8);
-
-  --background-color: rgb(var(--background-color-rgb));
-  --background-color-80: rgba(var(--background-color-rgb), 0.8);
-  --background-color-50: rgba(var(--background-color-rgb), 0.5);
-  --background-color-25: rgba(var(--background-color-rgb), 0.25);
-  --background-color-10: rgba(var(--background-color-rgb), 0.1);
+  @each $color in $colors {
+    @each $opacity in $opacities {
+      #{$color}-#{$opacity * 100}: rgba(var(#{$color}-rgb), #{$opacity});
+    }
+  }
 }
 
 :root {
@@ -39,10 +29,6 @@
 
 .light-mode {
   @include color-theme();
-  --font-primary-color-rgb: 0, 0, 0; // black
-
-  --page-primary-color-rgb: 28, 28, 28; // dark gray
-  --background-color-rgb: 242, 242, 247; // light background
 }
 
 /* @media breakpoints */
