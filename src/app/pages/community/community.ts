@@ -5,11 +5,11 @@ import { AuthService } from '../../services/auth.service';
 import { GuestTeaserPrompt } from '../../components/guest-teaser-prompt/guest-teaser-prompt';
 
 @Component({
-  selector: 'app-community-home',
+  selector: 'app-community',
   imports: [TechBlock, GuestTeaserPrompt],
-  templateUrl: './community-home.html',
-  styleUrl: './community-home.scss',
+  templateUrl: './community.html',
+  styleUrl: './community.scss',
 })
-export class CommunityHome {
+export class Community {
   constructor(public authService: AuthService) {}
 }
