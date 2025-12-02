@@ -2,11 +2,11 @@
 @use '../../../var' as var;
 @use '../../../mixins' as *;
 
-nav {
+.page-navigation {
   @include display-flex(center, center);
   gap: px-to-rem(25);
 
-  a {
+  .link {
     @include golden-ratio-padding();
     @include display-flex(center, center);
     @include font-settings();
@@ -23,7 +23,7 @@ nav {
       box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-100);
     }
 
-    span {
+    .icon-container {
       &::ng-deep .myArea,
       &::ng-deep .favorites,
       &::ng-deep .network,
@@ -36,7 +36,7 @@ nav {
     }
   }
 
-  button {
+  .search-button {
     @include button-preset();
     @include golden-ratio-padding();
     @include display-flex(center, center);
