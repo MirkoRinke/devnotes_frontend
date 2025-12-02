@@ -2,7 +2,7 @@
 @use '../../../var' as var;
 @use '../../../mixins' as *;
 
-header {
+.app-header {
   @include display-flex(center, space-between);
   padding-bottom: px-to-rem(50);
 }
