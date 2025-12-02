@@ -6,7 +6,7 @@
   max-width: 3440px;
   width: 100%;
   margin: auto;
-  padding-inline: px-to-rem(20);
+  padding-inline: px-to-rem(50);
 }
 
 @mixin display-flex($align: flex-start, $justify: flex-start, $direction: row) {
@@ -27,6 +27,7 @@
   font-weight: $font-weight;
   color: $color;
   font-family: $font-family;
+  @include dynamic-font-size($font-size);
 }
 
 @mixin dynamic-font-size($font-size: 16, $vw: 1.5, $min-font-size: 14) {
