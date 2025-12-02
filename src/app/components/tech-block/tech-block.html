@@ -1,7 +1,11 @@
-<p>{{ heading }}</p>
+<section class="tech-block">
+  <h2>{{ heading }}</h2>
 
-@for (tile of tiles; track $index) { @if (heading === 'Favoriten' && favoriteTechStack.includes(tile.name)) {
-<app-tech-tile [endPoint]="endPoint" [context]="context" [tile]="tile"></app-tech-tile>
-} @else if (heading !== 'Favoriten' && !favoriteTechStack.includes(tile.name)) {
-<app-tech-tile [endPoint]="endPoint" [context]="context" [tile]="tile"></app-tech-tile>
-} }
+  <div class="tech-tiles">
+    @for (tile of tiles; track $index) { @if (heading === 'Favoriten' && favoriteTechStack.includes(tile.name)) {
+    <app-tech-tile [endPoint]="endPoint" [context]="context" [tile]="tile"></app-tech-tile>
+    } @else if (heading !== 'Favoriten' && !favoriteTechStack.includes(tile.name)) {
+    <app-tech-tile [endPoint]="endPoint" [context]="context" [tile]="tile"></app-tech-tile>
+    } }
+  </div>
+</section>
