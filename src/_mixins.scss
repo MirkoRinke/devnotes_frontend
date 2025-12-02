@@ -30,7 +30,7 @@
   @include dynamic-font($font-size);
 }
 
-@mixin dynamic-font($font-size: 16, $vw: 1.5, $min-font-size: 14) {
+@mixin dynamic-font-size($font-size: 16, $vw: 1.5, $min-font-size: 14) {
   font-size: clamp(px-to-rem($min-font-size), #{$vw}vw, px-to-rem($font-size));
 }
 
@@ -48,29 +48,4 @@
   user-select: none;
   -webkit-tap-highlight-color: transparent;
   @include golden-ratio-padding($padding-factor);
-}
-
-@mixin button-style($icon: '', $icon-size: 20) {
-  gap: px-to-rem(10);
-  background-color: var(--page-primary-color-25);
-  border-radius: px-to-rem(10);
-  color: var(--font-primary-color);
-  filter: drop-shadow(0 px-to-rem(4) px-to-rem(4) rgba(0, 0, 0, 1));
-  transition: background-color 0.3s ease-in-out;
-
-  @if ($icon != '') {
-    div {
-      height: px-to-rem($icon-size);
-
-      &::ng-deep .#{$icon} {
-        height: px-to-rem($icon-size);
-        fill: $color;
-      }
-    }
-  }
-
-  &:hover {
-    transition: background-color 0.3s ease-in-out;
-    background-color: var(--page-primary-color-hover);
-  }
 }
