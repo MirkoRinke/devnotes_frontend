@@ -1,9 +1,8 @@
 <nav>
-  <a [routerLink]="'/'">Home</a>
-  <a [routerLink]="'/'">Mein Bereich</a>
-  <a [routerLink]="'/'">Favoriten</a>
+  <a [routerLink]="'/'" [routerLinkActive]="'active'" [routerLinkActiveOptions]="{ exact: true }">Mein Bereich</a>
+  <a [routerLink]="'/'" [routerLinkActive]="'active'" [routerLinkActiveOptions]="{ exact: true }">Favoriten</a>
+  <!-- Todo Make Search Component later, for use query params -->
   <button>Suche</button>
-  <a [routerLink]="'/'">Netzwerk</a>
-  <a [routerLink]="'/community-home'">Community Home</a>
-  <a [routerLink]="'/login'">Login</a>
+  <a [routerLink]="'/'" [routerLinkActive]="'active'" [routerLinkActiveOptions]="{ exact: true }">Netzwerk</a>
+  <a [routerLink]="'/community-home'" [routerLinkActive]="'active'" [routerLinkActiveOptions]="{ exact: true }">Community Home</a>
 </nav>
