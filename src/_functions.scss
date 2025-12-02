@@ -1,5 +1,29 @@
 @use 'sass:math';
+// https://www.w3schools.com/sass/sass_functions_string.asp
 
+/**
+  * Converts pixel values to rem units based on a given base size.
+  *
+  * @param {Number} $px - The pixel value to convert.
+  * @param {Number} $base-size - The base font size in pixels (default is 16).
+  * @return {Number} - The equivalent value in rem units.
+  */
 @function px-to-rem($px, $base-size: 16) {
   @return math.div($px, $base-size) + rem;
+}
+
+/**
+  * Replaces all occurrences of a substring within a string with a new substring.
+  *
+  * @param {String} $string - The original string.
+  * @param {String} $search - The substring to search for.
+  * @param {String} $replace - The substring to replace with (default is an empty string).
+  * @return {String} - The modified string with replacements.
+  */
+@function str-replace($string, $search, $replace: '') {
+  $index: str-index($string, $search);
+  @if $index {
+    @return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+  }
+  @return $string;
 }
