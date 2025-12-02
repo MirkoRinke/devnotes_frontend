@@ -1,0 +1,12 @@
+@use '../../../functions' as *;
+@use '../../../var' as var;
+@use '../../../mixins' as *;
+
+a {
+  @include display-flex(center, center, center);
+  text-align: center;
+  background-color: var(--page-primary-color-100);
+  width: px-to-rem(160);
+  height: px-to-rem(160);
+  border-radius: px-to-rem(15);
+}
