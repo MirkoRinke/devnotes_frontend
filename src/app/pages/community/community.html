@@ -1,11 +1,11 @@
-<p>community works!</p>
+<main class="community-page">
+  @if (authService.isLoggedIn()) {
+  <app-tech-block [heading]="'Favoriten'" [endPoint]="'POSTS'" [context]="'community'" [params]="['?select=count:languages.name', '?select=count:technologies.name']"></app-tech-block>
+  } @else {
+  <app-guest-teaser-prompt [title]="'Favoriten'" [message]="'Bitte melde dich an, um deine Favoriten zu sehen.'" [buttonText]="'Anmelden'" [buttonLink]="'/login'"></app-guest-teaser-prompt>
+  }
 
-@if (authService.isLoggedIn()) {
-<app-tech-block [heading]="'Favoriten'" [endPoint]="'POSTS'" [context]="'community'" [params]="['?select=count:languages.name', '?select=count:technologies.name']"></app-tech-block>
-} @else {
-<app-guest-teaser-prompt [title]="'Favoriten'" [message]="'Bitte melde dich an, um deine Favoriten zu sehen.'" [buttonText]="'Anmelden'" [buttonLink]="'/login'"></app-guest-teaser-prompt>
-}
+  <app-tech-block [heading]="'Sprachen / Frameworks'" [endPoint]="'POSTS'" [context]="'community'" [params]="['?select=count:languages.name']"></app-tech-block>
 
-<app-tech-block [heading]="'Sprachen / Frameworks'" [endPoint]="'POSTS'" [context]="'community'" [params]="['?select=count:languages.name']"></app-tech-block>
-
-<app-tech-block [heading]="'Tools'" [endPoint]="'POSTS'" [context]="'community'" [params]="['?select=count:technologies.name']"></app-tech-block>
+  <app-tech-block [heading]="'Tools'" [endPoint]="'POSTS'" [context]="'community'" [params]="['?select=count:technologies.name']"></app-tech-block>
+</main>
