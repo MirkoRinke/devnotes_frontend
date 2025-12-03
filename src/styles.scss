@@ -1,5 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
-@use './var' as vars;
+@use './functions' as *;
+@use './var' as var;
+@use './mixins' as *;
 @use './fonts';
 
 * {
@@ -28,4 +30,11 @@ svg {
 
 img {
   user-select: none;
+}
+
+.fallbackIcon {
+  fill: var(--font-primary-color-100);
+  width: px-to-rem(34);
+  height: px-to-rem(34);
+  margin-right: px-to-rem(10);
 }
