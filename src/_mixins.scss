@@ -31,6 +31,9 @@
 }
 
 @mixin dynamic-font-size($font-size: 16, $vw: 1.5, $min-font-size: 14) {
+  @if $font-size < $min-font-size {
+    $min-font-size: $font-size;
+  }
   font-size: clamp(px-to-rem($min-font-size), #{$vw}vw, px-to-rem($font-size));
 }
 
