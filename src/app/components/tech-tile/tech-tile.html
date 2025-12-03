@@ -1,7 +1,7 @@
-<a class="link" [routerLink]="'/post-types-selection'" [queryParams]="{ entityValue: tile.name, endPoint: endPoint, entity: tile.entity, context: context }">
-  <div class="tile-content">
-    <span class="icon-container" [innerHTML]="svgIconsService.returnIcon(tile.name, 'tile-icon')"></span>
-    <span>{{ tile.name }}</span>
+<a class="tile" [routerLink]="'/post-types-selection'" [queryParams]="{ entityValue: tile.name, endPoint: endPoint, entity: tile.entity, context: context }">
+  <div class="content">
+    <span class="container" [innerHTML]="svgIconsService.returnIcon(tile.name, 'tile-icon')"></span>
+    <span class="name">{{ tile.name }}</span>
   </div>
   <span class="count">{{ tile.total_counts }}</span>
 </a>
