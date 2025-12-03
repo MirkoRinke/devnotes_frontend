@@ -3,10 +3,41 @@
 @use '../../../mixins' as *;
 
 .link {
-  @include display-flex(center, center, center);
+  @include display-flex(center, center, column);
+  gap: px-to-rem(5);
   text-align: center;
   background-color: var(--page-primary-color-100);
   width: px-to-rem(160);
   height: px-to-rem(160);
   border-radius: px-to-rem(15);
+
+  .tile-content {
+    @include display-flex(center, center, column);
+    gap: px-to-rem(10);
+
+    .icon-container {
+      @include display-flex(center, center, column);
+      width: px-to-rem(80);
+      height: px-to-rem(80);
+
+      &::ng-deep .tile-icon {
+        fill: var(--font-primary-color-100);
+        width: px-to-rem(80);
+        height: px-to-rem(80);
+      }
+
+      &::ng-deep .fallbackIcon {
+        fill: var(--font-primary-color-100);
+        width: px-to-rem(60);
+        height: px-to-rem(60);
+      }
+    }
+  }
+
+  .count {
+    @include font-settings(12);
+    width: 100%;
+    text-align: end;
+    padding-right: px-to-rem(10);
+  }
 }
