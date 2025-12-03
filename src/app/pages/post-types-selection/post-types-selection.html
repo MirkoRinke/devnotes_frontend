@@ -3,6 +3,7 @@
 
   <div class="tiles">
     @for (postType of postTypes; track $index) {
+
     <a
       class="tile"
       [routerLink]="'/posts-list'"
@@ -12,8 +13,15 @@
         postType: postType.name,
         context: context
       }"
-      >{{ postType.name }} {{ postType.total_counts }} Beschreibung für {{ postType.name }}</a
     >
+      <div class="content">
+        <span class="container" [innerHTML]="svgIconsService.returnIcon(postType.name, 'tile-icon')"></span>
+        <span class="name">{{ postType.name }}</span>
+      </div>
+      <p class="description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Et nisi temporibus laborum est alias ipsa aut minus sunt nesciunt quas.</p>
+      <span class="count">{{ postType.total_counts }}</span></a
+    >
+
     }
   </div>
 </section>

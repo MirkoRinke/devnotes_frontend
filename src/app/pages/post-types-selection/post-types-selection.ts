@@ -3,6 +3,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { HttpParams } from '@angular/common/http';
 
 import { ApiService } from '../../services/api.service';
+import { SvgIconsService } from '../../services/svg.icons.service';
 
 import type { PostTypesInterface } from '../../interfaces/post-types.ts';
 import type { ApiResponseArrayInterface } from '../../interfaces/api-response';
@@ -25,7 +26,7 @@ export class PostTypesSelection {
   selectedEntity: string | null = null;
   postTypes: PostTypesInterface[] = [];
 
-  constructor(private route: ActivatedRoute, private router: Router, private apiService: ApiService) {}
+  constructor(private route: ActivatedRoute, private router: Router, private apiService: ApiService, public svgIconsService: SvgIconsService) {}
 
   ngOnInit() {
     this.route.queryParams.subscribe((params) => {
