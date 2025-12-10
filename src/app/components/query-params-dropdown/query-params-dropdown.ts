@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { AvailableValuesService } from '../../services/available-values.service';
 import { take } from 'rxjs/operators';
 
+import type { AvailableValuesInterface } from '../../interfaces/available-values';
+
 @Component({
   selector: 'app-query-params-dropdown',
   imports: [],
@@ -15,16 +17,19 @@ export class QueryParamsDropdown {
   @Input() defaultValueLabel!: string | null;
   @Input() defaultValue!: string | null;
   @Input() enableAllOption!: boolean;
+  @Input() enableSearch: boolean = false;
 
   @Input() endPoint!: string;
   @Input() params!: Array<string>;
 
-  @Input() valuesLabel!: string[];
   @Input() values!: string[];
 
   @Input() changeDetection!: string;
 
-  dropdownValues: string[] = [];
+  availableValues: AvailableValuesInterface[] = [];
+  filteredValues: AvailableValuesInterface[] = [];
+
+  showDropdownValues = false;
 
   constructor(private router: Router, private availableValuesService: AvailableValuesService) {}
 
@@ -39,7 +44,8 @@ export class QueryParamsDropdown {
         this.getAvailableValues();
       }
     } else if (this.values) {
-      this.dropdownValues = this.values;
+      this.availableValues = this.values.map((value) => ({ name: value, total_counts: 0, entity: '' }));
+      this.setShowValuesLimit();
     }
   }
 
@@ -47,13 +53,45 @@ export class QueryParamsDropdown {
    * Fetches available values from the service based on provided params and endpoint
    */
   getAvailableValues() {
-    console.log('Fetching available values for', this.key);
     this.availableValuesService
       .getAvailableValues(this.params, this.endPoint)
       .pipe(take(1))
       .subscribe((availableValues) => {
-        this.dropdownValues = availableValues.map((value) => value.name);
+        this.availableValues = availableValues.sort((a, b) => b.total_counts - a.total_counts);
+        this.setShowValuesLimit();
       });
+  }
+
+  /**
+   * Sets the limit of displayed values based on the enableSearch flag
+   */
+  setShowValuesLimit() {
+    if (this.enableSearch) {
+      this.filteredValues = this.availableValues.slice(0, 10);
+    } else {
+      this.filteredValues = this.availableValues;
+    }
+  }
+
+  /**
+   * Filters the dropdown values based on user input
+   *
+   * @param inputValue
+   */
+  filterFunction(inputValue: string) {
+    const input = (inputValue || '').toLowerCase().trim();
+    if (input.length > 0) {
+      this.filteredValues = this.availableValues.filter((value) => value.name.toLowerCase().includes(input));
+    } else {
+      this.setShowValuesLimit();
+    }
+  }
+
+  /**
+   * Toggles the visibility of the dropdown values
+   */
+  toggleDropdown() {
+    this.showDropdownValues = !this.showDropdownValues;
   }
 
   /**
@@ -74,5 +112,6 @@ export class QueryParamsDropdown {
         queryParamsHandling: 'merge',
       });
     }
+    this.showDropdownValues = false;
   }
 }

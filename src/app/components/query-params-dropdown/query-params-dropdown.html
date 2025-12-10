@@ -1,9 +1,23 @@
 <span>{{ label }}</span>
+@if (enableSearch) {
+<div class="dropdown">
+  <button (click)="toggleDropdown()">{{ defaultValueLabel }}</button>
+  @if (showDropdownValues) {
+  <div id="myDropdown" class="dropdown-content">
+    <input #searchBox type="text" placeholder="Search.." (input)="filterFunction(searchBox.value)" />
+    @for (value of filteredValues; track $index) {
+    <a (click)="onSelect(value.name)">{{ value.name }} {{ value.total_counts ? value.total_counts : '' }}</a>
+    }
+  </div>
+  }
+</div>
+} @else {
 <select #dropdown (change)="onSelect(dropdown.value)">
   <option [value]="defaultValue">{{ defaultValueLabel }}</option>
   @if (defaultValue !== '' && enableAllOption) {
   <option [value]="''">Alle</option>
-  } @for (value of dropdownValues; track $index) { @if ((valuesLabel ? valuesLabel[$index] : value) !== defaultValueLabel) {
-  <option [value]="value">{{ valuesLabel ? valuesLabel[$index] : value }}</option>
+  } @for (value of filteredValues; track $index) { @if (value.name !== defaultValueLabel) {
+  <option [value]="value.name">{{ value.name }}</option>
   } }
 </select>
+}
