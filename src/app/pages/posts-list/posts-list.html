@@ -8,6 +8,7 @@
   [defaultValueLabel]="selectedEntityValue"
   [defaultValue]="selectedEntityValue"
   [enableAllOption]="false"
+  [enableSearch]="true"
   [endPoint]="endPoint"
   [params]="entityValueParams"
   [changeDetection]="changeDetectionValue()"
@@ -41,11 +42,10 @@
 <app-query-params-dropdown
   [label]="'Sortiere nach'"
   [key]="'sort'"
-  [defaultValueLabel]="'Neuste zuerst'"
+  [defaultValueLabel]="'created_at'"
   [defaultValue]="'created_at'"
   [enableAllOption]="false"
   [endPoint]="endPoint"
-  [valuesLabel]="['Neuste zuerst', 'Älteste zuerst', 'Meiste Likes', 'Wenigste Likes']"
   [values]="['created_at', '-created_at', '-likes_count', 'likes_count']"
 >
 </app-query-params-dropdown>
