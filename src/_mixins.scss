@@ -55,7 +55,8 @@
 
 @mixin singleline-ellipsis($max-width: 100%) {
   @if unit($max-width) == 'px' {
-    max-width: px-to-rem($max-width);
+    $max-width-value: math.div($max-width, 1px);
+    max-width: px-to-rem($max-width-value);
   } @else {
     max-width: $max-width;
   }
