@@ -53,7 +53,12 @@
   -webkit-tap-highlight-color: transparent;
 }
 
-@mixin singleline-ellipsis {
+@mixin singleline-ellipsis($max-width: 100%) {
+  @if unit($max-width) == 'px' {
+    max-width: px-to-rem($max-width);
+  } @else {
+    max-width: $max-width;
+  }
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
