@@ -40,7 +40,7 @@
 
     .name {
       @include font-settings(16);
-      @include singleline-ellipsis();
+      @include singleline-ellipsis(120px);
       text-transform: capitalize;
     }
   }
