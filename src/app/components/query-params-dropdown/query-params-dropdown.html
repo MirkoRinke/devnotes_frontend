@@ -3,10 +3,10 @@
 <div class="dropdown">
   <button (click)="toggleDropdown()">{{ defaultValueLabel }}</button>
   @if (showDropdownValues) {
-  <div id="myDropdown" class="dropdown-content">
-    <input #searchBox type="text" placeholder="Search.." (input)="filterFunction(searchBox.value)" />
+  <div class="content">
+    <input type="text" placeholder="Search.." (input)="filterFunction($event.target.value)" />
     @for (value of filteredValues; track $index) {
-    <a (click)="onSelect(value.name)">{{ value.name }} {{ value.total_counts ? value.total_counts : '' }}</a>
+    <a class="value" (click)="onSelect(value.name)">{{ value.name }} {{ value.total_counts ? value.total_counts : '' }}</a>
     }
   </div>
   }
