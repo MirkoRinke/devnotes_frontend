@@ -24,7 +24,7 @@ export class QueryParamsDropdown {
 
   @Input() values!: string[];
 
-  @Input() changeDetection!: string;
+  @Input() changeDetectionToken!: string;
 
   availableValues: AvailableValuesInterface[] = [];
   filteredValues: AvailableValuesInterface[] = [];
@@ -39,7 +39,7 @@ export class QueryParamsDropdown {
    * @param changes
    */
   ngOnChanges(changes: SimpleChanges) {
-    if (this.changeDetection && changes['changeDetection']) {
+    if (this.changeDetectionToken && changes['changeDetectionToken']) {
       if (this.endPoint && this.params) {
         this.getAvailableValues();
       }

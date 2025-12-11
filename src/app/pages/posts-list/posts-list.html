@@ -11,7 +11,7 @@
   [enableSearch]="true"
   [endPoint]="endPoint"
   [params]="entityValueParams"
-  [changeDetection]="changeDetectionValue()"
+  [changeDetectionToken]="changeDetectionValue()"
 ></app-query-params-dropdown>
 
 <app-query-params-dropdown
@@ -22,7 +22,7 @@
   [enableAllOption]="false"
   [endPoint]="endPoint"
   [params]="postTypeParams"
-  [changeDetection]="changeDetectionValue()"
+  [changeDetectionToken]="changeDetectionValue()"
 ></app-query-params-dropdown>
 
 <app-query-params-dropdown
@@ -31,9 +31,10 @@
   [defaultValueLabel]="selectedCategory ? selectedCategory : 'Alle'"
   [defaultValue]="selectedCategory ? selectedCategory : ''"
   [enableAllOption]="true"
+  [enableSearch]="true"
   [endPoint]="endPoint"
   [params]="categoryParams"
-  [changeDetection]="changeDetectionValue()"
+  [changeDetectionToken]="changeDetectionValue()"
 ></app-query-params-dropdown>
 
 <app-query-params-datepicker [label]="'Startdatum'" [value]="selectedDateFrom" [key]="'dateFrom'" [min]="minDate" [max]="maxDate"></app-query-params-datepicker>
