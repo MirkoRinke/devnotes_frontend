@@ -1,11 +1,15 @@
 <section class="tech-block">
   <h2 class="heading">{{ heading }}</h2>
 
+  @if (totalPages > 1) {
+    <app-page-stepper [direction]="'backward'" [currentPage]="currentPage" [totalPages]="totalPages" (pageChange)="onPageChange($event)"></app-page-stepper>
+  }
   <div class="tiles-container">
-    @for (tile of tiles; track $index) { @if (heading === 'Favoriten' && favoriteTechStack.includes(tile.name)) {
-    <app-tech-tile [endPoint]="endPoint" [context]="context" [tile]="tile"></app-tech-tile>
-    } @else if (heading !== 'Favoriten' && !favoriteTechStack.includes(tile.name)) {
-    <app-tech-tile [endPoint]="endPoint" [context]="context" [tile]="tile"></app-tech-tile>
-    } }
+    @for (tile of paginatedTiles; track $index) {
+      <app-tech-tile [endPoint]="endPoint" [context]="context" [tile]="tile"></app-tech-tile>
+    }
   </div>
+  @if (totalPages > 1) {
+    <app-page-stepper [direction]="'forward'" [currentPage]="currentPage" [totalPages]="totalPages" (pageChange)="onPageChange($event)"></app-page-stepper>
+  }
 </section>
