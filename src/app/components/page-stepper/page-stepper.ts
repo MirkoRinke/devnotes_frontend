@@ -1,5 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
+import { SvgIconsService } from '../../services/svg.icons.service';
+
 @Component({
   selector: 'app-page-stepper',
   imports: [],
@@ -12,6 +14,8 @@ export class PageStepper {
   @Input() totalPages!: number;
 
   @Output() pageChange: EventEmitter<number> = new EventEmitter<number>();
+
+  constructor(public svgIconsService: SvgIconsService) {}
 
   ngOnInit() {
     if (!this.direction || (this.direction !== 'forward' && this.direction !== 'backward')) {

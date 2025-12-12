@@ -1,1 +1,1 @@
-<button (click)="handleClick()">{{ direction === 'forward' ? 'Next' : 'Previous' }}</button>
+<button (click)="handleClick()" [innerHTML]="svgIconsService.returnIcon(direction === 'backward' ? 'arrow_backward' : 'arrow_forward', 'direction-icon')"></button>

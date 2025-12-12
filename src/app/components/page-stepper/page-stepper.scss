@@ -1,0 +1,14 @@
+@use '../../../functions' as *;
+@use '../../../var' as var;
+@use '../../../mixins' as *;
+
+button {
+  @include button-preset();
+
+  &::ng-deep .direction-icon {
+    fill: var(--font-primary-color-100);
+    width: px-to-rem(34);
+    height: px-to-rem(34);
+    margin-right: px-to-rem(10);
+  }
+}
