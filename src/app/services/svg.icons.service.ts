@@ -1,3 +1,4 @@
+import { ArrowFunctionExpr } from '@angular/compiler';
 import { Injectable } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
@@ -98,6 +99,26 @@ export class SvgIconsService {
           </g>
         </svg>
       `,
+
+      arrow_backward: /*html*/ `
+    <svg class="${className}" viewBox="0 0 12 20" xmlns="http://www.w3.org/2000/svg">
+        <g transform="matrix(1,0,0,1,0,-2)">
+            <g transform="matrix(0.025,0,0,0.025,0,24)">
+            <path d="M400,-80L0,-480L400,-880L471,-809L142,-480L471,-151L400,-80Z"/>
+            </g>
+        </g>
+    </svg>
+    `,
+
+      arrow_forward: /*html*/ `
+    <svg class="${className}" viewBox="0 0 12 20" xmlns="http://www.w3.org/2000/svg">
+        <g transform="matrix(1,0,0,1,-6.25,-2)">
+            <g transform="matrix(0.025,0,0,0.025,0,24)">
+                <path d="M321,-80L250,-151L579,-480L250,-809L321,-880L721,-480L321,-80Z"/>
+            </g>
+        </g>
+    </svg>
+    `,
 
       // SVG_Element: /*html*/ `
       //   <svg class="${className}"></svg>
