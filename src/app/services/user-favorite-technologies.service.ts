@@ -16,7 +16,10 @@ export class UserFavoriteTechnologiesService {
   favoriteTechStack$ = this.favoriteTechStackSubject.asObservable();
   private loaded = false;
 
-  constructor(private apiService: ApiService, private authService: AuthService) {}
+  constructor(
+    private apiService: ApiService,
+    private authService: AuthService,
+  ) {}
 
   loadFavoriteTechStack() {
     if (this.loaded || !this.authService.isLoggedIn()) {
@@ -24,6 +27,8 @@ export class UserFavoriteTechnologiesService {
     }
 
     this.loaded = true;
+
+    console.log('Loading user favorite tech stack...', Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000);
 
     const options = {
       params: new HttpParams().set('select', 'favorite_techs'),
@@ -36,9 +41,11 @@ export class UserFavoriteTechnologiesService {
         const favoriteTechs = response.data.data.favorite_techs ?? [];
         const stack = favoriteTechs.map((tech) => tech.name);
         this.favoriteTechStackSubject.next(stack);
+        this.loaded = false;
       },
       error: (error) => {
         console.error('Error fetching user favorite tech stack:', error);
+        this.loaded = false;
       },
     });
   }
