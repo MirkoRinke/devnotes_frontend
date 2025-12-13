@@ -1,6 +1,6 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { Subject } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
+import { take, takeUntil, debounceTime } from 'rxjs/operators';
 
 import { TechTile } from '../tech-tile/tech-tile';
 
@@ -26,10 +26,12 @@ export class TechBlock implements OnDestroy, OnInit {
 
   pageSize = 10;
   currentPage: number = 0;
-
   totalPages: number = 0;
 
+  windowWidth: number = window.innerWidth || 1920;
+
   private destroy$ = new Subject<void>();
+  private resize$ = new Subject<void>();
 
   constructor(
     private userFavoriteTechnologiesService: UserFavoriteTechnologiesService,
@@ -53,6 +55,8 @@ export class TechBlock implements OnDestroy, OnInit {
       return;
     }
 
+    this.setPageSize();
+    this.initResizeSubscription();
     this.getAvailableValues();
     this.getUserFavoriteTechStack();
   }
@@ -60,6 +64,15 @@ export class TechBlock implements OnDestroy, OnInit {
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
+    this.resize$.complete();
+  }
+
+  /**
+   * Handles window resize events.
+   */
+  @HostListener('window:resize')
+  onResize() {
+    this.resize$.next();
   }
 
   /**
@@ -70,6 +83,35 @@ export class TechBlock implements OnDestroy, OnInit {
     const start = this.currentPage * this.pageSize;
     const pagedItems = this.filteredTiles.slice(start, start + this.pageSize);
     this.paginatedTiles = pagedItems;
+  }
+
+  /**
+   * Initializes the resize subscription to handle window resize events.
+   */
+  private initResizeSubscription() {
+    this.resize$.pipe(debounceTime(200), takeUntil(this.destroy$)).subscribe(() => {
+      this.windowWidth = window.innerWidth;
+      this.setPageSize();
+      this.pagedItems();
+    });
+  }
+
+  /**
+   * Sets the page size based on the current window width.
+   */
+  private setPageSize() {
+    console.log(this.windowWidth);
+    if (this.windowWidth >= 3440) {
+      this.pageSize = 30;
+    } else if (this.windowWidth >= 2560) {
+      this.pageSize = 22;
+    } else if (this.windowWidth >= 1920) {
+      this.pageSize = 16;
+    } else if (this.windowWidth >= 1280) {
+      this.pageSize = 10;
+    } else {
+      this.pageSize = 6;
+    }
   }
 
   /**

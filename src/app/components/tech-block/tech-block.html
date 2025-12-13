@@ -1,16 +1,30 @@
 <section class="tech-block">
   <h2 class="heading">{{ heading }}</h2>
   <div class="tech">
-    @if (totalPages > 1) {
-      <app-page-stepper [direction]="'backward'" [currentPage]="currentPage" [totalPages]="totalPages" (pageChange)="onPageChange($event)"></app-page-stepper>
-    }
+    <app-page-stepper
+      [direction]="'backward'"
+      [currentPage]="currentPage"
+      [totalPages]="totalPages"
+      (pageChange)="onPageChange($event)"
+      [attr.aria-hidden]="totalPages <= 1"
+      [class.inactive]="totalPages <= 1"
+    ></app-page-stepper>
     <div class="tiles-container">
       @for (tile of paginatedTiles; track $index) {
-        <app-tech-tile [endPoint]="endPoint" [context]="context" [tile]="tile"></app-tech-tile>
+        <app-tech-tile
+          [endPoint]="endPoint"
+          [context]="context"
+          [tile]="tile"
+        ></app-tech-tile>
       }
     </div>
-    @if (totalPages > 1) {
-      <app-page-stepper [direction]="'forward'" [currentPage]="currentPage" [totalPages]="totalPages" (pageChange)="onPageChange($event)"></app-page-stepper>
-    }
+    <app-page-stepper
+      [direction]="'forward'"
+      [currentPage]="currentPage"
+      [totalPages]="totalPages"
+      (pageChange)="onPageChange($event)"
+      [attr.aria-hidden]="totalPages <= 1"
+      [class.inactive]="totalPages <= 1"
+    ></app-page-stepper>
   </div>
 </section>

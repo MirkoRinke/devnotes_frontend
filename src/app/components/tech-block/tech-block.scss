@@ -12,7 +12,7 @@
 
   .tech {
     @include display-flex(center, center, row);
-    gap: px-to-rem(50);
+    gap: px-to-rem(25);
 
     .tiles-container {
       @include display-flex(flex-start, flex-start, row);
@@ -20,6 +20,13 @@
       flex-wrap: wrap;
       min-height: px-to-rem(370);
       width: 100%;
+    }
+  }
+
+  app-page-stepper {
+    &.inactive {
+      opacity: 0;
+      pointer-events: none;
     }
   }
 }
