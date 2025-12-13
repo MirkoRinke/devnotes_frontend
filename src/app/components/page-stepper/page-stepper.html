@@ -1,1 +1,6 @@
-<button (click)="handleClick()" [innerHTML]="svgIconsService.returnIcon(direction === 'backward' ? 'arrow_backward' : 'arrow_forward', 'direction-icon')"></button>
+<button
+  (click)="handleClick()"
+  [innerHTML]="svgIconsService.returnIcon(direction === 'backward' ? 'arrow_backward' : 'arrow_forward', 'direction-icon')"
+  type="button"
+  [attr.aria-label]="direction === 'backward' ? 'Zurück' : 'Vorwärts'"
+></button>
