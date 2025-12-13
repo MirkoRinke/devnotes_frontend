@@ -44,13 +44,15 @@
 }
 
 @mixin button-preset($padding-factor: 16) {
-  all: unset;
-  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  border: none;
   display: inline-block;
   cursor: pointer;
   text-align: center;
   user-select: none;
-  -webkit-tap-highlight-color: transparent;
 }
 
 @mixin singleline-ellipsis($max-width: 100%) {
