@@ -1,5 +1,5 @@
 <main class="community">
-  @if (searchActive || searchResultsLoaded) {
+  @if (searchResultsLoaded) {
     <app-tech-block
       [class.active]="searchActive"
       [attr.aria-hidden]="!searchActive"

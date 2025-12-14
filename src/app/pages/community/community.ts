@@ -27,6 +27,7 @@ export class Community {
 
   ngOnInit() {
     this.searchResult();
+    this.loadSearchResults();
   }
 
   ngOnDestroy() {
@@ -34,11 +35,22 @@ export class Community {
     this.destroy$.complete();
   }
 
+  /**
+   * Subscribe to search value changes to determine if a search is active
+   */
   searchResult() {
     this.searchService.searchValue.pipe(takeUntil(this.destroy$)).subscribe((inputValue) => {
       this.searchActive = inputValue.length > 0;
-      if (this.searchActive && !this.searchResultsLoaded) {
-        this.searchResultsLoaded = true;
+    });
+  }
+
+  /**
+   * Subscribe to loadSearchResults to determine if search results should be loaded
+   */
+  loadSearchResults() {
+    this.searchService.loadSearchResults.pipe(takeUntil(this.destroy$)).subscribe((load) => {
+      if (!this.searchResultsLoaded) {
+        this.searchResultsLoaded = load;
       }
     });
   }
