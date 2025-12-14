@@ -13,4 +13,8 @@ export class SearchService {
   searchValueInput(value: string) {
     this.searchValue.next(value);
   }
+
+  clear() {
+    this.searchValue.next('');
+  }
 }
