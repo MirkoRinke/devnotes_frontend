@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy, HostListener } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, HostListener, ElementRef } from '@angular/core';
 import { Subject } from 'rxjs';
 import { take, takeUntil, debounceTime } from 'rxjs/operators';
 
@@ -39,6 +39,7 @@ export class TechBlock implements OnDestroy, OnInit {
     private userFavoriteTechnologiesService: UserFavoriteTechnologiesService,
     private availableValuesService: AvailableValuesService,
     private searchService: SearchService,
+    private elementRef: ElementRef,
   ) {}
 
   availableTiles: AvailableValuesInterface[] = [];
@@ -62,15 +63,23 @@ export class TechBlock implements OnDestroy, OnInit {
     this.initResizeSubscription();
     this.getAvailableValues();
     this.getUserFavoriteTechStack();
+    this.searchValueInput();
   }
 
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
     this.resize$.complete();
+
+    if (this.version === 'search-results') {
+      this.searchService.clearDataLoaded();
+    }
   }
 
-  ngOnChanges() {
+  /**
+   * Subscribes to search value changes and filters tiles accordingly.
+   */
+  searchValueInput() {
     this.searchService.searchValue.pipe(takeUntil(this.destroy$)).subscribe((inputValue) => {
       this.filterFunction(inputValue);
     });
@@ -127,6 +136,9 @@ export class TechBlock implements OnDestroy, OnInit {
    * Sets the page size based on the current window width.
    */
   private setPageSize() {
+    const active = document.activeElement as HTMLElement | null;
+    const snapPageSize = this.pageSize;
+
     if (this.windowWidth >= 3440) {
       this.pageSize = 30;
     } else if (this.windowWidth >= 2560) {
@@ -137,6 +149,12 @@ export class TechBlock implements OnDestroy, OnInit {
       this.pageSize = 10;
     } else {
       this.pageSize = 6;
+    }
+
+    if (snapPageSize !== this.pageSize) {
+      if (active && this.elementRef.nativeElement.contains(active)) {
+        active.blur();
+      }
     }
   }
 
@@ -191,6 +209,11 @@ export class TechBlock implements OnDestroy, OnInit {
         this.availableTiles = this.sortAvailableValues(availableValues);
         this.setCurrentTiles();
         this.refreshPagination();
+        console.log(`Available values loaded for TechBlock component ${this.heading}`);
+
+        if (this.version === 'search-results') {
+          this.searchService.dataLoadedComplete();
+        }
       });
   }
 
