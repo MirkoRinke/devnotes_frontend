@@ -1,11 +1,12 @@
 <!-- TODO Temporary search component for testing purposes , to be replaced with a more advanced version later -->
+
 @if (!inputFeldVisible) {
   <button
     class="search-button"
     [innerHTML]="svgIconsService.returnIcon('search')"
     (click)="toggleInputFeld()"
   ></button>
-} @else {
+} @else if (dataLoaded && inputFeldVisible) {
   <div class="search-container">
     <button
       class="search-button"
@@ -18,5 +19,9 @@
       placeholder="Search..."
       (input)="handelSearch($event.target.value)"
     />
+  </div>
+} @else {
+  <div class="loading-spinner">
+    <span [innerHTML]="svgIconsService.returnIcon('sync')"></span>
   </div>
 }

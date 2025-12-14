@@ -14,6 +14,7 @@ import { SearchService } from '../../services/search.service';
 })
 export class Search {
   inputFeldVisible: boolean = false;
+  dataLoaded: boolean = false;
 
   private destroy$ = new Subject<void>();
 
@@ -33,6 +34,7 @@ export class Search {
         this.inputFeldVisible = false;
         this.searchService.clear();
       });
+    this.dataLoadedComplete();
   }
 
   ngOnDestroy() {
@@ -40,14 +42,32 @@ export class Search {
     this.destroy$.complete();
   }
 
+  /**
+   * Toggle the visibility of the search input field
+   */
   toggleInputFeld() {
     this.inputFeldVisible = !this.inputFeldVisible;
+    this.searchService.enableLoad();
     if (!this.inputFeldVisible) {
       this.searchService.clear();
     }
   }
 
+  /**
+   * Handle search input changes
+   *
+   * @param inputValue
+   */
   handelSearch(inputValue: string) {
     this.searchService.searchValueInput(inputValue);
+  }
+
+  /**
+   * Subscribe to dataLoaded observable to update local dataLoaded state
+   */
+  dataLoadedComplete() {
+    this.searchService.dataLoaded.pipe(takeUntil(this.destroy$)).subscribe((loaded) => {
+      this.dataLoaded = loaded;
+    });
   }
 }

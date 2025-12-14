@@ -27,3 +27,34 @@
   @include display-flex(center, center, row);
   gap: px-to-rem(20);
 }
+
+.loading-spinner {
+  @include display-flex(center, center);
+  background-color: var(--page-primary-color-100);
+  border-radius: px-to-rem(15);
+  width: px-to-rem(60);
+  height: px-to-rem(60);
+
+  span {
+    @include display-flex(center, center);
+    will-change: transform;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+    animation: spin 3s linear infinite;
+  }
+
+  &::ng-deep .sync {
+    fill: var(--font-primary-color-100);
+    width: px-to-rem(34);
+    height: px-to-rem(34);
+  }
+
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+}
