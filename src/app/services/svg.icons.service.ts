@@ -112,6 +112,7 @@ export class SvgIconsService {
       `,
 
       arrow_backward: /*html*/ `
+      <!-- Icon used are from Google Material Symbols, licensed under the Apache License 2.0. -->
     <svg class="${className}" viewBox="0 0 12 20" xmlns="http://www.w3.org/2000/svg">
         <g transform="matrix(1,0,0,1,0,-2)">
             <g transform="matrix(0.025,0,0,0.025,0,24)">
@@ -122,10 +123,22 @@ export class SvgIconsService {
     `,
 
       arrow_forward: /*html*/ `
+      <!-- Icon used are from Google Material Symbols, licensed under the Apache License 2.0. -->
     <svg class="${className}" viewBox="0 0 12 20" xmlns="http://www.w3.org/2000/svg">
         <g transform="matrix(1,0,0,1,-6.25,-2)">
             <g transform="matrix(0.025,0,0,0.025,0,24)">
                 <path d="M321,-80L250,-151L579,-480L250,-809L321,-880L721,-480L321,-80Z"/>
+            </g>
+        </g>
+    </svg>
+    `,
+
+      sync: /*html*/ `
+    <!-- Icon used are from Google Material Symbols, licensed under the Apache License 2.0. -->
+    <svg class="${className}" viewBox="0 0 16 22" xmlns="http://www.w3.org/2000/svg">
+        <g transform="matrix(1,0,0,1,-4,-1)">
+            <g transform="matrix(0.025,0,0,0.025,0,24)">
+                <path d="M204,-318C189.333,-343.333 178.333,-369.333 171,-396C163.667,-422.667 160,-450 160,-478C160,-567.333 191,-643.333 253,-706C315,-768.667 390.667,-800 480,-800L487,-800L423,-864L479,-920L639,-760L479,-600L423,-656L487,-720L480,-720C413.333,-720 356.667,-696.5 310,-649.5C263.333,-602.5 240,-545.333 240,-478C240,-460.667 242,-443.667 246,-427C250,-410.333 256,-394 264,-378L204,-318ZM481,-40L321,-200L481,-360L537,-304L473,-240L480,-240C546.667,-240 603.333,-263.5 650,-310.5C696.667,-357.5 720,-414.667 720,-482C720,-499.333 718,-516.333 714,-533C710,-549.667 704,-566 696,-582L756,-642C770.667,-616.667 781.667,-590.667 789,-564C796.333,-537.333 800,-510 800,-482C800,-392.667 769,-316.667 707,-254C645,-191.333 569.333,-160 480,-160L473,-160L537,-96L481,-40Z"/>
             </g>
         </g>
     </svg>
