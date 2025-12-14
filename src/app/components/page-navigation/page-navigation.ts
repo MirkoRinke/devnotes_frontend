@@ -3,10 +3,11 @@ import { RouterModule, ActivatedRoute, Router, NavigationEnd } from '@angular/ro
 import { filter } from 'rxjs/operators';
 
 import { SvgIconsService } from '../../services/svg.icons.service';
+import { Search } from '../search/search';
 
 @Component({
   selector: 'app-page-navigation',
-  imports: [RouterModule],
+  imports: [RouterModule, Search],
   templateUrl: './page-navigation.html',
   styleUrl: './page-navigation.scss',
 })
@@ -14,7 +15,11 @@ export class PageNavigation {
   context: string | null = null;
   activeMap: { [key: string]: boolean } = {};
 
-  constructor(private route: ActivatedRoute, private router: Router, public svgIconsService: SvgIconsService) {
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    public svgIconsService: SvgIconsService,
+  ) {
     this.route.queryParams.subscribe((params) => {
       this.context = params['context'] || null;
     });

@@ -1,24 +1,51 @@
 <nav class="page-navigation">
-  <a class="link" [routerLink]="'/my-area'" [class.active]="isActive('my-area')">
-    <span class="icon-container" [innerHTML]="svgIconsService.returnIcon('myArea')"></span>
+  <a
+    class="link"
+    [routerLink]="'/my-area'"
+    [class.active]="isActive('my-area')"
+  >
+    <span
+      class="icon-container"
+      [innerHTML]="svgIconsService.returnIcon('myArea')"
+    ></span>
     Mein Bereich
   </a>
 
-  <a class="link" [routerLink]="'/favorites'" [class.active]="isActive('favorites')">
-    <span class="icon-container" [innerHTML]="svgIconsService.returnIcon('favorites')"></span>
+  <a
+    class="link"
+    [routerLink]="'/favorites'"
+    [class.active]="isActive('favorites')"
+  >
+    <span
+      class="icon-container"
+      [innerHTML]="svgIconsService.returnIcon('favorites')"
+    ></span>
     Favoriten
   </a>
 
-  <!-- Todo Make Search Component later, for use query params -->
-  <button class="search-button" [innerHTML]="svgIconsService.returnIcon('search')"></button>
+  <app-search></app-search>
 
-  <a class="link" [routerLink]="'/network'" [class.active]="isActive('network')">
-    <span class="icon-container" [innerHTML]="svgIconsService.returnIcon('network')"></span>
+  <a
+    class="link"
+    [routerLink]="'/network'"
+    [class.active]="isActive('network')"
+  >
+    <span
+      class="icon-container"
+      [innerHTML]="svgIconsService.returnIcon('network')"
+    ></span>
     Netzwerk
   </a>
 
-  <a class="link" [routerLink]="'/community'" [class.active]="isActive('community')">
-    <span class="icon-container" [innerHTML]="svgIconsService.returnIcon('community')"></span>
+  <a
+    class="link"
+    [routerLink]="'/community'"
+    [class.active]="isActive('community')"
+  >
+    <span
+      class="icon-container"
+      [innerHTML]="svgIconsService.returnIcon('community')"
+    ></span>
     Community</a
   >
 </nav>
