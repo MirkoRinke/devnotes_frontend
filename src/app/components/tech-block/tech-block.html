@@ -1,5 +1,7 @@
 <section class="tech-block">
-  <h2 class="heading">{{ heading }}</h2>
+  <header class="header">
+    <h2 class="heading">{{ heading }} | {{ currentPage + 1 }} / {{ totalPages }}</h2>
+  </header>
   <div class="tech">
     <app-page-stepper
       [direction]="'backward'"
@@ -7,7 +9,7 @@
       [totalPages]="totalPages"
       (pageChange)="onPageChange($event)"
       [attr.aria-hidden]="totalPages <= 1"
-      [class.inactive]="totalPages <= 1"
+      [class.active]="totalPages > 1"
     ></app-page-stepper>
     <div class="tiles-container">
       @for (tile of paginatedTiles; track $index) {
@@ -24,7 +26,7 @@
       [totalPages]="totalPages"
       (pageChange)="onPageChange($event)"
       [attr.aria-hidden]="totalPages <= 1"
-      [class.inactive]="totalPages <= 1"
+      [class.active]="totalPages > 1"
     ></app-page-stepper>
   </div>
 </section>

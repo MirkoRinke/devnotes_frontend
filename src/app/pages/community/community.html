@@ -1,11 +1,51 @@
 <main class="community">
+  @if (searchActive || searchResultsLoaded) {
+    <app-tech-block
+      [class.active]="searchActive"
+      [attr.aria-hidden]="!searchActive"
+      [heading]="'Suchergebnisse'"
+      [version]="'search-results'"
+      [endPoint]="'POSTS'"
+      [context]="'community'"
+      [params]="['?select=count:languages.name', '?select=count:technologies.name']"
+    ></app-tech-block>
+  }
   @if (authService.isLoggedIn()) {
-  <app-tech-block [heading]="'Favoriten'" [endPoint]="'POSTS'" [context]="'community'" [params]="['?select=count:languages.name', '?select=count:technologies.name']"></app-tech-block>
+    <app-tech-block
+      [class.active]="!searchActive"
+      [attr.aria-hidden]="searchActive"
+      [heading]="'Favoriten'"
+      [version]="'favorites'"
+      [endPoint]="'POSTS'"
+      [context]="'community'"
+      [params]="['?select=count:languages.name', '?select=count:technologies.name']"
+    ></app-tech-block>
   } @else {
-  <app-guest-teaser-prompt [title]="'Favoriten'" [message]="'Bitte melde dich an, um deine Favoriten zu sehen.'" [buttonText]="'Anmelden'" [buttonLink]="'/login'"></app-guest-teaser-prompt>
+    <app-guest-teaser-prompt
+      [title]="'Favoriten'"
+      [message]="'Bitte melde dich an, um deine Favoriten zu sehen.'"
+      [buttonText]="'Anmelden'"
+      [buttonLink]="'/login'"
+    ></app-guest-teaser-prompt>
   }
 
-  <app-tech-block [heading]="'Sprachen / Frameworks'" [endPoint]="'POSTS'" [context]="'community'" [params]="['?select=count:languages.name']"></app-tech-block>
+  <app-tech-block
+    [class.active]="!searchActive"
+    [attr.aria-hidden]="searchActive"
+    [heading]="'Sprachen / Frameworks'"
+    [version]="'default'"
+    [endPoint]="'POSTS'"
+    [context]="'community'"
+    [params]="['?select=count:languages.name']"
+  ></app-tech-block>
 
-  <app-tech-block [heading]="'Tools'" [endPoint]="'POSTS'" [context]="'community'" [params]="['?select=count:technologies.name']"></app-tech-block>
+  <app-tech-block
+    [class.active]="!searchActive"
+    [attr.aria-hidden]="searchActive"
+    [heading]="'Tools'"
+    [version]="'default'"
+    [endPoint]="'POSTS'"
+    [context]="'community'"
+    [params]="['?select=count:technologies.name']"
+  ></app-tech-block>
 </main>

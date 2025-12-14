@@ -5,9 +5,14 @@
 .tech-block {
   margin-bottom: px-to-rem(40);
 
-  .heading {
-    @include font-settings(24);
+  .header {
+    @include display-flex(center, start, row);
+    gap: px-to-rem(50);
     margin-bottom: px-to-rem(25);
+
+    .heading {
+      @include font-settings(24);
+    }
   }
 
   .tech {
@@ -24,7 +29,7 @@
   }
 
   app-page-stepper {
-    &.inactive {
+    &:not(.active) {
       opacity: 0;
       pointer-events: none;
     }

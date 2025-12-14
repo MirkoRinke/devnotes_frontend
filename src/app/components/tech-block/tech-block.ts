@@ -3,6 +3,7 @@ import { Subject } from 'rxjs';
 import { take, takeUntil, debounceTime } from 'rxjs/operators';
 
 import { TechTile } from '../tech-tile/tech-tile';
+import { PageStepper } from '../page-stepper/page-stepper';
 
 import type { AvailableValuesInterface } from '../../interfaces/available-values';
 
@@ -10,7 +11,7 @@ import { ApiEndpointEnums } from '../../enums/api-endpoint';
 
 import { UserFavoriteTechnologiesService } from '../../services/user-favorite-technologies.service';
 import { AvailableValuesService } from '../../services/available-values.service';
-import { PageStepper } from '../page-stepper/page-stepper';
+import { SearchService } from '../../services/search.service';
 
 @Component({
   selector: 'app-tech-block',
@@ -20,6 +21,7 @@ import { PageStepper } from '../page-stepper/page-stepper';
 })
 export class TechBlock implements OnDestroy, OnInit {
   @Input() heading!: string;
+  @Input() version!: 'default' | 'favorites' | 'search-results';
   @Input() endPoint!: string;
   @Input() params!: Array<string>;
   @Input() context?: string;
@@ -36,6 +38,7 @@ export class TechBlock implements OnDestroy, OnInit {
   constructor(
     private userFavoriteTechnologiesService: UserFavoriteTechnologiesService,
     private availableValuesService: AvailableValuesService,
+    private searchService: SearchService,
   ) {}
 
   availableTiles: AvailableValuesInterface[] = [];
@@ -67,6 +70,12 @@ export class TechBlock implements OnDestroy, OnInit {
     this.resize$.complete();
   }
 
+  ngOnChanges() {
+    this.searchService.searchValue.pipe(takeUntil(this.destroy$)).subscribe((inputValue) => {
+      this.filterFunction(inputValue);
+    });
+  }
+
   /**
    * Handles window resize events.
    */
@@ -76,10 +85,28 @@ export class TechBlock implements OnDestroy, OnInit {
   }
 
   /**
+   * Refreshes the pagination by updating the pagination state and paginating the items.
+   */
+  private refreshPagination() {
+    this.updatePaginationState();
+    this.pagedItems();
+  }
+
+  /**
+   * Updates the pagination state based on the filtered tiles.
+   */
+  private updatePaginationState() {
+    this.totalPages = Math.max(1, Math.ceil(this.filteredTiles.length / this.pageSize));
+
+    if (this.currentPage > this.totalPages - 1) {
+      this.currentPage = 0;
+    }
+  }
+
+  /**
    * Paginates the items based on the current page and page size.
    */
   private pagedItems() {
-    this.setCurrentTiles();
     const start = this.currentPage * this.pageSize;
     const pagedItems = this.filteredTiles.slice(start, start + this.pageSize);
     this.paginatedTiles = pagedItems;
@@ -92,7 +119,7 @@ export class TechBlock implements OnDestroy, OnInit {
     this.resize$.pipe(debounceTime(200), takeUntil(this.destroy$)).subscribe(() => {
       this.windowWidth = window.innerWidth;
       this.setPageSize();
-      this.pagedItems();
+      this.refreshPagination();
     });
   }
 
@@ -100,7 +127,6 @@ export class TechBlock implements OnDestroy, OnInit {
    * Sets the page size based on the current window width.
    */
   private setPageSize() {
-    console.log(this.windowWidth);
     if (this.windowWidth >= 3440) {
       this.pageSize = 30;
     } else if (this.windowWidth >= 2560) {
@@ -118,22 +144,29 @@ export class TechBlock implements OnDestroy, OnInit {
    * Sets the current tiles based on the heading.
    */
   private setCurrentTiles() {
-    if (this.heading === 'Favoriten') {
+    if (this.version === 'favorites') {
       this.filteredTiles = this.availableTiles.filter((tile) => this.favoriteTechStack.includes(tile.name));
+    } else if (this.version === 'search-results') {
+      this.filteredTiles = this.availableTiles;
     } else {
       this.filteredTiles = this.availableTiles.filter((tile) => !this.favoriteTechStack.includes(tile.name));
     }
-    this.updatePaginationState();
   }
 
   /**
-   * Updates the pagination state based on the filtered tiles.
+   * Filters the tiles based on user input.
+   *
+   * @param inputValue
    */
-  private updatePaginationState() {
-    this.totalPages = Math.max(1, Math.ceil(this.filteredTiles.length / this.pageSize));
-
-    if (this.currentPage > this.totalPages - 1) {
-      this.currentPage = 0;
+  filterFunction(inputValue: string) {
+    const input = (inputValue || '').toLowerCase().trim();
+    if (input.length > 0) {
+      this.setCurrentTiles();
+      this.filteredTiles = this.filteredTiles.filter((tile) => tile.name.toLowerCase().includes(input));
+      this.refreshPagination();
+    } else {
+      this.setCurrentTiles();
+      this.refreshPagination();
     }
   }
 
@@ -144,7 +177,7 @@ export class TechBlock implements OnDestroy, OnInit {
    */
   onPageChange(newPage: number) {
     this.currentPage = newPage;
-    this.pagedItems();
+    this.refreshPagination();
   }
 
   /**
@@ -156,7 +189,8 @@ export class TechBlock implements OnDestroy, OnInit {
       .pipe(take(1))
       .subscribe((availableValues) => {
         this.availableTiles = this.sortAvailableValues(availableValues);
-        this.pagedItems();
+        this.setCurrentTiles();
+        this.refreshPagination();
       });
   }
 
@@ -181,7 +215,8 @@ export class TechBlock implements OnDestroy, OnInit {
   private getUserFavoriteTechStack() {
     this.userFavoriteTechnologiesService.favoriteTechStack$.pipe(takeUntil(this.destroy$)).subscribe((stack) => {
       this.favoriteTechStack = stack;
-      this.pagedItems();
+      this.setCurrentTiles();
+      this.refreshPagination();
     });
     this.userFavoriteTechnologiesService.loadFavoriteTechStack();
   }
