@@ -1,8 +1,8 @@
 <main class="community">
-  @if (searchResultsLoaded) {
+  @if (searchService.showSearchResults$ | async) {
     <app-tech-block
-      [class.active]="searchActive"
-      [attr.aria-hidden]="!searchActive"
+      [class.active]="searchService.searchActive$ | async"
+      [attr.aria-hidden]="!(searchService.searchActive$ | async)"
       [heading]="'Suchergebnisse'"
       [version]="'search-results'"
       [endPoint]="'POSTS'"
@@ -12,8 +12,8 @@
   }
   @if (authService.isLoggedIn()) {
     <app-tech-block
-      [class.active]="!searchActive"
-      [attr.aria-hidden]="searchActive"
+      [class.active]="!(searchService.searchActive$ | async)"
+      [attr.aria-hidden]="searchService.searchActive$ | async"
       [heading]="'Favoriten'"
       [version]="'favorites'"
       [endPoint]="'POSTS'"
@@ -30,8 +30,8 @@
   }
 
   <app-tech-block
-    [class.active]="!searchActive"
-    [attr.aria-hidden]="searchActive"
+    [class.active]="!(searchService.searchActive$ | async)"
+    [attr.aria-hidden]="searchService.searchActive$ | async"
     [heading]="'Sprachen / Frameworks'"
     [version]="'default'"
     [endPoint]="'POSTS'"
@@ -40,8 +40,8 @@
   ></app-tech-block>
 
   <app-tech-block
-    [class.active]="!searchActive"
-    [attr.aria-hidden]="searchActive"
+    [class.active]="!(searchService.searchActive$ | async)"
+    [attr.aria-hidden]="searchService.searchActive$ | async"
     [heading]="'Tools'"
     [version]="'default'"
     [endPoint]="'POSTS'"
