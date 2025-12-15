@@ -1,51 +1,60 @@
 <nav class="page-navigation">
-  <a
-    class="link"
-    [routerLink]="'/my-area'"
-    [class.active]="isActive('my-area')"
-  >
-    <span
-      class="icon-container"
-      [innerHTML]="svgIconsService.returnIcon('myArea')"
-    ></span>
-    Mein Bereich
-  </a>
-
-  <a
-    class="link"
-    [routerLink]="'/favorites'"
-    [class.active]="isActive('favorites')"
-  >
-    <span
-      class="icon-container"
-      [innerHTML]="svgIconsService.returnIcon('favorites')"
-    ></span>
-    Favoriten
-  </a>
-
-  <app-search></app-search>
-
-  <a
-    class="link"
-    [routerLink]="'/network'"
-    [class.active]="isActive('network')"
-  >
-    <span
-      class="icon-container"
-      [innerHTML]="svgIconsService.returnIcon('network')"
-    ></span>
-    Netzwerk
-  </a>
-
-  <a
-    class="link"
-    [routerLink]="'/community'"
-    [class.active]="isActive('community')"
-  >
-    <span
-      class="icon-container"
-      [innerHTML]="svgIconsService.returnIcon('community')"
-    ></span>
-    Community</a
-  >
+  <button
+    class="search-button"
+    [class.active]="searchService.enableSearch$ | async"
+    [innerHTML]="svgIconsService.returnIcon(showSearch ? 'search_close' : 'search')"
+    (click)="toggleSearch()"
+    [attr.aria-disabled]="!(searchService.enableSearch$ | async)"
+    [disabled]="!(searchService.enableSearch$ | async)"
+  ></button>
+  @if (showSearch) {
+    <app-search></app-search>
+  } @else {
+    <div class="links">
+      <a
+        class="link"
+        [routerLink]="'/my-area'"
+        [class.active]="isActive('my-area')"
+      >
+        <span
+          class="icon-container"
+          [innerHTML]="svgIconsService.returnIcon('myArea')"
+        ></span>
+        Mein Bereich
+      </a>
+      <a
+        class="link"
+        [routerLink]="'/favorites'"
+        [class.active]="isActive('favorites')"
+      >
+        <span
+          class="icon-container"
+          [innerHTML]="svgIconsService.returnIcon('favorites')"
+        ></span>
+        Favoriten
+      </a>
+      <a
+        class="link"
+        [routerLink]="'/network'"
+        [class.active]="isActive('network')"
+      >
+        <span
+          class="icon-container"
+          [innerHTML]="svgIconsService.returnIcon('network')"
+        ></span>
+        Netzwerk
+      </a>
+      <a
+        class="link"
+        [routerLink]="'/community'"
+        [class.active]="isActive('community')"
+      >
+        <span
+          class="icon-container"
+          [innerHTML]="svgIconsService.returnIcon('community')"
+        ></span>
+        Community</a
+      >
+    </div>
+  }
 </nav>

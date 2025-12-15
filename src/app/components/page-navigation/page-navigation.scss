@@ -5,33 +5,65 @@
 .page-navigation {
   @include display-flex(center, center);
   gap: px-to-rem(25);
+  padding-right: px-to-rem(85);
 
-  .link {
+  .search-button {
+    @include button-preset();
     @include golden-ratio-padding();
     @include display-flex(center, center);
-    @include font-settings();
     background-color: var(--page-primary-color-100);
     border-radius: px-to-rem(15);
-    width: px-to-rem(210);
+    width: px-to-rem(60);
     height: px-to-rem(60);
 
     &:hover {
       box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-50);
     }
 
-    &.active {
-      box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-100);
+    &::ng-deep .search,
+    &::ng-deep .search_close {
+      fill: var(--font-primary-color-100);
+      width: px-to-rem(34);
+      height: px-to-rem(34);
     }
 
-    .icon-container {
-      &::ng-deep .myArea,
-      &::ng-deep .favorites,
-      &::ng-deep .network,
-      &::ng-deep .community {
-        fill: var(--font-primary-color-100);
-        width: px-to-rem(34);
-        height: px-to-rem(34);
-        margin-right: px-to-rem(10);
+    &:not(.active) {
+      opacity: 0;
+      pointer-events: none;
+    }
+  }
+
+  .links {
+    @include display-flex(center, center);
+    gap: px-to-rem(25);
+
+    .link {
+      @include golden-ratio-padding();
+      @include display-flex(center, center);
+      @include font-settings();
+      background-color: var(--page-primary-color-100);
+      border-radius: px-to-rem(15);
+      width: px-to-rem(210);
+      height: px-to-rem(60);
+
+      &:hover {
+        box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-50);
+      }
+
+      &.active {
+        box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-100);
+      }
+
+      .icon-container {
+        &::ng-deep .myArea,
+        &::ng-deep .favorites,
+        &::ng-deep .network,
+        &::ng-deep .community {
+          fill: var(--font-primary-color-100);
+          width: px-to-rem(34);
+          height: px-to-rem(34);
+          margin-right: px-to-rem(10);
+        }
       }
     }
   }
