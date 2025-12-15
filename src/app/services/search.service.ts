@@ -1,14 +1,37 @@
 import { Injectable } from '@angular/core';
-
 import { BehaviorSubject } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class SearchService {
-  searchValue = new BehaviorSubject<string>('');
-  loadSearchResults = new BehaviorSubject<boolean>(false);
-  dataLoaded = new BehaviorSubject<boolean>(false);
+  private _searchValue = new BehaviorSubject<string>('');
+  private _showSearchResults = new BehaviorSubject<boolean>(false);
+  private _dataLoaded = new BehaviorSubject<boolean>(false);
+  private _enableSearch = new BehaviorSubject<boolean>(false);
+  private _searchActive = new BehaviorSubject<boolean>(false);
+
+  searchValue$ = this._searchValue.asObservable();
+  showSearchResults$ = this._showSearchResults.asObservable();
+  dataLoaded$ = this._dataLoaded.asObservable();
+  enableSearch$ = this._enableSearch.asObservable();
+  searchActive$ = this._searchActive.asObservable();
+
+  /**
+   * Enable or disable search functionality
+   *
+   * @param enable
+   */
+  enableSearch(enable: boolean) {
+    this._enableSearch.next(enable);
+  }
+
+  /**
+   * Get current enableSearch value
+   *
+   * @returns
+   */
+  get enableSearchValue(): boolean {
+    return this._enableSearch.getValue();
+  }
 
   /**
    * Set search value
@@ -16,35 +39,44 @@ export class SearchService {
    * @param value
    */
   searchValueInput(value: string) {
-    this.searchValue.next(value);
+    this._searchValue.next(value);
+    this.setSearchActive(value.length > 0);
   }
 
   /**
-   * Clear search data and enable loading of search results
+   * Set search active state
+   *
+   * @param state
+   */
+  private setSearchActive(state: boolean) {
+    this._searchActive.next(state);
+  }
+
+  /**
+   * Load search results
+   *
+   * @param state
+   */
+  showSearchResults(state: boolean = true) {
+    this._showSearchResults.next(state);
+  }
+
+  /**
+   * Set data loaded state
+   *
+   * @param state
+   */
+  dataLoaded(state: boolean = true) {
+    this._dataLoaded.next(state);
+  }
+
+  /**
+   * Clear search state
    */
   clear() {
-    this.searchValue.next('');
-    this.loadSearchResults.next(false);
-  }
-
-  /**
-   * Enable loading of search results
-   */
-  enableLoad() {
-    this.loadSearchResults.next(true);
-  }
-
-  /**
-   * Clear data loaded state
-   */
-  clearDataLoaded() {
-    this.dataLoaded.next(false);
-  }
-
-  /**
-   * Mark data as loaded
-   */
-  dataLoadedComplete() {
-    this.dataLoaded.next(true);
+    this.searchValueInput('');
+    this.showSearchResults(false);
+    this.setSearchActive(false);
+    this.dataLoaded(false);
   }
 }
