@@ -72,7 +72,7 @@ export class TechBlock implements OnDestroy, OnInit {
     this.resize$.complete();
 
     if (this.version === 'search-results') {
-      this.searchService.clearDataLoaded();
+      this.searchService.clear();
     }
   }
 
@@ -80,7 +80,7 @@ export class TechBlock implements OnDestroy, OnInit {
    * Subscribes to search value changes and filters tiles accordingly.
    */
   searchValueInput() {
-    this.searchService.searchValue.pipe(takeUntil(this.destroy$)).subscribe((inputValue) => {
+    this.searchService.searchValue$.pipe(takeUntil(this.destroy$)).subscribe((inputValue) => {
       this.filterFunction(inputValue);
     });
   }
@@ -212,7 +212,7 @@ export class TechBlock implements OnDestroy, OnInit {
         console.log(`Available values loaded for TechBlock component ${this.heading}`);
 
         if (this.version === 'search-results') {
-          this.searchService.dataLoadedComplete();
+          this.searchService.dataLoaded(true);
         }
       });
   }
