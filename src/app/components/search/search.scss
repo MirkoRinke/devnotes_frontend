@@ -2,27 +2,6 @@
 @use '../../../var' as var;
 @use '../../../mixins' as *;
 
-.search-button {
-  @include button-preset();
-  @include golden-ratio-padding();
-  @include display-flex(center, center);
-  background-color: var(--page-primary-color-100);
-  border-radius: px-to-rem(15);
-  width: px-to-rem(60);
-  height: px-to-rem(60);
-
-  &:hover {
-    box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-50);
-  }
-
-  &::ng-deep .search,
-  &::ng-deep .search_close {
-    fill: var(--font-primary-color-100);
-    width: px-to-rem(34);
-    height: px-to-rem(34);
-  }
-}
-
 .search-container {
   @include display-flex(center, center, row);
   gap: px-to-rem(20);

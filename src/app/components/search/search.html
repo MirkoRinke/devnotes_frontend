@@ -1,23 +1,12 @@
 <!-- TODO Temporary search component for testing purposes , to be replaced with a more advanced version later -->
 
-@if (!inputFeldVisible) {
-  <button
-    class="search-button"
-    [innerHTML]="svgIconsService.returnIcon('search')"
-    (click)="toggleInputFeld()"
-  ></button>
-} @else if (dataLoaded && inputFeldVisible) {
+@if (searchService.dataLoaded$ | async) {
   <div class="search-container">
-    <button
-      class="search-button"
-      [innerHTML]="svgIconsService.returnIcon('search_close')"
-      (click)="toggleInputFeld()"
-    ></button>
     <input
       type="text"
       class="search-input"
       placeholder="Search..."
-      (input)="handelSearch($event.target.value)"
+      (input)="searchService.searchValueInput($event.target.value)"
     />
   </div>
 } @else {
