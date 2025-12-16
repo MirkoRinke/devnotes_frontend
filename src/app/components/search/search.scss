@@ -2,38 +2,63 @@
 @use '../../../var' as var;
 @use '../../../mixins' as *;
 
-.search-container {
-  @include display-flex(center, center, row);
-  gap: px-to-rem(20);
-}
-
-.loading-spinner {
+.search {
   @include display-flex(center, center);
+  min-height: 100%;
+  padding: px-to-rem(15);
+  gap: px-to-rem(15);
+
   background-color: var(--page-primary-color-100);
   border-radius: px-to-rem(15);
-  width: px-to-rem(60);
-  height: px-to-rem(60);
 
-  span {
+  overflow: hidden;
+
+  width: 0%;
+  min-width: 0;
+  opacity: 0;
+
+  &.active {
+    animation: expand-min 2s ease-in-out forwards;
+    transition: box-shadow var.$transition-duration-medium ease-in-out;
+  }
+
+  &:focus-within {
+    box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-50);
+  }
+
+  .search-input {
+    padding: px-to-rem(10) px-to-rem(15);
+    border-radius: px-to-rem(15);
+    border: none;
+    height: px-to-rem(30);
+
+    /**
+    * TODO Make this dynamic based on the available space
+    */
+    // flex-grow: 1;
+    min-width: px-to-rem(649);
+
+    transition: box-shadow var.$transition-duration-fast ease;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .settings {
     @include display-flex(center, center);
-    will-change: transform;
-    backface-visibility: hidden;
-    transform: translateZ(0);
-    animation: spin 3s linear infinite;
+    gap: px-to-rem(15);
+    height: 100%;
+    min-width: max-content;
   }
+}
 
-  &::ng-deep .sync {
-    fill: var(--font-primary-color-100);
-    width: px-to-rem(34);
-    height: px-to-rem(34);
+@keyframes expand-min {
+  0% {
+    min-width: 0%;
   }
-
-  @keyframes spin {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
+  100% {
+    min-width: 100%;
+    opacity: 1;
   }
 }

@@ -1,16 +1,19 @@
 <!-- TODO Temporary search component for testing purposes , to be replaced with a more advanced version later -->
 
-@if (searchService.dataLoaded$ | async) {
-  <div class="search-container">
-    <input
-      type="text"
-      class="search-input"
-      placeholder="Search..."
-      (input)="searchService.searchValueInput($event.target.value)"
-    />
+<div
+  [class.active]="active && (searchService.dataLoaded$ | async)"
+  class="search"
+>
+  <input
+    type="text"
+    class="search-input"
+    placeholder="Search..."
+    (input)="searchService.searchValueInput($event.target.value)"
+  />
+  <div class="settings">
+    <span [innerHTML]="svgIconsService.returnIcon('placeholder')"></span>
+    <span [innerHTML]="svgIconsService.returnIcon('placeholder')"></span>
+    <span [innerHTML]="svgIconsService.returnIcon('placeholder')"></span>
+    <span [innerHTML]="svgIconsService.returnIcon('placeholder')"></span>
   </div>
-} @else {
-  <div class="loading-spinner">
-    <span [innerHTML]="svgIconsService.returnIcon('sync')"></span>
-  </div>
-}
+</div>
