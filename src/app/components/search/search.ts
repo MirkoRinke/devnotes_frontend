@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { SvgIconsService } from '../../services/svg.icons.service';
@@ -11,6 +11,8 @@ import { SearchService } from '../../services/search.service';
   styleUrl: './search.scss',
 })
 export class Search {
+  @Input() active: boolean = false;
+
   constructor(
     public svgIconsService: SvgIconsService,
     public searchService: SearchService,
