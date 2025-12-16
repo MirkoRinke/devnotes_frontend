@@ -38,3 +38,15 @@ img {
   height: px-to-rem(34);
   margin-right: px-to-rem(10);
 }
+
+@supports (scrollbar-gutter: stable) {
+  html {
+    scrollbar-gutter: stable;
+  }
+}
+@supports not (scrollbar-gutter: stable) {
+  html {
+    overflow-y: scroll;
+    scrollbar-color: rgb(60, 60, 60) transparent;
+  }
+}
