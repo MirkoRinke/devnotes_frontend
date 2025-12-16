@@ -11,6 +11,8 @@
   padding-top: px-to-rem(25);
   padding-bottom: px-to-rem(10);
 
+  transition: box-shadow var.$transition-duration-medium ease-in-out;
+
   &:hover {
     box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-50);
   }
