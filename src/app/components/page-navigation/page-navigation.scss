@@ -16,53 +16,99 @@
     width: px-to-rem(60);
     height: px-to-rem(60);
 
+    transition: box-shadow var.$transition-duration-medium ease-in-out;
     &:hover {
       box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-50);
     }
 
-    &::ng-deep .search,
-    &::ng-deep .search_close {
-      fill: var(--font-primary-color-100);
-      width: px-to-rem(34);
-      height: px-to-rem(34);
+    span {
+      &.spin {
+        @include display-flex(center, center);
+        will-change: transform;
+        backface-visibility: hidden;
+        transform: translateZ(0);
+        animation: spin 3s linear infinite;
+      }
+
+      &::ng-deep .search,
+      &::ng-deep .search_close,
+      &::ng-deep .sync {
+        fill: var(--font-primary-color-100);
+        width: px-to-rem(34);
+        height: px-to-rem(34);
+      }
     }
 
     &:not(.active) {
       opacity: 0;
       pointer-events: none;
     }
+
+    @keyframes spin {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
   }
 
-  .links {
+  .elements {
     @include display-flex(center, center);
-    gap: px-to-rem(25);
+    position: relative;
 
-    .link {
-      @include golden-ratio-padding();
+    .search {
       @include display-flex(center, center);
-      @include font-settings();
-      background-color: var(--page-primary-color-100);
-      border-radius: px-to-rem(15);
-      width: px-to-rem(210);
-      height: px-to-rem(60);
+      gap: px-to-rem(25);
+      position: absolute;
+      height: 100%;
+      width: 100%;
 
-      &:hover {
-        box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-50);
+      &:not(.active) {
+        opacity: 0;
+        pointer-events: none;
+      }
+    }
+
+    .links {
+      @include display-flex(center, center);
+      gap: px-to-rem(25);
+
+      &:not(.active) {
+        opacity: 0;
+        pointer-events: none;
       }
 
-      &.active {
-        box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-100);
-      }
+      .link {
+        @include golden-ratio-padding();
+        @include display-flex(center, center);
+        @include font-settings();
+        background-color: var(--page-primary-color-100);
+        border-radius: px-to-rem(15);
+        width: px-to-rem(210);
+        height: px-to-rem(60);
 
-      .icon-container {
-        &::ng-deep .myArea,
-        &::ng-deep .favorites,
-        &::ng-deep .network,
-        &::ng-deep .community {
-          fill: var(--font-primary-color-100);
-          width: px-to-rem(34);
-          height: px-to-rem(34);
-          margin-right: px-to-rem(10);
+        transition: box-shadow var.$transition-duration-medium ease-in-out;
+
+        &:hover {
+          box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-50);
+        }
+
+        &.active {
+          box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-100);
+        }
+
+        .icon-container {
+          &::ng-deep .myArea,
+          &::ng-deep .favorites,
+          &::ng-deep .network,
+          &::ng-deep .community {
+            fill: var(--font-primary-color-100);
+            width: px-to-rem(34);
+            height: px-to-rem(34);
+            margin-right: px-to-rem(10);
+          }
         }
       }
     }
