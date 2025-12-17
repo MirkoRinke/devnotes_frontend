@@ -2,8 +2,12 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { HttpParams } from '@angular/common/http';
 
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
 import { ApiService } from '../../services/api.service';
 import { SvgIconsService } from '../../services/svg.icons.service';
+import { SearchService } from '../../services/search.service';
 
 import type { PostTypesInterface } from '../../interfaces/post-types.ts';
 import type { ApiResponseArrayInterface } from '../../interfaces/api-response';
@@ -25,8 +29,17 @@ export class PostTypesSelection {
   selectedEntityValue: string | null = null;
   selectedEntity: string | null = null;
   postTypes: PostTypesInterface[] = [];
+  filteredPostTypes: PostTypesInterface[] = [];
 
-  constructor(private route: ActivatedRoute, private router: Router, private apiService: ApiService, public svgIconsService: SvgIconsService) {}
+  private destroy$ = new Subject<void>();
+
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private apiService: ApiService,
+    public svgIconsService: SvgIconsService,
+    public searchService: SearchService,
+  ) {}
 
   ngOnInit() {
     this.route.queryParams.subscribe((params) => {
@@ -38,7 +51,42 @@ export class PostTypesSelection {
 
       this.setSelectedValues(parsed);
       this.getPostTypesForEntity(parsed);
+      this.searchValueInput();
+
+      this.searchService.enableSearch(true);
     });
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+
+    this.searchService.clear();
+    this.searchService.enableSearch(false);
+  }
+
+  /**
+   * Subscribe to search input changes
+   */
+  searchValueInput() {
+    this.searchService.searchValue$.pipe(takeUntil(this.destroy$)).subscribe((inputValue) => {
+      this.filterFunction(inputValue);
+    });
+  }
+
+  /**
+   * Filter post types based on search input
+   *
+   * @param inputValue
+   */
+  private filterFunction(inputValue: string) {
+    const searchTerm = inputValue.toLowerCase().trim();
+    this.filteredPostTypes = this.postTypes;
+    if (searchTerm.length > 0) {
+      this.filteredPostTypes = this.filteredPostTypes.filter((postType) => postType.name.toLowerCase().includes(searchTerm));
+    } else {
+      this.filteredPostTypes = this.postTypes;
+    }
   }
 
   /**
@@ -101,6 +149,9 @@ export class PostTypesSelection {
     this.apiService.get<ApiResponseArrayInterface<PostTypesInterface>>(url).subscribe({
       next: (response) => {
         this.postTypes = this.sortAvailablePostTypes(response.data.data);
+        this.filteredPostTypes = this.postTypes;
+
+        this.searchService.dataLoaded(true);
 
         if (this.postTypes.length === 0) {
           this.router.navigate(['/']);
