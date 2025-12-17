@@ -20,6 +20,7 @@ export class PageNavigation {
   activeMap: { [key: string]: boolean } = {};
 
   showSearch: boolean = false;
+  delayedSearch: boolean = false;
 
   private destroy$ = new Subject<void>();
 
@@ -108,13 +109,20 @@ export class PageNavigation {
     }
 
     this.showSearch = !this.showSearch;
+
     if (this.showSearch) {
       this.searchService.showSearchResults();
+      setTimeout(() => {
+        this.delayedSearch = true;
+      }, 250);
     } else {
       /**
        * When hiding the search, only clear the input value here. Full cleanup (searchService.clear()) is performed in the Search component's ngOnDestroy.
        */
       this.searchService.searchValueInput('');
+      setTimeout(() => {
+        this.delayedSearch = false;
+      }, 500);
     }
   }
 }

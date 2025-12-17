@@ -14,14 +14,17 @@
 
   <div class="elements">
     <app-search
-      [class.active]="showSearch && (searchService.dataLoaded$ | async)"
+      [class.active]="showSearch && (searchService.dataLoaded$ | async) && delayedSearch"
+      [class.animated-in]="showSearch && (searchService.dataLoaded$ | async) && delayedSearch"
+      [class.animated-out]="!showSearch && delayedSearch"
       class="search"
-      [active]="showSearch"
       [attr.aria-hidden]="!showSearch"
     ></app-search>
 
     <div
-      [class.active]="!showSearch || !(searchService.dataLoaded$ | async)"
+      [class.active]="!showSearch || !(searchService.dataLoaded$ | async) || !delayedSearch"
+      [class.animated-in]="!showSearch && delayedSearch"
+      [class.animated-out]="showSearch && delayedSearch && (searchService.dataLoaded$ | async)"
       class="links"
       [attr.aria-hidden]="showSearch"
     >
