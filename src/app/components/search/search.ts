@@ -11,8 +11,6 @@ import { SearchService } from '../../services/search.service';
   styleUrl: './search.scss',
 })
 export class Search {
-  @Input() active: boolean = false;
-
   constructor(
     public svgIconsService: SvgIconsService,
     public searchService: SearchService,
