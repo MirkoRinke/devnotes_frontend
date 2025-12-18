@@ -44,6 +44,5 @@ export class PageStepper {
     if (newPage !== this.currentPage) {
       this.pageChange.emit(newPage);
     }
-    console.log(newPage);
   }
 }
