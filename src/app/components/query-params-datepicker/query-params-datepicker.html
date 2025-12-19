@@ -1,2 +1,9 @@
-<label for="datepicker">{{ label }}</label>
-<input #datepicker (change)="onSelect(datepicker.value)" type="date" id="datepicker" [value]="value" [min]="min" [max]="max" />
+<label for="{{ key + '-datepicker' }}">{{ label }}</label>
+<input
+  (change)="onSelect($event.target.value)"
+  type="date"
+  [id]="key + '-datepicker'"
+  [value]="value"
+  [min]="min"
+  [max]="max"
+/>
