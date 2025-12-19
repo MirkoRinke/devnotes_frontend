@@ -7,6 +7,14 @@
   width: 100%;
   margin: auto;
   padding: px-to-rem(50);
+
+  @media (max-width: 3440px) {
+    padding-inline: px-to-rem(200);
+  }
+
+  @media (max-width: 2560px) {
+    padding-inline: px-to-rem(100);
+  }
 }
 
 @mixin display-flex($align: flex-start, $justify: flex-start, $direction: row) {
