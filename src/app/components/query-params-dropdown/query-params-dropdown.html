@@ -1,28 +1,46 @@
-@if (enableSearch) {
 <div class="dropdown-search">
-  <span>{{ label }}</span>
-  <button (click)="toggleDropdown()">{{ defaultValueLabel }}</button>
+  <label [for]="key + '-dropdown'">{{ label }}</label>
+  <button
+    [id]="key + '-dropdown'"
+    type="button"
+    (click)="toggleDropdown()"
+    aria-haspopup="listbox"
+  >
+    {{ defaultValueLabel }}
+  </button>
   @if (showDropdownValues) {
-  <div class="content">
-    <input type="text" placeholder="Search.." (input)="filterFunction($event.target.value)" />
-    @if (defaultValue !== '' && enableAllOption) {
-    <a class="value" (click)="onSelect('')">Alle</a>
-    } @for (value of filteredValues; track $index) {
-    <a class="value" (click)="onSelect(value.name)">{{ value.name }} {{ value.total_counts ? value.total_counts : '' }}</a>
-    }
-  </div>
+    <div
+      class="dropdown-values"
+      role="listbox"
+    >
+      @if (enableSearch) {
+        <input
+          type="text"
+          placeholder="Search.."
+          (input)="filterFunction($event.target.value)"
+        />
+      }
+
+      @if (defaultValue !== '' && enableAllOption) {
+        <button
+          type="button"
+          role="option"
+          class="value"
+          (click)="onSelect('')"
+        >
+          Alle
+        </button>
+      }
+      @for (value of filteredValues; track $index) {
+        <button
+          type="button"
+          role="option"
+          class="value"
+          (click)="onSelect(value.name)"
+        >
+          {{ value.name }} {{ value.total_counts ? value.total_counts : '' }}
+        </button>
+      }
+    </div>
   }
 </div>
-} @else {
-<div class="dropdown-classic">
-  <span>{{ label }}</span>
-  <select #dropdown (change)="onSelect(dropdown.value)">
-    <option [value]="defaultValue">{{ defaultValueLabel }}</option>
-    @if (defaultValue !== '' && enableAllOption) {
-    <option [value]="''">Alle</option>
-    } @for (value of filteredValues; track $index) { @if (value.name !== defaultValueLabel) {
-    <option [value]="value.name">{{ value.name }}</option>
-    } }
-  </select>
-</div>
-}
