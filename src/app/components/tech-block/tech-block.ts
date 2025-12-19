@@ -134,19 +134,20 @@ export class TechBlock implements OnDestroy, OnInit {
 
   /**
    * Sets the page size based on the current window width.
+   * TODO Make this function more dynamic in the future.
    */
   private setPageSize() {
     const active = document.activeElement as HTMLElement | null;
     const snapPageSize = this.pageSize;
 
     if (this.windowWidth >= 3440) {
-      this.pageSize = 30;
+      this.pageSize = 28;
     } else if (this.windowWidth >= 2560) {
-      this.pageSize = 22;
+      this.pageSize = 20;
     } else if (this.windowWidth >= 1920) {
-      this.pageSize = 16;
+      this.pageSize = 14;
     } else if (this.windowWidth >= 1280) {
-      this.pageSize = 10;
+      this.pageSize = 8;
     } else {
       this.pageSize = 6;
     }
