@@ -144,6 +144,16 @@ export class SvgIconsService {
     </svg>
     `,
 
+      chevron: /*html*/ `
+    <svg class="${className}" viewBox="0 0 10 5" xmlns="http://www.w3.org/2000/svg">
+        <g transform="matrix(1,0,0,1,-7,-10)">
+            <g transform="matrix(0.025,0,0,0.025,0,24)">
+                <path d="M480,-360L280,-560L680,-560L480,-360Z" style="fill-rule:nonzero;"/>
+            </g>
+        </g>
+    </svg>
+    `,
+
       // SVG_Element: /*html*/ `
       //   <svg class="${className}"></svg>
       // `,
