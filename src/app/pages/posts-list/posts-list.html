@@ -1,15 +1,12 @@
 <!-- Todo Temporary for testing routing and query params -->
 
 <main>
-  <h1>posts-list works! for {{ selectedEntityValue }} and post type {{ selectedPostType }}</h1>
-
   <div class="query-bar">
     <app-query-params-dropdown
       [label]="'Tech-Stack'"
       [key]="'entityValue'"
       [defaultValueLabel]="selectedEntityValue"
       [defaultValue]="selectedEntityValue"
-      [enableAllOption]="false"
       [enableSearch]="true"
       [endPoint]="endPoint"
       [params]="entityValueParams"
@@ -17,11 +14,10 @@
     ></app-query-params-dropdown>
 
     <app-query-params-dropdown
-      [label]="'Beitrags Typ'"
+      [label]="'Typ'"
       [key]="'postType'"
       [defaultValueLabel]="selectedPostType"
       [defaultValue]="selectedPostType"
-      [enableAllOption]="false"
       [endPoint]="endPoint"
       [params]="postTypeParams"
       [changeDetectionToken]="changeDetectionValue()"
@@ -55,11 +51,10 @@
     ></app-query-params-datepicker>
 
     <app-query-params-dropdown
-      [label]="'Sortiere nach'"
+      [label]="'Sortieren'"
       [key]="'sort'"
-      [defaultValueLabel]="'created_at'"
-      [defaultValue]="'created_at'"
-      [enableAllOption]="false"
+      [defaultValueLabel]="selectedSort ? selectedSort : 'Datum ↑'"
+      [defaultValue]="selectedSort ? selectedSort : 'created_at'"
       [endPoint]="endPoint"
       [values]="['created_at', '-created_at', '-likes_count', 'likes_count']"
     >

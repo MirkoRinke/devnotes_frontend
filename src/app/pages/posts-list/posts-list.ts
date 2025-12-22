@@ -37,6 +37,7 @@ export class PostsList {
   selectedEntity: string | null = null;
   selectedPostType: string | null = null;
   selectedCategory: string | null = null;
+  selectedSort: string | null = null;
   selectedDateFrom: string | null = null;
   selectedDateTo: string | null = null;
 
@@ -56,7 +57,12 @@ export class PostsList {
 
   statusMessage: string | null = null;
 
-  constructor(private route: ActivatedRoute, private router: Router, private apiService: ApiService, private availableValuesService: AvailableValuesService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private apiService: ApiService,
+    private availableValuesService: AvailableValuesService,
+  ) {}
 
   ngOnInit() {
     this.route.queryParams.subscribe((params) => {
@@ -124,6 +130,7 @@ export class PostsList {
     this.selectedEntity = parsed.entity;
     this.selectedPostType = parsed.postType;
     this.selectedCategory = parsed.category;
+    this.selectedSort = parsed.sort;
     this.selectedDateFrom = parsed.dateFrom;
     this.selectedDateTo = parsed.dateTo;
   }
@@ -134,7 +141,7 @@ export class PostsList {
    * @returns
    */
   changeDetectionValue(): string {
-    return 'changeDetectionValues' + this.selectedEntityValue + this.selectedPostType + this.selectedCategory;
+    return 'changeDetectionValues' + this.selectedEntityValue + this.selectedPostType + this.selectedCategory + this.selectedSort;
   }
 
   /**
