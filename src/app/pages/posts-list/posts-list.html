@@ -26,7 +26,7 @@
     <app-query-params-dropdown
       [label]="'Kategorie'"
       [key]="'category'"
-      [defaultValueLabel]="selectedCategory ? selectedCategory : 'Alle'"
+      [defaultValueLabel]="selectedCategory ? selectedCategory : 'Alle Kategorien'"
       [defaultValue]="selectedCategory ? selectedCategory : ''"
       [enableAllOption]="true"
       [enableSearch]="true"
@@ -36,14 +36,14 @@
     ></app-query-params-dropdown>
 
     <app-query-params-datepicker
-      [label]="'Startdatum'"
+      [label]="'Von'"
       [value]="selectedDateFrom"
       [key]="'dateFrom'"
       [min]="minDate"
       [max]="maxDate"
     ></app-query-params-datepicker>
     <app-query-params-datepicker
-      [label]="'Enddatum'"
+      [label]="'bis'"
       [value]="selectedDateTo"
       [key]="'dateTo'"
       [min]="minDate"
