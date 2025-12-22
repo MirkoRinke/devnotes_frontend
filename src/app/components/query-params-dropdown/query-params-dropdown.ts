@@ -1,7 +1,9 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
-import { AvailableValuesService } from '../../services/available-values.service';
 import { take } from 'rxjs/operators';
+
+import { AvailableValuesService } from '../../services/available-values.service';
+import { SvgIconsService } from '../../services/svg.icons.service';
 
 import type { AvailableValuesInterface } from '../../interfaces/available-values';
 
@@ -16,7 +18,7 @@ export class QueryParamsDropdown {
   @Input() key!: string;
   @Input() defaultValueLabel!: string | null;
   @Input() defaultValue!: string | null;
-  @Input() enableAllOption!: boolean;
+  @Input() enableAllOption: boolean = false;
   @Input() enableSearch: boolean = false;
 
   @Input() endPoint!: string;
@@ -31,7 +33,11 @@ export class QueryParamsDropdown {
 
   showDropdownValues = false;
 
-  constructor(private router: Router, private availableValuesService: AvailableValuesService) {}
+  constructor(
+    private router: Router,
+    private availableValuesService: AvailableValuesService,
+    public svgIconsService: SvgIconsService,
+  ) {}
 
   /**
    * Detects changes in input properties and fetches available values if necessary

@@ -1,0 +1,131 @@
+@use '../../../functions' as *;
+@use '../../../var' as var;
+@use '../../../mixins' as *;
+
+.dropdown-component {
+  @include display-flex(center, center, column);
+  position: relative;
+
+  min-height: px-to-rem(80);
+
+  .dropdown {
+    @include display-flex(center);
+    gap: px-to-rem(10);
+    cursor: pointer;
+
+    button {
+      @include button-preset();
+      @include display-flex(center);
+      white-space: nowrap;
+      gap: px-to-rem(10);
+      color: var(--font-primary-color-100);
+      text-align: left;
+
+      padding-inline: px-to-rem(15);
+
+      width: px-to-rem(260);
+      max-width: 100%;
+
+      &:hover {
+        .label {
+          color: var(--font-primary-color-80);
+        }
+
+        .chevron-icon {
+          &::ng-deep .chevron {
+            fill: var(--font-primary-color-80);
+          }
+        }
+      }
+
+      .label {
+        color: var(--font-primary-color-50);
+        cursor: pointer;
+      }
+
+      .selected-value {
+        @include singleline-ellipsis();
+        color: var(--font-primary-color-100);
+
+        &::first-letter {
+          text-transform: uppercase;
+        }
+      }
+
+      .chevron-icon {
+        @include font-settings(12, 400);
+        display: inline-block;
+        color: var(--font-primary-color-50);
+        align-self: start;
+
+        transition:
+          transform var.$transition-duration-medium ease-in-out,
+          fill var.$transition-duration-medium ease-in-out;
+
+        &::ng-deep .chevron {
+          width: px-to-rem(10);
+          height: px-to-rem(10);
+          fill: var(--font-primary-color-50);
+        }
+
+        &.open {
+          transform: rotateX(180deg);
+          &::ng-deep .chevron {
+            fill: var(--font-primary-color-100);
+          }
+        }
+      }
+    }
+  }
+
+  .values {
+    @include display-flex(start, start, column);
+    border-bottom-left-radius: px-to-rem(15);
+    border-bottom-right-radius: px-to-rem(15);
+    color: var(--font-primary-color-100);
+    width: 100%;
+
+    position: absolute;
+    top: 100%;
+
+    background-color: var(--page-primary-color-100);
+
+    z-index: 1;
+
+    overflow: hidden;
+
+    .search-input {
+      height: px-to-rem(35);
+      padding: px-to-rem(10) px-to-rem(15);
+      width: 100%;
+    }
+
+    .value {
+      @include button-preset();
+      @include display-flex(center, space-between);
+      gap: px-to-rem(10);
+      text-align: left;
+      width: 100%;
+      color: var(--font-primary-color-100);
+      padding: px-to-rem(10) px-to-rem(15);
+
+      &:hover {
+        // Fix hover color later use variable
+        background-color: #2c2f3a;
+      }
+
+      .name {
+        color: var(--font-primary-color-100);
+        @include singleline-ellipsis();
+
+        &::first-letter {
+          text-transform: uppercase;
+        }
+      }
+
+      .count {
+        color: var(--font-primary-color-100);
+      }
+    }
+  }
+}

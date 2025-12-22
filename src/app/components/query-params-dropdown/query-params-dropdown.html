@@ -1,21 +1,32 @@
-<div class="dropdown-search">
-  <label [for]="key + '-dropdown'">{{ label }}</label>
-  <button
-    [id]="key + '-dropdown'"
-    type="button"
-    (click)="toggleDropdown()"
-    aria-haspopup="listbox"
-  >
-    {{ defaultValueLabel }}
-  </button>
+<div class="dropdown-component">
+  <div class="dropdown">
+    <button
+      type="button"
+      (click)="toggleDropdown()"
+      aria-haspopup="listbox"
+    >
+      <span class="label"> {{ label }}: </span>
+
+      <span class="selected-value">
+        {{ defaultValueLabel }}
+      </span>
+      <span
+        class="chevron-icon"
+        [innerHTML]="svgIconsService.returnIcon('chevron')"
+        [class.open]="showDropdownValues"
+      ></span>
+    </button>
+  </div>
+
   @if (showDropdownValues) {
     <div
-      class="dropdown-values"
+      class="values"
       role="listbox"
     >
       @if (enableSearch) {
         <input
           type="text"
+          class="search-input"
           placeholder="Search.."
           (input)="filterFunction($event.target.value)"
         />
@@ -28,7 +39,7 @@
           class="value"
           (click)="onSelect('')"
         >
-          Alle
+          Alle {{ label }}
         </button>
       }
       @for (value of filteredValues; track $index) {
@@ -38,7 +49,8 @@
           class="value"
           (click)="onSelect(value.name)"
         >
-          {{ value.name }} {{ value.total_counts ? value.total_counts : '' }}
+          <span class="name">{{ value.name }}</span>
+          <span class="count">{{ value.total_counts ? value.total_counts : '' }}</span>
         </button>
       }
     </div>
