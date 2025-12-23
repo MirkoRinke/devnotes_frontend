@@ -1,67 +1,70 @@
 <!-- Todo Temporary for testing routing and query params -->
 
 <main>
-  <div class="query-bar">
-    <app-query-params-dropdown
-      [label]="'Tech-Stack'"
-      [key]="'entityValue'"
-      [defaultValueLabel]="selectedEntityValue"
-      [defaultValue]="selectedEntityValue"
-      [enableSearch]="true"
-      [endPoint]="endPoint"
-      [params]="entityValueParams"
-      [changeDetectionToken]="changeDetectionValue()"
-    ></app-query-params-dropdown>
+  <aside class="query-bar">
+    <section class="filter">
+      <app-query-params-dropdown
+        [label]="'Tech-Stack'"
+        [key]="'entityValue'"
+        [defaultValueLabel]="selectedEntityValue"
+        [defaultValue]="selectedEntityValue"
+        [enableSearch]="true"
+        [endPoint]="endPoint"
+        [params]="entityValueParams"
+        [changeDetectionToken]="changeDetectionValue()"
+      ></app-query-params-dropdown>
 
-    <app-query-params-dropdown
-      [label]="'Typ'"
-      [key]="'postType'"
-      [defaultValueLabel]="selectedPostType"
-      [defaultValue]="selectedPostType"
-      [enableSearch]="true"
-      [endPoint]="endPoint"
-      [params]="postTypeParams"
-      [changeDetectionToken]="changeDetectionValue()"
-    ></app-query-params-dropdown>
+      <app-query-params-dropdown
+        [label]="'Typ'"
+        [key]="'postType'"
+        [defaultValueLabel]="selectedPostType"
+        [defaultValue]="selectedPostType"
+        [enableSearch]="true"
+        [endPoint]="endPoint"
+        [params]="postTypeParams"
+        [changeDetectionToken]="changeDetectionValue()"
+      ></app-query-params-dropdown>
 
-    <app-query-params-dropdown
-      [label]="'Kategorie'"
-      [key]="'category'"
-      [defaultValueLabel]="selectedCategory ? selectedCategory : 'Alle Kategorien'"
-      [defaultValue]="selectedCategory ? selectedCategory : ''"
-      [enableAllOption]="true"
-      [enableSearch]="true"
-      [endPoint]="endPoint"
-      [params]="categoryParams"
-      [changeDetectionToken]="changeDetectionValue()"
-    ></app-query-params-dropdown>
+      <app-query-params-dropdown
+        [label]="'Kategorie'"
+        [key]="'category'"
+        [defaultValueLabel]="selectedCategory ? selectedCategory : 'Alle Kategorien'"
+        [defaultValue]="selectedCategory ? selectedCategory : ''"
+        [enableAllOption]="true"
+        [enableSearch]="true"
+        [endPoint]="endPoint"
+        [params]="categoryParams"
+        [changeDetectionToken]="changeDetectionValue()"
+      ></app-query-params-dropdown>
 
-    <app-query-params-datepicker
-      [label]="'Von'"
-      [value]="selectedDateFrom"
-      [key]="'dateFrom'"
-      [min]="minDate"
-      [max]="maxDate"
-    ></app-query-params-datepicker>
-    <app-query-params-datepicker
-      [label]="'bis'"
-      [value]="selectedDateTo"
-      [key]="'dateTo'"
-      [min]="minDate"
-      [max]="maxDate"
-    ></app-query-params-datepicker>
-
-    <app-query-params-dropdown
-      [label]="'Sortieren'"
-      [key]="'sort'"
-      [defaultValueLabel]="selectedSort ? selectedSort : 'Datum ↑'"
-      [defaultValue]="selectedSort ? selectedSort : 'created_at'"
-      [enableSearch]="true"
-      [endPoint]="endPoint"
-      [values]="['created_at', '-created_at', '-likes_count', 'likes_count']"
-    >
-    </app-query-params-dropdown>
-  </div>
+      <app-query-params-datepicker
+        [label]="'Von'"
+        [value]="selectedDateFrom"
+        [key]="'dateFrom'"
+        [min]="minDate"
+        [max]="maxDate"
+      ></app-query-params-datepicker>
+      <app-query-params-datepicker
+        [label]="'bis'"
+        [value]="selectedDateTo"
+        [key]="'dateTo'"
+        [min]="minDate"
+        [max]="maxDate"
+      ></app-query-params-datepicker>
+    </section>
+    <section class="sort">
+      <app-query-params-dropdown
+        [label]="'Sortieren'"
+        [key]="'sort'"
+        [defaultValueLabel]="selectedSort ? selectedSort : 'Datum ↑'"
+        [defaultValue]="selectedSort ? selectedSort : 'created_at'"
+        [enableSearch]="true"
+        [endPoint]="endPoint"
+        [values]="['created_at', '-created_at', '-likes_count', 'likes_count']"
+      >
+      </app-query-params-dropdown>
+    </section>
+  </aside>
 
   @for (post of postsList; track $index) {
     <div>
