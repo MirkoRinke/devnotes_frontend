@@ -5,7 +5,6 @@
 .dropdown-component {
   @include display-flex(center, center, column);
   position: relative;
-
   min-height: px-to-rem(80);
 
   .dropdown {
@@ -23,22 +22,23 @@
 
       padding-inline: px-to-rem(15);
 
-      width: px-to-rem(260);
+      width: px-to-rem(220);
       max-width: 100%;
 
       &:hover {
         .label {
-          color: var(--font-primary-color-80);
+          color: var(--font-primary-color-100);
         }
 
         .chevron-icon {
           &::ng-deep .chevron {
-            fill: var(--font-primary-color-80);
+            fill: var(--font-primary-color-100);
           }
         }
       }
 
       .label {
+        transition: color var.$transition-duration-medium ease-in-out;
         color: var(--font-primary-color-50);
         cursor: pointer;
       }
@@ -58,11 +58,10 @@
         color: var(--font-primary-color-50);
         align-self: start;
 
-        transition:
-          transform var.$transition-duration-medium ease-in-out,
-          fill var.$transition-duration-medium ease-in-out;
+        transition: transform var.$transition-duration-medium ease-in-out;
 
         &::ng-deep .chevron {
+          transition: fill var.$transition-duration-medium ease-in-out;
           width: px-to-rem(10);
           height: px-to-rem(10);
           fill: var(--font-primary-color-50);
@@ -71,6 +70,7 @@
         &.open {
           transform: rotateX(180deg);
           &::ng-deep .chevron {
+            transition: fill var.$transition-duration-medium ease-in-out;
             fill: var(--font-primary-color-100);
           }
         }
