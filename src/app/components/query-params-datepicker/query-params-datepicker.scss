@@ -1,0 +1,61 @@
+@use '../../../functions' as *;
+@use '../../../var' as var;
+@use '../../../mixins' as *;
+
+.datepicker-component {
+  @include display-flex(center, center);
+  min-height: px-to-rem(80);
+  width: px-to-rem(220);
+  max-width: 100%;
+
+  .datepicker {
+    @include display-flex(center, center, row);
+    gap: px-to-rem(10);
+    position: relative;
+
+    &:hover {
+      .label {
+        color: var(--font-primary-color-100);
+      }
+      .new-icon {
+        &::ng-deep .calendar {
+          fill: var(--font-primary-color-100);
+        }
+      }
+    }
+
+    .label {
+      transition: color var.$transition-duration-medium ease-in-out;
+      color: var(--font-primary-color-50);
+    }
+
+    .input {
+      background-color: transparent;
+      border: none;
+      color: var(--font-primary-color-100);
+      outline: none;
+
+      &::-webkit-calendar-picker-indicator {
+        opacity: 0;
+        padding-left: px-to-rem(10);
+      }
+    }
+
+    .new-icon {
+      @include display-flex(center, center);
+      position: absolute;
+      right: -10px;
+      background-color: var(--page-primary-color-100);
+      width: px-to-rem(30);
+      height: px-to-rem(30);
+      pointer-events: none;
+
+      &::ng-deep .calendar {
+        transition: fill var.$transition-duration-medium ease-in-out;
+        width: px-to-rem(16);
+        height: px-to-rem(16);
+        fill: var(--font-primary-color-50);
+      }
+    }
+  }
+}

@@ -1,9 +1,22 @@
-<label for="{{ key + '-datepicker' }}">{{ label }}</label>
-<input
-  (change)="onSelect($event.target.value)"
-  type="date"
-  [id]="key + '-datepicker'"
-  [value]="value"
-  [min]="min"
-  [max]="max"
-/>
+<div class="datepicker-component">
+  <div class="datepicker">
+    <label
+      class="label"
+      for="{{ key + '-datepicker' }}"
+      >{{ label }}</label
+    >
+    <input
+      class="input"
+      (change)="onSelect($event.target.value)"
+      type="date"
+      id="{{ key + '-datepicker' }}"
+      [value]="value"
+      [min]="min"
+      [max]="max"
+    />
+    <span
+      [innerHTML]="svgIconsService.returnIcon('calendar')"
+      class="new-icon"
+    ></span>
+  </div>
+</div>

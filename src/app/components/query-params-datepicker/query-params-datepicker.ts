@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
+import { SvgIconsService } from '../../services/svg.icons.service';
 
 @Component({
   selector: 'app-query-params-datepicker',
@@ -15,7 +16,10 @@ export class QueryParamsDatepicker {
   @Input() min!: string | null;
   @Input() max!: string | null;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    public svgIconsService: SvgIconsService,
+  ) {}
 
   ngOnInit() {}
 
