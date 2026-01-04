@@ -21,6 +21,10 @@
   @if (showDropdownValues) {
     <div
       class="values"
+      [class.active]="showDropdownValues"
+      [class.animated-in]="showAnimation"
+      [class.animated-out]="!showAnimation"
+      (animationend)="onAnimationEnd($event)"
       role="listbox"
     >
       @if (enableSearch) {

@@ -32,6 +32,7 @@ export class QueryParamsDropdown {
   filteredValues: AvailableValuesInterface[] = [];
 
   showDropdownValues = false;
+  showAnimation = false;
 
   constructor(
     private router: Router,
@@ -97,7 +98,23 @@ export class QueryParamsDropdown {
    * Toggles the visibility of the dropdown values
    */
   toggleDropdown() {
-    this.showDropdownValues = !this.showDropdownValues;
+    if (this.showDropdownValues) {
+      this.showAnimation = false;
+    } else {
+      this.showDropdownValues = true;
+      requestAnimationFrame(() => (this.showAnimation = true));
+    }
+  }
+
+  /**
+   * Handles the end of the animation to hide the dropdown values
+   *
+   * @param event
+   */
+  onAnimationEnd(event: AnimationEvent) {
+    if (event.animationName.endsWith('animated-out')) {
+      this.showDropdownValues = false;
+    }
   }
 
   /**

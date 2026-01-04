@@ -87,12 +87,30 @@
 
     position: absolute;
     top: 100%;
+    left: 0;
 
     background-color: var(--page-primary-color-100);
 
     z-index: 1;
 
     overflow: hidden;
+
+    transform-origin: top;
+    will-change: transform;
+    backface-visibility: hidden;
+
+    &.animated-in {
+      animation: animated-in var.$transition-duration-medium ease-in-out forwards;
+    }
+
+    &.animated-out {
+      animation: animated-out var.$transition-duration-medium ease-in-out forwards;
+    }
+
+    &:not(.active) {
+      pointer-events: none;
+      opacity: 0;
+    }
 
     .search-input {
       height: px-to-rem(35);
@@ -125,6 +143,28 @@
 
       .count {
         color: var(--font-primary-color-100);
+      }
+    }
+
+    @keyframes animated-in {
+      0% {
+        transform: scaleY(0);
+        opacity: 0;
+      }
+      100% {
+        transform: scaleY(1);
+        opacity: 1;
+      }
+    }
+
+    @keyframes animated-out {
+      0% {
+        transform: scaleY(1);
+        opacity: 1;
+      }
+      100% {
+        transform: scaleY(0);
+        opacity: 0;
       }
     }
   }
