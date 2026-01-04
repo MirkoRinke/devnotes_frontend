@@ -210,8 +210,6 @@ export class TechBlock implements OnDestroy, OnInit {
         this.availableTiles = this.sortAvailableValues(availableValues);
         this.setCurrentTiles();
         this.refreshPagination();
-        console.log(`Available values loaded for TechBlock component ${this.heading}`);
-
         if (this.version === 'search-results') {
           this.searchService.dataLoaded(true);
         }

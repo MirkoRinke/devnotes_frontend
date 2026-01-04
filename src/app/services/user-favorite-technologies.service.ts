@@ -28,8 +28,6 @@ export class UserFavoriteTechnologiesService {
 
     this.loaded = true;
 
-    console.log('Loading user favorite tech stack...', Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000);
-
     const options = {
       params: new HttpParams().set('select', 'favorite_techs'),
     };

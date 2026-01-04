@@ -170,11 +170,9 @@ export class PostsList {
 
     this.apiService.get<ApiResponseArrayInterface<PostInterface>>(url).subscribe({
       next: (response) => {
-        console.log('API-Response:', response.data.data);
         this.postsList = response.data.data;
         this.paginationInfo = response.data as PaginationInfoInterface<PostInterface>;
         if (this.postsList.length === 0) {
-          console.log('Fetching posts with URL:', url, this.postsList);
           console.warn('No posts found for the selected criteria');
           this.statusMessage = 'Keine Beiträge gefunden.';
         }
@@ -237,7 +235,6 @@ export class PostsList {
           const dropdownValues = availableValues.map((value) => value.name);
           if ((dropdown.selected && !dropdownValues.includes(dropdown.selected)) || dropdown.selected === null) {
             fallbackTriggered = true;
-            console.log(`Fallback für "${dropdown.key}"! Ungültiger Wert:`, dropdown.selected, 'Gültige Werte:', dropdownValues);
             if (dropdown.key === 'entityValue' || dropdown.key === 'postType') {
               this.router.navigate([], {
                 queryParams: { [dropdown.key]: dropdownValues[0] },
@@ -253,7 +250,6 @@ export class PostsList {
         });
 
         if (!fallbackTriggered) {
-          console.log('Lade Posts mit Parametern:', parsed);
           this.getPostsList(parsed);
         }
       },

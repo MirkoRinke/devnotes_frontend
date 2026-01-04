@@ -25,7 +25,11 @@ export class Post {
 
   necessaryUserFields: string = 'display_name,avatar_items';
 
-  constructor(private route: ActivatedRoute, private apiService: ApiService, private router: Router) {}
+  constructor(
+    private route: ActivatedRoute,
+    private apiService: ApiService,
+    private router: Router,
+  ) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
@@ -82,13 +86,9 @@ export class Post {
     const options = { params };
     const url = `${ApiEndpointEnums.POSTS}${post_id}` + '?' + options.params.toString();
 
-    console.log(url);
-
     this.apiService.get<ApiResponseObjektInterface<PostInterface>>(url).subscribe({
       next: (response) => {
         this.post = response.data.data;
-
-        console.log(this.post);
 
         if (this.checkAllowedEntityValue() || this.checkAllowedPostTypes()) {
           this.router.navigate(['/']);
