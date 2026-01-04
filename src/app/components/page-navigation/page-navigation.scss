@@ -105,11 +105,11 @@
       gap: px-to-rem(25);
 
       &.animated-in {
-        animation: expand-opacity2 (var.$transition-duration-slow * 2) ease-in-out forwards;
+        animation: expand-opacity-in (var.$transition-duration-slow * 2) ease-in-out forwards;
       }
 
       &.animated-out {
-        animation: expand-opacity var.$transition-duration-slow ease-in-out forwards;
+        animation: expand-opacity-out var.$transition-duration-slow ease-in-out forwards;
       }
 
       &:not(.active) {
@@ -150,7 +150,7 @@
       }
     }
 
-    @keyframes expand-opacity {
+    @keyframes expand-opacity-out {
       0% {
         opacity: 1;
       }
@@ -159,7 +159,7 @@
       }
     }
 
-    @keyframes expand-opacity2 {
+    @keyframes expand-opacity-in {
       0% {
         opacity: 0;
       }
