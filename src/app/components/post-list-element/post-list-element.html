@@ -1,0 +1,20 @@
+<!--TODO Temporary html for post list element component -->
+<div>
+  <h3
+    [routerLink]="'/post/'"
+    [queryParams]="{
+      post_id: post.id,
+      selectedEntityValue: selectedEntityValue,
+      selectedPostType: selectedPostType,
+      context: context,
+    }"
+    [style.cursor]="'pointer'"
+    [style.maxWidth]="'fit-content'"
+  >
+    {{ post.title }} {{ post.id }}
+  </h3>
+  <p>Category: {{ post.category }}</p>
+  <p>Likes: {{ post.likes_count }}</p>
+  <p>Comments: {{ post.comments_count }}</p>
+  <p>Created at: {{ post.created_at | date: 'mediumDate' }}</p>
+</div>
