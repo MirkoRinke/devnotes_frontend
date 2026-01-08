@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpParams } from '@angular/common/http';
 
-import { DatePipe } from '@angular/common';
 import { take } from 'rxjs/operators';
 import { forkJoin } from 'rxjs';
 
@@ -24,10 +23,11 @@ import type { Params } from '@angular/router';
 import { ApiEndpointEnums } from '../../enums/api-endpoint';
 import { PostListAllowedEntitiesEnums } from '../../enums/post-list-allowed-entities';
 import { RegexEnums } from '../../enums/regex';
+import { PostListElement } from '../../components/post-list-element/post-list-element';
 
 @Component({
   selector: 'app-posts-list',
-  imports: [DatePipe, PagePagination, RouterLink, QueryParamsDropdown, QueryParamsDatepicker],
+  imports: [PagePagination, QueryParamsDropdown, QueryParamsDatepicker, PostListElement],
   templateUrl: './posts-list.html',
   styleUrl: './posts-list.scss',
 })
