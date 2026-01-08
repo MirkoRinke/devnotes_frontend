@@ -1,20 +1,38 @@
-<!--TODO Temporary html for post list element component -->
-<div>
-  <h3
-    [routerLink]="'/post/'"
-    [queryParams]="{
-      post_id: post.id,
-      selectedEntityValue: selectedEntityValue,
-      selectedPostType: selectedPostType,
-      context: context,
-    }"
-    [style.cursor]="'pointer'"
-    [style.maxWidth]="'fit-content'"
-  >
-    {{ post.title }} {{ post.id }}
-  </h3>
-  <p>Category: {{ post.category }}</p>
-  <p>Likes: {{ post.likes_count }}</p>
-  <p>Comments: {{ post.comments_count }}</p>
-  <p>Created at: {{ post.created_at | date: 'mediumDate' }}</p>
-</div>
+<article
+  class="post-list-element"
+  [routerLink]="'/post/'"
+  [queryParams]="{
+    post_id: post.id,
+    selectedEntityValue: selectedEntityValue,
+    selectedPostType: selectedPostType,
+    context: context,
+  }"
+>
+  <div class="left-section">
+    <h3 class="title">{{ post.title }}</h3>
+
+    <div class="metadata">
+      <time [attr.datetime]="post.created_at">{{ post.created_at | date: 'mediumDate' }}</time>
+      <span> | {{ post.category }}</span>
+    </div>
+  </div>
+
+  <div class="right-section">
+    <div class="engagement-metrics">
+      <div class="metric">
+        <span class="count">{{ post.comments_count }}</span>
+        <span
+          class="icon"
+          [innerHTML]="svgIconsService.returnIcon('comment')"
+        ></span>
+      </div>
+      <div class="metric">
+        <span class="count">{{ post.likes_count }}</span>
+        <span
+          class="icon"
+          [innerHTML]="svgIconsService.returnIcon('like')"
+        ></span>
+      </div>
+    </div>
+  </div>
+</article>

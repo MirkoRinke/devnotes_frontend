@@ -1,0 +1,56 @@
+@use '../../../functions' as *;
+@use '../../../var' as var;
+@use '../../../mixins' as *;
+
+.post-list-element {
+  @include display-flex(center, space-between, row);
+  background-color: var(--page-primary-color-100);
+  border-radius: px-to-rem(15);
+  margin-block: px-to-rem(50);
+  padding-inline: px-to-rem(50);
+
+  min-height: px-to-rem(80);
+
+  transition: box-shadow var.$transition-duration-medium ease-in-out;
+  &:hover {
+    box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-50);
+    cursor: pointer;
+  }
+
+  .left-section {
+    @include display-flex(start, start, column);
+    gap: px-to-rem(5);
+
+    .title {
+      @include font-settings(16, 700);
+    }
+
+    .metadata {
+      @include font-settings(14);
+    }
+  }
+
+  .right-section {
+    .engagement-metrics {
+      @include display-flex(center, center, row);
+      gap: px-to-rem(20);
+
+      .metric {
+        @include display-flex(center, center, row);
+        gap: px-to-rem(10);
+
+        .icon {
+          @include display-flex(center, center, row);
+
+          &::ng-deep .like,
+          &::ng-deep .comment {
+            fill: var(--font-primary-color-100);
+            width: px-to-rem(30);
+            height: px-to-rem(30);
+            margin-right: px-to-rem(10);
+          }
+        }
+      }
+    }
+  }
+}
