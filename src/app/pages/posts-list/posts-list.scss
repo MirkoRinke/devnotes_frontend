@@ -2,23 +2,36 @@
 @use '../../../var' as var;
 @use '../../../mixins' as *;
 
-.query-bar {
-  @include display-flex(center, space-between);
-  gap: px-to-rem(20);
-  padding-inline: px-to-rem(50);
-  background-color: var(--page-primary-color-100);
-  border-radius: px-to-rem(15);
-  width: 100%;
-  max-width: px-to-rem(2560);
-  margin-bottom: px-to-rem(50);
+.posts-list-page {
+  @include display-flex(start, center, column);
 
-  .filter {
-    @include display-flex(center, center);
+  // Here I'm still thinking about whether I want this here
+  // max-width: px-to-rem(2560);
+  // width: 100%;
+  // margin: auto;
+
+  .query-bar {
+    @include display-flex(center, space-between);
     gap: px-to-rem(20);
+    padding-inline: px-to-rem(50);
+    background-color: var(--page-primary-color-100);
+    border-radius: px-to-rem(15);
+    margin-bottom: px-to-rem(50);
+
+    width: 100%;
+
+    .filter {
+      @include display-flex(center, center);
+      gap: px-to-rem(20);
+    }
+
+    .sort {
+      @include display-flex(center, center);
+      gap: px-to-rem(20);
+    }
   }
 
-  .sort {
-    @include display-flex(center, center);
-    gap: px-to-rem(20);
+  .posts-list {
+    width: 100%;
   }
 }

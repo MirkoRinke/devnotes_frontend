@@ -1,6 +1,4 @@
-<!-- Todo Temporary for testing routing and query params -->
-
-<main>
+<section class="posts-list-page">
   <aside class="query-bar">
     <section class="filter">
       <app-query-params-dropdown
@@ -66,18 +64,19 @@
     </section>
   </aside>
 
-  @if (postsList.length === 0) {
-    <p>{{ statusMessage ? statusMessage : 'Daten werden geladen...' }}</p>
-  } @else {
-    @for (post of postsList; track $index) {
-      <app-post-list-element
-        [post]="post"
-        [selectedEntityValue]="selectedEntityValue"
-        [selectedPostType]="selectedPostType"
-        [context]="context"
-      ></app-post-list-element>
+  <div class="posts-list">
+    @if (postsList.length === 0) {
+      <p>{{ statusMessage ? statusMessage : 'Daten werden geladen...' }}</p>
+    } @else {
+      @for (post of postsList; track $index) {
+        <app-post-list-element
+          [post]="post"
+          [selectedEntityValue]="selectedEntityValue"
+          [selectedPostType]="selectedPostType"
+          [context]="context"
+        ></app-post-list-element>
+      }
     }
-  }
-
+  </div>
   <app-page-pagination [paginationInfo]="paginationInfo"></app-page-pagination>
-</main>
+</section>
