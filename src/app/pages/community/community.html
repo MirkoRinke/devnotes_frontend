@@ -1,4 +1,4 @@
-<main class="community">
+<section class="community">
   @if (searchService.showSearchResults$ | async) {
     <app-tech-block
       [class.active]="searchService.searchActive$ | async"
@@ -48,4 +48,4 @@
     [context]="'community'"
     [params]="['?select=count:technologies.name']"
   ></app-tech-block>
-</main>
+</section>
