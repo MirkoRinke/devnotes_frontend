@@ -6,7 +6,7 @@
   @include display-flex(center, space-between, row);
   background-color: var(--page-primary-color-100);
   border-radius: px-to-rem(15);
-  margin-block: px-to-rem(50);
+  margin-block: px-to-rem(25);
   padding-inline: px-to-rem(50);
 
   min-height: px-to-rem(80);
