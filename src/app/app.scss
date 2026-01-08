@@ -4,4 +4,18 @@
 
 .app-container {
   @include max-content-settings();
+  @include display-flex(space-between, start, column);
+  min-height: 100vh;
+
+  .header {
+    flex: 0;
+  }
+
+  .content {
+    flex: 1;
+  }
+
+  .footer {
+    flex: 0;
+  }
 }
