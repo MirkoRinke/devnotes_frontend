@@ -1,11 +1,16 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
+
+import { SvgIconsService } from '../../services/svg.icons.service';
 
 @Component({
   selector: 'app-footer',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './footer.html',
   styleUrl: './footer.scss',
 })
 export class Footer {
+  constructor(public svgIcons: SvgIconsService) {}
 
+  currentYear = new Date().getFullYear();
 }

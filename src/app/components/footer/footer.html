@@ -1,1 +1,13 @@
-<p>footer works!</p>
+<footer class="footer">
+  <div class="left">
+    <a href="https://mirkorinke.dev/">Portfolio</a>
+    <a href="https://github.com/MirkoRinke">GitHub</a>
+    <a href="mailto:contact@mirkorinke.dev">Kontakt</a>
+  </div>
+  <div class="center"><span [innerHTML]="svgIcons.returnIcon('copyright')"></span> {{ currentYear }} Mirko Rinke</div>
+  <div class="right">
+    <a [routerLink]="'/terms'">Nutzungsbedingungen</a>
+    <a [routerLink]="'/imprint'">Impressum</a>
+    <a [routerLink]="'/privacy'">Datenschutz</a>
+  </div>
+</footer>

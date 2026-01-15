@@ -1,0 +1,47 @@
+@use '../../../functions' as *;
+@use '../../../var' as var;
+@use '../../../mixins' as *;
+
+.footer {
+  @include display-flex(center, space-between, row);
+  padding-top: px-to-rem(25);
+
+  .left,
+  .center,
+  .right {
+    @include display-flex(center, center, row);
+    gap: px-to-rem(10);
+    flex: 1;
+
+    a {
+      color: var(--font-primary-color-100);
+      transition: color var.$transition-duration-medium ease-in-out;
+
+      &:hover {
+        color: var(--font-primary-color-50);
+      }
+    }
+  }
+
+  .left {
+    justify-content: flex-start;
+  }
+
+  .center {
+    justify-content: center;
+
+    span {
+      @include display-flex(center, center);
+
+      &::ng-deep .copyright {
+        fill: var(--font-primary-color-100);
+        width: px-to-rem(16);
+        height: px-to-rem(16);
+      }
+    }
+  }
+
+  .right {
+    justify-content: flex-end;
+  }
+}
