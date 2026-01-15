@@ -1,6 +1,7 @@
 import { ArrowFunctionExpr } from '@angular/compiler';
 import { Injectable } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { first } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -133,8 +134,51 @@ export class SvgIconsService {
     </svg>
     `,
 
-      sync: /*html*/ `
+      previous_page: /*html*/ `
     <!-- Icon used are from Google Material Symbols, licensed under the Apache License 2.0. -->
+    <svg class="${className}" viewBox="0 0 8 12" xmlns="http://www.w3.org/2000/svg">
+        <g transform="matrix(1,0,0,1,-8,-6)">
+            <g transform="matrix(0.025,0,0,0.025,0,24)">
+                <path d="M560,-240L320,-480L560,-720L616,-664L432,-480L616,-296L560,-240Z"/>
+            </g>
+        </g>
+    </svg>
+    `,
+
+      next_page: /*html*/ `
+    <!-- Icon used are from Google Material Symbols, licensed under the Apache License 2.0. -->
+    <svg class="${className}" viewBox="0 0 8 12" xmlns="http://www.w3.org/2000/svg">
+        <g transform="matrix(1,0,0,1,-8,-6)">
+            <g transform="matrix(0.025,0,0,0.025,0,24)">
+                <path d="M504,-480L320,-664L376,-720L616,-480L376,-240L320,-296L504,-480Z"/>
+            </g>
+        </g>
+    </svg>
+    `,
+
+      last_page: /*html*/ `
+    <!-- Icon used are from Google Material Symbols, licensed under the Apache License 2.0. -->
+    <svg class="${className}" viewBox="0 0 13 12" xmlns="http://www.w3.org/2000/svg">
+        <g transform="matrix(1,0,0,1,-5.6,-6)">
+            <g transform="matrix(0.025,0,0,0.025,0,24)">
+                <path d="M280,-240L224,-296L408,-480L224,-664L280,-720L520,-480L280,-240ZM640,-240L640,-720L720,-720L720,-240L640,-240Z"/>
+            </g>
+        </g>
+    </svg>
+    `,
+
+      first_page: /*html*/ `
+    <!-- Icon used are from Google Material Symbols, licensed under the Apache License 2.0. -->
+    <svg class="${className}" viewBox="0 0 13 12" xmlns="http://www.w3.org/2000/svg">
+        <g transform="matrix(1,0,0,1,-6,-6)">
+            <g transform="matrix(0.025,0,0,0.025,0,24)">
+                <path d="M240,-240L240,-720L320,-720L320,-240L240,-240ZM680,-240L440,-480L680,-720L736,-664L552,-480L736,-296L680,-240Z"/>
+            </g>
+        </g>
+    </svg>
+    `,
+
+      sync: /*html*/ `
     <!-- Icon used are from Google Material Symbols, licensed under the Apache License 2.0. -->
     <svg class="${className}" viewBox="0 0 16 22" xmlns="http://www.w3.org/2000/svg">
         <g transform="matrix(1,0,0,1,-4,-1)">
