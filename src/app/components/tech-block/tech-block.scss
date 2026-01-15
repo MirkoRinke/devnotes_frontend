@@ -21,9 +21,9 @@
 
     .tiles-container {
       @include display-flex(flex-start, flex-start, row);
-      gap: px-to-rem(50);
+      gap: px-to-rem(25) px-to-rem(50);
       flex-wrap: wrap;
-      min-height: px-to-rem(370);
+      min-height: px-to-rem(345);
       width: 100%;
     }
   }
