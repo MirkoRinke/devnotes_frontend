@@ -12,7 +12,8 @@
   }
 
   .content {
-    flex: 1;
+    @include display-flex(start, start, column);
+    flex-grow: 1;
   }
 
   .footer {
