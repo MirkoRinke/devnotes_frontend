@@ -2,8 +2,15 @@
 @use '../../../var' as var;
 @use '../../../mixins' as *;
 
+:host {
+  @include display-flex(stretch, start, column);
+  flex-grow: 1;
+  width: 100%;
+}
+
 .posts-list-page {
-  @include display-flex(stretch, center, column);
+  @include display-flex(stretch, start, column);
+  flex-grow: 1;
 
   .query-bar {
     @include display-flex(center, space-between);
@@ -24,5 +31,9 @@
       @include display-flex(center, center);
       gap: px-to-rem(20);
     }
+  }
+
+  .posts-list {
+    flex-grow: 1;
   }
 }
