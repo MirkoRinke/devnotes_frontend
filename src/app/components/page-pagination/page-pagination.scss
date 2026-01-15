@@ -1,0 +1,53 @@
+@use '../../../functions' as *;
+@use '../../../var' as var;
+@use '../../../mixins' as *;
+
+.pagination {
+  @include display-flex(center, center);
+  gap: px-to-rem(10);
+
+  .first-page,
+  .previous-page,
+  .next-page,
+  .last-page,
+  .page-number {
+    @include display-flex(center, center);
+
+    @include golden-ratio-padding();
+    background-color: var(--page-primary-color-100);
+    border-radius: px-to-rem(5);
+
+    @include font-settings(14, 400, var(--font-primary-color-50));
+    font-variant-numeric: tabular-nums;
+    color: var(--font-primary-color-50);
+
+    transition:
+      box-shadow var.$transition-duration-medium ease-in-out,
+      color var.$transition-duration-medium ease-in-out,
+      font-size var.$transition-duration-medium ease-in-out;
+
+    &:hover {
+      box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-50);
+    }
+
+    &.active {
+      @include font-settings(22, 600, var(--font-primary-color-100));
+    }
+
+    &.is-near-1 {
+      @include font-settings(20, 500, var(--font-primary-color-50));
+    }
+
+    &.is-near-2 {
+      @include font-settings(18, 400, var(--font-primary-color-50));
+    }
+
+    &.is-near-3 {
+      @include font-settings(16, 400, var(--font-primary-color-50));
+    }
+
+    &.is-near-4 {
+      @include font-settings(14, 400, var(--font-primary-color-50));
+    }
+  }
+}

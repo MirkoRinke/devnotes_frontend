@@ -1,56 +1,61 @@
-<!-- Temporary pagination implementation for testing -->
-
 @if (paginationInfo.last_page > 1) {
+  <nav class="pagination">
+    <!-- First Page -->
+    <a
+      class="first-page"
+      [routerLink]="[]"
+      [queryParams]="{ page: 1 }"
+      [queryParamsHandling]="'merge'"
+      [class.disabled]="paginationInfo.current_page === 1"
+    >
+      «
+    </a>
 
-<nav>
-  <!-- First Page -->
-  <a [routerLink]="[]" [queryParams]="{ page: 1 }" [queryParamsHandling]="'merge'" [class.disabled]="paginationInfo.current_page === 1"> « </a>
+    <!-- Previous Page -->
+    <a
+      class="previous-page"
+      [routerLink]="[]"
+      [queryParams]="{ page: paginationInfo.current_page - 1 }"
+      [queryParamsHandling]="'merge'"
+      [class.disabled]="paginationInfo.current_page === 1"
+    >
+      ‹
+    </a>
 
-  <!-- Previous Page -->
-  <a [routerLink]="[]" [queryParams]="{ page: paginationInfo.current_page - 1 }" [queryParamsHandling]="'merge'" [class.disabled]="paginationInfo.current_page === 1"> ‹ </a>
+    <!-- Page Numbers (max 4, centered around current page) -->
+    @for (page of getPages(); track $index) {
+      <a
+        class="page-number"
+        [routerLink]="[]"
+        [queryParams]="{ page: page }"
+        [queryParamsHandling]="'merge'"
+        [class.active]="page === paginationInfo.current_page"
+        [class]="getDistanceClass(page)"
+      >
+        {{ page }}
+      </a>
+    }
 
-  <!-- Page Numbers (max 4, centered around current page) -->
-  <!--TODO Replay style.color and  style.fontSize.px with ngClass-->
-  @for (page of getPages(); track $index) {
-  <a
-    [routerLink]="[]"
-    [queryParams]="{ page: page }"
-    [queryParamsHandling]="'merge'"
-    [style.color]="
-      page === paginationInfo.current_page
-        ? 'red'
-        : page - paginationInfo.current_page === 1 || page - paginationInfo.current_page === -1
-        ? 'orange'
-        : page - paginationInfo.current_page === 2 || page - paginationInfo.current_page === -2
-        ? 'yellow'
-        : page - paginationInfo.current_page === 3 || page - paginationInfo.current_page === -3
-        ? 'green'
-        : page - paginationInfo.current_page === 4 || page - paginationInfo.current_page === -4
-        ? 'brown'
-        : ''
-    "
-    [style.fontSize.px]="
-      page === paginationInfo.current_page
-        ? 22
-        : page - paginationInfo.current_page === 1 || page - paginationInfo.current_page === -1
-        ? 20
-        : page - paginationInfo.current_page === 2 || page - paginationInfo.current_page === -2
-        ? 18
-        : page - paginationInfo.current_page === 3 || page - paginationInfo.current_page === -3
-        ? 16
-        : page - paginationInfo.current_page === 4 || page - paginationInfo.current_page === -4
-        ? 14
-        : 12
-    "
-  >
-    {{ page }}
-  </a>
-  }
+    <!-- Next Page -->
+    <a
+      class="next-page"
+      [routerLink]="[]"
+      [queryParams]="{ page: paginationInfo.current_page + 1 }"
+      [queryParamsHandling]="'merge'"
+      [class.disabled]="paginationInfo.current_page === paginationInfo.last_page"
+    >
+      ›
+    </a>
 
-  <!-- Next Page -->
-  <a [routerLink]="[]" [queryParams]="{ page: paginationInfo.current_page + 1 }" [queryParamsHandling]="'merge'" [class.disabled]="paginationInfo.current_page === paginationInfo.last_page"> › </a>
-
-  <!-- Last Page -->
-  <a [routerLink]="[]" [queryParams]="{ page: paginationInfo.last_page }" [queryParamsHandling]="'merge'" [class.disabled]="paginationInfo.current_page === paginationInfo.last_page"> » </a>
-</nav>
+    <!-- Last Page -->
+    <a
+      class="last-page"
+      [routerLink]="[]"
+      [queryParams]="{ page: paginationInfo.last_page }"
+      [queryParamsHandling]="'merge'"
+      [class.disabled]="paginationInfo.current_page === paginationInfo.last_page"
+    >
+      »
+    </a>
+  </nav>
 }

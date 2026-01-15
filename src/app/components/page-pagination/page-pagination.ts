@@ -14,43 +14,51 @@ export class PagePagination<T> {
 
   constructor() {}
 
+  /**
+   * Get pages to display
+   *
+   * @returns
+   */
   getPages(): number[] {
     const total = this.paginationInfo.last_page;
     const current = this.paginationInfo.current_page;
     const pages: number[] = [];
 
-    const maxPages = 8;
-    const halfMax = Math.floor(maxPages / 2);
+    const maxPages = 9;
 
-    let start = current - halfMax;
-    let end = current + halfMax;
+    let start = 1;
+    let end = total;
 
-    /**
-     * Limit: never less than 1, never more than total
-     */
-    if (start < 1) {
-      start = 1;
-      end = Math.min(total, start + maxPages - 1);
-    }
-    if (end > total) {
-      end = total;
-      start = Math.max(1, end - maxPages + 1);
-    }
-
-    /**
-     * Ensure that left and right are never more than halfMax away from current
-     */
-    if (current - start > halfMax) {
+    if (total > maxPages) {
+      const halfMax = Math.floor(maxPages / 2);
       start = current - halfMax;
-    }
-    if (end - current > halfMax) {
       end = current + halfMax;
-      if (end > total) end = total;
+
+      if (start < 1) {
+        start = 1;
+        end = maxPages;
+      }
+
+      if (end > total) {
+        end = total;
+        start = total - maxPages + 1;
+      }
     }
 
     for (let pageNumber = start; pageNumber <= end; pageNumber++) {
       pages.push(pageNumber);
     }
     return pages;
+  }
+
+  /**
+   * Get distance class for page
+   *
+   * @param page
+   * @returns
+   */
+  getDistanceClass(page: number): string {
+    const distance = Math.abs(page - this.paginationInfo.current_page);
+    return distance > 0 && distance <= 4 ? `is-near-${distance}` : '';
   }
 }
