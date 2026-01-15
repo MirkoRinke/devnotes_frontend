@@ -3,12 +3,7 @@
 @use '../../../mixins' as *;
 
 .posts-list-page {
-  @include display-flex(start, center, column);
-
-  // Here I'm still thinking about whether I want this here
-  // max-width: px-to-rem(2560);
-  // width: 100%;
-  // margin: auto;
+  @include display-flex(stretch, center, column);
 
   .query-bar {
     @include display-flex(center, space-between);
@@ -29,9 +24,5 @@
       @include display-flex(center, center);
       gap: px-to-rem(20);
     }
-  }
-
-  .posts-list {
-    width: 100%;
   }
 }
