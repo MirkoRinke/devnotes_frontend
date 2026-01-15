@@ -8,7 +8,10 @@
       [queryParamsHandling]="'merge'"
       [class.disabled]="paginationInfo.current_page === 1"
     >
-      «
+      <span
+        class="icon-container"
+        [innerHTML]="svgIconsService.returnIcon('first_page')"
+      ></span>
     </a>
 
     <!-- Previous Page -->
@@ -19,7 +22,10 @@
       [queryParamsHandling]="'merge'"
       [class.disabled]="paginationInfo.current_page === 1"
     >
-      ‹
+      <span
+        class="icon-container"
+        [innerHTML]="svgIconsService.returnIcon('previous_page')"
+      ></span>
     </a>
 
     <!-- Page Numbers (max 4, centered around current page) -->
@@ -44,7 +50,10 @@
       [queryParamsHandling]="'merge'"
       [class.disabled]="paginationInfo.current_page === paginationInfo.last_page"
     >
-      ›
+      <span
+        class="icon-container"
+        [innerHTML]="svgIconsService.returnIcon('next_page')"
+      ></span>
     </a>
 
     <!-- Last Page -->
@@ -55,7 +64,10 @@
       [queryParamsHandling]="'merge'"
       [class.disabled]="paginationInfo.current_page === paginationInfo.last_page"
     >
-      »
+      <span
+        class="icon-container"
+        [innerHTML]="svgIconsService.returnIcon('last_page')"
+      ></span>
     </a>
   </nav>
 }

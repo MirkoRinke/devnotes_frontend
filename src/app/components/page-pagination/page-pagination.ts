@@ -3,6 +3,8 @@ import { RouterLink } from '@angular/router';
 
 import type { PaginationInfoInterface } from '../../interfaces/pagination-info';
 
+import { SvgIconsService } from '../../services/svg.icons.service';
+
 @Component({
   selector: 'app-page-pagination',
   imports: [RouterLink],
@@ -12,7 +14,7 @@ import type { PaginationInfoInterface } from '../../interfaces/pagination-info';
 export class PagePagination<T> {
   @Input() paginationInfo!: PaginationInfoInterface<T>;
 
-  constructor() {}
+  constructor(public svgIconsService: SvgIconsService) {}
 
   /**
    * Get pages to display

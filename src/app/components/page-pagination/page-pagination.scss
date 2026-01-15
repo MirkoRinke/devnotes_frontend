@@ -30,6 +30,28 @@
       box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-50);
     }
 
+    .icon-container {
+      @include display-flex(center, center);
+
+      & ::ng-deep svg {
+        fill: var(--font-primary-color-100);
+        width: px-to-rem(14);
+        height: px-to-rem(14);
+        transition: fill var.$transition-duration-medium ease;
+      }
+    }
+
+    &.disabled {
+      pointer-events: none;
+      opacity: 0.5;
+
+      .icon-container {
+        & ::ng-deep svg {
+          fill: var(--font-primary-color-50);
+        }
+      }
+    }
+
     &.active {
       @include font-settings(22, 600, var(--font-primary-color-100));
     }
