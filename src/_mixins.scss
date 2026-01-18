@@ -17,7 +17,7 @@
   }
 }
 
-@mixin display-flex($align: flex-start, $justify: flex-start, $direction: row) {
+@mixin display-flex($align: stretch, $justify: flex-start, $direction: row) {
   display: flex;
   align-items: $align;
   justify-content: $justify;
