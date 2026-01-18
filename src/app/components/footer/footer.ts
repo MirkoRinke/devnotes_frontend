@@ -10,7 +10,7 @@ import { SvgIconsService } from '../../services/svg.icons.service';
   styleUrl: './footer.scss',
 })
 export class Footer {
-  constructor(public svgIcons: SvgIconsService) {}
+  constructor(public svgIconsService: SvgIconsService) {}
 
   currentYear = new Date().getFullYear();
 }

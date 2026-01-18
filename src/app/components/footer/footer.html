@@ -4,7 +4,7 @@
     <a href="https://github.com/MirkoRinke">GitHub</a>
     <a href="mailto:contact@mirkorinke.dev">Kontakt</a>
   </div>
-  <div class="center"><span [innerHTML]="svgIcons.returnIcon('copyright')"></span> {{ currentYear }} Mirko Rinke</div>
+  <div class="center"><span [innerHTML]="svgIconsService.returnIcon('copyright')"></span> {{ currentYear }} Mirko Rinke</div>
   <div class="right">
     <a [routerLink]="'/terms'">Nutzungsbedingungen</a>
     <a [routerLink]="'/imprint'">Impressum</a>
