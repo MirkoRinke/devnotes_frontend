@@ -4,5 +4,4 @@
 
 .app-header {
   @include display-flex(center, space-between);
-  padding-bottom: px-to-rem(50);
 }
