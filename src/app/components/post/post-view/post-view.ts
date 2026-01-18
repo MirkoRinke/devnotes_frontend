@@ -3,6 +3,8 @@ import { DatePipe } from '@angular/common';
 
 import type { PostInterface } from '../../../interfaces/post';
 
+import { SvgIconsService } from '../../../services/svg.icons.service';
+
 @Component({
   selector: 'app-post-view',
   imports: [DatePipe],
@@ -11,6 +13,10 @@ import type { PostInterface } from '../../../interfaces/post';
 })
 export class PostView {
   @Input() post!: PostInterface;
+  @Input() selectedEntityValue!: string | null;
+  @Input() selectedPostType!: string | null;
+
+  constructor(public svgIconsService: SvgIconsService) {}
 
   avatarItemsEntries() {
     return this.post?.user?.avatar_items ? Object.entries(this.post.user.avatar_items).map(([key, url]) => ({ key, url })) : [];

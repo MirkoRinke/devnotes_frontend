@@ -1,0 +1,99 @@
+@use '../../../../functions' as *;
+@use '../../../../var' as var;
+@use '../../../../mixins' as *;
+
+.post {
+  background-color: var(--page-primary-color-100);
+  border-radius: px-to-rem(15);
+  padding: px-to-rem(25) px-to-rem(50);
+
+  .system-bar {
+    @include display-flex(center, space-between);
+
+    .version-info {
+      @include display-flex(center);
+      gap: px-to-rem(5);
+
+      .post-type,
+      .post-type,
+      .category {
+        &::first-letter {
+          text-transform: uppercase;
+        }
+      }
+
+      &:hover {
+        cursor: pointer;
+
+        .chevron-icon {
+          &::ng-deep .chevron {
+            fill: var(--font-primary-color-100);
+          }
+        }
+      }
+
+      .chevron-icon {
+        @include font-settings(12, 400);
+        display: inline-block;
+        color: var(--font-primary-color-50);
+        align-self: start;
+
+        transition: transform var.$transition-duration-medium ease-in-out;
+
+        &::ng-deep .chevron {
+          transition: fill var.$transition-duration-medium ease-in-out;
+          width: px-to-rem(10);
+          height: px-to-rem(10);
+          fill: var(--font-primary-color-50);
+        }
+
+        &.open {
+          transform: rotateX(180deg);
+          &::ng-deep .chevron {
+            transition: fill var.$transition-duration-medium ease-in-out;
+            fill: var(--font-primary-color-100);
+          }
+        }
+      }
+    }
+
+    .report {
+      @include display-flex(center);
+      gap: px-to-rem(5);
+
+      &:hover {
+        cursor: pointer;
+
+        .chevron-icon {
+          &::ng-deep .chevron {
+            fill: var(--font-primary-color-100);
+          }
+        }
+      }
+
+      .chevron-icon {
+        @include font-settings(12, 400);
+        display: inline-block;
+        color: var(--font-primary-color-50);
+        align-self: start;
+
+        transition: transform var.$transition-duration-medium ease-in-out;
+
+        &::ng-deep .chevron {
+          transition: fill var.$transition-duration-medium ease-in-out;
+          width: px-to-rem(10);
+          height: px-to-rem(10);
+          fill: var(--font-primary-color-50);
+        }
+
+        &.open {
+          transform: rotateX(180deg);
+          &::ng-deep .chevron {
+            transition: fill var.$transition-duration-medium ease-in-out;
+            fill: var(--font-primary-color-100);
+          }
+        }
+      }
+    }
+  }
+}

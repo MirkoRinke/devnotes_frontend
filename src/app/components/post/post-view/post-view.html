@@ -1,95 +1,125 @@
-<!-- Todo Temporary HTML for testing purposes -->
+<article class="post">
+  <header>
+    <div class="system-bar">
+      <div class="version-info">
+        <time class="created-at">{{ post.created_at | date: 'mediumDate' }}</time>
+        <span class="separator">|</span>
+        <span class="entitye">{{ selectedEntityValue }}</span>
+        <span class="separator">|</span>
+        <span class="post-type">{{ selectedPostType }}</span>
+        <span class="separator">|</span>
+        <span class="category">{{ post.category }}</span>
+        <span
+          class="chevron-icon"
+          [class.open]="false"
+          [innerHTML]="svgIconsService.returnIcon('chevron')"
+        ></span>
+      </div>
 
-<p>post-view works!</p>
+      <div class="report">
+        <span>Melden</span>
+        <span
+          class="chevron-icon"
+          [class.open]="false"
+          [innerHTML]="svgIconsService.returnIcon('chevron')"
+        ></span>
+      </div>
+    </div>
 
-<h2>{{ post.title }} (ID: {{ post.id }})</h2>
-<p><strong>User ID:</strong> {{ post.user_id }}</p>
-<p><strong>Kategorie:</strong> {{ post.category }}</p>
-<p><strong>Post-Typ:</strong> {{ post.post_type }}</p>
+    <br /><br /><br />
+
+    <div class="interaction-bar">
+      <div class="user-info">
+        @for (avatarItem of avatarItemsEntries(); track $index) {
+          <div>
+            @if (avatarItem.url) {
+              <img
+                [src]="avatarItem.url"
+                [alt]="avatarItem.key"
+                [class]="avatarItem.key"
+              />
+            }
+          </div>
+        }
+        <span>User: {{ post.user?.display_name }}</span>
+      </div>
+
+      <div class="engagement-bar">
+        <p><strong>Likes:</strong> {{ post.likes_count }}</p>
+        <p><strong>Favoriten:</strong> {{ post.favorite_count }}</p>
+        <p><strong>Teilen Icon</strong></p>
+      </div>
+    </div>
+  </header>
+  <br /><br /><br />
+  <h2>{{ post.title }} (ID: {{ post.id }})</h2>
+</article>
+
+<!-- <p><strong>Post-Typ:</strong> {{ post.post_type }}</p>
 <p><strong>Status:</strong> {{ post.status }}</p>
 <p><strong>Beschreibung:</strong> {{ post.description }}</p>
 <p><strong>Code:</strong>{{ post.code }}</p>
-<p><strong>Likes:</strong> {{ post.likes_count }}</p>
-<p><strong>Favoriten:</strong> {{ post.favorite_count }}</p>
-<p><strong>Reports:</strong> {{ post.reports_count }}</p>
 <p><strong>Kommentare:</strong> {{ post.comments_count }}</p>
-<p><strong>Erstellt am:</strong> {{ post.created_at | date : 'medium' }}</p>
-<p><strong>Aktualisiert am:</strong> {{ post.updated_at | date : 'medium' }}</p>
 <p><strong>Aktualisiert von Rolle:</strong> {{ post.updated_by_role }}</p>
 <p><strong>Kommentare aktualisiert am:</strong> {{ post.comments_updated_at }}</p>
-<p><strong>Is Updated:</strong> {{ post.is_updated }}</p>
-<p><strong>Is Favorited:</strong> {{ post.is_favorited }}</p>
-<p><strong>Is Liked:</strong> {{ post.is_liked }}</p>
-<p><strong>Is Read:</strong> {{ post.is_read }}</p>
 
 <div>
   <strong>Tags:</strong>
   @for (tag of post.tags; track $index) {
-  {{ tag.name }}
+    {{ tag.name }}
   }
 </div>
 <br />
 <div>
   <strong>Sprachen:</strong>
   @for (language of post.languages; track $index) {
-  {{ language.name }}
+    {{ language.name }}
   }
 </div>
 <br />
 <div>
   <strong>Technologien:</strong>
   @for (technology of post.technologies; track $index) {
-  {{ technology.name }}
+    {{ technology.name }}
   }
 </div>
 <br />
 <div>
   <strong>Bilder:</strong>
   @for (image of post.images; track $index) {
-  <br />
-  {{ image }}
+    <br />
+    {{ image }}
   }
 </div>
 <br />
 <div>
   <strong>Videos:</strong>
   @for (video of post.videos; track $index) {
-  <br />
-  {{ video }}
+    <br />
+    {{ video }}
   }
 </div>
 <br />
 <div>
   <strong>Ressourcen:</strong>
   @for (resource of post.resources; track $index) {
-  <br />
-  {{ resource }}
+    <br />
+    {{ resource }}
   }
 </div>
 <br />
 <div>
   <strong>External Source Previews:</strong>
   @for (externalSourcePreview of post.external_source_previews; track $index) {
-  <br />
-  <span>{{ externalSourcePreview.type }} || </span>
-  <span>{{ externalSourcePreview.url }} || </span>
-  <span>{{ externalSourcePreview.domain }}</span>
+    <br />
+    <span>{{ externalSourcePreview.type }} || </span>
+    <span>{{ externalSourcePreview.url }} || </span>
+    <span>{{ externalSourcePreview.domain }}</span>
   }
 </div>
 <br />
-<div>
-  <strong>User:</strong>
-  {{ post.user?.display_name }}
 
-  @for (avatarItem of avatarItemsEntries(); track $index) {
-  <div>
-    @if (avatarItem.url) {
-    <img [src]="avatarItem.url" [alt]="avatarItem.key" [class]="avatarItem.key" />
-    }
-  </div>
-  }
-</div>
 <br />
 <div><strong>History:</strong>{{ post.history }}</div>
 <br />
-<div><strong>Moderation Info:</strong>{{ post.moderation_info }}</div>
+<div><strong>Moderation Info:</strong>{{ post.moderation_info }}</div> -->
