@@ -14,6 +14,7 @@
   .content {
     @include display-flex(start, start, column);
     flex-grow: 1;
+    padding-block: px-to-rem(25);
   }
 
   .footer {
