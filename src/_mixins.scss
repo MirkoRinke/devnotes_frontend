@@ -51,7 +51,7 @@
   padding: px-to-rem($vertical) px-to-rem($horizontal);
 }
 
-@mixin button-preset($padding-factor: 16) {
+@mixin button-preset() {
   -webkit-tap-highlight-color: transparent;
   -webkit-appearance: none;
   appearance: none;
