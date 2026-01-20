@@ -1,5 +1,5 @@
 <article class="post">
-  <header>
+  <header class="header">
     <div class="system-bar">
       <div class="version-info">
         <time class="created-at">{{ post.created_at | date: 'mediumDate' }}</time>
@@ -26,11 +26,15 @@
       </div>
     </div>
 
-    <br /><br /><br />
-
-    <div class="interaction-bar">
-      <div class="user-info">
-        @for (avatarItem of avatarItemsEntries(); track $index) {
+    <div class="info-bar">
+      <div class="user">
+        <div class="avatar">
+          <img
+            src="/avatar-items/placeholder.webp"
+            alt="placeholder"
+          />
+        </div>
+        <!-- @for (avatarItem of avatarItemsEntries(); track $index) {
           <div>
             @if (avatarItem.url) {
               <img
@@ -40,50 +44,126 @@
               />
             }
           </div>
-        }
-        <span>User: {{ post.user?.display_name }}</span>
+        } -->
+        <span class="display-name">{{ post.user?.display_name }}</span>
       </div>
 
-      <div class="engagement-bar">
-        <p><strong>Likes:</strong> {{ post.likes_count }}</p>
-        <p><strong>Favoriten:</strong> {{ post.favorite_count }}</p>
-        <p><strong>Teilen Icon</strong></p>
+      <div class="engagement">
+        <div class="likes">
+          <p>{{ post.likes_count }}</p>
+          <span
+            class="icon"
+            [innerHTML]="svgIconsService.returnIcon('like')"
+          ></span>
+        </div>
+
+        <div class="favorites">
+          <p>{{ post.favorite_count }}</p>
+          <span
+            class="icon"
+            [innerHTML]="svgIconsService.returnIcon('favorite')"
+          ></span>
+        </div>
+
+        <div class="shares">
+          <span
+            class="icon"
+            [innerHTML]="svgIconsService.returnIcon('share')"
+          ></span>
+        </div>
       </div>
     </div>
   </header>
-  <br /><br /><br />
-  <h2>{{ post.title }} (ID: {{ post.id }})</h2>
+
+  <section class="content">
+    <h2 class="title">{{ post.title }} (ID: {{ post.id }})</h2>
+
+    <p class="description">{{ post.description }}</p>
+
+    <div class="code-container">
+      <button
+        class="copy-button"
+        [innerHTML]="svgIconsService.returnIcon('copy')"
+      ></button>
+      <pre><code>{{ post.code }}</code></pre>
+    </div>
+  </section>
+  <footer class="footer">
+    <div class="footer-meta">
+      <div class="tech-stack">
+        <div class="languages">
+          @for (language of post.languages; track $index) {
+            <span
+              class="language"
+              [title]="language.name"
+              [innerHTML]="svgIconsService.returnIcon(language.name)"
+            ></span>
+          }
+        </div>
+
+        <div class="technologies">
+          @for (technology of post.technologies; track $index) {
+            <span
+              class="technology"
+              [title]="technology.name"
+              [innerHTML]="svgIconsService.returnIcon(technology.name)"
+            ></span>
+          }
+        </div>
+      </div>
+
+      <div class="media-links">
+        <span
+          [title]="'Bilder'"
+          [innerHTML]="svgIconsService.returnIcon('image')"
+        ></span>
+        <span
+          [title]="'Video'"
+          [innerHTML]="svgIconsService.returnIcon('video')"
+        ></span>
+        <span
+          [title]="'Ressourcen'"
+          [innerHTML]="svgIconsService.returnIcon('resources')"
+        ></span>
+      </div>
+    </div>
+
+    <span class="line-break"></span>
+    <div class="tags">
+      @for (tag of post.tags; track $index) {
+        <button class="tag">{{ tag.name }}</button>
+      }
+
+      <!-- Duplicate buttons for demonstration purposes -->
+      @for (tag of post.tags; track $index) {
+        <button class="tag">{{ tag.name }}</button>
+      }
+      @for (tag of post.tags; track $index) {
+        <button class="tag">{{ tag.name }}</button>
+      }
+      @for (tag of post.tags; track $index) {
+        <button class="tag">{{ tag.name }}</button>
+      }
+    </div>
+  </footer>
 </article>
 
-<!-- <p><strong>Post-Typ:</strong> {{ post.post_type }}</p>
+<!-- For testing purposes -->
+
+<br /><br /><br /><br />
+
+<p><strong>Post-Typ:</strong> {{ post.post_type }}</p>
+
 <p><strong>Status:</strong> {{ post.status }}</p>
-<p><strong>Beschreibung:</strong> {{ post.description }}</p>
-<p><strong>Code:</strong>{{ post.code }}</p>
+
 <p><strong>Kommentare:</strong> {{ post.comments_count }}</p>
+
 <p><strong>Aktualisiert von Rolle:</strong> {{ post.updated_by_role }}</p>
+
 <p><strong>Kommentare aktualisiert am:</strong> {{ post.comments_updated_at }}</p>
 
-<div>
-  <strong>Tags:</strong>
-  @for (tag of post.tags; track $index) {
-    {{ tag.name }}
-  }
-</div>
-<br />
-<div>
-  <strong>Sprachen:</strong>
-  @for (language of post.languages; track $index) {
-    {{ language.name }}
-  }
-</div>
-<br />
-<div>
-  <strong>Technologien:</strong>
-  @for (technology of post.technologies; track $index) {
-    {{ technology.name }}
-  }
-</div>
-<br />
+<br /><br />
+
 <div>
   <strong>Bilder:</strong>
   @for (image of post.images; track $index) {
@@ -122,4 +202,4 @@
 <br />
 <div><strong>History:</strong>{{ post.history }}</div>
 <br />
-<div><strong>Moderation Info:</strong>{{ post.moderation_info }}</div> -->
+<div><strong>Moderation Info:</strong>{{ post.moderation_info }}</div>

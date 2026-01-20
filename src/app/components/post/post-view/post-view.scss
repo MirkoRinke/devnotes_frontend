@@ -3,95 +3,353 @@
 @use '../../../../mixins' as *;
 
 .post {
+  @include display-flex($direction: column);
+  gap: px-to-rem(25);
+
   background-color: var(--page-primary-color-100);
   border-radius: px-to-rem(15);
   padding: px-to-rem(25) px-to-rem(50);
 
-  .system-bar {
-    @include display-flex(center, space-between);
+  // max-width: px-to-rem(1600);
+  // margin: auto;
 
-    .version-info {
-      @include display-flex(center);
-      gap: px-to-rem(5);
+  .header {
+    @include display-flex($direction: column);
+    gap: px-to-rem(25);
 
-      .post-type,
-      .post-type,
-      .category {
-        &::first-letter {
-          text-transform: uppercase;
+    .system-bar {
+      @include display-flex(center, space-between);
+
+      .version-info {
+        @include display-flex(center);
+        gap: px-to-rem(5);
+
+        .post-type,
+        .post-type,
+        .category {
+          &::first-letter {
+            text-transform: uppercase;
+          }
         }
-      }
 
-      &:hover {
-        cursor: pointer;
+        &:hover {
+          cursor: pointer;
+
+          .chevron-icon {
+            &::ng-deep .chevron {
+              fill: var(--font-primary-color-100);
+            }
+          }
+        }
 
         .chevron-icon {
+          @include font-settings(12, 400);
+          display: inline-block;
+          color: var(--font-primary-color-50);
+          align-self: start;
+
+          transition: transform var.$transition-duration-medium ease-in-out;
+
           &::ng-deep .chevron {
-            fill: var(--font-primary-color-100);
+            transition: fill var.$transition-duration-medium ease-in-out;
+            width: px-to-rem(10);
+            height: px-to-rem(10);
+            fill: var(--font-primary-color-50);
+          }
+
+          &.open {
+            transform: rotateX(180deg);
+            &::ng-deep .chevron {
+              transition: fill var.$transition-duration-medium ease-in-out;
+              fill: var(--font-primary-color-100);
+            }
           }
         }
       }
 
-      .chevron-icon {
-        @include font-settings(12, 400);
-        display: inline-block;
-        color: var(--font-primary-color-50);
-        align-self: start;
+      .report {
+        @include display-flex(center);
+        gap: px-to-rem(5);
 
-        transition: transform var.$transition-duration-medium ease-in-out;
+        &:hover {
+          cursor: pointer;
 
-        &::ng-deep .chevron {
-          transition: fill var.$transition-duration-medium ease-in-out;
-          width: px-to-rem(10);
-          height: px-to-rem(10);
-          fill: var(--font-primary-color-50);
+          .chevron-icon {
+            &::ng-deep .chevron {
+              fill: var(--font-primary-color-100);
+            }
+          }
         }
 
-        &.open {
-          transform: rotateX(180deg);
+        .chevron-icon {
+          @include font-settings(12, 400);
+          display: inline-block;
+          color: var(--font-primary-color-50);
+          align-self: start;
+
+          transition: transform var.$transition-duration-medium ease-in-out;
+
           &::ng-deep .chevron {
             transition: fill var.$transition-duration-medium ease-in-out;
-            fill: var(--font-primary-color-100);
+            width: px-to-rem(10);
+            height: px-to-rem(10);
+            fill: var(--font-primary-color-50);
+          }
+
+          &.open {
+            transform: rotateX(180deg);
+            &::ng-deep .chevron {
+              transition: fill var.$transition-duration-medium ease-in-out;
+              fill: var(--font-primary-color-100);
+            }
           }
         }
       }
     }
 
-    .report {
-      @include display-flex(center);
-      gap: px-to-rem(5);
+    .info-bar {
+      @include display-flex(center, space-between);
 
-      &:hover {
-        cursor: pointer;
+      .user {
+        @include display-flex(center);
+        gap: px-to-rem(10);
 
-        .chevron-icon {
-          &::ng-deep .chevron {
-            fill: var(--font-primary-color-100);
+        &:hover {
+          cursor: pointer;
+
+          .avatar img {
+            transform: scale(1.1);
+          }
+        }
+
+        .avatar {
+          width: px-to-rem(50);
+          height: px-to-rem(50);
+          overflow: hidden;
+          border-radius: 50%;
+
+          & img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform var.$transition-duration-medium ease-in-out;
+          }
+        }
+
+        .display-name {
+          color: var(--font-primary-color-100);
+
+          &::first-letter {
+            text-transform: uppercase;
           }
         }
       }
 
-      .chevron-icon {
-        @include font-settings(12, 400);
-        display: inline-block;
-        color: var(--font-primary-color-50);
-        align-self: start;
+      .engagement {
+        @include display-flex(center);
+        gap: px-to-rem(20);
 
-        transition: transform var.$transition-duration-medium ease-in-out;
+        .likes,
+        .favorites,
+        .shares {
+          @include display-flex(center, center, row);
+          gap: px-to-rem(5);
 
-        &::ng-deep .chevron {
-          transition: fill var.$transition-duration-medium ease-in-out;
-          width: px-to-rem(10);
-          height: px-to-rem(10);
-          fill: var(--font-primary-color-50);
+          &:hover {
+            cursor: pointer;
+
+            .icon {
+              &::ng-deep svg {
+                fill: var(--font-primary-color-100);
+              }
+            }
+          }
+
+          .icon {
+            width: px-to-rem(20);
+            height: px-to-rem(20);
+
+            &::ng-deep svg {
+              width: 100%;
+              height: 100%;
+              fill: var(--font-primary-color-50);
+              transition: fill var.$transition-duration-medium ease-in-out;
+            }
+          }
+
+          .count {
+            @include font-settings(14, 500);
+            color: var(--font-primary-color-100);
+          }
         }
+      }
+    }
+  }
 
-        &.open {
-          transform: rotateX(180deg);
-          &::ng-deep .chevron {
-            transition: fill var.$transition-duration-medium ease-in-out;
+  .content {
+    @include display-flex($direction: column);
+    gap: px-to-rem(25);
+
+    .title {
+      @include display-flex(center);
+      gap: px-to-rem(10);
+
+      @include font-settings(16, 700);
+      color: var(--font-primary-color-100);
+      width: 100%;
+
+      &::before {
+        content: '';
+        height: 1px;
+        min-width: px-to-rem(100);
+        max-width: px-to-rem(100);
+        background-color: var(--font-primary-color-20);
+      }
+
+      &::after {
+        content: '';
+        height: 1px;
+        flex-grow: 1;
+        background-color: var(--font-primary-color-20);
+      }
+    }
+
+    .description {
+      @include font-settings(14, 400);
+      color: var(--font-primary-color-100);
+    }
+
+    .code-container {
+      //TODO Fix color later use variable
+      background-color: #181a22;
+      border: px-to-rem(2) solid var(--font-primary-color-25);
+      border-radius: px-to-rem(10);
+      padding: px-to-rem(20) px-to-rem(25);
+
+      position: relative;
+
+      .copy-button {
+        @include button-preset();
+        position: absolute;
+        top: px-to-rem(15);
+        right: px-to-rem(15);
+
+        &:hover {
+          &::ng-deep .copy {
             fill: var(--font-primary-color-100);
           }
+        }
+
+        &::ng-deep .copy {
+          transition: fill var.$transition-duration-medium ease-in-out;
+          width: px-to-rem(15);
+          height: px-to-rem(15);
+          fill: var(--font-primary-color-50);
+        }
+      }
+
+      & pre {
+        //TODO Checked styles for code blocks - can be adjusted later
+
+        // overflow-x: auto;
+        // white-space: pre;
+
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        overflow-wrap: anywhere;
+      }
+    }
+  }
+
+  .footer {
+    @include display-flex($direction: column);
+    gap: px-to-rem(25);
+
+    .footer-meta {
+      @include display-flex(center, space-between);
+      gap: px-to-rem(25);
+
+      .tech-stack {
+        @include display-flex(center);
+        gap: px-to-rem(25);
+
+        .languages,
+        .technologies {
+          @include display-flex(center);
+          gap: px-to-rem(15);
+
+          .language,
+          .technology {
+            @include display-flex(center);
+
+            &:hover {
+              cursor: pointer;
+              &::ng-deep svg {
+                fill: var(--font-primary-color-100);
+                transition: fill var.$transition-duration-medium ease-in-out;
+              }
+            }
+
+            &::ng-deep svg {
+              width: px-to-rem(25);
+              height: px-to-rem(25);
+              fill: var(--font-primary-color-50);
+              transition: fill var.$transition-duration-medium ease-in-out;
+            }
+          }
+        }
+      }
+
+      .media-links {
+        @include display-flex(center);
+        gap: px-to-rem(15);
+
+        span {
+          @include display-flex(center);
+
+          &:hover {
+            cursor: pointer;
+            &::ng-deep svg {
+              fill: var(--font-primary-color-100);
+              transition: fill var.$transition-duration-medium ease-in-out;
+            }
+          }
+
+          &::ng-deep svg {
+            width: px-to-rem(25);
+            height: px-to-rem(25);
+            fill: var(--font-primary-color-50);
+            transition: fill var.$transition-duration-medium ease-in-out;
+          }
+        }
+      }
+    }
+
+    .line-break {
+      width: 100%;
+      height: 1px;
+      background-color: var(--font-primary-color-20);
+    }
+
+    .tags {
+      @include display-flex(center);
+      gap: px-to-rem(20);
+      flex-wrap: wrap;
+
+      .tag {
+        @include button-preset();
+        @include golden-ratio-padding(14);
+        @include font-settings(14, 500);
+
+        background-color: var(--font-primary-color-15);
+        border-radius: px-to-rem(10);
+
+        color: var(--font-primary-color-100);
+
+        transition: scale var.$transition-duration-medium ease-in-out;
+
+        &:hover {
+          scale: 1.05;
         }
       }
     }
