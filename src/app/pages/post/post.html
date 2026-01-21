@@ -1,5 +1,9 @@
-<app-post-view
-  [post]="post"
-  [selectedEntityValue]="selectedEntityValue"
-  [selectedPostType]="selectedPostType"
-></app-post-view>
+@if (postDataLoaded) {
+  <app-post-view
+    [post]="post"
+    [selectedEntityValue]="selectedEntityValue"
+    [selectedPostType]="selectedPostType"
+  ></app-post-view>
+} @else {
+  <p>Lade Beitrag...</p>
+}

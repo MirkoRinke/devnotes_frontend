@@ -23,6 +23,8 @@ export class Post {
   selectedEntityValue: string | null = null;
   selectedPostType: string | null = null;
 
+  postDataLoaded: boolean = false;
+
   necessaryUserFields: string = 'display_name,avatar_items';
 
   constructor(
@@ -89,7 +91,7 @@ export class Post {
     this.apiService.get<ApiResponseObjektInterface<PostInterface>>(url).subscribe({
       next: (response) => {
         this.post = response.data.data;
-
+        this.postDataLoaded = true;
         if (this.checkAllowedEntityValue() || this.checkAllowedPostTypes()) {
           this.router.navigate(['/']);
           console.warn('Invalid entity value or post type');
