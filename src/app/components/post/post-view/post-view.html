@@ -2,18 +2,43 @@
   <header class="header">
     <div class="system-bar">
       <div class="version-info">
-        <time class="created-at">{{ post.created_at | date: 'mediumDate' }}</time>
+        <!-- Temporary version dropdown for testing purposes -->
+        <div class="version-dropdown">
+          <div
+            class="version-display"
+            (click)="toggleDropdown()"
+          >
+            <time class="updated_at">{{ currentPost.updated_at | localDate }}</time>
+            <span
+              class="chevron-icon"
+              [class.open]="dropdownOpen"
+              [innerHTML]="svgIconsService.returnIcon('chevron')"
+            ></span>
+          </div>
+
+          <div
+            [class.open]="dropdownOpen"
+            class="version-selector"
+          >
+            @for (postVersionsValue of postVersionsValues; track $index) {
+              @if (postVersionsValue.label !== (currentPost.updated_at | localDate)) {
+                <div
+                  class="version-values"
+                  (click)="changePostVersion(postVersionsValue.value); toggleDropdown()"
+                >
+                  {{ postVersionsValue.label }}
+                </div>
+              }
+            }
+          </div>
+        </div>
+
         <span class="separator">|</span>
         <span class="entitye">{{ selectedEntityValue }}</span>
         <span class="separator">|</span>
         <span class="post-type">{{ selectedPostType }}</span>
         <span class="separator">|</span>
-        <span class="category">{{ post.category }}</span>
-        <span
-          class="chevron-icon"
-          [class.open]="false"
-          [innerHTML]="svgIconsService.returnIcon('chevron')"
-        ></span>
+        <span class="category">{{ currentPost.category }}</span>
       </div>
 
       <div class="report">
@@ -45,12 +70,12 @@
             }
           </div>
         } -->
-        <span class="display-name">{{ post.user?.display_name }}</span>
+        <span class="display-name">{{ currentPost.user?.display_name }}</span>
       </div>
 
       <div class="engagement">
         <div class="likes">
-          <p>{{ post.likes_count }}</p>
+          <p>{{ currentPost.likes_count }}</p>
           <span
             class="icon"
             [innerHTML]="svgIconsService.returnIcon('like')"
@@ -58,7 +83,7 @@
         </div>
 
         <div class="favorites">
-          <p>{{ post.favorite_count }}</p>
+          <p>{{ currentPost.favorite_count }}</p>
           <span
             class="icon"
             [innerHTML]="svgIconsService.returnIcon('favorite')"
@@ -76,23 +101,23 @@
   </header>
 
   <section class="content">
-    <h2 class="title">{{ post.title }} (ID: {{ post.id }})</h2>
+    <h2 class="title">{{ currentPost.title }} (ID: {{ currentPost.id }})</h2>
 
-    <p class="description">{{ post.description }}</p>
+    <p class="description">{{ currentPost.description }}</p>
 
     <div class="code-container">
       <button
         class="copy-button"
         [innerHTML]="svgIconsService.returnIcon('copy')"
       ></button>
-      <pre><code>{{ post.code }}</code></pre>
+      <pre><code>{{ currentPost.code }}</code></pre>
     </div>
   </section>
   <footer class="footer">
     <div class="footer-meta">
       <div class="tech-stack">
         <div class="languages">
-          @for (language of post.languages; track $index) {
+          @for (language of currentPost.languages; track $index) {
             <span
               class="language"
               [title]="language.name"
@@ -102,7 +127,7 @@
         </div>
 
         <div class="technologies">
-          @for (technology of post.technologies; track $index) {
+          @for (technology of currentPost.technologies; track $index) {
             <span
               class="technology"
               [title]="technology.name"
@@ -130,18 +155,18 @@
 
     <span class="line-break"></span>
     <div class="tags">
-      @for (tag of post.tags; track $index) {
+      @for (tag of currentPost.tags; track $index) {
         <button class="tag">{{ tag.name }}</button>
       }
 
       <!-- Duplicate buttons for demonstration purposes -->
-      @for (tag of post.tags; track $index) {
+      @for (tag of currentPost.tags; track $index) {
         <button class="tag">{{ tag.name }}</button>
       }
-      @for (tag of post.tags; track $index) {
+      @for (tag of currentPost.tags; track $index) {
         <button class="tag">{{ tag.name }}</button>
       }
-      @for (tag of post.tags; track $index) {
+      @for (tag of currentPost.tags; track $index) {
         <button class="tag">{{ tag.name }}</button>
       }
     </div>
@@ -152,21 +177,21 @@
 
 <br /><br /><br /><br />
 
-<p><strong>Post-Typ:</strong> {{ post.post_type }}</p>
+<p><strong>Post-Typ:</strong> {{ currentPost.post_type }}</p>
 
-<p><strong>Status:</strong> {{ post.status }}</p>
+<p><strong>Status:</strong> {{ currentPost.status }}</p>
 
-<p><strong>Kommentare:</strong> {{ post.comments_count }}</p>
+<p><strong>Kommentare:</strong> {{ currentPost.comments_count }}</p>
 
-<p><strong>Aktualisiert von Rolle:</strong> {{ post.updated_by_role }}</p>
+<p><strong>Aktualisiert von Rolle:</strong> {{ currentPost.updated_by_role }}</p>
 
-<p><strong>Kommentare aktualisiert am:</strong> {{ post.comments_updated_at }}</p>
+<p><strong>Kommentare aktualisiert am:</strong> {{ currentPost.comments_updated_at }}</p>
 
 <br /><br />
 
 <div>
   <strong>Bilder:</strong>
-  @for (image of post.images; track $index) {
+  @for (image of currentPost.images; track $index) {
     <br />
     {{ image }}
   }
@@ -174,7 +199,7 @@
 <br />
 <div>
   <strong>Videos:</strong>
-  @for (video of post.videos; track $index) {
+  @for (video of currentPost.videos; track $index) {
     <br />
     {{ video }}
   }
@@ -182,7 +207,7 @@
 <br />
 <div>
   <strong>Ressourcen:</strong>
-  @for (resource of post.resources; track $index) {
+  @for (resource of currentPost.resources; track $index) {
     <br />
     {{ resource }}
   }
@@ -190,7 +215,7 @@
 <br />
 <div>
   <strong>External Source Previews:</strong>
-  @for (externalSourcePreview of post.external_source_previews; track $index) {
+  @for (externalSourcePreview of currentPost.external_source_previews; track $index) {
     <br />
     <span>{{ externalSourcePreview.type }} || </span>
     <span>{{ externalSourcePreview.url }} || </span>
@@ -200,6 +225,6 @@
 <br />
 
 <br />
-<div><strong>History:</strong>{{ post.history }}</div>
+<div><strong>History:</strong>{{ currentPost.history }}</div>
 <br />
-<div><strong>Moderation Info:</strong>{{ post.moderation_info }}</div>
+<div><strong>Moderation Info:</strong>{{ currentPost.moderation_info }}</div>
