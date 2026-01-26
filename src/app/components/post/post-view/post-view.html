@@ -11,23 +11,27 @@
             <time class="updated_at">{{ currentPost.updated_at | localDate }}</time>
             <span
               class="chevron-icon"
-              [class.open]="dropdownOpen"
+              [class.open]="showDropdownValues"
               [innerHTML]="svgIconsService.returnIcon('chevron')"
             ></span>
           </div>
 
           <div
-            [class.open]="dropdownOpen"
-            class="version-selector"
+            class="values"
+            [class.active]="showDropdownValues"
+            [class.animated-in]="showAnimation"
+            [class.animated-out]="!showAnimation"
+            (animationend)="onAnimationEnd($event)"
+            role="listbox"
           >
             @for (postVersionsValue of postVersionsValues; track $index) {
               @if (postVersionsValue.label !== (currentPost.updated_at | localDate)) {
-                <div
-                  class="version-values"
-                  (click)="changePostVersion(postVersionsValue.value); toggleDropdown()"
+                <button
+                  class="value"
+                  (click)="onSelect(postVersionsValue.value); toggleDropdown()"
                 >
                   {{ postVersionsValue.label }}
-                </div>
+                </button>
               }
             }
           </div>

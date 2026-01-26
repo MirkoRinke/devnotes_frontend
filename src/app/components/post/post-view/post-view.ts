@@ -21,7 +21,9 @@ export class PostView {
   currentPost!: PostInterface;
 
   postVersionsValues: Array<{ label: string; value: number }> = [];
-  dropdownOpen: boolean = false;
+
+  showDropdownValues = false;
+  showAnimation = false;
 
   constructor(
     public svgIconsService: SvgIconsService,
@@ -56,10 +58,26 @@ export class PostView {
   }
 
   /**
-   * Toggle dropdown
+   * Toggles the visibility of the dropdown values
    */
   toggleDropdown() {
-    this.dropdownOpen = !this.dropdownOpen;
+    if (this.showDropdownValues) {
+      this.showAnimation = false;
+    } else {
+      this.showDropdownValues = true;
+      requestAnimationFrame(() => (this.showAnimation = true));
+    }
+  }
+
+  /**
+   * Handles the end of the animation to hide the dropdown values
+   *
+   * @param event
+   */
+  onAnimationEnd(event: AnimationEvent) {
+    if (event.animationName.endsWith('animated-out')) {
+      this.showDropdownValues = false;
+    }
   }
 
   /**
@@ -67,7 +85,7 @@ export class PostView {
    *
    * @param versionIndex
    */
-  changePostVersion(versionIndex: number) {
+  onSelect(versionIndex: number) {
     if (this.post.history && versionIndex >= 0 && this.post.history.length > versionIndex) {
       this.currentPost = {
         ...this.post,
