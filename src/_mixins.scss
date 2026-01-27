@@ -197,6 +197,18 @@
   }
 }
 
+@mixin absolute-overlay($bg: rgba(0, 0, 0, 0.2), $blur: 2px, $z-index: 10) {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: $bg;
+  backdrop-filter: blur($blur);
+  border-radius: inherit;
+  z-index: $z-index;
+}
+
 @mixin singleline-ellipsis($max-width: 100%) {
   @if math.unit($max-width) == 'px' {
     $max-width-value: math.div($max-width, 1px);
