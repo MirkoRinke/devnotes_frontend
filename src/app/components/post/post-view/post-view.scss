@@ -3,6 +3,8 @@
 @use '../../../../mixins' as *;
 
 .post {
+  position: relative;
+
   @include display-flex($direction: column);
   gap: px-to-rem(25);
 

@@ -6,10 +6,11 @@ import { SvgIconsService } from '../../../services/svg.icons.service';
 
 import { DateFormatterService } from '../../../services/date.formatter.service';
 import { LocalDatePipe } from '../../../pipes/local-date-pipe';
+import { PostResourceModal } from '../post-resource-modal/post-resource-modal';
 
 @Component({
   selector: 'app-post-view',
-  imports: [LocalDatePipe],
+  imports: [LocalDatePipe, PostResourceModal],
   templateUrl: './post-view.html',
   styleUrl: './post-view.scss',
 })
@@ -23,7 +24,10 @@ export class PostView {
   postVersionsValues: Array<{ label: string; value: number }> = [];
 
   showDropdownValues = false;
-  showAnimation = false;
+  showDropdownAnimation = false;
+
+  isPostResourceModalOpen = false;
+  isPostResourceModalAnimating = false;
 
   constructor(
     public svgIconsService: SvgIconsService,
@@ -62,21 +66,37 @@ export class PostView {
    */
   toggleDropdown() {
     if (this.showDropdownValues) {
-      this.showAnimation = false;
+      this.showDropdownAnimation = false;
     } else {
       this.showDropdownValues = true;
-      requestAnimationFrame(() => (this.showAnimation = true));
+      requestAnimationFrame(() => (this.showDropdownAnimation = true));
     }
   }
 
   /**
-   * Handles the end of the animation to hide the dropdown values
+   * Toggles the Post Resource Modal
+   */
+  togglePostResourceModal() {
+    if (this.isPostResourceModalOpen) {
+      this.isPostResourceModalAnimating = false;
+    } else {
+      this.isPostResourceModalOpen = true;
+      requestAnimationFrame(() => (this.isPostResourceModalAnimating = true));
+    }
+  }
+
+  /**
+   * Handle animation end events
    *
    * @param event
    */
   onAnimationEnd(event: AnimationEvent) {
     if (event.animationName.endsWith('animated-out')) {
       this.showDropdownValues = false;
+    }
+
+    if (event.animationName.endsWith('fade-out')) {
+      this.isPostResourceModalOpen = false;
     }
   }
 

@@ -2,7 +2,6 @@
   <header class="header">
     <div class="system-bar">
       <div class="version-info">
-        <!-- Temporary version dropdown for testing purposes -->
         <div class="version-dropdown">
           <div
             class="version-display"
@@ -16,25 +15,27 @@
             ></span>
           </div>
 
-          <div
-            class="values"
-            [class.active]="showDropdownValues"
-            [class.animated-in]="showAnimation"
-            [class.animated-out]="!showAnimation"
-            (animationend)="onAnimationEnd($event)"
-            role="listbox"
-          >
-            @for (postVersionsValue of postVersionsValues; track $index) {
-              @if (postVersionsValue.label !== (currentPost.updated_at | localDate)) {
-                <button
-                  class="value"
-                  (click)="onSelect(postVersionsValue.value); toggleDropdown()"
-                >
-                  {{ postVersionsValue.label }}
-                </button>
+          @if (showDropdownValues) {
+            <div
+              class="values"
+              [class.active]="showDropdownValues"
+              [class.animated-in]="showDropdownAnimation"
+              [class.animated-out]="!showDropdownAnimation"
+              (animationend)="onAnimationEnd($event)"
+              role="listbox"
+            >
+              @for (postVersionsValue of postVersionsValues; track $index) {
+                @if (postVersionsValue.label !== (currentPost.updated_at | localDate)) {
+                  <button
+                    class="value"
+                    (click)="onSelect(postVersionsValue.value); toggleDropdown()"
+                  >
+                    {{ postVersionsValue.label }}
+                  </button>
+                }
               }
-            }
-          </div>
+            </div>
+          }
         </div>
 
         <span class="separator">|</span>
@@ -117,6 +118,7 @@
       <pre><code>{{ currentPost.code }}</code></pre>
     </div>
   </section>
+
   <footer class="footer">
     <div class="footer-meta">
       <div class="tech-stack">
@@ -145,6 +147,7 @@
         <span
           [title]="'Bilder'"
           [innerHTML]="svgIconsService.returnIcon('image')"
+          (click)="togglePostResourceModal()"
         ></span>
         <span
           [title]="'Video'"
@@ -175,6 +178,16 @@
       }
     </div>
   </footer>
+
+  @if (isPostResourceModalOpen) {
+    <app-post-resource-modal
+      class="overlay"
+      [class.open]="isPostResourceModalAnimating"
+      [class.closed]="!isPostResourceModalAnimating"
+      (click)="togglePostResourceModal()"
+      (animationend)="onAnimationEnd($event)"
+    ></app-post-resource-modal>
+  }
 </article>
 
 <!-- For testing purposes -->
