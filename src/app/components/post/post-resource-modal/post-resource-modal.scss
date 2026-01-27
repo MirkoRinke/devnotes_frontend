@@ -1,0 +1,39 @@
+@use '../../../../functions' as *;
+@use '../../../../var' as var;
+@use '../../../../mixins' as *;
+
+:host(.overlay) {
+  @include display-flex(center, center);
+  @include absolute-overlay();
+  opacity: 0;
+
+  &.open {
+    animation: fade-in var.$transition-duration-slow forwards;
+  }
+
+  &.closed {
+    animation: fade-out var.$transition-duration-slow forwards;
+  }
+
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes fade-out {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+}
+
+.post-resource-modal {
+  background-color: red;
+}
