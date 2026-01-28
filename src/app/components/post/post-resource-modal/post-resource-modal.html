@@ -2,5 +2,26 @@
   class="post-resource-modal"
   (click)="$event.stopPropagation()"
 >
-  <p>post-resource-modal works!</p>
+  @if (modalData.resources.length > 0) {
+    <div>
+      <strong>{{ modalData.title }}:</strong>
+      @for (resource of modalData.resources; track $index) {
+        <br />
+        {{ resource }}
+      }
+    </div>
+  } @else {
+    <!-- Temporary for testing -->
+    @for (preview of modalData.previews; track $index) {
+      @if (preview.type === modalData.title) {
+        <div class="external-source-preview">
+          <p><strong>Vorschau von externer Quelle:</strong></p>
+          <p>Title: {{ preview.type }}</p>
+          <p>URL: {{ preview.url }}</p>
+          <p>Thumbnail URL: {{ preview.domain }}</p>
+          <br />
+        </div>
+      }
+    }
+  }
 </div>

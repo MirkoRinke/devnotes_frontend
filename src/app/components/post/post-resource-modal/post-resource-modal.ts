@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+
+import type { ExternalSourcePreviewInterface } from '../../../interfaces/post';
+import type { PostResourceModalInterface } from '../../../interfaces/post-ressource-modal';
 
 @Component({
   selector: 'app-post-resource-modal',
@@ -6,4 +9,6 @@ import { Component } from '@angular/core';
   templateUrl: './post-resource-modal.html',
   styleUrl: './post-resource-modal.scss',
 })
-export class PostResourceModal {}
+export class PostResourceModal {
+  @Input() modalData!: PostResourceModalInterface;
+}
