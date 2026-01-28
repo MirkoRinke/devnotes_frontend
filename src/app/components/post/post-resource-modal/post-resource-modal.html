@@ -13,15 +13,13 @@
   } @else {
     <!-- Temporary for testing -->
     @for (preview of modalData.previews; track $index) {
-      @if (preview.type === modalData.title) {
-        <div class="external-source-preview">
-          <p><strong>Vorschau von externer Quelle:</strong></p>
-          <p>Title: {{ preview.type }}</p>
-          <p>URL: {{ preview.url }}</p>
-          <p>Thumbnail URL: {{ preview.domain }}</p>
-          <br />
-        </div>
-      }
+      <div class="external-source-preview">
+        <p><strong>Vorschau von externer Quelle:</strong></p>
+        <p>Title: {{ preview.type }}</p>
+        <p>URL: {{ preview.url }}</p>
+        <p>Thumbnail URL: {{ preview.domain }}</p>
+        <br />
+      </div>
     }
   }
 </div>
