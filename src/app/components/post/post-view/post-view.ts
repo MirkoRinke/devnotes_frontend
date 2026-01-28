@@ -52,19 +52,6 @@ export class PostView {
   }
 
   /**
-   * Check if post has resources of specific type
-   *
-   * @param resourceType
-   * @returns
-   */
-  hasResources(resourceType: string) {
-    if (!this.currentPost.external_source_previews) {
-      return false;
-    }
-    return this.currentPost.external_source_previews.some((preview) => preview.type === resourceType);
-  }
-
-  /**
    * Create post versions values for selector
    */
   createPostVersionsValues() {
@@ -90,20 +77,46 @@ export class PostView {
   }
 
   /**
-   * Toggles the Post Resource Modal
+   * Check if post has resources of specific type
+   *
+   * @param resourceType
+   * @returns
    */
-  togglePostResourceModal(title?: string, currentPostResource?: string[], currentPostExternalSourcePreviews?: ExternalSourcePreviewInterface[]) {
-    if (this.isPostResourceModalOpen) {
-      this.isPostResourceModalAnimating = false;
-    } else {
-      if (title && currentPostResource && currentPostExternalSourcePreviews) {
-        this.currentPostModal.title = title;
-        this.currentPostModal.resources = currentPostResource;
-        this.currentPostModal.previews = currentPostExternalSourcePreviews;
-      }
-      this.isPostResourceModalOpen = true;
-      requestAnimationFrame(() => (this.isPostResourceModalAnimating = true));
+  hasResources(resourceType: 'images' | 'videos' | 'resources'): boolean {
+    if (!this.currentPost.external_source_previews) {
+      return false;
     }
+    return this.currentPost.external_source_previews.some((preview) => preview.type === resourceType);
+  }
+
+  /**
+   * Opens the Post Resource Modal.
+   *
+   * @param type
+   * @returns
+   */
+  openResourceModal(type: 'images' | 'videos' | 'resources') {
+    if (!this.currentPost.external_source_previews) {
+      return;
+    }
+
+    const filteredPreviews = this.currentPost.external_source_previews.filter((preview) => preview.type === type);
+
+    this.currentPostModal = {
+      title: type,
+      resources: this.currentPost[type] || [],
+      previews: filteredPreviews,
+    };
+
+    this.isPostResourceModalOpen = true;
+    requestAnimationFrame(() => (this.isPostResourceModalAnimating = true));
+  }
+
+  /**
+   * Closes the Post Resource Modal
+   */
+  closeResourceModal() {
+    this.isPostResourceModalAnimating = false;
   }
 
   /**

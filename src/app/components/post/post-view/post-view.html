@@ -148,7 +148,7 @@
           <span
             [title]="'Bilder'"
             [innerHTML]="svgIconsService.returnIcon('image')"
-            (click)="togglePostResourceModal('images', currentPost.images, currentPost.external_source_previews)"
+            (click)="openResourceModal('images')"
           ></span>
         }
 
@@ -156,7 +156,7 @@
           <span
             [title]="'Videos'"
             [innerHTML]="svgIconsService.returnIcon('video')"
-            (click)="togglePostResourceModal('videos', currentPost.videos, currentPost.external_source_previews)"
+            (click)="openResourceModal('videos')"
           ></span>
         }
 
@@ -164,7 +164,7 @@
           <span
             [title]="'Resources'"
             [innerHTML]="svgIconsService.returnIcon('resources')"
-            (click)="togglePostResourceModal('resources', currentPost.resources, currentPost.external_source_previews)"
+            (click)="openResourceModal('resources')"
           ></span>
         }
       </div>
@@ -183,7 +183,7 @@
       class="overlay"
       [class.open]="isPostResourceModalAnimating"
       [class.closed]="!isPostResourceModalAnimating"
-      (click)="togglePostResourceModal()"
+      (click)="closeResourceModal()"
       (animationend)="onAnimationEnd($event)"
       [modalData]="currentPostModal"
     ></app-post-resource-modal>
