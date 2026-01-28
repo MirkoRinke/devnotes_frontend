@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 
-import type { PostInterface } from '../../../interfaces/post';
+import type { PostInterface, ExternalSourcePreviewInterface } from '../../../interfaces/post';
+import type { PostResourceModalInterface } from '../../../interfaces/post-ressource-modal';
 
 import { SvgIconsService } from '../../../services/svg.icons.service';
 
@@ -29,6 +30,8 @@ export class PostView {
   isPostResourceModalOpen = false;
   isPostResourceModalAnimating = false;
 
+  currentPostModal: PostResourceModalInterface = { title: '', resources: [], previews: [] };
+
   constructor(
     public svgIconsService: SvgIconsService,
     private dateFormatterService: DateFormatterService,
@@ -46,6 +49,19 @@ export class PostView {
    */
   avatarItemsEntries() {
     return this.post?.user?.avatar_items ? Object.entries(this.post.user.avatar_items).map(([key, url]) => ({ key, url })) : [];
+  }
+
+  /**
+   * Check if post has resources of specific type
+   *
+   * @param resourceType
+   * @returns
+   */
+  hasResources(resourceType: string) {
+    if (!this.currentPost.external_source_previews) {
+      return false;
+    }
+    return this.currentPost.external_source_previews.some((preview) => preview.type === resourceType);
   }
 
   /**
@@ -76,10 +92,15 @@ export class PostView {
   /**
    * Toggles the Post Resource Modal
    */
-  togglePostResourceModal() {
+  togglePostResourceModal(title?: string, currentPostResource?: string[], currentPostExternalSourcePreviews?: ExternalSourcePreviewInterface[]) {
     if (this.isPostResourceModalOpen) {
       this.isPostResourceModalAnimating = false;
     } else {
+      if (title && currentPostResource && currentPostExternalSourcePreviews) {
+        this.currentPostModal.title = title;
+        this.currentPostModal.resources = currentPostResource;
+        this.currentPostModal.previews = currentPostExternalSourcePreviews;
+      }
       this.isPostResourceModalOpen = true;
       requestAnimationFrame(() => (this.isPostResourceModalAnimating = true));
     }
@@ -97,6 +118,7 @@ export class PostView {
 
     if (event.animationName.endsWith('fade-out')) {
       this.isPostResourceModalOpen = false;
+      this.currentPostModal = { title: '', resources: [], previews: [] };
     }
   }
 

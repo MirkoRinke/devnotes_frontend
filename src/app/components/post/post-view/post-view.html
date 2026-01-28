@@ -144,35 +144,34 @@
       </div>
 
       <div class="media-links">
-        <span
-          [title]="'Bilder'"
-          [innerHTML]="svgIconsService.returnIcon('image')"
-          (click)="togglePostResourceModal()"
-        ></span>
-        <span
-          [title]="'Video'"
-          [innerHTML]="svgIconsService.returnIcon('video')"
-        ></span>
-        <span
-          [title]="'Ressourcen'"
-          [innerHTML]="svgIconsService.returnIcon('resources')"
-        ></span>
+        @if (hasResources('images')) {
+          <span
+            [title]="'Bilder'"
+            [innerHTML]="svgIconsService.returnIcon('image')"
+            (click)="togglePostResourceModal('images', currentPost.images, currentPost.external_source_previews)"
+          ></span>
+        }
+
+        @if (hasResources('videos')) {
+          <span
+            [title]="'Videos'"
+            [innerHTML]="svgIconsService.returnIcon('video')"
+            (click)="togglePostResourceModal('videos', currentPost.videos, currentPost.external_source_previews)"
+          ></span>
+        }
+
+        @if (hasResources('resources')) {
+          <span
+            [title]="'Resources'"
+            [innerHTML]="svgIconsService.returnIcon('resources')"
+            (click)="togglePostResourceModal('resources', currentPost.resources, currentPost.external_source_previews)"
+          ></span>
+        }
       </div>
     </div>
 
     <span class="line-break"></span>
     <div class="tags">
-      @for (tag of currentPost.tags; track $index) {
-        <button class="tag">{{ tag.name }}</button>
-      }
-
-      <!-- Duplicate buttons for demonstration purposes -->
-      @for (tag of currentPost.tags; track $index) {
-        <button class="tag">{{ tag.name }}</button>
-      }
-      @for (tag of currentPost.tags; track $index) {
-        <button class="tag">{{ tag.name }}</button>
-      }
       @for (tag of currentPost.tags; track $index) {
         <button class="tag">{{ tag.name }}</button>
       }
@@ -186,62 +185,7 @@
       [class.closed]="!isPostResourceModalAnimating"
       (click)="togglePostResourceModal()"
       (animationend)="onAnimationEnd($event)"
+      [modalData]="currentPostModal"
     ></app-post-resource-modal>
   }
 </article>
-
-<!-- For testing purposes -->
-
-<br /><br /><br /><br />
-
-<p><strong>Post-Typ:</strong> {{ currentPost.post_type }}</p>
-
-<p><strong>Status:</strong> {{ currentPost.status }}</p>
-
-<p><strong>Kommentare:</strong> {{ currentPost.comments_count }}</p>
-
-<p><strong>Aktualisiert von Rolle:</strong> {{ currentPost.updated_by_role }}</p>
-
-<p><strong>Kommentare aktualisiert am:</strong> {{ currentPost.comments_updated_at }}</p>
-
-<br /><br />
-
-<div>
-  <strong>Bilder:</strong>
-  @for (image of currentPost.images; track $index) {
-    <br />
-    {{ image }}
-  }
-</div>
-<br />
-<div>
-  <strong>Videos:</strong>
-  @for (video of currentPost.videos; track $index) {
-    <br />
-    {{ video }}
-  }
-</div>
-<br />
-<div>
-  <strong>Ressourcen:</strong>
-  @for (resource of currentPost.resources; track $index) {
-    <br />
-    {{ resource }}
-  }
-</div>
-<br />
-<div>
-  <strong>External Source Previews:</strong>
-  @for (externalSourcePreview of currentPost.external_source_previews; track $index) {
-    <br />
-    <span>{{ externalSourcePreview.type }} || </span>
-    <span>{{ externalSourcePreview.url }} || </span>
-    <span>{{ externalSourcePreview.domain }}</span>
-  }
-</div>
-<br />
-
-<br />
-<div><strong>History:</strong>{{ currentPost.history }}</div>
-<br />
-<div><strong>Moderation Info:</strong>{{ currentPost.moderation_info }}</div>
