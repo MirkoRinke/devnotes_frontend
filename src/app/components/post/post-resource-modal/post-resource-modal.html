@@ -1,25 +1,41 @@
+<!--TODO Temporary -->
 <div
   class="post-resource-modal"
   (click)="$event.stopPropagation()"
 >
-  @if (modalData.resources.length > 0) {
-    <div>
-      <strong>{{ modalData.title }}:</strong>
-      @for (resource of modalData.resources; track $index) {
-        <br />
-        {{ resource }}
-      }
-    </div>
-  } @else {
-    <!-- Temporary for testing -->
-    @for (preview of modalData.previews; track $index) {
-      <div class="external-source-preview">
-        <p><strong>Vorschau von externer Quelle:</strong></p>
-        <p>Title: {{ preview.type }}</p>
-        <p>URL: {{ preview.url }}</p>
-        <p>Thumbnail URL: {{ preview.domain }}</p>
-        <br />
+  @if (modalData.resources && modalData.resources.length > 0) {
+    <h3 class="title">{{ modalData.title }}</h3>
+
+    @for (resource of modalData.resources; track $index) {
+      <div class="resource">
+        <a
+          class="icon"
+          [innerHTML]="svgIconsService.returnIcon('external_link')"
+          [href]="resource"
+          target="_blank"
+        ></a>
+        <span class="link">{{ resource }}</span>
       </div>
     }
+  } @else if (modalData.previews && modalData.previews.length > 0) {
+    <p><strong>Vorschau von externer Quelle:</strong></p>
+    @for (preview of modalData.previews; track $index) {
+      <div class="external-source-preview">
+        <!-- <p>Title: {{ preview.type }}</p>
+        <p>URL: {{ preview.url }}</p> -->
+        <p>URL: {{ preview.domain }}</p>
+      </div>
+    }
+    <div class="load-external-content">
+      <p>Möchten Sie externe Inhalte laden?</p>
+      <button (click)="('loadExternalContent(1)')">Für 1h</button>
+      <button (click)="('loadExternalContent(12)')">Für 12h</button>
+      <button (click)="('loadExternalContent(24)')">Für 24h</button>
+      <button (click)="('loadExternalContent(false)')">Nein</button>
+    </div>
+  } @else {
+    <div>
+      <p>Kein Inhalt gefunden.</p>
+    </div>
   }
 </div>
