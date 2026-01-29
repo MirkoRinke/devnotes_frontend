@@ -96,7 +96,7 @@ export class PostView {
    * @returns
    */
   openResourceModal(type: 'images' | 'videos' | 'resources') {
-    if (!this.currentPost.external_source_previews) {
+    if (!this.currentPost.external_source_previews || !this.hasResources(type)) {
       return;
     }
 
@@ -142,6 +142,9 @@ export class PostView {
    */
   onSelect(versionIndex: number) {
     if (this.post.history && versionIndex >= 0 && this.post.history.length > versionIndex) {
+      console.log(this.post.history[versionIndex]);
+      console.log(this.currentPost);
+
       this.currentPost = {
         ...this.post,
         ...this.post.history[versionIndex],

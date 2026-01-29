@@ -186,6 +186,7 @@
       (click)="closeResourceModal()"
       (animationend)="onAnimationEnd($event)"
       [modalData]="currentPostModal"
+      (closeModal)="closeResourceModal()"
     ></app-post-resource-modal>
   }
 </article>
