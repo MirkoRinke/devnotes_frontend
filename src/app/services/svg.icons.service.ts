@@ -286,6 +286,16 @@ export class SvgIconsService {
     </svg>
     `,
 
+      close: /*html*/ `
+    <svg class="${className}" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg">
+        <g transform="matrix(1,0,0,1,-5,-5)">
+            <g transform="matrix(0.025,0,0,0.025,0,24)">
+                <path d="M256,-200L200,-256L424,-480L200,-704L256,-760L480,-536L704,-760L760,-704L536,-480L760,-256L704,-200L480,-424L256,-200Z"/>
+            </g>
+        </g>
+    </svg>
+    `,
+
       comment: /*html*/ `
     <!-- Icon used are from Google Material Symbols, licensed under the Apache License 2.0. -->
     <svg class="${className}" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
