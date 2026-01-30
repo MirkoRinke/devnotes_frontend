@@ -180,7 +180,23 @@
         top: px-to-rem(15);
         right: px-to-rem(15);
 
-        &:hover {
+        &.copied {
+          &::ng-deep .copy {
+            animation: shake 0.2s ease-in-out;
+            //TODO Fix color later use variable
+            fill: green;
+          }
+        }
+
+        &.copy-failed {
+          animation: shake 0.2s ease-in-out;
+          &::ng-deep .copy {
+            //TODO Fix color later use variable
+            fill: red;
+          }
+        }
+
+        &:hover:not(.copied):not(.copy-failed) {
           &::ng-deep .copy {
             fill: var(--font-primary-color-100);
           }
@@ -191,6 +207,24 @@
           width: px-to-rem(15);
           height: px-to-rem(15);
           fill: var(--font-primary-color-50);
+        }
+      }
+
+      @keyframes shake {
+        0% {
+          transform: translateX(0);
+        }
+        25% {
+          transform: translateX(-2px);
+        }
+        50% {
+          transform: translateX(2px);
+        }
+        75% {
+          transform: translateX(-2px);
+        }
+        100% {
+          transform: translateX(0);
         }
       }
 

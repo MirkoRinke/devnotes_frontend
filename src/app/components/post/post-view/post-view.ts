@@ -32,6 +32,9 @@ export class PostView {
 
   currentPostModal: PostResourceModalInterface = { title: '', resources: [], previews: [] };
 
+  isCopied = false;
+  copiedFailed = false;
+
   constructor(
     public svgIconsService: SvgIconsService,
     private dateFormatterService: DateFormatterService,
@@ -156,5 +159,21 @@ export class PostView {
     } else {
       this.currentPost = { ...this.post };
     }
+  }
+
+  /**
+   * Copy code to clipboard
+   */
+  copyToClipboard(code: string = '') {
+    navigator.clipboard
+      .writeText(code || '')
+      .then(() => {
+        this.isCopied = true;
+        setTimeout(() => (this.isCopied = false), 2000);
+      })
+      .catch((err) => {
+        this.copiedFailed = true;
+        setTimeout(() => (this.copiedFailed = false), 2000);
+      });
   }
 }
