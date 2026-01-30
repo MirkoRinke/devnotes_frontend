@@ -2,16 +2,17 @@
   <div class="dropdown">
     <button
       type="button"
+      [class.active]="filteredValues.length > 1"
       (click)="toggleDropdown()"
       aria-haspopup="listbox"
     >
       <span class="label"> {{ label }}: </span>
-
       <span class="selected-value">
         {{ defaultValueLabel }}
       </span>
       <span
         class="chevron-icon"
+        [class.active]="filteredValues.length > 1"
         [innerHTML]="svgIconsService.returnIcon('chevron')"
         [class.open]="showDropdownValues"
       ></span>
