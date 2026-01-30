@@ -68,6 +68,10 @@ export class PostView {
    * Toggles the visibility of the dropdown values
    */
   toggleDropdown() {
+    if (this.postVersionsValues.length <= 1) {
+      return;
+    }
+
     if (this.showDropdownValues) {
       this.showDropdownAnimation = false;
     } else {

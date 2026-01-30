@@ -5,11 +5,14 @@
         <div class="version-dropdown">
           <div
             class="version-display"
+            [class.active]="postVersionsValues.length > 1"
             (click)="toggleDropdown()"
           >
             <time class="updated_at">{{ currentPost.updated_at | localDate }}</time>
+
             <span
               class="chevron-icon"
+              [class.active]="postVersionsValues.length > 1"
               [class.open]="showDropdownValues"
               [innerHTML]="svgIconsService.returnIcon('chevron')"
             ></span>
