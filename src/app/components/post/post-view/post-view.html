@@ -55,13 +55,13 @@
         <span class="category">{{ currentPost.category }}</span>
       </div>
 
-      <div class="report">
-        <span>Melden</span>
-        <span
-          class="chevron-icon"
-          [class.open]="false"
-          [innerHTML]="svgIconsService.returnIcon('chevron')"
-        ></span>
+      <div class="settings-report">
+        @if (isOwner(currentPost)) {
+          <app-post-settings-dropdown class="absolute-top-right"></app-post-settings-dropdown>
+        } @else {
+          <span>Melden</span>
+          <!-- Report Post -->
+        }
       </div>
     </div>
 

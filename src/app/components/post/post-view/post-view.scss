@@ -19,6 +19,10 @@
     .system-bar {
       @include display-flex(center, space-between);
 
+      position: relative;
+      border-bottom: 2px solid var(--font-primary-color-50);
+      padding-bottom: px-to-rem(10);
+
       .version-info {
         @include display-flex(center);
         gap: px-to-rem(10);
@@ -27,6 +31,12 @@
           .version-display {
             @include display-flex(center);
             gap: px-to-rem(15);
+
+            cursor: pointer;
+
+            &:not(.active) {
+              cursor: default;
+            }
 
             &:hover {
               .history-icon {
@@ -59,10 +69,6 @@
           }
         }
 
-        position: relative;
-        border-bottom: 2px solid var(--font-primary-color-50);
-        padding-bottom: px-to-rem(10);
-
         @include dropdown-values($item-spacing-vertical: px-to-rem(10), $item-spacing-horizontal: px-to-rem(30), $font-size: 16);
 
         .values {
@@ -79,7 +85,7 @@
         }
       }
 
-      .report {
+      .settings-report {
         @include display-flex(center);
         gap: px-to-rem(5);
 

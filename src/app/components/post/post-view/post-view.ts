@@ -1,17 +1,20 @@
 import { Component, Input } from '@angular/core';
 
-import type { PostInterface, ExternalSourcePreviewInterface } from '../../../interfaces/post';
+import type { PostInterface } from '../../../interfaces/post';
 import type { PostResourceModalInterface } from '../../../interfaces/post-ressource-modal';
 
-import { SvgIconsService } from '../../../services/svg.icons.service';
+import { LocalDatePipe } from '../../../pipes/local-date-pipe';
+
+import { PostResourceModal } from '../post-resource-modal/post-resource-modal';
 
 import { DateFormatterService } from '../../../services/date.formatter.service';
-import { LocalDatePipe } from '../../../pipes/local-date-pipe';
-import { PostResourceModal } from '../post-resource-modal/post-resource-modal';
+import { SvgIconsService } from '../../../services/svg.icons.service';
+import { AuthService } from '../../../services/auth.service';
+import { PostSettingsDropdown } from './post-settings-dropdown/post-settings-dropdown';
 
 @Component({
   selector: 'app-post-view',
-  imports: [LocalDatePipe, PostResourceModal],
+  imports: [LocalDatePipe, PostResourceModal, PostSettingsDropdown],
   templateUrl: './post-view.html',
   styleUrl: './post-view.scss',
 })
@@ -38,6 +41,7 @@ export class PostView {
   constructor(
     public svgIconsService: SvgIconsService,
     private dateFormatterService: DateFormatterService,
+    public authService: AuthService,
   ) {}
 
   ngOnInit() {
@@ -132,13 +136,16 @@ export class PostView {
    * @param event
    */
   onAnimationEnd(event: AnimationEvent) {
-    if (event.animationName.endsWith('animated-out')) {
+    //TODO Refactoring this later to 'fade-out'
+    if (event.animationName.endsWith('animated-out') && this.showDropdownValues) {
       this.showDropdownValues = false;
     }
 
     if (event.animationName.endsWith('fade-out')) {
-      this.isPostResourceModalOpen = false;
-      this.currentPostModal = { title: '', resources: [], previews: [] };
+      if (this.isPostResourceModalOpen) {
+        this.isPostResourceModalOpen = false;
+        this.currentPostModal = { title: '', resources: [], previews: [] };
+      }
     }
   }
 
@@ -175,5 +182,15 @@ export class PostView {
         this.copiedFailed = true;
         setTimeout(() => (this.copiedFailed = false), 2000);
       });
+  }
+
+  /**
+   * Check if current user is the owner of the post
+   *
+   * @param post
+   * @returns
+   */
+  isOwner(post: PostInterface): boolean {
+    return this.authService.getCurrentUserId() === post.user_id;
   }
 }
