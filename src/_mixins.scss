@@ -65,12 +65,6 @@
 
 @mixin chevron-icon() {
   &:hover {
-    cursor: pointer;
-
-    &:not(.active) {
-      cursor: default;
-    }
-
     .chevron-icon {
       &::ng-deep .chevron {
         fill: var(--font-primary-color-100);
@@ -108,7 +102,7 @@
   }
 }
 
-@mixin dropdown-values($item-spacing-vertical: px-to-rem(10), $item-spacing-horizontal: px-to-rem(15), $font-size: 14) {
+@mixin dropdown-values($item-spacing-vertical: px-to-rem(10), $item-spacing-horizontal: px-to-rem(15), $font-size: 14, $orientation: left) {
   .values {
     @include display-flex(start, start, column);
     border-bottom-left-radius: px-to-rem(15);
@@ -118,7 +112,16 @@
 
     position: absolute;
     top: 100%;
-    left: 0;
+
+    @if $orientation == left {
+      left: 0;
+    } @else if $orientation == right {
+      right: 0;
+    } @else if $orientation == center {
+      left: 50%;
+      //TODO Fix centering issue later
+      transform: translateX(-50%);
+    }
 
     background-color: var(--page-primary-color-100);
 
@@ -162,9 +165,9 @@
       padding-inline: $item-spacing-horizontal;
       padding-block: $item-spacing-vertical;
 
-      &:first-child {
-        margin-top: $item-spacing-vertical;
-      }
+      // &:first-child {
+      //   margin-top: $item-spacing-vertical;
+      // }
 
       &:hover {
         //TODO Fix hover color later use variable
