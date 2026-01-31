@@ -1,0 +1,37 @@
+<div class="post-settings-dropdown">
+  <div
+    class="label"
+    (click)="toggleSettingsDropdown()"
+  >
+    <p>Settings</p>
+    <span
+      class="chevron-icon"
+      [class.active]="true"
+      [class.open]="isPostSettingsDropdownOpen"
+      [innerHTML]="svgIconsService.returnIcon('chevron')"
+    ></span>
+  </div>
+  @if (isPostSettingsDropdownOpen) {
+    <div
+      class="values"
+      [class.active]="isPostSettingsDropdownOpen"
+      [class.animated-in]="isPostSettingsDropdownAnimating"
+      [class.animated-out]="!isPostSettingsDropdownAnimating"
+      (animationend)="onAnimationEnd($event)"
+    >
+      <button
+        class="value"
+        (click)="editPost()"
+      >
+        Edit
+      </button>
+      <span class="divider"></span>
+      <button
+        class="value"
+        (click)="deletePost()"
+      >
+        Delete
+      </button>
+    </div>
+  }
+</div>
