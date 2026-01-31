@@ -2,7 +2,7 @@
   <div class="dropdown">
     <button
       type="button"
-      [class.active]="filteredValues.length > 1"
+      [class.active]="filteredValues.length > 0"
       (click)="toggleDropdown()"
       aria-haspopup="listbox"
     >
@@ -12,7 +12,7 @@
       </span>
       <span
         class="chevron-icon"
-        [class.active]="filteredValues.length > 1"
+        [class.active]="filteredValues.length > 0"
         [innerHTML]="svgIconsService.returnIcon('chevron')"
         [class.open]="showDropdownValues"
       ></span>
