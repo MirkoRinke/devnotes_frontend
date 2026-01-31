@@ -122,6 +122,9 @@
 
     background-color: var(--page-primary-color-100);
 
+    border: 2px solid var(--font-primary-color-50);
+    border-top: unset;
+
     z-index: 1;
 
     overflow: hidden;
