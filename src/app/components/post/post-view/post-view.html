@@ -8,6 +8,12 @@
             [class.active]="postVersionsValues.length > 1"
             (click)="toggleDropdown()"
           >
+            <span
+              class="history-icon"
+              [class.open]="showDropdownValues"
+              [innerHTML]="svgIconsService.returnIcon('history')"
+            ></span>
+
             <time class="updated_at">{{ currentPost.updated_at | localDate }}</time>
 
             <span
