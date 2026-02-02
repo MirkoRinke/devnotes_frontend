@@ -254,6 +254,40 @@
   }
 }
 
+@mixin modal-header($font-size: 24, $font-weight: 600) {
+  .header {
+    @include display-flex(center, space-between);
+    gap: px-to-rem(25);
+
+    .title {
+      @include font-settings($font-size, $font-weight);
+
+      &:first-letter {
+        text-transform: uppercase;
+      }
+    }
+
+    .icon {
+      width: px-to-rem(20);
+      height: px-to-rem(20);
+      cursor: pointer;
+
+      &:hover {
+        &::ng-deep .close {
+          fill: var(--font-primary-color-100);
+        }
+      }
+
+      &::ng-deep .close {
+        width: 100%;
+        height: 100%;
+        fill: var(--font-primary-color-50);
+        transition: fill var.$transition-duration-medium ease-in-out;
+      }
+    }
+  }
+}
+
 @mixin singleline-ellipsis($max-width: 100%) {
   @if math.unit($max-width) == 'px' {
     $max-width-value: math.div($max-width, 1px);
