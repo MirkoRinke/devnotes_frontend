@@ -1,8 +1,8 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
-import type { PostResourceModalInterface } from '../../../interfaces/post-ressource-modal';
+import type { PostResourceModalInterface } from '../../../../interfaces/post-ressource-modal';
 
-import { SvgIconsService } from '../../../services/svg.icons.service';
+import { SvgIconsService } from '../../../../services/svg.icons.service';
 
 @Component({
   selector: 'app-post-resource-modal',

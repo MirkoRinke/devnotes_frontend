@@ -5,7 +5,7 @@ import type { PostResourceModalInterface } from '../../../interfaces/post-ressou
 
 import { LocalDatePipe } from '../../../pipes/local-date-pipe';
 
-import { PostResourceModal } from '../post-resource-modal/post-resource-modal';
+import { PostResourceModal } from './post-resource-modal/post-resource-modal';
 
 import { DateFormatterService } from '../../../services/date.formatter.service';
 import { SvgIconsService } from '../../../services/svg.icons.service';
