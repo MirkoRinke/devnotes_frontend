@@ -1,1 +1,30 @@
-<p>report-modal works! ID: {{ reportID }}</p>
+<div
+  class="report-modal"
+  (click)="$event.stopPropagation()"
+>
+  <div class="header">
+    <h3 class="title">{{ reportContext }} melden</h3>
+    <span
+      class="icon"
+      [innerHTML]="svgIconsService.returnIcon('close')"
+      (click)="onClose()"
+    ></span>
+  </div>
+
+  <div class="content">
+    <textarea
+      #reasonInput
+      class="reason"
+      rows="5"
+      maxlength="500"
+      placeholder="Grund für die Meldung eingeben..."
+    ></textarea>
+    <button
+      class="submit"
+      role="button"
+      (click)="submitReport(reasonInput.value)"
+    >
+      Melden
+    </button>
+  </div>
+</div>

@@ -9,13 +9,28 @@ import { SvgIconsService } from '../../services/svg.icons.service';
   styleUrl: './report-modal.scss',
 })
 export class ReportModal {
+  @Input() reportContext!: string;
+
   @Input() reportID!: number;
 
   @Output() closeModal = new EventEmitter<void>();
 
   constructor(public svgIconsService: SvgIconsService) {}
 
+  /**
+   * Close the report modal
+   */
   onClose() {
     this.closeModal.emit();
+  }
+
+  /**
+   * Submit a report with the given reason ( placeholder implementation )
+   *
+   * @param reason
+   */
+  submitReport(reason: string) {
+    alert(`Report submitted for ${this.reportContext} ID ${this.reportID} with reason: ${reason}`);
+    this.onClose();
   }
 }

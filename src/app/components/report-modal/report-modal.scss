@@ -6,3 +6,74 @@
   @include display-flex(center, center);
   @include absolute-overlay($animation-style: fade);
 }
+
+.report-modal {
+  @include display-flex($direction: column);
+  gap: px-to-rem(25);
+
+  background-color: var(--page-primary-color-100);
+  border-radius: px-to-rem(15);
+  padding: px-to-rem(25) px-to-rem(50);
+
+  max-width: 50%;
+  min-width: 50%;
+  max-height: 80%;
+  overflow-y: auto;
+
+  @include modal-header();
+
+  .content {
+    @include display-flex(center, center, column);
+    gap: px-to-rem(25);
+
+    .reason {
+      //TODO Fix color later use variable
+      background-color: #181a22;
+      min-width: 100%;
+
+      border: px-to-rem(2) solid var(--font-primary-color-25);
+      border-radius: px-to-rem(10);
+      padding: px-to-rem(20) px-to-rem(25);
+
+      color: var(--font-primary-color-100);
+
+      box-shadow: 0 0 px-to-rem(8) transparent;
+
+      transition:
+        box-shadow var.$transition-duration-medium ease-in-out,
+        border-color var.$transition-duration-medium ease-in-out;
+
+      &:hover {
+        border-color: transparent;
+        box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-100);
+      }
+
+      &:focus {
+        border-color: transparent;
+        outline: unset;
+        box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-100);
+      }
+    }
+
+    //TODO Fix button color styles later
+    .submit {
+      @include button-preset();
+      @include golden-ratio-padding(14);
+      @include font-settings(14, 500);
+      max-width: fit-content;
+      min-width: px-to-rem(200);
+
+      background-color: var(--font-primary-color-5);
+
+      border: 2px solid var(--font-primary-color-50);
+      border-radius: px-to-rem(10);
+
+      transition: background-color var.$transition-duration-medium ease-in-out;
+
+      &:hover {
+        cursor: pointer;
+        background-color: var(--page-primary-color-100);
+      }
+    }
+  }
+}
