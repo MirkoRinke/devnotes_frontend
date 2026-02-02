@@ -212,7 +212,7 @@
   }
 }
 
-@mixin absolute-overlay($bg: rgba(0, 0, 0, 0.2), $blur: 2px, $z-index: 10) {
+@mixin absolute-overlay($bg: rgba(0, 0, 0, 0.2), $blur: 2px, $z-index: 10, $animation-style: none) {
   position: absolute;
   top: 0;
   left: 0;
@@ -222,6 +222,36 @@
   backdrop-filter: blur($blur);
   border-radius: inherit;
   z-index: $z-index;
+
+  @if $animation-style == fade {
+    opacity: 0;
+
+    &.open {
+      animation: fade-in var.$transition-duration-slow forwards;
+    }
+
+    &.closed {
+      animation: fade-out var.$transition-duration-slow forwards;
+    }
+
+    @keyframes fade-in {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
+    @keyframes fade-out {
+      0% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+      }
+    }
+  }
 }
 
 @mixin singleline-ellipsis($max-width: 100%) {
