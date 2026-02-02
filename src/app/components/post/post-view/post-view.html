@@ -10,6 +10,7 @@
           >
             <span
               class="history-icon"
+              [class.active]="postVersionsValues.length > 1"
               [class.open]="showDropdownValues"
               [innerHTML]="svgIconsService.returnIcon('history')"
             ></span>
@@ -64,7 +65,6 @@
             (click)="openReportModal()"
             >Melden</span
           >
-          <!-- Report Post -->
         }
       </div>
     </div>
@@ -215,6 +215,7 @@
       [class.closed]="!isReportModalAnimating"
       (click)="closeReportModal()"
       (animationend)="onAnimationEnd($event)"
+      [reportContext]="'post'"
       [reportID]="currentPost.id"
       (closeModal)="closeReportModal()"
     ></app-report-modal>

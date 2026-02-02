@@ -39,9 +39,11 @@
             }
 
             &:hover {
-              .history-icon {
-                &::ng-deep .history {
-                  fill: var(--font-primary-color-100);
+              &.active {
+                .history-icon {
+                  &::ng-deep .history {
+                    fill: var(--font-primary-color-100);
+                  }
                 }
               }
             }
