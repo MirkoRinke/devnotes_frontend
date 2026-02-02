@@ -6,7 +6,7 @@
           <div
             class="version-display"
             [class.active]="postVersionsValues.length > 1"
-            (click)="toggleDropdown()"
+            (click)="togglePostVersionDropdown()"
           >
             <span
               class="history-icon"
@@ -37,7 +37,7 @@
                 @if (postVersionsValue.label !== (currentPost.updated_at | localDate)) {
                   <button
                     class="value"
-                    (click)="onSelect(postVersionsValue.value); toggleDropdown()"
+                    (click)="onSelect(postVersionsValue.value); togglePostVersionDropdown()"
                   >
                     {{ postVersionsValue.label }}
                   </button>
@@ -59,7 +59,11 @@
         @if (isOwner(currentPost)) {
           <app-post-settings-dropdown class="absolute-top-right"></app-post-settings-dropdown>
         } @else {
-          <span>Melden</span>
+          <span
+            class="report"
+            (click)="openReportModal()"
+            >Melden</span
+          >
           <!-- Report Post -->
         }
       </div>
@@ -202,5 +206,17 @@
       [modalData]="currentPostModal"
       (closeModal)="closeResourceModal()"
     ></app-post-resource-modal>
+  }
+
+  @if (isReportModalOpen) {
+    <app-report-modal
+      class="overlay"
+      [class.open]="isReportModalAnimating"
+      [class.closed]="!isReportModalAnimating"
+      (click)="closeReportModal()"
+      (animationend)="onAnimationEnd($event)"
+      [reportID]="currentPost.id"
+      (closeModal)="closeReportModal()"
+    ></app-report-modal>
   }
 </article>

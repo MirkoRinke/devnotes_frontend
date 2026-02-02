@@ -11,10 +11,11 @@ import { DateFormatterService } from '../../../services/date.formatter.service';
 import { SvgIconsService } from '../../../services/svg.icons.service';
 import { AuthService } from '../../../services/auth.service';
 import { PostSettingsDropdown } from './post-settings-dropdown/post-settings-dropdown';
+import { ReportModal } from '../../report-modal/report-modal';
 
 @Component({
   selector: 'app-post-view',
-  imports: [LocalDatePipe, PostResourceModal, PostSettingsDropdown],
+  imports: [LocalDatePipe, PostResourceModal, PostSettingsDropdown, ReportModal],
   templateUrl: './post-view.html',
   styleUrl: './post-view.scss',
 })
@@ -32,6 +33,9 @@ export class PostView {
 
   isPostResourceModalOpen = false;
   isPostResourceModalAnimating = false;
+
+  isReportModalOpen = false;
+  isReportModalAnimating = false;
 
   currentPostModal: PostResourceModalInterface = { title: '', resources: [], previews: [] };
 
@@ -72,9 +76,9 @@ export class PostView {
   }
 
   /**
-   * Toggles the visibility of the dropdown values
+   * Toggle post version dropdown
    */
-  toggleDropdown() {
+  togglePostVersionDropdown() {
     if (this.postVersionsValues.length <= 1) {
       return;
     }
@@ -130,6 +134,15 @@ export class PostView {
     this.isPostResourceModalAnimating = false;
   }
 
+  openReportModal() {
+    this.isReportModalOpen = true;
+    requestAnimationFrame(() => (this.isReportModalAnimating = true));
+  }
+
+  closeReportModal() {
+    this.isReportModalAnimating = false;
+  }
+
   /**
    * Handle animation end events
    *
@@ -145,6 +158,10 @@ export class PostView {
       if (this.isPostResourceModalOpen) {
         this.isPostResourceModalOpen = false;
         this.currentPostModal = { title: '', resources: [], previews: [] };
+      }
+
+      if (this.isReportModalOpen) {
+        this.isReportModalOpen = false;
       }
     }
   }
