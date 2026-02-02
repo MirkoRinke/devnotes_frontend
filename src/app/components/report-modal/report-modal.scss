@@ -1,0 +1,8 @@
+@use '../../../functions' as *;
+@use '../../../var' as var;
+@use '../../../mixins' as *;
+
+:host(.overlay) {
+  @include display-flex(center, center);
+  @include absolute-overlay($animation-style: fade);
+}
