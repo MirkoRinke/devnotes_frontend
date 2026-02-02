@@ -5,6 +5,9 @@
 :host(.absolute-top-right) {
   .post-settings-dropdown {
     .label {
+      @include button-preset();
+      color: var(--font-primary-color-100);
+
       @include display-flex(center, center, row);
       gap: px-to-rem(10);
 

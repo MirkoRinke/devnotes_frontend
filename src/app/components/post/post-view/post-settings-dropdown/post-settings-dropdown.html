@@ -1,5 +1,5 @@
 <div class="post-settings-dropdown">
-  <div
+  <button
     class="label"
     (click)="toggleSettingsDropdown()"
   >
@@ -10,7 +10,7 @@
       [class.open]="isPostSettingsDropdownOpen"
       [innerHTML]="svgIconsService.returnIcon('chevron')"
     ></span>
-  </div>
+  </button>
   @if (isPostSettingsDropdownOpen) {
     <div
       class="values"
