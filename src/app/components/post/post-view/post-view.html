@@ -3,7 +3,7 @@
     <div class="system-bar">
       <div class="version-info">
         <div class="version-dropdown">
-          <div
+          <button
             class="version-display"
             [class.active]="postVersionsValues.length > 1"
             (click)="togglePostVersionDropdown()"
@@ -23,7 +23,7 @@
               [class.open]="showDropdownValues"
               [innerHTML]="svgIconsService.returnIcon('chevron')"
             ></span>
-          </div>
+          </button>
 
           @if (showDropdownValues) {
             <div
@@ -60,11 +60,13 @@
         @if (isOwner(currentPost)) {
           <app-post-settings-dropdown class="absolute-top-right"></app-post-settings-dropdown>
         } @else {
-          <span
+          <button
             class="report"
+            role="button"
             (click)="openReportModal()"
-            >Melden</span
           >
+            Melden
+          </button>
         }
       </div>
     </div>

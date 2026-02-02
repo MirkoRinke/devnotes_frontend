@@ -29,8 +29,12 @@
 
         .version-dropdown {
           .version-display {
+            @include button-preset();
+            @include font-settings(16);
+            color: var(--font-primary-color-100);
+
             @include display-flex(center);
-            gap: px-to-rem(15);
+            gap: px-to-rem(12);
 
             cursor: pointer;
 
@@ -94,6 +98,9 @@
         @include chevron-icon();
 
         .report {
+          @include button-preset();
+          color: var(--font-primary-color-100);
+
           cursor: pointer;
         }
       }
