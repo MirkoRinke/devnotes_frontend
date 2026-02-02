@@ -21,6 +21,7 @@
 
   .header {
     @include display-flex(center, space-between);
+    gap: px-to-rem(25);
 
     .title {
       @include font-settings(24, 600);
@@ -109,7 +110,7 @@
 
     .load-external-content {
       @include display-flex(center, center, column);
-      gap: px-to-rem(10);
+      gap: px-to-rem(25);
 
       .options {
         @include display-flex(center);
@@ -118,6 +119,7 @@
           @include font-settings(14, 500);
         }
 
+        //TODO Fix button color styles later
         .selected {
           @include button-preset();
           @include golden-ratio-padding(14);
