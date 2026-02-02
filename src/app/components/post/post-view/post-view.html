@@ -165,27 +165,27 @@
 
       <div class="media-links">
         @if (hasResources('images')) {
-          <span
+          <button
             [title]="'Bilder'"
             [innerHTML]="svgIconsService.returnIcon('image')"
             (click)="openResourceModal('images')"
-          ></span>
+          ></button>
         }
 
         @if (hasResources('videos')) {
-          <span
+          <button
             [title]="'Videos'"
             [innerHTML]="svgIconsService.returnIcon('video')"
             (click)="openResourceModal('videos')"
-          ></span>
+          ></button>
         }
 
         @if (hasResources('resources')) {
-          <span
+          <button
             [title]="'Resources'"
             [innerHTML]="svgIconsService.returnIcon('resources')"
             (click)="openResourceModal('resources')"
-          ></span>
+          ></button>
         }
       </div>
     </div>
