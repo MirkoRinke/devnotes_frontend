@@ -42,18 +42,24 @@ export class UserBadge {
     }
   }
 
+  /**
+   * User Profile Clicked (Placeholder)
+   */
   userProfile() {
-    // Implement user profile logic here
     alert('User Profile clicked');
   }
 
+  /**
+   * Toggle Follow User (Placeholder)
+   */
   toggleFollowUser() {
-    // Implement follow/unfollow logic here
     alert('Toggle Follow User clicked');
   }
 
+  /**
+   * Report User (Placeholder)
+   */
   reportUser() {
-    // Implement report user logic here
     alert('Report User clicked');
   }
 }
