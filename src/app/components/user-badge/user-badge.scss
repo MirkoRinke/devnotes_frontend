@@ -46,7 +46,7 @@
     }
   }
 
-  @include dropside-values($item-spacing-vertical: px-to-rem(10), $item-spacing-horizontal: px-to-rem(30), $font-size: 16, $orientation: left, $z-index: 1);
+  @include dropside-values($item-spacing-vertical: px-to-rem(10), $item-spacing-horizontal: px-to-rem(30), $border-radius: px-to-rem(9999), $font-size: 16, $orientation: left, $z-index: 1);
 
   .values {
     .value {
