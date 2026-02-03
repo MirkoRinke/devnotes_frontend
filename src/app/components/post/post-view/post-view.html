@@ -76,26 +76,13 @@
     </div>
 
     <div class="info-bar">
-      <div class="user">
-        <div class="avatar">
-          <img
-            src="/avatar-items/placeholder.webp"
-            alt="placeholder"
-          />
-        </div>
-        <!-- @for (avatarItem of avatarItemsEntries(); track $index) {
-          <div>
-            @if (avatarItem.url) {
-              <img
-                [src]="avatarItem.url"
-                [alt]="avatarItem.key"
-                [class]="avatarItem.key"
-              />
-            }
-          </div>
-        } -->
-        <span class="display-name">{{ currentPost.user?.display_name }}</span>
-      </div>
+      @if (currentPost.user) {
+        <app-user-badge
+          [user]="currentPost.user"
+          [userBadgeContext]="'post'"
+          [menuActive]="true"
+        ></app-user-badge>
+      }
 
       <div class="engagement">
         <div class="likes">

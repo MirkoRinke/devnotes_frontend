@@ -12,10 +12,11 @@ import { SvgIconsService } from '../../../services/svg.icons.service';
 import { AuthService } from '../../../services/auth.service';
 import { PostSettingsDropdown } from './post-settings-dropdown/post-settings-dropdown';
 import { ReportModal } from '../../report-modal/report-modal';
+import { UserBadge } from '../../user-badge/user-badge';
 
 @Component({
   selector: 'app-post-view',
-  imports: [LocalDatePipe, PostResourceModal, PostSettingsDropdown, ReportModal],
+  imports: [LocalDatePipe, PostResourceModal, PostSettingsDropdown, ReportModal, UserBadge],
   templateUrl: './post-view.html',
   styleUrl: './post-view.scss',
 })
