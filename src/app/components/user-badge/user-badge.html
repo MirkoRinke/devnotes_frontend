@@ -1,0 +1,21 @@
+<div class="user-badge">
+  <div class="avatar">
+    <img
+      src="/avatar-items/placeholder.webp"
+      alt="placeholder"
+    />
+  </div>
+  <span class="display-name">{{ user?.display_name }}</span>
+</div>
+
+<!-- @for (avatarItem of avatarItemsEntries(); track $index) {
+      <div>
+        @if (avatarItem.url) {
+          <img
+            [src]="avatarItem.url"
+            [alt]="avatarItem.key"
+            [class]="avatarItem.key"
+          />
+        }
+      </div>
+    } -->
