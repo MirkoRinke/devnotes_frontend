@@ -102,13 +102,19 @@
   }
 }
 
-@mixin dropdown-values($item-spacing-vertical: px-to-rem(10), $item-spacing-horizontal: px-to-rem(15), $font-size: 14, $orientation: left) {
+@mixin dropdown-values($item-spacing-vertical: px-to-rem(10), $item-spacing-horizontal: px-to-rem(15), $font-size: 14, $orientation: left, $z-index: 10) {
   .values {
     @include display-flex(start, start, column);
+    width: 100%;
+
+    color: var(--font-primary-color-100);
+
+    background-color: var(--page-primary-color-100);
+
+    border: 2px solid var(--font-primary-color-50);
+    border-top: unset;
     border-bottom-left-radius: px-to-rem(15);
     border-bottom-right-radius: px-to-rem(15);
-    color: var(--font-primary-color-100);
-    width: 100%;
 
     position: absolute;
     top: 100%;
@@ -119,30 +125,12 @@
       right: 0;
     } @else if $orientation == center {
       left: 50%;
-      //TODO Fix centering issue later
       transform: translateX(-50%);
     }
 
-    background-color: var(--page-primary-color-100);
-
-    border: 2px solid var(--font-primary-color-50);
-    border-top: unset;
-
-    z-index: 1;
+    z-index: $z-index;
 
     overflow: hidden;
-
-    transform-origin: top;
-    will-change: transform;
-    backface-visibility: hidden;
-
-    &.animated-in {
-      animation: animated-in var.$transition-duration-medium ease-in-out forwards;
-    }
-
-    &.animated-out {
-      animation: animated-out var.$transition-duration-medium ease-in-out forwards;
-    }
 
     &:not(.active) {
       pointer-events: none;
@@ -155,59 +143,126 @@
       width: 100%;
     }
 
-    .value {
-      @include button-preset();
-      @include display-flex(center, space-between);
-      @include font-settings($font-size, 400);
-      text-align: left;
+    @include dropdown-animations($origin: top, $translateX: if($orientation == center, -50%, 0%));
+
+    @include value-list-item($item-spacing-vertical, $item-spacing-horizontal, $font-size, $height: unset, $width: 100%);
+  }
+}
+
+@mixin dropside-values($item-spacing-vertical: px-to-rem(10), $item-spacing-horizontal: px-to-rem(15), $font-size: 14, $orientation: left, $z-index: 10) {
+  .values {
+    @include display-flex(center, center, row);
+    width: max-content;
+    height: px-to-rem(50);
+
+    color: var(--font-primary-color-100);
+
+    background-color: var(--page-primary-color-100);
+
+    border: 2px solid var(--font-primary-color-50);
+    border-radius: px-to-rem(15);
+    border-top-left-radius: unset;
+    border-bottom-left-radius: unset;
+
+    margin-left: px-to-rem(20);
+
+    position: absolute;
+    top: 0;
+
+    @if $orientation == left {
+      left: 0;
+    } @else if $orientation == right {
+      right: 0;
+    } @else if $orientation == center {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    z-index: $z-index;
+
+    overflow: hidden;
+
+    &:not(.active) {
+      pointer-events: none;
+      opacity: 0;
+    }
+
+    .search-input {
+      height: px-to-rem(35);
+      padding: px-to-rem(10) px-to-rem(15);
       width: 100%;
+    }
+
+    @include dropdown-animations($origin: left, $transform-scale-axis: 'X', $translateX: if($orientation == center, -50%, 0%));
+
+    @include value-list-item($item-spacing-vertical, $item-spacing-horizontal, $font-size, px-to-rem(50), max-content);
+  }
+}
+
+@mixin value-list-item($item-spacing-vertical: px-to-rem(10), $item-spacing-horizontal: px-to-rem(15), $font-size: 14, $height: 100%, $width: 100%) {
+  .value {
+    @include button-preset();
+    @include display-flex(center, space-between);
+    @include font-settings($font-size, 400);
+    text-align: left;
+    height: $height;
+    width: $width;
+    color: var(--font-primary-color-100);
+    padding-inline: $item-spacing-horizontal;
+    padding-block: $item-spacing-vertical;
+
+    &:hover {
+      //TODO Fix hover color later use variable
+      background-color: #2c2f3a;
+    }
+
+    .name {
       color: var(--font-primary-color-100);
-      padding-inline: $item-spacing-horizontal;
-      padding-block: $item-spacing-vertical;
+      @include singleline-ellipsis();
 
-      // &:first-child {
-      //   margin-top: $item-spacing-vertical;
-      // }
-
-      &:hover {
-        //TODO Fix hover color later use variable
-        background-color: #2c2f3a;
-      }
-
-      .name {
-        color: var(--font-primary-color-100);
-        @include singleline-ellipsis();
-
-        &::first-letter {
-          text-transform: uppercase;
-        }
-      }
-
-      .count {
-        color: var(--font-primary-color-100);
+      &::first-letter {
+        text-transform: uppercase;
       }
     }
 
-    @keyframes animated-in {
-      0% {
-        transform: scaleY(0);
-        opacity: 0;
-      }
-      100% {
-        transform: scaleY(1);
-        opacity: 1;
-      }
+    .count {
+      color: var(--font-primary-color-100);
     }
+  }
+}
 
-    @keyframes animated-out {
-      0% {
-        transform: scaleY(1);
-        opacity: 1;
-      }
-      100% {
-        transform: scaleY(0);
-        opacity: 0;
-      }
+@mixin dropdown-animations($origin: top, $transform-scale-axis: 'Y', $transform-scale: 1, $translateX: 0%) {
+  transform-origin: $origin;
+  will-change: transform;
+  backface-visibility: hidden;
+
+  &.animated-in {
+    animation: animated-in var.$transition-duration-medium ease-in-out forwards;
+  }
+
+  &.animated-out {
+    animation: animated-out var.$transition-duration-medium ease-in-out forwards;
+  }
+
+  @keyframes animated-in {
+    0% {
+      transform: translateX($translateX) scale#{$transform-scale-axis }(0);
+      opacity: 0;
+    }
+    100% {
+      transform: translateX($translateX) scale#{$transform-scale-axis }(1);
+      opacity: 1;
+    }
+  }
+
+  @keyframes animated-out {
+    0% {
+      transform: translateX($translateX) scale#{$transform-scale-axis }(1);
+      opacity: 1;
+    }
+    100% {
+      transform: translateX($translateX) scale#{$transform-scale-axis }(0);
+      opacity: 0;
     }
   }
 }
