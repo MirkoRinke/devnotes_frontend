@@ -102,7 +102,7 @@
   }
 }
 
-@mixin dropdown-values($item-spacing-vertical: px-to-rem(10), $item-spacing-horizontal: px-to-rem(15), $font-size: 14, $orientation: left, $z-index: 10) {
+@mixin dropdown-values($item-spacing-vertical: px-to-rem(10), $item-spacing-horizontal: px-to-rem(15), $border-radius: px-to-rem(15), $font-size: 14, $orientation: left, $z-index: 10) {
   .values {
     @include display-flex(start, start, column);
     width: 100%;
@@ -113,8 +113,8 @@
 
     border: 2px solid var(--font-primary-color-50);
     border-top: unset;
-    border-bottom-left-radius: px-to-rem(15);
-    border-bottom-right-radius: px-to-rem(15);
+    border-bottom-left-radius: $border-radius;
+    border-bottom-right-radius: $border-radius;
 
     position: absolute;
     top: 100%;
@@ -149,7 +149,7 @@
   }
 }
 
-@mixin dropside-values($item-spacing-vertical: px-to-rem(10), $item-spacing-horizontal: px-to-rem(15), $font-size: 14, $orientation: left, $z-index: 10) {
+@mixin dropside-values($item-spacing-vertical: px-to-rem(10), $item-spacing-horizontal: px-to-rem(15), $border-radius: px-to-rem(15), $font-size: 14, $orientation: left, $z-index: 10) {
   .values {
     @include display-flex(center, center, row);
     width: max-content;
@@ -160,7 +160,7 @@
     background-color: var(--page-primary-color-100);
 
     border: 2px solid var(--font-primary-color-50);
-    border-radius: px-to-rem(15);
+    border-radius: $border-radius;
     border-top-left-radius: unset;
     border-bottom-left-radius: unset;
 
