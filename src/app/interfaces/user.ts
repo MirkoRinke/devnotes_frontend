@@ -16,6 +16,7 @@ export interface UserInterface {
   updated_at?: string;
   last_post_created_at?: string;
   last_post_updated_at?: string | null;
+  is_following?: boolean;
 }
 
 export interface AvatarItems {
