@@ -1,11 +1,50 @@
-<div class="user-badge">
-  <div class="avatar">
-    <img
-      src="/avatar-items/placeholder.webp"
-      alt="placeholder"
-    />
+<div class="user-badge-component">
+  <div
+    (click)="toggleBadgeMenu()"
+    class="user-badge"
+  >
+    <div class="avatar">
+      <img
+        [class.opened]="isUserBadgeMenuOpen"
+        src="/avatar-items/placeholder.webp"
+        alt="placeholder"
+      />
+    </div>
+    <span class="display-name">{{ user?.display_name }}</span>
   </div>
-  <span class="display-name">{{ user?.display_name }}</span>
+
+  @if (isUserBadgeMenuOpen) {
+    <div
+      class="values"
+      [class.active]="isUserBadgeMenuOpen"
+      [class.animated-in]="isUserBadgeMenuAnimating"
+      [class.animated-out]="!isUserBadgeMenuAnimating"
+      (animationend)="onAnimationEnd($event)"
+    >
+      <button
+        class="value"
+        (click)="userProfile(); toggleBadgeMenu()"
+      >
+        Profil
+      </button>
+
+      <button
+        class="value"
+        (click)="toggleFollowUser(); toggleBadgeMenu()"
+      >
+        {{ user?.is_following ? 'Entfolgen' : 'Folgen' }}
+      </button>
+
+      <span class="divider"></span>
+
+      <button
+        class="value"
+        (click)="reportUser(); toggleBadgeMenu()"
+      >
+        Melden
+      </button>
+    </div>
+  }
 </div>
 
 <!-- @for (avatarItem of avatarItemsEntries(); track $index) {

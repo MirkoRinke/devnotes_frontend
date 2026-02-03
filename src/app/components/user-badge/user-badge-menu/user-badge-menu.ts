@@ -6,6 +6,4 @@ import { Component } from '@angular/core';
   templateUrl: './user-badge-menu.html',
   styleUrl: './user-badge-menu.scss',
 })
-export class UserBadgeMenu {
-
-}
+export class UserBadgeMenu {}
