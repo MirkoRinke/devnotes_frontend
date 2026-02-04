@@ -1,1 +1,30 @@
-<p>user-badge-menu works!</p>
+<div
+  class="values"
+  [class.active]="isUserBadgeMenuOpen"
+  [class.animated-in]="isUserBadgeMenuAnimating"
+  [class.animated-out]="!isUserBadgeMenuAnimating"
+  (animationend)="onAnimationEnd($event)"
+>
+  <button
+    class="value"
+    (click)="userProfile(); onClose()"
+  >
+    Profil
+  </button>
+
+  <button
+    class="value"
+    (click)="toggleFollowUser(); onClose()"
+  >
+    {{ user?.is_following ? 'Entfolgen' : 'Folgen' }}
+  </button>
+
+  <span class="divider"></span>
+
+  <button
+    class="value"
+    (click)="reportUser(); onClose()"
+  >
+    Melden
+  </button>
+</div>
