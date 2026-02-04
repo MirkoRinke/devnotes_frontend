@@ -43,6 +43,7 @@
         ></app-user-badge>
       }
 
+      <!-- TODO outsource engagement to separate component -->
       <div class="engagement">
         <div class="likes">
           <p>{{ currentPost.likes_count }}</p>
@@ -76,6 +77,7 @@
 
     <p class="description">{{ currentPost.description }}</p>
 
+    <!-- Todo - Syntax Highlighting for Code Blocks -->
     <div class="code-container">
       <button
         class="copy-button"
@@ -84,13 +86,14 @@
         (click)="copyToClipboard(currentPost.code)"
         [innerHTML]="svgIconsService.returnIcon('copy')"
       ></button>
-      <!-- Todo - Syntax Highlighting for Code Blocks -->
+      <!-- TODO outsource code block to separate component -->
       <pre><code>{{ currentPost.code }}</code></pre>
     </div>
   </section>
 
   <footer class="footer">
     <div class="footer-meta">
+      <!-- TODO outsource tech stack to separate component -->
       <div class="tech-stack">
         <div class="languages">
           @for (language of currentPost.languages; track $index) {
@@ -141,6 +144,7 @@
     </div>
 
     <span class="line-break"></span>
+    <!-- TODO outsource tags to separate component -->
     <div class="tags">
       @for (tag of currentPost.tags; track $index) {
         <button class="tag">{{ tag.name }}</button>
