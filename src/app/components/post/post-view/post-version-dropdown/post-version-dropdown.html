@@ -1,0 +1,45 @@
+<div class="version-dropdown">
+  <button
+    class="version-display"
+    [class.active]="postVersionsValues.length > 1"
+    (click)="togglePostVersionDropdown()"
+  >
+    <span
+      class="history-icon"
+      [class.active]="postVersionsValues.length > 1"
+      [class.open]="showDropdownValues"
+      [innerHTML]="svgIconsService.returnIcon('history')"
+    ></span>
+
+    <time class="updated_at">{{ currentPost.updated_at | localDate }}</time>
+
+    <span
+      class="chevron-icon"
+      [class.active]="postVersionsValues.length > 1"
+      [class.open]="showDropdownValues"
+      [innerHTML]="svgIconsService.returnIcon('chevron')"
+    ></span>
+  </button>
+
+  @if (showDropdownValues) {
+    <div
+      class="values"
+      [class.active]="showDropdownValues"
+      [class.animated-in]="showDropdownAnimation"
+      [class.animated-out]="!showDropdownAnimation"
+      (animationend)="onAnimationEnd($event)"
+      role="listbox"
+    >
+      @for (postVersionsValue of postVersionsValues; track $index) {
+        @if (postVersionsValue.label !== (currentPost.updated_at | localDate)) {
+          <button
+            class="value"
+            (click)="selectPostVersion(postVersionsValue.value); togglePostVersionDropdown()"
+          >
+            {{ postVersionsValue.label }}
+          </button>
+        }
+      }
+    </div>
+  }
+</div>
