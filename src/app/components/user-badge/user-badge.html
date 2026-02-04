@@ -14,39 +14,16 @@
   </div>
 
   @if (isUserBadgeMenuOpen) {
-    <div
-      class="values"
-      [class.active]="isUserBadgeMenuOpen"
-      [class.animated-in]="isUserBadgeMenuAnimating"
-      [class.animated-out]="!isUserBadgeMenuAnimating"
-      (animationend)="onAnimationEnd($event)"
-    >
-      <button
-        class="value"
-        (click)="userProfile(); toggleBadgeMenu()"
-      >
-        Profil
-      </button>
-
-      <button
-        class="value"
-        (click)="toggleFollowUser(); toggleBadgeMenu()"
-      >
-        {{ user?.is_following ? 'Entfolgen' : 'Folgen' }}
-      </button>
-
-      <span class="divider"></span>
-
-      <button
-        class="value"
-        (click)="reportUser(); toggleBadgeMenu()"
-      >
-        Melden
-      </button>
-    </div>
+    <app-user-badge-menu
+      [user]="user"
+      [isUserBadgeMenuOpen]="isUserBadgeMenuOpen"
+      [isUserBadgeMenuAnimating]="isUserBadgeMenuAnimating"
+      (closeMenu)="closeBadgeMenu()"
+    ></app-user-badge-menu>
   }
 </div>
 
+<!--TODO For later avatar implementation -->
 <!-- @for (avatarItem of avatarItemsEntries(); track $index) {
       <div>
         @if (avatarItem.url) {
