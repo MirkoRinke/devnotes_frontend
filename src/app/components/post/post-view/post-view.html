@@ -2,12 +2,10 @@
   <header class="header">
     <div class="system-bar">
       <div class="version-info">
-        @if (post) {
-          <app-post-version-dropdown
-            [post]="post"
-            (versionSelected)="onSelect($event)"
-          ></app-post-version-dropdown>
-        }
+        <app-post-version-dropdown
+          [post]="post"
+          (versionSelected)="onSelect($event)"
+        ></app-post-version-dropdown>
 
         <span class="separator">|</span>
         <span class="entitye">{{ selectedEntityValue }}</span>
