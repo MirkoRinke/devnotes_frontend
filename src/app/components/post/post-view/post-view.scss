@@ -27,62 +27,7 @@
         @include display-flex(center);
         gap: px-to-rem(10);
 
-        .version-dropdown {
-          .version-display {
-            @include button-preset();
-            @include font-settings(16);
-            color: var(--font-primary-color-100);
-
-            @include display-flex(center);
-            gap: px-to-rem(12);
-
-            cursor: pointer;
-
-            &:not(.active) {
-              cursor: default;
-            }
-
-            &:hover {
-              &.active {
-                .history-icon {
-                  &::ng-deep .history {
-                    fill: var(--font-primary-color-100);
-                  }
-                }
-              }
-            }
-
-            .history-icon {
-              display: inline-block;
-              width: px-to-rem(20);
-              height: px-to-rem(20);
-
-              &.open {
-                &::ng-deep .history {
-                  fill: var(--font-primary-color-100);
-                }
-              }
-
-              &::ng-deep .history {
-                width: 100%;
-                height: 100%;
-                fill: var(--font-primary-color-50);
-                transition: fill var.$transition-duration-medium ease-in-out;
-              }
-            }
-
-            @include chevron-icon();
-          }
-        }
-
-        @include dropdown-values($item-spacing-vertical: px-to-rem(10), $item-spacing-horizontal: px-to-rem(30), $font-size: 16);
-
-        .values {
-          border-top: 2px solid var(--font-primary-color-50);
-          width: max-content;
-        }
-
-        .post-type,
+        .entitye,
         .post-type,
         .category {
           &::first-letter {
