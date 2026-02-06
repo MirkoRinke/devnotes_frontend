@@ -1,0 +1,13 @@
+<button
+  class="report"
+  role="button"
+  (click)="onReportClick()"
+>
+  @if (showLabel) {
+    Melden
+  }
+  <span
+    class="icon"
+    [innerHTML]="svgIconsService.returnIcon('report')"
+  ></span>
+</button>
