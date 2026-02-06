@@ -39,14 +39,14 @@ export class PostSettingsDropdown {
   }
 
   /**
-   * Edit Post ( placeholder )
+   * TODO: Implement edit post functionality
    */
   editPost() {
     alert('Edit Post implement later');
   }
 
   /**
-   * Delete Post ( placeholder )
+   * TODO: Implement delete post functionality
    */
   deletePost() {
     alert('Delete Post implement later');
