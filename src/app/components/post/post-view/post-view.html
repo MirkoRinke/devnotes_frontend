@@ -25,11 +25,11 @@
             (click)="openReportModal()"
           >
             Melden
+            <span
+              class="icon"
+              [innerHTML]="svgIconsService.returnIcon('report')"
+            ></span>
           </button>
-          <span
-            class="icon"
-            [innerHTML]="svgIconsService.returnIcon('report')"
-          ></span>
         }
       </div>
     </div>
