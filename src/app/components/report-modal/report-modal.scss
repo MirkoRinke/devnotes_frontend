@@ -31,6 +31,8 @@
       background-color: #181a22;
       min-width: 100%;
 
+      resize: none;
+
       border: px-to-rem(2) solid var(--font-primary-color-25);
       border-radius: px-to-rem(10);
       padding: px-to-rem(20) px-to-rem(25);
