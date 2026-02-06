@@ -25,12 +25,11 @@ export class ReportModal {
   }
 
   /**
-   * Submit a report with the given reason ( placeholder implementation )
-   *
-   * @param reason
+   * TODO: Implement report submission functionality
+   * @param reason The reason for reporting
    */
   submitReport(reason: string) {
-    alert(`Report submitted for ${this.reportContext} ID ${this.reportID} with reason: ${reason}`);
+    console.log(`Report submitted for ${this.reportContext} ID ${this.reportID} with reason: ${reason}`);
     this.onClose();
   }
 }
