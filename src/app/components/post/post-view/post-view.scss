@@ -35,46 +35,6 @@
           }
         }
       }
-
-      .settings-report {
-        @include display-flex(center);
-
-        &:hover {
-          cursor: pointer;
-
-          .report .icon {
-            //TODO Change color later use variable
-            &::ng-deep .report {
-              fill: rgb(122, 2, 2);
-              transition: fill var.$transition-duration-medium ease-in-out;
-            }
-          }
-        }
-
-        @include chevron-icon();
-
-        .report {
-          @include button-preset();
-          @include display-flex(center);
-          gap: px-to-rem(5);
-          color: var(--font-primary-color-100);
-
-          cursor: pointer;
-
-          .icon {
-            @include display-flex(center);
-            width: px-to-rem(15);
-            height: px-to-rem(15);
-
-            &::ng-deep .report {
-              width: 100%;
-              height: 100%;
-              fill: var(--font-primary-color-50);
-              transition: fill var.$transition-duration-medium ease-in-out;
-            }
-          }
-        }
-      }
     }
 
     .info-bar {

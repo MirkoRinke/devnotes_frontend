@@ -11,10 +11,11 @@ import { PostSettingsDropdown } from './post-settings-dropdown/post-settings-dro
 import { ReportModal } from '../../report-modal/report-modal';
 import { UserBadge } from '../../user-badge/user-badge';
 import { PostVersionDropdown } from './post-version-dropdown/post-version-dropdown';
+import { ReportButton } from '../../report-button/report-button';
 
 @Component({
   selector: 'app-post-view',
-  imports: [PostResourceModal, PostSettingsDropdown, ReportModal, UserBadge, PostVersionDropdown],
+  imports: [PostResourceModal, PostSettingsDropdown, ReportModal, UserBadge, PostVersionDropdown, ReportButton],
   templateUrl: './post-view.html',
   styleUrl: './post-view.scss',
 })

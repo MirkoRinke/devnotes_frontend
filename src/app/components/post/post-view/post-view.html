@@ -15,23 +15,14 @@
         <span class="category">{{ currentPost.category }}</span>
       </div>
 
-      <div class="settings-report">
-        @if (isOwner(currentPost)) {
-          <app-post-settings-dropdown class="absolute-top-right"></app-post-settings-dropdown>
-        } @else {
-          <button
-            class="report"
-            role="button"
-            (click)="openReportModal()"
-          >
-            Melden
-            <span
-              class="icon"
-              [innerHTML]="svgIconsService.returnIcon('report')"
-            ></span>
-          </button>
-        }
-      </div>
+      @if (isOwner(currentPost)) {
+        <app-post-settings-dropdown class="absolute-top-right"></app-post-settings-dropdown>
+      } @else {
+        <app-report-button
+          [showLabel]="true"
+          (openReportModal)="openReportModal()"
+        ></app-report-button>
+      }
     </div>
 
     <div class="info-bar">
