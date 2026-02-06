@@ -1,0 +1,35 @@
+<div class="engagement">
+  <div
+    class="likes"
+    (click)="toggleLike()"
+  >
+    <p class="count">{{ likesCount }}</p>
+    <span
+      class="icon"
+      [innerHTML]="svgIconsService.returnIcon(isLiked ? 'like' : 'like_outline', 'like')"
+    ></span>
+  </div>
+
+  <div
+    class="favorites"
+    (click)="toggleFavorites()"
+  >
+    <p class="count">{{ favoritesCount }}</p>
+    <span
+      class="icon"
+      [innerHTML]="svgIconsService.returnIcon(isFavorited ? 'favorite' : 'favorite_outline', 'favorite')"
+    ></span>
+  </div>
+
+  <div
+    class="shares"
+    (click)="sharePost()"
+  >
+    <span
+      class="icon"
+      [class.copied]="isCopied"
+      [class.copy-failed]="copiedFailed"
+      [innerHTML]="svgIconsService.returnIcon('share', 'share')"
+    ></span>
+  </div>
+</div>
