@@ -267,6 +267,47 @@
   }
 }
 
+//TODO Fix color later use variable
+@mixin copy-interactions($class: copy, $color: var(--font-primary-color-100), $success-color: green, $error-color: red) {
+  &.copied {
+    &::ng-deep .#{$class} {
+      animation: shake var.$transition-duration-medium ease-in-out;
+      fill: $success-color;
+    }
+  }
+
+  &.copy-failed {
+    animation: shake var.$transition-duration-medium ease-in-out;
+    &::ng-deep .#{$class} {
+      fill: $error-color;
+    }
+  }
+
+  &:hover:not(.copied):not(.copy-failed) {
+    &::ng-deep .#{$class} {
+      fill: $color;
+    }
+  }
+
+  @keyframes shake {
+    0% {
+      transform: translateX(0);
+    }
+    25% {
+      transform: translateX(-2px);
+    }
+    50% {
+      transform: translateX(2px);
+    }
+    75% {
+      transform: translateX(-2px);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+}
+
 @mixin absolute-overlay($bg: rgba(0, 0, 0, 0.2), $blur: 2px, $z-index: 10, $animation-style: none) {
   position: absolute;
   top: 0;
