@@ -35,30 +35,12 @@
       }
 
       <!-- TODO outsource engagement to separate component -->
-      <div class="engagement">
-        <div class="likes">
-          <p>{{ currentPost.likes_count }}</p>
-          <span
-            class="icon"
-            [innerHTML]="svgIconsService.returnIcon('like')"
-          ></span>
-        </div>
-
-        <div class="favorites">
-          <p>{{ currentPost.favorite_count }}</p>
-          <span
-            class="icon"
-            [innerHTML]="svgIconsService.returnIcon('favorite')"
-          ></span>
-        </div>
-
-        <div class="shares">
-          <span
-            class="icon"
-            [innerHTML]="svgIconsService.returnIcon('share')"
-          ></span>
-        </div>
-      </div>
+      <app-post-engagement
+        [likesCount]="currentPost.likes_count ? currentPost.likes_count : 0"
+        [favoritesCount]="currentPost.favorite_count ? currentPost.favorite_count : 0"
+        [isFavorited]="currentPost.is_favorited ? currentPost.is_favorited : false"
+        [isLiked]="currentPost.is_liked ? currentPost.is_liked : false"
+      ></app-post-engagement>
     </div>
   </header>
 

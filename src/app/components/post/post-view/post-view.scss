@@ -39,45 +39,6 @@
 
     .info-bar {
       @include display-flex(center, space-between);
-
-      .engagement {
-        @include display-flex(center);
-        gap: px-to-rem(20);
-
-        .likes,
-        .favorites,
-        .shares {
-          @include display-flex(center, center, row);
-          gap: px-to-rem(5);
-
-          &:hover {
-            cursor: pointer;
-
-            .icon {
-              &::ng-deep svg {
-                fill: var(--font-primary-color-100);
-              }
-            }
-          }
-
-          .icon {
-            width: px-to-rem(20);
-            height: px-to-rem(20);
-
-            &::ng-deep svg {
-              width: 100%;
-              height: 100%;
-              fill: var(--font-primary-color-50);
-              transition: fill var.$transition-duration-medium ease-in-out;
-            }
-          }
-
-          .count {
-            @include font-settings(14, 500);
-            color: var(--font-primary-color-100);
-          }
-        }
-      }
     }
   }
 
@@ -120,6 +81,7 @@
       border: px-to-rem(2) solid var(--font-primary-color-25);
       border-radius: px-to-rem(10);
       padding: px-to-rem(20) px-to-rem(25);
+      padding-right: px-to-rem(50);
 
       position: relative;
 
@@ -129,51 +91,13 @@
         top: px-to-rem(15);
         right: px-to-rem(15);
 
-        &.copied {
-          &::ng-deep .copy {
-            animation: shake 0.2s ease-in-out;
-            //TODO Fix color later use variable
-            fill: green;
-          }
-        }
-
-        &.copy-failed {
-          animation: shake 0.2s ease-in-out;
-          &::ng-deep .copy {
-            //TODO Fix color later use variable
-            fill: red;
-          }
-        }
-
-        &:hover:not(.copied):not(.copy-failed) {
-          &::ng-deep .copy {
-            fill: var(--font-primary-color-100);
-          }
-        }
+        @include copy-interactions($class: 'copy');
 
         &::ng-deep .copy {
           transition: fill var.$transition-duration-medium ease-in-out;
           width: px-to-rem(15);
           height: px-to-rem(15);
           fill: var(--font-primary-color-50);
-        }
-      }
-
-      @keyframes shake {
-        0% {
-          transform: translateX(0);
-        }
-        25% {
-          transform: translateX(-2px);
-        }
-        50% {
-          transform: translateX(2px);
-        }
-        75% {
-          transform: translateX(-2px);
-        }
-        100% {
-          transform: translateX(0);
         }
       }
 
