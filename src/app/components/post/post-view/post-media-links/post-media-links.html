@@ -1,0 +1,25 @@
+<div class="media-links">
+  @if (hasResources('images')) {
+    <button
+      [title]="'Bilder'"
+      [innerHTML]="svgIconsService.returnIcon('image')"
+      (click)="triggerOpenResourceModal('images')"
+    ></button>
+  }
+
+  @if (hasResources('videos')) {
+    <button
+      [title]="'Videos'"
+      [innerHTML]="svgIconsService.returnIcon('video')"
+      (click)="triggerOpenResourceModal('videos')"
+    ></button>
+  }
+
+  @if (hasResources('resources')) {
+    <button
+      [title]="'Resources'"
+      [innerHTML]="svgIconsService.returnIcon('resources')"
+      (click)="triggerOpenResourceModal('resources')"
+    ></button>
+  }
+</div>

@@ -1,0 +1,31 @@
+@use '../../../../../functions' as *;
+@use '../../../../../var' as var;
+@use '../../../../../mixins' as *;
+
+.media-links {
+  @include display-flex(center);
+  gap: px-to-rem(15);
+
+  button {
+    @include button-preset();
+
+    @include display-flex(center);
+    width: px-to-rem(25);
+    height: px-to-rem(25);
+
+    &:hover {
+      cursor: pointer;
+      &::ng-deep svg {
+        fill: var(--font-primary-color-100);
+        transition: fill var.$transition-duration-medium ease-in-out;
+      }
+    }
+
+    &::ng-deep svg {
+      width: 100%;
+      height: 100%;
+      fill: var(--font-primary-color-50);
+      transition: fill var.$transition-duration-medium ease-in-out;
+    }
+  }
+}
