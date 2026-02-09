@@ -1,0 +1,26 @@
+@use '../../../../../functions' as *;
+@use '../../../../../var' as var;
+@use '../../../../../mixins' as *;
+
+.tags {
+  @include display-flex(center);
+  gap: px-to-rem(20);
+  flex-wrap: wrap;
+
+  .tag {
+    @include button-preset();
+    @include golden-ratio-padding(14);
+    @include font-settings(14, 500);
+
+    background-color: var(--font-primary-color-15);
+    border-radius: px-to-rem(10);
+
+    color: var(--font-primary-color-100);
+
+    transition: scale var.$transition-duration-medium ease-in-out;
+
+    &:hover {
+      scale: 1.05;
+    }
+  }
+}
