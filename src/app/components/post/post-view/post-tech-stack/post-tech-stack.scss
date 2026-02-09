@@ -13,6 +13,7 @@
 
     .language,
     .technology {
+      @include button-preset();
       @include display-flex(center);
 
       &:hover {

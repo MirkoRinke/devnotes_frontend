@@ -2,12 +2,13 @@
   @if (languages.length > 0) {
     <div class="languages">
       @for (language of languages; track language.id) {
-        <span
+        <button
           class="language"
+          role="button"
           [title]="language.name"
           [innerHTML]="svgIconsService.returnIcon(language.name)"
           (click)="searchPlaceholderFunction(language)"
-        ></span>
+        ></button>
       }
     </div>
   }
@@ -15,12 +16,13 @@
   @if (technologies.length > 0) {
     <div class="technologies">
       @for (technology of technologies; track technology.id) {
-        <span
+        <button
           class="technology"
+          role="button"
           [title]="technology.name"
           [innerHTML]="svgIconsService.returnIcon(technology.name)"
           (click)="searchPlaceholderFunction(technology)"
-        ></span>
+        ></button>
       }
     </div>
   }
