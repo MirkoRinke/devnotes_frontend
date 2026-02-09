@@ -5,6 +5,7 @@
 .report {
   @include button-preset();
   @include display-flex(center);
+  @include font-settings(16);
   gap: px-to-rem(5);
   color: var(--font-primary-color-100);
 
