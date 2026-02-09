@@ -84,37 +84,6 @@
       @include display-flex(center, space-between);
       gap: px-to-rem(25);
 
-      .tech-stack {
-        @include display-flex(center);
-        gap: px-to-rem(25);
-
-        .languages,
-        .technologies {
-          @include display-flex(center);
-          gap: px-to-rem(15);
-
-          .language,
-          .technology {
-            @include display-flex(center);
-
-            &:hover {
-              cursor: pointer;
-              &::ng-deep svg {
-                fill: var(--font-primary-color-100);
-                transition: fill var.$transition-duration-medium ease-in-out;
-              }
-            }
-
-            &::ng-deep svg {
-              width: px-to-rem(25);
-              height: px-to-rem(25);
-              fill: var(--font-primary-color-50);
-              transition: fill var.$transition-duration-medium ease-in-out;
-            }
-          }
-        }
-      }
-
       .media-links {
         @include display-flex(center);
         gap: px-to-rem(15);

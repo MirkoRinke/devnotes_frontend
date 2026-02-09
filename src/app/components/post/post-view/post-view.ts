@@ -14,10 +14,11 @@ import { PostVersionDropdown } from './post-version-dropdown/post-version-dropdo
 import { ReportButton } from '../../report-button/report-button';
 import { PostEngagement } from './post-engagement/post-engagement';
 import { PostCode } from './post-code/post-code';
+import { PostTechStack } from './post-tech-stack/post-tech-stack';
 
 @Component({
   selector: 'app-post-view',
-  imports: [PostResourceModal, PostSettingsDropdown, ReportModal, UserBadge, PostVersionDropdown, ReportButton, PostEngagement, PostCode],
+  imports: [PostResourceModal, PostSettingsDropdown, ReportModal, UserBadge, PostVersionDropdown, ReportButton, PostEngagement, PostCode, PostTechStack],
   templateUrl: './post-view.html',
   styleUrl: './post-view.scss',
 })

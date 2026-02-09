@@ -35,10 +35,10 @@
       }
 
       <app-post-engagement
-        [likesCount]="currentPost.likes_count ? currentPost.likes_count : 0"
-        [favoritesCount]="currentPost.favorite_count ? currentPost.favorite_count : 0"
-        [isFavorited]="currentPost.is_favorited ? currentPost.is_favorited : false"
-        [isLiked]="currentPost.is_liked ? currentPost.is_liked : false"
+        [likesCount]="currentPost.likes_count ?? 0"
+        [favoritesCount]="currentPost.favorite_count ?? 0"
+        [isFavorited]="currentPost.is_favorited ?? false"
+        [isLiked]="currentPost.is_liked ?? false"
       ></app-post-engagement>
     </div>
   </header>
@@ -54,28 +54,10 @@
 
   <footer class="footer">
     <div class="footer-meta">
-      <!-- TODO outsource tech stack to separate component -->
-      <div class="tech-stack">
-        <div class="languages">
-          @for (language of currentPost.languages; track $index) {
-            <span
-              class="language"
-              [title]="language.name"
-              [innerHTML]="svgIconsService.returnIcon(language.name)"
-            ></span>
-          }
-        </div>
-
-        <div class="technologies">
-          @for (technology of currentPost.technologies; track $index) {
-            <span
-              class="technology"
-              [title]="technology.name"
-              [innerHTML]="svgIconsService.returnIcon(technology.name)"
-            ></span>
-          }
-        </div>
-      </div>
+      <app-post-tech-stack
+        [languages]="currentPost.languages ?? []"
+        [technologies]="currentPost.technologies ?? []"
+      ></app-post-tech-stack>
 
       <div class="media-links">
         @if (hasResources('images')) {
