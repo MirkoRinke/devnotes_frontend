@@ -66,12 +66,8 @@
     </div>
 
     <span class="line-break"></span>
-    <!-- TODO outsource tags to separate component -->
-    <div class="tags">
-      @for (tag of currentPost.tags; track $index) {
-        <button class="tag">{{ tag.name }}</button>
-      }
-    </div>
+
+    <app-post-tags [tags]="currentPost.tags ?? []"></app-post-tags>
   </footer>
 
   @if (isPostResourceModalOpen) {

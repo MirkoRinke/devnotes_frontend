@@ -16,10 +16,11 @@ import { PostEngagement } from './post-engagement/post-engagement';
 import { PostCode } from './post-code/post-code';
 import { PostTechStack } from './post-tech-stack/post-tech-stack';
 import { PostMediaLinks } from './post-media-links/post-media-links';
+import { PostTags } from './post-tags/post-tags';
 
 @Component({
   selector: 'app-post-view',
-  imports: [PostResourceModal, PostSettingsDropdown, ReportModal, UserBadge, PostVersionDropdown, ReportButton, PostEngagement, PostCode, PostTechStack, PostMediaLinks],
+  imports: [PostResourceModal, PostSettingsDropdown, ReportModal, UserBadge, PostVersionDropdown, ReportButton, PostEngagement, PostCode, PostTechStack, PostMediaLinks, PostTags],
   templateUrl: './post-view.html',
   styleUrl: './post-view.scss',
 })
