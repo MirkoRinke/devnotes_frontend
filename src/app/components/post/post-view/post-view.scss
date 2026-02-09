@@ -74,44 +74,6 @@
       @include font-settings(14, 400);
       color: var(--font-primary-color-100);
     }
-
-    .code-container {
-      //TODO Fix color later use variable
-      background-color: #181a22;
-      border: px-to-rem(2) solid var(--font-primary-color-25);
-      border-radius: px-to-rem(10);
-      padding: px-to-rem(20) px-to-rem(25);
-      padding-right: px-to-rem(50);
-
-      position: relative;
-
-      .copy-button {
-        @include button-preset();
-        position: absolute;
-        top: px-to-rem(15);
-        right: px-to-rem(15);
-
-        @include copy-interactions($class: 'copy');
-
-        &::ng-deep .copy {
-          transition: fill var.$transition-duration-medium ease-in-out;
-          width: px-to-rem(15);
-          height: px-to-rem(15);
-          fill: var(--font-primary-color-50);
-        }
-      }
-
-      & pre {
-        //TODO Checked styles for code blocks - can be adjusted later
-
-        // overflow-x: auto;
-        // white-space: pre;
-
-        white-space: pre-wrap;
-        word-wrap: break-word;
-        overflow-wrap: anywhere;
-      }
-    }
   }
 
   .footer {

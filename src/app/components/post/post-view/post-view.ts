@@ -13,10 +13,11 @@ import { UserBadge } from '../../user-badge/user-badge';
 import { PostVersionDropdown } from './post-version-dropdown/post-version-dropdown';
 import { ReportButton } from '../../report-button/report-button';
 import { PostEngagement } from './post-engagement/post-engagement';
+import { PostCode } from './post-code/post-code';
 
 @Component({
   selector: 'app-post-view',
-  imports: [PostResourceModal, PostSettingsDropdown, ReportModal, UserBadge, PostVersionDropdown, ReportButton, PostEngagement],
+  imports: [PostResourceModal, PostSettingsDropdown, ReportModal, UserBadge, PostVersionDropdown, ReportButton, PostEngagement, PostCode],
   templateUrl: './post-view.html',
   styleUrl: './post-view.scss',
 })
@@ -33,9 +34,6 @@ export class PostView {
 
   isReportModalOpen = false;
   isReportModalAnimating = false;
-
-  isCopied = false;
-  copiedFailed = false;
 
   constructor(
     public svgIconsService: SvgIconsService,
@@ -145,22 +143,6 @@ export class PostView {
     } else {
       this.currentPost = { ...this.post };
     }
-  }
-
-  /**
-   * Copy code to clipboard
-   */
-  copyToClipboard(code: string = '') {
-    navigator.clipboard
-      .writeText(code || '')
-      .then(() => {
-        this.isCopied = true;
-        setTimeout(() => (this.isCopied = false), 2000);
-      })
-      .catch((err) => {
-        this.copiedFailed = true;
-        setTimeout(() => (this.copiedFailed = false), 2000);
-      });
   }
 
   /**

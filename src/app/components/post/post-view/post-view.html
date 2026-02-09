@@ -46,21 +46,10 @@
   <section class="content">
     <!-- Todo Remove ID from Title Display, only for testing purposes -->
     <h2 class="title">{{ currentPost.title }} (ID: {{ currentPost.id }})</h2>
-
     <p class="description">{{ currentPost.description }}</p>
-
-    <!-- Todo - Syntax Highlighting for Code Blocks -->
-    <div class="code-container">
-      <button
-        class="copy-button"
-        [class.copied]="isCopied"
-        [class.copy-failed]="copiedFailed"
-        (click)="copyToClipboard(currentPost.code)"
-        [innerHTML]="svgIconsService.returnIcon('copy')"
-      ></button>
-      <!-- TODO outsource code block to separate component -->
-      <pre><code>{{ currentPost.code }}</code></pre>
-    </div>
+    @if (currentPost.code && currentPost.code.trim() !== '') {
+      <app-post-code [code]="currentPost.code"></app-post-code>
+    }
   </section>
 
   <footer class="footer">
