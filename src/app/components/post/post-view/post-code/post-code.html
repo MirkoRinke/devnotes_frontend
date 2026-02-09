@@ -1,0 +1,11 @@
+<!-- Todo - Syntax Highlighting for Code Blocks -->
+<div class="code-container">
+  <button
+    class="copy-button"
+    [class.copied]="isCopied"
+    [class.copy-failed]="copiedFailed"
+    (click)="copyToClipboard(code)"
+    [innerHTML]="svgIconsService.returnIcon('copy')"
+  ></button>
+  <pre><code>{{ code }}</code></pre>
+</div>
