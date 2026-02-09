@@ -15,10 +15,11 @@ import { ReportButton } from '../../report-button/report-button';
 import { PostEngagement } from './post-engagement/post-engagement';
 import { PostCode } from './post-code/post-code';
 import { PostTechStack } from './post-tech-stack/post-tech-stack';
+import { PostMediaLinks } from './post-media-links/post-media-links';
 
 @Component({
   selector: 'app-post-view',
-  imports: [PostResourceModal, PostSettingsDropdown, ReportModal, UserBadge, PostVersionDropdown, ReportButton, PostEngagement, PostCode, PostTechStack],
+  imports: [PostResourceModal, PostSettingsDropdown, ReportModal, UserBadge, PostVersionDropdown, ReportButton, PostEngagement, PostCode, PostTechStack, PostMediaLinks],
   templateUrl: './post-view.html',
   styleUrl: './post-view.scss',
 })
@@ -55,26 +56,13 @@ export class PostView {
   }
 
   /**
-   * Check if post has resources of specific type
-   *
-   * @param resourceType
-   * @returns
-   */
-  hasResources(resourceType: 'images' | 'videos' | 'resources'): boolean {
-    if (!this.currentPost.external_source_previews) {
-      return false;
-    }
-    return this.currentPost.external_source_previews.some((preview) => preview.type === resourceType);
-  }
-
-  /**
    * Opens the Post Resource Modal.
    *
    * @param type
    * @returns
    */
   openResourceModal(type: 'images' | 'videos' | 'resources') {
-    if (!this.currentPost.external_source_previews || !this.hasResources(type)) {
+    if (!this.currentPost.external_source_previews) {
       return;
     }
 

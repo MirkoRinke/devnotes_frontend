@@ -59,31 +59,10 @@
         [technologies]="currentPost.technologies ?? []"
       ></app-post-tech-stack>
 
-      <div class="media-links">
-        @if (hasResources('images')) {
-          <button
-            [title]="'Bilder'"
-            [innerHTML]="svgIconsService.returnIcon('image')"
-            (click)="openResourceModal('images')"
-          ></button>
-        }
-
-        @if (hasResources('videos')) {
-          <button
-            [title]="'Videos'"
-            [innerHTML]="svgIconsService.returnIcon('video')"
-            (click)="openResourceModal('videos')"
-          ></button>
-        }
-
-        @if (hasResources('resources')) {
-          <button
-            [title]="'Resources'"
-            [innerHTML]="svgIconsService.returnIcon('resources')"
-            (click)="openResourceModal('resources')"
-          ></button>
-        }
-      </div>
+      <app-post-media-links
+        [externalSourcePreviews]="currentPost.external_source_previews ?? []"
+        (openResourceModalEvent)="openResourceModal($event)"
+      ></app-post-media-links>
     </div>
 
     <span class="line-break"></span>
