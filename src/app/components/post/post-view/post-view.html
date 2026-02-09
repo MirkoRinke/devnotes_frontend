@@ -1,18 +1,15 @@
 <article class="post">
   <header class="header">
     <div class="system-bar">
-      <div class="version-info">
+      <div class="version">
         <app-post-version-dropdown
           [post]="post"
           (versionSelected)="onSelect($event)"
         ></app-post-version-dropdown>
 
-        <span class="separator">|</span>
-        <span class="entitye">{{ selectedEntityValue }}</span>
-        <span class="separator">|</span>
-        <span class="post-type">{{ selectedPostType }}</span>
-        <span class="separator">|</span>
-        <span class="category">{{ currentPost.category }}</span>
+        <span class="entitye"><span class="separator">|</span>{{ selectedEntityValue }}</span>
+        <span class="post-type"><span class="separator">|</span>{{ selectedPostType }}</span>
+        <span class="category"><span class="separator">|</span>{{ currentPost.category }}</span>
       </div>
 
       @if (isOwner(currentPost)) {
