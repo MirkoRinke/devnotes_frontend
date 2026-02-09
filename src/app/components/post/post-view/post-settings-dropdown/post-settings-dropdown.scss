@@ -6,6 +6,7 @@
   .post-settings-dropdown {
     .label {
       @include button-preset();
+      @include font-settings(16);
       color: var(--font-primary-color-100);
 
       @include display-flex(center, center, row);
@@ -16,7 +17,7 @@
       @include chevron-icon();
     }
 
-    @include dropdown-values($item-spacing-vertical: px-to-rem(10), $item-spacing-horizontal: px-to-rem(30), $font-size: 16, $orientation: right);
+    @include dropdown-values($item-spacing-vertical: px-to-rem(10), $item-spacing-horizontal: px-to-rem(35), $font-size: 16, $orientation: right);
 
     .values {
       border-top: 2px solid var(--font-primary-color-50);
