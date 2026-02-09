@@ -1,0 +1,27 @@
+<div class="tech-stack">
+  @if (languages.length > 0) {
+    <div class="languages">
+      @for (language of languages; track language.id) {
+        <span
+          class="language"
+          [title]="language.name"
+          [innerHTML]="svgIconsService.returnIcon(language.name)"
+          (click)="searchPlaceholderFunction(language)"
+        ></span>
+      }
+    </div>
+  }
+
+  @if (technologies.length > 0) {
+    <div class="technologies">
+      @for (technology of technologies; track technology.id) {
+        <span
+          class="technology"
+          [title]="technology.name"
+          [innerHTML]="svgIconsService.returnIcon(technology.name)"
+          (click)="searchPlaceholderFunction(technology)"
+        ></span>
+      }
+    </div>
+  }
+</div>
