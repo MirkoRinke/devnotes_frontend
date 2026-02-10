@@ -1,6 +1,7 @@
 <div class="post-settings-dropdown">
   <button
     class="label"
+    type="button"
     (click)="toggleSettingsDropdown()"
   >
     <p>Settings</p>
@@ -21,16 +22,27 @@
     >
       <button
         class="value"
-        (click)="editPost()"
+        type="button"
+        (click)="switchMode('edit')"
       >
         Edit
       </button>
       <span class="divider"></span>
       <button
         class="value"
-        (click)="deletePost()"
+        type="button"
+        (click)="switchMode('delete')"
       >
         Delete
+      </button>
+      <!--TODO Only for testing purposes -->
+      <span class="divider"></span>
+      <button
+        class="value"
+        type="button"
+        (click)="switchMode('create')"
+      >
+        Erstellen
       </button>
     </div>
   }

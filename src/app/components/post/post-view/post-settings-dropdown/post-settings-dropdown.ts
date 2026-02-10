@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 
 import { SvgIconsService } from '../../../../services/svg.icons.service';
 
@@ -9,6 +9,8 @@ import { SvgIconsService } from '../../../../services/svg.icons.service';
   styleUrl: './post-settings-dropdown.scss',
 })
 export class PostSettingsDropdown {
+  @Output() modeChange = new EventEmitter<string>();
+
   isPostSettingsDropdownOpen = false;
   isPostSettingsDropdownAnimating = false;
 
@@ -39,16 +41,13 @@ export class PostSettingsDropdown {
   }
 
   /**
-   * TODO: Implement edit post functionality
+   * Switch mode to edit or delete
+   *
+   * TODO Remove create mode later, only for testing purposes
+   *
+   * @param mode
    */
-  editPost() {
-    alert('Edit Post implement later');
-  }
-
-  /**
-   * TODO: Implement delete post functionality
-   */
-  deletePost() {
-    alert('Delete Post implement later');
+  switchMode(mode: 'edit' | 'create' | 'delete') {
+    this.modeChange.emit(mode);
   }
 }
