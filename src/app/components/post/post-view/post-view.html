@@ -13,7 +13,10 @@
       </div>
 
       @if (isOwner(currentPost)) {
-        <app-post-settings-dropdown class="absolute-top-right"></app-post-settings-dropdown>
+        <app-post-settings-dropdown
+          class="absolute-top-right"
+          (modeChange)="modeChange.emit($event)"
+        ></app-post-settings-dropdown>
       } @else {
         <app-report-button
           [showLabel]="true"

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import type { PostInterface } from '../../../interfaces/post';
 import type { PostResourceModalInterface } from '../../../interfaces/post-ressource-modal';
@@ -37,6 +37,8 @@ export class PostView {
 
   isReportModalOpen = false;
   isReportModalAnimating = false;
+
+  @Output() modeChange = new EventEmitter<string>();
 
   constructor(
     public svgIconsService: SvgIconsService,
