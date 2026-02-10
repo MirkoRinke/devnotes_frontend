@@ -31,4 +31,17 @@ export class AuthService {
     }
     return null;
   }
+
+  /**
+   * Check if the current user is the owner of a resource
+   *
+   * @param userId
+   * @returns
+   */
+  isOwner(userId: number | null): boolean {
+    if (!this.isLoggedIn() || userId === null) {
+      return false;
+    }
+    return this.getCurrentUserId() !== null && this.getCurrentUserId() === userId;
+  }
 }
