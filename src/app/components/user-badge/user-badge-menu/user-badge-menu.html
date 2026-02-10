@@ -9,22 +9,24 @@
     class="value"
     (click)="userProfile(); onClose()"
   >
-    Profil
+    {{ isOwner(user) ? 'Mein Profil' : 'Profil anzeigen' }}
   </button>
 
-  <button
-    class="value"
-    (click)="toggleFollowUser(); onClose()"
-  >
-    {{ user?.is_following ? 'Entfolgen' : 'Folgen' }}
-  </button>
+  @if (!isOwner(user)) {
+    <button
+      class="value"
+      (click)="toggleFollowUser(); onClose()"
+    >
+      {{ user?.is_following ? 'Entfolgen' : 'Folgen' }}
+    </button>
 
-  <span class="divider"></span>
+    <span class="divider"></span>
 
-  <button
-    class="value"
-    (click)="reportUser(); onClose()"
-  >
-    Melden
-  </button>
+    <button
+      class="value"
+      (click)="reportUser(); onClose()"
+    >
+      Melden
+    </button>
+  }
 </div>

@@ -1,5 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
+import { AuthService } from '../../../services/auth.service';
+
 import type { UserInterface } from '../../../interfaces/user';
 
 @Component({
@@ -9,12 +11,14 @@ import type { UserInterface } from '../../../interfaces/user';
   styleUrl: './user-badge-menu.scss',
 })
 export class UserBadgeMenu {
-  @Input() user!: UserInterface | null;
+  @Input() user: UserInterface | null = null;
 
   @Input() isUserBadgeMenuOpen: boolean = false;
   @Input() isUserBadgeMenuAnimating: boolean = false;
 
   @Output() closeMenu = new EventEmitter<void>();
+
+  constructor(public authService: AuthService) {}
 
   /**
    * Handle close event from parent component
@@ -54,5 +58,15 @@ export class UserBadgeMenu {
    */
   reportUser() {
     console.log('Report User clicked');
+  }
+
+  /**
+   * Check if the current logged-in user is the user of the badge
+   *
+   * @param user
+   * @returns
+   */
+  isOwner(user: UserInterface | null): boolean {
+    return this.authService.isOwner(user?.id ?? null);
   }
 }
