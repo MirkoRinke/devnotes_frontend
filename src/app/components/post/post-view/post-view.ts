@@ -138,12 +138,12 @@ export class PostView {
   }
 
   /**
-   * Check if current user is the owner of the post
+   * Check if the current logged-in user is the owner of the post
    *
    * @param post
    * @returns
    */
   isOwner(post: PostInterface): boolean {
-    return this.authService.getCurrentUserId() === post.user_id;
+    return this.authService.isOwner(post?.user_id ?? null);
   }
 }
