@@ -4,7 +4,7 @@
       @for (language of languages; track language.id) {
         <button
           class="language"
-          role="button"
+          type="button"
           [title]="language.name"
           [innerHTML]="svgIconsService.returnIcon(language.name)"
           (click)="searchPlaceholderFunction(language)"
@@ -18,7 +18,7 @@
       @for (technology of technologies; track technology.id) {
         <button
           class="technology"
-          role="button"
+          type="button"
           [title]="technology.name"
           [innerHTML]="svgIconsService.returnIcon(technology.name)"
           (click)="searchPlaceholderFunction(technology)"
