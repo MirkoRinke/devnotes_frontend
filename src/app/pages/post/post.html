@@ -1,9 +1,22 @@
-@if (postDataLoaded) {
-  <app-post-view
-    [post]="post"
-    [selectedEntityValue]="selectedEntityValue"
-    [selectedPostType]="selectedPostType"
-  ></app-post-view>
+@if (postDataLoaded || mode === 'create') {
+  @if (mode === 'view') {
+    <app-post-view
+      [post]="post"
+      [selectedEntityValue]="selectedEntityValue"
+      [selectedPostType]="selectedPostType"
+      (modeChange)="mode = $event"
+    ></app-post-view>
+  } @else if (mode === 'edit' || mode === 'create') {
+    <app-post-form
+      [mode]="mode"
+      (modeChange)="mode = $event"
+    ></app-post-form>
+  } @else if (mode === 'delete') {
+    <app-post-delete
+      [mode]="mode"
+      (modeChange)="mode = $event"
+    ></app-post-delete>
+  }
 } @else {
   <p>Lade Beitrag...</p>
 }

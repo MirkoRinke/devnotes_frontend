@@ -11,10 +11,12 @@ import type { Params } from '@angular/router';
 import { ApiEndpointEnums } from '../../enums/api-endpoint';
 import { PostView } from '../../components/post/post-view/post-view';
 import { HttpParams } from '@angular/common/http';
+import { PostDelete } from '../../components/post/post-delete/post-delete';
+import { PostForm } from '../../components/post/post-form/post-form';
 
 @Component({
   selector: 'app-post',
-  imports: [PostView],
+  imports: [PostView, PostDelete, PostForm],
   templateUrl: './post.html',
   styleUrl: './post.scss',
 })
@@ -24,6 +26,7 @@ export class Post {
   selectedPostType: string | null = null;
 
   postDataLoaded: boolean = false;
+  mode = 'view';
 
   necessaryUserFields: string = 'display_name,avatar_items';
 
@@ -82,7 +85,7 @@ export class Post {
     let params = new HttpParams();
     params = params.set('include', 'user');
 
-    // Later only include necessary user fields
+    //TODO Later only include necessary user fields
     // params = params.set('user_fields', this.necessaryUserFields);
 
     const options = { params };
