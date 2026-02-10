@@ -1,0 +1,21 @@
+@if (mode === 'create') {
+  <h1>Beitrag erstellen</h1>
+  <p>Hier könnte ein Formular zur Erstellung eines neuen Beitrags angezeigt werden.</p>
+  <button>Erstellen</button>
+  <button
+    type="button"
+    (click)="switchMode('view')"
+  >
+    Abbrechen
+  </button>
+} @else {
+  <h1>Beitrag bearbeiten</h1>
+  <p>Hier könnte ein Formular zur Bearbeitung des Beitrags angezeigt werden.</p>
+  <button>Speichern</button>
+  <button
+    type="button"
+    (click)="switchMode('view')"
+  >
+    Abbrechen
+  </button>
+}

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PostEdit } from './post-edit';
+import { PostForm } from './post-form';
 
-describe('PostEdit', () => {
-  let component: PostEdit;
-  let fixture: ComponentFixture<PostEdit>;
+describe('PostForm', () => {
+  let component: PostForm;
+  let fixture: ComponentFixture<PostForm>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PostEdit]
+      imports: [PostForm]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(PostEdit);
+    fixture = TestBed.createComponent(PostForm);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
