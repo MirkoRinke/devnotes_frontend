@@ -34,12 +34,7 @@
         ></app-user-badge>
       }
 
-      <app-post-engagement
-        [likesCount]="currentPost.likes_count ?? 0"
-        [favoritesCount]="currentPost.favorite_count ?? 0"
-        [isFavorited]="currentPost.is_favorited ?? false"
-        [isLiked]="currentPost.is_liked ?? false"
-      ></app-post-engagement>
+      <app-post-engagement [post]="currentPost"></app-post-engagement>
     </div>
   </header>
 
