@@ -1,5 +1,12 @@
-import { Component, Input } from '@angular/core';
+import { Component, input, Input } from '@angular/core';
 import { SvgIconsService } from '../../../../services/svg.icons.service';
+
+import { ApiService } from '../../../../services/api.service';
+import { AuthService } from '../../../../services/auth.service';
+
+import { ApiEndpointEnums } from '../../../../enums/api-endpoint';
+
+import { PostInterface } from '../../../../interfaces/post';
 
 @Component({
   selector: 'app-post-engagement',
@@ -8,45 +15,86 @@ import { SvgIconsService } from '../../../../services/svg.icons.service';
   styleUrl: './post-engagement.scss',
 })
 export class PostEngagement {
-  @Input() likesCount: number | null = 0;
-  @Input() favoritesCount: number | null = 0;
+  @Input() post: PostInterface | null = null;
 
-  @Input() isLiked: boolean = false;
-  @Input() isFavorited: boolean = false;
+  isProcessingFavorites = false;
+  isProcessingLike = false;
 
   isCopied = false;
   copiedFailed = false;
 
-  constructor(public svgIconsService: SvgIconsService) {}
+  constructor(
+    public svgIconsService: SvgIconsService,
+    private apiService: ApiService,
+    public authService: AuthService,
+  ) {}
 
   /**
-   * TODO: Implement like toggling functionality
+   * Toggle like status of the post
+   * @param postId ID of the post to toggle like status
    */
-  toggleLike() {
-    this.isLiked = !this.isLiked;
-
-    if (this.isLiked && this.likesCount !== null) {
-      this.likesCount++;
-    } else if (this.likesCount !== null) {
-      this.likesCount--;
+  toggleLike(post: PostInterface) {
+    /**
+     * Prevent multiple like/unlike requests and ensure user is logged in and not the owner of the post
+     */
+    if (this.isProcessingLike || !this.authService.isLoggedIn() || this.isOwner(post)) {
+      return;
     }
 
-    console.log('Implement like toggling functionality', this.isLiked);
+    this.isProcessingLike = true;
+
+    post.is_liked = !post.is_liked;
+
+    const url = `/likes`;
+    let method: 'post' | 'delete' = post.is_liked ? 'post' : 'delete';
+
+    let data = {
+      likeable_type: 'post',
+      likeable_id: post.id,
+    };
+
+    this.apiService[method](url, data).subscribe({
+      next: (response) => {
+        post.likes_count = post.is_liked ? (post.likes_count ?? 0) + 1 : (post.likes_count ?? 0) - 1;
+        this.isProcessingLike = false;
+      },
+      error: (error) => {
+        post.is_liked = !post.is_liked;
+        this.isProcessingLike = false;
+        console.log(error);
+      },
+    });
   }
 
   /**
-   * TODO: Implement favorite toggling functionality
+   * Toggle favorite status of the post
+   * @param postId ID of the post to toggle favorite status
    */
-  toggleFavorites() {
-    this.isFavorited = !this.isFavorited;
-
-    if (this.isFavorited && this.favoritesCount !== null) {
-      this.favoritesCount++;
-    } else if (this.favoritesCount !== null) {
-      this.favoritesCount--;
+  toggleFavorites(post: PostInterface) {
+    /**
+     * Prevent multiple favorite/unfavorite requests and ensure user is logged in
+     */
+    if (this.isProcessingFavorites || !this.authService.isLoggedIn()) {
+      return;
     }
 
-    console.log('Implement like toggling functionality', this.isFavorited);
+    this.isProcessingFavorites = true;
+
+    post.is_favorited = !post.is_favorited;
+    const url = `${ApiEndpointEnums.POSTS}${post.id}${ApiEndpointEnums.TOGGLE_FAVORITE_SUFFIX}`;
+
+    let method: 'post' | 'delete' = post.is_favorited ? 'post' : 'delete';
+
+    this.apiService[method](url).subscribe({
+      next: (response) => {
+        post.favorite_count = post.is_favorited ? (post.favorite_count ?? 0) + 1 : (post.favorite_count ?? 0) - 1;
+        this.isProcessingFavorites = false;
+      },
+      error: (error) => {
+        post.is_favorited = !post.is_favorited;
+        this.isProcessingFavorites = false;
+      },
+    });
   }
 
   /**
@@ -65,5 +113,15 @@ export class PostEngagement {
         this.copiedFailed = true;
         setTimeout(() => (this.copiedFailed = false), 2000);
       });
+  }
+
+  /**
+   * Check if the current user is the owner of the post
+   *
+   * @param post
+   * @returns
+   */
+  isOwner(post: PostInterface): boolean {
+    return this.authService.isOwner(post.user_id ?? null);
   }
 }

@@ -18,9 +18,14 @@
       }
     }
 
+    &.isOwner,
+    &.isActive {
+      cursor: default;
+      pointer-events: none;
+    }
+
     &:hover {
       cursor: pointer;
-
       .icon {
         &::ng-deep svg {
           fill: var(--font-primary-color-100);
@@ -31,6 +36,34 @@
     .icon {
       width: px-to-rem(20);
       height: px-to-rem(20);
+
+      &.isOwner {
+        &::ng-deep .like,
+        &::ng-deep .favorite,
+        &::ng-deep .share {
+          //TODO Fix color later use variable
+          fill: green;
+          transition: fill var.$transition-duration-medium ease-in-out;
+        }
+      }
+
+      &.isLiked:not(.isOwner) {
+        &::ng-deep .like,
+        &::ng-deep .favorite {
+          //TODO Fix color later use variable
+          fill: darkred;
+          transition: fill var.$transition-duration-medium ease-in-out;
+        }
+      }
+
+      &.isFavorited {
+        &::ng-deep .like,
+        &::ng-deep .favorite {
+          //TODO Fix color later use variable
+          fill: rgb(221, 173, 33);
+          transition: fill var.$transition-duration-medium ease-in-out;
+        }
+      }
 
       @include copy-interactions($class: 'share');
 
