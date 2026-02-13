@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
+import { Login } from '../pages/login/login';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +14,10 @@ export class ApiService {
    */
   private proxyUrl = 'http://192.168.178.188:9090/backend/proxy.php';
 
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService,
+  ) {}
 
   /**
    * Sends a GET request to the specified endpoint.
@@ -23,18 +27,7 @@ export class ApiService {
   get<T>(endpoint: string): Observable<T> {
     const url = `${this.proxyUrl}${endpoint}`;
     let headers = new HttpHeaders({});
-
-    // Temporarily add authentication headers if the user is logged in
-    if (this.authService.isLoggedIn()) {
-      const token = this.authService.getToken();
-      const deviceFingerprint = this.authService.getDeviceFingerprint();
-      if (token) {
-        headers = headers.set('Authorization', `Bearer ${token}`);
-      }
-      if (deviceFingerprint) {
-        headers = headers.set('X-Device-Fingerprint', deviceFingerprint);
-      }
-    }
+    headers = this.authenticationHeader(headers);
 
     const response$ = this.http.get<T>(url, { headers });
     return response$;
@@ -46,11 +39,13 @@ export class ApiService {
    * @param data The data to be sent in the request body.
    * @returns An Observable of the response.
    */
-  post<T>(endpoint: string, data: any): Observable<T> {
+  post<T>(endpoint: string, data: any = null): Observable<T> {
     const url = `${this.proxyUrl}${endpoint}`;
-    const headers = new HttpHeaders({
+    let headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
+    headers = this.authenticationHeader(headers);
+
     const response$ = this.http.post<T>(url, data, { headers });
     return response$;
   }
@@ -61,11 +56,13 @@ export class ApiService {
    * @param data The data to be sent in the request body.
    * @returns An Observable of the response.
    */
-  patch<T>(endpoint: string, data: any): Observable<T> {
+  patch<T>(endpoint: string, data: any = null): Observable<T> {
     const url = `${this.proxyUrl}${endpoint}`;
-    const headers = new HttpHeaders({
+    let headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
+    headers = this.authenticationHeader(headers);
+
     const response$ = this.http.patch<T>(url, data, { headers });
     return response$;
   }
@@ -75,9 +72,35 @@ export class ApiService {
    * @param endpoint The API endpoint to send the request to.
    * @returns An Observable of the response.
    */
-  delete<T>(endpoint: string): Observable<T> {
+  delete<T>(endpoint: string, data: any = null): Observable<T> {
     const url = `${this.proxyUrl}${endpoint}`;
-    const response$ = this.http.delete<T>(url);
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    headers = this.authenticationHeader(headers);
+
+    const response$ = this.http.delete<T>(url, { headers, body: data });
     return response$;
+  }
+
+  /**
+   * Adds authentication headers to the provided HttpHeaders object if the user is logged in.
+   *
+   * @param headers The HttpHeaders object to which authentication headers will be added.
+   * @returns The updated HttpHeaders object with authentication headers if the user is logged in.
+   */
+  authenticationHeader(headers: HttpHeaders): HttpHeaders {
+    if (this.authService.isLoggedIn()) {
+      const token = this.authService.getToken();
+      const deviceFingerprint = this.authService.getDeviceFingerprint();
+      if (token) {
+        headers = headers.set('Authorization', `Bearer ${token}`);
+      }
+      if (deviceFingerprint) {
+        headers = headers.set('X-Device-Fingerprint', deviceFingerprint);
+      }
+    }
+
+    return headers;
   }
 }
