@@ -14,11 +14,9 @@ import { SvgIconsService } from '../../../../services/svg.icons.service';
   styleUrl: './post-version-dropdown.scss',
 })
 export class PostVersionDropdown {
-  @Input() post!: PostInterface;
+  @Input() post: PostInterface | null = null;
 
   @Output() versionSelected = new EventEmitter<number>();
-
-  currentPost!: PostInterface;
 
   showDropdownValues = false;
   showDropdownAnimation = false;
@@ -31,8 +29,9 @@ export class PostVersionDropdown {
   ) {}
 
   ngOnInit() {
-    this.currentPost = this.post;
-    this.createPostVersionsValues(this.post);
+    if (this.post) {
+      this.createPostVersionsValues(this.post);
+    }
   }
 
   /**
