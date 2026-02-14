@@ -3,7 +3,7 @@
     <div class="system-bar">
       <div class="version">
         <app-post-version-dropdown
-          [post]="post"
+          [post]="currentPost"
           (versionSelected)="onSelect($event)"
         ></app-post-version-dropdown>
 
@@ -39,11 +39,13 @@
   </header>
 
   <section class="content">
-    <!-- Todo Remove ID from Title Display, only for testing purposes -->
-    <h2 class="title">{{ currentPost.title }} (ID: {{ currentPost.id }})</h2>
+    <h2 class="title">{{ currentPost.title }}</h2>
     <p class="description">{{ currentPost.description }}</p>
     @if (currentPost.code && currentPost.code.trim() !== '') {
-      <app-post-code [code]="currentPost.code"></app-post-code>
+      <app-post-code
+        [code]="currentPost.code"
+        [language]="selectedEntityValue"
+      ></app-post-code>
     }
   </section>
 
