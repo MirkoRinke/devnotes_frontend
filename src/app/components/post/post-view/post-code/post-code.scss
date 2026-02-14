@@ -29,13 +29,16 @@
   }
 
   & pre {
-    //TODO Checked styles for code blocks - can be adjusted later
+    overflow-wrap: break-word;
+    max-width: 100%;
 
-    // overflow-x: auto;
-    // white-space: pre;
+    background: transparent;
+    box-shadow: none;
+    border: none;
 
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    overflow-wrap: anywhere;
+    & code {
+      white-space: pre-wrap !important;
+      word-break: break-all !important;
+    }
   }
 }

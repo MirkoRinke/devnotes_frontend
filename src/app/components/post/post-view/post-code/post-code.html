@@ -1,4 +1,3 @@
-<!-- Todo - Syntax Highlighting for Code Blocks -->
 <div class="code-container">
   <button
     class="copy-button"
@@ -7,5 +6,5 @@
     (click)="copyToClipboard(code)"
     [innerHTML]="svgIconsService.returnIcon('copy')"
   ></button>
-  <pre><code>{{ code }}</code></pre>
+  <pre><code #codeElement [class]="language | prismLanguage">{{ code }}</code></pre>
 </div>
