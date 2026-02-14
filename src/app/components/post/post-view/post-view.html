@@ -7,9 +7,12 @@
           (versionSelected)="onSelect($event)"
         ></app-post-version-dropdown>
 
-        <span class="entitye"><span class="separator">|</span>{{ selectedEntityValue }}</span>
-        <span class="post-type"><span class="separator">|</span>{{ selectedPostType }}</span>
-        <span class="category"><span class="separator">|</span>{{ currentPost.category }}</span>
+        <span class="entitye">{{ selectedEntityValue }}</span>
+        <span class="separator">|</span>
+        <span class="post-type">{{ selectedPostType }}</span>
+        <span class="separator">|</span>
+        <span class="category">{{ currentPost.category }}</span>
+        <span class="separator">|</span>
       </div>
 
       @if (isOwner(currentPost)) {
