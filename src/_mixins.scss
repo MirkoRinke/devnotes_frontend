@@ -143,7 +143,11 @@
       width: 100%;
     }
 
-    @include dropdown-animations($origin: top, $translateX: if($orientation == center, -50%, 0%));
+    @if $orientation == center {
+      @include dropdown-animations($origin: top, $translateX: -50%);
+    } @else {
+      @include dropdown-animations($origin: top, $translateX: 0%);
+    }
 
     @include value-list-item($item-spacing-vertical, $item-spacing-horizontal, $font-size, $height: unset, $width: 100%);
   }
@@ -193,7 +197,11 @@
       width: 100%;
     }
 
-    @include dropdown-animations($origin: left, $transform-scale-axis: 'X', $translateX: if($orientation == center, -50%, 0%));
+    @if $orientation == center {
+      @include dropdown-animations($origin: left, $transform-scale-axis: 'X', $translateX: -50%);
+    } @else {
+      @include dropdown-animations($origin: left, $transform-scale-axis: 'X', $translateX: 0%);
+    }
 
     @include value-list-item($item-spacing-vertical, $item-spacing-horizontal, $font-size, px-to-rem(50), max-content);
   }
