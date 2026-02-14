@@ -95,7 +95,7 @@ export class PostsList {
       category: params['category'] ?? null,
       dateFrom: params['dateFrom'] ?? null,
       dateTo: params['dateTo'] ?? null,
-      sort: params['sort'] ?? null,
+      sort: params['sort'] ?? '-created_at',
       page: Number.isInteger(parseInt(params['page'])) ? parseInt(params['page']) : 1,
       perPage: Number.isInteger(parseInt(params['per_page'])) ? parseInt(params['per_page']) : 5, // TODO: per_page set to 2 for testing, change to a higher value later ( Default: 5)
     };

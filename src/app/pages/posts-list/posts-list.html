@@ -55,7 +55,7 @@
         [label]="'Sortieren'"
         [key]="'sort'"
         [defaultValueLabel]="selectedSort ? selectedSort : 'Datum ↑'"
-        [defaultValue]="selectedSort ? selectedSort : 'created_at'"
+        [defaultValue]="selectedSort ? selectedSort : '-created_at'"
         [enableSearch]="true"
         [endPoint]="endPoint"
         [values]="['created_at', '-created_at', '-likes_count', 'likes_count']"
