@@ -29,6 +29,7 @@
     "@angular/forms": "^21.1.4",
     "@angular/platform-browser": "^21.1.4",
     "@angular/router": "^21.1.4",
+    "prismjs": "^1.30.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
@@ -38,6 +39,7 @@
     "@angular/cli": "^21.0.3",
     "@angular/compiler-cli": "^21.1.4",
     "@types/jasmine": "~5.1.0",
+    "@types/prismjs": "^1.26.6",
     "jasmine-core": "~5.9.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
