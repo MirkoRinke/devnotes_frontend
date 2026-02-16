@@ -30,6 +30,7 @@ export class Community {
   ngOnInit() {
     this.searchService.enableSearch(true);
     this.getUserFavoriteTechStack();
+    this.userFavoriteTechnologiesService.clearFavoriteUpdate();
   }
 
   ngOnDestroy() {

@@ -88,4 +88,11 @@ export class UserFavoriteTechnologiesService {
       this.favoriteUpdateSubject.next(currentStack.filter((name) => name !== techName));
     }
   }
+
+  /**
+   * Clears the favorite update subject, resetting it to an empty array. This can be used to reset the state after processing updates.
+   */
+  clearFavoriteUpdate() {
+    this.favoriteUpdateSubject.next([]);
+  }
 }
