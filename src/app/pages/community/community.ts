@@ -1,11 +1,14 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { TechBlock } from '../../components/tech-block/tech-block';
 import { GuestTeaserPrompt } from '../../components/guest-teaser-prompt/guest-teaser-prompt';
 
 import { AuthService } from '../../services/auth.service';
 import { SearchService } from '../../services/search.service';
+import { UserFavoriteTechnologiesService } from '../../services/user-favorite-technologies.service';
 
 @Component({
   selector: 'app-community',
@@ -14,16 +17,34 @@ import { SearchService } from '../../services/search.service';
   styleUrl: './community.scss',
 })
 export class Community {
+  favoriteTechStack: Array<string> = [];
+
+  private destroy$ = new Subject<void>();
+
   constructor(
     public authService: AuthService,
     public searchService: SearchService,
+    private userFavoriteTechnologiesService: UserFavoriteTechnologiesService,
   ) {}
 
   ngOnInit() {
     this.searchService.enableSearch(true);
+    this.getUserFavoriteTechStack();
   }
 
   ngOnDestroy() {
     this.searchService.enableSearch(false);
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  /**
+   * Fetches the user's favorite tech stack from the service.
+   */
+  private getUserFavoriteTechStack() {
+    this.userFavoriteTechnologiesService.favoriteTechStack$.pipe(takeUntil(this.destroy$)).subscribe((stack) => {
+      this.favoriteTechStack = stack;
+    });
+    this.userFavoriteTechnologiesService.loadFavoriteTechStack();
   }
 }
