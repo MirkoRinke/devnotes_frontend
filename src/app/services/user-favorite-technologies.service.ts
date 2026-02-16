@@ -14,6 +14,10 @@ import { AuthService } from './auth.service';
 export class UserFavoriteTechnologiesService {
   private favoriteTechStackSubject = new BehaviorSubject<Array<string>>([]);
   favoriteTechStack$ = this.favoriteTechStackSubject.asObservable();
+
+  private favoriteUpdateSubject = new BehaviorSubject<Array<string>>([]);
+  favoriteUpdate$ = this.favoriteUpdateSubject.asObservable();
+
   private loaded = false;
 
   constructor(
@@ -32,7 +36,7 @@ export class UserFavoriteTechnologiesService {
       params: new HttpParams().set('select', 'favorite_techs'),
     };
 
-    const url = ApiEndpointEnums.FAVORITE_TECH_STACK + this.authService.getCurrentUserId() + '?' + options;
+    const url = `${ApiEndpointEnums.FAVORITE_TECH_STACK}${this.authService.getCurrentUserId()}?${options.params.toString()}`;
 
     this.apiService.get<ApiResponseObjektInterface<UserProfileInterface>>(url).subscribe({
       next: (response) => {
@@ -46,5 +50,42 @@ export class UserFavoriteTechnologiesService {
         this.loaded = false;
       },
     });
+  }
+
+  /**
+   * Adds a new tech to the user's favorite tech stack if it's not already present.
+   *
+   * @param techName The name of the tech to add to the favorite stack.
+   */
+  addTechToFavoriteStack(techName: string) {
+    const currentStack = this.favoriteTechStackSubject.getValue();
+    if (!currentStack.includes(techName)) {
+      this.favoriteTechStackSubject.next([...currentStack, techName]);
+    }
+  }
+
+  /**
+   * Removes a tech from the user's favorite tech stack.
+   *
+   * @param techName The name of the tech to remove from the favorite stack.
+   */
+  removeTechFromFavoriteStack(techName: string) {
+    const currentStack = this.favoriteTechStackSubject.getValue();
+    this.favoriteTechStackSubject.next(currentStack.filter((name) => name !== techName));
+  }
+
+  /**
+   * Updates the user's favorite tech stack by adding or removing a technology.
+   * Only on the client side, the actual update to the backend is handled in the TechTile component.
+   *
+   * @param techName The name of the technology to add or remove from the favorite stack.
+   */
+  favoriteUpdate(techName: string) {
+    const currentStack = this.favoriteUpdateSubject.getValue();
+    if (!currentStack.includes(techName)) {
+      this.favoriteUpdateSubject.next([...currentStack, techName]);
+    } else {
+      this.favoriteUpdateSubject.next(currentStack.filter((name) => name !== techName));
+    }
   }
 }
