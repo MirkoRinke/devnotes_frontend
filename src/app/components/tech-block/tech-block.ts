@@ -24,7 +24,7 @@ export class TechBlock implements OnDestroy, OnInit {
   @Input() version!: 'default' | 'favorites' | 'search-results';
   @Input() endPoint!: string;
   @Input() params!: Array<string>;
-  @Input() context?: string;
+  @Input() context: string | null = null;
 
   pageSize = 10;
   currentPage: number = 0;
@@ -45,6 +45,7 @@ export class TechBlock implements OnDestroy, OnInit {
   availableTiles: AvailableValuesInterface[] = [];
   filteredTiles: AvailableValuesInterface[] = [];
   favoriteTechStack: Array<string> = [];
+  favoriteUpdateStack: Array<string> = [];
 
   paginatedTiles: AvailableValuesInterface[] = [];
 
@@ -62,7 +63,10 @@ export class TechBlock implements OnDestroy, OnInit {
     this.setPageSize();
     this.initResizeSubscription();
     this.getAvailableValues();
+
     this.getUserFavoriteTechStack();
+    this.getUserFavoriteUpdate();
+
     this.searchValueInput();
   }
 
@@ -164,11 +168,11 @@ export class TechBlock implements OnDestroy, OnInit {
    */
   private setCurrentTiles() {
     if (this.version === 'favorites') {
-      this.filteredTiles = this.availableTiles.filter((tile) => this.favoriteTechStack.includes(tile.name));
+      this.filteredTiles = this.availableTiles.filter((tile) => this.favoriteTechStack.includes(tile.name) || this.favoriteUpdateStack.includes(tile.name));
     } else if (this.version === 'search-results') {
       this.filteredTiles = this.availableTiles;
     } else {
-      this.filteredTiles = this.availableTiles.filter((tile) => !this.favoriteTechStack.includes(tile.name));
+      this.filteredTiles = this.availableTiles.filter((tile) => !this.favoriteTechStack.includes(tile.name) || this.favoriteUpdateStack.includes(tile.name));
     }
   }
 
@@ -241,5 +245,18 @@ export class TechBlock implements OnDestroy, OnInit {
       this.refreshPagination();
     });
     this.userFavoriteTechnologiesService.loadFavoriteTechStack();
+  }
+
+  /**
+   * Fetches the user's update stack from the service.
+   * This stack is used to immediately reflect changes in the UI when a user adds or removes a technology from their favorites.
+   * The actual update to the backend is handled in the TechTile component, so this function only listens for changes and updates the local state accordingly.
+   */
+  private getUserFavoriteUpdate() {
+    this.userFavoriteTechnologiesService.favoriteUpdate$.pipe(takeUntil(this.destroy$)).subscribe((stack) => {
+      this.favoriteUpdateStack = stack;
+      this.setCurrentTiles();
+      this.refreshPagination();
+    });
   }
 }

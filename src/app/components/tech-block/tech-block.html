@@ -12,7 +12,7 @@
       [class.active]="totalPages > 1"
     ></app-page-stepper>
     <div class="tiles-container">
-      @for (tile of paginatedTiles; track $index) {
+      @for (tile of paginatedTiles; track tile.name) {
         <app-tech-tile
           [endPoint]="endPoint"
           [context]="context"
