@@ -1,7 +1,22 @@
-<a class="tile" [routerLink]="'/post-types-selection'" [queryParams]="{ entityValue: tile.name, endPoint: endPoint, entity: tile.entity, context: context }">
-  <div class="content">
-    <span class="container" [innerHTML]="svgIconsService.returnIcon(tile.name, 'tile-icon')"></span>
-    <span class="name">{{ tile.name }}</span>
-  </div>
-  <span class="count">{{ tile.total_counts }}</span>
-</a>
+@if (tile && endPoint && context) {
+  <a
+    class="tile"
+    [routerLink]="'/post-types-selection'"
+    [queryParams]="{ entityValue: tile.name, endPoint: endPoint, entity: tile.entity, context: context }"
+  >
+    <button
+      class="icon"
+      [class.isFavorite]="isFavorite"
+      [innerHTML]="svgIconsService.returnIcon(isFavorite ? 'favorite' : 'favorite_outline', 'favorite')"
+      (click)="toggleFavorite($event, tile); $event.stopPropagation()"
+    ></button>
+    <div class="content">
+      <span
+        class="container"
+        [innerHTML]="svgIconsService.returnIcon(tile.name, 'tile-icon')"
+      ></span>
+      <span class="name">{{ tile.name }}</span>
+    </div>
+    <span class="count">{{ tile.total_counts }}</span>
+  </a>
+}

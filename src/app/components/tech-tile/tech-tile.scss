@@ -3,18 +3,60 @@
 @use '../../../mixins' as *;
 
 .tile {
-  @include display-flex(center, space-between, column);
+  @include display-flex(center, center, column);
   background-color: var(--page-primary-color-100);
   width: px-to-rem(160);
   height: px-to-rem(160);
   border-radius: px-to-rem(15);
-  padding-top: px-to-rem(25);
-  padding-bottom: px-to-rem(10);
+  padding-block: px-to-rem(5);
 
   transition: box-shadow var.$transition-duration-medium ease-in-out;
 
   &:hover {
     box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-50);
+  }
+
+  .icon {
+    @include button-preset();
+    @include display-flex(end, end, row);
+    width: 100%;
+    height: px-to-rem(20);
+    padding-right: px-to-rem(15);
+
+    &.isFavorite {
+      &::ng-deep .favorite {
+        //TODO Fix color later use variable
+        fill: rgb(221, 173, 33);
+        transition: fill var.$transition-duration-medium ease-in-out;
+      }
+    }
+
+    &:hover:not(.isFavorite) {
+      &::ng-deep .favorite {
+        //TODO Fix color later use variable
+        fill: rgb(221, 173, 33);
+        scale: 1.1;
+        transition:
+          fill var.$transition-duration-medium ease-in-out,
+          transform var.$transition-duration-medium ease-in-out;
+      }
+    }
+
+    &:hover {
+      &::ng-deep .favorite {
+        scale: 1.1;
+        transition: transform var.$transition-duration-medium ease-in-out;
+      }
+    }
+
+    &::ng-deep .favorite {
+      fill: var(--font-primary-color-50);
+      width: px-to-rem(20);
+      height: px-to-rem(20);
+      transition:
+        fill var.$transition-duration-medium ease-in-out,
+        transform var.$transition-duration-medium ease-in-out;
+    }
   }
 
   .content {
@@ -29,14 +71,14 @@
 
       &::ng-deep .tile-icon {
         fill: var(--font-primary-color-100);
-        width: px-to-rem(80);
-        height: px-to-rem(80);
+        width: 100%;
+        height: 100%;
       }
 
       &::ng-deep .fallback {
         fill: var(--font-primary-color-100);
-        width: px-to-rem(60);
-        height: px-to-rem(60);
+        width: 100%;
+        height: 100%;
       }
     }
 
