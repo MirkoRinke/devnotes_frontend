@@ -82,14 +82,13 @@ export class Post {
    * @param postId
    */
   private getPost(post_id: number): void {
-    let params = new HttpParams();
-    params = params.set('include', 'user');
+    const options = {
+      params: new HttpParams().set('include', 'user').set('user_fields', this.necessaryUserFields),
+    };
 
-    //TODO Later only include necessary user fields
-    // params = params.set('user_fields', this.necessaryUserFields);
-
-    const options = { params };
     const url = `${ApiEndpointEnums.POSTS}${post_id}` + '?' + options.params.toString();
+
+    console.log('Fetching post with URL:', url);
 
     this.apiService.get<ApiResponseObjektInterface<PostInterface>>(url).subscribe({
       next: (response) => {
