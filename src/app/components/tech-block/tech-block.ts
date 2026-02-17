@@ -26,6 +26,8 @@ export class TechBlock implements OnDestroy, OnInit {
   @Input() params!: Array<string>;
   @Input() context: string | null = null;
 
+  isLoading = true;
+
   pageSize = 10;
   currentPage: number = 0;
   totalPages: number = 0;
@@ -205,6 +207,7 @@ export class TechBlock implements OnDestroy, OnInit {
 
   /**
    * Fetches available values from the service and sorts them before assigning to tiles.
+   * Also handles loading state and search results state.
    */
   private getAvailableValues() {
     this.availableValuesService
@@ -217,6 +220,7 @@ export class TechBlock implements OnDestroy, OnInit {
         if (this.version === 'search-results') {
           this.searchService.dataLoaded(true);
         }
+        this.isLoading = false;
       });
   }
 
