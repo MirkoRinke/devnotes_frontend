@@ -10,7 +10,8 @@
       [params]="['?select=count:languages.name', '?select=count:technologies.name']"
     ></app-tech-block>
   }
-  @if (authService.isLoggedIn() && favoriteTechStack.length > 0) {
+
+  @if (authService.isLoggedIn()) {
     <app-tech-block
       [class.active]="!(searchService.searchActive$ | async)"
       [attr.aria-hidden]="searchService.searchActive$ | async"
@@ -20,12 +21,7 @@
       [context]="'community'"
       [params]="['?select=count:languages.name', '?select=count:technologies.name']"
     ></app-tech-block>
-  } @else if (authService.isLoggedIn() && favoriteTechStack.length === 0 && !(searchService.searchActive$ | async)) {
-    <app-guest-teaser-prompt
-      [title]="'Favoriten'"
-      [message]="'Du hast noch keine Favoriten.'"
-    ></app-guest-teaser-prompt>
-  } @else if (!authService.isLoggedIn() && !(searchService.searchActive$ | async)) {
+  } @else if (!(searchService.searchActive$ | async)) {
     <app-guest-teaser-prompt
       [title]="'Favoriten'"
       [message]="'Bitte melde dich an, um deine Favoriten zu sehen.'"
