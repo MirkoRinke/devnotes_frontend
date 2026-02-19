@@ -116,10 +116,6 @@ export class PageNavigation {
         this.delayedSearch = true;
       }, 250);
     } else {
-      /**
-       * When hiding the search, only clear the input value here. Full cleanup (searchService.clear()) is performed in the Search component's ngOnDestroy.
-       */
-      this.searchService.searchValueInput('');
       setTimeout(() => {
         this.delayedSearch = false;
       }, 500);
