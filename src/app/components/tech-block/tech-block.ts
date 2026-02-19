@@ -87,7 +87,7 @@ export class TechBlock implements OnDestroy, OnInit {
    */
   searchValueInput() {
     this.searchService.searchValue$.pipe(takeUntil(this.destroy$)).subscribe((inputValue) => {
-      this.filterFunction(inputValue);
+      this.filterFunction(inputValue || '');
     });
   }
 
@@ -187,7 +187,7 @@ export class TechBlock implements OnDestroy, OnInit {
     const input = (inputValue || '').toLowerCase().trim();
     if (input.length > 0) {
       this.setCurrentTiles();
-      this.filteredTiles = this.filteredTiles.filter((tile) => tile.name.toLowerCase().includes(input));
+      this.filteredTiles = this.filteredTiles.filter((tile) => tile.name.toLowerCase().startsWith(input));
       this.refreshPagination();
     } else {
       this.setCurrentTiles();
