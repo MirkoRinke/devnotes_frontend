@@ -1,12 +1,17 @@
 <!-- TODO Temporary search component for testing purposes , to be replaced with a more advanced version later -->
 
-<div class="search">
+<div
+  [attr.aria-disabled]="!(searchService.enableSearch$ | async)"
+  class="search"
+>
   <input
     #searchInput
     type="text"
     class="search-input"
     placeholder="Search..."
-    (input)="searchService.searchValueInput($event.target.value)"
+    (input)="onInput($event.target.value)"
+    (keydown.enter)="onEnter($event.target.value)"
+    [attr.aria-disabled]="!(searchService.enableSearch$ | async)"
   />
   <div class="settings">
     <span [innerHTML]="svgIconsService.returnIcon('placeholder')"></span>
