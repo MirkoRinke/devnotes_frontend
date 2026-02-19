@@ -3,7 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class SearchService {
-  private _searchValue = new BehaviorSubject<string>('');
+  private _searchValue = new BehaviorSubject<string | null>(null);
   private _showSearchResults = new BehaviorSubject<boolean>(false);
   private _dataLoaded = new BehaviorSubject<boolean>(false);
   private _enableSearch = new BehaviorSubject<boolean>(false);
@@ -38,9 +38,9 @@ export class SearchService {
    *
    * @param value
    */
-  searchValueInput(value: string) {
+  searchValueInput(value: string | null) {
     this._searchValue.next(value);
-    this.setSearchActive(value.length > 0);
+    this.setSearchActive(value !== null && value.length > 0);
   }
 
   /**
