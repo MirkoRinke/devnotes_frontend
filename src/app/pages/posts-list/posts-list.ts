@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpParams } from '@angular/common/http';
 
-import { take } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { take, takeUntil } from 'rxjs/operators';
 import { forkJoin } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
@@ -13,6 +14,7 @@ import { QueryParamsDatepicker } from '../../components/query-params-datepicker/
 
 import { ApiService } from '../../services/api.service';
 import { AvailableValuesService } from '../../services/available-values.service';
+import { SearchService } from '../../services/search.service';
 
 import type { ApiResponseArrayInterface } from '../../interfaces/api-response';
 import type { PostInterface } from '../../interfaces/post';
@@ -57,11 +59,17 @@ export class PostsList {
 
   statusMessage: string | null = null;
 
+  searchValue: string | null = null;
+  searchFirstLoad: boolean = true;
+
+  private destroy$ = new Subject<void>();
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private apiService: ApiService,
     private availableValuesService: AvailableValuesService,
+    private searchService: SearchService,
   ) {}
 
   ngOnInit() {
@@ -77,6 +85,30 @@ export class PostsList {
       this.setSelectedValues(parsed);
       this.setParams(parsed);
       this.validateDropdownParams(parsed);
+      this.searchValueInput(parsed);
+    });
+    this.searchService.enableSearch(true);
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  /**
+   * Subscribes to search value changes and filters tiles accordingly.
+   */
+  searchValueInput(parsed: PostListParamsInterface) {
+    this.searchService.searchValue$.pipe(takeUntil(this.destroy$)).subscribe((inputValue) => {
+      if (inputValue === null && !this.searchFirstLoad) {
+        this.searchValue = null;
+        this.getPostsList(parsed);
+        this.searchFirstLoad = true;
+      } else if (inputValue !== null && inputValue.length > 0) {
+        this.searchValue = inputValue;
+        this.getPostsList(parsed);
+        this.searchFirstLoad = false;
+      }
     });
   }
 
@@ -165,6 +197,8 @@ export class PostsList {
     if (parsed.dateFrom || parsed.dateTo) params = params.set('filter[created_at]', `between:[${parsed.dateFrom ? parsed.dateFrom : this.minDate},${parsed.dateTo ? parsed.dateTo : this.maxDate}]`);
     if (parsed.sort) params = params.set('sort', `${parsed.sort}`);
 
+    if (this.searchValue) params = params.set('filter[title]', this.searchValue);
+
     const options = { params };
     const url = ApiEndpointEnums.POSTS + '?' + options.params.toString();
 
@@ -176,6 +210,7 @@ export class PostsList {
           console.warn('No posts found for the selected criteria');
           this.statusMessage = 'Keine Beiträge gefunden.';
         }
+        this.searchService.dataLoaded(true);
       },
       error: (error) => {
         console.error('Error fetching posts list:', error);
