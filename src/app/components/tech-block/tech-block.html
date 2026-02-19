@@ -14,7 +14,10 @@
         [attr.aria-hidden]="totalPages <= 1"
         [class.active]="totalPages > 1"
       ></app-page-stepper>
-      <div class="tiles-container">
+      <div
+        class="tiles-container"
+        [class.large]="totalPages > 1"
+      >
         @for (tile of paginatedTiles; track tile.name) {
           <app-tech-tile
             [endPoint]="endPoint"
