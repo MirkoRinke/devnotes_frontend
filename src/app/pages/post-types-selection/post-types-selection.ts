@@ -70,7 +70,7 @@ export class PostTypesSelection {
    */
   searchValueInput() {
     this.searchService.searchValue$.pipe(takeUntil(this.destroy$)).subscribe((inputValue) => {
-      this.filterFunction(inputValue);
+      this.filterFunction(inputValue || '');
     });
   }
 
@@ -83,7 +83,7 @@ export class PostTypesSelection {
     const searchTerm = inputValue.toLowerCase().trim();
     this.filteredPostTypes = this.postTypes;
     if (searchTerm.length > 0) {
-      this.filteredPostTypes = this.filteredPostTypes.filter((postType) => postType.name.toLowerCase().includes(searchTerm));
+      this.filteredPostTypes = this.filteredPostTypes.filter((postType) => postType.name.toLowerCase().startsWith(searchTerm));
     } else {
       this.filteredPostTypes = this.postTypes;
     }
