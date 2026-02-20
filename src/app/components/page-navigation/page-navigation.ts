@@ -69,7 +69,6 @@ export class PageNavigation {
       )
       .subscribe(() => {
         this.showSearch = false;
-        this.searchService.clear();
       });
   }
 
