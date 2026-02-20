@@ -6,6 +6,14 @@
     [attr.aria-disabled]="!(searchService.enableSearch$ | async)"
     [disabled]="!(searchService.enableSearch$ | async)"
   >
+    @if (hasSearchValue) {
+      <button
+        class="search-clear"
+        (click)="$event.stopPropagation(); clearSearch()"
+        [innerHTML]="svgIconsService.returnIcon('search_clear')"
+      ></button>
+    }
+
     <span
       [class.spin]="showSearch && !(searchService.dataLoaded$ | async)"
       [innerHTML]="svgIconsService.returnIcon(showSearch ? ((searchService.dataLoaded$ | async) ? 'search_close' : 'sync') : 'search')"

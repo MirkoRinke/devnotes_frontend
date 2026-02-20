@@ -22,6 +22,8 @@ export class PageNavigation {
   showSearch: boolean = false;
   delayedSearch: boolean = false;
 
+  hasSearchValue: boolean = false;
+
   private destroy$ = new Subject<void>();
 
   constructor(
@@ -35,6 +37,7 @@ export class PageNavigation {
 
   ngOnInit() {
     this.subscribeNavigationStarted();
+    this.searchValueInput();
   }
 
   ngOnDestroy() {
@@ -120,5 +123,21 @@ export class PageNavigation {
         this.delayedSearch = false;
       }, 500);
     }
+  }
+
+  /**
+   * Subscribes to search value changes and filters tiles accordingly.
+   */
+  searchValueInput() {
+    this.searchService.searchValue$.pipe(takeUntil(this.destroy$)).subscribe((inputValue) => {
+      this.hasSearchValue = inputValue ? inputValue.trim().length > 0 : false;
+    });
+  }
+
+  /**
+   * Clears the search input and resets the search state in the SearchService. This method is typically called when the user clicks a "clear search" button.
+   */
+  clearSearch() {
+    this.searchService.searchValueInput(null);
   }
 }

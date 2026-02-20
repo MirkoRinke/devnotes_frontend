@@ -10,15 +10,48 @@
   .search-button {
     @include button-preset();
     @include golden-ratio-padding();
-    @include display-flex(center, center);
+    @include display-flex(center, center, column);
+    position: relative;
     background-color: var(--page-primary-color-100);
     border-radius: px-to-rem(15);
     width: px-to-rem(60);
     height: px-to-rem(60);
 
     transition: box-shadow var.$transition-duration-medium ease-in-out;
-    &:hover {
+
+    &:hover:not(:has(.search-clear:hover)) {
       box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-50);
+    }
+
+    &:has(.search-clear:hover) {
+      box-shadow: 0 0 px-to-rem(8) rgba(194, 4, 4);
+    }
+
+    .search-clear {
+      @include button-preset();
+      @include display-flex(center, center);
+      position: absolute;
+      top: px-to-rem(-5);
+      right: px-to-rem(-5);
+      background-color: var(--page-primary-color-100);
+      border: 2px solid rgb(139, 2, 2);
+      border-radius: 50%;
+      padding: px-to-rem(2);
+
+      width: px-to-rem(20);
+      height: px-to-rem(20);
+
+      transition: transform var.$transition-duration-medium ease-in-out;
+      &:hover {
+        transform: scale(1.1);
+        transition: transform var.$transition-duration-medium ease-in-out;
+      }
+
+      &::ng-deep .search_clear {
+        fill: rgb(139, 2, 2);
+        width: 80%;
+        height: 80%;
+      }
     }
 
     span {
