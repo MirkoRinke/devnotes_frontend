@@ -58,6 +58,8 @@ export class Search implements OnDestroy, AfterViewInit {
 
         if (this.lastBaseUrl !== newBaseUrl) {
           this.resetSearchInput();
+          this.searchService.clear();
+          this.searchService.enableSearch(false);
           this.lastBaseUrl = newBaseUrl;
         }
       });
