@@ -30,6 +30,7 @@ export class Search implements OnDestroy, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.manageSearchPersistence();
+    this.searchValueInput();
   }
 
   ngOnDestroy(): void {
@@ -101,5 +102,16 @@ export class Search implements OnDestroy, AfterViewInit {
   onEnter(value: string): void {
     clearTimeout(this.debounceTimer);
     this.searchService.searchValueInput(value);
+  }
+
+  /**
+   * Subscribes to search value changes and update the input value.
+   */
+  searchValueInput() {
+    this.searchService.searchValue$.pipe(takeUntil(this.destroy$)).subscribe((inputValue) => {
+      if (inputValue === null) {
+        this.searchInput.nativeElement.value = '';
+      }
+    });
   }
 }
