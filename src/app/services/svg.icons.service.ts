@@ -15,6 +15,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
  * In your template:
  *
  * <div [innerHTML]="svgIconsService.returnIcon('SVG_Element', 'CLASS_NAME')"></div>
+ * Class name is optional, it will be set to the type if not provided.
  *
  * CSS Example:
  *
@@ -87,6 +88,17 @@ export class SvgIconsService {
         </g>
     </svg>
     `,
+
+      search_clear: /*html*/ `
+    <!-- Icon used are from Google Material Symbols, licensed under the Apache License 2.0. -->
+    <svg  class="${className}" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg">
+        <g transform="matrix(1,0,0,1,-7,-7.025)">
+            <g transform="matrix(0.025,0,0,0.025,0,24)">
+                <path d="M336,-280L280,-336L424,-480L280,-623L336,-679L480,-535L623,-679L679,-623L535,-480L679,-336L623,-280L480,-424L336,-280Z" style="fill-rule:nonzero;"/>
+            </g>
+        </g>
+    </svg>
+        `,
 
       network: /*html*/ `
     <!-- Icon used are from Google Material Symbols, licensed under the Apache License 2.0. -->
