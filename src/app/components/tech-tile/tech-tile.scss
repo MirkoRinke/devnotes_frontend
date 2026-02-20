@@ -12,8 +12,12 @@
 
   transition: box-shadow var.$transition-duration-medium ease-in-out;
 
-  &:hover {
+  &:hover:not(:has(.icon:hover)) {
     box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-50);
+  }
+
+  &:has(.icon:hover) {
+    box-shadow: 0 0 px-to-rem(8) rgb(221, 173, 33);
   }
 
   .icon {

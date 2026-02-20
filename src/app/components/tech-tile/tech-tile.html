@@ -8,7 +8,7 @@
       class="icon"
       [class.isFavorite]="isFavorite"
       [innerHTML]="svgIconsService.returnIcon(isFavorite ? 'favorite' : 'favorite_outline', 'favorite')"
-      (click)="toggleFavorite($event, tile); $event.stopPropagation()"
+      (click)="$event.stopPropagation(); toggleFavorite($event, tile)"
     ></button>
     <div class="content">
       <span
