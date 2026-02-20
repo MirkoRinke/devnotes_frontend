@@ -12,18 +12,6 @@
     @include display-flex(end, center, row);
     gap: px-to-rem(5);
 
-    &.favorites {
-      .icon {
-        margin-bottom: px-to-rem(2);
-      }
-    }
-
-    &.isOwner,
-    &.isActive {
-      cursor: default;
-      pointer-events: none;
-    }
-
     &:hover {
       cursor: pointer;
       .icon {
@@ -31,6 +19,38 @@
           fill: var(--font-primary-color-100);
         }
       }
+    }
+
+    &.favorites {
+      .icon {
+        margin-bottom: px-to-rem(2);
+      }
+
+      &:hover {
+        .icon {
+          &::ng-deep svg {
+            //TODO Fix color later use variable
+            fill: rgb(221, 173, 33);
+          }
+        }
+      }
+    }
+
+    &.likes {
+      &:hover {
+        .icon {
+          &::ng-deep svg {
+            //TODO Fix color later use variable
+            fill: darkred;
+          }
+        }
+      }
+    }
+
+    &.isOwner,
+    &.isActive {
+      cursor: default;
+      pointer-events: none;
     }
 
     .icon {
