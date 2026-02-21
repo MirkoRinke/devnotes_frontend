@@ -17,6 +17,7 @@ export class UserBadgeMenu {
   @Input() isUserBadgeMenuAnimating: boolean = false;
 
   @Output() closeMenu = new EventEmitter<void>();
+  @Output() openReportModal = new EventEmitter<void>();
 
   constructor(public authService: AuthService) {}
 
@@ -54,10 +55,10 @@ export class UserBadgeMenu {
   }
 
   /**
-   * TODO: Implement report user functionality
+   * Open the report user modal by emitting an event to the parent component.
    */
   reportUser() {
-    console.log('Report User clicked');
+    this.openReportModal.emit();
   }
 
   /**
