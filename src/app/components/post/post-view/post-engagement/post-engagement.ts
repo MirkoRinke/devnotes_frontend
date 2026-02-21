@@ -45,7 +45,7 @@ export class PostEngagement {
 
     post.is_liked = !post.is_liked;
 
-    const url = `/likes`;
+    const url = ApiEndpointEnums.LIKES;
     let method: 'post' | 'delete' = post.is_liked ? 'post' : 'delete';
 
     let data = {
