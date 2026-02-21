@@ -1,3 +1,16 @@
+@if (isReportModalOpen && user) {
+  <app-report-modal
+    class="overlay"
+    [reportId]="user.id"
+    [reportContext]="'user'"
+    [class.open]="isReportModalAnimating"
+    [class.closed]="!isReportModalAnimating"
+    (click)="closeReportModal()"
+    (animationend)="onAnimationEnd($event)"
+    (closeModal)="closeReportModal()"
+  ></app-report-modal>
+}
+
 <div class="user-badge-component">
   <div
     (click)="toggleBadgeMenu()"
@@ -19,6 +32,7 @@
       [isUserBadgeMenuOpen]="isUserBadgeMenuOpen"
       [isUserBadgeMenuAnimating]="isUserBadgeMenuAnimating"
       (closeMenu)="closeBadgeMenu()"
+      (openReportModal)="openReportModal()"
     ></app-user-badge-menu>
   }
 </div>
