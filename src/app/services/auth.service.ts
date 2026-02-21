@@ -27,7 +27,7 @@ export class AuthService {
   getCurrentUserId(): number | null {
     // Temporary implementation, returns a mock user ID or null
     if (this.isLoggedIn()) {
-      return 1;
+      return environment.USER_ID;
     }
     return null;
   }
