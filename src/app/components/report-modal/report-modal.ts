@@ -13,7 +13,7 @@ import { ApiEndpointEnums } from '../../enums/api-endpoint';
 })
 export class ReportModal {
   @Input() reportId: number | null = null;
-  @Input() reportContext: 'post' | 'comment' | 'user' | null = null;
+  @Input() reportContext: 'post' | 'comment' | 'userProfile' | 'user' | null = null;
 
   @Output() closeModal = new EventEmitter<void>();
 
@@ -35,16 +35,24 @@ export class ReportModal {
   }
 
   /**
-   * Submit a report for a post, comment, or user with the specified reason
+   * Submit a report for a post, comment, userProfile or user with the specified reason
    *
-   * @param reportId The ID of the entity being reported (post, comment, or user)
-   * @param reportContext The type of entity being reported ('post', 'comment', or 'user')
+   * @param reportId The ID of the entity being reported (post, comment, userProfile or user)
+   * @param reportContext The type of entity being reported ('post', 'comment', 'userProfile' or 'user')
    * @param reason The optional reason for reporting the entity
    * @returns void
    */
-  submitReport(reportId: number | null, reportContext: 'post' | 'comment' | 'user' | null, reason: string) {
+  submitReport(reportId: number | null, reportContext: 'post' | 'comment' | 'userProfile' | 'user' | null, reason: string) {
     if (this.isProcessingReported) {
       return;
+    }
+
+    /**
+     * The backend expects 'userProfile' as the reportable_type for user reports, but the frontend uses 'user' and userProfile' interchangeably.
+     * To ensure the correct reportable_type is sent to the backend, we need to convert 'user' to 'userProfile' before making the API call.
+     */
+    if (reportContext === 'user') {
+      reportContext = 'userProfile';
     }
 
     this.isProcessingReported = true;
