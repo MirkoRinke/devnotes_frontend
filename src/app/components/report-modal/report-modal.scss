@@ -57,7 +57,7 @@
       }
     }
 
-    //TODO Fix button color styles later
+    //TODO Fix button color styles later ( hover color )
     .submit {
       @include button-preset();
       @include golden-ratio-padding(14);
@@ -75,6 +75,25 @@
       &:hover {
         cursor: pointer;
         background-color: var(--page-primary-color-100);
+      }
+    }
+
+    .response-message {
+      @include display-flex(center, center, column);
+      gap: px-to-rem(5);
+
+      .success-message {
+        @include font-settings(16, 500);
+        //TODO Fix color later use variable
+        color: green;
+        text-align: center;
+      }
+
+      .error-message {
+        @include font-settings(16, 500);
+        //TODO Fix color later use variable
+        color: red;
+        text-align: center;
       }
     }
   }
