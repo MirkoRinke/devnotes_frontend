@@ -31,6 +31,8 @@ export class PostTypesSelection {
   postTypes: PostTypesInterface[] = [];
   filteredPostTypes: PostTypesInterface[] = [];
 
+  totalCount: number = 0;
+
   private destroy$ = new Subject<void>();
 
   constructor(
@@ -81,11 +83,11 @@ export class PostTypesSelection {
    */
   private filterFunction(inputValue: string) {
     const searchTerm = inputValue.toLowerCase().trim();
-    this.filteredPostTypes = this.postTypes;
+    const allTypesOption = this.createAllTypesOption();
     if (searchTerm.length > 0) {
       this.filteredPostTypes = this.filteredPostTypes.filter((postType) => postType.name.toLowerCase().startsWith(searchTerm));
     } else {
-      this.filteredPostTypes = this.postTypes;
+      this.filteredPostTypes = [allTypesOption, ...this.postTypes];
     }
   }
 
@@ -149,7 +151,10 @@ export class PostTypesSelection {
     this.apiService.get<ApiResponseArrayInterface<PostTypesInterface>>(url).subscribe({
       next: (response) => {
         this.postTypes = this.sortAvailablePostTypes(response.data.data);
-        this.filteredPostTypes = this.postTypes;
+        this.totalCount = this.calculateTotalCount();
+
+        const allTypesOption = this.createAllTypesOption();
+        this.filteredPostTypes = [allTypesOption, ...this.postTypes];
 
         this.searchService.dataLoaded(true);
 
@@ -172,5 +177,21 @@ export class PostTypesSelection {
    */
   sortAvailablePostTypes(postTypes: PostTypesInterface[]): PostTypesInterface[] {
     return postTypes.sort((a, b) => a.name.localeCompare(b.name));
+  }
+
+  /**
+   * Create an option for "All Types" with the total count of all post types
+   *
+   * @returns
+   */
+  createAllTypesOption() {
+    return { name: 'All Types', total_counts: this.totalCount, entity: 'post_type' };
+  }
+
+  /**
+   * Calculates the total count of all post types to be displayed in the "All Types" option
+   */
+  calculateTotalCount() {
+    return this.postTypes.reduce((sum, current) => sum + current.total_counts, 0);
   }
 }

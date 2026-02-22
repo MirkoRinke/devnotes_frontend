@@ -6,12 +6,20 @@
       <a
         class="tile"
         [routerLink]="'/posts-list'"
-        [queryParams]="{
-          entityValue: selectedEntityValue,
-          entity: selectedEntity,
-          postType: postType.name,
-          context: context,
-        }"
+        [queryParams]="
+          postType.name === 'All Types'
+            ? {
+                entityValue: selectedEntityValue,
+                entity: selectedEntity,
+                context: context,
+              }
+            : {
+                entityValue: selectedEntityValue,
+                entity: selectedEntity,
+                postType: postType.name,
+                context: context,
+              }
+        "
       >
         <div class="content">
           <span
