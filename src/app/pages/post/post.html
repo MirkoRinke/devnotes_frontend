@@ -4,6 +4,7 @@
       [post]="post"
       [selectedEntityValue]="selectedEntityValue"
       [selectedPostType]="selectedPostType"
+      [context]="context"
       (modeChange)="mode = $event"
     ></app-post-view>
   } @else if (mode === 'edit' || mode === 'create') {

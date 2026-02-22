@@ -24,6 +24,7 @@ export class Post {
   post: PostInterface = {} as PostInterface;
   selectedEntityValue: string | null = null;
   selectedPostType: string | null = null;
+  context: string | null = null;
 
   postDataLoaded: boolean = false;
   mode = 'view';
@@ -39,6 +40,7 @@ export class Post {
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       const parsed: PostParamsInterface = this.parseQueryParams(params);
+      this.context = parsed.context;
 
       if (parsed.postId === null || !Number.isInteger(parsed.postId)) {
         this.router.navigate(['/']);
@@ -62,6 +64,7 @@ export class Post {
       postId: parseInt(params['post_id']) ?? null,
       selectedEntityValue: params['selectedEntityValue'] ?? null,
       selectedPostType: params['selectedPostType'] ?? null,
+      context: params['context'] ?? null,
     };
   }
 
@@ -94,9 +97,9 @@ export class Post {
       next: (response) => {
         this.post = response.data.data;
         this.postDataLoaded = true;
-        if (this.checkAllowedEntityValue() || this.checkAllowedPostTypes()) {
+        if (this.checkAllowedEntityValue()) {
           this.router.navigate(['/']);
-          console.warn('Invalid entity value or post type');
+          console.warn('Invalid entity value');
           return;
         }
       },
@@ -120,14 +123,5 @@ export class Post {
     const allowedEntityValues: string[] = postLanguages.concat(postTechnologies, postTags);
 
     return !allowedEntityValues.includes(this.selectedEntityValue!);
-  }
-
-  /**
-   * Check if selected post type is allowed
-   *
-   * @returns boolean
-   */
-  private checkAllowedPostTypes(): boolean {
-    return this.post.post_type !== this.selectedPostType;
   }
 }
