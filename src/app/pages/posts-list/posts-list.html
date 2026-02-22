@@ -13,10 +13,11 @@
       ></app-query-params-dropdown>
 
       <app-query-params-dropdown
-        [label]="'Typ'"
+        [label]="'Typen'"
         [key]="'postType'"
-        [defaultValueLabel]="selectedPostType"
-        [defaultValue]="selectedPostType"
+        [defaultValueLabel]="selectedPostType ? selectedPostType : 'Alle Typen'"
+        [defaultValue]="selectedPostType ? selectedPostType : ''"
+        [enableAllOption]="true"
         [enableSearch]="true"
         [endPoint]="endPoint"
         [params]="postTypeParams"
@@ -58,7 +59,7 @@
         [defaultValue]="selectedSort ? selectedSort : '-created_at'"
         [enableSearch]="true"
         [endPoint]="endPoint"
-        [values]="['created_at', '-created_at', '-likes_count', 'likes_count']"
+        [values]="{ '-created_at': 'Latest', created_at: 'Oldest', '-likes_count': 'Most Liked' }"
       >
       </app-query-params-dropdown>
     </section>

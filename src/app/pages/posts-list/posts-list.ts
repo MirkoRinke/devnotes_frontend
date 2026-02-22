@@ -129,7 +129,7 @@ export class PostsList {
       dateTo: params['dateTo'] ?? null,
       sort: params['sort'] ?? '-created_at',
       page: Number.isInteger(parseInt(params['page'])) ? parseInt(params['page']) : 1,
-      perPage: Number.isInteger(parseInt(params['per_page'])) ? parseInt(params['per_page']) : 5, // TODO: per_page set to 2 for testing, change to a higher value later ( Default: 5)
+      perPage: Number.isInteger(parseInt(params['per_page'])) ? parseInt(params['per_page']) : 5,
     };
   }
 
@@ -229,9 +229,13 @@ export class PostsList {
   private setParams(parsed: PostListParamsInterface) {
     this.entityValueParams = [`?select=count:${encodeURIComponent(parsed.entity)}.name`];
     this.postTypeParams = [`?filter[${encodeURIComponent(parsed.entity)}.name]=eq:${encodeURIComponent(parsed.entityValue!)}&select=count:post_type`];
-    this.categoryParams = [
-      `?filter[${encodeURIComponent(parsed.entity)}.name]=eq:${encodeURIComponent(parsed.entityValue!)}&filter[post_type]=${encodeURIComponent(parsed.postType!)}&select=count:category`,
-    ];
+    this.categoryParams = [`?filter[${encodeURIComponent(parsed.entity)}.name]=eq:${encodeURIComponent(parsed.entityValue!)}&select=count:category`];
+
+    let categoryQuery = `?filter[${encodeURIComponent(parsed.entity!)}.name]=eq:${encodeURIComponent(parsed.entityValue!)}`;
+    if (parsed.postType !== null) categoryQuery += `&filter[post_type]=${encodeURIComponent(parsed.postType)}`;
+    categoryQuery += '&select=count:category';
+
+    this.categoryParams = [categoryQuery];
   }
 
   /**
@@ -245,13 +249,10 @@ export class PostsList {
    * @param dropdowns Array of dropdowns to validate
    */
   private validateDropdownParams(parsed: PostListParamsInterface) {
-    const dropdowns = [
-      { key: 'entityValue', params: this.entityValueParams, endPoint: this.endPoint, selected: parsed.entityValue },
-      { key: 'postType', params: this.postTypeParams, endPoint: this.endPoint, selected: parsed.postType },
-    ];
-    if (parsed.category !== null) {
-      dropdowns.push({ key: 'category', params: this.categoryParams, endPoint: this.endPoint, selected: parsed.category });
-    }
+    const dropdowns = [{ key: 'entityValue', params: this.entityValueParams, endPoint: this.endPoint, selected: parsed.entityValue }];
+
+    if (parsed.category !== null) dropdowns.push({ key: 'category', params: this.categoryParams, endPoint: this.endPoint, selected: parsed.category });
+    if (parsed.postType !== null) dropdowns.push({ key: 'postType', params: this.postTypeParams, endPoint: this.endPoint, selected: parsed.postType });
 
     const requests = dropdowns.map((dropdown) => this.availableValuesService.getAvailableValues(dropdown.params, dropdown.endPoint).pipe(take(1)));
 
@@ -270,7 +271,7 @@ export class PostsList {
           const dropdownValues = availableValues.map((value) => value.name);
           if ((dropdown.selected && !dropdownValues.includes(dropdown.selected)) || dropdown.selected === null) {
             fallbackTriggered = true;
-            if (dropdown.key === 'entityValue' || dropdown.key === 'postType') {
+            if (dropdown.key === 'entityValue') {
               this.router.navigate([], {
                 queryParams: { [dropdown.key]: dropdownValues[0] },
                 queryParamsHandling: 'merge',
