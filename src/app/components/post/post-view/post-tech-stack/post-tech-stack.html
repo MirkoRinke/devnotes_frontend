@@ -7,7 +7,13 @@
           type="button"
           [title]="language.name"
           [innerHTML]="svgIconsService.returnIcon(language.name)"
-          (click)="searchPlaceholderFunction(language)"
+          [routerLink]="'/posts-list'"
+          [queryParams]="{
+            entityValue: language.name,
+            entity: 'languages',
+            postType: selectedPostType,
+            context: context,
+          }"
         ></button>
       }
     </div>
@@ -21,7 +27,13 @@
           type="button"
           [title]="technology.name"
           [innerHTML]="svgIconsService.returnIcon(technology.name)"
-          (click)="searchPlaceholderFunction(technology)"
+          [routerLink]="'/posts-list'"
+          [queryParams]="{
+            entityValue: technology.name,
+            entity: 'technologies',
+            postType: selectedPostType,
+            context: context,
+          }"
         ></button>
       }
     </div>

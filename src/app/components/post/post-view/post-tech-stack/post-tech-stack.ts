@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 import type { LanguagesInterface } from '../../../../interfaces/languages';
 import type { TechnologiesInterface } from '../../../../interfaces/technologies';
@@ -7,7 +8,7 @@ import { SvgIconsService } from '../../../../services/svg.icons.service';
 
 @Component({
   selector: 'app-post-tech-stack',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './post-tech-stack.html',
   styleUrl: './post-tech-stack.scss',
 })
@@ -15,12 +16,9 @@ export class PostTechStack {
   @Input() languages: LanguagesInterface[] = [];
   @Input() technologies: TechnologiesInterface[] = [];
 
-  constructor(public svgIconsService: SvgIconsService) {}
+  @Input() endPoint: string | null = null;
+  @Input() selectedPostType: string | null = null;
+  @Input() context: string | null = null;
 
-  /**
-   * TODO: Implement search function for languages and technologies
-   */
-  searchPlaceholderFunction(item: LanguagesInterface | TechnologiesInterface) {
-    console.log('Search function not implemented yet for item:', item);
-  }
+  constructor(public svgIconsService: SvgIconsService) {}
 }
