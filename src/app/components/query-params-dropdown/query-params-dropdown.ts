@@ -14,22 +14,23 @@ import type { AvailableValuesInterface } from '../../interfaces/available-values
   styleUrl: './query-params-dropdown.scss',
 })
 export class QueryParamsDropdown {
-  @Input() label!: string;
-  @Input() key!: string;
-  @Input() defaultValueLabel!: string | null;
-  @Input() defaultValue!: string | null;
+  @Input() label: string | null = null;
+  @Input() key: string | null = null;
+  @Input() defaultValueLabel: string | null = null;
+  @Input() defaultValue: string | null = null;
   @Input() enableAllOption: boolean = false;
   @Input() enableSearch: boolean = false;
 
-  @Input() endPoint!: string;
-  @Input() params!: Array<string>;
+  @Input() endPoint: string | null = null;
+  @Input() params: Array<string> | null = null;
 
-  @Input() values!: string[];
+  @Input() values: { [key: string]: string } | null = null;
 
-  @Input() changeDetectionToken!: string;
+  @Input() changeDetectionToken: string | null = null;
 
   availableValues: AvailableValuesInterface[] = [];
   filteredValues: AvailableValuesInterface[] = [];
+  totalCount: number = 0;
 
   showDropdownValues = false;
   showAnimation = false;
@@ -48,10 +49,10 @@ export class QueryParamsDropdown {
   ngOnChanges(changes: SimpleChanges) {
     if (this.changeDetectionToken && changes['changeDetectionToken']) {
       if (this.endPoint && this.params) {
-        this.getAvailableValues();
+        this.getAvailableValues(this.params, this.endPoint);
       }
     } else if (this.values) {
-      this.availableValues = this.values.map((value) => ({ name: value, total_counts: 0, entity: '' }));
+      this.availableValues = Object.keys(this.values).map((key) => ({ name: key, total_counts: 0, entity: '' }));
       this.setShowValuesLimit();
     }
   }
@@ -59,14 +60,22 @@ export class QueryParamsDropdown {
   /**
    * Fetches available values from the service based on provided params and endpoint
    */
-  getAvailableValues() {
+  getAvailableValues(params: Array<string>, endPoint: string) {
     this.availableValuesService
-      .getAvailableValues(this.params, this.endPoint)
+      .getAvailableValues(params, endPoint)
       .pipe(take(1))
       .subscribe((availableValues) => {
         this.availableValues = availableValues.sort((a, b) => b.total_counts - a.total_counts);
+        this.calculateTotalCount();
         this.setShowValuesLimit();
       });
+  }
+
+  /**
+   * Calculates the total count of all available values
+   */
+  calculateTotalCount() {
+    this.totalCount = this.availableValues.reduce((sum, current) => sum + current.total_counts, 0);
   }
 
   /**
@@ -123,15 +132,15 @@ export class QueryParamsDropdown {
    *
    * @param value
    */
-  onSelect(value: string) {
+  onSelect(value: string, key: string) {
     if (value) {
       this.router.navigate([], {
-        queryParams: { [this.key]: value, page: null },
+        queryParams: { [key]: value, page: null },
         queryParamsHandling: 'merge',
       });
     } else {
       this.router.navigate([], {
-        queryParams: { [this.key]: null, page: null },
+        queryParams: { [key]: null, page: null },
         queryParamsHandling: 'merge',
       });
     }

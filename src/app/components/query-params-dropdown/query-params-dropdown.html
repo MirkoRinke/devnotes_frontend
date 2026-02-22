@@ -1,63 +1,66 @@
-<div class="dropdown-component">
-  <div class="dropdown">
-    <button
-      type="button"
-      [class.active]="filteredValues.length > 0"
-      (click)="toggleDropdown()"
-      aria-haspopup="listbox"
-    >
-      <span class="label"> {{ label }}: </span>
-      <span class="selected-value">
-        {{ defaultValueLabel }}
-      </span>
-      <span
-        class="chevron-icon"
+@if (key != null && label != null && defaultValueLabel != null && defaultValue != null) {
+  <div class="dropdown-component">
+    <div class="dropdown">
+      <button
+        type="button"
         [class.active]="filteredValues.length > 0"
-        [innerHTML]="svgIconsService.returnIcon('chevron')"
-        [class.open]="showDropdownValues"
-      ></span>
-    </button>
-  </div>
-
-  @if (showDropdownValues) {
-    <div
-      class="values"
-      [class.active]="showDropdownValues"
-      [class.animated-in]="showAnimation"
-      [class.animated-out]="!showAnimation"
-      (animationend)="onAnimationEnd($event)"
-      role="listbox"
-    >
-      @if (enableSearch) {
-        <input
-          type="text"
-          class="search-input"
-          placeholder="Search.."
-          (input)="filterFunction($event.target.value)"
-        />
-      }
-
-      @if (defaultValue !== '' && enableAllOption) {
-        <button
-          type="button"
-          role="option"
-          class="value"
-          (click)="onSelect('')"
-        >
-          Alle {{ label }}
-        </button>
-      }
-      @for (value of filteredValues; track $index) {
-        <button
-          type="button"
-          role="option"
-          class="value"
-          (click)="onSelect(value.name)"
-        >
-          <span class="name">{{ value.name }}</span>
-          <span class="count">{{ value.total_counts ? value.total_counts : '' }}</span>
-        </button>
-      }
+        (click)="toggleDropdown()"
+        aria-haspopup="listbox"
+      >
+        <span class="label"> {{ label }}: </span>
+        <span class="selected-value">
+          {{ values && values[defaultValueLabel] ? values[defaultValueLabel] : defaultValueLabel }}
+        </span>
+        <span
+          class="chevron-icon"
+          [class.active]="filteredValues.length > 0"
+          [innerHTML]="svgIconsService.returnIcon('chevron')"
+          [class.open]="showDropdownValues"
+        ></span>
+      </button>
     </div>
-  }
-</div>
+
+    @if (showDropdownValues) {
+      <div
+        class="values"
+        [class.active]="showDropdownValues"
+        [class.animated-in]="showAnimation"
+        [class.animated-out]="!showAnimation"
+        (animationend)="onAnimationEnd($event)"
+        role="listbox"
+      >
+        @if (enableSearch) {
+          <input
+            type="text"
+            class="search-input"
+            placeholder="Search.."
+            (input)="filterFunction($event.target.value)"
+          />
+        }
+
+        @if (defaultValue !== '' && enableAllOption) {
+          <button
+            type="button"
+            role="option"
+            class="value"
+            (click)="onSelect('', key)"
+          >
+            <span class="name">Alle {{ label }}</span>
+            <span class="count">{{ totalCount > 0 ? totalCount : '' }}</span>
+          </button>
+        }
+        @for (value of filteredValues; track $index) {
+          <button
+            type="button"
+            role="option"
+            class="value"
+            (click)="onSelect(value.name, key)"
+          >
+            <span class="name">{{ values && values[value.name] ? values[value.name] : value.name }}</span>
+            <span class="count">{{ value.total_counts ? value.total_counts : '' }}</span>
+          </button>
+        }
+      </div>
+    }
+  </div>
+}
