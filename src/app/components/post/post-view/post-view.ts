@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
 
 import type { PostInterface } from '../../../interfaces/post';
 import type { PostResourceModalInterface } from '../../../interfaces/post-ressource-modal';
@@ -25,11 +26,12 @@ import { PostTags } from './post-tags/post-tags';
   styleUrl: './post-view.scss',
 })
 export class PostView {
-  @Input() post!: PostInterface;
-  @Input() selectedEntityValue!: string | null;
-  @Input() selectedPostType!: string | null;
+  @Input() post: PostInterface | null = null;
+  @Input() selectedEntityValue: string | null = null;
+  @Input() selectedPostType: string | null = null;
+  @Input() context: string | null = null;
 
-  currentPost!: PostInterface;
+  currentPost: PostInterface = {} as PostInterface;
 
   currentPostModal: PostResourceModalInterface = { title: '', resources: [], previews: [] };
   isPostResourceModalOpen = false;
@@ -43,10 +45,15 @@ export class PostView {
   constructor(
     public svgIconsService: SvgIconsService,
     public authService: AuthService,
+    private router: Router,
   ) {}
 
   ngOnInit() {
-    this.currentPost = this.post;
+    if (this.post) {
+      this.currentPost = this.post;
+    } else {
+      this.router.navigate(['/']);
+    }
   }
 
   /**
@@ -127,12 +134,12 @@ export class PostView {
    * @param versionIndex
    */
   onSelect(versionIndex: number) {
-    if (this.post.history && versionIndex >= 0 && this.post.history.length > versionIndex) {
+    if (this.post && this.post.history && versionIndex >= 0 && this.post.history.length > versionIndex) {
       this.currentPost = {
         ...this.post,
         ...this.post.history[versionIndex],
       };
-    } else {
+    } else if (this.post) {
       this.currentPost = { ...this.post };
     }
   }

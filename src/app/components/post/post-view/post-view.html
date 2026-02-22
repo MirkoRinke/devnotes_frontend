@@ -7,12 +7,20 @@
           (versionSelected)="onSelect($event)"
         ></app-post-version-dropdown>
 
-        <span class="entitye">{{ selectedEntityValue }}</span>
-        <span class="separator">|</span>
-        <span class="post-type">{{ selectedPostType }}</span>
-        <span class="separator">|</span>
-        <span class="category">{{ currentPost.category }}</span>
-        <span class="separator">|</span>
+        @if (selectedEntityValue) {
+          <span class="entitye">{{ selectedEntityValue }}</span>
+          <span class="separator">|</span>
+        }
+
+        @if (selectedPostType) {
+          <span class="post-type">{{ selectedPostType }}</span>
+          <span class="separator">|</span>
+        }
+
+        @if (currentPost.category) {
+          <span class="category">{{ currentPost.category }}</span>
+          <span class="separator">|</span>
+        }
       </div>
 
       @if (isOwner(currentPost)) {
@@ -57,6 +65,9 @@
       <app-post-tech-stack
         [languages]="currentPost.languages ?? []"
         [technologies]="currentPost.technologies ?? []"
+        [endPoint]="'POSTS'"
+        [context]="context"
+        [selectedPostType]="selectedPostType"
       ></app-post-tech-stack>
 
       <app-post-media-links
