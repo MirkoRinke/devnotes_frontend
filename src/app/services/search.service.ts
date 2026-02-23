@@ -9,11 +9,19 @@ export class SearchService {
   private _enableSearch = new BehaviorSubject<boolean>(false);
   private _searchActive = new BehaviorSubject<boolean>(false);
 
+  private _searchMode = new BehaviorSubject<string | null>(null);
+  private _searchContext = new BehaviorSubject<string | null>(null);
+  private _cageIcon = new BehaviorSubject<string | null>(null);
+
   searchValue$ = this._searchValue.asObservable();
   showSearchResults$ = this._showSearchResults.asObservable();
   dataLoaded$ = this._dataLoaded.asObservable();
   enableSearch$ = this._enableSearch.asObservable();
   searchActive$ = this._searchActive.asObservable();
+
+  searchMode$ = this._searchMode.asObservable();
+  searchContext$ = this._searchContext.asObservable();
+  cageIcon$ = this._cageIcon.asObservable();
 
   /**
    * Enable or disable search functionality
@@ -31,6 +39,33 @@ export class SearchService {
    */
   get enableSearchValue(): boolean {
     return this._enableSearch.getValue();
+  }
+
+  /**
+   * Set search mode
+   *
+   * @param mode
+   */
+  searchMode(mode: string | null) {
+    this._searchMode.next(mode);
+  }
+
+  /**
+   * Set search context
+   *
+   * @param context
+   */
+  searchContext(context: string | null) {
+    this._searchContext.next(context);
+  }
+
+  /**
+   * Set Cage icon
+   *
+   * @param icon
+   */
+  cageIcon(icon: string | null) {
+    this._cageIcon.next(icon);
   }
 
   /**
@@ -78,5 +113,9 @@ export class SearchService {
     this.showSearchResults(false);
     this.setSearchActive(false);
     this.dataLoaded(false);
+
+    this.searchMode(null);
+    this.searchContext(null);
+    this.cageIcon(null);
   }
 }
