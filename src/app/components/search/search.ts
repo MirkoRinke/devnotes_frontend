@@ -1,6 +1,6 @@
 import { Component, ViewChild, ElementRef, OnDestroy, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, NavigationStart, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';

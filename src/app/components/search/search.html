@@ -1,9 +1,15 @@
 <!-- TODO Temporary search component for testing purposes , to be replaced with a more advanced version later -->
-
 <div
   [attr.aria-disabled]="!(searchService.enableSearch$ | async)"
   class="search"
 >
+  @if ((searchService.cageIcon$ | async) !== null) {
+    <span
+      class="icon"
+      [innerHTML]="svgIconsService.returnIcon((searchService.cageIcon$ | async) ?? '', 'cage')"
+    ></span>
+  }
+
   <input
     #searchInput
     type="text"
@@ -13,10 +19,21 @@
     (keydown.enter)="onEnter($event.target.value)"
     [attr.aria-disabled]="!(searchService.enableSearch$ | async)"
   />
-  <div class="settings">
-    <span [innerHTML]="svgIconsService.returnIcon('placeholder')"></span>
-    <span [innerHTML]="svgIconsService.returnIcon('placeholder')"></span>
-    <span [innerHTML]="svgIconsService.returnIcon('placeholder')"></span>
-    <span [innerHTML]="svgIconsService.returnIcon('placeholder')"></span>
-  </div>
+
+  @if ((searchService.searchMode$ | async) !== null) {
+    <div class="settings">
+      <span
+        class="icon"
+        [class.active]="(searchService.searchContext$ | async) === 'title_search'"
+        (click)="searchService.searchContext('title_search')"
+        [innerHTML]="svgIconsService.returnIcon('title_search')"
+      ></span>
+      <span
+        class="icon"
+        [class.active]="(searchService.searchContext$ | async) === 'tags_search'"
+        (click)="searchService.searchContext('tags_search')"
+        [innerHTML]="svgIconsService.returnIcon('tags_search')"
+      ></span>
+    </div>
+  }
 </div>
