@@ -86,7 +86,9 @@ export class PostsList {
       this.setParams(parsed);
       this.validateDropdownParams(parsed);
       this.searchValueInput(parsed);
+      this.searchService.cageIcon(parsed.entityValue);
     });
+    this.searchService.searchMode('posts-list');
     this.searchService.enableSearch(true);
   }
 
@@ -200,6 +202,8 @@ export class PostsList {
     if (this.searchValue) params = params.set('filter[title]', this.searchValue);
 
     const options = { params };
+
+    //TODO dynamic endpoint based on context
     const url = ApiEndpointEnums.POSTS + '?' + options.params.toString();
 
     this.apiService.get<ApiResponseArrayInterface<PostInterface>>(url).subscribe({
