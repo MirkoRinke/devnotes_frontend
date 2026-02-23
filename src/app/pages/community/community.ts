@@ -28,7 +28,9 @@ export class Community {
   ) {}
 
   ngOnInit() {
+    this.searchService.cageIcon('tiles');
     this.searchService.enableSearch(true);
+
     this.getUserFavoriteTechStack();
     this.userFavoriteTechnologiesService.clearFavoriteUpdate();
   }
