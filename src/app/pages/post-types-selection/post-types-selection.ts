@@ -56,6 +56,7 @@ export class PostTypesSelection {
       this.getPostTypesForEntity(parsed);
       this.searchValueInput();
 
+      this.searchService.cageIcon('tiles');
       this.searchService.enableSearch(true);
     });
   }
