@@ -32,6 +32,7 @@ export class PostTypesSelection {
   filteredPostTypes: PostTypesInterface[] = [];
 
   totalCount: number = 0;
+  allTypesOption: PostTypesInterface[] = [];
 
   private destroy$ = new Subject<void>();
 
@@ -83,11 +84,10 @@ export class PostTypesSelection {
    */
   private filterFunction(inputValue: string) {
     const searchTerm = inputValue.toLowerCase().trim();
-    const allTypesOption = this.createAllTypesOption();
     if (searchTerm.length > 0) {
       this.filteredPostTypes = this.filteredPostTypes.filter((postType) => postType.name.toLowerCase().startsWith(searchTerm));
     } else {
-      this.filteredPostTypes = [allTypesOption, ...this.postTypes];
+      this.filteredPostTypes = [...this.allTypesOption, ...this.postTypes];
     }
   }
 
@@ -151,10 +151,9 @@ export class PostTypesSelection {
     this.apiService.get<ApiResponseArrayInterface<PostTypesInterface>>(url).subscribe({
       next: (response) => {
         this.postTypes = this.sortAvailablePostTypes(response.data.data);
-        this.totalCount = this.calculateTotalCount();
 
-        const allTypesOption = this.createAllTypesOption();
-        this.filteredPostTypes = [allTypesOption, ...this.postTypes];
+        this.allTypesOption = this.createAllTypesOption();
+        this.filteredPostTypes = [...this.allTypesOption, ...this.postTypes];
 
         this.searchService.dataLoaded(true);
 
@@ -185,7 +184,8 @@ export class PostTypesSelection {
    * @returns
    */
   createAllTypesOption() {
-    return { name: 'All Types', total_counts: this.totalCount, entity: 'post_type' };
+    this.totalCount = this.calculateTotalCount();
+    return [{ name: 'All Types', total_counts: this.totalCount, entity: 'post_type' }];
   }
 
   /**
