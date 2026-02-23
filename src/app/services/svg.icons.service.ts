@@ -379,7 +379,49 @@ export class SvgIconsService {
             </g>
         </g>
     </svg>
+    `,
 
+      tags_search: /*html*/ `
+    <!-- Icon used are from Google Material Symbols, licensed under the Apache License 2.0. -->
+    <svg class="${className}" viewBox="0 0 18 16" xmlns="http://www.w3.org/2000/svg">
+        <g transform="matrix(1,0,0,1,-3,-4)">
+            <g transform="matrix(0.025,0,0,0.025,0,24)">
+                <path d="M240,-160L280,-320L120,-320L140,-400L300,-400L340,-560L180,-560L200,-640L360,-640L400,-800L480,-800L440,-640L600,-640L640,-800L720,-800L680,-640L840,-640L820,-560L660,-560L620,-400L780,-400L760,-320L600,-320L560,-160L480,-160L520,-320L360,-320L320,-160L240,-160ZM380,-400L540,-400L580,-560L420,-560L380,-400Z" style="fill-rule:nonzero;"/>
+            </g>
+        </g>
+    </svg>
+    `,
+
+      title_search: /*html*/ `
+    <!-- Icon used are from Google Material Symbols, licensed under the Apache License 2.0. -->
+    <svg class="${className}" viewBox="0 0 18 15" xmlns="http://www.w3.org/2000/svg">
+        <g transform="matrix(0.0326164,0,0,0.025,-2.60931,20)">
+            <rect x="80" y="-280" width="400" height="80" style="fill-rule:nonzero;"/>
+        </g>
+        <g transform="matrix(0.0208683,0,0,0.0208683,-0.364071,15.0251)">
+            <path d="M824,-200L670,-354C654,-342.667 636.5,-334.167 617.5,-328.5C598.5,-322.833 579.333,-320 560,-320C504.667,-320 457.5,-339.5 418.5,-378.5C379.5,-417.5 360,-464.667 360,-520C360,-575.333 379.5,-622.5 418.5,-661.5C457.5,-700.5 504.667,-720 560,-720C615.333,-720 662.5,-700.5 701.5,-661.5C740.5,-622.5 760,-575.333 760,-520C760,-500.667 757.167,-481.5 751.5,-462.5C745.833,-443.5 737.333,-426 726,-410L880,-256L824,-200ZM560,-400C593.333,-400 621.667,-411.667 645,-435C668.333,-458.333 680,-486.667 680,-520C680,-553.333 668.333,-581.667 645,-605C621.667,-628.333 593.333,-640 560,-640C526.667,-640 498.333,-628.333 475,-605C451.667,-581.667 440,-553.333 440,-520C440,-486.667 451.667,-458.333 475,-435C498.333,-411.667 526.667,-400 560,-400Z" style="fill-rule:nonzero;"/>
+        </g>
+        <g transform="matrix(0.00751409,0,0,0.025,-0.601127,7)">
+            <rect x="80" y="-280" width="400" height="80" style="fill-rule:nonzero;"/>
+        </g>
+        <g transform="matrix(0.0125908,0,0,0.025,-1.00727,11)">
+            <rect x="80" y="-280" width="400" height="80" style="fill-rule:nonzero;"/>
+        </g>
+        <g transform="matrix(0.0224374,0,0,0.025,-1.79499,16)">
+            <rect x="80" y="-280" width="400" height="80" style="fill-rule:nonzero;"/>
+        </g>
+    </svg>
+    `,
+
+      tiles: /*html*/ `
+    <!-- Icon used are from Google Material Symbols, licensed under the Apache License 2.0. -->
+    <svg class="${className}" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+        <g transform="matrix(1,0,0,1,-3,-3)">
+            <g transform="matrix(0.025,0,0,0.025,0,24)">
+                <path d="M120,-520L120,-840L440,-840L440,-520L120,-520ZM120,-120L120,-440L440,-440L440,-120L120,-120ZM520,-520L520,-840L840,-840L840,-520L520,-520ZM520,-120L520,-440L840,-440L840,-120L520,-120ZM200,-600L360,-600L360,-760L200,-760L200,-600ZM600,-600L760,-600L760,-760L600,-760L600,-600ZM600,-200L760,-200L760,-360L600,-360L600,-200ZM200,-200L360,-200L360,-360L200,-360L200,-200Z"/>
+            </g>
+        </g>
+    </svg>
     `,
 
       // SVG_Element: /*html*/ `
