@@ -111,9 +111,7 @@ export class Search implements OnDestroy, AfterViewInit {
    */
   searchValueInput() {
     this.searchService.searchValue$.pipe(takeUntil(this.destroy$)).subscribe((inputValue) => {
-      if (inputValue === null) {
-        this.searchInput.nativeElement.value = '';
-      }
+      this.searchInput.nativeElement.value = inputValue ?? '';
     });
   }
 }
