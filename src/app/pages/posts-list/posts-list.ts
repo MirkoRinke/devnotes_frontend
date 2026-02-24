@@ -59,9 +59,6 @@ export class PostsList {
 
   statusMessage: string | null = null;
 
-  searchValue: string | null = null;
-  searchFirstLoad: boolean = true;
-
   private destroy$ = new Subject<void>();
 
   constructor(
@@ -82,14 +79,18 @@ export class PostsList {
         return;
       }
 
+      if (parsed.searchTerm) {
+        this.searchService.searchValueInput(parsed.searchTerm);
+      }
+
       this.setSelectedValues(parsed);
       this.setParams(parsed);
       this.validateDropdownParams(parsed);
-      this.searchValueInput(parsed);
       this.searchService.cageIcon(parsed.entityValue);
     });
     this.searchService.searchMode('posts-list');
     this.searchService.enableSearch(true);
+    this.searchValueInput();
   }
 
   ngOnDestroy() {
@@ -98,18 +99,22 @@ export class PostsList {
   }
 
   /**
-   * Subscribes to search value changes and filters tiles accordingly.
+   * Subscribe to search value changes and update query params accordingly
    */
-  searchValueInput(parsed: PostListParamsInterface) {
+  searchValueInput() {
     this.searchService.searchValue$.pipe(takeUntil(this.destroy$)).subscribe((inputValue) => {
-      if (inputValue === null && !this.searchFirstLoad) {
-        this.searchValue = null;
-        this.getPostsList(parsed);
-        this.searchFirstLoad = true;
+      if (inputValue === null) {
+        this.router.navigate([], {
+          queryParams: { searchTerm: null },
+          queryParamsHandling: 'merge',
+          replaceUrl: true,
+        });
       } else if (inputValue !== null && inputValue.length > 0) {
-        this.searchValue = inputValue;
-        this.getPostsList(parsed);
-        this.searchFirstLoad = false;
+        this.router.navigate([], {
+          queryParams: { searchTerm: inputValue },
+          queryParamsHandling: 'merge',
+          replaceUrl: true,
+        });
       }
     });
   }
@@ -130,6 +135,7 @@ export class PostsList {
       dateFrom: params['dateFrom'] ?? null,
       dateTo: params['dateTo'] ?? null,
       sort: params['sort'] ?? '-created_at',
+      searchTerm: params['searchTerm'] ?? null,
       page: Number.isInteger(parseInt(params['page'])) ? parseInt(params['page']) : 1,
       perPage: Number.isInteger(parseInt(params['per_page'])) ? parseInt(params['per_page']) : 5,
     };
@@ -199,7 +205,7 @@ export class PostsList {
     if (parsed.dateFrom || parsed.dateTo) params = params.set('filter[created_at]', `between:[${parsed.dateFrom ? parsed.dateFrom : this.minDate},${parsed.dateTo ? parsed.dateTo : this.maxDate}]`);
     if (parsed.sort) params = params.set('sort', `${parsed.sort}`);
 
-    if (this.searchValue) params = params.set('filter[title]', this.searchValue);
+    if (parsed.searchTerm) params = params.set('filter[title]', parsed.searchTerm);
 
     const options = { params };
 
@@ -279,11 +285,13 @@ export class PostsList {
               this.router.navigate([], {
                 queryParams: { [dropdown.key]: dropdownValues[0] },
                 queryParamsHandling: 'merge',
+                replaceUrl: true,
               });
             } else {
               this.router.navigate([], {
                 queryParams: { [dropdown.key]: null },
                 queryParamsHandling: 'merge',
+                replaceUrl: true,
               });
             }
           }
