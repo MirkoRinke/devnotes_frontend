@@ -103,15 +103,13 @@ export class PostsList {
    */
   searchValueInput() {
     this.searchService.searchValue$.pipe(takeUntil(this.destroy$)).subscribe((inputValue) => {
-      if (inputValue === null) {
+      const currentUrlValue = this.route.snapshot.queryParams['searchTerm'] || null;
+      const newValue = inputValue && inputValue.length > 0 ? inputValue : null;
+
+      if (newValue !== currentUrlValue) {
+        console.log('Update URL params:', newValue);
         this.router.navigate([], {
-          queryParams: { searchTerm: null },
-          queryParamsHandling: 'merge',
-          replaceUrl: true,
-        });
-      } else if (inputValue !== null && inputValue.length > 0) {
-        this.router.navigate([], {
-          queryParams: { searchTerm: inputValue },
+          queryParams: { searchTerm: newValue },
           queryParamsHandling: 'merge',
           replaceUrl: true,
         });
@@ -205,12 +203,16 @@ export class PostsList {
     if (parsed.dateFrom || parsed.dateTo) params = params.set('filter[created_at]', `between:[${parsed.dateFrom ? parsed.dateFrom : this.minDate},${parsed.dateTo ? parsed.dateTo : this.maxDate}]`);
     if (parsed.sort) params = params.set('sort', `${parsed.sort}`);
 
-    if (parsed.searchTerm) params = params.set('filter[title]', parsed.searchTerm);
+    const splitSearchData = this.searchService.splitSearchValueInputValue;
+    if (splitSearchData?.text) params = params.set('filter[title]', splitSearchData.text);
+    if (splitSearchData?.tags) params = params.set('filter[tags.name]', `eq:[${splitSearchData.tags.join(',')}]`);
 
     const options = { params };
 
     //TODO dynamic endpoint based on context
     const url = ApiEndpointEnums.POSTS + '?' + options.params.toString();
+
+    console.log('Fetching posts with URL:', url, Math.random()); // Add random number to prevent caching during development
 
     this.apiService.get<ApiResponseArrayInterface<PostInterface>>(url).subscribe({
       next: (response) => {
