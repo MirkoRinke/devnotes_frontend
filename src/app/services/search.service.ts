@@ -74,6 +74,7 @@ export class SearchService {
    * @param value
    */
   searchValueInput(value: string | null) {
+    if (this._searchValue.getValue() === value) return;
     this._searchValue.next(value);
     this.setSearchActive(value !== null && value.length > 0);
   }
