@@ -137,11 +137,13 @@ export class QueryParamsDropdown {
       this.router.navigate([], {
         queryParams: { [key]: value, page: null },
         queryParamsHandling: 'merge',
+        replaceUrl: true,
       });
     } else {
       this.router.navigate([], {
         queryParams: { [key]: null, page: null },
         queryParamsHandling: 'merge',
+        replaceUrl: true,
       });
     }
     this.showDropdownValues = false;
