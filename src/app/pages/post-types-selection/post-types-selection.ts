@@ -85,6 +85,8 @@ export class PostTypesSelection {
    */
   private filterFunction(inputValue: string) {
     const searchTerm = inputValue.toLowerCase().trim();
+    this.filteredPostTypes = [...this.allTypesOption, ...this.postTypes];
+
     if (searchTerm.length > 0) {
       this.filteredPostTypes = this.filteredPostTypes.filter((postType) => postType.name.toLowerCase().startsWith(searchTerm));
     } else {
