@@ -9,4 +9,5 @@ export interface PostListParamsInterface {
   sort: string | null;
   page: number;
   perPage: number;
+  searchTerm: string | null;
 }
