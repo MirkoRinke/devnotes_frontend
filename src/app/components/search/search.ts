@@ -20,7 +20,8 @@ export class Search implements OnDestroy, AfterViewInit {
   private destroy$ = new Subject<void>();
   private lastBaseUrl: string = '';
 
-  private debounceTimer?: number;
+  hasTags: boolean = false;
+  hasText: boolean = false;
 
   constructor(
     public svgIconsService: SvgIconsService,
@@ -36,9 +37,6 @@ export class Search implements OnDestroy, AfterViewInit {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
-    if (this.debounceTimer) {
-      clearTimeout(this.debounceTimer);
-    }
   }
 
   /**
@@ -72,37 +70,31 @@ export class Search implements OnDestroy, AfterViewInit {
   private resetSearchInput() {
     if (this.searchInput?.nativeElement) {
       this.searchInput.nativeElement.value = '';
-      this.searchService.searchValueInput('');
+      this.searchService.searchValueInput(null);
     }
   }
 
   /**
-   * Handles the input event from the search field. It implements a debounce mechanism to delay the search action until the user has stopped
-   * typing for a specified duration (1 second in this case). If the input value is empty, it immediately clears the search value in the SearchService.
+   * Handles the input event of the search field. It checks if the input value contains tags (indicated by the presence of '#') and updates the hasTags and hasText properties accordingly.
    *
    * @param value
    * @returns
    */
-  onInput(value: string): void {
-    clearTimeout(this.debounceTimer);
-
-    if (value.length === 0) {
-      this.searchService.searchValueInput(null);
-      return;
-    }
-
-    this.debounceTimer = window.setTimeout(() => {
-      this.searchService.searchValueInput(value);
-    }, 1000);
+  updateIndicators(value: string): void {
+    this.hasTags = value.includes('#');
+    this.hasText =
+      value
+        .replace(/#[\w-]+/g, '')
+        .replace(/#/g, '')
+        .trim().length > 0;
   }
 
   /**
-   * Handles the keydown event for the search input field. If the user presses the Enter key, it immediately triggers the search action without waiting for the debounce timer.
+   * Starts the search process by updating the search value in the SearchService. This method is triggered when the user clicks the search button or presses the Enter key.
    *
    * @param value
    */
-  onEnter(value: string): void {
-    clearTimeout(this.debounceTimer);
+  startSearch(value: string): void {
     this.searchService.searchValueInput(value);
   }
 
@@ -112,6 +104,13 @@ export class Search implements OnDestroy, AfterViewInit {
   searchValueInput() {
     this.searchService.searchValue$.pipe(takeUntil(this.destroy$)).subscribe((inputValue) => {
       this.searchInput.nativeElement.value = inputValue ?? '';
+
+      if (inputValue === null || inputValue.length === 0) {
+        this.hasTags = false;
+        this.hasText = false;
+      } else {
+        this.updateIndicators(inputValue);
+      }
     });
   }
 }

@@ -1,4 +1,3 @@
-<!-- TODO Temporary search component for testing purposes , to be replaced with a more advanced version later -->
 <div
   [attr.aria-disabled]="!(searchService.enableSearch$ | async)"
   class="search"
@@ -14,25 +13,34 @@
     #searchInput
     type="text"
     class="search-input"
-    placeholder="Search..."
-    (input)="onInput($event.target.value)"
-    (keydown.enter)="onEnter($event.target.value)"
+    [placeholder]="(searchService.searchMode$ | async) !== null ? 'Search by text or #tags...' : 'Search...'"
+    label="Search"
+    aria-label="Search"
+    (input)="updateIndicators(searchInput.value)"
+    (keydown.enter)="startSearch(searchInput.value)"
     [attr.aria-disabled]="!(searchService.enableSearch$ | async)"
   />
 
+  <button
+    class="start-search"
+    (click)="startSearch(searchInput.value)"
+    [innerHTML]="svgIconsService.returnIcon('send')"
+    aria-label="Start Search"
+  ></button>
+
   @if ((searchService.searchMode$ | async) !== null) {
-    <div class="settings">
+    <div class="indicators">
       <span
         class="icon"
-        [class.active]="(searchService.searchContext$ | async) === 'title_search'"
-        (click)="searchService.searchContext('title_search')"
+        [class.active]="hasText"
         [innerHTML]="svgIconsService.returnIcon('title_search')"
+        aria-label="Title Search Indicator"
       ></span>
       <span
         class="icon"
-        [class.active]="(searchService.searchContext$ | async) === 'tags_search'"
-        (click)="searchService.searchContext('tags_search')"
+        [class.active]="hasTags"
         [innerHTML]="svgIconsService.returnIcon('tags_search')"
+        aria-label="Tags Search Indicator"
       ></span>
     </div>
   }

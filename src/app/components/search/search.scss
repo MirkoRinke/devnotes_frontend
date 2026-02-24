@@ -51,7 +51,27 @@
     }
   }
 
-  .settings {
+  .start-search {
+    @include button-preset();
+    width: px-to-rem(30);
+    height: px-to-rem(30);
+
+    &:hover {
+      &::ng-deep .send {
+        fill: var(--font-primary-color-100);
+        transition: fill var.$transition-duration-medium ease-in-out;
+      }
+    }
+
+    &::ng-deep .send {
+      width: 100%;
+      height: 100%;
+      fill: var(--font-primary-color-50);
+      transition: fill var.$transition-duration-medium ease-in-out;
+    }
+  }
+
+  .indicators {
     @include display-flex(center, center);
     gap: px-to-rem(15);
     height: 100%;
@@ -60,19 +80,11 @@
     flex-shrink: 0;
 
     .icon {
-      cursor: pointer;
-      width: px-to-rem(30);
-      height: px-to-rem(30);
+      @include display-flex(center, center);
+      max-width: px-to-rem(30);
+      max-height: px-to-rem(30);
 
       &.active {
-        &::ng-deep .tags_search,
-        &::ng-deep .title_search {
-          fill: var(--font-primary-color-100);
-          transition: fill var.$transition-duration-medium ease-in-out;
-        }
-      }
-
-      &:hover {
         &::ng-deep .tags_search,
         &::ng-deep .title_search {
           fill: var(--font-primary-color-100);
