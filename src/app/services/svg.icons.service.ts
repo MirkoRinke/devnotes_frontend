@@ -381,6 +381,17 @@ export class SvgIconsService {
     </svg>
     `,
 
+      send: /*html*/ `
+    <!-- Icon used are from Google Material Symbols, licensed under the Apache License 2.0. -->
+    <svg class="${className}" viewBox="0 0 19 16" xmlns="http://www.w3.org/2000/svg">
+        <g transform="matrix(1,0,0,1,-3,-4)">
+            <g transform="matrix(0.025,0,0,0.025,0,24)">
+                <path d="M120,-160L120,-800L880,-480L120,-160ZM200,-280L674,-480L200,-680L200,-540L440,-480L200,-420L200,-280ZM200,-280L200,-680L200,-280Z"/>
+            </g>
+        </g>
+    </svg>
+    `,
+
       tags_search: /*html*/ `
     <!-- Icon used are from Google Material Symbols, licensed under the Apache License 2.0. -->
     <svg class="${className}" viewBox="0 0 18 16" xmlns="http://www.w3.org/2000/svg">
