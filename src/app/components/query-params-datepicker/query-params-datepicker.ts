@@ -34,11 +34,13 @@ export class QueryParamsDatepicker {
       this.router.navigate([], {
         queryParams: { [this.key]: value, page: null },
         queryParamsHandling: 'merge',
+        replaceUrl: true,
       });
     } else {
       this.router.navigate([], {
         queryParams: { [this.key]: null, page: null },
         queryParamsHandling: 'merge',
+        replaceUrl: true,
       });
     }
   }
