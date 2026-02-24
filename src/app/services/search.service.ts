@@ -10,8 +10,9 @@ export class SearchService {
   private _searchActive = new BehaviorSubject<boolean>(false);
 
   private _searchMode = new BehaviorSubject<string | null>(null);
-  private _searchContext = new BehaviorSubject<string | null>(null);
   private _cageIcon = new BehaviorSubject<string | null>(null);
+
+  private _splitSearchValueInput = new BehaviorSubject<{ tags: string[] | null; text: string } | null>(null);
 
   searchValue$ = this._searchValue.asObservable();
   showSearchResults$ = this._showSearchResults.asObservable();
@@ -20,8 +21,8 @@ export class SearchService {
   searchActive$ = this._searchActive.asObservable();
 
   searchMode$ = this._searchMode.asObservable();
-  searchContext$ = this._searchContext.asObservable();
   cageIcon$ = this._cageIcon.asObservable();
+  splitSearchValueInput$ = this._splitSearchValueInput.asObservable();
 
   /**
    * Enable or disable search functionality
@@ -42,6 +43,31 @@ export class SearchService {
   }
 
   /**
+   * Set search value
+   *
+   * @param value
+   */
+  searchValueInput(value: string | null) {
+    if (this._searchValue.getValue() === value) return;
+    this._searchValue.next(value);
+    this.splitSearchValueInput(value);
+    this.setSearchActive(value !== null && value.length > 0);
+  }
+
+  splitSearchValueInput(value: string | null) {
+    const tags = value?.match(/#[\w-]+/g)?.map((t) => t.substring(1)) || null;
+    const text = value?.replace(/#[\w-]+/g, '').trim() || '';
+    this._splitSearchValueInput.next({ tags, text });
+  }
+
+  /**
+   * Get current search value
+   */
+  get splitSearchValueInputValue(): { tags: string[] | null; text: string } | null {
+    return this._splitSearchValueInput.getValue();
+  }
+
+  /**
    * Set search mode
    *
    * @param mode
@@ -51,32 +77,12 @@ export class SearchService {
   }
 
   /**
-   * Set search context
-   *
-   * @param context
-   */
-  searchContext(context: string | null) {
-    this._searchContext.next(context);
-  }
-
-  /**
    * Set Cage icon
    *
    * @param icon
    */
   cageIcon(icon: string | null) {
     this._cageIcon.next(icon);
-  }
-
-  /**
-   * Set search value
-   *
-   * @param value
-   */
-  searchValueInput(value: string | null) {
-    if (this._searchValue.getValue() === value) return;
-    this._searchValue.next(value);
-    this.setSearchActive(value !== null && value.length > 0);
   }
 
   /**
@@ -110,13 +116,12 @@ export class SearchService {
    * Clear search state
    */
   clear() {
-    this.searchValueInput('');
+    this.searchValueInput(null);
     this.showSearchResults(false);
     this.setSearchActive(false);
     this.dataLoaded(false);
 
     this.searchMode(null);
-    this.searchContext(null);
     this.cageIcon(null);
   }
 }
