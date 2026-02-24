@@ -24,6 +24,8 @@ export class PageNavigation {
 
   hasSearchValue: boolean = false;
 
+  private lastBaseUrl: string = '';
+
   private destroy$ = new Subject<void>();
 
   constructor(
@@ -36,7 +38,6 @@ export class PageNavigation {
   }
 
   ngOnInit() {
-    this.subscribeNavigationStarted();
     this.searchValueInput();
   }
 
@@ -59,20 +60,6 @@ export class PageNavigation {
   }
 
   /**
-   * Subscribe to router navigation start events to clear search data and disable search
-   */
-  subscribeNavigationStarted() {
-    this.router.events
-      .pipe(
-        filter((event) => event instanceof NavigationStart),
-        takeUntil(this.destroy$),
-      )
-      .subscribe(() => {
-        this.showSearch = false;
-      });
-  }
-
-  /**
    * Subscribe to route query params and router events to update context and active map
    */
   subscribeNavigationEnd() {
@@ -80,13 +67,21 @@ export class PageNavigation {
       this.context = params['context'] || null;
     });
 
+    this.lastBaseUrl = this.router.url.split('?')[0];
+
     this.router.events
       .pipe(
         filter((event) => event instanceof NavigationEnd),
         takeUntil(this.destroy$),
       )
-      .subscribe(() => {
+      .subscribe((event: NavigationEnd) => {
         this.updateActiveMap();
+
+        const newBaseUrl = event.urlAfterRedirects.split('?')[0];
+        if (this.lastBaseUrl !== newBaseUrl) {
+          this.showSearch = false;
+          this.lastBaseUrl = newBaseUrl;
+        }
       });
   }
 
