@@ -3,11 +3,12 @@
     class="post-list-element"
     [routerLink]="'/post/'"
     [queryParams]="{
-      post_id: post.id,
-      selectedEntityValue: selectedEntityValue,
-      selectedEntity: selectedEntity,
-      selectedPostType: selectedPostType,
       context: context,
+      endPoint: endPoint,
+      selectedEntity: selectedEntity,
+      selectedEntityValue: selectedEntityValue,
+      selectedPostType: selectedPostType,
+      post_id: post.id,
     }"
   >
     <div class="left-section">
