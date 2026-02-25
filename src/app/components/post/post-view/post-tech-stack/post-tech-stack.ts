@@ -13,12 +13,13 @@ import { SvgIconsService } from '../../../../services/svg.icons.service';
   styleUrl: './post-tech-stack.scss',
 })
 export class PostTechStack {
+  @Input() context: string | null = null;
+  @Input() endPoint: string | null = null;
+
+  @Input() selectedPostType: string | null = null;
+
   @Input() languages: LanguagesInterface[] = [];
   @Input() technologies: TechnologiesInterface[] = [];
-
-  @Input() endPoint: string | null = null;
-  @Input() selectedPostType: string | null = null;
-  @Input() context: string | null = null;
 
   constructor(public svgIconsService: SvgIconsService) {}
 }

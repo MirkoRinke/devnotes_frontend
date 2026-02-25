@@ -9,10 +9,11 @@
           [innerHTML]="svgIconsService.returnIcon(language.name)"
           [routerLink]="'/posts-list'"
           [queryParams]="{
-            entityValue: language.name,
-            entity: 'languages',
-            postType: selectedPostType,
             context: context,
+            endPoint: endPoint,
+            entity: 'languages',
+            entityValue: language.name,
+            postType: selectedPostType,
           }"
         ></button>
       }
@@ -29,10 +30,11 @@
           [innerHTML]="svgIconsService.returnIcon(technology.name)"
           [routerLink]="'/posts-list'"
           [queryParams]="{
-            entityValue: technology.name,
-            entity: 'technologies',
-            postType: selectedPostType,
             context: context,
+            endPoint: endPoint,
+            entity: 'technologies',
+            entityValue: technology.name,
+            postType: selectedPostType,
           }"
         ></button>
       }
