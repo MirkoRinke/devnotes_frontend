@@ -1,20 +1,19 @@
 import { Component, Input } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 import type { TagsInterface } from '../../../../interfaces/tags';
 
 @Component({
   selector: 'app-post-tags',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './post-tags.html',
   styleUrl: './post-tags.scss',
 })
 export class PostTags {
   @Input() tags: TagsInterface[] = [];
 
-  /**
-   * TODO: Implement search function for languages and technologies
-   */
-  searchPlaceholderFunction(item: TagsInterface) {
-    console.log('Search function not implemented yet for item:', item);
-  }
+  @Input() selectedPostType: string | null = null;
+  @Input() selectedEntityValue: string | null = null;
+  @Input() selectedEntity: string | null = null;
+  @Input() context: string | null = null;
 }

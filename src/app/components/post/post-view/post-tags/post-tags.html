@@ -3,7 +3,14 @@
     <button
       class="tag"
       type="button"
-      (click)="searchPlaceholderFunction(tag)"
+      [routerLink]="'/posts-list'"
+      [queryParams]="{
+        entityValue: selectedEntityValue,
+        entity: selectedEntity,
+        postType: selectedPostType,
+        context: context,
+        searchTerm: '#' + tag.name,
+      }"
     >
       {{ tag.name }}
     </button>
