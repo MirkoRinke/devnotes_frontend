@@ -9,15 +9,17 @@
         [queryParams]="
           postType.name === 'All Types'
             ? {
-                entityValue: selectedEntityValue,
-                entity: selectedEntity,
                 context: context,
+                entity: selectedEntity,
+                entityValue: selectedEntityValue,
+                endPoint: endPoint,
               }
             : {
-                entityValue: selectedEntityValue,
-                entity: selectedEntity,
-                postType: postType.name,
                 context: context,
+                entity: selectedEntity,
+                entityValue: selectedEntityValue,
+                endPoint: endPoint,
+                postType: postType.name,
               }
         "
       >

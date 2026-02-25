@@ -26,8 +26,11 @@ import { RegexEnums } from '../../enums/regex';
 })
 export class PostTypesSelection {
   context: string | null = null;
-  selectedEntityValue: string | null = null;
+  endPoint: string | null = null;
+
   selectedEntity: string | null = null;
+  selectedEntityValue: string | null = null;
+
   postTypes: PostTypesInterface[] = [];
   filteredPostTypes: PostTypesInterface[] = [];
 
@@ -103,9 +106,9 @@ export class PostTypesSelection {
   private parseQueryParams(params: Params) {
     return {
       context: params['context'] ?? null,
+      entity: params['entity'] ?? null,
       entityValue: params['entityValue'] ?? null,
       endPoint: params['endPoint'] ?? null,
-      entity: params['entity'] ?? null,
     };
   }
 
@@ -131,9 +134,10 @@ export class PostTypesSelection {
    * @param parsed
    */
   private setSelectedValues(parsed: PostTypesParamsInterface) {
-    this.selectedEntityValue = parsed.entityValue;
-    this.selectedEntity = parsed.entity;
     this.context = parsed.context;
+    this.endPoint = parsed.endPoint;
+    this.selectedEntity = parsed.entity;
+    this.selectedEntityValue = parsed.entityValue;
   }
 
   /**
