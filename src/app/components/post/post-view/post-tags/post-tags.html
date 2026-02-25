@@ -5,10 +5,11 @@
       type="button"
       [routerLink]="'/posts-list'"
       [queryParams]="{
-        entityValue: selectedEntityValue,
-        entity: selectedEntity,
-        postType: selectedPostType,
         context: context,
+        endPoint: endPoint,
+        entity: selectedEntity,
+        entityValue: selectedEntityValue,
+        postType: selectedPostType,
         searchTerm: '#' + tag.name,
       }"
     >

@@ -10,10 +10,12 @@ import type { TagsInterface } from '../../../../interfaces/tags';
   styleUrl: './post-tags.scss',
 })
 export class PostTags {
-  @Input() tags: TagsInterface[] = [];
-
-  @Input() selectedPostType: string | null = null;
-  @Input() selectedEntityValue: string | null = null;
-  @Input() selectedEntity: string | null = null;
   @Input() context: string | null = null;
+  @Input() endPoint: string | null = null;
+
+  @Input() selectedEntity: string | null = null;
+  @Input() selectedEntityValue: string | null = null;
+  @Input() selectedPostType: string | null = null;
+
+  @Input() tags: TagsInterface[] = [];
 }
