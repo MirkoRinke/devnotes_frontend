@@ -212,6 +212,7 @@
     @include button-preset();
     @include display-flex(center, space-between);
     @include font-settings($font-size, 400);
+    gap: px-to-rem(10);
     text-align: left;
     height: $height;
     width: $width;
