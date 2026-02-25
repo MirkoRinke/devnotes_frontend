@@ -78,7 +78,13 @@
 
     <span class="line-break"></span>
 
-    <app-post-tags [tags]="currentPost.tags ?? []"></app-post-tags>
+    <app-post-tags
+      [tags]="currentPost.tags ?? []"
+      [context]="context"
+      [selectedPostType]="selectedPostType"
+      [selectedEntityValue]="selectedEntityValue"
+      [selectedEntity]="selectedEntity"
+    ></app-post-tags>
   </footer>
 
   @if (isPostResourceModalOpen) {

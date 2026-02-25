@@ -28,6 +28,7 @@ import { PostTags } from './post-tags/post-tags';
 export class PostView {
   @Input() post: PostInterface | null = null;
   @Input() selectedEntityValue: string | null = null;
+  @Input() selectedEntity: string | null = null;
   @Input() selectedPostType: string | null = null;
   @Input() context: string | null = null;
 
