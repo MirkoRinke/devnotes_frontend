@@ -1,7 +1,8 @@
 export interface PostParamsInterface {
-  postId: number | null;
-  selectedEntityValue: string | null;
-  selectedEntity: string | null;
-  selectedPostType: string | null;
   context: string | null;
+  endPoint: string | null;
+  selectedEntity: string | null;
+  selectedEntityValue: string | null;
+  selectedPostType: string | null;
+  postId: number | null;
 }
