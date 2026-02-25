@@ -3,10 +3,10 @@
     <app-tech-block
       [class.active]="searchService.searchActive$ | async"
       [attr.aria-hidden]="!(searchService.searchActive$ | async)"
+      [context]="'community'"
       [heading]="'Suchergebnisse'"
       [version]="'search-results'"
       [endPoint]="'POSTS'"
-      [context]="'community'"
       [params]="['?select=count:languages.name', '?select=count:technologies.name']"
     ></app-tech-block>
   }
@@ -15,10 +15,10 @@
     <app-tech-block
       [class.active]="!(searchService.searchActive$ | async)"
       [attr.aria-hidden]="searchService.searchActive$ | async"
+      [context]="'community'"
       [heading]="'Favoriten'"
       [version]="'favorites'"
       [endPoint]="'POSTS'"
-      [context]="'community'"
       [params]="['?select=count:languages.name', '?select=count:technologies.name']"
     ></app-tech-block>
   } @else if (!(searchService.searchActive$ | async)) {
@@ -33,20 +33,20 @@
   <app-tech-block
     [class.active]="!(searchService.searchActive$ | async)"
     [attr.aria-hidden]="searchService.searchActive$ | async"
+    [context]="'community'"
     [heading]="'Sprachen / Frameworks'"
     [version]="'default'"
     [endPoint]="'POSTS'"
-    [context]="'community'"
     [params]="['?select=count:languages.name']"
   ></app-tech-block>
 
   <app-tech-block
     [class.active]="!(searchService.searchActive$ | async)"
     [attr.aria-hidden]="searchService.searchActive$ | async"
+    [context]="'community'"
     [heading]="'Tools'"
     [version]="'default'"
     [endPoint]="'POSTS'"
-    [context]="'community'"
     [params]="['?select=count:technologies.name']"
   ></app-tech-block>
 </section>
