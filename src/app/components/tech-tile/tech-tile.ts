@@ -18,9 +18,10 @@ import { ApiEndpointEnums } from '../../enums/api-endpoint';
   styleUrl: './tech-tile.scss',
 })
 export class TechTile {
-  @Input() tile: AvailableValuesInterface | null = null;
-  @Input() endPoint: string | null = null;
   @Input() context: string | null = null;
+  @Input() endPoint: string | null = null;
+
+  @Input() tile: AvailableValuesInterface | null = null;
 
   favoriteTechStack: Array<string> = [];
 
