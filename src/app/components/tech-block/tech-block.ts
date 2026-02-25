@@ -20,11 +20,13 @@ import { SearchService } from '../../services/search.service';
   styleUrl: './tech-block.scss',
 })
 export class TechBlock implements OnDestroy, OnInit {
-  @Input() heading!: string;
-  @Input() version!: 'default' | 'favorites' | 'search-results';
-  @Input() endPoint!: string;
-  @Input() params!: Array<string>;
   @Input() context: string | null = null;
+  @Input() endPoint: string | null = null;
+
+  @Input() params: Array<string> | null = null;
+
+  @Input() heading: string | null = null;
+  @Input() version: 'default' | 'favorites' | 'search-results' = 'default';
 
   isLoading = true;
 
@@ -52,19 +54,13 @@ export class TechBlock implements OnDestroy, OnInit {
   paginatedTiles: AvailableValuesInterface[] = [];
 
   ngOnInit() {
-    if (!this.params || this.params.length === 0) {
-      console.error(`URL input is required for TechBlock component ${this.heading}`);
+    if (!this.params || this.params.length === 0 || !this.endPoint || !(this.endPoint in ApiEndpointEnums)) {
+      console.error(`URL input and valid Endpoint are required for TechBlock component ${this.heading || ''}`);
       return;
     }
-
-    if (!(this.endPoint in ApiEndpointEnums)) {
-      console.error(`Invalid endPoint provided to TechBlock component ${this.heading}`);
-      return;
-    }
-
     this.setPageSize();
     this.initResizeSubscription();
-    this.getAvailableValues();
+    this.getAvailableValues(this.params, this.endPoint);
 
     this.getUserFavoriteTechStack();
     this.getUserFavoriteUpdate();
@@ -209,9 +205,9 @@ export class TechBlock implements OnDestroy, OnInit {
    * Fetches available values from the service and sorts them before assigning to tiles.
    * Also handles loading state and search results state.
    */
-  private getAvailableValues() {
+  private getAvailableValues(params: Array<string>, endPoint: string) {
     this.availableValuesService
-      .getAvailableValues(this.params, this.endPoint)
+      .getAvailableValues(params, endPoint)
       .pipe(take(1))
       .subscribe((availableValues) => {
         this.availableTiles = this.sortAvailableValues(availableValues);
