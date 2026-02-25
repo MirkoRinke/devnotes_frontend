@@ -35,20 +35,22 @@ import { PostListElement } from '../../components/post-list-element/post-list-el
 })
 export class PostsList {
   context: string | null = null;
-  selectedEntityValue: string | null = null;
+  endPoint: string | null = null;
+
   selectedEntity: string | null = null;
+  selectedEntityValue: string | null = null;
+
   selectedPostType: string | null = null;
   selectedCategory: string | null = null;
-  selectedSort: string | null = null;
   selectedDateFrom: string | null = null;
   selectedDateTo: string | null = null;
+  selectedSort: string | null = null;
 
   today = new Date();
   minDate: string = environment.RELEASE_DATE;
   maxDate: string = this.today.getFullYear() + '-' + String(this.today.getMonth() + 1).padStart(2, '0') + '-' + String(this.today.getDate()).padStart(2, '0');
 
   selectedFields: string = 'id,title,category,likes_count,comments_count,created_at';
-  endPoint: string = 'POSTS';
 
   entityValueParams: string[] = [];
   postTypeParams: string[] = [];
@@ -73,9 +75,9 @@ export class PostsList {
     this.route.queryParams.subscribe((params) => {
       const parsed = this.parseQueryParams(params);
 
-      if (!this.areParamsInvalid(parsed)) {
+      if (!this.areParamsValid(parsed)) {
         this.router.navigate(['/']);
-        console.warn('Missing required query parameters.');
+        console.warn('Missing or invalid query parameters. Redirecting to home page.');
         return;
       }
 
@@ -126,8 +128,9 @@ export class PostsList {
   private parseQueryParams(params: Params): PostListParamsInterface {
     return {
       context: params['context'] ?? null,
-      entityValue: params['entityValue'] ?? null,
+      endPoint: params['endPoint'] ?? null,
       entity: params['entity'] ?? null,
+      entityValue: params['entityValue'] ?? null,
       postType: params['postType'] ?? null,
       category: params['category'] ?? null,
       dateFrom: params['dateFrom'] ?? null,
@@ -145,8 +148,10 @@ export class PostsList {
    * @param param0
    * @returns
    */
-  private areParamsInvalid(parsed: PostListParamsInterface): boolean {
+  private areParamsValid(parsed: PostListParamsInterface): boolean {
     return (
+      parsed.endPoint !== null &&
+      parsed.endPoint in ApiEndpointEnums &&
       parsed.entityValue !== null &&
       new RegExp(RegexEnums.entityValue).test(parsed.entityValue) &&
       Object.values(PostListAllowedEntitiesEnums).includes(parsed.entity as PostListAllowedEntitiesEnums) &&
@@ -164,8 +169,9 @@ export class PostsList {
    */
   private setSelectedValues(parsed: PostListParamsInterface) {
     this.context = parsed.context;
-    this.selectedEntityValue = parsed.entityValue;
+    this.endPoint = parsed.endPoint;
     this.selectedEntity = parsed.entity;
+    this.selectedEntityValue = parsed.entityValue;
     this.selectedPostType = parsed.postType;
     this.selectedCategory = parsed.category;
     this.selectedSort = parsed.sort;
@@ -179,7 +185,7 @@ export class PostsList {
    * @returns
    */
   changeDetectionValue(): string {
-    return 'changeDetectionValues' + this.selectedEntityValue + this.selectedPostType + this.selectedCategory + this.selectedSort;
+    return 'changeDetectionValues' + this.endPoint + this.selectedEntity + this.selectedEntityValue + this.selectedPostType + this.selectedCategory + this.selectedSort;
   }
 
   /**
@@ -196,6 +202,8 @@ export class PostsList {
    * @param sort The sort order
    */
   private getPostsList(parsed: PostListParamsInterface) {
+    if (!parsed.endPoint) return;
+
     let params = new HttpParams().set('select', this.selectedFields).set('page', parsed.page.toString()).set('per_page', parsed.perPage.toString());
     if (parsed.postType) params = params.set('filter[post_type]', parsed.postType);
     if (parsed.entityValue) params = params.set(`filter[${parsed.entity}.name]`, `eq:${parsed.entityValue}`);
@@ -209,8 +217,7 @@ export class PostsList {
 
     const options = { params };
 
-    //TODO dynamic endpoint based on context
-    const url = ApiEndpointEnums.POSTS + '?' + options.params.toString();
+    const url = ApiEndpointEnums[parsed.endPoint as keyof typeof ApiEndpointEnums] + '?' + options.params.toString();
 
     console.log('Fetching posts with URL:', url, Math.random()); // Add random number to prevent caching during development
 
@@ -261,10 +268,13 @@ export class PostsList {
    * @param dropdowns Array of dropdowns to validate
    */
   private validateDropdownParams(parsed: PostListParamsInterface) {
-    const dropdowns = [{ key: 'entityValue', params: this.entityValueParams, endPoint: this.endPoint, selected: parsed.entityValue }];
+    // This is only for your TypeScript compiler :)
+    if (!parsed.endPoint) return;
 
-    if (parsed.category !== null) dropdowns.push({ key: 'category', params: this.categoryParams, endPoint: this.endPoint, selected: parsed.category });
-    if (parsed.postType !== null) dropdowns.push({ key: 'postType', params: this.postTypeParams, endPoint: this.endPoint, selected: parsed.postType });
+    const dropdowns = [{ key: 'entityValue', params: this.entityValueParams, endPoint: parsed.endPoint, selected: parsed.entityValue }];
+
+    if (parsed.category !== null) dropdowns.push({ key: 'category', params: this.categoryParams, endPoint: parsed.endPoint, selected: parsed.category });
+    if (parsed.postType !== null) dropdowns.push({ key: 'postType', params: this.postTypeParams, endPoint: parsed.endPoint, selected: parsed.postType });
 
     const requests = dropdowns.map((dropdown) => this.availableValuesService.getAvailableValues(dropdown.params, dropdown.endPoint).pipe(take(1)));
 

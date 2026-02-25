@@ -71,11 +71,12 @@
     } @else {
       @for (post of postsList; track $index) {
         <app-post-list-element
-          [post]="post"
-          [selectedEntityValue]="selectedEntityValue"
-          [selectedEntity]="selectedEntity"
-          [selectedPostType]="selectedPostType"
           [context]="context"
+          [endPoint]="endPoint"
+          [post]="post"
+          [selectedEntity]="selectedEntity"
+          [selectedEntityValue]="selectedEntityValue"
+          [selectedPostType]="selectedPostType"
         ></app-post-list-element>
       }
     }
