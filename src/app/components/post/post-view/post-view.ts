@@ -26,11 +26,14 @@ import { PostTags } from './post-tags/post-tags';
   styleUrl: './post-view.scss',
 })
 export class PostView {
-  @Input() post: PostInterface | null = null;
-  @Input() selectedEntityValue: string | null = null;
-  @Input() selectedEntity: string | null = null;
-  @Input() selectedPostType: string | null = null;
   @Input() context: string | null = null;
+  @Input() endPoint: string | null = null;
+
+  @Input() selectedEntity: string | null = null;
+  @Input() selectedEntityValue: string | null = null;
+  @Input() selectedPostType: string | null = null;
+
+  @Input() post: PostInterface | null = null;
 
   currentPost: PostInterface = {} as PostInterface;
 

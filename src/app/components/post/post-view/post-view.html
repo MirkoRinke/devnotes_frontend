@@ -54,8 +54,8 @@
     <p class="description">{{ currentPost.description }}</p>
     @if (currentPost.code && currentPost.code.trim() !== '') {
       <app-post-code
-        [code]="currentPost.code"
         [language]="selectedEntityValue"
+        [code]="currentPost.code"
       ></app-post-code>
     }
   </section>
@@ -63,11 +63,11 @@
   <footer class="footer">
     <div class="footer-meta">
       <app-post-tech-stack
+        [context]="context"
+        [endPoint]="endPoint"
+        [selectedPostType]="selectedPostType"
         [languages]="currentPost.languages ?? []"
         [technologies]="currentPost.technologies ?? []"
-        [endPoint]="'POSTS'"
-        [context]="context"
-        [selectedPostType]="selectedPostType"
       ></app-post-tech-stack>
 
       <app-post-media-links
@@ -79,11 +79,12 @@
     <span class="line-break"></span>
 
     <app-post-tags
-      [tags]="currentPost.tags ?? []"
       [context]="context"
-      [selectedPostType]="selectedPostType"
-      [selectedEntityValue]="selectedEntityValue"
+      [endPoint]="endPoint"
       [selectedEntity]="selectedEntity"
+      [selectedEntityValue]="selectedEntityValue"
+      [selectedPostType]="selectedPostType"
+      [tags]="currentPost.tags ?? []"
     ></app-post-tags>
   </footer>
 
