@@ -1,38 +1,41 @@
-<article
-  class="post-list-element"
-  [routerLink]="'/post/'"
-  [queryParams]="{
-    post_id: post.id,
-    selectedEntityValue: selectedEntityValue,
-    selectedPostType: selectedPostType,
-    context: context,
-  }"
->
-  <div class="left-section">
-    <h3 class="title">{{ post.title }}</h3>
+@if (post) {
+  <article
+    class="post-list-element"
+    [routerLink]="'/post/'"
+    [queryParams]="{
+      post_id: post.id,
+      selectedEntityValue: selectedEntityValue,
+      selectedEntity: selectedEntity,
+      selectedPostType: selectedPostType,
+      context: context,
+    }"
+  >
+    <div class="left-section">
+      <h3 class="title">{{ post.title }}</h3>
 
-    <div class="metadata">
-      <time [attr.datetime]="post.created_at">{{ post.created_at | date: 'mediumDate' }}</time>
-      <span> | {{ post.category }}</span>
-    </div>
-  </div>
-
-  <div class="right-section">
-    <div class="engagement-metrics">
-      <div class="metric">
-        <span class="count">{{ post.comments_count }}</span>
-        <span
-          class="icon"
-          [innerHTML]="svgIconsService.returnIcon('comment')"
-        ></span>
-      </div>
-      <div class="metric">
-        <span class="count">{{ post.likes_count }}</span>
-        <span
-          class="icon"
-          [innerHTML]="svgIconsService.returnIcon('like')"
-        ></span>
+      <div class="metadata">
+        <time [attr.datetime]="post.created_at">{{ post.created_at | date: 'mediumDate' }}</time>
+        <span> | {{ post.category }}</span>
       </div>
     </div>
-  </div>
-</article>
+
+    <div class="right-section">
+      <div class="engagement-metrics">
+        <div class="metric">
+          <span class="count">{{ post.comments_count }}</span>
+          <span
+            class="icon"
+            [innerHTML]="svgIconsService.returnIcon('comment')"
+          ></span>
+        </div>
+        <div class="metric">
+          <span class="count">{{ post.likes_count }}</span>
+          <span
+            class="icon"
+            [innerHTML]="svgIconsService.returnIcon('like')"
+          ></span>
+        </div>
+      </div>
+    </div>
+  </article>
+}
