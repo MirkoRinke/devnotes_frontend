@@ -23,6 +23,7 @@ import { PostForm } from '../../components/post/post-form/post-form';
 export class Post {
   post: PostInterface = {} as PostInterface;
   selectedEntityValue: string | null = null;
+  selectedEntity: string | null = null;
   selectedPostType: string | null = null;
   context: string | null = null;
 
@@ -63,6 +64,7 @@ export class Post {
     return {
       postId: parseInt(params['post_id']) ?? null,
       selectedEntityValue: params['selectedEntityValue'] ?? null,
+      selectedEntity: params['selectedEntity'] ?? null,
       selectedPostType: params['selectedPostType'] ?? null,
       context: params['context'] ?? null,
     };
@@ -73,9 +75,11 @@ export class Post {
    *
    * @param selectedEntityValue
    * @param selectedPostType
+   * @param selectedEntity
    */
   private setSelectedValues(parsed: PostParamsInterface): void {
     this.selectedEntityValue = parsed.selectedEntityValue;
+    this.selectedEntity = parsed.selectedEntity;
     this.selectedPostType = parsed.selectedPostType;
   }
 
