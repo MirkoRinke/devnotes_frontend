@@ -1,11 +1,12 @@
 @if (postDataLoaded || mode === 'create') {
   @if (mode === 'view') {
     <app-post-view
-      [post]="post"
-      [selectedEntityValue]="selectedEntityValue"
-      [selectedEntity]="selectedEntity"
-      [selectedPostType]="selectedPostType"
       [context]="context"
+      [endPoint]="endPoint"
+      [selectedEntity]="selectedEntity"
+      [selectedEntityValue]="selectedEntityValue"
+      [selectedPostType]="selectedPostType"
+      [post]="post"
       (modeChange)="mode = $event"
     ></app-post-view>
   } @else if (mode === 'edit' || mode === 'create') {

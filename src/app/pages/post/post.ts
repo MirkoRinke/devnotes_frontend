@@ -21,11 +21,15 @@ import { PostForm } from '../../components/post/post-form/post-form';
   styleUrl: './post.scss',
 })
 export class Post {
-  post: PostInterface = {} as PostInterface;
-  selectedEntityValue: string | null = null;
-  selectedEntity: string | null = null;
-  selectedPostType: string | null = null;
   context: string | null = null;
+  endPoint: string | null = null;
+
+  selectedEntity: string | null = null;
+  selectedEntityValue: string | null = null;
+
+  selectedPostType: string | null = null;
+
+  post: PostInterface = {} as PostInterface;
 
   postDataLoaded: boolean = false;
   mode = 'view';
@@ -41,8 +45,6 @@ export class Post {
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       const parsed: PostParamsInterface = this.parseQueryParams(params);
-      this.context = parsed.context;
-
       if (parsed.postId === null || !Number.isInteger(parsed.postId)) {
         this.router.navigate(['/']);
         console.warn('Missing required query parameters');
@@ -62,11 +64,12 @@ export class Post {
    */
   private parseQueryParams(params: Params): PostParamsInterface {
     return {
-      postId: parseInt(params['post_id']) ?? null,
-      selectedEntityValue: params['selectedEntityValue'] ?? null,
-      selectedEntity: params['selectedEntity'] ?? null,
-      selectedPostType: params['selectedPostType'] ?? null,
       context: params['context'] ?? null,
+      endPoint: params['endPoint'] ?? null,
+      postId: parseInt(params['post_id']) ?? null,
+      selectedEntity: params['selectedEntity'] ?? null,
+      selectedEntityValue: params['selectedEntityValue'] ?? null,
+      selectedPostType: params['selectedPostType'] ?? null,
     };
   }
 
@@ -78,8 +81,10 @@ export class Post {
    * @param selectedEntity
    */
   private setSelectedValues(parsed: PostParamsInterface): void {
-    this.selectedEntityValue = parsed.selectedEntityValue;
+    this.context = parsed.context;
+    this.endPoint = parsed.endPoint;
     this.selectedEntity = parsed.selectedEntity;
+    this.selectedEntityValue = parsed.selectedEntityValue;
     this.selectedPostType = parsed.selectedPostType;
   }
 
