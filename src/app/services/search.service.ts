@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { Router } from '@angular/router';
+import type { Params } from '@angular/router';
 
 @Injectable({ providedIn: 'root' })
 export class SearchService {
@@ -23,6 +25,8 @@ export class SearchService {
   searchMode$ = this._searchMode.asObservable();
   cageIcon$ = this._cageIcon.asObservable();
   splitSearchValueInput$ = this._splitSearchValueInput.asObservable();
+
+  constructor(private router: Router) {}
 
   /**
    * Enable or disable search functionality
@@ -52,12 +56,51 @@ export class SearchService {
     this._searchValue.next(value);
     this.splitSearchValueInput(value);
     this.setSearchActive(value !== null && value.length > 0);
+    this.updateUrlParameters(value);
   }
 
+  /**
+   * Split search value into tags and text
+   *
+   * @param value
+   */
   splitSearchValueInput(value: string | null) {
     const tags = value?.match(/#[\w-]+/g)?.map((t) => t.substring(1)) || null;
     const text = value?.replace(/#[\w-]+/g, '').trim() || '';
     this._splitSearchValueInput.next({ tags, text });
+  }
+
+  /**
+   * Initialize search value from URL parameters
+   *
+   * @param params
+   */
+  syncFromParameters(params: Params) {
+    const term = params['searchTerm'] || null;
+    this.searchValueInput(term);
+  }
+
+  /**
+   * Update URL parameters with current search value
+   *
+   * @param inputValue
+   * @returns
+   */
+  updateUrlParameters(inputValue: string | null) {
+    if (this._searchMode.getValue() === null) return;
+
+    const currentUrlTree = this.router.parseUrl(this.router.url);
+    const currentUrlValue = currentUrlTree.queryParams['searchTerm'] || null;
+
+    const newValue = inputValue && inputValue.length > 0 ? inputValue : null;
+
+    if (newValue !== currentUrlValue) {
+      this.router.navigate([], {
+        queryParams: { searchTerm: newValue, page: null },
+        queryParamsHandling: 'merge',
+        replaceUrl: true,
+      });
+    }
   }
 
   /**
