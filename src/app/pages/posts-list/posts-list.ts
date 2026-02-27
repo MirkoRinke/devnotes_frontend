@@ -81,42 +81,20 @@ export class PostsList {
         return;
       }
 
-      if (parsed.searchTerm) {
-        this.searchService.searchValueInput(parsed.searchTerm);
-      }
-
       this.setSelectedValues(parsed);
       this.setParams(parsed);
       this.validateDropdownParams(parsed);
+
+      this.searchService.syncFromParameters(params);
       this.searchService.cageIcon(parsed.entityValue);
     });
     this.searchService.searchMode('posts-list');
     this.searchService.enableSearch(true);
-    this.searchValueInput();
   }
 
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
-  }
-
-  /**
-   * Subscribe to search value changes and update query params accordingly
-   */
-  searchValueInput() {
-    this.searchService.searchValue$.pipe(takeUntil(this.destroy$)).subscribe((inputValue) => {
-      const currentUrlValue = this.route.snapshot.queryParams['searchTerm'] || null;
-      const newValue = inputValue && inputValue.length > 0 ? inputValue : null;
-
-      if (newValue !== currentUrlValue) {
-        console.log('Update URL params:', newValue);
-        this.router.navigate([], {
-          queryParams: { searchTerm: newValue },
-          queryParamsHandling: 'merge',
-          replaceUrl: true,
-        });
-      }
-    });
   }
 
   /**
