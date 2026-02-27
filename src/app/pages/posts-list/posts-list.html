@@ -2,7 +2,7 @@
   <aside class="query-bar">
     <section class="filter">
       <app-query-params-dropdown
-        [label]="'Tech-Stack'"
+        [label]="selectedEntity === 'languages' ? 'Sprache/Framework' : selectedEntity === 'technologies' ? 'Tool' : 'Entität'"
         [key]="'entityValue'"
         [defaultValueLabel]="selectedEntityValue"
         [defaultValue]="selectedEntityValue"
