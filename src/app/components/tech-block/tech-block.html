@@ -1,6 +1,15 @@
 <section class="tech-block">
   <header class="header">
     <h2 class="heading">{{ heading }} | {{ currentPage + 1 }} / {{ totalPages }}</h2>
+    @if (version === 'favorites') {
+      <button
+        class="refresh"
+        [class.startAnimation]="refreshFeedbackAnimation"
+        (click)="clearFavoriteUpdate()"
+        [innerHTML]="svgIconsService.returnIcon('refresh')"
+        (animationend)="onAnimationEnd($event)"
+      ></button>
+    }
   </header>
   @if (isLoading) {
     <h3>Loading...</h3>

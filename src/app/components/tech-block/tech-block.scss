@@ -7,11 +7,51 @@
 
   .header {
     @include display-flex(center, start, row);
-    gap: px-to-rem(50);
+    gap: px-to-rem(15);
     margin-bottom: px-to-rem(25);
 
     .heading {
       @include font-settings(24);
+    }
+
+    .refresh {
+      @include button-preset();
+      width: px-to-rem(30);
+      height: px-to-rem(30);
+
+      transition: fill var.$transition-duration-medium ease-in-out;
+
+      &.startAnimation {
+        animation: rotate var.$transition-duration-extra-slow linear;
+
+        &::ng-deep .refresh {
+          fill: var(--font-primary-color-100);
+          transition: fill var.$transition-duration-medium ease-in-out;
+        }
+      }
+
+      &:hover {
+        &::ng-deep .refresh {
+          fill: var(--font-primary-color-100);
+          transition: fill var.$transition-duration-medium ease-in-out;
+        }
+      }
+
+      &::ng-deep .refresh {
+        width: 100%;
+        height: 100%;
+        fill: var(--font-primary-color-50);
+        transition: fill var.$transition-duration-medium ease-in-out;
+      }
+
+      @keyframes rotate {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
     }
   }
 

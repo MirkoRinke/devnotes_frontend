@@ -10,6 +10,7 @@ import type { AvailableValuesInterface } from '../../interfaces/available-values
 import { ApiEndpointEnums } from '../../enums/api-endpoint';
 
 import { UserFavoriteTechnologiesService } from '../../services/user-favorite-technologies.service';
+import { SvgIconsService } from '../../services/svg.icons.service';
 import { AvailableValuesService } from '../../services/available-values.service';
 import { SearchService } from '../../services/search.service';
 
@@ -40,7 +41,8 @@ export class TechBlock implements OnDestroy, OnInit {
   private resize$ = new Subject<void>();
 
   constructor(
-    private userFavoriteTechnologiesService: UserFavoriteTechnologiesService,
+    public userFavoriteTechnologiesService: UserFavoriteTechnologiesService,
+    public svgIconsService: SvgIconsService,
     private availableValuesService: AvailableValuesService,
     private searchService: SearchService,
     private elementRef: ElementRef,
@@ -50,6 +52,8 @@ export class TechBlock implements OnDestroy, OnInit {
   filteredTiles: AvailableValuesInterface[] = [];
   favoriteTechStack: Array<string> = [];
   favoriteUpdateStack: Array<string> = [];
+
+  refreshFeedbackAnimation: boolean = false;
 
   paginatedTiles: AvailableValuesInterface[] = [];
 
@@ -258,5 +262,24 @@ export class TechBlock implements OnDestroy, OnInit {
       this.setCurrentTiles();
       this.refreshPagination();
     });
+  }
+
+  /**
+   * Clears the favorite update stack and triggers the refresh animation for visual feedback.
+   */
+  public clearFavoriteUpdate() {
+    this.userFavoriteTechnologiesService.clearFavoriteUpdate();
+    this.refreshFeedbackAnimation = true;
+  }
+
+  /**
+   * Handle animation end events
+   *
+   * @param event
+   */
+  onAnimationEnd(event: AnimationEvent) {
+    if (event.animationName.endsWith('rotate')) {
+      this.refreshFeedbackAnimation = false;
+    }
   }
 }
