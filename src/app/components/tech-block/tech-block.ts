@@ -208,6 +208,8 @@ export class TechBlock implements OnDestroy, OnInit {
    * @returns The numeric value in pixels.
    */
   private parseCssValue(value: string): number {
+    if (!value) return 0;
+
     const rootFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
 
     if (value.endsWith('rem')) {
