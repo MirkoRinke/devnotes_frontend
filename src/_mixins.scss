@@ -24,10 +24,11 @@
   flex-direction: $direction;
 }
 
-@mixin display-grid($align: stretch, $justify: stretch) {
+@mixin display-grid($align: stretch, $justify: stretch, $justify-content: unset) {
   display: grid;
   align-items: $align;
   justify-items: $justify;
+  justify-content: $justify-content;
 }
 
 @mixin font-settings($font-size: 16, $font-weight: 400, $color: var(--font-primary-color), $font-family: 'FiraCode') {
