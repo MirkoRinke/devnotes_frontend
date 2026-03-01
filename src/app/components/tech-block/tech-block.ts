@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy, HostListener, ElementRef } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, HostListener, ElementRef, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { Subject } from 'rxjs';
 import { take, takeUntil, debounceTime } from 'rxjs/operators';
 
@@ -40,14 +40,6 @@ export class TechBlock implements OnDestroy, OnInit {
   private destroy$ = new Subject<void>();
   private resize$ = new Subject<void>();
 
-  constructor(
-    public userFavoriteTechnologiesService: UserFavoriteTechnologiesService,
-    public svgIconsService: SvgIconsService,
-    private availableValuesService: AvailableValuesService,
-    private searchService: SearchService,
-    private elementRef: ElementRef,
-  ) {}
-
   availableTiles: AvailableValuesInterface[] = [];
   filteredTiles: AvailableValuesInterface[] = [];
   favoriteTechStack: Array<string> = [];
@@ -56,13 +48,23 @@ export class TechBlock implements OnDestroy, OnInit {
   refreshFeedbackAnimation: boolean = false;
 
   paginatedTiles: AvailableValuesInterface[] = [];
+  containerSize: ElementRef | null = null;
+  private initialLoad = true;
+
+  constructor(
+    public userFavoriteTechnologiesService: UserFavoriteTechnologiesService,
+    public svgIconsService: SvgIconsService,
+    private availableValuesService: AvailableValuesService,
+    private searchService: SearchService,
+    private elementRef: ElementRef,
+    private cdr: ChangeDetectorRef,
+  ) {}
 
   ngOnInit() {
     if (!this.params || this.params.length === 0 || !this.endPoint || !(this.endPoint in ApiEndpointEnums)) {
       console.error(`URL input and valid Endpoint are required for TechBlock component ${this.heading || ''}`);
       return;
     }
-    this.setPageSize();
     this.initResizeSubscription();
     this.getAvailableValues(this.params, this.endPoint);
 
@@ -139,23 +141,57 @@ export class TechBlock implements OnDestroy, OnInit {
   }
 
   /**
-   * Sets the page size based on the current window width.
-   * TODO Make this function more dynamic in the future.
+   * Sets the reference to the container element and calculates the page size based on its width.
+   *
+   * @param element
+   */
+  @ViewChild('tilesContainer') set tilesContainerRef(element: ElementRef) {
+    if (element) {
+      this.containerSize = element;
+      requestAnimationFrame(() => {
+        this.setPageSize();
+      });
+    }
+  }
+
+  /**
+   * Sets the page size based on the container width and calculates how many tiles can fit per row, then multiplies by 2 for the page size.
    */
   private setPageSize() {
+    /**
+     * Check if the container reference is available and has a valid width before proceeding with calculations.
+     */
+    if (!this.containerSize?.nativeElement) return;
+    const container = this.containerSize.nativeElement;
+    const width = container.offsetWidth || 0;
+    if (width === 0) return;
+
+    /**
+     * Get the tile size and gap from CSS variables.
+     * This allows the page size to dynamically adjust based on the actual rendered size of the tiles and gaps, which is crucial for responsive design.
+     */
+    const computedStyle = getComputedStyle(container);
+    const cssTileSizeStr = computedStyle.getPropertyValue('--tile-width').trim();
+    const cssGapStr = computedStyle.getPropertyValue('--column-gap').trim();
+    const tileSize = this.parseCssValue(cssTileSizeStr);
+    const gap = this.parseCssValue(cssGapStr);
+
+    const tilesPerRow = Math.max(1, Math.floor((width + gap) / (tileSize + gap)));
+    const rowsPerPage = 2;
+
+    this.pageSize = tilesPerRow * rowsPerPage;
+
+    /**
+     * Store the currently active element before changing the page size, so we can blur it
+     * if the page size changes and the active element is within this component, to prevent focus issues when the layout changes.
+     */
     const active = document.activeElement as HTMLElement | null;
     const snapPageSize = this.pageSize;
 
-    if (this.windowWidth >= 3440) {
-      this.pageSize = 28;
-    } else if (this.windowWidth >= 2560) {
-      this.pageSize = 20;
-    } else if (this.windowWidth >= 1920) {
-      this.pageSize = 14;
-    } else if (this.windowWidth >= 1280) {
-      this.pageSize = 8;
-    } else {
-      this.pageSize = 6;
+    if (snapPageSize !== this.pageSize || this.initialLoad) {
+      this.refreshPagination();
+      this.initialLoad = false;
+      this.cdr.detectChanges();
     }
 
     if (snapPageSize !== this.pageSize) {
@@ -163,6 +199,22 @@ export class TechBlock implements OnDestroy, OnInit {
         active.blur();
       }
     }
+  }
+
+  /**
+   * Parses a CSS value string (e.g., "100px", "2rem") and converts it to a number of pixels.
+   *
+   * @param value The CSS value string to parse.
+   * @returns The numeric value in pixels.
+   */
+  private parseCssValue(value: string): number {
+    const rootFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
+
+    if (value.endsWith('rem')) {
+      return parseFloat(value) * rootFontSize;
+    }
+
+    return parseFloat(value);
   }
 
   /**
