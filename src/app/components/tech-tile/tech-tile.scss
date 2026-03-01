@@ -5,8 +5,9 @@
 .tile {
   @include display-flex(center, center, column);
   background-color: var(--page-primary-color-100);
-  width: px-to-rem(160);
-  height: px-to-rem(160);
+  width: var(--tile-width);
+  height: var(--tile-height);
+
   border-radius: px-to-rem(15);
   padding-block: px-to-rem(5);
 
