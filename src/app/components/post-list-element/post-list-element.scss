@@ -6,10 +6,9 @@
   @include display-flex(center, space-between, row);
   background-color: var(--page-primary-color-100);
   border-radius: px-to-rem(15);
-  margin-block: px-to-rem(25);
   padding-inline: px-to-rem(50);
 
-  min-height: px-to-rem(80);
+  min-height: var(--list-element-min-height);
 
   transition: box-shadow var.$transition-duration-medium ease-in-out;
   &:hover {
