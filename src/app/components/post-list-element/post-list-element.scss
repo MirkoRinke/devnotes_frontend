@@ -9,6 +9,7 @@
   padding-inline: px-to-rem(50);
 
   min-height: var(--list-element-min-height);
+  max-height: var(--list-element-max-height);
 
   transition: box-shadow var.$transition-duration-medium ease-in-out;
   &:hover {
