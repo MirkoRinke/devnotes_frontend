@@ -6,6 +6,8 @@
   @include display-flex(center, center);
   gap: px-to-rem(10);
 
+  height: var(--pagination-height);
+
   .first-page,
   .previous-page,
   .next-page,
