@@ -14,6 +14,8 @@ import { SvgIconsService } from '../../services/svg.icons.service';
 import { AvailableValuesService } from '../../services/available-values.service';
 import { SearchService } from '../../services/search.service';
 
+import { getCssVariableValue, getElementSizeFrom } from '../../utils/css-helper';
+
 @Component({
   selector: 'app-tech-block',
   imports: [TechTile, PageStepper],
@@ -34,8 +36,6 @@ export class TechBlock implements OnDestroy, OnInit {
   pageSize = 10;
   currentPage: number = 0;
   totalPages: number = 0;
-
-  windowWidth: number = window.innerWidth || 1920;
 
   private destroy$ = new Subject<void>();
   private resize$ = new Subject<void>();
@@ -134,9 +134,7 @@ export class TechBlock implements OnDestroy, OnInit {
    */
   private initResizeSubscription() {
     this.resize$.pipe(debounceTime(200), takeUntil(this.destroy$)).subscribe(() => {
-      this.windowWidth = window.innerWidth;
-      this.setPageSize();
-      this.refreshPagination();
+      this.tilesPerPage();
     });
   }
 
@@ -149,37 +147,30 @@ export class TechBlock implements OnDestroy, OnInit {
     if (element) {
       this.containerSize = element;
       requestAnimationFrame(() => {
-        this.setPageSize();
+        this.resize$.next();
       });
     }
   }
 
   /**
-   * Sets the page size based on the container width and calculates how many tiles can fit per row, then multiplies by 2 for the page size.
+   * Calculates the number of tiles that can fit on a page based on the container width, tile size, and gap.
    */
-  private setPageSize() {
-    /**
-     * Check if the container reference is available and has a valid width before proceeding with calculations.
-     */
+  private tilesPerPage() {
     if (!this.containerSize?.nativeElement) return;
     const container = this.containerSize.nativeElement;
-    const width = container.offsetWidth || 0;
-    if (width === 0) return;
+    const containerWidth = getElementSizeFrom(container, 'width');
+    if (containerWidth === 0) return;
 
     /**
      * Get the tile size and gap from CSS variables.
      * This allows the page size to dynamically adjust based on the actual rendered size of the tiles and gaps, which is crucial for responsive design.
      */
-    const computedStyle = getComputedStyle(container);
-    const cssTileSizeStr = computedStyle.getPropertyValue('--tile-width').trim();
-    const cssGapStr = computedStyle.getPropertyValue('--column-gap').trim();
-    const tileSize = this.parseCssValue(cssTileSizeStr);
-    const gap = this.parseCssValue(cssGapStr);
+    const style = getComputedStyle(container);
+    const tileSize = getCssVariableValue(style, '--tile-width');
+    const gap = getCssVariableValue(style, '--column-gap');
 
-    const tilesPerRow = Math.max(1, Math.floor((width + gap) / (tileSize + gap)));
+    const tilesPerRow = Math.max(1, Math.floor((containerWidth + gap) / (tileSize + gap)));
     const rowsPerPage = 2;
-
-    this.pageSize = tilesPerRow * rowsPerPage;
 
     /**
      * Store the currently active element before changing the page size, so we can blur it
@@ -187,6 +178,8 @@ export class TechBlock implements OnDestroy, OnInit {
      */
     const active = document.activeElement as HTMLElement | null;
     const snapPageSize = this.pageSize;
+
+    this.pageSize = tilesPerRow * rowsPerPage;
 
     if (snapPageSize !== this.pageSize || this.initialLoad) {
       this.refreshPagination();
@@ -199,24 +192,6 @@ export class TechBlock implements OnDestroy, OnInit {
         active.blur();
       }
     }
-  }
-
-  /**
-   * Parses a CSS value string (e.g., "100px", "2rem") and converts it to a number of pixels.
-   *
-   * @param value The CSS value string to parse.
-   * @returns The numeric value in pixels.
-   */
-  private parseCssValue(value: string): number {
-    if (!value) return 0;
-
-    const rootFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
-
-    if (value.endsWith('rem')) {
-      return parseFloat(value) * rootFontSize;
-    }
-
-    return parseFloat(value);
   }
 
   /**
