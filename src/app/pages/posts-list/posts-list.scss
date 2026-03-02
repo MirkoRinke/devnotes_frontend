@@ -6,11 +6,17 @@
   @include display-flex(stretch, start, column);
   flex-grow: 1;
   width: 100%;
+
+  --list-element-min-height: #{px-to-rem(80)};
+  --posts-list-gap: #{px-to-rem(25)};
+  --post-list-page-gap: #{px-to-rem(25)};
+  --pagination-height: #{px-to-rem(50)};
 }
 
 .posts-list-page {
   @include display-flex(stretch, start, column);
   flex-grow: 1;
+  gap: var(--post-list-page-gap);
 
   .query-bar {
     @include display-flex(center, space-between);
@@ -33,7 +39,10 @@
   }
 
   .posts-list {
+    @include display-flex(stretch, start, column);
     flex-grow: 1;
+
+    gap: var(--posts-list-gap);
 
     .statusMessage {
       padding: px-to-rem(25) px-to-rem(50);

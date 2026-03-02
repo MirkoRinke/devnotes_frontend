@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, HostListener, ElementRef, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpParams } from '@angular/common/http';
 
-import { Subject } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { Subject, Subscription } from 'rxjs';
+import { take, takeUntil, debounceTime } from 'rxjs/operators';
 import { forkJoin } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
@@ -16,6 +16,8 @@ import { ApiService } from '../../services/api.service';
 import { AvailableValuesService } from '../../services/available-values.service';
 import { SearchService } from '../../services/search.service';
 
+import { getCssVariableValue, getHeightById, getElementPositionFrom } from '../../utils/css-helper';
+
 import type { ApiResponseArrayInterface } from '../../interfaces/api-response';
 import type { PostInterface } from '../../interfaces/post';
 import type { PaginationInfoInterface } from '../../interfaces/pagination-info';
@@ -25,6 +27,7 @@ import type { Params } from '@angular/router';
 import { ApiEndpointEnums } from '../../enums/api-endpoint';
 import { PostListAllowedEntitiesEnums } from '../../enums/post-list-allowed-entities';
 import { RegexEnums } from '../../enums/regex';
+
 import { PostListElement } from '../../components/post-list-element/post-list-element';
 
 @Component({
@@ -59,8 +62,17 @@ export class PostsList {
   postsList: PostInterface[] = [];
   paginationInfo: PaginationInfoInterface<PostInterface> = {} as PaginationInfoInterface<PostInterface>;
 
+  perPage: number | null = null;
+  containerSize: ElementRef | null = null;
+
+  @ViewChild('paginationRef', { read: ElementRef }) paginationRef!: ElementRef;
+
+  private initialLoad = true;
+  private resizeSub: Subscription | null = null;
+
   statusMessage: string | null = null;
 
+  private resize$ = new Subject<void>();
   private destroy$ = new Subject<void>();
 
   constructor(
@@ -69,6 +81,8 @@ export class PostsList {
     private apiService: ApiService,
     private availableValuesService: AvailableValuesService,
     private searchService: SearchService,
+    private elementRef: ElementRef,
+    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit() {
@@ -83,7 +97,9 @@ export class PostsList {
 
       this.setSelectedValues(parsed);
       this.setParams(parsed);
-      this.validateDropdownParams(parsed);
+
+      this.initResizeSubscription(parsed);
+      this.listElementsPerPage(parsed, true);
 
       this.searchService.syncFromParameters(params);
       this.searchService.cageIcon(parsed.entityValue);
@@ -167,6 +183,109 @@ export class PostsList {
   }
 
   /**
+   * Sets the reference to the container element and calculates the page size based on its width.
+   *
+   * @param element
+   */
+  @ViewChild('postListContainer') set postListContainerRef(element: ElementRef) {
+    if (element) {
+      this.containerSize = element;
+      requestAnimationFrame(() => {
+        this.resize$.next();
+      });
+    }
+  }
+
+  /**
+   * Handles window resize events.
+   */
+  @HostListener('window:resize')
+  onResize() {
+    this.resize$.next();
+  }
+
+  /**
+   * Initializes the resize subscription to handle window resize events.
+   */
+  private initResizeSubscription(parsed: PostListParamsInterface) {
+    if (this.resizeSub) {
+      this.resizeSub.unsubscribe();
+    }
+
+    this.resizeSub = this.resize$.pipe(debounceTime(200), takeUntil(this.destroy$)).subscribe(() => {
+      this.listElementsPerPage(parsed, false);
+    });
+  }
+
+  private listElementsPerPage(parsed: PostListParamsInterface, isNavigation: boolean = false) {
+    if (!this.containerSize?.nativeElement) return;
+    const container = this.containerSize.nativeElement;
+
+    /**
+     * Window and Position
+     */
+    const windowHeight = window.innerHeight;
+    const containerTop = getElementPositionFrom(container, 'top');
+
+    /**
+     * CSS Values (Single Source of Truth)
+     */
+    const style = getComputedStyle(container);
+
+    const listElementSize = getCssVariableValue(style, '--list-element-min-height');
+    const listGap = getCssVariableValue(style, '--posts-list-gap');
+    const paginationHeight = getCssVariableValue(style, '--pagination-height');
+    const footerHeight = getHeightById('app-footer');
+    const gapBuffer = getCssVariableValue(style, '--post-list-page-gap') + 5;
+
+    /**
+     * Available height for the list: We take the window height and subtract the container's
+     * distance from the top, the pagination height, the footer height and a gap buffer for safety.
+     */
+    const availableHeight = windowHeight - containerTop - paginationHeight - footerHeight - gapBuffer;
+    const targetHeight = Math.max(availableHeight, 1);
+
+    /**
+     *  The calculation: (Available Height + Gap) / (List Element Size + Gap)
+     */
+    const listElements = Math.max(1, Math.floor((targetHeight + listGap) / (listElementSize + listGap)));
+
+    /**
+     * Store the currently active element before changing the page size, so we can blur it
+     * if the page size changes and the active element is within this component, to prevent focus issues when the layout changes.
+     */
+    const active = document.activeElement as HTMLElement | null;
+    const snapPageSize = this.perPage;
+
+    /**
+     * Reset pagination to page 1 only if a resize actually changes the number of list elements,
+     * to prevent invalid page states. This must not run during navigation or initial load.
+     */
+    if (!this.initialLoad && !isNavigation && snapPageSize !== listElements && parsed.page > 1) {
+      this.router.navigate([], {
+        queryParams: { page: 1 },
+        queryParamsHandling: 'merge',
+        replaceUrl: true,
+      });
+      return;
+    }
+
+    this.perPage = listElements;
+
+    if (snapPageSize !== listElements || this.initialLoad || isNavigation) {
+      this.validateDropdownParams(parsed);
+      this.initialLoad = false;
+      this.cdr.detectChanges();
+    }
+
+    if (snapPageSize !== this.perPage) {
+      if (active && this.elementRef.nativeElement.contains(active)) {
+        active.blur();
+      }
+    }
+  }
+
+  /**
    * Fetch posts list from API
    *
    * @param entityValue The value of the entity
@@ -182,7 +301,9 @@ export class PostsList {
   private getPostsList(parsed: PostListParamsInterface) {
     if (!parsed.endPoint) return;
 
-    let params = new HttpParams().set('select', this.selectedFields).set('page', parsed.page.toString()).set('per_page', parsed.perPage.toString());
+    const perPage = this.perPage ?? parsed.perPage;
+
+    let params = new HttpParams().set('select', this.selectedFields).set('page', parsed.page.toString()).set('per_page', perPage.toString());
     if (parsed.postType) params = params.set('filter[post_type]', parsed.postType);
     if (parsed.entityValue) params = params.set(`filter[${parsed.entity}.name]`, `eq:${parsed.entityValue}`);
     if (parsed.category) params = params.set('filter[category]', `eq:${parsed.category}`);

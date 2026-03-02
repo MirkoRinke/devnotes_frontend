@@ -65,7 +65,10 @@
     </section>
   </aside>
 
-  <div class="posts-list">
+  <div
+    #postListContainer
+    class="posts-list"
+  >
     @if (postsList.length === 0) {
       <p class="statusMessage">{{ statusMessage ? statusMessage : 'Daten werden geladen...' }}</p>
     } @else {
@@ -81,5 +84,8 @@
       }
     }
   </div>
-  <app-page-pagination [paginationInfo]="paginationInfo"></app-page-pagination>
+  <app-page-pagination
+    #paginationRef
+    [paginationInfo]="paginationInfo"
+  ></app-page-pagination>
 </section>
