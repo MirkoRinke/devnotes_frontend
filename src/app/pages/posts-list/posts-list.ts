@@ -232,7 +232,7 @@ export class PostsList {
      */
     const style = getComputedStyle(container);
 
-    const listElementSize = getCssVariableValue(style, '--list-element-min-height');
+    const listElementSize = getCssVariableValue(style, '--list-element-max-height');
     const listGap = getCssVariableValue(style, '--posts-list-gap');
     const paginationHeight = getCssVariableValue(style, '--pagination-height');
     const footerHeight = getHeightById('app-footer');
