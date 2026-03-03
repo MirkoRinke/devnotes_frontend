@@ -1,13 +1,14 @@
 <section class="post-types-selection">
   <h2 class="heading">Beitragstyp</h2>
-
   <div class="tiles">
     @for (postType of filteredPostTypes; track $index) {
+      @let translatePath = 'PostTypes.' + postType.name + '.';
+
       <a
         class="tile"
         [routerLink]="'/posts-list'"
         [queryParams]="
-          postType.name === 'All Types'
+          postType.name === 'all_types'
             ? {
                 context: context,
                 entity: selectedEntity,
@@ -28,13 +29,11 @@
             class="container"
             [innerHTML]="svgIconsService.returnIcon(postType.name, 'tile-icon')"
           ></span>
-          <span class="name">{{ postType.name }}</span>
+          <span class="name">{{ translatePath + 'title' | translate }}</span>
         </div>
-        <p class="description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Et nisi temporibus laborum est alias ipsa aut minus sunt nesciunt quas.</p>
+        <p class="description">{{ translatePath + 'description' | translate }}</p>
         <span class="count">{{ postType.total_counts }}</span></a
       >
     }
   </div>
 </section>
-
-<!-- Load Description later by using the postType.name and fetching the description from a service or a predefined list -->

@@ -18,9 +18,11 @@ import { ApiEndpointEnums } from '../../enums/api-endpoint';
 import { PostListAllowedEntitiesEnums } from '../../enums/post-list-allowed-entities';
 import { RegexEnums } from '../../enums/regex';
 
+import { TranslatePipe } from '../../i18n/translate-pipe';
+
 @Component({
   selector: 'app-post-types-selection',
-  imports: [RouterLink],
+  imports: [RouterLink, TranslatePipe],
   templateUrl: './post-types-selection.html',
   styleUrl: './post-types-selection.scss',
 })
@@ -186,17 +188,17 @@ export class PostTypesSelection {
   }
 
   /**
-   * Create an option for "All Types" with the total count of all post types
+   * Create an option for "all_types" with the total count of all post types
    *
    * @returns
    */
   createAllTypesOption() {
     this.totalCount = this.calculateTotalCount();
-    return [{ name: 'All Types', total_counts: this.totalCount, entity: 'post_type' }];
+    return [{ name: 'all_types', total_counts: this.totalCount, entity: 'post_type' }];
   }
 
   /**
-   * Calculates the total count of all post types to be displayed in the "All Types" option
+   * Calculates the total count of all post types to be displayed in the "all_types" option
    */
   calculateTotalCount() {
     return this.postTypes.reduce((sum, current) => sum + current.total_counts, 0);
