@@ -17,6 +17,7 @@ import { AvailableValuesService } from '../../services/available-values.service'
 import { SearchService } from '../../services/search.service';
 
 import { getCssVariableValue, getHeightById, getElementPositionFrom } from '../../utils/css-helper';
+import { blurActiveElementInside } from '../../utils/dom-helper';
 
 import type { ApiResponseArrayInterface } from '../../interfaces/api-response';
 import type { PostInterface } from '../../interfaces/post';
@@ -217,6 +218,13 @@ export class PostsList {
     });
   }
 
+  /**
+   * Calculates the number of list elements that can fit on the page based on the container size and updates the pagination accordingly.
+   *
+   * @param parsed The parsed query parameters
+   * @param isNavigation Indicates if the calculation is triggered by navigation
+   * @returns void
+   */
   private listElementsPerPage(parsed: PostListParamsInterface, isNavigation: boolean = false) {
     if (!this.containerSize?.nativeElement) return;
     const container = this.containerSize.nativeElement;
@@ -251,10 +259,8 @@ export class PostsList {
     const listElements = Math.max(1, Math.floor((targetHeight + listGap) / (listElementSize + listGap)));
 
     /**
-     * Store the currently active element before changing the page size, so we can blur it
-     * if the page size changes and the active element is within this component, to prevent focus issues when the layout changes.
+     * snap PageSize is the value of perPage before the resize.
      */
-    const active = document.activeElement as HTMLElement | null;
     const snapPageSize = this.perPage;
 
     /**
@@ -279,9 +285,7 @@ export class PostsList {
     }
 
     if (snapPageSize !== this.perPage) {
-      if (active && this.elementRef.nativeElement.contains(active)) {
-        active.blur();
-      }
+      blurActiveElementInside(container);
     }
   }
 
