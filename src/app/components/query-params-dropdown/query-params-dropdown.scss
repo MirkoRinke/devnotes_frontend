@@ -15,6 +15,15 @@
     button {
       @include button-preset();
       @include display-flex(center);
+
+      :host(.left-aligned) & {
+        justify-content: flex-start;
+      }
+
+      :host(.right-aligned) & {
+        justify-content: flex-end;
+      }
+
       white-space: nowrap;
       gap: px-to-rem(10);
       color: var(--font-primary-color-100);
