@@ -2,6 +2,7 @@
   <aside class="query-bar">
     <section class="filter">
       <app-query-params-dropdown
+        class="left-aligned"
         [label]="selectedEntity === 'languages' ? 'Tech-Stack' : selectedEntity === 'technologies' ? 'Tool' : 'Entität'"
         [key]="'entityValue'"
         [defaultValueLabel]="selectedEntityValue"
@@ -13,6 +14,7 @@
       ></app-query-params-dropdown>
 
       <app-query-params-dropdown
+        class="left-aligned"
         [label]="'Typen'"
         [key]="'postType'"
         [defaultValueLabel]="selectedPostType ? selectedPostType : 'Alle Typen'"
@@ -25,6 +27,7 @@
       ></app-query-params-dropdown>
 
       <app-query-params-dropdown
+        class="left-aligned"
         [label]="'Kategorie'"
         [key]="'category'"
         [defaultValueLabel]="selectedCategory ? selectedCategory : 'Alle Kategorien'"
@@ -53,6 +56,7 @@
     </section>
     <section class="sort">
       <app-query-params-dropdown
+        class="right-aligned"
         [label]="'Sortieren'"
         [key]="'sort'"
         [defaultValueLabel]="selectedSort ? selectedSort : 'Datum ↑'"
