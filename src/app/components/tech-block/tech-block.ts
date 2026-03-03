@@ -15,6 +15,7 @@ import { AvailableValuesService } from '../../services/available-values.service'
 import { SearchService } from '../../services/search.service';
 
 import { getCssVariableValue, getElementSizeFrom } from '../../utils/css-helper';
+import { blurActiveElementInside } from '../../utils/dom-helper';
 
 @Component({
   selector: 'app-tech-block',
@@ -173,10 +174,8 @@ export class TechBlock implements OnDestroy, OnInit {
     const rowsPerPage = 2;
 
     /**
-     * Store the currently active element before changing the page size, so we can blur it
-     * if the page size changes and the active element is within this component, to prevent focus issues when the layout changes.
+     * snap PageSize is the value of perPage before the resize.
      */
-    const active = document.activeElement as HTMLElement | null;
     const snapPageSize = this.pageSize;
 
     this.pageSize = tilesPerRow * rowsPerPage;
@@ -188,9 +187,7 @@ export class TechBlock implements OnDestroy, OnInit {
     }
 
     if (snapPageSize !== this.pageSize) {
-      if (active && this.elementRef.nativeElement.contains(active)) {
-        active.blur();
-      }
+      blurActiveElementInside(container);
     }
   }
 
