@@ -8,27 +8,27 @@ export const CONTENT_EN: Content = {
     },
     feedback: {
       title: 'Feedback',
-      description: 'Give & receive feedback. Share your projects or provide valuable feedback for improvement.',
+      description: 'Give & receive feedback. Showcase your projects and grow through valuable community insights.',
     },
     questions: {
       title: 'Questions',
-      description: 'Questions & Answers. Ask targeted questions and receive helpful answers from the community.',
+      description: 'Questions & Answers. Leverage community knowledge for specific queries and share your expertise.',
     },
     resources: {
       title: 'Resources',
-      description: "Knowledge base & resources. Share helpful materials to expand the community's knowledge.",
+      description: 'Knowledge Base & Resources. Discover and share materials that move us forward together.',
     },
     showcase: {
       title: 'Showcase',
-      description: 'Projects & Achievements. Showcase your completed projects and share your achievements with others.',
+      description: 'Projects & Successes. Show what you are working on and get inspired by others’ achievements.',
     },
     snippets: {
       title: 'Snippets',
-      description: 'Code Snippets. Share useful code snippets or find solutions for your current problems.',
+      description: 'Code Snippets. Share helpful code blocks and discover new solutions.',
     },
     tutorials: {
       title: 'Tutorials',
-      description: 'Guides & Tutorials. Find or create easy-to-understand guides for new skills.',
+      description: 'Guides & Tutorials. Find or create easy-to-understand instructions for new skills.',
     },
   },
 };
