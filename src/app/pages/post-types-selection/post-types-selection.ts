@@ -9,6 +9,8 @@ import { ApiService } from '../../services/api.service';
 import { SvgIconsService } from '../../services/svg.icons.service';
 import { SearchService } from '../../services/search.service';
 
+import { TranslationService } from '../../i18n/translation.service';
+
 import type { PostTypesInterface } from '../../interfaces/post-types.ts';
 import type { ApiResponseArrayInterface } from '../../interfaces/api-response';
 import type { PostTypesParamsInterface } from '../../interfaces/post-types-params';
@@ -47,6 +49,7 @@ export class PostTypesSelection {
     private apiService: ApiService,
     public svgIconsService: SvgIconsService,
     public searchService: SearchService,
+    private translationService: TranslationService,
   ) {}
 
   ngOnInit() {
@@ -93,7 +96,15 @@ export class PostTypesSelection {
     this.filteredPostTypes = [...this.allTypesOption, ...this.postTypes];
 
     if (searchTerm.length > 0) {
-      this.filteredPostTypes = this.filteredPostTypes.filter((postType) => postType.name.toLowerCase().startsWith(searchTerm));
+      this.filteredPostTypes = this.filteredPostTypes.filter((postType) => {
+        const matchOriginal = postType.name.toLowerCase().startsWith(searchTerm);
+
+        const translationKey = `PostTypes.${postType.name}.title`;
+        const translatedName = this.translationService.getTranslation(translationKey).toLowerCase();
+        const matchTranslated = translatedName.startsWith(searchTerm);
+
+        return matchOriginal || matchTranslated;
+      });
     } else {
       this.filteredPostTypes = [...this.allTypesOption, ...this.postTypes];
     }

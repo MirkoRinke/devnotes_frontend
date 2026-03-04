@@ -17,6 +17,7 @@
 
     .tile {
       @include display-flex(center, space-between, column);
+      gap: px-to-rem(5);
       background-color: var(--page-primary-color-100);
       width: px-to-rem(280);
       height: px-to-rem(280);
@@ -62,9 +63,11 @@
 
       .description {
         @include font-settings(16);
-        @include multiline-ellipsis(4);
+        @include multiline-ellipsis(6);
         padding: 0 px-to-rem(25);
         // word-break: break-all;
+
+        flex-grow: 1;
       }
 
       .count {
