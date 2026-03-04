@@ -46,6 +46,8 @@ export class TechBlock implements OnDestroy, OnInit {
   favoriteTechStack: Array<string> = [];
   favoriteUpdateStack: Array<string> = [];
 
+  currentSearchValue: string | null = null;
+
   refreshFeedbackAnimation: boolean = false;
 
   paginatedTiles: AvailableValuesInterface[] = [];
@@ -90,6 +92,7 @@ export class TechBlock implements OnDestroy, OnInit {
    */
   searchValueInput() {
     this.searchService.searchValue$.pipe(takeUntil(this.destroy$)).subscribe((inputValue) => {
+      this.currentSearchValue = inputValue;
       this.filterFunction(inputValue || '');
     });
   }
@@ -271,8 +274,10 @@ export class TechBlock implements OnDestroy, OnInit {
   private getUserFavoriteTechStack() {
     this.userFavoriteTechnologiesService.favoriteTechStack$.pipe(takeUntil(this.destroy$)).subscribe((stack) => {
       this.favoriteTechStack = stack;
-      this.setCurrentTiles();
-      this.refreshPagination();
+      if (this.currentSearchValue === null || this.currentSearchValue.trim() === '') {
+        this.setCurrentTiles();
+        this.refreshPagination();
+      }
     });
     this.userFavoriteTechnologiesService.loadFavoriteTechStack();
   }
@@ -285,8 +290,10 @@ export class TechBlock implements OnDestroy, OnInit {
   private getUserFavoriteUpdate() {
     this.userFavoriteTechnologiesService.favoriteUpdate$.pipe(takeUntil(this.destroy$)).subscribe((stack) => {
       this.favoriteUpdateStack = stack;
-      this.setCurrentTiles();
-      this.refreshPagination();
+      if (this.currentSearchValue === null || this.currentSearchValue.trim() === '') {
+        this.setCurrentTiles();
+        this.refreshPagination();
+      }
     });
   }
 
