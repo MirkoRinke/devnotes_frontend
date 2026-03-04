@@ -8,23 +8,23 @@ export const CONTENT_DE: Content = {
     },
     feedback: {
       title: 'Feedback',
-      description: 'Feedback geben & erhalten. Teile deine Projekte oder biete wertvolle Rückmeldungen zur Verbesserung.',
+      description: 'Feedback geben & erhalten. Präsentiere deine Projekte und wachse durch wertvolle Rückmeldungen der Community.',
     },
     questions: {
       title: 'Fragen',
-      description: 'Fragen & Antworten. Stelle gezielte Fragen und erhalte hilfreiche Antworten von der Community.',
+      description: 'Fragen & Antworten. Nutze das Wissen der Community für gezielte Fragen und teile deine Expertise.',
     },
     resources: {
       title: 'Ressourcen',
-      description: 'Wissensbasis & Ressourcen. Teile hilfreiche Materialien, um das Wissen der Community zu erweitern.',
+      description: 'Wissensbasis & Ressourcen. Entdecke und teile Materialien, die uns gemeinsam voranbringen.',
     },
     showcase: {
       title: 'Showcase',
-      description: 'Projekte & Erfolge. Präsentiere deine fertigen Projekte und teile deine Erfolge mit anderen.',
+      description: 'Projekte & Erfolge. Zeig, woran du arbeitest, und lass dich von den Erfolgen anderer inspirieren.',
     },
     snippets: {
       title: 'Snippets',
-      description: 'Code Snippets. Teile nützliche Code-Schnipsel oder finde Lösungen für deine aktuellen Probleme.',
+      description: 'Code Snippets. Teile hilfreiche Code-Bausteine und entdecke neue Lösungswege.',
     },
     tutorials: {
       title: 'Tutorials',
