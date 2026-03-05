@@ -7,6 +7,12 @@
   flex-grow: 1;
   width: 100%;
 
+  --content-max-width: #{var.$content-max-width};
+
+  &.is-fluid {
+    --content-max-width: 100%;
+  }
+
   --list-element-min-height: #{px-to-rem(80)};
   --list-element-max-height: #{px-to-rem(80)};
   --posts-list-gap: #{px-to-rem(25)};
@@ -19,14 +25,16 @@
   flex-grow: 1;
   gap: var(--post-list-page-gap);
 
+  width: 100%;
+  max-width: var(--content-max-width);
+  margin-inline: auto;
+
   .query-bar {
     @include display-flex(center, space-between);
     gap: px-to-rem(20);
     padding-inline: px-to-rem(50);
     background-color: var(--page-primary-color-100);
     border-radius: px-to-rem(15);
-
-    width: 100%;
 
     .filter {
       @include display-flex(center, center);
