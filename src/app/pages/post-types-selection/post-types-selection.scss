@@ -2,6 +2,13 @@
 @use '../../../var' as var;
 @use '../../../mixins' as *;
 
+:host {
+  --tile-width: #{px-to-rem(280)};
+  --tile-height: #{px-to-rem(280)};
+  --column-gap: #{px-to-rem(50)};
+  --row-gap: #{px-to-rem(25)};
+}
+
 .post-types-selection {
   margin-bottom: px-to-rem(40);
 
@@ -11,16 +18,16 @@
   }
 
   .tiles {
-    @include display-flex(flex-start, flex-start, row);
-    gap: px-to-rem(25) px-to-rem(50);
-    flex-wrap: wrap;
+    @include display-grid(start, center, center);
+    grid-template-columns: repeat(auto-fill, var(--tile-width));
+    gap: var(--row-gap) var(--column-gap);
 
     .tile {
       @include display-flex(center, space-between, column);
       gap: px-to-rem(5);
       background-color: var(--page-primary-color-100);
-      width: px-to-rem(280);
-      height: px-to-rem(280);
+      width: var(--tile-width);
+      height: var(--tile-height);
       border-radius: px-to-rem(15);
       padding-top: px-to-rem(25);
       padding-bottom: px-to-rem(10);
