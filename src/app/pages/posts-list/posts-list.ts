@@ -244,7 +244,7 @@ export class PostsList {
     const listGap = getCssVariableValue(style, '--posts-list-gap');
     const paginationHeight = getCssVariableValue(style, '--pagination-height');
     const footerHeight = getHeightById('app-footer');
-    const gapBuffer = getCssVariableValue(style, '--post-list-page-gap') + 5;
+    const gapBuffer = getCssVariableValue(style, '--post-list-page-gap') * 2;
 
     /**
      * Available height for the list: We take the window height and subtract the container's
