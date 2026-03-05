@@ -1,0 +1,16 @@
+@use '../../../functions' as *;
+@use '../../../var' as var;
+@use '../../../mixins' as *;
+
+:host {
+  --content-max-width: #{var.$content-max-width};
+
+  &.is-fluid {
+    --content-max-width: 100%;
+  }
+}
+
+.post-container {
+  max-width: var(--content-max-width);
+  margin-inline: auto;
+}

@@ -1,25 +1,27 @@
-@if (postDataLoaded || mode === 'create') {
-  @if (mode === 'view') {
-    <app-post-view
-      [context]="context"
-      [endPoint]="endPoint"
-      [selectedEntity]="selectedEntity"
-      [selectedEntityValue]="selectedEntityValue"
-      [selectedPostType]="selectedPostType"
-      [post]="post"
-      (modeChange)="mode = $event"
-    ></app-post-view>
-  } @else if (mode === 'edit' || mode === 'create') {
-    <app-post-form
-      [mode]="mode"
-      (modeChange)="mode = $event"
-    ></app-post-form>
-  } @else if (mode === 'delete') {
-    <app-post-delete
-      [mode]="mode"
-      (modeChange)="mode = $event"
-    ></app-post-delete>
+<div class="post-container">
+  @if (postDataLoaded || mode === 'create') {
+    @if (mode === 'view') {
+      <app-post-view
+        [context]="context"
+        [endPoint]="endPoint"
+        [selectedEntity]="selectedEntity"
+        [selectedEntityValue]="selectedEntityValue"
+        [selectedPostType]="selectedPostType"
+        [post]="post"
+        (modeChange)="mode = $event"
+      ></app-post-view>
+    } @else if (mode === 'edit' || mode === 'create') {
+      <app-post-form
+        [mode]="mode"
+        (modeChange)="mode = $event"
+      ></app-post-form>
+    } @else if (mode === 'delete') {
+      <app-post-delete
+        [mode]="mode"
+        (modeChange)="mode = $event"
+      ></app-post-delete>
+    }
+  } @else {
+    <p>Lade Beitrag...</p>
   }
-} @else {
-  <p>Lade Beitrag...</p>
-}
+</div>
