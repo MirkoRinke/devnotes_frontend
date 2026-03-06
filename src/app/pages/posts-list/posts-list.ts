@@ -64,7 +64,7 @@ export class PostsList {
   paginationInfo: PaginationInfoInterface<PostInterface> = {} as PaginationInfoInterface<PostInterface>;
 
   perPage: number | null = null;
-  containerSize: ElementRef | null = null;
+  postListContainer: ElementRef | null = null;
 
   @ViewChild('paginationRef', { read: ElementRef }) paginationRef!: ElementRef;
 
@@ -82,7 +82,6 @@ export class PostsList {
     private apiService: ApiService,
     private availableValuesService: AvailableValuesService,
     private searchService: SearchService,
-    private elementRef: ElementRef,
     private cdr: ChangeDetectorRef,
   ) {}
 
@@ -190,7 +189,7 @@ export class PostsList {
    */
   @ViewChild('postListContainer') set postListContainerRef(element: ElementRef) {
     if (element) {
-      this.containerSize = element;
+      this.postListContainer = element;
       requestAnimationFrame(() => {
         this.resize$.next();
       });
@@ -226,8 +225,8 @@ export class PostsList {
    * @returns void
    */
   private listElementsPerPage(parsed: PostListParamsInterface, isNavigation: boolean = false) {
-    if (!this.containerSize?.nativeElement) return;
-    const container = this.containerSize.nativeElement;
+    if (!this.postListContainer?.nativeElement) return;
+    const container = this.postListContainer.nativeElement;
 
     /**
      * Window and Position
@@ -244,13 +243,13 @@ export class PostsList {
     const listGap = getCssVariableValue(style, '--posts-list-gap');
     const paginationHeight = getCssVariableValue(style, '--pagination-height');
     const footerHeight = getHeightById('app-footer');
-    const gapBuffer = getCssVariableValue(style, '--post-list-page-gap') * 2;
+    const buffer = getCssVariableValue(style, '--list-element-max-height');
 
     /**
      * Available height for the list: We take the window height and subtract the container's
-     * distance from the top, the pagination height, the footer height and a gap buffer for safety.
+     * distance from the top, the pagination height, the footer height and a buffer for safety.
      */
-    const availableHeight = windowHeight - containerTop - paginationHeight - footerHeight - gapBuffer;
+    const availableHeight = windowHeight - containerTop - paginationHeight - footerHeight - buffer;
     const targetHeight = Math.max(availableHeight, 1);
 
     /**

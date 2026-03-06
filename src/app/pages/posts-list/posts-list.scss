@@ -3,7 +3,7 @@
 @use '../../../mixins' as *;
 
 :host {
-  @include display-flex(stretch, start, column);
+  @include display-flex(stretch, start);
   flex-grow: 1;
   width: 100%;
 
