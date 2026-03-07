@@ -9,6 +9,7 @@ import { Post } from './pages/post/post';
 import { Favorites } from './pages/favorites/favorites';
 import { Network } from './pages/network/network';
 import { MyArea } from './pages/my-area/my-area';
+import { UserProfile } from './pages/user-profile/user-profile';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -20,4 +21,5 @@ export const routes: Routes = [
   { path: 'post-types-selection', component: PostTypesSelection },
   { path: 'posts-list', component: PostsList },
   { path: 'post', component: Post },
+  { path: 'user-profile/:id', component: UserProfile },
 ];
