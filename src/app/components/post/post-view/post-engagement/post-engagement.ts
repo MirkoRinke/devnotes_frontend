@@ -43,10 +43,11 @@ export class PostEngagement {
 
     this.isProcessingLike = true;
 
-    post.is_liked = !post.is_liked;
-
     const url = ApiEndpointEnums.LIKES;
-    let method: 'post' | 'delete' = post.is_liked ? 'post' : 'delete';
+
+    let method: 'delete' | 'post' = post.is_liked ? 'delete' : 'post';
+
+    post.is_liked = !post.is_liked;
 
     let data = {
       likeable_type: 'post',
@@ -61,7 +62,6 @@ export class PostEngagement {
       error: (error) => {
         post.is_liked = !post.is_liked;
         this.isProcessingLike = false;
-        console.log(error);
       },
     });
   }
@@ -80,10 +80,11 @@ export class PostEngagement {
 
     this.isProcessingFavorites = true;
 
-    post.is_favorited = !post.is_favorited;
     const url = `${ApiEndpointEnums.POSTS}${post.id}${ApiEndpointEnums.TOGGLE_FAVORITE_SUFFIX}`;
 
-    let method: 'post' | 'delete' = post.is_favorited ? 'post' : 'delete';
+    let method: 'delete' | 'post' = post.is_favorited ? 'delete' : 'post';
+
+    post.is_favorited = !post.is_favorited;
 
     this.apiService[method](url).subscribe({
       next: (response) => {
