@@ -34,7 +34,7 @@ export class Post {
   postDataLoaded: boolean = false;
   mode = 'view';
 
-  necessaryUserFields: string = 'display_name,avatar_items';
+  necessaryUserFields: string = 'display_name,avatar_items,is_following';
 
   constructor(
     private route: ActivatedRoute,
