@@ -1,42 +1,45 @@
-<div
-  class="values"
-  [class.active]="isUserBadgeMenuOpen"
-  [class.animated-in]="isUserBadgeMenuAnimating"
-  [class.animated-out]="!isUserBadgeMenuAnimating"
-  (animationend)="onAnimationEnd($event)"
->
-  <button
-    class="value"
-    (click)="userProfile(); onClose()"
+@if (user) {
+  <div
+    class="values"
+    [class.active]="isUserBadgeMenuOpen"
+    [class.animated-in]="isUserBadgeMenuAnimating"
+    [class.animated-out]="!isUserBadgeMenuAnimating"
+    (animationend)="onAnimationEnd($event)"
   >
-    {{ isOwner(user) ? 'Mein Profil' : 'Profil anzeigen' }}
-  </button>
-
-  @if (user && !isOwner(user)) {
-    @if (isLoggedIn()) {
-      <button
-        class="value"
-        (click)="toggleFollowUser(user); onClose()"
-      >
-        {{ user.is_following ? 'Entfolgen' : 'Folgen' }}
-      </button>
-    } @else {
-      <button
-        class="value"
-        [routerLink]="'/login'"
-        (click)="onClose()"
-      >
-        Folgen
-      </button>
-    }
-
-    <span class="divider"></span>
-
     <button
       class="value"
-      (click)="reportUser(); onClose()"
+      [routerLink]="['/user-profile', user.id]"
+      (click)="onClose()"
     >
-      Melden
+      {{ isOwner(user) ? 'Mein Profil' : 'Profil anzeigen' }}
     </button>
-  }
-</div>
+
+    @if (!isOwner(user)) {
+      @if (isLoggedIn()) {
+        <button
+          class="value"
+          (click)="toggleFollowUser(user); onClose()"
+        >
+          {{ user.is_following ? 'Entfolgen' : 'Folgen' }}
+        </button>
+      } @else {
+        <button
+          class="value"
+          [routerLink]="['/login']"
+          (click)="onClose()"
+        >
+          Folgen
+        </button>
+      }
+
+      <span class="divider"></span>
+
+      <button
+        class="value"
+        (click)="reportUser(); onClose()"
+      >
+        Melden
+      </button>
+    }
+  </div>
+}
