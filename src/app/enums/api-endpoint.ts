@@ -6,4 +6,6 @@ export enum ApiEndpointEnums {
   TOGGLE_FAVORITE_SUFFIX = '/favorites/',
   LIKES = '/likes',
   REPORT = '/reports',
+  FOLLOW_USER = '/follow/',
+  UNFOLLOW_USER = '/unfollow/',
 }
