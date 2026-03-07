@@ -61,9 +61,9 @@ export class TechTile {
 
     this.isProcessingFavorites = true;
 
-    const wasFavorite = this.isFavorite;
+    const url = `${ApiEndpointEnums.FAVORITE_TECH_STACK}${this.authService.getCurrentUserId()}`;
 
-    const url = `${ApiEndpointEnums.FAVORITE_TECH_STACK}${this.authService.getCurrentUserId()}/`;
+    const wasFavorite = this.isFavorite;
 
     let data = {
       /**
