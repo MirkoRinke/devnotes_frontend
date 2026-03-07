@@ -12,13 +12,23 @@
     {{ isOwner(user) ? 'Mein Profil' : 'Profil anzeigen' }}
   </button>
 
-  @if (!isOwner(user)) {
-    <button
-      class="value"
-      (click)="toggleFollowUser(); onClose()"
-    >
-      {{ user?.is_following ? 'Entfolgen' : 'Folgen' }}
-    </button>
+  @if (user && !isOwner(user)) {
+    @if (isLoggedIn()) {
+      <button
+        class="value"
+        (click)="toggleFollowUser(user); onClose()"
+      >
+        {{ user.is_following ? 'Entfolgen' : 'Folgen' }}
+      </button>
+    } @else {
+      <button
+        class="value"
+        [routerLink]="'/login'"
+        (click)="onClose()"
+      >
+        Folgen
+      </button>
+    }
 
     <span class="divider"></span>
 

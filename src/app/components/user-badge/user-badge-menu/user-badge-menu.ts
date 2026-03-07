@@ -1,12 +1,16 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
+import { ApiService } from '../../../services/api.service';
 import { AuthService } from '../../../services/auth.service';
 
 import type { UserInterface } from '../../../interfaces/user';
 
+import { ApiEndpointEnums } from '../../../enums/api-endpoint';
+
 @Component({
   selector: 'app-user-badge-menu',
-  imports: [],
+  imports: [RouterModule],
   templateUrl: './user-badge-menu.html',
   styleUrl: './user-badge-menu.scss',
 })
@@ -19,7 +23,12 @@ export class UserBadgeMenu {
   @Output() closeMenu = new EventEmitter<void>();
   @Output() openReportModal = new EventEmitter<void>();
 
-  constructor(public authService: AuthService) {}
+  isProcessingFollow: boolean = false;
+
+  constructor(
+    public authService: AuthService,
+    private apiService: ApiService,
+  ) {}
 
   /**
    * Handle close event from parent component
@@ -48,10 +57,33 @@ export class UserBadgeMenu {
   }
 
   /**
-   * TODO: Implement follow/unfollow user functionality
+   * Toggle follow/unfollow user and update the UI accordingly.
    */
-  toggleFollowUser() {
-    console.log('Toggle Follow User clicked');
+  toggleFollowUser(user: UserInterface) {
+    /**
+     * Prevent multiple follow/unfollow requests and ensure user is logged in
+     */
+    if (this.isProcessingFollow || !this.authService.isLoggedIn()) {
+      return;
+    }
+
+    this.isProcessingFollow = true;
+
+    const url = user.is_following ? `${ApiEndpointEnums.UNFOLLOW_USER}${user.id}` : `${ApiEndpointEnums.FOLLOW_USER}${user.id}`;
+
+    const method: 'delete' | 'post' = user.is_following ? 'delete' : 'post';
+
+    user.is_following = !user.is_following;
+
+    this.apiService[method](url).subscribe({
+      next: (response) => {
+        this.isProcessingFollow = false;
+      },
+      error: (error) => {
+        user.is_following = !user.is_following;
+        this.isProcessingFollow = false;
+      },
+    });
   }
 
   /**
@@ -69,5 +101,14 @@ export class UserBadgeMenu {
    */
   isOwner(user: UserInterface | null): boolean {
     return this.authService.isOwner(user?.id ?? null);
+  }
+
+  /**
+   * Check if the user is logged in
+   *
+   * @returns
+   */
+  isLoggedIn(): boolean {
+    return this.authService.isLoggedIn();
   }
 }
