@@ -1,5 +1,6 @@
 export enum ApiEndpointEnums {
   POSTS = '/posts/',
+  USER_POSTS = '/posts/',
   FAVORITE_TECH_STACK = '/user-profiles/',
   FAVORITE_POSTS = '/user/favorites/posts/',
   USER_PROFILES = '/user-profiles/',
