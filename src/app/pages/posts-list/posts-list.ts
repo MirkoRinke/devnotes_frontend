@@ -15,6 +15,7 @@ import { QueryParamsDatepicker } from '../../components/query-params-datepicker/
 import { ApiService } from '../../services/api.service';
 import { AvailableValuesService } from '../../services/available-values.service';
 import { SearchService } from '../../services/search.service';
+import { AuthService } from '../../services/auth.service';
 
 import { getCssVariableValue, getHeightById, getElementPositionFrom } from '../../utils/css-helper';
 import { blurActiveElementInside } from '../../utils/dom-helper';
@@ -66,6 +67,8 @@ export class PostsList {
   perPage: number | null = null;
   postListContainer: ElementRef | null = null;
 
+  currentUserId: number | null = null;
+
   @ViewChild('paginationRef', { read: ElementRef }) paginationRef!: ElementRef;
 
   private initialLoad = true;
@@ -83,9 +86,11 @@ export class PostsList {
     private availableValuesService: AvailableValuesService,
     private searchService: SearchService,
     private cdr: ChangeDetectorRef,
+    private authService: AuthService,
   ) {}
 
   ngOnInit() {
+    this.currentUserId = this.authService.getCurrentUserId();
     this.route.queryParams.subscribe((params) => {
       const parsed = this.parseQueryParams(params);
 
@@ -129,6 +134,7 @@ export class PostsList {
       category: params['category'] ?? null,
       dateFrom: params['dateFrom'] ?? null,
       dateTo: params['dateTo'] ?? null,
+      status: params['status'] ?? null,
       sort: params['sort'] ?? '-created_at',
       searchTerm: params['searchTerm'] ?? null,
       page: Number.isInteger(parseInt(params['page'])) ? parseInt(params['page']) : 1,
@@ -144,6 +150,7 @@ export class PostsList {
    */
   private areParamsValid(parsed: PostListParamsInterface): boolean {
     return (
+      (parsed.context === null || typeof parsed.context === 'string') &&
       parsed.endPoint !== null &&
       parsed.endPoint in ApiEndpointEnums &&
       parsed.entityValue !== null &&
@@ -151,8 +158,13 @@ export class PostsList {
       Object.values(PostListAllowedEntitiesEnums).includes(parsed.entity as PostListAllowedEntitiesEnums) &&
       Number.isInteger(parsed.page) &&
       Number.isInteger(parsed.perPage) &&
+      (parsed.postType === null || typeof parsed.postType === 'string') &&
+      (parsed.category === null || typeof parsed.category === 'string') &&
       (parsed.dateFrom === null || new RegExp(RegexEnums.datepicker).test(parsed.dateFrom)) &&
-      (parsed.dateTo === null || new RegExp(RegexEnums.datepicker).test(parsed.dateTo))
+      (parsed.dateTo === null || new RegExp(RegexEnums.datepicker).test(parsed.dateTo)) &&
+      (parsed.status === null || typeof parsed.status === 'string') &&
+      (parsed.sort === null || typeof parsed.sort === 'string') &&
+      (parsed.searchTerm === null || typeof parsed.searchTerm === 'string')
     );
   }
 
@@ -313,6 +325,8 @@ export class PostsList {
     if (parsed.dateFrom || parsed.dateTo) params = params.set('filter[created_at]', `between:[${parsed.dateFrom ? parsed.dateFrom : this.minDate},${parsed.dateTo ? parsed.dateTo : this.maxDate}]`);
     if (parsed.sort) params = params.set('sort', `${parsed.sort}`);
 
+    params = this.appendEndpointSpecificParams(params, parsed);
+
     const splitSearchData = this.searchService.splitSearchValueInputValue;
     if (splitSearchData?.text) params = params.set('filter[title]', splitSearchData.text);
     if (splitSearchData?.tags) params = params.set('filter[tags.name]', `eq:[${splitSearchData.tags.join(',')}]`);
@@ -341,6 +355,26 @@ export class PostsList {
   }
 
   /**
+   * Append endpoint specific filters to the query parameters based on the selected endpoint and other parameters.
+   *
+   * @param params
+   * @param parsed
+   * @returns
+   */
+  private appendEndpointSpecificParams(params: HttpParams, parsed: PostListParamsInterface): HttpParams {
+    if (parsed.endPoint === 'POSTS') {
+      return params.set('filter[status]', 'eq:published');
+    }
+
+    if (parsed.endPoint === 'USER_POSTS') {
+      if (parsed.status) params = params.set('filter[status]', `eq:${parsed.status}`);
+      if (this.currentUserId !== null) params = params.set('filter[user_id]', `eq:${this.currentUserId}`);
+    }
+
+    return params;
+  }
+
+  /**
    * Set query params for dropdowns
    *
    * @param entityValue The value of the entity
@@ -348,22 +382,61 @@ export class PostsList {
    * @param postType The type of the post
    */
   private setParams(parsed: PostListParamsInterface) {
-    this.entityValueParams = [`?select=count:${encodeURIComponent(parsed.entity)}.name`];
-    this.postTypeParams = [`?filter[${encodeURIComponent(parsed.entity)}.name]=eq:${encodeURIComponent(parsed.entityValue!)}&select=count:post_type`];
-    this.categoryParams = [`?filter[${encodeURIComponent(parsed.entity)}.name]=eq:${encodeURIComponent(parsed.entityValue!)}&select=count:category`];
-
-    let categoryQuery = `?filter[${encodeURIComponent(parsed.entity!)}.name]=eq:${encodeURIComponent(parsed.entityValue!)}`;
-    if (parsed.postType !== null) categoryQuery += `&filter[post_type]=${encodeURIComponent(parsed.postType)}`;
-    categoryQuery += '&select=count:category';
-
-    this.categoryParams = [categoryQuery];
+    this.entityValueParams = [this.getEntityValueQuery(parsed)];
+    this.postTypeParams = [this.getPostTypeQuery(parsed)];
+    this.categoryParams = [this.getCategoryQuery(parsed)];
   }
 
   /**
-   * Validate selected dropdown params against valid values from API
+   * Construct the query for fetching available values for the entity dropdown based on the selected entity and endpoint.
    *
-   * @param dropdowns Array of dropdowns to validate
+   * @param parsed The parsed parameters for the post list
+   * @returns The query string for the entity dropdown
    */
+  private getEntityValueQuery(parsed: PostListParamsInterface): string {
+    let query = `?select=count:${encodeURIComponent(parsed.entity)}.name`;
+    return query + this.getEndpointSpecificFilterQuery(parsed);
+  }
+
+  /**
+   * Construct the query for fetching available values for the post type dropdown based on the selected entity, entity value and endpoint.
+   *
+   * @param parsed The parsed parameters for the post list
+   * @return The query string for the post type dropdown
+   */
+  private getPostTypeQuery(parsed: PostListParamsInterface): string {
+    let query = `?filter[${encodeURIComponent(parsed.entity)}.name]=eq:${encodeURIComponent(parsed.entityValue!)}&select=count:post_type`;
+    return query + this.getEndpointSpecificFilterQuery(parsed);
+  }
+
+  /**
+   * Construct the query for fetching available values for the category dropdown based on the selected entity, entity value, post type and endpoint.
+   *
+   * @param parsed The parsed parameters for the post list
+   * @return The query string for the category dropdown
+   */
+  private getCategoryQuery(parsed: PostListParamsInterface): string {
+    let query = `?filter[${encodeURIComponent(parsed.entity)}.name]=eq:${encodeURIComponent(parsed.entityValue!)}&select=count:category`;
+    if (parsed.postType !== null) query += `&filter[post_type]=${encodeURIComponent(parsed.postType)}`;
+    return query + this.getEndpointSpecificFilterQuery(parsed);
+  }
+
+  /**
+   * Returns common filter query string based on endpoint
+   */
+  private getEndpointSpecificFilterQuery(parsed: PostListParamsInterface): string {
+    let query = '';
+
+    if (parsed.endPoint === 'POSTS') {
+      query += '&filter[status]=eq:published';
+    } else if (parsed.endPoint === 'USER_POSTS') {
+      if (parsed.status) query += `&filter[status]=eq:${parsed.status}`;
+      if (this.currentUserId !== null) query += `&filter[user_id]=eq:${this.currentUserId}`;
+    }
+
+    return query;
+  }
+
   /**
    * Validate selected dropdown params against valid values from API
    *
