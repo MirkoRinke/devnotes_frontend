@@ -20,6 +20,6 @@ export const routes: Routes = [
   { path: 'login', component: Login },
   { path: 'post-types-selection', component: PostTypesSelection },
   { path: 'posts-list', component: PostsList },
-  { path: 'post', component: Post },
+  { path: 'post/:id', component: Post },
   { path: 'user-profile/:id', component: UserProfile },
 ];
