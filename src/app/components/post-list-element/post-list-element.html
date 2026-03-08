@@ -1,14 +1,13 @@
 @if (post) {
   <article
     class="post-list-element"
-    [routerLink]="'/post/'"
+    [routerLink]="['/post', post.id]"
     [queryParams]="{
       context: context,
       endPoint: endPoint,
       selectedEntity: selectedEntity,
       selectedEntityValue: selectedEntityValue,
       selectedPostType: selectedPostType,
-      post_id: post.id,
     }"
   >
     <div class="left-section">
