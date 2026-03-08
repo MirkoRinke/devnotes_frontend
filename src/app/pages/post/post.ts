@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { combineLatest } from 'rxjs';
 
 import { ApiService } from '../../services/api.service';
 
@@ -43,16 +44,20 @@ export class Post {
   ) {}
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((params) => {
+    combineLatest([this.route.paramMap, this.route.queryParams]).subscribe(([path, params]) => {
       const parsed: PostParamsInterface = this.parseQueryParams(params);
-      if (parsed.postId === null || !Number.isInteger(parsed.postId)) {
+
+      const paramId = path.get('id');
+      const postId = Number(paramId);
+
+      if (!paramId || isNaN(postId) || !Number.isInteger(postId)) {
         this.router.navigate(['/']);
         console.warn('Missing required query parameters');
         return;
       }
 
       this.setSelectedValues(parsed);
-      this.getPost(parsed.postId);
+      this.getPost(postId);
     });
   }
 
@@ -66,7 +71,6 @@ export class Post {
     return {
       context: params['context'] ?? null,
       endPoint: params['endPoint'] ?? null,
-      postId: parseInt(params['post_id']) ?? null,
       selectedEntity: params['selectedEntity'] ?? null,
       selectedEntityValue: params['selectedEntityValue'] ?? null,
       selectedPostType: params['selectedPostType'] ?? null,
