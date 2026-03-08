@@ -7,6 +7,7 @@ export interface PostListParamsInterface {
   category: string | null;
   dateFrom: string | null;
   dateTo: string | null;
+  status: string | null;
   sort: string | null;
   page: number;
   perPage: number;
