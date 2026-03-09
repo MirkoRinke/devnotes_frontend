@@ -2,14 +2,14 @@
   class="post-resource-modal"
   (click)="$event.stopPropagation()"
 >
-  <div class="header">
+  <header class="header">
     <h3 class="title">{{ modalData.title }}</h3>
     <span
       class="icon"
       [innerHTML]="svgIconsService.returnIcon('close')"
       (click)="onClose()"
     ></span>
-  </div>
+  </header>
 
   @if (modalData.resources && modalData.resources.length > 0) {
     @for (resource of modalData.resources; track $index) {
@@ -23,6 +23,13 @@
         <p class="link">{{ resource }}</p>
       </div>
     }
+    <footer class="footer">
+      <button
+        class="remove_link"
+        (click)="enableExternalContent(modalData.type, 0)"
+        [innerHTML]="svgIconsService.returnIcon('remove_link')"
+      ></button>
+    </footer>
   } @else if (modalData.previews && modalData.previews.length > 0) {
     <div class="previews">
       <div class="preview-list">
@@ -43,19 +50,19 @@
         <div class="options">
           <button
             class="selected"
-            (click)="('loadExternalContent(1)')"
+            (click)="enableExternalContent(modalData.type, 1)"
           >
             1h
           </button>
           <button
             class="selected"
-            (click)="('loadExternalContent(12)')"
+            (click)="enableExternalContent(modalData.type, 12)"
           >
             12h
           </button>
           <button
             class="selected"
-            (click)="('loadExternalContent(24)')"
+            (click)="enableExternalContent(modalData.type, 24)"
           >
             24h
           </button>
