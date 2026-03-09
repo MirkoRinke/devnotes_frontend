@@ -5,6 +5,7 @@ export enum ApiEndpointEnums {
   FAVORITE_POSTS = '/user/favorites/posts/',
   USER_PROFILES = '/user-profiles/',
   TOGGLE_FAVORITE_SUFFIX = '/favorites/',
+  ENABLE_TEMPORARY_EXTERNALS_SUFFIX = '/enable-temporary-externals',
   LIKES = '/likes',
   REPORT = '/reports',
   FOLLOW_USER = '/follow/',
