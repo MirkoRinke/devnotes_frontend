@@ -9,6 +9,7 @@
         [selectedPostType]="selectedPostType"
         [post]="post"
         (modeChange)="mode = $event"
+        (resourceRefreshRequest)="reloadPost()"
       ></app-post-view>
     } @else if (mode === 'edit' || mode === 'create') {
       <app-post-form

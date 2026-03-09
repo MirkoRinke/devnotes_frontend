@@ -62,6 +62,15 @@ export class Post {
   }
 
   /**
+   * Reload post data, typically after enabling external content
+   */
+  reloadPost() {
+    if (this.post && this.post.id) {
+      this.getPost(this.post.id);
+    }
+  }
+
+  /**
    * Parse query params
    *
    * @param params
