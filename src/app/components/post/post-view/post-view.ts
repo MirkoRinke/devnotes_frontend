@@ -1,8 +1,8 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, SimpleChanges, OnChanges } from '@angular/core';
 import { Router } from '@angular/router';
 
 import type { PostInterface } from '../../../interfaces/post';
-import type { PostResourceModalInterface } from '../../../interfaces/post-ressource-modal';
+import type { PostResourceModalInterface, PostResourceType } from '../../../interfaces/post-ressource-modal';
 
 import { PostResourceModal } from './post-resource-modal/post-resource-modal';
 
@@ -25,7 +25,7 @@ import { PostTags } from './post-tags/post-tags';
   templateUrl: './post-view.html',
   styleUrl: './post-view.scss',
 })
-export class PostView {
+export class PostView implements OnChanges {
   @Input() context: string | null = null;
   @Input() endPoint: string | null = null;
 
@@ -37,9 +37,12 @@ export class PostView {
 
   currentPost: PostInterface = {} as PostInterface;
 
-  currentPostModal: PostResourceModalInterface = { title: '', resources: [], previews: [] };
+  currentPostModal: PostResourceModalInterface = { title: '', type: null, resources: [], previews: [] };
   isPostResourceModalOpen = false;
   isPostResourceModalAnimating = false;
+
+  @Output() resourceRefreshRequest = new EventEmitter<string>();
+  lastResourceRefreshType: PostResourceType = null;
 
   isReportModalOpen = false;
   isReportModalAnimating = false;
@@ -61,6 +64,20 @@ export class PostView {
   }
 
   /**
+   * Detect changes to the post input and update the currentPost accordingly
+   */
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['post'] && changes['post'].currentValue) {
+      this.currentPost = changes['post'].currentValue;
+
+      if (this.lastResourceRefreshType !== null) {
+        this.openResourceModal(this.lastResourceRefreshType);
+        this.lastResourceRefreshType = null;
+      }
+    }
+  }
+
+  /**
    * Get avatar items entries
    *
    * @returns
@@ -75,8 +92,8 @@ export class PostView {
    * @param type
    * @returns
    */
-  openResourceModal(type: 'images' | 'videos' | 'resources') {
-    if (!this.currentPost.external_source_previews) {
+  openResourceModal(type: PostResourceType) {
+    if (!this.currentPost.external_source_previews || type === null) {
       return;
     }
 
@@ -84,6 +101,7 @@ export class PostView {
 
     this.currentPostModal = {
       title: type,
+      type: type,
       resources: this.currentPost[type] || [],
       previews: filteredPreviews,
     };
@@ -97,6 +115,14 @@ export class PostView {
    */
   closeResourceModal() {
     this.isPostResourceModalAnimating = false;
+  }
+
+  /**
+   * Enable external content and refresh resources in the modal
+   */
+  enableExternalContent(type: PostResourceType) {
+    this.lastResourceRefreshType = type;
+    this.resourceRefreshRequest.emit();
   }
 
   /**
@@ -123,7 +149,7 @@ export class PostView {
     if (event.animationName.endsWith('fade-out')) {
       if (this.isPostResourceModalOpen) {
         this.isPostResourceModalOpen = false;
-        this.currentPostModal = { title: '', resources: [], previews: [] };
+        this.currentPostModal = { title: '', type: null, resources: [], previews: [] };
       }
 
       if (this.isReportModalOpen) {
