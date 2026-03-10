@@ -1,0 +1,97 @@
+@use '../../../../functions' as *;
+@use '../../../../var' as var;
+@use '../../../../mixins' as *;
+
+.post {
+  position: relative;
+
+  @include display-flex($direction: column);
+  gap: px-to-rem(25);
+
+  background-color: var(--page-primary-color-100);
+  border-radius: px-to-rem(15);
+  padding: px-to-rem(25) px-to-rem(50);
+
+  .header {
+    @include display-flex($direction: column);
+    gap: px-to-rem(25);
+
+    .system-bar {
+      @include display-flex(center, space-between);
+
+      position: relative;
+      border-bottom: 2px solid var(--font-primary-color-50);
+      padding-bottom: px-to-rem(10);
+
+      .version {
+        @include display-flex(center);
+        gap: px-to-rem(10);
+
+        // .entitye,
+        // .post-type,
+        // .category {
+        //   &::first-letter {
+        //     text-transform: uppercase;
+        //   }
+        // }
+        // .separator {
+        //   color: var(--font-primary-color-50);
+        // }
+      }
+    }
+
+    .info-bar {
+      @include display-flex(center, space-between);
+    }
+  }
+
+  .content {
+    @include display-flex($direction: column);
+    gap: px-to-rem(25);
+
+    // .title {
+    //   @include display-flex(center);
+    //   gap: px-to-rem(10);
+
+    //   @include font-settings(16, 700);
+    //   color: var(--font-primary-color-100);
+    //   width: 100%;
+
+    //   &::before {
+    //     content: '';
+    //     height: 1px;
+    //     min-width: px-to-rem(100);
+    //     max-width: px-to-rem(100);
+    //     background-color: var(--font-primary-color-20);
+    //   }
+
+    //   &::after {
+    //     content: '';
+    //     height: 1px;
+    //     flex-grow: 1;
+    //     background-color: var(--font-primary-color-20);
+    //   }
+    // }
+
+    // .description {
+    //   @include font-settings(14, 400);
+    //   color: var(--font-primary-color-100);
+    // }
+  }
+
+  .footer {
+    @include display-flex($direction: column);
+    gap: px-to-rem(25);
+
+    .footer-meta {
+      @include display-flex(center, space-between);
+      gap: px-to-rem(25);
+    }
+
+    .line-break {
+      width: 100%;
+      height: 1px;
+      background-color: var(--font-primary-color-20);
+    }
+  }
+}
