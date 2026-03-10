@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
-import type { PostResourceModalInterface, PostResourceType } from '../../../../interfaces/post-ressource-modal';
+import type { PostResourceModalInterface, PostResourceType } from '../../../../interfaces/post-resource-modal';
 
 import { ApiService } from '../../../../services/api.service';
 import { AuthService } from '../../../../services/auth.service';

@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter, SimpleChanges, OnChanges } from
 import { Router } from '@angular/router';
 
 import type { PostInterface } from '../../../interfaces/post';
-import type { PostResourceModalInterface, PostResourceType } from '../../../interfaces/post-ressource-modal';
+import type { PostResourceModalInterface, PostResourceType } from '../../../interfaces/post-resource-modal';
 
 import { PostResourceModal } from './post-resource-modal/post-resource-modal';
 
