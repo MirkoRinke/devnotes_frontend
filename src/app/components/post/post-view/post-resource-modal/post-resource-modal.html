@@ -24,11 +24,13 @@
       </div>
     }
     <footer class="footer">
-      <button
-        class="remove_link"
-        (click)="enableExternalContent(modalData.type, 0)"
-        [innerHTML]="svgIconsService.returnIcon('remove_link')"
-      ></button>
+      @if (!isOwner()) {
+        <button
+          class="remove_link"
+          (click)="enableExternalContent(modalData.type, 0)"
+          [innerHTML]="svgIconsService.returnIcon('remove_link')"
+        ></button>
+      }
     </footer>
   } @else if (modalData.previews && modalData.previews.length > 0) {
     <div class="previews">

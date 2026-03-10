@@ -58,4 +58,13 @@ export class PostResourceModal {
       },
     });
   }
+
+  /**
+   * Checks if the current user is the owner of the post to determine if they should have permissions to enable external content or remove links.
+   *
+   * @returns
+   */
+  isOwner(): boolean {
+    return this.authService.getCurrentUserId() === this.modalData.postOwnerId;
+  }
 }
