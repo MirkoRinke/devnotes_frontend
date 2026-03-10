@@ -37,7 +37,7 @@ export class PostView implements OnChanges {
 
   currentPost: PostInterface = {} as PostInterface;
 
-  currentPostModal: PostResourceModalInterface = { title: '', type: null, resources: [], previews: [] };
+  currentPostModal: PostResourceModalInterface = { title: '', type: null, postOwnerId: null, resources: [], previews: [] };
   isPostResourceModalOpen = false;
   isPostResourceModalAnimating = false;
 
@@ -93,7 +93,7 @@ export class PostView implements OnChanges {
    * @returns
    */
   openResourceModal(type: PostResourceType) {
-    if (!this.currentPost.external_source_previews || type === null) {
+    if (!this.currentPost.external_source_previews || type === null || !this.currentPost.user_id) {
       return;
     }
 
@@ -102,6 +102,7 @@ export class PostView implements OnChanges {
     this.currentPostModal = {
       title: type,
       type: type,
+      postOwnerId: this.currentPost.user_id,
       resources: this.currentPost[type] || [],
       previews: filteredPreviews,
     };
@@ -149,7 +150,7 @@ export class PostView implements OnChanges {
     if (event.animationName.endsWith('fade-out')) {
       if (this.isPostResourceModalOpen) {
         this.isPostResourceModalOpen = false;
-        this.currentPostModal = { title: '', type: null, resources: [], previews: [] };
+        this.currentPostModal = { title: '', type: null, postOwnerId: null, resources: [], previews: [] };
       }
 
       if (this.isReportModalOpen) {
