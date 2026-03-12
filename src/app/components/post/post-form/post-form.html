@@ -46,6 +46,18 @@
   </footer>
 
   <!-- Modals -->
+  <button
+    type="button"
+    (click)="switchMode('view')"
+  >
+    Abbrechen
+  </button>
+  <button
+    type="button"
+    (click)="resetForm()"
+  >
+    {{ mode === 'create' ? 'Formular leeren' : 'Änderungen verwerfen' }}
+  </button>
 </article>
 
 <!-- @if (mode === 'create') {
