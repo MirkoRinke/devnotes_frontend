@@ -1,4 +1,4 @@
-@if (key != null && label != null && defaultValueLabel != null && defaultValue != null) {
+@if (label != null && defaultValueLabel != null && defaultValue != null && mode != null) {
   <div class="dropdown-component">
     <div class="dropdown">
       <button
@@ -8,6 +8,7 @@
         aria-haspopup="listbox"
       >
         <span class="label"> {{ label }}: </span>
+
         <span class="selected-value">
           {{ values && values[defaultValueLabel] ? values[defaultValueLabel] : defaultValueLabel }}
         </span>
@@ -43,10 +44,13 @@
             type="button"
             role="option"
             class="value"
-            (click)="onSelect('', key)"
+            (click)="mode === 'URL' && key ? onSelectURL('', key) : onSelectComponent('')"
           >
             <span class="name">Alle {{ label }}</span>
-            <span class="count">{{ totalCount > 0 ? totalCount : '' }}</span>
+
+            @if (showCount) {
+              <span class="count">{{ totalCount > 0 ? totalCount : '' }}</span>
+            }
           </button>
         }
         @for (value of filteredValues; track $index) {
@@ -54,10 +58,13 @@
             type="button"
             role="option"
             class="value"
-            (click)="onSelect(value.name, key)"
+            [title]="value.name"
+            (click)="mode === 'URL' && key ? onSelectURL(value.name, key) : onSelectComponent(value.name)"
           >
             <span class="name">{{ values && values[value.name] ? values[value.name] : value.name }}</span>
-            <span class="count">{{ value.total_counts ? value.total_counts : '' }}</span>
+            @if (showCount) {
+              <span class="count">{{ value.total_counts ? value.total_counts : '' }}</span>
+            }
           </button>
         }
       </div>

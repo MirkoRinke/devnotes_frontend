@@ -7,6 +7,23 @@
   position: relative;
   min-height: px-to-rem(80);
 
+  :host(.post-from-dropdown) & {
+    min-height: px-to-rem(0);
+
+    .values {
+      margin-top: px-to-rem(14);
+      max-width: px-to-rem(220);
+    }
+  }
+
+  :host(.post-from-dropdown.right-aligned) & {
+    .values {
+      width: max-content;
+      right: 0;
+      left: auto;
+    }
+  }
+
   .dropdown {
     @include display-flex(center);
     gap: px-to-rem(10);
@@ -14,7 +31,7 @@
 
     button {
       @include button-preset();
-      @include display-flex(center);
+      @include display-flex(center, center);
 
       :host(.left-aligned) & {
         justify-content: flex-start;
@@ -30,6 +47,7 @@
       text-align: left;
 
       width: px-to-rem(220);
+
       max-width: 100%;
 
       &:hover {

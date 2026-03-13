@@ -1,4 +1,4 @@
-import { Component, Input, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, SimpleChanges, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 
@@ -14,10 +14,15 @@ import type { AvailableValuesInterface } from '../../interfaces/available-values
   styleUrl: './query-params-dropdown.scss',
 })
 export class QueryParamsDropdown {
+  @Input() mode: 'URL' | 'Component' | null = null;
+  @Input() showCount: boolean = false;
+
   @Input() label: string | null = null;
   @Input() key: string | null = null;
+
   @Input() defaultValueLabel: string | null = null;
   @Input() defaultValue: string | null = null;
+
   @Input() enableAllOption: boolean = false;
   @Input() enableSearch: boolean = false;
 
@@ -27,6 +32,8 @@ export class QueryParamsDropdown {
   @Input() values: { [key: string]: string } | null = null;
 
   @Input() changeDetectionToken: string | null = null;
+
+  @Output() selectionChange = new EventEmitter<string>();
 
   availableValues: AvailableValuesInterface[] = [];
   filteredValues: AvailableValuesInterface[] = [];
@@ -40,6 +47,15 @@ export class QueryParamsDropdown {
     private availableValuesService: AvailableValuesService,
     public svgIconsService: SvgIconsService,
   ) {}
+
+  /**
+   * Initializes the component and fetches available values if necessary
+   */
+  ngOnInit() {
+    if (this.endPoint && this.params && this.mode === 'Component') {
+      this.getAvailableValues(this.params, this.endPoint);
+    }
+  }
 
   /**
    * Detects changes in input properties and fetches available values if necessary
@@ -65,6 +81,8 @@ export class QueryParamsDropdown {
       .getAvailableValues(params, endPoint)
       .pipe(take(1))
       .subscribe((availableValues) => {
+        console.log('Fetched available values:', availableValues);
+
         this.availableValues = availableValues.sort((a, b) => b.total_counts - a.total_counts);
         this.calculateTotalCount();
         this.setShowValuesLimit();
@@ -97,7 +115,7 @@ export class QueryParamsDropdown {
   filterFunction(inputValue: string) {
     const input = (inputValue || '').toLowerCase().trim();
     if (input.length > 0) {
-      this.filteredValues = this.availableValues.filter((value) => value.name.toLowerCase().includes(input));
+      this.filteredValues = this.availableValues.filter((value) => value.name.toLowerCase().startsWith(input));
     } else {
       this.setShowValuesLimit();
     }
@@ -132,7 +150,7 @@ export class QueryParamsDropdown {
    *
    * @param value
    */
-  onSelect(value: string, key: string) {
+  onSelectURL(value: string, key: string) {
     if (value) {
       this.router.navigate([], {
         queryParams: { [key]: value, page: null },
@@ -146,6 +164,17 @@ export class QueryParamsDropdown {
         replaceUrl: true,
       });
     }
+    this.showDropdownValues = false;
+  }
+
+  /**
+   * Handles selection change in the dropdown component for Component mode
+   * Emits the selected value to the parent component
+   *
+   * @param value
+   */
+  onSelectComponent(value: string) {
+    this.selectionChange.emit(value);
     this.showDropdownValues = false;
   }
 }
