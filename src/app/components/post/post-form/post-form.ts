@@ -1,14 +1,20 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
+import { ApiService } from '../../../services/api.service';
+
 import { atLeastOne } from '../../../utils/custom-validators';
+
+import { LocalDatePipe } from '../../../pipes/local-date-pipe';
 
 import type { PostInterface } from '../../../interfaces/post';
 import type { PostPayload } from '../../../interfaces/post-payload';
 
+import { QueryParamsDropdown } from '../../query-params-dropdown/query-params-dropdown';
+
 @Component({
   selector: 'app-post-form',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, LocalDatePipe, QueryParamsDropdown],
   templateUrl: './post-form.html',
   styleUrl: './post-form.scss',
 })
@@ -20,6 +26,8 @@ export class PostForm {
 
   postForm: FormGroup | null = null;
 
+  currentDate = new Date();
+
   constructor(private fb: FormBuilder) {}
 
   ngOnInit() {
@@ -30,6 +38,18 @@ export class PostForm {
       this.patchPostForm();
       console.log('Edit Mode Patched PostForm:', this.postForm?.value);
     }
+  }
+
+  /**
+   * Helper method to get the default value for a form control. If the control has a value, it returns that; otherwise, it returns the provided fallback value.
+   *
+   * @param controlName The name of the form control.
+   * @param fallback The fallback value to return if the control has no value.
+   * @returns The value of the form control or the fallback value.
+   */
+  getDefaultValue(controlName: string, fallback: string): string {
+    const value = this.postForm?.get(controlName)?.value;
+    return value && typeof value === 'string' ? value : fallback;
   }
 
   /**
@@ -149,6 +169,19 @@ export class PostForm {
    */
   switchMode(newMode: 'view') {
     this.modeChange.emit(newMode);
+  }
+
+  getAllowedValuesParams(type: string): string[] {
+    let query = [`?filter[type]=${type}&select=count:name`];
+    return query;
+  }
+
+  patchDropdownValues(values: string, type: string) {
+    if (this.postForm) {
+      this.postForm.patchValue({ [type]: values });
+      this.postForm.get(type)?.markAsDirty();
+      this.postForm.get(type)?.markAsTouched();
+    }
   }
 }
 

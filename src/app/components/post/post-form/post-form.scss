@@ -27,16 +27,9 @@
         @include display-flex(center);
         gap: px-to-rem(10);
 
-        // .entitye,
-        // .post-type,
-        // .category {
-        //   &::first-letter {
-        //     text-transform: uppercase;
-        //   }
-        // }
-        // .separator {
-        //   color: var(--font-primary-color-50);
-        // }
+        .separator {
+          color: var(--font-primary-color-50);
+        }
       }
     }
 
