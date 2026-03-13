@@ -7,13 +7,17 @@
           (versionSelected)="onSelect($event)"
         ></app-post-version-dropdown>
 
+        @if (selectedEntityValue || selectedPostType || currentPost.category) {
+          <span class="separator">|</span>
+        }
+
         @if (selectedEntityValue) {
           <span class="entitye">{{ selectedEntityValue }}</span>
           <span class="separator">|</span>
         }
 
-        @if (selectedPostType) {
-          <span class="post-type">{{ selectedPostType }}</span>
+        @if (currentPost.post_type) {
+          <span class="post-type">{{ currentPost.post_type }}</span>
           <span class="separator">|</span>
         }
 
