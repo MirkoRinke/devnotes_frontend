@@ -3,6 +3,8 @@
     <section class="filter">
       <app-query-params-dropdown
         class="left-aligned"
+        [mode]="'URL'"
+        [showCount]="true"
         [label]="selectedEntity === 'languages' ? 'Tech-Stack' : selectedEntity === 'technologies' ? 'Tool' : 'Entität'"
         [key]="'entityValue'"
         [defaultValueLabel]="selectedEntityValue"
@@ -15,7 +17,9 @@
 
       <app-query-params-dropdown
         class="left-aligned"
-        [label]="'Typen'"
+        [mode]="'URL'"
+        [showCount]="true"
+        [label]="'Beitragstyp'"
         [key]="'postType'"
         [defaultValueLabel]="selectedPostType ? selectedPostType : 'Alle Typen'"
         [defaultValue]="selectedPostType ? selectedPostType : ''"
@@ -28,6 +32,8 @@
 
       <app-query-params-dropdown
         class="left-aligned"
+        [mode]="'URL'"
+        [showCount]="true"
         [label]="'Kategorie'"
         [key]="'category'"
         [defaultValueLabel]="selectedCategory ? selectedCategory : 'Alle Kategorien'"
@@ -56,6 +62,8 @@
     </section>
     <section class="sort">
       <app-query-params-dropdown
+        [mode]="'URL'"
+        [showCount]="true"
         class="right-aligned"
         [label]="'Sortieren'"
         [key]="'sort'"
