@@ -10,4 +10,5 @@ export enum ApiEndpointEnums {
   REPORT = '/reports',
   FOLLOW_USER = '/follow/',
   UNFOLLOW_USER = '/unfollow/',
+  POST_ALLOWED_VALUES = '/post-allowed-values/',
 }
