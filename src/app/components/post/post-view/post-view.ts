@@ -31,7 +31,6 @@ export class PostView implements OnChanges {
 
   @Input() selectedEntity: string | null = null;
   @Input() selectedEntityValue: string | null = null;
-  @Input() selectedPostType: string | null = null;
 
   @Input() post: PostInterface | null = null;
 

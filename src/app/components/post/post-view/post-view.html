@@ -7,7 +7,7 @@
           (versionSelected)="onSelect($event)"
         ></app-post-version-dropdown>
 
-        @if (selectedEntityValue || selectedPostType || currentPost.category) {
+        @if (selectedEntityValue || currentPost.post_type || currentPost.category) {
           <span class="separator">|</span>
         }
 
@@ -69,7 +69,7 @@
       <app-post-tech-stack
         [context]="context"
         [endPoint]="endPoint"
-        [selectedPostType]="selectedPostType"
+        [selectedPostType]="currentPost.post_type ?? null"
         [languages]="currentPost.languages ?? []"
         [technologies]="currentPost.technologies ?? []"
       ></app-post-tech-stack>
@@ -87,7 +87,7 @@
       [endPoint]="endPoint"
       [selectedEntity]="selectedEntity"
       [selectedEntityValue]="selectedEntityValue"
-      [selectedPostType]="selectedPostType"
+      [selectedPostType]="currentPost.post_type ?? null"
       [tags]="currentPost.tags ?? []"
     ></app-post-tags>
   </footer>
