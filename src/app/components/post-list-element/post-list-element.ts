@@ -21,6 +21,7 @@ export class PostListElement {
 
   @Input() selectedEntity: string | null = null;
   @Input() selectedEntityValue: string | null = null;
+  @Input() selectedPostType: string | null = null;
 
   constructor(public svgIconsService: SvgIconsService) {}
 }

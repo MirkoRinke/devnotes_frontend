@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { combineLatest } from 'rxjs';
 
@@ -86,6 +86,7 @@ export class Post {
       endPoint: params['endPoint'] ?? null,
       selectedEntity: params['selectedEntity'] ?? null,
       selectedEntityValue: params['selectedEntityValue'] ?? null,
+      selectedPostType: params['selectedPostType'] ?? null,
     };
   }
 
@@ -101,6 +102,7 @@ export class Post {
     this.endPoint = parsed.endPoint;
     this.selectedEntity = parsed.selectedEntity;
     this.selectedEntityValue = parsed.selectedEntityValue;
+    this.selectedPostType = parsed.selectedPostType;
   }
 
   /**

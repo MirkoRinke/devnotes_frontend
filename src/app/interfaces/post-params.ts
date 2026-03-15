@@ -3,4 +3,5 @@ export interface PostParamsInterface {
   endPoint: string | null;
   selectedEntity: string | null;
   selectedEntityValue: string | null;
+  selectedPostType: string | null;
 }
