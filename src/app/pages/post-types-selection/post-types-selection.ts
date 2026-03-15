@@ -8,6 +8,7 @@ import { takeUntil } from 'rxjs/operators';
 import { ApiService } from '../../services/api.service';
 import { SvgIconsService } from '../../services/svg.icons.service';
 import { SearchService } from '../../services/search.service';
+import { AuthService } from '../../services/auth.service';
 
 import { TranslationService } from '../../i18n/translation.service';
 
@@ -41,6 +42,8 @@ export class PostTypesSelection {
   totalCount: number = 0;
   allTypesOption: PostTypesInterface[] = [];
 
+  currentUserId: number | null = null;
+
   private destroy$ = new Subject<void>();
 
   constructor(
@@ -50,13 +53,22 @@ export class PostTypesSelection {
     public svgIconsService: SvgIconsService,
     public searchService: SearchService,
     private translationService: TranslationService,
+    private authService: AuthService,
   ) {}
 
   ngOnInit() {
+    this.currentUserId = this.authService.getCurrentUserId();
     this.route.queryParams.subscribe((params) => {
       const parsed = this.parseQueryParams(params);
-      if (this.areParamsInvalid(parsed)) {
+      if (!this.areParamsValid(parsed)) {
         this.router.navigate(['/']);
+        return;
+      }
+
+      const restrictedEndpoints = ['USER_POSTS', 'FAVORITE_POSTS'];
+      if (parsed.endPoint && restrictedEndpoints.includes(parsed.endPoint) && this.currentUserId === null) {
+        this.router.navigate(['/']);
+        console.warn('User ID is not available. Redirecting to home page.');
         return;
       }
 
@@ -80,7 +92,7 @@ export class PostTypesSelection {
   /**
    * Subscribe to search input changes
    */
-  searchValueInput() {
+  private searchValueInput(): void {
     this.searchService.searchValue$.pipe(takeUntil(this.destroy$)).subscribe((inputValue) => {
       this.filterFunction(inputValue || '');
     });
@@ -91,7 +103,7 @@ export class PostTypesSelection {
    *
    * @param inputValue
    */
-  private filterFunction(inputValue: string) {
+  private filterFunction(inputValue: string): void {
     const searchTerm = inputValue.toLowerCase().trim();
     this.filteredPostTypes = [...this.allTypesOption, ...this.postTypes];
 
@@ -116,7 +128,7 @@ export class PostTypesSelection {
    * @param params
    * @returns
    */
-  private parseQueryParams(params: Params) {
+  private parseQueryParams(params: Params): PostTypesParamsInterface {
     return {
       context: params['context'] ?? null,
       entity: params['entity'] ?? null,
@@ -128,16 +140,17 @@ export class PostTypesSelection {
   /**
    * Check if parsed params are valid
    *
-   * @param param0
+   * @param parsed
    * @returns
    */
-  private areParamsInvalid(parsed: PostTypesParamsInterface): boolean {
+  private areParamsValid(parsed: PostTypesParamsInterface): boolean {
     return (
-      !parsed.entityValue ||
-      !parsed.endPoint ||
-      !new RegExp(RegexEnums.entityValue).test(parsed.entityValue) ||
-      !Object.values(PostListAllowedEntitiesEnums).includes(parsed.entity as PostListAllowedEntitiesEnums) ||
-      !(parsed.endPoint in ApiEndpointEnums)
+      (parsed.context === null || typeof parsed.context === 'string') &&
+      parsed.endPoint !== null &&
+      parsed.endPoint in ApiEndpointEnums &&
+      parsed.entityValue !== null &&
+      new RegExp(RegexEnums.entityValue).test(parsed.entityValue) &&
+      Object.values(PostListAllowedEntitiesEnums).includes(parsed.entity as PostListAllowedEntitiesEnums)
     );
   }
 
@@ -146,7 +159,7 @@ export class PostTypesSelection {
    *
    * @param parsed
    */
-  private setSelectedValues(parsed: PostTypesParamsInterface) {
+  private setSelectedValues(parsed: PostTypesParamsInterface): void {
     this.context = parsed.context;
     this.endPoint = parsed.endPoint;
     this.selectedEntity = parsed.entity;
@@ -156,15 +169,14 @@ export class PostTypesSelection {
   /**
    * Get the post types for the selected Entity
    *
-   * @param tech
-   * @param endPoint
-   * @param entity
-   * @param allowedPostTypes
+   * @param parsed
    */
-  getPostTypesForEntity(parsed: PostTypesParamsInterface) {
-    const options = {
-      params: new HttpParams().set(`filter[${parsed.entity}.name]`, `eq:${parsed.entityValue}`).set('select', 'count:post_type'),
-    };
+  private getPostTypesForEntity(parsed: PostTypesParamsInterface): void {
+    let params = new HttpParams().set(`filter[${parsed.entity}.name]`, `eq:${parsed.entityValue}`).set('select', 'count:post_type');
+
+    params = this.appendEndpointSpecificParams(params, parsed);
+
+    const options = { params };
 
     const url = ApiEndpointEnums[parsed.endPoint as keyof typeof ApiEndpointEnums] + '?' + options.params.toString();
 
@@ -189,12 +201,31 @@ export class PostTypesSelection {
   }
 
   /**
+   * Append endpoint specific filters to the query parameters based on the selected endpoint and other parameters.
+   *
+   * @param params
+   * @param parsed
+   * @returns
+   */
+  private appendEndpointSpecificParams(params: HttpParams, parsed: PostTypesParamsInterface): HttpParams {
+    if (parsed.endPoint === 'POSTS') {
+      return params.set('filter[status]', 'eq:published');
+    }
+
+    if (parsed.endPoint === 'USER_POSTS' && this.currentUserId !== null) {
+      return params.set('filter[user_id]', `eq:${this.currentUserId}`);
+    }
+
+    return params;
+  }
+
+  /**
    * Sort available post types alphabetically
    *
    * @param postTypes
    * @returns
    */
-  sortAvailablePostTypes(postTypes: PostTypesInterface[]): PostTypesInterface[] {
+  private sortAvailablePostTypes(postTypes: PostTypesInterface[]): PostTypesInterface[] {
     return postTypes.sort((a, b) => a.name.localeCompare(b.name));
   }
 
@@ -203,7 +234,7 @@ export class PostTypesSelection {
    *
    * @returns
    */
-  createAllTypesOption() {
+  private createAllTypesOption(): PostTypesInterface[] {
     this.totalCount = this.calculateTotalCount();
     return [{ name: 'all_types', total_counts: this.totalCount, entity: 'post_type' }];
   }
@@ -211,7 +242,7 @@ export class PostTypesSelection {
   /**
    * Calculates the total count of all post types to be displayed in the "all_types" option
    */
-  calculateTotalCount() {
+  private calculateTotalCount(): number {
     return this.postTypes.reduce((sum, current) => sum + current.total_counts, 0);
   }
 }
