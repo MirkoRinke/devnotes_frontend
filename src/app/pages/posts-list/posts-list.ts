@@ -100,6 +100,13 @@ export class PostsList {
         return;
       }
 
+      const restrictedEndpoints = ['USER_POSTS', 'FAVORITE_POSTS'];
+      if (parsed.endPoint && restrictedEndpoints.includes(parsed.endPoint) && this.currentUserId === null) {
+        this.router.navigate(['/']);
+        console.warn('User ID is not available. Redirecting to home page.');
+        return;
+      }
+
       this.setSelectedValues(parsed);
       this.setParams(parsed);
 
@@ -173,7 +180,7 @@ export class PostsList {
    *
    * @param parsed
    */
-  private setSelectedValues(parsed: PostListParamsInterface) {
+  private setSelectedValues(parsed: PostListParamsInterface): void {
     this.context = parsed.context;
     this.endPoint = parsed.endPoint;
     this.selectedEntity = parsed.entity;
@@ -190,7 +197,7 @@ export class PostsList {
    *
    * @returns
    */
-  changeDetectionValue(): string {
+  public changeDetectionValue(): string {
     return 'changeDetectionValues' + this.endPoint + this.selectedEntity + this.selectedEntityValue + this.selectedPostType + this.selectedCategory + this.selectedSort;
   }
 
@@ -212,14 +219,14 @@ export class PostsList {
    * Handles window resize events.
    */
   @HostListener('window:resize')
-  onResize() {
+  public onResize(): void {
     this.resize$.next();
   }
 
   /**
    * Initializes the resize subscription to handle window resize events.
    */
-  private initResizeSubscription(parsed: PostListParamsInterface) {
+  private initResizeSubscription(parsed: PostListParamsInterface): void {
     if (this.resizeSub) {
       this.resizeSub.unsubscribe();
     }
@@ -236,7 +243,7 @@ export class PostsList {
    * @param isNavigation Indicates if the calculation is triggered by navigation
    * @returns void
    */
-  private listElementsPerPage(parsed: PostListParamsInterface, isNavigation: boolean = false) {
+  private listElementsPerPage(parsed: PostListParamsInterface, isNavigation: boolean = false): void {
     if (!this.postListContainer?.nativeElement) return;
     const container = this.postListContainer.nativeElement;
 
@@ -313,7 +320,7 @@ export class PostsList {
    * @param dateTo The end date filter
    * @param sort The sort order
    */
-  private getPostsList(parsed: PostListParamsInterface) {
+  private getPostsList(parsed: PostListParamsInterface): void {
     if (!parsed.endPoint) return;
 
     const perPage = this.perPage ?? parsed.perPage;
@@ -381,7 +388,7 @@ export class PostsList {
    * @param entity  The entity type
    * @param postType The type of the post
    */
-  private setParams(parsed: PostListParamsInterface) {
+  private setParams(parsed: PostListParamsInterface): void {
     this.entityValueParams = [this.getEntityValueQuery(parsed)];
     this.postTypeParams = [this.getPostTypeQuery(parsed)];
     this.categoryParams = [this.getCategoryQuery(parsed)];
@@ -442,7 +449,7 @@ export class PostsList {
    *
    * @param dropdowns Array of dropdowns to validate
    */
-  private validateDropdownParams(parsed: PostListParamsInterface) {
+  private validateDropdownParams(parsed: PostListParamsInterface): void {
     // This is only for your TypeScript compiler :)
     if (!parsed.endPoint) return;
 
