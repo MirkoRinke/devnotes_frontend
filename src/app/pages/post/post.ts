@@ -62,10 +62,14 @@ export class Post {
   }
 
   /**
-   * Reload post data, typically after enabling external content
+   * Update the current post with new data from the child component or reload it from the API
    */
-  reloadPost() {
-    if (this.post && this.post.id) {
+  updatePost(updatedPost?: PostInterface): void {
+    if (updatedPost) {
+      console.log('Updating post with new data from child component:', updatedPost);
+      this.post = updatedPost;
+    } else if (this.post && this.post.id) {
+      console.log('Reloading post data from API for post ID:', this.post.id);
       this.getPost(this.post.id);
     }
   }
@@ -82,7 +86,6 @@ export class Post {
       endPoint: params['endPoint'] ?? null,
       selectedEntity: params['selectedEntity'] ?? null,
       selectedEntityValue: params['selectedEntityValue'] ?? null,
-      selectedPostType: params['selectedPostType'] ?? null,
     };
   }
 
@@ -98,7 +101,6 @@ export class Post {
     this.endPoint = parsed.endPoint;
     this.selectedEntity = parsed.selectedEntity;
     this.selectedEntityValue = parsed.selectedEntityValue;
-    this.selectedPostType = parsed.selectedPostType;
   }
 
   /**
