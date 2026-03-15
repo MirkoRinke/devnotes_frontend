@@ -54,5 +54,11 @@
   .values {
     border-top: 2px solid var(--font-primary-color-50);
     width: max-content;
+
+    max-height: px-to-rem(300);
+    overflow: auto;
+
+    scrollbar-width: thin;
+    scrollbar-color: rgb(60, 60, 60) transparent;
   }
 }
