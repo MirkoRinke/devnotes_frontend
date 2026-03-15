@@ -1,12 +1,18 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, inject, DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { ApiService } from '../../../services/api.service';
+import { AuthService } from '../../../services/auth.service';
+
+import { ApiEndpointEnums } from '../../../enums/api-endpoint';
 
 import { atLeastOne } from '../../../utils/custom-validators';
 
 import { LocalDatePipe } from '../../../pipes/local-date-pipe';
 
+import type { ApiResponseObjektInterface } from '../../../interfaces/api-response';
 import type { PostInterface } from '../../../interfaces/post';
 import type { PostPayload } from '../../../interfaces/post-payload';
 
@@ -23,20 +29,35 @@ export class PostForm {
   @Input() post: PostInterface | null = null;
 
   @Output() modeChange = new EventEmitter<'view'>();
-
-  postForm: FormGroup | null = null;
+  @Output() resourceRefresh = new EventEmitter<PostInterface>();
 
   currentDate = new Date();
 
-  constructor(private fb: FormBuilder) {}
+  postForm: FormGroup | null = null;
+
+  isProcessing = false;
+
+  private destroyRef = inject(DestroyRef);
+
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private apiService: ApiService,
+    private router: Router,
+  ) {}
 
   ngOnInit() {
     this.createPostForm();
     console.log('PostForm:', this.postForm?.value);
 
     if (this.mode === 'edit' && this.post) {
-      this.patchPostForm();
-      console.log('Edit Mode Patched PostForm:', this.postForm?.value);
+      if (this.isOwner(this.post)) {
+        this.patchPostForm();
+        console.log('Edit Mode Patched PostForm:', this.postForm?.value);
+      } else {
+        console.warn('User is not the owner of the post. Switching to view mode.');
+        this.switchMode('view');
+      }
     }
   }
 
@@ -136,30 +157,61 @@ export class PostForm {
 
     const formData: PostPayload = this.postForm.getRawValue();
 
-    if (this.mode === 'edit' && this.post?.id) {
-      this.updatePost(this.post.id, formData);
-    } else {
-      this.createPost(formData);
+    this.savePost(formData);
+  }
+
+  savePost(data: PostPayload) {
+    console.log('Saving post with data:', data);
+    /**
+     * Prevent multiple like/unlike requests and ensure user is logged in and not the owner of the post
+     */
+    if (this.isProcessing || !this.authService.isLoggedIn()) {
+      return;
     }
+
+    this.isProcessing = true;
+
+    const url = ApiEndpointEnums.POSTS + (this.mode === 'edit' && this.post ? `${this.post.id}` : '');
+
+    let method: 'patch' | 'post' = this.mode === 'edit' ? 'patch' : 'post';
+
+    this.apiService[method]<ApiResponseObjektInterface<PostInterface>>(url, data)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (response) => {
+          console.log('Post saved successfully:', response.data.data);
+          if (this.mode === 'edit') {
+            this.switchMode('view');
+            this.resourceRefresh.emit(response.data.data);
+          } else {
+            console.log('Post created successfully, navigating to post view with ID:', response.data.data.id);
+            // this.router.navigate(['/post', response.data.data.id], {
+            //   queryParams: {
+            //     selectedEntity: 'placeholder', // TODO Pick the First-Choice Entity and Value based on the User Selection in the Language and Technology Modal
+            //     selectedEntityValue: 'placeholder', // TODO Pick the First-Choice Entity and Value based on  User Selection in the Language and Technology Modal
+            //   },
+            //   queryParamsHandling: 'merge',
+            //   replaceUrl: true,
+            // });
+          }
+
+          this.isProcessing = false;
+        },
+        error: (error) => {
+          console.error('Error saving post:', error);
+          this.isProcessing = false;
+        },
+      });
   }
 
   /**
-   * TODO Placeholder method for creating a new post.
+   * Check if the current user is the owner of the post
    *
-   * @param data
+   * @param post
+   * @returns
    */
-  createPost(data: PostPayload) {
-    console.log('Creating post with data:', data);
-  }
-
-  /**
-   * TODO Placeholder method for updating a post.
-   *
-   * @param id
-   * @param data
-   */
-  updatePost(id: number, data: PostPayload) {
-    console.log(`Updating post ${id} with data:`, data);
+  isOwner(post: PostInterface): boolean {
+    return this.authService.isOwner(post.user_id ?? null);
   }
 
   /**

@@ -89,6 +89,14 @@
     <!-- Modals -->
     <button
       type="button"
+      [disabled]="isProcessing"
+      (click)="onSubmit()"
+    >
+      {{ mode === 'create' ? 'Erstellen' : 'Änderungen speichern' }}
+    </button>
+
+    <button
+      type="button"
       (click)="switchMode('view')"
     >
       Abbrechen
