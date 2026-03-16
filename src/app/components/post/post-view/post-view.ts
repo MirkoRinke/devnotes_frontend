@@ -8,12 +8,13 @@ import { PostResourceModal } from './post-resource-modal/post-resource-modal';
 
 import { SvgIconsService } from '../../../services/svg.icons.service';
 import { AuthService } from '../../../services/auth.service';
+
 import { PostSettingsDropdown } from './post-settings-dropdown/post-settings-dropdown';
 import { ReportModal } from '../../report-modal/report-modal';
 import { UserBadge } from '../../user-badge/user-badge';
 import { PostVersionDropdown } from './post-version-dropdown/post-version-dropdown';
 import { ReportButton } from '../../report-button/report-button';
-import { PostEngagement } from './post-engagement/post-engagement';
+import { PostEngagement } from '../post-engagement/post-engagement';
 import { PostCode } from './post-code/post-code';
 import { PostTechStack } from './post-tech-stack/post-tech-stack';
 import { PostMediaLinks } from './post-media-links/post-media-links';
