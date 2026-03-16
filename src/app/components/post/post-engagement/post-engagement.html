@@ -1,0 +1,43 @@
+<!--TODO [disabled] -->
+@if (post || !isViewMode) {
+  <div class="engagement">
+    <div
+      class="likes"
+      [class.isOwner]="this.isOwner(post)"
+      [class.isDisabled]="!isLoggedIn() || isViewMode === false"
+      (click)="isViewMode && post ? toggleLike(post) : null"
+    >
+      <p class="count">{{ post?.likes_count ?? 0 }}</p>
+      <span
+        class="icon"
+        [class.isOwner]="this.isOwner(post)"
+        [class.isLiked]="post?.is_liked || this.isOwner(post) ? true : false"
+        [innerHTML]="svgIconsService.returnIcon(getLikeIconName(post), 'like')"
+      ></span>
+    </div>
+    <div
+      class="favorites"
+      [class.isDisabled]="!isLoggedIn() || isViewMode === false"
+      (click)="isViewMode && post ? toggleFavorites(post) : null"
+    >
+      <p class="count">{{ post?.favorite_count ?? 0 }}</p>
+      <span
+        class="icon"
+        [class.isFavorited]="post?.is_favorited ? true : false"
+        [innerHTML]="svgIconsService.returnIcon(getFavoriteIconName(post), 'favorite')"
+      ></span>
+    </div>
+    <div
+      class="shares"
+      [class.isDisabled]="isViewMode === false"
+      (click)="isViewMode ? sharePost() : null"
+    >
+      <span
+        class="icon"
+        [class.copied]="isCopied"
+        [class.copy-failed]="copiedFailed"
+        [innerHTML]="svgIconsService.returnIcon('share', 'share')"
+      ></span>
+    </div>
+  </div>
+}

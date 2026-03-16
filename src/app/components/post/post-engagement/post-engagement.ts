@@ -1,12 +1,12 @@
 import { Component, input, Input } from '@angular/core';
-import { SvgIconsService } from '../../../../services/svg.icons.service';
+import { SvgIconsService } from '../../../services/svg.icons.service';
 
-import { ApiService } from '../../../../services/api.service';
-import { AuthService } from '../../../../services/auth.service';
+import { ApiService } from '../../../services/api.service';
+import { AuthService } from '../../../services/auth.service';
 
-import { ApiEndpointEnums } from '../../../../enums/api-endpoint';
+import { ApiEndpointEnums } from '../../../enums/api-endpoint';
 
-import { PostInterface } from '../../../../interfaces/post';
+import { PostInterface } from '../../../interfaces/post';
 
 @Component({
   selector: 'app-post-engagement',
@@ -22,6 +22,8 @@ export class PostEngagement {
 
   isCopied = false;
   copiedFailed = false;
+
+  @Input() isViewMode = true;
 
   constructor(
     public svgIconsService: SvgIconsService,
@@ -122,7 +124,51 @@ export class PostEngagement {
    * @param post
    * @returns
    */
-  isOwner(post: PostInterface): boolean {
+  isOwner(post: PostInterface | null): boolean {
+    if (!post) {
+      return false;
+    }
     return this.authService.isOwner(post.user_id ?? null);
+  }
+
+  /**
+   * Check if the user is logged in
+   *
+   * @returns
+   */
+  public isLoggedIn(): boolean {
+    return this.authService.isLoggedIn();
+  }
+
+  /**
+   * Determines the appropriate icon name for the like button based on the post's like status and ownership.
+   * - If the form is in 'create' mode or the post is null, it returns 'like_outline'.
+   * - If the user is the owner of the post, it returns 'like'.
+   * - Otherwise, it returns 'like' if the post is liked, and 'like_outline' if not.
+   *
+   * @param post
+   * @returns
+   */
+  public getLikeIconName(post: PostInterface | null): string {
+    if (!post) {
+      return 'like_outline';
+    }
+    return post.is_liked || this.isOwner(post) ? 'like' : 'like_outline';
+  }
+
+  /**
+   * Determines the appropriate icon name for the favorite button based on the post's favorite status and ownership.
+   * - If the form is in 'create' mode or the post is null, it returns 'favorite_outline'.
+   * - If the user is the owner of the post, it returns 'favorite'.
+   * - Otherwise, it returns 'favorite' if the post is favorited, and 'favorite_outline' if not.
+   *
+   * @param post
+   * @returns
+   */
+  public getFavoriteIconName(post: PostInterface | null): string {
+    if (!post) {
+      return 'favorite_outline';
+    }
+    return post.is_favorited ? 'favorite' : 'favorite_outline';
   }
 }
