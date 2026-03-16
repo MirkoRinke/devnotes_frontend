@@ -15,12 +15,14 @@ import { LocalDatePipe } from '../../../pipes/local-date-pipe';
 import type { ApiResponseObjektInterface } from '../../../interfaces/api-response';
 import type { PostInterface } from '../../../interfaces/post';
 import type { PostPayload } from '../../../interfaces/post-payload';
+import type { UserInterface } from '../../../interfaces/user';
 
 import { QueryParamsDropdown } from '../../query-params-dropdown/query-params-dropdown';
+import { UserBadge } from '../../user-badge/user-badge';
 
 @Component({
   selector: 'app-post-form',
-  imports: [ReactiveFormsModule, LocalDatePipe, QueryParamsDropdown],
+  imports: [ReactiveFormsModule, LocalDatePipe, QueryParamsDropdown, UserBadge],
   templateUrl: './post-form.html',
   styleUrl: './post-form.scss',
 })
@@ -34,6 +36,8 @@ export class PostForm {
   currentDate = new Date();
 
   postForm: FormGroup | null = null;
+
+  currentUser: UserInterface | null = null;
 
   isProcessing = false;
 
@@ -50,15 +54,47 @@ export class PostForm {
     this.createPostForm();
     console.log('PostForm:', this.postForm?.value);
 
-    if (this.mode === 'edit' && this.post) {
+    if (this.mode === 'create') {
+      this.loadCurrentUser(this.getCurrentUserId());
+    } else if (this.mode === 'edit' && this.post) {
       if (this.isOwner(this.post)) {
         this.patchPostForm();
-        console.log('Edit Mode Patched PostForm:', this.postForm?.value);
+        if (this.post.user) {
+          this.currentUser = this.post.user;
+        } else {
+          this.loadCurrentUser(this.getCurrentUserId());
+        }
       } else {
         console.warn('User is not the owner of the post. Switching to view mode.');
         this.switchMode('view');
       }
     }
+  }
+
+  /**
+   * Fetches the current user data based on the user ID. If the user is not logged in or the user ID is null, it does nothing.
+   *
+   * @param userId  The ID of the user to fetch.
+   */
+  private loadCurrentUser(userId: number | null): void {
+    if (!this.authService.isLoggedIn() || userId === null) {
+      return;
+    }
+
+    const url = ApiEndpointEnums.USER + `${userId}`;
+
+    this.apiService
+      .get<ApiResponseObjektInterface<UserInterface>>(url)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (response) => {
+          console.log('User data fetched successfully:', response);
+          this.currentUser = response.data.data;
+        },
+        error: (error) => {
+          console.error('Error fetching user data:', error);
+        },
+      });
   }
 
   /**
@@ -68,7 +104,7 @@ export class PostForm {
    * @param fallback The fallback value to return if the control has no value.
    * @returns The value of the form control or the fallback value.
    */
-  getDefaultValue(controlName: string, fallback: string): string {
+  public getDefaultValue(controlName: string, fallback: string): string {
     const value = this.postForm?.get(controlName)?.value;
     return value && typeof value === 'string' ? value : fallback;
   }
@@ -77,7 +113,7 @@ export class PostForm {
    * Creates the form group with all necessary controls and validators.
    *
    */
-  createPostForm() {
+  private createPostForm(): void {
     this.postForm = this.fb.group(
       {
         // Required fields (Backend: required)
@@ -109,7 +145,7 @@ export class PostForm {
   /**
    * Patches the form with the existing post data when in edit mode.
    */
-  patchPostForm() {
+  private patchPostForm(): void {
     if (this.post) {
       this.postForm?.patchValue({
         title: this.post.title ?? '',
@@ -131,7 +167,7 @@ export class PostForm {
   /**
    * Resets the form to its original values. In edit mode, it resets to the initial post data; in create mode, it clears the form.
    */
-  resetForm() {
+  public resetForm(): void {
     if (this.mode === 'edit' && this.post) {
       this.patchPostForm();
     } else {
@@ -147,7 +183,7 @@ export class PostForm {
    *
    * @returns
    */
-  onSubmit() {
+  public onSubmit(): void {
     if (!this.postForm) return;
 
     if (this.postForm.invalid) {
@@ -160,10 +196,10 @@ export class PostForm {
     this.savePost(formData);
   }
 
-  savePost(data: PostPayload) {
+  private savePost(data: PostPayload): PostInterface | void {
     console.log('Saving post with data:', data);
     /**
-     * Prevent multiple like/unlike requests and ensure user is logged in and not the owner of the post
+     * Prevent multiple save requests
      */
     if (this.isProcessing || !this.authService.isLoggedIn()) {
       return;
@@ -210,8 +246,17 @@ export class PostForm {
    * @param post
    * @returns
    */
-  isOwner(post: PostInterface): boolean {
+  private isOwner(post: PostInterface): boolean {
     return this.authService.isOwner(post.user_id ?? null);
+  }
+
+  /**
+   * Get the current user ID from the AuthService
+   *
+   * @returns
+   */
+  private getCurrentUserId(): number | null {
+    return this.authService.getCurrentUserId();
   }
 
   /**
@@ -219,16 +264,28 @@ export class PostForm {
    *
    * @param newMode
    */
-  switchMode(newMode: 'view') {
+  public switchMode(newMode: 'view') {
     this.modeChange.emit(newMode);
   }
 
-  getAllowedValuesParams(type: string): string[] {
+  /**
+   * Generates the query parameters for fetching allowed values for dropdowns based on the type.
+   *
+   * @param type
+   * @returns
+   */
+  public getAllowedValuesParams(type: string): string[] {
     let query = [`?filter[type]=${type}&select=count:name`];
     return query;
   }
 
-  patchDropdownValues(values: string, type: string) {
+  /**
+   * Patches the form with the selected values from the dropdowns.
+   *
+   * @param values
+   * @param type
+   */
+  public patchDropdownValues(values: string, type: string) {
     if (this.postForm) {
       this.postForm.patchValue({ [type]: values });
       this.postForm.get(type)?.markAsDirty();
