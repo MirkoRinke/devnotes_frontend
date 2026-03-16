@@ -59,7 +59,10 @@
           [menuActive]="true"
         ></app-user-badge>
 
-        <!-- Engagement (Likes, Favorites, Share) Icons mit placeholder Count 0 -->
+        <app-post-engagement
+          [post]="mode === 'edit' ? post : null"
+          [isViewMode]="false"
+        ></app-post-engagement>
       </div>
     </header>
 

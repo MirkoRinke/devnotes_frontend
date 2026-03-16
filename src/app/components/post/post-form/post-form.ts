@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 
 import { ApiService } from '../../../services/api.service';
 import { AuthService } from '../../../services/auth.service';
+import { SvgIconsService } from '../../../services/svg.icons.service';
 
 import { ApiEndpointEnums } from '../../../enums/api-endpoint';
 
@@ -20,10 +21,11 @@ import type { UserInterface } from '../../../interfaces/user';
 
 import { QueryParamsDropdown } from '../../query-params-dropdown/query-params-dropdown';
 import { UserBadge } from '../../user-badge/user-badge';
+import { PostEngagement } from '../post-engagement/post-engagement';
 
 @Component({
   selector: 'app-post-form',
-  imports: [ReactiveFormsModule, LocalDatePipe, QueryParamsDropdown, UserBadge],
+  imports: [ReactiveFormsModule, LocalDatePipe, QueryParamsDropdown, UserBadge, PostEngagement],
   templateUrl: './post-form.html',
   styleUrl: './post-form.scss',
 })
@@ -49,6 +51,7 @@ export class PostForm {
     private fb: FormBuilder,
     private authService: AuthService,
     private apiService: ApiService,
+    public svgIconsService: SvgIconsService,
     private router: Router,
   ) {}
 
@@ -253,7 +256,10 @@ export class PostForm {
    * @param post
    * @returns
    */
-  private isOwner(post: PostInterface): boolean {
+  public isOwner(post: PostInterface | null): boolean {
+    if (post === null) {
+      return false;
+    }
     return this.authService.isOwner(post.user_id ?? null);
   }
 
