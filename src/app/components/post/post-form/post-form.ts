@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, inject, DestroyRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 import { ApiService } from '../../../services/api.service';
@@ -37,6 +38,7 @@ export class PostForm {
 
   postForm: FormGroup | null = null;
 
+  necessaryUserFields: string = 'display_name,avatar_items';
   currentUser: UserInterface | null = null;
 
   isProcessing = false;
@@ -81,7 +83,11 @@ export class PostForm {
       return;
     }
 
-    const url = ApiEndpointEnums.USER + `${userId}`;
+    const options = {
+      params: new HttpParams().set('select', this.necessaryUserFields),
+    };
+
+    const url = ApiEndpointEnums.USER + `${userId}` + '?' + options.params.toString();
 
     this.apiService
       .get<ApiResponseObjektInterface<UserInterface>>(url)
@@ -90,6 +96,7 @@ export class PostForm {
         next: (response) => {
           console.log('User data fetched successfully:', response);
           this.currentUser = response.data.data;
+          console.log('Current user set to:', this.currentUser);
         },
         error: (error) => {
           console.error('Error fetching user data:', error);

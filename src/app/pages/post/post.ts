@@ -1,6 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { combineLatest } from 'rxjs';
+import { HttpParams } from '@angular/common/http';
 
 import { ApiService } from '../../services/api.service';
 
@@ -11,7 +12,6 @@ import type { Params } from '@angular/router';
 
 import { ApiEndpointEnums } from '../../enums/api-endpoint';
 import { PostView } from '../../components/post/post-view/post-view';
-import { HttpParams } from '@angular/common/http';
 import { PostDelete } from '../../components/post/post-delete/post-delete';
 import { PostForm } from '../../components/post/post-form/post-form';
 
