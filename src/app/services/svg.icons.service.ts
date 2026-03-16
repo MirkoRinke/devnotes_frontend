@@ -36,7 +36,7 @@ export class SvgIconsService {
   public returnIcon(type: string, className: string = type): SafeHtml {
     let typeLower = type.toLowerCase().replace(/[.\s]+/g, '_');
 
-    const iconHtml = getAppIcon(type, className) || getLangIcon(typeLower, className) || getTechIcon(typeLower, className) || getPostTypeIcon(typeLower, className) || getFallbackIcon();
+    const iconHtml = getAppIcon(typeLower, className) || getLangIcon(typeLower, className) || getTechIcon(typeLower, className) || getPostTypeIcon(typeLower, className) || getFallbackIcon();
 
     return this.sanitizer.bypassSecurityTrustHtml(iconHtml);
   }
