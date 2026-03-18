@@ -67,9 +67,24 @@
     </header>
 
     <section class="content">
-      <!-- Formularfeld für Titel -->
-      <!-- Formularfeld für Beschreibung -->
-      <!-- Formularfeld für Code, wenn möglich mit Live ( oder kleinem debouncing ) Syntax Highlighting -->
+      <input
+        type="text"
+        formControlName="title"
+      />
+
+      <textarea
+        type="text"
+        formControlName="description"
+      ></textarea>
+
+      <!-- TODO replace the [language]="'php'" with dynamic value based on the selected tech or null if no tech is selected -->
+      <app-post-code
+        [language]="'php'"
+        [code]="postFormCode"
+        [isViewMode]="true"
+        [control]="getControl('code')"
+        (viewModeChange)="postFormCode = getControl('code')?.value"
+      ></app-post-code>
     </section>
 
     <footer class="footer">

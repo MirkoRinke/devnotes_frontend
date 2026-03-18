@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, inject, DestroyRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 
@@ -22,10 +22,11 @@ import type { UserInterface } from '../../../interfaces/user';
 import { QueryParamsDropdown } from '../../query-params-dropdown/query-params-dropdown';
 import { UserBadge } from '../../user-badge/user-badge';
 import { PostEngagement } from '../post-engagement/post-engagement';
+import { PostCode } from '../post-view/post-code/post-code';
 
 @Component({
   selector: 'app-post-form',
-  imports: [ReactiveFormsModule, LocalDatePipe, QueryParamsDropdown, UserBadge, PostEngagement],
+  imports: [ReactiveFormsModule, LocalDatePipe, QueryParamsDropdown, UserBadge, PostEngagement, PostCode],
   templateUrl: './post-form.html',
   styleUrl: './post-form.scss',
 })
@@ -39,6 +40,7 @@ export class PostForm {
   currentDate = new Date();
 
   postForm: FormGroup | null = null;
+  postFormCode: string | null = null;
 
   necessaryUserFields: string = 'display_name,avatar_items';
   currentUser: UserInterface | null = null;
@@ -175,6 +177,19 @@ export class PostForm {
   }
 
   /**
+   * Helper method to get a form control by name. Returns null if the form is not initialized or if the control does not exist.
+   *
+   * @param name The name of the form control.
+   * @returns The form control or null if it does not exist.
+   */
+  public getControl(name: string): FormControl | null {
+    if (!this.postForm) {
+      return null;
+    }
+    return this.postForm.get(name) as FormControl;
+  }
+
+  /**
    * Resets the form to its original values. In edit mode, it resets to the initial post data; in create mode, it clears the form.
    */
   public resetForm(): void {
@@ -185,6 +200,8 @@ export class PostForm {
     }
     this.postForm?.markAsPristine();
     this.postForm?.markAsUntouched();
+
+    this.postFormCode = this.postForm?.get('code')?.value;
     console.log('Form reset:', this.postForm?.value);
   }
 
