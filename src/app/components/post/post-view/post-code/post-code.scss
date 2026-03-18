@@ -2,21 +2,30 @@
 @use '../../../../../var' as var;
 @use '../../../../../mixins' as *;
 
+:host {
+  --codeTextarea-max-height: #{px-to-rem(300)};
+  --codeTextarea-min-height: #{px-to-rem(100)};
+}
+
 .code-container {
   //TODO Fix color later use variable
   background-color: #181a22;
   border: px-to-rem(2) solid var(--font-primary-color-25);
   border-radius: px-to-rem(10);
-  padding: px-to-rem(20) px-to-rem(25);
-  padding-right: px-to-rem(50);
+
+  padding: px-to-rem(35) px-to-rem(5) px-to-rem(35) px-to-rem(25);
 
   position: relative;
+
+  &:has(.code-textarea:focus) {
+    box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-100);
+  }
 
   .copy-button {
     @include button-preset();
     position: absolute;
-    top: px-to-rem(15);
-    right: px-to-rem(15);
+    top: px-to-rem(10);
+    right: px-to-rem(10);
 
     @include copy-interactions($class: 'copy');
 
@@ -36,9 +45,38 @@
     box-shadow: none;
     border: none;
 
+    margin: 0;
+    padding: 0;
+
+    max-height: var(--codeTextarea-max-height);
+    min-height: var(--codeTextarea-min-height);
+
+    scrollbar-width: thin;
+    scrollbar-color: rgb(60, 60, 60) transparent;
+
     & code {
-      white-space: pre-wrap !important;
-      word-break: break-all !important;
+      @include font-settings(16, 400);
+      line-height: 1.5;
+      white-space: pre-wrap !important; // Overwrite prism.js styles
+      word-break: break-all !important; // Overwrite prism.js styles
     }
+  }
+
+  .code-textarea {
+    @include font-settings(16, 400);
+    display: block;
+    line-height: 1.5;
+
+    background-color: transparent;
+
+    color: var(--font-primary-color-100);
+    resize: none;
+    width: 100%;
+
+    scrollbar-width: thin;
+    scrollbar-color: rgb(60, 60, 60) transparent;
+
+    outline: unset;
+    border: none;
   }
 }

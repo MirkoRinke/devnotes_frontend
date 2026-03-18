@@ -1,10 +1,26 @@
 <div class="code-container">
-  <button
-    class="copy-button"
-    [class.copied]="isCopied"
-    [class.copy-failed]="copiedFailed"
-    (click)="copyToClipboard(code)"
-    [innerHTML]="svgIconsService.returnIcon('copy')"
-  ></button>
-  <pre><code #codeElement [class]="language | prismLanguage">{{ code }}</code></pre>
+  @if (isViewMode) {
+    @if (code) {
+      <button
+        class="copy-button"
+        [class.copied]="isCopied"
+        [class.copy-failed]="copiedFailed"
+        (click)="copyToClipboard(code)"
+        [innerHTML]="svgIconsService.returnIcon('copy')"
+      ></button>
+    }
+    <pre (click)="control ? setViewMode(false) : null"><code #codeElement [class]="language | prismLanguage">{{ code }}</code></pre>
+  } @else {
+    @if (control) {
+      <textarea
+        (blur)="setViewMode(true)"
+        class="code-textarea"
+        name="code-textarea"
+        #codeTextarea
+        (input)="adjustHeight()"
+        type="text"
+        [formControl]="control"
+      ></textarea>
+    }
+  }
 </div>
