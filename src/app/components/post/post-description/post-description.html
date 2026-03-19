@@ -1,0 +1,33 @@
+@if (control || description) {
+  <div
+    class="description-container"
+    [class.expanded]="isExpanded"
+  >
+    <div class="description-header">
+      <button
+        class="copy-button"
+        [class.copied]="isCopied"
+        [class.copy-failed]="copiedFailed"
+        (mousedown)="copyToClipboard(control ? control.value : description); $event.preventDefault()"
+        [innerHTML]="svgIconsService.returnIcon('copy')"
+      ></button>
+      <button
+        (mousedown)="toggleExpanded(); $event.preventDefault()"
+        [innerHTML]="svgIconsService.returnIcon(isExpanded ? 'collapse' : 'expand')"
+      ></button>
+    </div>
+
+    @if (isViewMode) {
+      <pre class="description">{{ description }}</pre>
+    } @else if (control) {
+      <textarea
+        #descriptionTextarea
+        (input)="adjustHeight()"
+        class="description-input"
+        name="description-input"
+        type="text"
+        [formControl]="control"
+      ></textarea>
+    }
+  </div>
+}

@@ -1,0 +1,106 @@
+@use '../../../../functions' as *;
+@use '../../../../var' as var;
+@use '../../../../mixins' as *;
+
+:host {
+  --description-max-height: #{px-to-rem(150)};
+  --description-min-height: #{px-to-rem(150)};
+  --description-padding-right: #{px-to-rem(75)};
+
+  &:has(.expanded) {
+    --description-max-height: none;
+  }
+}
+
+.description-container {
+  position: relative;
+  margin-top: px-to-rem(10);
+  margin-bottom: px-to-rem(25);
+
+  .description-header {
+    @include display-flex(center, flex-end);
+    position: sticky;
+    top: px-to-rem(15);
+    margin-bottom: px-to-rem(15);
+
+    button {
+      @include button-preset();
+      width: px-to-rem(15);
+      height: px-to-rem(15);
+      margin-right: px-to-rem(15);
+
+      &:hover {
+        &::ng-deep .collapse,
+        &::ng-deep .expand {
+          fill: var(--font-primary-color-100);
+          transition:
+            fill var.$transition-duration-medium ease-in-out,
+            transform var.$transition-duration-medium ease-in-out;
+        }
+      }
+
+      &::ng-deep .collapse,
+      &::ng-deep .expand {
+        fill: var(--font-primary-color-50);
+        width: 100%;
+        height: 100%;
+        transition:
+          fill var.$transition-duration-medium ease-in-out,
+          transform var.$transition-duration-medium ease-in-out;
+      }
+    }
+
+    .copy-button {
+      @include button-preset();
+      @include copy-interactions($class: 'copy');
+
+      &::ng-deep .copy {
+        transition: fill var.$transition-duration-medium ease-in-out;
+        width: px-to-rem(15);
+        height: px-to-rem(15);
+        fill: var(--font-primary-color-50);
+      }
+    }
+  }
+
+  .description {
+    @include font-settings(14, 400);
+    color: var(--font-primary-color-100);
+
+    max-height: var(--description-max-height);
+    min-height: var(--description-min-height);
+
+    width: 100%;
+    max-width: 100%;
+
+    padding-right: var(--description-padding-right);
+
+    white-space: wrap;
+    word-break: break-word;
+
+    overflow-y: scroll;
+    scrollbar-width: thin;
+    scrollbar-color: rgb(60, 60, 60) transparent;
+  }
+
+  .description-input {
+    @include font-settings(14, 400);
+    color: var(--font-primary-color-100);
+    min-height: var(--description-min-height);
+    max-height: var(--description-max-height);
+    display: block;
+
+    width: 100%;
+    max-width: 100%;
+
+    padding-right: var(--description-padding-right);
+
+    background-color: transparent;
+    outline: none;
+    border: none;
+    resize: none;
+
+    scrollbar-width: thin;
+    scrollbar-color: rgb(60, 60, 60) transparent;
+  }
+}
