@@ -67,7 +67,7 @@ export class Post {
   updatePost(updatedPost?: PostInterface): void {
     if (updatedPost) {
       console.log('Updating post with new data from child component:', updatedPost);
-      this.post = updatedPost;
+      this.post = { ...this.post, ...updatedPost };
     } else if (this.post && this.post.id) {
       console.log('Reloading post data from API for post ID:', this.post.id);
       this.getPost(this.post.id);
