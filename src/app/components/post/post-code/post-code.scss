@@ -5,6 +5,11 @@
 :host {
   --codeTextarea-max-height: #{px-to-rem(300)};
   --codeTextarea-min-height: #{px-to-rem(100)};
+  --codeTextarea-padding-right: #{px-to-rem(75)};
+
+  &:has(.expanded) {
+    --codeTextarea-max-height: none;
+  }
 }
 
 .code-container {
@@ -13,27 +18,56 @@
   border: px-to-rem(2) solid var(--font-primary-color-25);
   border-radius: px-to-rem(10);
 
-  padding: px-to-rem(35) px-to-rem(5) px-to-rem(35) px-to-rem(25);
-
-  position: relative;
+  padding: px-to-rem(20) px-to-rem(5) px-to-rem(35) px-to-rem(25);
 
   &:has(.code-textarea:focus) {
     box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-100);
   }
 
-  .copy-button {
-    @include button-preset();
-    position: absolute;
-    top: px-to-rem(10);
-    right: px-to-rem(10);
+  .code-header {
+    @include display-flex(center, flex-end);
+    position: sticky;
+    top: px-to-rem(15);
+    margin-bottom: px-to-rem(15);
 
-    @include copy-interactions($class: 'copy');
+    button {
+      @include button-preset();
 
-    &::ng-deep .copy {
-      transition: fill var.$transition-duration-medium ease-in-out;
       width: px-to-rem(15);
       height: px-to-rem(15);
-      fill: var(--font-primary-color-50);
+      margin-right: px-to-rem(15);
+
+      &:hover {
+        &::ng-deep .collapse,
+        &::ng-deep .expand {
+          fill: var(--font-primary-color-100);
+          transition:
+            fill var.$transition-duration-medium ease-in-out,
+            transform var.$transition-duration-medium ease-in-out;
+        }
+      }
+
+      &::ng-deep .collapse,
+      &::ng-deep .expand {
+        fill: var(--font-primary-color-50);
+        width: 100%;
+        height: 100%;
+        transition:
+          fill var.$transition-duration-medium ease-in-out,
+          transform var.$transition-duration-medium ease-in-out;
+      }
+    }
+
+    .copy-button {
+      @include button-preset();
+      @include copy-interactions($class: 'copy');
+
+      &::ng-deep .copy {
+        transition: fill var.$transition-duration-medium ease-in-out;
+        width: px-to-rem(15);
+        height: px-to-rem(15);
+        fill: var(--font-primary-color-50);
+      }
     }
   }
 
@@ -47,6 +81,7 @@
 
     margin: 0;
     padding: 0;
+    padding-right: var(--codeTextarea-padding-right);
 
     max-height: var(--codeTextarea-max-height);
     min-height: var(--codeTextarea-min-height);
@@ -66,12 +101,16 @@
     @include font-settings(16, 400);
     display: block;
     line-height: 1.5;
+    white-space: pre-wrap;
+    word-break: break-all;
 
     background-color: transparent;
 
     color: var(--font-primary-color-100);
     resize: none;
     width: 100%;
+
+    padding-right: var(--codeTextarea-padding-right);
 
     scrollbar-width: thin;
     scrollbar-color: rgb(60, 60, 60) transparent;

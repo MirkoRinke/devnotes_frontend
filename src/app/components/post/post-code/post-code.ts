@@ -25,6 +25,8 @@ export class PostCode implements OnChanges {
   isCopied = false;
   copiedFailed = false;
 
+  isExpanded: boolean = false;
+
   codeElement: ElementRef | null = null;
   codeTextarea: ElementRef | null = null;
 
@@ -54,22 +56,6 @@ export class PostCode implements OnChanges {
       this.codeElement.nativeElement.innerHTML = this.code || '';
       Prism.highlightElement(this.codeElement.nativeElement);
     }
-  }
-
-  /**
-   * Copy code to clipboard
-   */
-  copyToClipboard(code: string | null = '') {
-    navigator.clipboard
-      .writeText(code || '')
-      .then(() => {
-        this.isCopied = true;
-        setTimeout(() => (this.isCopied = false), 2000);
-      })
-      .catch((err) => {
-        this.copiedFailed = true;
-        setTimeout(() => (this.copiedFailed = false), 2000);
-      });
   }
 
   /**
@@ -124,14 +110,40 @@ export class PostCode implements OnChanges {
 
     textarea.style.height = 'auto';
 
+    const maxHeight = this.isExpanded ? null : this.maxHeight;
+
     const border = textarea.offsetHeight - textarea.clientHeight;
 
     let target = textarea.scrollHeight + border;
 
-    if (this.maxHeight) target = Math.min(target, this.maxHeight);
+    if (maxHeight) target = Math.min(target, maxHeight);
     target = Math.max(target, this.minHeight);
 
     textarea.style.height = Math.ceil(target) + 'px';
+  }
+
+  /**
+   * Copy to the clipboard and show feedback on success or failure
+   */
+  copyToClipboard(copy: string | null = '') {
+    navigator.clipboard
+      .writeText(copy || '')
+      .then(() => {
+        this.isCopied = true;
+        setTimeout(() => (this.isCopied = false), 2000);
+      })
+      .catch((err) => {
+        this.copiedFailed = true;
+        setTimeout(() => (this.copiedFailed = false), 2000);
+      });
+  }
+
+  /**
+   * Toggle the expanded state of the code block
+   */
+  toggleExpanded() {
+    this.isExpanded = !this.isExpanded;
+    this.adjustHeight();
   }
 
   /**

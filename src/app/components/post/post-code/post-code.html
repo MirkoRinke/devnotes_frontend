@@ -1,14 +1,25 @@
-<div class="code-container">
+<div
+  class="code-container"
+  [class.expanded]="isExpanded"
+>
+  <div
+    class="code-header"
+    (click)="control ? setViewMode(false) : null"
+  >
+    <button
+      class="copy-button"
+      [class.copied]="isCopied"
+      [class.copy-failed]="copiedFailed"
+      (mousedown)="copyToClipboard(code); $event.preventDefault()"
+      [innerHTML]="svgIconsService.returnIcon('copy')"
+    ></button>
+    <button
+      (mousedown)="toggleExpanded(); $event.preventDefault()"
+      [innerHTML]="svgIconsService.returnIcon(isExpanded ? 'collapse' : 'expand')"
+    ></button>
+  </div>
+
   @if (isViewMode) {
-    @if (code) {
-      <button
-        class="copy-button"
-        [class.copied]="isCopied"
-        [class.copy-failed]="copiedFailed"
-        (click)="copyToClipboard(code)"
-        [innerHTML]="svgIconsService.returnIcon('copy')"
-      ></button>
-    }
     <pre (click)="control ? setViewMode(false) : null"><code #codeElement [class]="language | prismLanguage">{{ code }}</code></pre>
   } @else {
     @if (control) {
