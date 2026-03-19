@@ -40,36 +40,37 @@
 
   .content {
     @include display-flex($direction: column);
-    gap: px-to-rem(25);
 
-    // .title {
-    //   @include display-flex(center);
-    //   gap: px-to-rem(10);
+    .title-wrapper {
+      @include display-flex(center);
+      gap: px-to-rem(10);
 
-    //   @include font-settings(16, 700);
-    //   color: var(--font-primary-color-100);
-    //   width: 100%;
+      .title-input {
+        @include font-settings(16, 700);
+        @include singleline-ellipsis();
+        color: var(--font-primary-color-100);
+        width: 100%;
+        background-color: transparent;
+        outline: none;
+        border: none;
+      }
 
-    //   &::before {
-    //     content: '';
-    //     height: 1px;
-    //     min-width: px-to-rem(100);
-    //     max-width: px-to-rem(100);
-    //     background-color: var(--font-primary-color-20);
-    //   }
+      &::before {
+        content: '';
+        height: 1px;
+        min-width: px-to-rem(100);
+        max-width: px-to-rem(100);
+        background-color: var(--font-primary-color-20);
+      }
 
-    //   &::after {
-    //     content: '';
-    //     height: 1px;
-    //     flex-grow: 1;
-    //     background-color: var(--font-primary-color-20);
-    //   }
-    // }
-
-    // .description {
-    //   @include font-settings(14, 400);
-    //   color: var(--font-primary-color-100);
-    // }
+      &::after {
+        content: '';
+        height: 1px;
+        flex-grow: 1;
+        min-width: px-to-rem(100);
+        background-color: var(--font-primary-color-20);
+      }
+    }
   }
 
   .footer {

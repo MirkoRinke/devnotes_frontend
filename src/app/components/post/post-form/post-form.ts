@@ -23,10 +23,11 @@ import { QueryParamsDropdown } from '../../query-params-dropdown/query-params-dr
 import { UserBadge } from '../../user-badge/user-badge';
 import { PostEngagement } from '../post-engagement/post-engagement';
 import { PostCode } from '../post-code/post-code';
+import { PostDescription } from '../post-description/post-description';
 
 @Component({
   selector: 'app-post-form',
-  imports: [ReactiveFormsModule, LocalDatePipe, QueryParamsDropdown, UserBadge, PostEngagement, PostCode],
+  imports: [ReactiveFormsModule, LocalDatePipe, QueryParamsDropdown, UserBadge, PostEngagement, PostCode, PostDescription],
   templateUrl: './post-form.html',
   styleUrl: './post-form.scss',
 })

@@ -67,15 +67,19 @@
     </header>
 
     <section class="content">
-      <input
-        type="text"
-        formControlName="title"
-      />
+      <div class="title-wrapper">
+        <input
+          class="title-input"
+          name="title-input"
+          type="text"
+          formControlName="title"
+        />
+      </div>
 
-      <textarea
-        type="text"
-        formControlName="description"
-      ></textarea>
+      <app-post-description
+        [control]="getControl('description')"
+        [isViewMode]="false"
+      ></app-post-description>
 
       <!-- TODO replace the [language]="'php'" with dynamic value based on the selected tech or null if no tech is selected -->
       <app-post-code
