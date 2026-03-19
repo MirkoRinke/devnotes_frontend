@@ -22,7 +22,7 @@ import type { UserInterface } from '../../../interfaces/user';
 import { QueryParamsDropdown } from '../../query-params-dropdown/query-params-dropdown';
 import { UserBadge } from '../../user-badge/user-badge';
 import { PostEngagement } from '../post-engagement/post-engagement';
-import { PostCode } from '../post-view/post-code/post-code';
+import { PostCode } from '../post-code/post-code';
 
 @Component({
   selector: 'app-post-form',

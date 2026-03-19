@@ -1,6 +1,6 @@
-@use '../../../../../functions' as *;
-@use '../../../../../var' as var;
-@use '../../../../../mixins' as *;
+@use '../../../../functions' as *;
+@use '../../../../var' as var;
+@use '../../../../mixins' as *;
 
 :host {
   --codeTextarea-max-height: #{px-to-rem(300)};

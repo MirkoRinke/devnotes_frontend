@@ -2,10 +2,10 @@ import { Component, Input, Output, OnChanges, SimpleChanges, ViewChild, ElementR
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 import * as Prism from 'prismjs';
-import { PrismLanguagePipe } from '../../../../pipes/prism-language-pipe';
+import { PrismLanguagePipe } from '../../../pipes/prism-language-pipe';
 
-import { SvgIconsService } from '../../../../services/svg.icons.service';
-import { getCssVariableValue } from '../../../../utils/css-helper';
+import { SvgIconsService } from '../../../services/svg.icons.service';
+import { getCssVariableValue } from '../../../utils/css-helper';
 
 @Component({
   selector: 'app-post-code',
