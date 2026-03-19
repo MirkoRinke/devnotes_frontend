@@ -450,6 +450,36 @@ export function getAppIcon(iconName: string, className: string): string | undefi
     </svg>
     `;
 
+    case 'expand':
+      return /*html*/ `
+    <!-- Icon used are from Google Material Symbols, licensed under the Apache License 2.0. -->
+     <svg class="${className}" viewBox="0 0 16 20" xmlns="http://www.w3.org/2000/svg">
+        <g transform="matrix(1,0,0,1,-4,-2)">
+            <g transform="matrix(0.025,0,0,0.025,0,24)">
+                <path d="M160,-80L160,-160L800,-160L800,-80L160,-80ZM480,-200L320,-360L376,-416L440,-354L440,-606L376,-544L320,-600L480,-760L640,-600L584,-544L520,-606L520,-354L584,-416L640,-360L480,-200ZM160,-800L160,-880L800,-880L800,-800L160,-800Z"/>
+            </g>
+        </g>
+    </svg>
+     `;
+
+    case 'collapse':
+      return /*html*/ `
+    <!-- Icon used are from Google Material Symbols, licensed under the Apache License 2.0. -->
+     <svg class="${className}" viewBox="0 0 16 20" xmlns="http://www.w3.org/2000/svg">
+        <g transform="matrix(1,0,0,1,-4,-2)">
+            <g transform="matrix(0.025,0,0,0.025,0,24)">
+                <path d="M160,-80L160,-160L800,-160L800,-80L160,-80ZM160,-800L160,-880L800,-880L800,-800L160,-800Z"/>
+            </g>
+            <g transform="matrix(0.025,0,0,-0.025,0,-8.6)">
+                <path d="M520,-606L480.005,-646.301L440,-606L376,-544L320,-600L480,-760L640,-600L584,-544L520,-606Z"/>
+            </g>
+            <g transform="matrix(0.025,0,0,0.025,0,32.6)">
+                <path d="M520,-606L480.005,-646.301L440,-606L376,-544L320,-600L480,-760L640,-600L584,-544L520,-606Z"/>
+            </g>
+        </g>
+    </svg>
+     `;
+
     default:
       return undefined;
   }
