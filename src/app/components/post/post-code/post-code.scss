@@ -13,11 +13,7 @@
 }
 
 .code-container {
-  @include content-highlight-box();
-
-  &:has(.code-textarea:focus) {
-    box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-100);
-  }
+  @include content-highlight-box($focus-highlight-class: '.code-textarea');
 
   .code-header {
     @include display-flex(center, flex-end);
