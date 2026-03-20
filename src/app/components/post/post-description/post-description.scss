@@ -15,6 +15,10 @@
 .description-container {
   @include content-highlight-box();
 
+  &:has(.description-input:focus) {
+    box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-100);
+  }
+
   position: relative;
   margin-top: px-to-rem(25);
   margin-bottom: px-to-rem(25);
