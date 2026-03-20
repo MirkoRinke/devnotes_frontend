@@ -279,6 +279,8 @@
 
 //TODO Fix color later use variable
 @mixin copy-interactions($class: copy, $color: var(--font-primary-color-100), $success-color: green, $error-color: red) {
+  @include display-flex(center, center);
+
   &.copied {
     &::ng-deep .#{$class} {
       animation: shake var.$transition-duration-medium ease-in-out;
@@ -315,6 +317,34 @@
     100% {
       transform: translateX(0);
     }
+  }
+}
+
+@mixin expand-collapse-button() {
+  @include button-preset();
+  @include display-flex(center, center);
+
+  width: px-to-rem(15);
+  height: px-to-rem(15);
+
+  &:hover {
+    &::ng-deep .collapse,
+    &::ng-deep .expand {
+      fill: var(--font-primary-color-100);
+      transition:
+        fill var.$transition-duration-medium ease-in-out,
+        transform var.$transition-duration-medium ease-in-out;
+    }
+  }
+
+  &::ng-deep .collapse,
+  &::ng-deep .expand {
+    fill: var(--font-primary-color-50);
+    width: 100%;
+    height: 100%;
+    transition:
+      fill var.$transition-duration-medium ease-in-out,
+      transform var.$transition-duration-medium ease-in-out;
   }
 }
 
@@ -392,6 +422,14 @@
       }
     }
   }
+}
+
+@mixin content-highlight-box() {
+  //TODO Fix color later use variable
+  background-color: #181a22;
+  border: px-to-rem(2) solid var(--font-primary-color-25);
+  border-radius: px-to-rem(10);
+  padding: px-to-rem(20) px-to-rem(5) px-to-rem(35) px-to-rem(25);
 }
 
 @mixin singleline-ellipsis($max-width: 100%) {
