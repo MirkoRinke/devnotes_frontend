@@ -424,12 +424,22 @@
   }
 }
 
-@mixin content-highlight-box() {
+@mixin content-highlight-box($focus-highlight-class: null) {
   //TODO Fix color later use variable
   background-color: #181a22;
   border: px-to-rem(2) solid var(--font-primary-color-25);
   border-radius: px-to-rem(10);
   padding: px-to-rem(20) px-to-rem(5) px-to-rem(35) px-to-rem(25);
+
+  @if $focus-highlight-class != null {
+    &:has(#{$focus-highlight-class}:focus) {
+      @include focus-highlight-style();
+    }
+  }
+}
+
+@mixin focus-highlight-style() {
+  box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-100);
 }
 
 @mixin singleline-ellipsis($max-width: 100%) {
