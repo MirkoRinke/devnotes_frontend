@@ -1,59 +1,102 @@
-# DevnotesFrontend
+# 🚀 DevNotes – Full-Stack Development Documentation
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.9.
+**Status:** 🚧 **Active Development (Pre-MVP)** This project is a "Work in Progress" and has not yet reached Minimum Viable Product (MVP) status. I am currently using it to document my transition from a pure frontend developer to the full-stack domain, exploring new technical territories along the way.
 
-## Development server
+![](https://github.com/MirkoRinke/devnotes_frontend/blob/main/preview.webp)
+<p align="center">
+  <small>Visualizing the Community Flow: From the entry point of the community hub to the final technical post view.</small>
+</p>
 
-To start a local development server, run:
+---
 
-```bash
-ng serve
-```
+### 💡 About this Project & My Learning Journey
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+After focusing heavily on frontend design, *DevNotes* marks my **first independent full-stack project**. It reflects my growth over the past few months:
 
-## Code scaffolding
+* **Entry into System Logic:** Conceptualizing a custom REST API with Laravel and working with relational databases (MySQL).
+* **Focus on Security & Structure:** Implementing security mechanisms like Rate-Limiting and API-Key validation to build robust applications.
+* **Reusability in Angular:** Deepening modular patterns where components are used flexibly for different tasks through dynamic routing.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### 🛠️ Infrastructure & Transparency
 
-```bash
-ng generate component component-name
-```
+To test the application under realistic conditions, I operate my own **local server environment**:
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+* **Partial Containerization:** The backend (API) and database are fully **Dockerized**, enabling a modern data management workflow. The frontend currently runs natively (`ng serve`) to maintain high iteration speeds during development.
+* **Hardware Basis:** The services run on a dedicated **ThinClient**, functioning as a private development server.
+* **Current Progress:** As this project has grown over a longer period, the code documents my personal learning curve. It is intended less as a finished product and more as a transparent look at my **current proficiency in systematic problem-solving**.
 
-```bash
-ng generate --help
-```
+🔗 [**Backend Repository (Laravel)**](https://github.com/MirkoRinke/devnotes) 
 
-## Building
+---
 
-To build the project run:
+### 📘 Concept & Foundation
 
-```bash
-ng build
-```
+* **The Origin (v1.0):** My very first project – a personal knowledge base to understand HTML, CSS, and JavaScript.
+* **Evolution (v2.0):** A complete rebuild as a modern full-stack hub to apply learned concepts in a professional structure.
+* **Core Utility:** A "Second Brain" and exchange hub for developers.
+* **Community & Privacy:** A hybrid model combining public exchange with private notes.
+* **Tech Stack:** Angular Frontend, Laravel REST-API, MySQL, and Prism.js for syntax highlighting.
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+---
 
-## Running unit tests
+### ⚙️ Backend Logic & Security
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+* **Security Layers:**
+    * **API Protection:** X-API-Key validation and Rate Limiting.
+    * **Authentication:** Laravel Sanctum (Bearer-Token) coupled with a Device Fingerprinting system.
+    * **Compliance:** Automated checks for Privacy Policy consent with integrated token management.
+* **Features:**
+    * **Interactions:** CRUD for posts, Like/Favorite system, and Follower logic.
+    * **Moderation:** Critical term filters and Audit Logs for change tracking.
+    * **Special Services:** GuestAccountService (e.g., for test access) and controlled post-read tracking.
+* **Dynamic Filtering:** Use of a Custom Trait for complex database queries directly via URL parameters (including Dot-Notation for relations).
 
-```bash
-ng test
-```
+---
 
-## Running end-to-end tests
+### 🎨 Frontend & Navigation Concept
 
-For end-to-end (e2e) testing, run:
+* **Angular Services:**
+    * **Central API Wrapper:** Unified endpoint handling and automated Auth-Header injection.
+    * **SVG & i18n Service:** Centralized icon management and a custom pipe for language switching (DE/EN).
+* **Guided Flow:**
+    * Strategically leading the user from technology choice to content type and results list.
+    * **Hybrid Search:** Intelligent distinction between title search and hashtag search (`#tag`) within a single input field.
+    * **Circular Navigation:** "Back-jumps" preserve active filters to support the flow of "Deep Work."
 
-```bash
-ng e2e
-```
+---
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+### 📘 Detail View & Resource Protection
 
-## Additional Resources
+* **Post Management:**
+    * **Versioning:** Access to previous versions of a post via a timestamp dropdown.
+    * **Context Menu:** Dynamic options based on user roles (Edit/Delete for owners, Report for guests).
+* **Content Presentation:**
+    * **Interactive Boxes:** Separate areas for description and code with **Expand/Collapse** and **Copy-to-Clipboard** functionality.
+* **Security Gate for Resources:**
+    * External resources (images/videos) are only loaded after explicit consent to protect user privacy (**Privacy-by-Design**).
+    * **Consent Modal:** Users can unlock content temporarily (1h, 12h, 24h) or permanently via User Settings.
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+---
+
+### ✍️ Content Management (Editor)
+
+* **In-Place-Editing (WIP):**
+    * Editing occurs directly within the final layout (WYSIWYG) for immediate visual feedback.
+    * **Smart Code-Block:** Switches to a `textarea` on focus and immediately re-renders syntax highlighting on blur.
+* **Technical Synergy:**
+    * **Reactive Forms:** The frontend structure mirrors the backend API body to ensure error-free data transfer without complex mapping.
+    * **Validation:** Synchronized validation logic between Frontend (Angular) and Backend (Laravel).
+
+---
+
+### 🚀 Structure & Modular Logic
+
+* **Universal Workflow:**
+    * Through the consistent use of parameters (`context` and `endPoint`) in the URL, the same component can be used for entirely different sections.
+    * **Example:** `posts-list?context=community&endPoint=POSTS` transforms into a personal favorites list or a contribution management view simply by changing parameters.
+* **Roadmap (Outlook):**
+    * Frontend integration of the existing backend comment section.
+    * Expansion of user profiles and social interactions (Activity Feeds).
+    * Finalizing media management within the editor.
+
+---
