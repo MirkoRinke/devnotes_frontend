@@ -14,12 +14,12 @@ import { getCssVariableValue } from '../../../utils/css-helper';
   styleUrl: './post-code.scss',
 })
 export class PostCode implements OnChanges {
-  @Input() isViewMode = true;
   @Input() control: FormControl | null = null;
 
   @Input() language: string | null = null;
   @Input() code: string | null = null;
 
+  isViewMode = true;
   isFirstLoad = true;
 
   isCopied = false;
