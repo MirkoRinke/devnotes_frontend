@@ -1,6 +1,6 @@
-@use '../../../../../functions' as *;
-@use '../../../../../var' as var;
-@use '../../../../../mixins' as *;
+@use '../../../../functions' as *;
+@use '../../../../var' as var;
+@use '../../../../mixins' as *;
 
 .tech-stack {
   @include display-flex(center);
