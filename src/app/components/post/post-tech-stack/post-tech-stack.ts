@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
-import type { LanguagesInterface } from '../../../../interfaces/languages';
-import type { TechnologiesInterface } from '../../../../interfaces/technologies';
+import type { LanguagesInterface } from '../../../interfaces/languages';
+import type { TechnologiesInterface } from '../../../interfaces/technologies';
 
-import { SvgIconsService } from '../../../../services/svg.icons.service';
+import { SvgIconsService } from '../../../services/svg.icons.service';
 
 @Component({
   selector: 'app-post-tech-stack',
