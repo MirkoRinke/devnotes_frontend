@@ -81,11 +81,11 @@
         [isViewMode]="false"
       ></app-post-description>
 
-      <!-- TODO replace the [language]="'php'" with dynamic value based on the selected tech or null if no tech is selected -->
+      <!-- TODO replace the [language]="'php'" with dynamic value. -->
+      <!-- TODO Create a new field in the database for the primary language of the post and use this value to set the language for the code editor. -->
       <app-post-code
         [language]="'php'"
         [code]="postFormCode"
-        [isViewMode]="true"
         [control]="getControl('code')"
         (viewModeChange)="postFormCode = getControl('code')?.value"
       ></app-post-code>
@@ -93,6 +93,21 @@
 
     <footer class="footer">
       <div class="footer-meta">
+        <div class="tech-stack-section">
+          <app-post-tech-stack
+            [isViewMode]="false"
+            [languages]="getControl('languages')?.value ?? []"
+            [technologies]="getControl('technologies')?.value ?? []"
+          ></app-post-tech-stack>
+
+          <button
+            class="add-tech-stack-button"
+            type="button"
+            [innerHTML]="svgIconsService.returnIcon('add_tech_stack')"
+            (click)="openTechStackModal()"
+          ></button>
+        </div>
+
         <!-- Modal für Tech Stack (Sprachen/Frameworks und Tools) 
        Im Modal sind die Sprachen/Frameworks und Tools mit Icon und Name aufgelistet,
       die der Nutzer auswählen kann. Es können mehrere Sprachen/Frameworks und Tools ausgewählt werden.        

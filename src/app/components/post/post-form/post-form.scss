@@ -78,8 +78,34 @@
     gap: px-to-rem(25);
 
     .footer-meta {
-      @include display-flex(center, space-between);
+      @include display-flex(start, space-between);
       gap: px-to-rem(25);
+
+      .tech-stack-section {
+        @include display-flex(center);
+        gap: px-to-rem(15);
+
+        .add-tech-stack-button {
+          @include button-preset();
+          @include display-flex(center);
+
+          &:hover {
+            cursor: pointer;
+            &::ng-deep .add_tech_stack {
+              scale: 1.1;
+              transition: scale var.$transition-duration-medium ease-in-out;
+            }
+          }
+
+          //TODO Fix color later use variable
+          &::ng-deep .add_tech_stack {
+            width: px-to-rem(25);
+            height: px-to-rem(25);
+            fill: green;
+            transition: scale var.$transition-duration-medium ease-in-out;
+          }
+        }
+      }
     }
 
     .line-break {

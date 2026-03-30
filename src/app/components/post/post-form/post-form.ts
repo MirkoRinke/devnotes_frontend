@@ -18,16 +18,20 @@ import type { ApiResponseObjektInterface } from '../../../interfaces/api-respons
 import type { PostInterface } from '../../../interfaces/post';
 import type { PostPayload } from '../../../interfaces/post-payload';
 import type { UserInterface } from '../../../interfaces/user';
+import type { LanguagesInterface } from '../../../interfaces/languages';
+import type { TechnologiesInterface } from '../../../interfaces/technologies';
+import type { TagsInterface } from '../../../interfaces/tags';
 
 import { QueryParamsDropdown } from '../../query-params-dropdown/query-params-dropdown';
 import { UserBadge } from '../../user-badge/user-badge';
 import { PostEngagement } from '../post-engagement/post-engagement';
 import { PostCode } from '../post-code/post-code';
 import { PostDescription } from '../post-description/post-description';
+import { PostTechStack } from '../post-tech-stack/post-tech-stack';
 
 @Component({
   selector: 'app-post-form',
-  imports: [ReactiveFormsModule, LocalDatePipe, QueryParamsDropdown, UserBadge, PostEngagement, PostCode, PostDescription],
+  imports: [ReactiveFormsModule, LocalDatePipe, QueryParamsDropdown, UserBadge, PostEngagement, PostCode, PostDescription, PostTechStack],
   templateUrl: './post-form.html',
   styleUrl: './post-form.scss',
 })
@@ -143,11 +147,11 @@ export class PostForm {
         videos: this.fb.control<string[]>([], { nonNullable: true }),
         resources: this.fb.control<string[]>([], { nonNullable: true }),
 
-        tags: this.fb.control<string[]>([], { nonNullable: true }),
+        tags: this.fb.control<Array<TagsInterface>>([], { nonNullable: true }),
 
         // Special case: Conditional required fields (required_without)
-        languages: this.fb.control<string[]>([], { nonNullable: true }),
-        technologies: this.fb.control<string[]>([], { nonNullable: true }),
+        languages: this.fb.control<Array<LanguagesInterface>>([], { nonNullable: true }),
+        technologies: this.fb.control<Array<TechnologiesInterface>>([], { nonNullable: true }),
       },
       {
         validators: [atLeastOne(['languages', 'technologies'], 'languageOrTechRequired')],
@@ -167,11 +171,11 @@ export class PostForm {
         images: this.post.images ?? [],
         videos: this.post.videos ?? [],
         resources: this.post.resources ?? [],
-        languages: this.post.languages ? this.post.languages.map((lang) => lang.name) : [],
+        languages: this.post.languages ?? [],
         category: this.post.category ?? '',
         post_type: this.post.post_type ?? '',
-        technologies: this.post.technologies ? this.post.technologies.map((tech) => tech.name) : [],
-        tags: this.post.tags ? this.post.tags.map((tag) => tag.name) : [],
+        technologies: this.post.technologies ?? [],
+        tags: this.post.tags ?? [],
         status: this.post.status ?? '',
       });
     }
@@ -219,9 +223,16 @@ export class PostForm {
       return;
     }
 
-    const formData: PostPayload = this.postForm.getRawValue();
+    const rawValue = this.postForm.getRawValue();
 
-    this.savePost(formData);
+    const data: PostPayload = {
+      ...rawValue,
+      languages: rawValue.languages.map((lang: LanguagesInterface) => lang.name),
+      technologies: rawValue.technologies.map((tech: TechnologiesInterface) => tech.name),
+      tags: rawValue.tags.map((tag: TagsInterface) => tag.name),
+    };
+
+    this.savePost(data);
   }
 
   private savePost(data: PostPayload): PostInterface | void {
@@ -322,6 +333,11 @@ export class PostForm {
       this.postForm.get(type)?.markAsDirty();
       this.postForm.get(type)?.markAsTouched();
     }
+  }
+
+  // TODO Open Modal for Tech Stack (Languages & Technologies)
+  public openTechStackModal() {
+    console.log('Open Tech Stack Modal');
   }
 }
 
