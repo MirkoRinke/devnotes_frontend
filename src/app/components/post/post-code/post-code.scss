@@ -57,7 +57,7 @@
     scrollbar-width: thin;
     scrollbar-color: rgb(60, 60, 60) transparent;
 
-    overflow: hidden;
+    overflow-y: scroll;
 
     & code {
       @include font-settings(16, 400);
