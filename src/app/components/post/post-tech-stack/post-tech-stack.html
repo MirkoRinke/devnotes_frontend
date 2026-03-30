@@ -4,9 +4,11 @@
       @for (language of languages; track language.id) {
         <button
           class="language"
+          [class.active]="isViewMode"
           type="button"
+          [disabled]="!isViewMode"
           [title]="language.name"
-          [innerHTML]="svgIconsService.returnIcon(language.name)"
+          [innerHTML]="svgIconsService.returnIcon(language.name, 'language-icon')"
           [routerLink]="'/posts-list'"
           [queryParams]="{
             context: context,
@@ -25,9 +27,11 @@
       @for (technology of technologies; track technology.id) {
         <button
           class="technology"
+          [class.active]="isViewMode"
           type="button"
+          [disabled]="!isViewMode"
           [title]="technology.name"
-          [innerHTML]="svgIconsService.returnIcon(technology.name)"
+          [innerHTML]="svgIconsService.returnIcon(technology.name, 'technology-icon')"
           [routerLink]="'/posts-list'"
           [queryParams]="{
             context: context,

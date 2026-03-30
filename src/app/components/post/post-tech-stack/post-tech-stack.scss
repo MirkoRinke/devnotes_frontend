@@ -6,6 +6,8 @@
   @include display-flex(center);
   gap: px-to-rem(25);
 
+  flex-wrap: wrap;
+
   .languages,
   .technologies {
     @include display-flex(center);
@@ -16,15 +18,19 @@
       @include button-preset();
       @include display-flex(center);
 
-      &:hover {
+      cursor: default;
+
+      &.active:hover {
         cursor: pointer;
-        &::ng-deep svg {
+        &::ng-deep .language-icon,
+        &::ng-deep .technology-icon {
           fill: var(--font-primary-color-100);
           transition: fill var.$transition-duration-medium ease-in-out;
         }
       }
 
-      &::ng-deep svg {
+      &::ng-deep .language-icon,
+      &::ng-deep .technology-icon {
         width: px-to-rem(25);
         height: px-to-rem(25);
         fill: var(--font-primary-color-50);

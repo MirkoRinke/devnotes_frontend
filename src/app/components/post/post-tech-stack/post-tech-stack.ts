@@ -13,6 +13,7 @@ import { SvgIconsService } from '../../../services/svg.icons.service';
   styleUrl: './post-tech-stack.scss',
 })
 export class PostTechStack {
+  @Input() isViewMode = true;
   @Input() context: string | null = null;
   @Input() endPoint: string | null = null;
 
