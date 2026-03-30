@@ -82,7 +82,7 @@
     gap: px-to-rem(25);
 
     .footer-meta {
-      @include display-flex(center, space-between);
+      @include display-flex(start, space-between);
       gap: px-to-rem(25);
     }
 
