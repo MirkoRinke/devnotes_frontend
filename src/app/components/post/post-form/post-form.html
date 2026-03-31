@@ -137,6 +137,8 @@
         (click)="closeTechStackModal()"
         (animationend)="onAnimationEnd($event)"
         (closeModal)="closeTechStackModal()"
+        [controlLanguages]="getControl('languages')"
+        [controlTechnologies]="getControl('technologies')"
       ></app-post-tech-stack-selector>
     }
 
