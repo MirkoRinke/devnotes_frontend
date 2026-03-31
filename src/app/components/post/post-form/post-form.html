@@ -128,6 +128,18 @@
     </footer>
 
     <!-- Modals -->
+
+    @if (isTechStackSelectorModalOpen) {
+      <app-post-tech-stack-selector
+        class="overlay"
+        [class.open]="isTechStackSelectorModalAnimating"
+        [class.closed]="!isTechStackSelectorModalAnimating"
+        (click)="closeTechStackModal()"
+        (animationend)="onAnimationEnd($event)"
+        (closeModal)="closeTechStackModal()"
+      ></app-post-tech-stack-selector>
+    }
+
     <button
       type="button"
       [disabled]="isProcessing"

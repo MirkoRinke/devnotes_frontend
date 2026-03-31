@@ -28,10 +28,11 @@ import { PostEngagement } from '../post-engagement/post-engagement';
 import { PostCode } from '../post-code/post-code';
 import { PostDescription } from '../post-description/post-description';
 import { PostTechStack } from '../post-tech-stack/post-tech-stack';
+import { PostTechStackSelector } from '../post-tech-stack-selector/post-tech-stack-selector';
 
 @Component({
   selector: 'app-post-form',
-  imports: [ReactiveFormsModule, LocalDatePipe, QueryParamsDropdown, UserBadge, PostEngagement, PostCode, PostDescription, PostTechStack],
+  imports: [ReactiveFormsModule, LocalDatePipe, QueryParamsDropdown, UserBadge, PostEngagement, PostCode, PostDescription, PostTechStack, PostTechStackSelector],
   templateUrl: './post-form.html',
   styleUrl: './post-form.scss',
 })
@@ -49,6 +50,9 @@ export class PostForm {
 
   necessaryUserFields: string = 'display_name,avatar_items';
   currentUser: UserInterface | null = null;
+
+  isTechStackSelectorModalOpen = false;
+  isTechStackSelectorModalAnimating = false;
 
   isProcessing = false;
 
@@ -335,9 +339,32 @@ export class PostForm {
     }
   }
 
-  // TODO Open Modal for Tech Stack (Languages & Technologies)
+  /**
+   * Open the Tech Stack Modal
+   */
   public openTechStackModal() {
-    console.log('Open Tech Stack Modal');
+    this.isTechStackSelectorModalOpen = true;
+    requestAnimationFrame(() => (this.isTechStackSelectorModalAnimating = true));
+  }
+
+  /**
+   * Close the Tech Stack Modal
+   */
+  public closeTechStackModal() {
+    this.isTechStackSelectorModalAnimating = false;
+  }
+
+  /**
+   * Handle animation end events
+   *
+   * @param event
+   */
+  onAnimationEnd(event: AnimationEvent) {
+    if (event.animationName.endsWith('fade-out')) {
+      if (this.isTechStackSelectorModalOpen) {
+        this.isTechStackSelectorModalOpen = false;
+      }
+    }
   }
 }
 
