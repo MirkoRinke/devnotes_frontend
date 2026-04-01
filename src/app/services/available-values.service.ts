@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { forkJoin, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { forkJoin, Observable, of } from 'rxjs';
+import { map, catchError, tap } from 'rxjs/operators';
 
 import type { AvailableValuesInterface } from '../interfaces/available-values';
 import type { ApiResponseArrayInterface } from '../interfaces/api-response';
@@ -24,6 +24,15 @@ export class AvailableValuesService {
    */
   getAvailableValues(params: Array<string>, endPoint: string): Observable<AvailableValuesInterface[]> {
     const requests = params.map((param) => this.apiService.get<ApiResponseArrayInterface<AvailableValuesInterface>>(`${ApiEndpointEnums[endPoint as keyof typeof ApiEndpointEnums]}${param}`));
-    return forkJoin(requests).pipe(map((responses) => responses.flatMap((response) => response.data.data)));
+    return forkJoin(requests).pipe(
+      map((responses) => responses.flatMap((response) => response.data.data)),
+      tap((data) => {
+        // console.log('Successfully retrieved values:', data);
+      }),
+      catchError((error) => {
+        console.error('Error fetching available values:', error);
+        return of([]);
+      }),
+    );
   }
 }
