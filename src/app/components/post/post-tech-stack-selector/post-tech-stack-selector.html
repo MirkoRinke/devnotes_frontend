@@ -1,1 +1,35 @@
-<p>post-tech-stack-selector works!</p>
+<!--TODO Temporary Template, for testing purposes only. -->
+@if (filteredValues.length > 0) {
+  <div
+    class="post-tech-stack-selector"
+    (click)="$event.stopPropagation()"
+  >
+    <div class="header">
+      <h3 class="title">Pick Tech Stack</h3>
+      <span
+        class="icon"
+        [innerHTML]="svgIconsService.returnIcon('close')"
+        (click)="onClose()"
+      ></span>
+    </div>
+    <div class="content">
+      @if (favoriteValues.length > 0) {
+        <div>
+          @for (value of favoriteValues; track $index) {
+            <button>{{ value.name }} ({{ value.total_counts }})</button>
+          }
+        </div>
+      }
+
+      <div>
+        @for (value of filteredValues; track $index) {
+          <button>{{ value.name }} ({{ value.total_counts }})</button>
+        }
+      </div>
+    </div>
+  </div>
+} @else {
+  <div>
+    <p>Loading...</p>
+  </div>
+}
