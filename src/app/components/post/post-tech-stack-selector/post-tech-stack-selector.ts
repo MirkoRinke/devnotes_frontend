@@ -8,7 +8,7 @@ import { UserFavoriteTechnologiesService } from '../../../services/user-favorite
 import { SvgIconsService } from '../../../services/svg.icons.service';
 
 import type { AvailableValuesInterface } from '../../../interfaces/available-values';
-
+import type { TechStackSelectedValueInterface } from '../../../interfaces/postForm';
 @Component({
   selector: 'app-post-tech-stack-selector',
   imports: [ReactiveFormsModule],
@@ -21,19 +21,19 @@ export class PostTechStackSelector {
   @Input() params: Array<string> | null = null;
   @Input() endPoint: string | null = null;
 
-  @Input() fetchData = false;
+  @Input() openModal = false;
   dataLoaded = false;
 
   @Output() closeModal = new EventEmitter<void>();
 
   availableValues: AvailableValuesInterface[] = [];
-  filteredValues: AvailableValuesInterface[] = [];
-
   favoriteValues: AvailableValuesInterface[] = [];
 
-  enableSearch = false;
+  filteredValues: AvailableValuesInterface[] = [];
 
-  favoriteTechStack: Array<string> = [];
+  selectedValues: TechStackSelectedValueInterface[] = [];
+
+  enableSearch = false;
 
   constructor(
     private availableValuesService: AvailableValuesService,
@@ -41,14 +41,60 @@ export class PostTechStackSelector {
     public svgIconsService: SvgIconsService,
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log('Control Languages:', this.controlLanguages?.value);
+    console.log('Control Technologies:', this.controlTechnologies?.value);
+  }
 
   ngOnChanges() {
-    if (this.fetchData && !this.dataLoaded && this.params && this.endPoint) {
-      console.log('fetchData is true and data is not loaded, initializing data streams');
-      this.initDataStreams(this.params, this.endPoint);
-      this.dataLoaded = true;
+    if (this.openModal && this.params && this.endPoint) {
+      if (!this.dataLoaded) {
+        console.log('openModal is true and data is not loaded, initializing data streams');
+        this.initDataStreams(this.params, this.endPoint);
+        this.dataLoaded = true;
+      }
+      this.pushControlledValuesToSelected();
     }
+  }
+
+  /**
+   * Pushes the current values from the form controls (languages and technologies) to the selectedValues array.
+   */
+  pushControlledValuesToSelected() {
+    const controlValues = [...(this.controlLanguages?.value || []), ...(this.controlTechnologies?.value || [])];
+    this.selectedValues = controlValues.map((value: TechStackSelectedValueInterface) => ({
+      name: value.name,
+      entity: value.entity,
+    }));
+
+    console.log('Selected Values:', this.selectedValues);
+  }
+
+  /**
+   * Checks if a given value is currently selected by comparing it against the selectedValues array.
+   *
+   * @param value
+   * @returns
+   */
+  ifSelected(value: AvailableValuesInterface): boolean {
+    return this.selectedValues.some((selected) => selected.name === value.name);
+  }
+
+  /**
+   * Toggles the selection of a value. If the value is already selected, it removes it from the selectedValues array
+   * otherwise, it adds it to the selectedValues array
+   *
+   * @param value
+   */
+  toggleValue(value: AvailableValuesInterface) {
+    const isSelected = this.ifSelected(value);
+    if (isSelected) {
+      const index = this.selectedValues.findIndex((selected) => selected.name === value.name);
+      this.selectedValues.splice(index, 1);
+    } else {
+      this.selectedValues.push({ name: value.name, entity: value.entity });
+    }
+    console.log('Selected Values after toggle:', this.selectedValues);
   }
 
   ngOnDestroy() {
@@ -108,5 +154,19 @@ export class PostTechStackSelector {
    */
   onClose() {
     this.closeModal.emit();
+  }
+
+  /**
+   * Pushes the selected values to the respective form controls for languages and technologies.
+   * It filters the selected values based on their entity type and updates the form controls accordingly.
+   */
+  pushToControl() {
+    if (this.controlLanguages) {
+      this.controlLanguages.setValue(this.selectedValues.filter((v) => v.entity === 'language'));
+    }
+
+    if (this.controlTechnologies) {
+      this.controlTechnologies.setValue(this.selectedValues.filter((v) => v.entity === 'technology'));
+    }
   }
 }

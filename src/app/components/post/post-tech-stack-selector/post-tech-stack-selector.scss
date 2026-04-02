@@ -28,9 +28,29 @@
   .content {
     @include display-flex(center, start, row);
     gap: px-to-rem(25);
-
     flex-wrap: wrap;
-
     overflow-y: auto;
+
+    .favorites,
+    .available {
+      @include display-flex(center, start, row);
+      gap: px-to-rem(10);
+      flex-wrap: wrap;
+
+      .value {
+        @include button-preset();
+        @include display-flex(center, center);
+        gap: px-to-rem(5);
+
+        &:hover {
+          background-color: gray; // Only for testing, replace with actual hover state styling
+        }
+
+        background-color: white; // Only for testing, remove later
+        &.selected {
+          background-color: gray; // Only for testing, replace with actual selected state styling
+        }
+      }
+    }
   }
 }
