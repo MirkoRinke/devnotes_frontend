@@ -152,7 +152,7 @@
     <app-post-tech-stack-selector
       class="overlay"
       [class.hidden]="!isTechStackSelectorModalOpen"
-      [fetchData]="isTechStackSelectorModalOpen"
+      [openModal]="isTechStackSelectorModalOpen"
       [class.open]="isTechStackSelectorModalAnimating"
       [class.closed]="!isTechStackSelectorModalAnimating"
       (click)="closeTechStackModal()"

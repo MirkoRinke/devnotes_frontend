@@ -18,9 +18,8 @@ import type { ApiResponseObjektInterface } from '../../../interfaces/api-respons
 import type { PostInterface } from '../../../interfaces/post';
 import type { PostPayload } from '../../../interfaces/post-payload';
 import type { UserInterface } from '../../../interfaces/user';
-import type { LanguagesInterface } from '../../../interfaces/languages';
-import type { TechnologiesInterface } from '../../../interfaces/technologies';
 import type { TagsInterface } from '../../../interfaces/tags';
+import type { TechStackSelectedValueInterface } from '../../../interfaces/postForm';
 
 import { QueryParamsDropdown } from '../../query-params-dropdown/query-params-dropdown';
 import { UserBadge } from '../../user-badge/user-badge';
@@ -154,8 +153,8 @@ export class PostForm {
         tags: this.fb.control<Array<TagsInterface>>([], { nonNullable: true }),
 
         // Special case: Conditional required fields (required_without)
-        languages: this.fb.control<Array<LanguagesInterface>>([], { nonNullable: true }),
-        technologies: this.fb.control<Array<TechnologiesInterface>>([], { nonNullable: true }),
+        languages: this.fb.control<Array<TechStackSelectedValueInterface>>([], { nonNullable: true }),
+        technologies: this.fb.control<Array<TechStackSelectedValueInterface>>([], { nonNullable: true }),
       },
       {
         validators: [atLeastOne(['languages', 'technologies'], 'languageOrTechRequired')],
@@ -175,10 +174,10 @@ export class PostForm {
         images: this.post.images ?? [],
         videos: this.post.videos ?? [],
         resources: this.post.resources ?? [],
-        languages: this.post.languages ?? [],
+        languages: this.post.languages?.map((lang) => ({ name: lang.name, entity: lang.type })) ?? [],
         category: this.post.category ?? '',
         post_type: this.post.post_type ?? '',
-        technologies: this.post.technologies ?? [],
+        technologies: this.post.technologies?.map((tech) => ({ name: tech.name, entity: tech.type })) ?? [],
         tags: this.post.tags ?? [],
         status: this.post.status ?? '',
       });
@@ -231,8 +230,8 @@ export class PostForm {
 
     const data: PostPayload = {
       ...rawValue,
-      languages: rawValue.languages.map((lang: LanguagesInterface) => lang.name),
-      technologies: rawValue.technologies.map((tech: TechnologiesInterface) => tech.name),
+      languages: rawValue.languages.map((lang: TechStackSelectedValueInterface) => lang.name),
+      technologies: rawValue.technologies.map((tech: TechStackSelectedValueInterface) => tech.name),
       tags: rawValue.tags.map((tag: TagsInterface) => tag.name),
     };
 
