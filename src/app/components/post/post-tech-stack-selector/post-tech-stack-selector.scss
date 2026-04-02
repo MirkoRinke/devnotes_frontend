@@ -5,6 +5,10 @@
 :host(.overlay) {
   @include display-flex(center, center);
   @include absolute-overlay($animation-style: fade);
+
+  &.hidden {
+    display: none;
+  }
 }
 
 .post-tech-stack-selector {

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { skip, take } from 'rxjs/operators';
 import { combineLatest } from 'rxjs';
@@ -18,6 +18,13 @@ import type { AvailableValuesInterface } from '../../../interfaces/available-val
 export class PostTechStackSelector {
   @Input() controlLanguages: FormControl | null = null;
   @Input() controlTechnologies: FormControl | null = null;
+  @Input() params: Array<string> | null = null;
+  @Input() endPoint: string | null = null;
+
+  @Input() fetchData = false;
+  dataLoaded = false;
+
+  @Output() closeModal = new EventEmitter<void>();
 
   availableValues: AvailableValuesInterface[] = [];
   filteredValues: AvailableValuesInterface[] = [];
@@ -28,23 +35,23 @@ export class PostTechStackSelector {
 
   favoriteTechStack: Array<string> = [];
 
-  params = ['?filter[type]=technology,language&select=count:name'];
-  endPoint = 'POST_ALLOWED_VALUES';
-
   constructor(
     private availableValuesService: AvailableValuesService,
     private userFavoriteTechnologiesService: UserFavoriteTechnologiesService,
     public svgIconsService: SvgIconsService,
   ) {}
 
-  ngOnInit() {
-    // console.log('controlLanguages', this.controlLanguages?.value);
-    // console.log('controlTechnologies', this.controlTechnologies?.value);
-    this.initDataStreams();
+  ngOnInit() {}
+
+  ngOnChanges() {
+    if (this.fetchData && !this.dataLoaded && this.params && this.endPoint) {
+      console.log('fetchData is true and data is not loaded, initializing data streams');
+      this.initDataStreams(this.params, this.endPoint);
+      this.dataLoaded = true;
+    }
   }
 
   ngOnDestroy() {
-    // For testing purposes, we log when the component is destroyed.
     console.log('PostTechStackSelector component destroyed');
   }
 
@@ -53,8 +60,8 @@ export class PostTechStackSelector {
    * It uses combineLatest to wait for both the available values and the favorite tech stack to be loaded before processing the data.
    * The available values are sorted by total counts, and then execute the filtering logic to separate favorite values from available values based on the user's favorite tech stack.
    */
-  private initDataStreams() {
-    const availableValues$ = this.availableValuesService.getAvailableValues(this.params, this.endPoint).pipe(take(1));
+  private initDataStreams(params: Array<string>, endPoint: string) {
+    const availableValues$ = this.availableValuesService.getAvailableValues(params, endPoint).pipe(take(1));
     const favoriteTechStack$ = this.userFavoriteTechnologiesService.favoriteTechStack$.pipe(skip(1), take(1));
 
     combineLatest([availableValues$, favoriteTechStack$])
@@ -97,9 +104,9 @@ export class PostTechStackSelector {
   }
 
   /**
-   * TODO: Implement the logic to handle the close action of the tech stack selector modal or dropdown.
+   * Handles the close action of the tech stack selector modal or dropdown.
    */
   onClose() {
-    console.log('close');
+    this.closeModal.emit();
   }
 }
