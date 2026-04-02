@@ -1,7 +1,7 @@
 <div class="tech-stack">
   @if (languages.length > 0) {
     <div class="languages">
-      @for (language of languages; track language.id) {
+      @for (language of languages; track language.name) {
         <button
           class="language"
           [class.active]="isViewMode"
@@ -24,7 +24,7 @@
 
   @if (technologies.length > 0) {
     <div class="technologies">
-      @for (technology of technologies; track technology.id) {
+      @for (technology of technologies; track technology.name) {
         <button
           class="technology"
           [class.active]="isViewMode"
