@@ -125,43 +125,44 @@
      -->
 
       <!-- Buttons für Speichern, Veröffentlichen, Abbrechen -->
+      <button
+        type="button"
+        [disabled]="isProcessing"
+        (click)="onSubmit()"
+      >
+        {{ mode === 'create' ? 'Erstellen' : 'Änderungen speichern' }}
+      </button>
+
+      <button
+        type="button"
+        (click)="switchMode('view')"
+      >
+        Abbrechen
+      </button>
+      <button
+        type="button"
+        (click)="resetForm()"
+      >
+        {{ mode === 'create' ? 'Formular leeren' : 'Änderungen verwerfen' }}
+      </button>
     </footer>
 
     <!-- Modals -->
 
-    @if (isTechStackSelectorModalOpen) {
-      <app-post-tech-stack-selector
-        class="overlay"
-        [class.open]="isTechStackSelectorModalAnimating"
-        [class.closed]="!isTechStackSelectorModalAnimating"
-        (click)="closeTechStackModal()"
-        (animationend)="onAnimationEnd($event)"
-        (closeModal)="closeTechStackModal()"
-        [controlLanguages]="getControl('languages')"
-        [controlTechnologies]="getControl('technologies')"
-      ></app-post-tech-stack-selector>
-    }
-
-    <button
-      type="button"
-      [disabled]="isProcessing"
-      (click)="onSubmit()"
-    >
-      {{ mode === 'create' ? 'Erstellen' : 'Änderungen speichern' }}
-    </button>
-
-    <button
-      type="button"
-      (click)="switchMode('view')"
-    >
-      Abbrechen
-    </button>
-    <button
-      type="button"
-      (click)="resetForm()"
-    >
-      {{ mode === 'create' ? 'Formular leeren' : 'Änderungen verwerfen' }}
-    </button>
+    <app-post-tech-stack-selector
+      class="overlay"
+      [class.hidden]="!isTechStackSelectorModalOpen"
+      [fetchData]="isTechStackSelectorModalOpen"
+      [class.open]="isTechStackSelectorModalAnimating"
+      [class.closed]="!isTechStackSelectorModalAnimating"
+      (click)="closeTechStackModal()"
+      (animationend)="onAnimationEnd($event)"
+      (closeModal)="closeTechStackModal()"
+      [endPoint]="'POST_ALLOWED_VALUES'"
+      [params]="['?filter[type]=technology,language&select=count:name']"
+      [controlLanguages]="getControl('languages')"
+      [controlTechnologies]="getControl('technologies')"
+    ></app-post-tech-stack-selector>
   </article>
 } @else {
   <p>Loading...</p>
