@@ -21,7 +21,13 @@
               [class.selected]="ifSelected(value)"
               (click)="toggleValue(value)"
             >
-              {{ value.name }} ({{ value.total_counts }})
+              <span
+                class="icon"
+                [innerHTML]="svgIconsService.returnIcon(value.name, 'favorite-icon')"
+              ></span>
+              <span class="name">
+                {{ value.name }}
+              </span>
             </button>
           }
         </div>
@@ -34,7 +40,13 @@
             [class.selected]="ifSelected(value)"
             (click)="toggleValue(value)"
           >
-            {{ value.name }} ({{ value.total_counts }})
+            <span
+              class="icon"
+              [innerHTML]="svgIconsService.returnIcon(value.name, 'available-icon')"
+            ></span>
+            <span class="name">
+              {{ value.name }}
+            </span>
           </button>
         }
       </div>
