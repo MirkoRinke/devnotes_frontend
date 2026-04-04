@@ -155,13 +155,13 @@
       [openModal]="isTechStackSelectorModalOpen"
       [class.open]="isTechStackSelectorModalAnimating"
       [class.closed]="!isTechStackSelectorModalAnimating"
-      (click)="closeTechStackModal()"
       (animationend)="onAnimationEnd($event)"
       (closeModal)="closeTechStackModal()"
       [endPoint]="'POST_ALLOWED_VALUES'"
       [params]="['?filter[type]=technology,language&select=count:name']"
       [controlLanguages]="getControl('languages')"
       [controlTechnologies]="getControl('technologies')"
+      [enableSearch]="true"
     ></app-post-tech-stack-selector>
   </article>
 } @else {
