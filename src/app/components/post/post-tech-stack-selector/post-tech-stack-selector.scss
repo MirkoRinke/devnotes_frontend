@@ -21,19 +21,43 @@
 
   max-width: 50%;
   min-width: 50%;
+
+  min-height: px-to-rem(400);
   max-height: px-to-rem(400);
 
   @include modal-header();
+
+  .search-input {
+    padding: px-to-rem(10) px-to-rem(15);
+    border-radius: px-to-rem(15);
+    border: none;
+    height: px-to-rem(30);
+
+    min-width: 0;
+    width: 100%;
+
+    transition: box-shadow var.$transition-duration-fast ease;
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-50);
+    }
+  }
 
   .content {
     @include display-flex(center, start, column);
     gap: px-to-rem(25);
     overflow-y: auto;
 
+    flex-grow: 1;
+
+    scrollbar-width: thin;
+    scrollbar-color: rgb(60, 60, 60) transparent;
+
     .favorites,
     .available {
       @include display-grid();
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       width: 100%;
 
       .value {
@@ -43,12 +67,20 @@
         gap: px-to-rem(10);
         min-width: 0;
 
-        &:hover .icon {
-          &::ng-deep .favorite-icon,
-          &::ng-deep .available-icon {
-            //TODO Fix color later use variable
-            fill: green;
-            transition: fill var.$transition-duration-medium ease-in-out;
+        &:hover {
+          .icon {
+            color: var(--font-primary-color-100);
+
+            &::ng-deep .favorite-icon,
+            &::ng-deep .available-icon {
+              fill: var(--font-primary-color-100);
+              transition: fill var.$transition-duration-medium ease-in-out;
+            }
+          }
+
+          .name {
+            color: var(--font-primary-color-100);
+            transition: color var.$transition-duration-medium ease-in-out;
           }
         }
 
@@ -75,6 +107,8 @@
           color: var(--font-primary-color-50);
           width: 100%;
           text-align: left;
+
+          transition: color var.$transition-duration-medium ease-in-out;
         }
 
         &.selected {
@@ -89,9 +123,33 @@
 
           .name {
             color: var(--font-primary-color-100);
+            transition: color var.$transition-duration-medium ease-in-out;
           }
         }
       }
+    }
+  }
+
+  .save-button {
+    @include button-preset();
+    @include golden-ratio-padding(14);
+
+    align-self: center;
+
+    width: px-to-rem(120);
+
+    color: var(--font-primary-color-100);
+
+    background-color: var(--font-primary-color-5);
+    cursor: pointer;
+
+    border: 2px solid var(--font-primary-color-50);
+    border-radius: px-to-rem(10);
+
+    transition: background-color var.$transition-duration-medium ease-in-out;
+
+    &:hover {
+      background-color: var(--page-primary-color-100);
     }
   }
 }

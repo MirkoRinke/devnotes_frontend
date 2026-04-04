@@ -20,11 +20,17 @@ export class PostTechStackSelector {
   @Input() controlTechnologies: FormControl | null = null;
   @Input() params: Array<string> | null = null;
   @Input() endPoint: string | null = null;
+  @Input() enableSearch = false;
+  isSearchActive = false;
+  initialDisplayLimit = 20;
 
   @Input() openModal = false;
   dataLoaded = false;
 
   @Output() closeModal = new EventEmitter<void>();
+
+  originalAvailableValues: AvailableValuesInterface[] = [];
+  originalFavoriteValues: string[] = [];
 
   availableValues: AvailableValuesInterface[] = [];
   favoriteValues: AvailableValuesInterface[] = [];
@@ -32,8 +38,6 @@ export class PostTechStackSelector {
   filteredValues: AvailableValuesInterface[] = [];
 
   selectedValues: TechStackSelectedValueInterface[] = [];
-
-  enableSearch = false;
 
   constructor(
     private availableValuesService: AvailableValuesService,
@@ -48,12 +52,14 @@ export class PostTechStackSelector {
 
   ngOnChanges() {
     if (this.openModal && this.params && this.endPoint) {
+      this.pushControlledValuesToSelected();
       if (!this.dataLoaded) {
         console.log('openModal is true and data is not loaded, initializing data streams');
         this.initDataStreams(this.params, this.endPoint);
         this.dataLoaded = true;
+      } else {
+        this.sortBasedOnSelection();
       }
-      this.pushControlledValuesToSelected();
     }
   }
 
@@ -66,7 +72,6 @@ export class PostTechStackSelector {
       name: value.name,
       entity: value.entity,
     }));
-
     console.log('Selected Values:', this.selectedValues);
   }
 
@@ -76,7 +81,7 @@ export class PostTechStackSelector {
    * @param value
    * @returns
    */
-  ifSelected(value: AvailableValuesInterface): boolean {
+  isSelected(value: AvailableValuesInterface): boolean {
     return this.selectedValues.some((selected) => selected.name === value.name);
   }
 
@@ -87,7 +92,7 @@ export class PostTechStackSelector {
    * @param value
    */
   toggleValue(value: AvailableValuesInterface) {
-    const isSelected = this.ifSelected(value);
+    const isSelected = this.isSelected(value);
     if (isSelected) {
       const index = this.selectedValues.findIndex((selected) => selected.name === value.name);
       this.selectedValues.splice(index, 1);
@@ -113,9 +118,9 @@ export class PostTechStackSelector {
     combineLatest([availableValues$, favoriteTechStack$])
       .pipe(take(1))
       .subscribe(([allValues, favStack]) => {
-        const sortedValues = allValues.sort((a, b) => b.total_counts - a.total_counts);
-
-        this.filterValuesBasedOnFavorite(sortedValues, favStack);
+        this.originalAvailableValues = allValues;
+        this.originalFavoriteValues = favStack;
+        this.filterValuesBasedOnFavorite();
       });
     this.userFavoriteTechnologiesService.loadFavoriteTechStack();
   }
@@ -124,38 +129,63 @@ export class PostTechStackSelector {
    * Filters the available values based on the user's favorite tech stack. It separates the values into two arrays:
    * - `favoriteValues`: Contains values that are part of the user's favorite tech stack.
    * - `availableValues`: Contains values that are not part of the user's favorite tech stack.
-   *
-   * @param sortedValues - The sorted list of available values.
-   * @param favStack - The user's favorite tech stack.
    */
-  filterValuesBasedOnFavorite(sortedValues: AvailableValuesInterface[], favStack: Array<string>) {
-    this.favoriteValues = sortedValues.filter((value) => favStack.includes(value.name));
-    this.availableValues = sortedValues.filter((value) => !favStack.includes(value.name));
+  private filterValuesBasedOnFavorite() {
+    this.favoriteValues = this.originalAvailableValues.filter((value) => this.originalFavoriteValues.includes(value.name));
+    this.availableValues = this.originalAvailableValues.filter((value) => !this.originalFavoriteValues.includes(value.name));
+    this.sortBasedOnSelection();
+  }
 
-    console.log('favoriteValues (from combineLatest)', this.favoriteValues);
-    console.log('availableValues (from combineLatest)', this.availableValues);
+  /**
+   * Sorts the available values and favorite values based on whether they are selected or not.
+   * Selected values are prioritized at the top of the list, followed by non-selected values sorted by their total counts in descending order.
+   */
+  private sortBasedOnSelection() {
+    const sortLogic = (a: AvailableValuesInterface, b: AvailableValuesInterface) => {
+      const aIsSelected = this.isSelected(a);
+      const bIsSelected = this.isSelected(b);
+
+      if (aIsSelected && !bIsSelected) {
+        return -1;
+      }
+      if (!aIsSelected && bIsSelected) {
+        return 1;
+      }
+      return b.total_counts - a.total_counts;
+    };
+
+    this.favoriteValues = this.favoriteValues.sort(sortLogic);
+    this.availableValues = this.availableValues.sort(sortLogic);
 
     this.setShowValuesLimit();
+  }
+
+  /**
+   * Filters the dropdown values based on user input
+   *
+   * @param inputValue
+   */
+  filterFunction(inputValue: string) {
+    const input = (inputValue || '').toLowerCase().trim();
+    if (input.length > 0) {
+      this.filteredValues = this.originalAvailableValues.filter((value) => value.name.toLowerCase().startsWith(input));
+      this.isSearchActive = true;
+    } else {
+      this.filteredValues = this.availableValues;
+      this.isSearchActive = false;
+    }
   }
 
   /**
    * Sets the limit of displayed values based on the enableSearch flag
    */
   setShowValuesLimit() {
-    if (this.enableSearch) {
-      this.filteredValues = this.availableValues.slice(0, 10);
+    if (this.enableSearch && !this.isSearchActive) {
+      this.filteredValues = this.availableValues.slice(0, this.initialDisplayLimit);
     } else {
       this.filteredValues = this.availableValues;
     }
   }
-
-  /**
-   * Handles the close action of the tech stack selector modal or dropdown.
-   */
-  onClose() {
-    this.closeModal.emit();
-  }
-
   /**
    * Pushes the selected values to the respective form controls for languages and technologies.
    * It filters the selected values based on their entity type and updates the form controls accordingly.
@@ -168,5 +198,14 @@ export class PostTechStackSelector {
     if (this.controlTechnologies) {
       this.controlTechnologies.setValue(this.selectedValues.filter((v) => v.entity === 'technology'));
     }
+
+    this.onClose();
+  }
+
+  /**
+   * Handles the close action of the tech stack selector modal or dropdown.
+   */
+  onClose() {
+    this.closeModal.emit();
   }
 }

@@ -11,47 +11,60 @@
       (click)="onClose()"
     ></span>
   </div>
-  @if (filteredValues.length > 0) {
+
+  @if (filteredValues.length > 0 || favoriteValues.length > 0) {
+    @if (enableSearch) {
+      <input
+        class="search-input"
+        [placeholder]="'Search from ' + originalAvailableValues.length + ' options...'"
+        type="text"
+        (input)="filterFunction($event.target.value)"
+      />
+    }
+
     <div class="content">
-      @if (favoriteValues.length > 0) {
+      @if (favoriteValues.length > 0 && !isSearchActive) {
         <div class="favorites">
           @for (value of favoriteValues; track value.name) {
             <button
               class="value"
-              [class.selected]="ifSelected(value)"
+              [class.selected]="isSelected(value)"
               (click)="toggleValue(value)"
             >
               <span
                 class="icon"
                 [innerHTML]="svgIconsService.returnIcon(value.name, 'favorite-icon')"
               ></span>
-              <span class="name">
-                {{ value.name }}
-              </span>
+              <span class="name">{{ value.name }}</span>
             </button>
           }
         </div>
       }
 
-      <div class="available">
-        @for (value of filteredValues; track value.name) {
-          <button
-            class="value"
-            [class.selected]="ifSelected(value)"
-            (click)="toggleValue(value)"
-          >
-            <span
-              class="icon"
-              [innerHTML]="svgIconsService.returnIcon(value.name, 'available-icon')"
-            ></span>
-            <span class="name">
-              {{ value.name }}
-            </span>
-          </button>
-        }
-      </div>
+      @if (filteredValues.length > 0) {
+        <div class="available">
+          @for (value of filteredValues; track value.name) {
+            <button
+              class="value"
+              [class.selected]="isSelected(value)"
+              (click)="toggleValue(value)"
+            >
+              <span
+                class="icon"
+                [innerHTML]="svgIconsService.returnIcon(value.name, 'available-icon')"
+              ></span>
+              <span class="name">{{ value.name }}</span>
+            </button>
+          }
+        </div>
+      }
     </div>
-    <button (click)="pushToControl()">Save</button>
+    <button
+      class="save-button"
+      (click)="pushToControl()"
+    >
+      Save
+    </button>
   } @else {
     <div>
       <p>Loading...</p>
