@@ -63,10 +63,14 @@ export class PostTechStackSelector {
     }
   }
 
+  ngOnDestroy() {
+    console.log('PostTechStackSelector component destroyed');
+  }
+
   /**
    * Pushes the current values from the form controls (languages and technologies) to the selectedValues array.
    */
-  pushControlledValuesToSelected() {
+  private pushControlledValuesToSelected() {
     const controlValues = [...(this.controlLanguages?.value || []), ...(this.controlTechnologies?.value || [])];
     this.selectedValues = controlValues.map((value: TechStackSelectedValueInterface) => ({
       name: value.name,
@@ -81,7 +85,7 @@ export class PostTechStackSelector {
    * @param value
    * @returns
    */
-  isSelected(value: AvailableValuesInterface): boolean {
+  public isSelected(value: AvailableValuesInterface): boolean {
     return this.selectedValues.some((selected) => selected.name === value.name);
   }
 
@@ -91,7 +95,7 @@ export class PostTechStackSelector {
    *
    * @param value
    */
-  toggleValue(value: AvailableValuesInterface) {
+  public toggleValue(value: AvailableValuesInterface) {
     const isSelected = this.isSelected(value);
     if (isSelected) {
       const index = this.selectedValues.findIndex((selected) => selected.name === value.name);
@@ -100,10 +104,6 @@ export class PostTechStackSelector {
       this.selectedValues.push({ name: value.name, entity: value.entity });
     }
     console.log('Selected Values after toggle:', this.selectedValues);
-  }
-
-  ngOnDestroy() {
-    console.log('PostTechStackSelector component destroyed');
   }
 
   /**
@@ -165,7 +165,7 @@ export class PostTechStackSelector {
    *
    * @param inputValue
    */
-  filterFunction(inputValue: string) {
+  public filterFunction(inputValue: string) {
     const input = (inputValue || '').toLowerCase().trim();
     if (input.length > 0) {
       this.filteredValues = this.originalAvailableValues.filter((value) => value.name.toLowerCase().startsWith(input));
@@ -179,7 +179,7 @@ export class PostTechStackSelector {
   /**
    * Sets the limit of displayed values based on the enableSearch flag
    */
-  setShowValuesLimit() {
+  private setShowValuesLimit() {
     if (this.enableSearch && !this.isSearchActive) {
       this.filteredValues = this.availableValues.slice(0, this.initialDisplayLimit);
     } else {
@@ -190,7 +190,7 @@ export class PostTechStackSelector {
    * Pushes the selected values to the respective form controls for languages and technologies.
    * It filters the selected values based on their entity type and updates the form controls accordingly.
    */
-  pushToControl() {
+  public pushToControl() {
     if (this.controlLanguages) {
       this.controlLanguages.setValue(this.selectedValues.filter((v) => v.entity === 'language'));
     }
@@ -205,7 +205,7 @@ export class PostTechStackSelector {
   /**
    * Handles the close action of the tech stack selector modal or dropdown.
    */
-  onClose() {
+  private onClose() {
     this.closeModal.emit();
   }
 }

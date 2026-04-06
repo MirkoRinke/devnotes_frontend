@@ -8,7 +8,7 @@
     <span
       class="icon"
       [innerHTML]="svgIconsService.returnIcon('close')"
-      (click)="onClose()"
+      (click)="pushToControl()"
     ></span>
   </div>
 
@@ -30,9 +30,11 @@
               class="value"
               [class.selected]="isSelected(value)"
               (click)="toggleValue(value)"
+              [title]="value.name"
             >
               <span
                 class="icon"
+                [class.selected]="isSelected(value)"
                 [innerHTML]="svgIconsService.returnIcon(value.name, 'favorite-icon')"
               ></span>
               <span class="name">{{ value.name }}</span>
@@ -48,9 +50,11 @@
               class="value"
               [class.selected]="isSelected(value)"
               (click)="toggleValue(value)"
+              [title]="value.name"
             >
               <span
                 class="icon"
+                [class.selected]="isSelected(value)"
                 [innerHTML]="svgIconsService.returnIcon(value.name, 'available-icon')"
               ></span>
               <span class="name">{{ value.name }}</span>
@@ -59,12 +63,6 @@
         </div>
       }
     </div>
-    <button
-      class="save-button"
-      (click)="pushToControl()"
-    >
-      Save
-    </button>
   } @else {
     <div>
       <p>Loading...</p>

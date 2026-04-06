@@ -17,7 +17,7 @@
 
   background-color: var(--page-primary-color-100);
   border-radius: px-to-rem(15);
-  padding: px-to-rem(25) px-to-rem(50);
+  padding: px-to-rem(25) px-to-rem(50) px-to-rem(50) px-to-rem(50);
 
   max-width: 50%;
   min-width: 50%;
@@ -67,10 +67,9 @@
         gap: px-to-rem(10);
         min-width: 0;
 
-        &:hover {
+        &:hover,
+        &.selected {
           .icon {
-            color: var(--font-primary-color-100);
-
             &::ng-deep .favorite-icon,
             &::ng-deep .available-icon {
               fill: var(--font-primary-color-100);
@@ -86,6 +85,8 @@
 
         .icon {
           @include display-flex(center, center);
+          position: relative;
+
           width: px-to-rem(25);
           height: px-to-rem(25);
 
@@ -99,6 +100,8 @@
             fill: var(--font-primary-color-50);
             transition: fill var.$transition-duration-medium ease-in-out;
           }
+
+          @include status-dot('&.selected');
         }
 
         .name {
@@ -110,46 +113,7 @@
 
           transition: color var.$transition-duration-medium ease-in-out;
         }
-
-        &.selected {
-          .icon {
-            &::ng-deep .favorite-icon,
-            &::ng-deep .available-icon {
-              //TODO Fix color later use variable
-              fill: green;
-              transition: fill var.$transition-duration-medium ease-in-out;
-            }
-          }
-
-          .name {
-            color: var(--font-primary-color-100);
-            transition: color var.$transition-duration-medium ease-in-out;
-          }
-        }
       }
-    }
-  }
-
-  .save-button {
-    @include button-preset();
-    @include golden-ratio-padding(14);
-
-    align-self: center;
-
-    width: px-to-rem(120);
-
-    color: var(--font-primary-color-100);
-
-    background-color: var(--font-primary-color-5);
-    cursor: pointer;
-
-    border: 2px solid var(--font-primary-color-50);
-    border-radius: px-to-rem(10);
-
-    transition: background-color var.$transition-duration-medium ease-in-out;
-
-    &:hover {
-      background-color: var(--page-primary-color-100);
     }
   }
 }
