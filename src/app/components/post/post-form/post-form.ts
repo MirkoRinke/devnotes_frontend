@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, inject, DestroyRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, inject, DestroyRef, ViewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { HttpParams } from '@angular/common/http';
@@ -337,6 +337,11 @@ export class PostForm {
       this.postForm.get(type)?.markAsTouched();
     }
   }
+
+  /**
+   * ViewChild reference to the PostTechStackSelector component, used to control the Tech Stack Modal from this parent component.
+   */
+  @ViewChild('techStackSelector') techStackSelector!: PostTechStackSelector;
 
   /**
    * Open the Tech Stack Modal

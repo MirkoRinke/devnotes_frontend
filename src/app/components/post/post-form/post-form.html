@@ -151,10 +151,12 @@
 
     <app-post-tech-stack-selector
       class="overlay"
+      #techStackSelector
       [class.hidden]="!isTechStackSelectorModalOpen"
       [openModal]="isTechStackSelectorModalOpen"
       [class.open]="isTechStackSelectorModalAnimating"
       [class.closed]="!isTechStackSelectorModalAnimating"
+      (click)="techStackSelector.pushToControl()"
       (animationend)="onAnimationEnd($event)"
       (closeModal)="closeTechStackModal()"
       [endPoint]="'POST_ALLOWED_VALUES'"
