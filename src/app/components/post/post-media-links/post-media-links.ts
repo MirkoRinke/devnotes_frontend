@@ -1,8 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-
 import { SvgIconsService } from '../../../services/svg.icons.service';
 
-import type { ExternalSourcePreviewInterface } from '../../../interfaces/post';
+import type { ExternalSourceInterface } from '../../../interfaces/post-external-source';
 
 @Component({
   selector: 'app-post-media-links',
@@ -11,36 +10,22 @@ import type { ExternalSourcePreviewInterface } from '../../../interfaces/post';
   styleUrl: './post-media-links.scss',
 })
 export class PostMediaLinks {
-  @Input() externalSourcePreviews!: ExternalSourcePreviewInterface[];
+  @Input() externalSource: ExternalSourceInterface = {
+    images: false,
+    videos: false,
+    resources: false,
+  };
 
   @Output() openResourceModalEvent = new EventEmitter<'images' | 'videos' | 'resources'>();
 
   constructor(public svgIconsService: SvgIconsService) {}
 
   /**
-   * Check if post has resources of specific type
+   * Opens the Resource Modal for the given type (images, videos, resources)
    *
-   * @param resourceType
-   * @returns
-   */
-  hasResources(resourceType: 'images' | 'videos' | 'resources'): boolean {
-    if (!this.externalSourcePreviews) {
-      return false;
-    }
-    return this.externalSourcePreviews.some((preview) => preview.type === resourceType);
-  }
-
-  /**
-   * Opens the Post Resource Modal.
-   *
-   * @param type
-   * @returns
+   * @param type The type of resource modal to open ('images', 'videos', 'resources')
    */
   triggerOpenResourceModal(type: 'images' | 'videos' | 'resources') {
-    if (!this.externalSourcePreviews || !this.hasResources(type)) {
-      return;
-    }
-
     this.openResourceModalEvent.emit(type);
   }
 }

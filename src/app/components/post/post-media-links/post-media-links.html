@@ -1,5 +1,5 @@
 <div class="media-links">
-  @if (hasResources('images')) {
+  @if (externalSource.images) {
     <button
       [title]="'Bilder'"
       [innerHTML]="svgIconsService.returnIcon('image')"
@@ -7,7 +7,7 @@
     ></button>
   }
 
-  @if (hasResources('videos')) {
+  @if (externalSource.videos) {
     <button
       [title]="'Videos'"
       [innerHTML]="svgIconsService.returnIcon('video')"
@@ -15,7 +15,7 @@
     ></button>
   }
 
-  @if (hasResources('resources')) {
+  @if (externalSource.resources) {
     <button
       [title]="'Resources'"
       [innerHTML]="svgIconsService.returnIcon('resources')"
