@@ -7,7 +7,7 @@
       [heading]="'Suchergebnisse'"
       [version]="'search-results'"
       [endPoint]="'POSTS'"
-      [params]="['?select=count:languages.name', '?select=count:technologies.name']"
+      [params]="['?select=count:languages.name&filter[status]=eq:published', '?select=count:technologies.name&filter[status]=eq:published']"
     ></app-tech-block>
   }
 
@@ -19,7 +19,7 @@
       [heading]="'Favoriten'"
       [version]="'favorites'"
       [endPoint]="'POSTS'"
-      [params]="['?select=count:languages.name', '?select=count:technologies.name']"
+      [params]="['?select=count:languages.name&filter[status]=eq:published', '?select=count:technologies.name&filter[status]=eq:published']"
     ></app-tech-block>
   } @else if (!(searchService.searchActive$ | async)) {
     <app-guest-teaser-prompt
@@ -37,7 +37,7 @@
     [heading]="'Sprachen / Frameworks'"
     [version]="'default'"
     [endPoint]="'POSTS'"
-    [params]="['?select=count:languages.name']"
+    [params]="['?select=count:languages.name&filter[status]=eq:published']"
   ></app-tech-block>
 
   <app-tech-block
@@ -47,6 +47,6 @@
     [heading]="'Tools'"
     [version]="'default'"
     [endPoint]="'POSTS'"
-    [params]="['?select=count:technologies.name']"
+    [params]="['?select=count:technologies.name&filter[status]=eq:published']"
   ></app-tech-block>
 </section>
