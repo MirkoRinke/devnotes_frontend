@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 
 import type { PostInterface } from '../../../interfaces/post';
 import type { PostResourceModalInterface, PostResourceType } from '../../../interfaces/post-resource-modal';
+import type { ExternalSourceInterface } from '../../../interfaces/post-external-source';
 
 import { PostResourceModal } from './post-resource-modal/post-resource-modal';
 
@@ -45,6 +46,7 @@ export class PostView implements OnChanges {
 
   @Output() resourceRefreshRequest = new EventEmitter<string>();
   lastResourceRefreshType: PostResourceType = null;
+  resourceFlags: ExternalSourceInterface = { images: false, videos: false, resources: false };
 
   isReportModalOpen = false;
   isReportModalAnimating = false;
@@ -71,7 +73,7 @@ export class PostView implements OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes['post'] && changes['post'].currentValue) {
       this.currentPost = changes['post'].currentValue;
-
+      this.hasResources();
       if (this.lastResourceRefreshType !== null) {
         this.openResourceModal(this.lastResourceRefreshType);
         this.lastResourceRefreshType = null;
@@ -118,6 +120,20 @@ export class PostView implements OnChanges {
    */
   closeResourceModal() {
     this.isPostResourceModalAnimating = false;
+  }
+
+  /**
+   * Check if the post has resources of the specified type and set flags accordingly
+   */
+  hasResources() {
+    if (this.currentPost.external_source_previews) {
+      console.log('Checking resources for post:', this.currentPost.id);
+      this.resourceFlags = {
+        images: this.currentPost.external_source_previews.some((preview) => preview.type === 'images'),
+        videos: this.currentPost.external_source_previews.some((preview) => preview.type === 'videos'),
+        resources: this.currentPost.external_source_previews.some((preview) => preview.type === 'resources'),
+      };
+    }
   }
 
   /**

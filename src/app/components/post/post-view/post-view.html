@@ -79,7 +79,7 @@
       ></app-post-tech-stack>
 
       <app-post-media-links
-        [externalSourcePreviews]="currentPost.external_source_previews ?? []"
+        [externalSource]="resourceFlags"
         (openResourceModalEvent)="openResourceModal($event)"
       ></app-post-media-links>
     </div>
