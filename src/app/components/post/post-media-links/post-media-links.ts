@@ -1,8 +1,8 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
-import { SvgIconsService } from '../../../../services/svg.icons.service';
+import { SvgIconsService } from '../../../services/svg.icons.service';
 
-import type { ExternalSourcePreviewInterface } from '../../../../interfaces/post';
+import type { ExternalSourcePreviewInterface } from '../../../interfaces/post';
 
 @Component({
   selector: 'app-post-media-links',
