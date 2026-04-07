@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
-import type { TagsInterface } from '../../../../interfaces/tags';
+import type { TagsInterface } from '../../../interfaces/tags';
 
 @Component({
   selector: 'app-post-tags',

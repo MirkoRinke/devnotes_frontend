@@ -18,7 +18,7 @@ import { PostEngagement } from '../post-engagement/post-engagement';
 import { PostCode } from '../post-code/post-code';
 import { PostTechStack } from '../post-tech-stack/post-tech-stack';
 import { PostMediaLinks } from '../post-media-links/post-media-links';
-import { PostTags } from './post-tags/post-tags';
+import { PostTags } from '../post-tags/post-tags';
 import { PostDescription } from '../post-description/post-description';
 
 @Component({

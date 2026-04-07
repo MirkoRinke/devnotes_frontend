@@ -1,6 +1,6 @@
-@use '../../../../../functions' as *;
-@use '../../../../../var' as var;
-@use '../../../../../mixins' as *;
+@use '../../../../functions' as *;
+@use '../../../../var' as var;
+@use '../../../../mixins' as *;
 
 .tags {
   @include display-flex(center);
