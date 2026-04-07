@@ -20,6 +20,7 @@ import type { PostPayload } from '../../../interfaces/post-payload';
 import type { UserInterface } from '../../../interfaces/user';
 import type { TagsInterface } from '../../../interfaces/tags';
 import type { TechStackSelectedValueInterface } from '../../../interfaces/postForm';
+import type { ExternalSourceInterface } from '../../../interfaces/post-external-source';
 
 import { QueryParamsDropdown } from '../../query-params-dropdown/query-params-dropdown';
 import { UserBadge } from '../../user-badge/user-badge';
@@ -28,10 +29,11 @@ import { PostCode } from '../post-code/post-code';
 import { PostDescription } from '../post-description/post-description';
 import { PostTechStack } from '../post-tech-stack/post-tech-stack';
 import { PostTechStackSelector } from '../post-tech-stack-selector/post-tech-stack-selector';
+import { PostMediaLinks } from '../post-media-links/post-media-links';
 
 @Component({
   selector: 'app-post-form',
-  imports: [ReactiveFormsModule, LocalDatePipe, QueryParamsDropdown, UserBadge, PostEngagement, PostCode, PostDescription, PostTechStack, PostTechStackSelector],
+  imports: [ReactiveFormsModule, LocalDatePipe, QueryParamsDropdown, UserBadge, PostEngagement, PostCode, PostDescription, PostTechStack, PostTechStackSelector, PostMediaLinks],
   templateUrl: './post-form.html',
   styleUrl: './post-form.scss',
 })
@@ -363,12 +365,35 @@ export class PostForm {
    *
    * @param event
    */
-  onAnimationEnd(event: AnimationEvent) {
+  public onAnimationEnd(event: AnimationEvent) {
     if (event.animationName.endsWith('fade-out')) {
       if (this.isTechStackSelectorModalOpen) {
         this.isTechStackSelectorModalOpen = false;
       }
     }
+  }
+
+  /**
+   * Generates the external source object based on the current form values for images, videos, and resources.
+   * This is used to determine which external sources are enabled for the post.
+   *
+   * @returns
+   */
+  public externalSource(): ExternalSourceInterface {
+    return {
+      images: (this.getControl('images')?.value?.length ?? 0) > 0,
+      videos: (this.getControl('videos')?.value?.length ?? 0) > 0,
+      resources: (this.getControl('resources')?.value?.length ?? 0) > 0,
+    };
+  }
+
+  /**
+   * Opens the resource modal for the specified type (images, videos, or resources).
+   *
+   * @param type
+   */
+  public openResourceModal(type: 'images' | 'videos' | 'resources') {
+    console.log('Opening resource modal for type:', type);
   }
 }
 
