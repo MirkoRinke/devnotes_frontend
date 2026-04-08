@@ -86,14 +86,21 @@
 
     <span class="line-break"></span>
 
-    <app-post-tags
-      [context]="context"
-      [endPoint]="endPoint"
-      [selectedEntity]="selectedEntity"
-      [selectedEntityValue]="selectedEntityValue"
-      [selectedPostType]="selectedPostType"
-      [tags]="currentPost.tags ?? []"
-    ></app-post-tags>
+    <div class="footer-sub">
+      <app-post-tags
+        [context]="context"
+        [endPoint]="endPoint"
+        [selectedEntity]="selectedEntity"
+        [selectedEntityValue]="selectedEntityValue"
+        [selectedPostType]="selectedPostType"
+        [tags]="currentPost.tags ?? []"
+      ></app-post-tags>
+
+      @if (isOwner(currentPost)) {
+        <!--TODO Post Status Info -->
+        <p class="post-status-info">TODO: Status Info</p>
+      }
+    </div>
   </footer>
 
   @if (isPostResourceModalOpen) {
