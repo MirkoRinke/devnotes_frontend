@@ -94,11 +94,13 @@
     <footer class="footer">
       <div class="footer-meta">
         <div class="tech-stack-section">
-          <app-post-tech-stack
-            [isViewMode]="false"
-            [languages]="getControl('languages')?.value ?? []"
-            [technologies]="getControl('technologies')?.value ?? []"
-          ></app-post-tech-stack>
+          @if (getControl('languages')?.value.length > 0 || getControl('technologies')?.value.length > 0) {
+            <app-post-tech-stack
+              [isViewMode]="false"
+              [languages]="getControl('languages')?.value ?? []"
+              [technologies]="getControl('technologies')?.value ?? []"
+            ></app-post-tech-stack>
+          }
 
           <button
             class="add-tech-stack-button"
@@ -129,31 +131,58 @@
       </div>
 
       <span class="line-break"></span>
-      <!-- Formularfeld für Tags, nach Bestätigung wird der tag gleich anzeigt, es können auch mehre tags auf einmal angeben werden.  
-     Example: Angular, JavaScript, Webentwicklung, etc.
-     -->
 
-      <!-- Buttons für Speichern, Veröffentlichen, Abbrechen -->
-      <button
-        type="button"
-        [disabled]="isProcessing"
-        (click)="onSubmit()"
-      >
-        {{ mode === 'create' ? 'Erstellen' : 'Änderungen speichern' }}
-      </button>
+      <div class="footer-sub">
+        <div class="tags-section">
+          @if (getControl('tags')?.value.length > 0) {
+            <app-post-tags
+              [tags]="getControl('tags')?.value"
+              [isViewMode]="false"
+            ></app-post-tags>
+          }
 
-      <button
-        type="button"
-        (click)="switchMode('view')"
-      >
-        Abbrechen
-      </button>
-      <button
-        type="button"
-        (click)="resetForm()"
-      >
-        {{ mode === 'create' ? 'Formular leeren' : 'Änderungen verwerfen' }}
-      </button>
+          <button
+            class="add-tags-button"
+            type="button"
+            [innerHTML]="svgIconsService.returnIcon('add_tags')"
+            (click)="openTagsModal()"
+          ></button>
+        </div>
+
+        <!-- Modal für tags. Im Modal können die Tags eingegeben und verwaltet werden.
+        Es können beliebig viele Tags hinzugefügt werden-->
+
+        <!-- Buttons für Speichern, Veröffentlichen, Abbrechen -->
+
+        <div class="action-buttons">
+          <button
+            type="button"
+            class="reset-button"
+            (click)="resetForm()"
+          >
+            <span [innerHTML]="svgIconsService.returnIcon('action_reset')"></span> Verwerfen
+          </button>
+
+          <button
+            type="button"
+            class="cancel-button"
+            (click)="switchMode('view')"
+          >
+            <span [innerHTML]="svgIconsService.returnIcon('action_cancel')"></span> Abbrechen
+          </button>
+
+          <span class="separator">|</span>
+
+          <button
+            class="save-button"
+            type="button"
+            [disabled]="isProcessing"
+            (click)="onSubmit()"
+          >
+            <span [innerHTML]="svgIconsService.returnIcon('action_save')"></span> {{ mode === 'create' ? 'Erstellen' : 'Speichern' }}
+          </button>
+        </div>
+      </div>
     </footer>
 
     <!-- Modals -->

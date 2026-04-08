@@ -30,10 +30,11 @@ import { PostDescription } from '../post-description/post-description';
 import { PostTechStack } from '../post-tech-stack/post-tech-stack';
 import { PostTechStackSelector } from '../post-tech-stack-selector/post-tech-stack-selector';
 import { PostMediaLinks } from '../post-media-links/post-media-links';
+import { PostTags } from '../post-tags/post-tags';
 
 @Component({
   selector: 'app-post-form',
-  imports: [ReactiveFormsModule, LocalDatePipe, QueryParamsDropdown, UserBadge, PostEngagement, PostCode, PostDescription, PostTechStack, PostTechStackSelector, PostMediaLinks],
+  imports: [ReactiveFormsModule, LocalDatePipe, QueryParamsDropdown, UserBadge, PostEngagement, PostCode, PostDescription, PostTechStack, PostTechStackSelector, PostMediaLinks, PostTags],
   templateUrl: './post-form.html',
   styleUrl: './post-form.scss',
 })
@@ -394,6 +395,10 @@ export class PostForm {
    */
   public openResourceModal(type: 'images' | 'videos' | 'resources') {
     console.log('Opening resource modal for type:', type);
+  }
+
+  public openTagsModal() {
+    console.log('Opening tags modal');
   }
 }
 
