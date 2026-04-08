@@ -9,7 +9,7 @@
           [disabled]="!isViewMode"
           [title]="language.name"
           [innerHTML]="svgIconsService.returnIcon(language.name, 'language-icon')"
-          [routerLink]="'/posts-list'"
+          [routerLink]="isViewMode ? '/posts-list' : null"
           [queryParams]="{
             context: context,
             endPoint: endPoint,
@@ -32,7 +32,7 @@
           [disabled]="!isViewMode"
           [title]="technology.name"
           [innerHTML]="svgIconsService.returnIcon(technology.name, 'technology-icon')"
-          [routerLink]="'/posts-list'"
+          [routerLink]="isViewMode ? '/posts-list' : null"
           [queryParams]="{
             context: context,
             endPoint: endPoint,
