@@ -13,6 +13,8 @@ export class PostTags {
   @Input() context: string | null = null;
   @Input() endPoint: string | null = null;
 
+  @Input() isViewMode: boolean = true;
+
   @Input() selectedEntity: string | null = null;
   @Input() selectedEntityValue: string | null = null;
   @Input() selectedPostType: string | null = null;

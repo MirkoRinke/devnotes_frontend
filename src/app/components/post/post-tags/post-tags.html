@@ -2,8 +2,11 @@
   @for (tag of tags; track $index) {
     <button
       class="tag"
+      [class.active]="isViewMode"
       type="button"
-      [routerLink]="'/posts-list'"
+      [disabled]="!isViewMode"
+      [title]="'View all posts with the tag ' + tag.name"
+      [routerLink]="isViewMode ? '/posts-list' : null"
       [queryParams]="{
         context: context,
         endPoint: endPoint,

@@ -12,15 +12,18 @@
     @include golden-ratio-padding(14);
     @include font-settings(14, 500);
 
-    background-color: var(--font-primary-color-15);
+    color: var(--font-primary-color-100);
     border-radius: px-to-rem(10);
 
-    color: var(--font-primary-color-100);
+    background-color: var(--font-primary-color-5);
+    transition: background-color var.$transition-duration-medium ease-in-out;
 
-    transition: scale var.$transition-duration-medium ease-in-out;
+    cursor: default;
 
-    &:hover {
-      scale: 1.05;
+    &.active:hover {
+      cursor: pointer;
+      background-color: var(--font-primary-color-10);
+      transition: background-color var.$transition-duration-medium ease-in-out;
     }
   }
 }
