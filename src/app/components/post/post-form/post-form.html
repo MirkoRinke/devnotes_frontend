@@ -213,6 +213,21 @@
 
     <!-- Modal für tags. Im Modal können die Tags eingegeben und verwaltet werden.
         Es können beliebig viele Tags hinzugefügt werden-->
+    <app-post-tags-editor
+      class="overlay"
+      #tagsEditor
+      [class.hidden]="!isTagsModalOpen"
+      [openModal]="isTagsModalOpen"
+      [class.open]="isTagsModalAnimating"
+      [class.closed]="!isTagsModalAnimating"
+      (click)="tagsEditor.pushToControl()"
+      (animationend)="onAnimationEnd($event)"
+      (closeModal)="closeTagsModal()"
+      [endPoint]="'POST_ALLOWED_VALUES'"
+      [params]="['?filter[type]=tag&select=count:name']"
+      [control]="getControl('tags')"
+      [enableSearch]="true"
+    ></app-post-tags-editor>
   </article>
 } @else {
   <p>Loading...</p>

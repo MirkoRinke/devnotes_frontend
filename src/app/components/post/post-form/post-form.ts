@@ -32,6 +32,7 @@ import { PostTechStackSelector } from '../post-tech-stack-selector/post-tech-sta
 import { PostMediaLinks } from '../post-media-links/post-media-links';
 import { PostTags } from '../post-tags/post-tags';
 import { PostMediaLinksEditor } from '../post-media-links-editor/post-media-links-editor';
+import { PostTagsEditor } from '../post-tags-editor/post-tags-editor';
 
 @Component({
   selector: 'app-post-form',
@@ -48,6 +49,7 @@ import { PostMediaLinksEditor } from '../post-media-links-editor/post-media-link
     PostMediaLinks,
     PostTags,
     PostMediaLinksEditor,
+    PostTagsEditor,
   ],
   templateUrl: './post-form.html',
   styleUrl: './post-form.scss',
@@ -73,6 +75,9 @@ export class PostForm {
   isMediaLinksEditorModalOpen = false;
   isMediaLinksEditorModalAnimating = false;
   mediaLinksEditorType: 'images' | 'videos' | 'resources' = 'images';
+
+  isTagsModalOpen = false;
+  isTagsModalAnimating = false;
 
   isProcessing = false;
 
@@ -399,6 +404,22 @@ export class PostForm {
   }
 
   /**
+   * Open the Tags Modal
+   */
+  public openTagsModal() {
+    console.log('Opening tags modal');
+    this.isTagsModalOpen = true;
+    requestAnimationFrame(() => (this.isTagsModalAnimating = true));
+  }
+
+  /**
+   * Close the Tags Modal
+   */
+  public closeTagsModal() {
+    this.isTagsModalAnimating = false;
+  }
+
+  /**
    * Handle animation end events
    *
    * @param event
@@ -410,6 +431,9 @@ export class PostForm {
       }
       if (this.isMediaLinksEditorModalOpen) {
         this.isMediaLinksEditorModalOpen = false;
+      }
+      if (this.isTagsModalOpen) {
+        this.isTagsModalOpen = false;
       }
     }
   }
@@ -426,10 +450,6 @@ export class PostForm {
       videos: (this.getControl('videos')?.value?.length ?? 0) > 0,
       resources: (this.getControl('resources')?.value?.length ?? 0) > 0,
     };
-  }
-
-  public openTagsModal() {
-    console.log('Opening tags modal');
   }
 }
 
