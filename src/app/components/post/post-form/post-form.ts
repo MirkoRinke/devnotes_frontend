@@ -31,10 +31,24 @@ import { PostTechStack } from '../post-tech-stack/post-tech-stack';
 import { PostTechStackSelector } from '../post-tech-stack-selector/post-tech-stack-selector';
 import { PostMediaLinks } from '../post-media-links/post-media-links';
 import { PostTags } from '../post-tags/post-tags';
+import { PostMediaLinksEditor } from '../post-media-links-editor/post-media-links-editor';
 
 @Component({
   selector: 'app-post-form',
-  imports: [ReactiveFormsModule, LocalDatePipe, QueryParamsDropdown, UserBadge, PostEngagement, PostCode, PostDescription, PostTechStack, PostTechStackSelector, PostMediaLinks, PostTags],
+  imports: [
+    ReactiveFormsModule,
+    LocalDatePipe,
+    QueryParamsDropdown,
+    UserBadge,
+    PostEngagement,
+    PostCode,
+    PostDescription,
+    PostTechStack,
+    PostTechStackSelector,
+    PostMediaLinks,
+    PostTags,
+    PostMediaLinksEditor,
+  ],
   templateUrl: './post-form.html',
   styleUrl: './post-form.scss',
 })
@@ -55,6 +69,10 @@ export class PostForm {
 
   isTechStackSelectorModalOpen = false;
   isTechStackSelectorModalAnimating = false;
+
+  isMediaLinksEditorModalOpen = false;
+  isMediaLinksEditorModalAnimating = false;
+  mediaLinksEditorType: 'images' | 'videos' | 'resources' = 'images';
 
   isProcessing = false;
 
@@ -361,6 +379,25 @@ export class PostForm {
     this.isTechStackSelectorModalAnimating = false;
   }
 
+  @ViewChild('mediaLinksEditor') mediaLinksEditor!: PostMediaLinksEditor;
+
+  /**
+   * Open the Media Links Editor Modal
+   */
+  public openMediaLinksEditorModal(type: 'images' | 'videos' | 'resources') {
+    console.log('Opening media links editor modal for type:', type);
+    this.mediaLinksEditorType = type;
+    this.isMediaLinksEditorModalOpen = true;
+    requestAnimationFrame(() => (this.isMediaLinksEditorModalAnimating = true));
+  }
+
+  /**
+   * Close the Media Links Editor Modal
+   */
+  public closeMediaLinksEditorModal() {
+    this.isMediaLinksEditorModalAnimating = false;
+  }
+
   /**
    * Handle animation end events
    *
@@ -370,6 +407,9 @@ export class PostForm {
     if (event.animationName.endsWith('fade-out')) {
       if (this.isTechStackSelectorModalOpen) {
         this.isTechStackSelectorModalOpen = false;
+      }
+      if (this.isMediaLinksEditorModalOpen) {
+        this.isMediaLinksEditorModalOpen = false;
       }
     }
   }
@@ -386,15 +426,6 @@ export class PostForm {
       videos: (this.getControl('videos')?.value?.length ?? 0) > 0,
       resources: (this.getControl('resources')?.value?.length ?? 0) > 0,
     };
-  }
-
-  /**
-   * Opens the resource modal for the specified type (images, videos, or resources).
-   *
-   * @param type
-   */
-  public openResourceModal(type: 'images' | 'videos' | 'resources') {
-    console.log('Opening resource modal for type:', type);
   }
 
   public openTagsModal() {

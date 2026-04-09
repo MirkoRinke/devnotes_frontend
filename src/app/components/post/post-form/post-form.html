@@ -101,7 +101,6 @@
               [technologies]="getControl('technologies')?.value ?? []"
             ></app-post-tech-stack>
           }
-
           <button
             class="add-tech-stack-button"
             type="button"
@@ -115,19 +114,14 @@
             class="add-media-links-button"
             type="button"
             [innerHTML]="svgIconsService.returnIcon('add_media_links')"
-            (click)="openResourceModal('images')"
+            (click)="openMediaLinksEditorModal('images')"
           ></button>
 
           <app-post-media-links
             [externalSource]="externalSource()"
-            (openResourceModalEvent)="openResourceModal($event)"
+            (openResourceModalEvent)="openMediaLinksEditorModal($event)"
           ></app-post-media-links>
         </div>
-
-        <!-- Modal für Media Links (Images, Videos, Resources) 
-       Im Modal können die Links eingegeben und verwaltet werden.
-       Nach eingabe vom ersten Link, erscheint ein weiteres Feld für den nächsten Link usw.
-       Es können beliebig viele Links hinzugefügt werden-->
       </div>
 
       <span class="line-break"></span>
@@ -148,11 +142,6 @@
             (click)="openTagsModal()"
           ></button>
         </div>
-
-        <!-- Modal für tags. Im Modal können die Tags eingegeben und verwaltet werden.
-        Es können beliebig viele Tags hinzugefügt werden-->
-
-        <!-- Buttons für Speichern, Veröffentlichen, Abbrechen -->
 
         <div class="action-buttons">
           <button
@@ -203,6 +192,27 @@
       [controlTechnologies]="getControl('technologies')"
       [enableSearch]="true"
     ></app-post-tech-stack-selector>
+
+    <!-- Modal für Media Links (Images, Videos, Resources) 
+       Im Modal können die Links eingegeben und verwaltet werden.
+       Nach eingabe vom ersten Link, erscheint ein weiteres Feld für den nächsten Link usw.
+       Es können beliebig viele Links hinzugefügt werden-->
+    @if (isMediaLinksEditorModalOpen) {
+      <app-post-media-links-editor
+        class="overlay"
+        #mediaLinksEditor
+        [class.hidden]="!isMediaLinksEditorModalOpen"
+        [class.open]="isMediaLinksEditorModalAnimating"
+        [class.closed]="!isMediaLinksEditorModalAnimating"
+        (click)="mediaLinksEditor.pushToControl()"
+        (animationend)="onAnimationEnd($event)"
+        (closeModal)="closeMediaLinksEditorModal()"
+        [type]="mediaLinksEditorType"
+      ></app-post-media-links-editor>
+    }
+
+    <!-- Modal für tags. Im Modal können die Tags eingegeben und verwaltet werden.
+        Es können beliebig viele Tags hinzugefügt werden-->
   </article>
 } @else {
   <p>Loading...</p>
