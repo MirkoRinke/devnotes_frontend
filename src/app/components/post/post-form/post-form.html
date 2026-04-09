@@ -208,6 +208,9 @@
         (animationend)="onAnimationEnd($event)"
         (closeModal)="closeMediaLinksEditorModal()"
         [type]="mediaLinksEditorType"
+        [imagesControl]="getControl('images')"
+        [videosControl]="getControl('videos')"
+        [resourcesControl]="getControl('resources')"
       ></app-post-media-links-editor>
     }
 

@@ -197,14 +197,17 @@ export class PostForm {
         title: this.post.title ?? '',
         code: this.post.code ?? '',
         description: this.post.description ?? '',
-        images: this.post.images ?? [],
-        videos: this.post.videos ?? [],
-        resources: this.post.resources ?? [],
+
+        images: this.post.images ? [...this.post.images] : [],
+        videos: this.post.videos ? [...this.post.videos] : [],
+        resources: this.post.resources ? [...this.post.resources] : [],
+        tags: this.post.tags ? [...this.post.tags] : [],
+
         languages: this.post.languages?.map((lang) => ({ name: lang.name, entity: lang.type })) ?? [],
+        technologies: this.post.technologies?.map((tech) => ({ name: tech.name, entity: tech.type })) ?? [],
+
         category: this.post.category ?? '',
         post_type: this.post.post_type ?? '',
-        technologies: this.post.technologies?.map((tech) => ({ name: tech.name, entity: tech.type })) ?? [],
-        tags: this.post.tags ?? [],
         status: this.post.status ?? '',
       });
     }
