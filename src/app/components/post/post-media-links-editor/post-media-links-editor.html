@@ -1,1 +1,67 @@
-<p>post-media-links-editor works! for {{ type }}</p>
+<div
+  class="post-media-links-editor"
+  (click)="$event.stopPropagation()"
+>
+  <header class="header">
+    <h3 class="title">Media Links Editor</h3>
+    <span
+      class="icon"
+      [innerHTML]="svgIconsService.returnIcon('close')"
+      (click)="pushToControl()"
+    ></span>
+  </header>
+  <div class="tabs">
+    <button
+      class="tap"
+      [class.active]="currentType === 'images'"
+      (click)="changeType('images')"
+    >
+      Images
+    </button>
+    <button
+      class="tap"
+      [class.active]="currentType === 'videos'"
+      (click)="changeType('videos')"
+    >
+      Videos
+    </button>
+    <button
+      class="tap"
+      [class.active]="currentType === 'resources'"
+      (click)="changeType('resources')"
+    >
+      Resources
+    </button>
+  </div>
+  <div class="content">
+    <div class="input-group">
+      <input
+        class="input"
+        type="text"
+        (keydown.enter)="pushToArray($event.target.value, null); $event.target.value = ''"
+      />
+      <button
+        class="add-button"
+        title="Add a new link"
+        [innerHTML]="svgIconsService.returnIcon('add_media_links')"
+      ></button>
+    </div>
+
+    @for (input of currentArray; track $index) {
+      <div class="input-group">
+        <input
+          class="input"
+          type="text"
+          (keydown.enter)="pushToArray($event.target.value, $index)"
+          [value]="input"
+        />
+        <button
+          class="remove-button"
+          (click)="removeFromArray($index)"
+          title="Compost this link"
+          [innerHTML]="svgIconsService.returnIcon('trash_compost')"
+        ></button>
+      </div>
+    }
+  </div>
+</div>

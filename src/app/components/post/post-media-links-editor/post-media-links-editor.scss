@@ -6,3 +6,87 @@
   @include display-flex(center, center);
   @include absolute-overlay($animation-style: fade);
 }
+
+.post-media-links-editor {
+  @include display-flex($direction: column);
+  gap: px-to-rem(25);
+
+  background-color: var(--page-primary-color-100);
+  border-radius: px-to-rem(15);
+  padding: px-to-rem(25) px-to-rem(50) px-to-rem(50) px-to-rem(50);
+
+  max-width: 50%;
+  min-width: 50%;
+
+  min-height: px-to-rem(400);
+  max-height: px-to-rem(400);
+
+  @include modal-header();
+
+  .tabs {
+    @include display-flex(center, start);
+    gap: px-to-rem(25);
+
+    .tap {
+      @include button-preset();
+      @include display-flex(center, center);
+      color: var(--font-primary-color-50);
+
+      cursor: pointer;
+
+      &.active {
+        color: var(--font-primary-color-100);
+      }
+    }
+  }
+
+  .content {
+    @include display-flex(center, start, column);
+    gap: px-to-rem(25);
+    overflow-y: auto;
+
+    flex-grow: 1;
+
+    scrollbar-width: thin;
+    scrollbar-color: rgb(60, 60, 60) transparent;
+
+    //TODO Temporary styles, should be replaced later
+    .input-group {
+      @include display-flex(center, center);
+      gap: px-to-rem(15);
+      width: 100%;
+
+      .input {
+        width: 100%;
+      }
+
+      .remove-button,
+      .add-button {
+        @include button-preset();
+        @include display-flex(center, center);
+
+        cursor: pointer;
+
+        &::ng-deep .trash_compost,
+        &::ng-deep .add_media_links {
+          width: px-to-rem(20);
+          height: px-to-rem(20);
+          fill: var(--font-primary-color-50);
+        }
+
+        //TODO Fix color later use variable
+        &:hover {
+          &::ng-deep .trash_compost {
+            fill: darkred;
+            transition: fill var.$transition-duration-medium ease-in-out;
+          }
+
+          &::ng-deep .add_media_links {
+            fill: darkgreen;
+            transition: fill var.$transition-duration-medium ease-in-out;
+          }
+        }
+      }
+    }
+  }
+}
