@@ -38,11 +38,13 @@
       <input
         class="input"
         type="text"
-        (keydown.enter)="pushToArray($event.target.value, null); $event.target.value = ''"
+        #newLink
+        (keydown.enter)="pushToArray(newLink.value, null); newLink.value = ''"
       />
       <button
         class="add-button"
         title="Add a new link"
+        (click)="pushToArray(newLink.value, null); newLink.value = ''"
         [innerHTML]="svgIconsService.returnIcon('add_media_links')"
       ></button>
     </div>
