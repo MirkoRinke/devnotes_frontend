@@ -27,12 +27,15 @@
     @include display-flex(center, start);
     gap: px-to-rem(25);
 
-    .tap {
+    .tab {
       @include button-preset();
       @include display-flex(center, center);
       color: var(--font-primary-color-50);
+      position: relative;
 
       cursor: pointer;
+
+      @include status-dot($selector: '.active', $top: -14px);
 
       &.active {
         color: var(--font-primary-color-100);
@@ -42,8 +45,8 @@
 
   .content {
     @include display-flex(center, start, column);
-    gap: px-to-rem(25);
     overflow-y: auto;
+    padding-right: px-to-rem(10);
 
     flex-grow: 1;
 
@@ -57,7 +60,21 @@
       width: 100%;
 
       .input {
+        padding: px-to-rem(10) px-to-rem(15);
+        margin: px-to-rem(10) px-to-rem(15);
+        border-radius: px-to-rem(5);
+        border: none;
+        height: px-to-rem(30);
+
+        min-width: 0;
         width: 100%;
+
+        transition: box-shadow var.$transition-duration-fast ease;
+
+        &:focus {
+          outline: none;
+          box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-50);
+        }
       }
 
       .remove-button,
@@ -67,7 +84,7 @@
 
         cursor: pointer;
 
-        &::ng-deep .trash_compost,
+        &::ng-deep .delete_media_links,
         &::ng-deep .add_media_links {
           width: px-to-rem(20);
           height: px-to-rem(20);
@@ -76,7 +93,7 @@
 
         //TODO Fix color later use variable
         &:hover {
-          &::ng-deep .trash_compost {
+          &::ng-deep .delete_media_links {
             fill: darkred;
             transition: fill var.$transition-duration-medium ease-in-out;
           }
