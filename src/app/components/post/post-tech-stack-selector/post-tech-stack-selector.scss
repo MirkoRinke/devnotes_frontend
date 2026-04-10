@@ -29,7 +29,7 @@
 
   .search-input {
     padding: px-to-rem(10) px-to-rem(15);
-    border-radius: px-to-rem(15);
+    border-radius: px-to-rem(5);
     border: none;
     height: px-to-rem(30);
 
@@ -101,7 +101,7 @@
             transition: fill var.$transition-duration-medium ease-in-out;
           }
 
-          @include status-dot('&.selected');
+          @include status-dot('&.selected', $top: -8px, $right: -8px);
         }
 
         .name {
