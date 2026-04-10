@@ -443,33 +443,54 @@
 }
 
 //TODO Fix color later use variable
-@mixin status-dot($parent-selector: null, $color: #4ade80, $size: 8px, $position: 8px) {
+@mixin status-dot($parent-selector: null, $selector: null, $color: #4ade80, $size: 8px, $top: unset, $bottom: unset, $right: unset, $left: unset) {
   @if math.unit($size) == 'px' {
     $size-value: math.div($size, 1px);
     $size: px-to-rem($size-value);
   }
-  @if math.unit($position) == 'px' {
-    $position-value: math.div($position, 1px);
-    $position: px-to-rem($position-value);
+  @if $top != unset and math.unit($top) == 'px' {
+    $top-value: math.div($top, 1px);
+    $top: px-to-rem($top-value);
+  }
+  @if $right != unset and math.unit($right) == 'px' {
+    $right-value: math.div($right, 1px);
+    $right: px-to-rem($right-value);
+  }
+  @if $left != unset and math.unit($left) == 'px' {
+    $left-value: math.div($left, 1px);
+    $left: px-to-rem($left-value);
   }
 
   &::after {
     content: '';
     position: absolute;
-    top: -$position;
-    right: -$position;
+
+    top: $top;
+    bottom: $bottom;
+    right: $right;
+    left: $left;
+
     width: $size;
     height: $size;
     background-color: $color;
     border-radius: 50%;
     border: px-to-rem(2) solid rgb(26, 26, 26);
 
-    @if $parent-selector != null {
+    @if $parent-selector != null or $selector != null {
       opacity: 0;
       transform: scale(0.5);
       transition:
         opacity var.$transition-duration-medium ease,
         transform var.$transition-duration-medium ease;
+    }
+  }
+
+  @if $selector != null {
+    &#{$selector} {
+      &::after {
+        opacity: 1;
+        transform: scale(1);
+      }
     }
   }
 
