@@ -1,1 +1,92 @@
-<p>post-tags-editor works!</p>
+<div
+  class="post-tags-editor"
+  (click)="$event.stopPropagation()"
+>
+  <div class="header">
+    <h3 class="title">Pick Tags</h3>
+    <span
+      class="icon"
+      [innerHTML]="svgIconsService.returnIcon('close')"
+      (click)="pushToControl()"
+    ></span>
+  </div>
+  @if (enableSearch) {
+    <div class="search">
+      <input
+        class="search-input"
+        #searchInput
+        [placeholder]="'Search from ' + originalAvailableValues.length + ' options... Select or press Enter to add new tag'"
+        type="text"
+        (input)="filterFunction(searchInput.value)"
+        (keydown.enter)="managedNewValues(searchInput.value, 'add'); filterFunction(''); searchInput.value = ''"
+      />
+      <button
+        class="add-button"
+        (click)="managedNewValues(searchInput.value, 'add'); filterFunction(''); searchInput.value = ''"
+        [innerHTML]="svgIconsService.returnIcon('add_tags')"
+      ></button>
+    </div>
+  }
+  @if (filteredValues.length > 0 || isSearchActive) {
+    <div class="content">
+      @if (filteredValues.length > 0) {
+        <div class="currentValues">
+          @for (value of filteredValues; track value.name) {
+            <button
+              class="value"
+              [class.selected]="isSelected(value)"
+              (click)="toggleValue(value)"
+              [title]="value.name"
+            >
+              <span
+                class="name"
+                [class.selected]="isSelected(value)"
+                >{{ value.name }}</span
+              >
+            </button>
+          }
+
+          @if (newAddedValues.length > 0 && !isSearchActive) {
+            @for (value of newAddedValues; track value.name) {
+              <button
+                class="value"
+                [class.selected]="isSelected(value)"
+                (click)="managedNewValues(value.name, 'remove')"
+                [title]="value.name"
+              >
+                <span
+                  class="name"
+                  [class.selected]="isSelected(value)"
+                  >{{ value.name }}</span
+                >
+              </button>
+            }
+          }
+        </div>
+      }
+
+      @if (specificCategoryValues.length > 0 && !isSearchActive) {
+        <div class="specificCategoryValues">
+          @for (value of specificCategoryValues; track value.name) {
+            <button
+              class="value"
+              [class.selected]="isSelected(value)"
+              (click)="toggleValue(value)"
+              [title]="value.name"
+            >
+              <span
+                class="name"
+                [class.selected]="isSelected(value)"
+                >{{ value.name }}</span
+              >
+            </button>
+          }
+        </div>
+      }
+    </div>
+  } @else {
+    <div>
+      <p>Loading...</p>
+    </div>
+  }
+</div>

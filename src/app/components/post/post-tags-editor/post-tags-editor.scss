@@ -10,3 +10,117 @@
     display: none;
   }
 }
+
+.post-tags-editor {
+  @include display-flex($direction: column);
+  gap: px-to-rem(25);
+
+  background-color: var(--page-primary-color-100);
+  border-radius: px-to-rem(15);
+  padding: px-to-rem(25) px-to-rem(50) px-to-rem(50) px-to-rem(50);
+
+  max-width: 50%;
+  min-width: 50%;
+
+  min-height: px-to-rem(400);
+  max-height: px-to-rem(400);
+
+  @include modal-header();
+
+  .search {
+    @include display-flex(center, center);
+    gap: px-to-rem(15);
+
+    .search-input {
+      padding: px-to-rem(10) px-to-rem(15);
+      border-radius: px-to-rem(5);
+      border: none;
+      height: px-to-rem(30);
+
+      min-width: 0;
+      width: 100%;
+
+      transition: box-shadow var.$transition-duration-fast ease;
+
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-50);
+      }
+    }
+
+    .add-button {
+      @include button-preset();
+      @include display-flex(center, center);
+
+      cursor: pointer;
+
+      &::ng-deep .add_tags {
+        width: px-to-rem(20);
+        height: px-to-rem(20);
+        fill: var(--font-primary-color-50);
+      }
+
+      //TODO Fix color later use variable
+      &:hover {
+        &::ng-deep .add_tags {
+          fill: darkgreen;
+          transition: fill var.$transition-duration-medium ease-in-out;
+        }
+      }
+    }
+  }
+
+  .content {
+    @include display-flex(center, start, column);
+    gap: px-to-rem(25);
+    overflow-y: auto;
+
+    flex-grow: 1;
+
+    scrollbar-width: thin;
+    scrollbar-color: rgb(60, 60, 60) transparent;
+
+    .currentValues,
+    .specificCategoryValues {
+      @include display-grid();
+      grid-template-columns: repeat(4, 1fr);
+      gap: px-to-rem(15);
+      padding-right: px-to-rem(10);
+      width: 100%;
+
+      .value {
+        @include button-preset();
+        @include golden-ratio-padding(14);
+        @include display-flex(center, flex-start);
+        gap: px-to-rem(10);
+        min-width: 0;
+
+        color: var(--font-primary-color-100);
+        border-radius: px-to-rem(10);
+        background-color: var(--font-primary-color-5);
+        transition: background-color var.$transition-duration-medium ease-in-out;
+
+        &:hover,
+        &.selected {
+          background-color: var(--font-primary-color-10);
+          transition: background-color var.$transition-duration-medium ease-in-out;
+
+          .name {
+            color: var(--font-primary-color-100);
+            transition: color var.$transition-duration-medium ease-in-out;
+          }
+        }
+
+        .name {
+          @include dynamic-font-size(16);
+          @include singleline-ellipsis();
+          color: var(--font-primary-color-50);
+          width: 100%;
+          text-align: left;
+
+          transition: color var.$transition-duration-medium ease-in-out;
+        }
+      }
+    }
+  }
+}
