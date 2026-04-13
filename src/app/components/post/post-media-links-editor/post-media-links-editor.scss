@@ -40,6 +40,16 @@
       &.active {
         color: var(--font-primary-color-100);
       }
+
+      .count {
+        visibility: hidden;
+        margin-left: px-to-rem(5);
+        min-width: 4ch;
+
+        &.active {
+          visibility: visible;
+        }
+      }
     }
   }
 

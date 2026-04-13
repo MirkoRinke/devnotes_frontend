@@ -17,6 +17,11 @@
       (click)="changeType('images')"
     >
       Images
+      <span
+        class="count"
+        [class.active]="images.length > 0"
+        >{{ images.length > 0 ? '(' + images.length + ')' : '' }}</span
+      >
     </button>
     <button
       class="tab"
@@ -24,6 +29,11 @@
       (click)="changeType('videos')"
     >
       Videos
+      <span
+        class="count"
+        [class.active]="videos.length > 0"
+        >{{ videos.length > 0 ? '(' + videos.length + ')' : '' }}</span
+      >
     </button>
     <button
       class="tab"
@@ -31,6 +41,11 @@
       (click)="changeType('resources')"
     >
       Resources
+      <span
+        class="count"
+        [class.active]="resources.length > 0"
+        >{{ resources.length > 0 ? '(' + resources.length + ')' : '' }}</span
+      >
     </button>
   </div>
   <div class="content">
