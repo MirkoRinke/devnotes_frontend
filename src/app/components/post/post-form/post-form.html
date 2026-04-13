@@ -228,6 +228,7 @@
       (closeModal)="closeTagsModal()"
       [endPoint]="'POST_ALLOWED_VALUES'"
       [params]="['?filter[type]=tag&select=count:name']"
+      [specificCategory]="getControl('category')?.value ?? null"
       [control]="getControl('tags')"
       [enableSearch]="true"
     ></app-post-tags-editor>
