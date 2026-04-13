@@ -56,7 +56,6 @@ export class PostTechStackSelector {
       if (!this.dataLoaded) {
         console.log('openModal is true and data is not loaded, initializing data streams');
         this.initDataStreams(this.params, this.endPoint);
-        this.dataLoaded = true;
       } else {
         this.sortBasedOnSelection();
       }
@@ -120,6 +119,7 @@ export class PostTechStackSelector {
       .subscribe(([allValues, favStack]) => {
         this.originalAvailableValues = allValues;
         this.originalFavoriteValues = favStack;
+        this.dataLoaded = true;
         this.filterValuesBasedOnFavorite();
       });
     this.userFavoriteTechnologiesService.loadFavoriteTechStack();
