@@ -49,6 +49,8 @@ export function getAppIcon(iconName: string, className: string): string | undefi
     `;
 
     case 'search_clear':
+    case 'close':
+    case 'remove':
       return /*html*/ `
     <!-- Icon used are from Google Material Symbols, licensed under the Apache License 2.0. -->
     <svg  class="${className}" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg">
@@ -59,6 +61,19 @@ export function getAppIcon(iconName: string, className: string): string | undefi
         </g>
     </svg>
         `;
+
+    case 'add':
+      return /*html*/ `
+    <!-- Icon used are from Google Material Symbols, licensed under the Apache License 2.0. -->
+    <svg class="${className}" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg">
+        <g transform="matrix(1,0,0,1,-5,-5)">
+            <g transform="matrix(0.025,0,0,0.025,0,24)">
+                <path d="M440,-440L200,-440L200,-520L440,-520L440,-760L520,-760L520,-520L760,-520L760,-440L520,-440L520,-200L440,-200L440,-440Z"/>
+            </g>
+        </g>
+    </svg>
+
+     `;
 
     case 'network':
       return /*html*/ `
@@ -315,18 +330,6 @@ export function getAppIcon(iconName: string, className: string): string | undefi
         <g transform="matrix(1,0,0,1,-1.4,-2.8)">
             <g transform="matrix(0.025,0,0,0.025,0,24)">
                 <path d="M770,-302L710,-364C736.667,-371.333 758.333,-385.5 775,-406.5C791.667,-427.5 800,-452 800,-480C800,-513.333 788.333,-541.667 765,-565C741.667,-588.333 713.333,-600 680,-600L520,-600L520,-680L680,-680C735.333,-680 782.5,-660.5 821.5,-621.5C860.5,-582.5 880,-535.333 880,-480C880,-442 870.167,-407 850.5,-375C830.833,-343 804,-318.667 770,-302ZM634,-440L554,-520L640,-520L640,-440L634,-440ZM792,-56L56,-792L112,-848L848,-112L792,-56ZM440,-280L280,-280C224.667,-280 177.5,-299.5 138.5,-338.5C99.5,-377.5 80,-424.667 80,-480C80,-526 94,-567 122,-603C150,-639 186,-662.667 230,-674L304,-600L280,-600C246.667,-600 218.333,-588.333 195,-565C171.667,-541.667 160,-513.333 160,-480C160,-446.667 171.667,-418.333 195,-395C218.333,-371.667 246.667,-360 280,-360L440,-360L440,-280ZM320,-440L320,-520L385,-520L464,-440L320,-440Z"/>
-            </g>
-        </g>
-    </svg>
-    `;
-
-    case 'close':
-      return /*html*/ `
-    <!-- Icon used are from Google Material Symbols, licensed under the Apache License 2.0. -->
-    <svg class="${className}" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg">
-        <g transform="matrix(1,0,0,1,-5,-5)">
-            <g transform="matrix(0.025,0,0,0.025,0,24)">
-                <path d="M256,-200L200,-256L424,-480L200,-704L256,-760L480,-536L704,-760L760,-704L536,-480L760,-256L704,-200L480,-424L256,-200Z"/>
             </g>
         </g>
     </svg>
