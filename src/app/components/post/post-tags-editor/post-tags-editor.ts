@@ -121,20 +121,23 @@ export class PostTagsEditor {
     }
     const newTag: TagValueInterface = { name: trimmedValue, entity: 'tags' };
 
-    if (!this.selectedValues.some((value) => value.name === newTag.name) && task === 'add') {
-      this.selectedValues.push(newTag);
-    }
-    if (!this.newAddedValues.some((value) => value.name === newTag.name) && task === 'add') {
-      this.newAddedValues.push({ name: newTag.name, entity: newTag.entity, total_counts: 0 });
+    if (task === 'add') {
+      if (!this.selectedValues.some((value) => value.name === newTag.name)) {
+        this.selectedValues.push(newTag);
+        this.newAddedValues.push({ name: newTag.name, entity: newTag.entity, total_counts: 0 });
+      }
     }
 
-    if (this.selectedValues.some((value) => value.name === newTag.name) && task === 'remove') {
-      const index = this.selectedValues.findIndex((value) => value.name === newTag.name);
-      this.selectedValues.splice(index, 1);
-    }
-    if (this.newAddedValues.some((value) => value.name === newTag.name) && task === 'remove') {
-      const index = this.newAddedValues.findIndex((value) => value.name === newTag.name);
-      this.newAddedValues.splice(index, 1);
+    if (task === 'remove') {
+      const indexInSelected = this.selectedValues.findIndex((value) => value.name === newTag.name);
+      if (indexInSelected > -1) {
+        this.selectedValues.splice(indexInSelected, 1);
+      }
+
+      const indexInNew = this.newAddedValues.findIndex((value) => value.name === newTag.name);
+      if (indexInNew > -1) {
+        this.newAddedValues.splice(indexInNew, 1);
+      }
     }
   }
 
@@ -199,7 +202,7 @@ export class PostTagsEditor {
    */
   private setShowValuesLimit() {
     if (this.enableSearch && !this.isSearchActive) {
-      this.filteredValues = this.currentValues.slice(0, this.initialDisplayLimit);
+      this.filteredValues = this.currentValues;
       this.specificCategoryValues = this.specificCategoryValues.slice(0, this.initialDisplayLimit);
     } else {
       this.filteredValues = this.currentValues;
