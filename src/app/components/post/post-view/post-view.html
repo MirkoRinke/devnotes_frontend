@@ -96,9 +96,14 @@
         [tags]="currentPost.tags ?? []"
       ></app-post-tags>
 
-      @if (isOwner(currentPost)) {
-        <!--TODO Post Status Info -->
-        <p class="post-status-info">TODO: Status Info</p>
+      @if (isOwner(currentPost) && currentPost.status) {
+        <div class="post-status-info">
+          <span
+            class="icon-container"
+            [innerHTML]="svgIconsService.returnIcon(currentPost.status + '_posts', currentPost.status)"
+          ></span>
+          <p class="status-text">{{ currentPost.status }}</p>
+        </div>
       }
     </div>
   </footer>

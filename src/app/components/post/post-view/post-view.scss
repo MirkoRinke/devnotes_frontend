@@ -91,7 +91,42 @@
       gap: px-to-rem(25);
 
       .post-status-info {
+        @include display-flex(center);
+        gap: px-to-rem(10);
         flex-shrink: 0;
+
+        .icon-container {
+          @include display-flex(center);
+
+          width: 25px;
+          height: 25px;
+
+          &::ng-deep .draft,
+          &::ng-deep .private,
+          &::ng-deep .published,
+          &::ng-deep .archived {
+            width: 100%;
+            height: 100%;
+            transition: fill var.$transition-duration-medium ease-in-out;
+            fill: var(--font-primary-color-50);
+
+            &.private {
+              fill: rgb(182, 112, 202);
+            }
+            &.published {
+              fill: rgb(156, 220, 254);
+            }
+            &.archived {
+              fill: rgb(196, 145, 117);
+            }
+          }
+        }
+
+        .status-text {
+          &::first-letter {
+            text-transform: uppercase;
+          }
+        }
       }
     }
 
