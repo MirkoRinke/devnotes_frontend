@@ -85,6 +85,7 @@
       @include display-grid();
       grid-template-columns: repeat(4, 1fr);
       gap: px-to-rem(15);
+      padding-top: px-to-rem(10);
       padding-right: px-to-rem(10);
       width: 100%;
 
@@ -92,6 +93,7 @@
         @include button-preset();
         @include golden-ratio-padding(14);
         @include display-flex(center, flex-start);
+        position: relative;
         gap: px-to-rem(10);
         min-width: 0;
 
@@ -99,17 +101,6 @@
         border-radius: px-to-rem(10);
         background-color: var(--font-primary-color-5);
         transition: background-color var.$transition-duration-medium ease-in-out;
-
-        &:hover,
-        &.selected {
-          background-color: var(--font-primary-color-10);
-          transition: background-color var.$transition-duration-medium ease-in-out;
-
-          .name {
-            color: var(--font-primary-color-100);
-            transition: color var.$transition-duration-medium ease-in-out;
-          }
-        }
 
         .name {
           @include dynamic-font-size(16);
@@ -119,6 +110,77 @@
           text-align: left;
 
           transition: color var.$transition-duration-medium ease-in-out;
+        }
+
+        .remove-highlighter,
+        .add-highlighter {
+          @include button-preset();
+          @include display-flex(center, center);
+          position: absolute;
+          top: px-to-rem(-2.5);
+          right: px-to-rem(-2.5);
+          background-color: var(--page-primary-color-100);
+          border-radius: 50%;
+          padding: px-to-rem(2);
+
+          width: px-to-rem(20);
+          height: px-to-rem(20);
+
+          opacity: 0;
+          transition: opacity var.$transition-duration-medium ease-in-out;
+
+          //TODO Fix color later use variable
+          &.remove-highlighter {
+            border: 2px solid rgb(139, 2, 2);
+          }
+          &.add-highlighter {
+            border: 2px solid rgb(0, 100, 0);
+          }
+
+          &::ng-deep .remove,
+          &::ng-deep .add {
+            //TODO Fix color later use variable
+
+            &.remove {
+              fill: rgb(139, 2, 2);
+            }
+            &.add {
+              fill: rgb(0, 100, 0);
+            }
+
+            width: 80%;
+            height: 80%;
+          }
+        }
+
+        &:hover {
+          &:not(.selected) {
+            background-color: var(--font-primary-color-10);
+          }
+
+          .remove-highlighter,
+          .add-highlighter {
+            opacity: 1;
+          }
+
+          .name {
+            color: var(--font-primary-color-100);
+          }
+        }
+
+        &.selected {
+          &:hover {
+            background-color: var(--font-primary-color-5);
+            .name {
+              color: var(--font-primary-color-50);
+            }
+          }
+
+          background-color: var(--font-primary-color-10);
+
+          .name {
+            color: var(--font-primary-color-100);
+          }
         }
       }
     }

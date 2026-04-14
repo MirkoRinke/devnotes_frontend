@@ -43,6 +43,11 @@
                 [class.selected]="isSelected(value)"
                 >{{ value.name }}</span
               >
+
+              <button
+                class="remove-highlighter"
+                [innerHTML]="svgIconsService.returnIcon('remove')"
+              ></button>
             </button>
           }
 
@@ -59,6 +64,10 @@
                   [class.selected]="isSelected(value)"
                   >{{ value.name }}</span
                 >
+                <button
+                  class="remove-highlighter"
+                  [innerHTML]="svgIconsService.returnIcon('remove')"
+                ></button>
               </button>
             }
           }
@@ -79,6 +88,10 @@
                 [class.selected]="isSelected(value)"
                 >{{ value.name }}</span
               >
+              <button
+                class="add-highlighter"
+                [innerHTML]="svgIconsService.returnIcon('add')"
+              ></button>
             </button>
           }
         </div>
