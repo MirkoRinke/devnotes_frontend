@@ -53,6 +53,8 @@
         background-color: transparent;
         outline: none;
         border: none;
+
+        @include placeholder();
       }
 
       &::before {
@@ -99,6 +101,11 @@
             &::ng-deep .add_media_links {
               fill: rgb(0, 185, 0);
             }
+
+            & + .add-tech-stack-label {
+              color: var(--font-primary-color-100);
+              transition: color var.$transition-duration-medium ease-in-out;
+            }
           }
 
           //TODO Fix color later use variable
@@ -108,6 +115,36 @@
             height: px-to-rem(25);
             fill: rgb(0, 128, 0);
             transition: fill var.$transition-duration-medium ease-in-out;
+          }
+        }
+
+        .add-tech-stack-label,
+        .add-media-links-label {
+          @include font-settings(14, 500);
+          color: var(--font-primary-color-50);
+
+          &:hover {
+            cursor: pointer;
+            color: var(--font-primary-color-100);
+          }
+        }
+
+        &:has(.add-media-links-button:hover) {
+          .add-media-links-label {
+            color: var(--font-primary-color-100);
+            transition: color var.$transition-duration-medium ease-in-out;
+          }
+        }
+
+        &:has(.add-tech-stack-label:hover) {
+          .add-tech-stack-button ::ng-deep .add_tech_stack {
+            fill: rgb(0, 185, 0);
+          }
+        }
+
+        &:has(.add-media-links-label:hover) {
+          .add-media-links-button ::ng-deep .add_media_links {
+            fill: rgb(0, 185, 0);
           }
         }
       }
@@ -140,6 +177,11 @@
             &::ng-deep .add_tags {
               fill: rgb(0, 185, 0);
             }
+
+            & + .add-tags-label {
+              color: var(--font-primary-color-100);
+              transition: color var.$transition-duration-medium ease-in-out;
+            }
           }
 
           //TODO Fix color later use variable
@@ -148,6 +190,22 @@
             height: px-to-rem(25);
             fill: rgb(0, 128, 0);
             transition: fill var.$transition-duration-medium ease-in-out;
+          }
+        }
+
+        .add-tags-label {
+          @include font-settings(14, 500);
+          color: var(--font-primary-color-50);
+
+          &:hover {
+            cursor: pointer;
+            color: var(--font-primary-color-100);
+          }
+        }
+
+        &:has(.add-tags-label:hover) {
+          .add-tags-button ::ng-deep .add_tags {
+            fill: rgb(0, 185, 0);
           }
         }
       }

@@ -35,8 +35,6 @@
             [params]="getAllowedValuesParams('category')"
             (selectionChange)="patchDropdownValues($event, 'category')"
           ></app-query-params-dropdown>
-
-          <span class="separator">|</span>
         </div>
 
         <app-query-params-dropdown
@@ -70,6 +68,7 @@
       <div class="title-wrapper">
         <input
           class="title-input"
+          [placeholder]="'Beitragstitel hier eingeben'"
           name="title-input"
           type="text"
           formControlName="title"
@@ -104,19 +103,36 @@
           <button
             class="add-tech-stack-button"
             type="button"
+            [title]="'Tech Stack hinzufügen'"
             [innerHTML]="svgIconsService.returnIcon('add_tech_stack')"
             (click)="openTechStackModal()"
           ></button>
+
+          @if (getControl('languages')?.value.length === 0 && getControl('technologies')?.value.length === 0) {
+            <span
+              class="add-tech-stack-label"
+              (click)="openTechStackModal()"
+              >Tech Stacks hinzufügen</span
+            >
+          }
         </div>
 
         <div class="media-links-section">
+          @if (getControl('images')?.value.length === 0 && getControl('videos')?.value.length === 0 && getControl('resources')?.value.length === 0) {
+            <span
+              class="add-media-links-label"
+              (click)="openMediaLinksEditorModal('images')"
+              [title]="'Medienlinks hinzufügen'"
+              >Medienlinks hinzufügen</span
+            >
+          }
           <button
             class="add-media-links-button"
             type="button"
+            [title]="'Medienlinks hinzufügen'"
             [innerHTML]="svgIconsService.returnIcon('add_media_links')"
             (click)="openMediaLinksEditorModal('images')"
           ></button>
-
           <app-post-media-links
             [externalSource]="externalSource()"
             (openResourceModalEvent)="openMediaLinksEditorModal($event)"
@@ -139,8 +155,16 @@
             class="add-tags-button"
             type="button"
             [innerHTML]="svgIconsService.returnIcon('add_tags')"
+            [title]="'Tags hinzufügen'"
             (click)="openTagsModal()"
           ></button>
+          @if (getControl('tags')?.value.length === 0) {
+            <span
+              class="add-tags-label"
+              (click)="openTagsModal()"
+              >Tags hinzufügen</span
+            >
+          }
         </div>
 
         <div class="action-buttons">
