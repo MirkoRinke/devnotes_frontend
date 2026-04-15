@@ -52,7 +52,7 @@ export class PostCode implements OnChanges {
    * Highlight code using Prism.js
    */
   private highlight() {
-    if (this.codeElement?.nativeElement) {
+    if (this.codeElement?.nativeElement && this.code) {
       this.codeElement.nativeElement.innerHTML = this.code || '';
       Prism.highlightElement(this.codeElement.nativeElement);
     }
@@ -74,8 +74,6 @@ export class PostCode implements OnChanges {
         }
         this.highlight();
       });
-
-      // console.log('codeElement:', this.codeElement?.nativeElement.getBoundingClientRect());
     }
   }
 
@@ -95,7 +93,6 @@ export class PostCode implements OnChanges {
       content.nativeElement.focus({
         preventScroll: true,
       });
-      // console.log('codeTextarea:', this.codeTextarea?.nativeElement.getBoundingClientRect());
     }
   }
 

@@ -21,12 +21,13 @@
   </div>
 
   @if (isViewMode) {
-    <pre (click)="control ? setViewMode(false) : null"><code #codeElement [class]="language | prismLanguage">{{ code }}</code></pre>
+    <pre (click)="control ? setViewMode(false) : null"><code #codeElement [class]="language | prismLanguage" [class.empty]="!code">{{ code ? code : 'Code hier eingeben' }}</code></pre>
   } @else {
     @if (control) {
       <textarea
         (blur)="setViewMode(true)"
         class="code-textarea"
+        [placeholder]="'Code hier eingeben'"
         name="code-textarea"
         #codeTextarea
         (input)="adjustHeight()"

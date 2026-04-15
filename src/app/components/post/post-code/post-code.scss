@@ -64,6 +64,10 @@
       line-height: 1.5;
       white-space: pre-wrap !important; // Overwrite prism.js styles
       word-break: break-all !important; // Overwrite prism.js styles
+
+      &.empty {
+        color: var(--font-primary-color-50);
+      }
     }
   }
 
@@ -87,5 +91,7 @@
 
     outline: unset;
     border: none;
+
+    @include placeholder();
   }
 }
