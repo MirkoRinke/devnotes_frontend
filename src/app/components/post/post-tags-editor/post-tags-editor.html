@@ -27,28 +27,30 @@
       ></button>
     </div>
   }
-  @if (filteredValues.length > 0 || isSearchActive) {
+  @if (filteredValues.length > 0 || specificCategoryValues.length > 0 || isSearchActive) {
     <div class="content">
-      @if (filteredValues.length > 0) {
+      @if (filteredValues.length > 0 || newAddedValues.length > 0 || isSearchActive) {
         <div class="currentValues">
-          @for (value of filteredValues; track value.name) {
-            <button
-              class="value"
-              [class.selected]="isSelected(value)"
-              (click)="toggleValue(value)"
-              [title]="value.name"
-            >
-              <span
-                class="name"
-                [class.selected]="isSelected(value)"
-                >{{ value.name }}</span
-              >
-
+          @if (filteredValues.length > 0) {
+            @for (value of filteredValues; track value.name) {
               <button
-                class="remove-highlighter"
-                [innerHTML]="svgIconsService.returnIcon('remove')"
-              ></button>
-            </button>
+                class="value"
+                [class.selected]="isSelected(value)"
+                (click)="isSelected(value) ? toggleValue(value) : managedNewValues(value.name, 'add'); filterFunction('')"
+                [title]="value.name"
+              >
+                <span
+                  class="name"
+                  [class.selected]="isSelected(value)"
+                  >{{ value.name }}</span
+                >
+
+                <button
+                  [class]="isSelected(value) ? 'remove-highlighter' : 'add-highlighter'"
+                  [innerHTML]="svgIconsService.returnIcon(isSelected(value) ? 'remove' : 'add')"
+                ></button>
+              </button>
+            }
           }
 
           @if (newAddedValues.length > 0 && !isSearchActive) {
@@ -65,15 +67,14 @@
                   >{{ value.name }}</span
                 >
                 <button
-                  class="remove-highlighter"
-                  [innerHTML]="svgIconsService.returnIcon('remove')"
+                  [class]="isSelected(value) ? 'remove-highlighter' : 'add-highlighter'"
+                  [innerHTML]="svgIconsService.returnIcon(isSelected(value) ? 'remove' : 'add')"
                 ></button>
               </button>
             }
           }
         </div>
       }
-
       @if (specificCategoryValues.length > 0 && !isSearchActive) {
         <div class="specificCategoryValues">
           @for (value of specificCategoryValues; track value.name) {
@@ -89,8 +90,8 @@
                 >{{ value.name }}</span
               >
               <button
-                class="add-highlighter"
-                [innerHTML]="svgIconsService.returnIcon('add')"
+                [class]="isSelected(value) ? 'remove-highlighter' : 'add-highlighter'"
+                [innerHTML]="svgIconsService.returnIcon(isSelected(value) ? 'remove' : 'add')"
               ></button>
             </button>
           }

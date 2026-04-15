@@ -148,7 +148,7 @@ export class PostTagsEditor {
    * @param endPoint The endpoint to be used for fetching available values.
    */
   private initDataStreams(params: Array<string>, endPoint: string) {
-    const specificCategoryParams = [`?filter[category]=${this.specificCategory}&select=count:tags.name`];
+    const specificCategoryParams = this.specificCategory ? [`?filter[category]=${this.specificCategory}&select=count:tags.name`] : [`?select=count:tags.name`];
     const specificCategoryEndPoint = 'POSTS';
 
     const availableValues$ = this.availableValuesService.getAvailableValues(params, endPoint).pipe(take(1));
