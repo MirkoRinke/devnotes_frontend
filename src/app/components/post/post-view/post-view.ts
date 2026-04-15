@@ -127,7 +127,6 @@ export class PostView implements OnChanges {
    */
   hasResources() {
     if (this.currentPost.external_source_previews) {
-      console.log('Checking resources for post:', this.currentPost.id);
       this.resourceFlags = {
         images: this.currentPost.external_source_previews.some((preview) => preview.type === 'images'),
         videos: this.currentPost.external_source_previews.some((preview) => preview.type === 'videos'),

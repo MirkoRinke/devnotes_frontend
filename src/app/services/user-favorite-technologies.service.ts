@@ -32,9 +32,6 @@ export class UserFavoriteTechnologiesService {
 
     this.loaded = true;
 
-    //TODO delete console log later
-    console.log('Loading user favorite tech stack...' + Math.random());
-
     const options = {
       params: new HttpParams().set('select', 'favorite_techs'),
     };

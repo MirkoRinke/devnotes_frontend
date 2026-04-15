@@ -93,8 +93,6 @@ export class PostForm {
 
   ngOnInit() {
     this.createPostForm();
-    console.log('PostForm:', this.postForm?.value);
-
     if (this.mode === 'create') {
       this.loadCurrentUser(this.getCurrentUserId());
     } else if (this.mode === 'edit' && this.post) {
@@ -133,9 +131,7 @@ export class PostForm {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (response) => {
-          console.log('User data fetched successfully:', response);
           this.currentUser = response.data.data;
-          console.log('Current user set to:', this.currentUser);
         },
         error: (error) => {
           console.error('Error fetching user data:', error);
@@ -239,7 +235,6 @@ export class PostForm {
     this.postForm?.markAsUntouched();
 
     this.postFormCode = this.postForm?.get('code')?.value;
-    console.log('Form reset:', this.postForm?.value);
   }
 
   /**
@@ -393,7 +388,6 @@ export class PostForm {
    * Open the Media Links Editor Modal
    */
   public openMediaLinksEditorModal(type: 'images' | 'videos' | 'resources') {
-    console.log('Opening media links editor modal for type:', type);
     this.mediaLinksEditorType = type;
     this.isMediaLinksEditorModalOpen = true;
     requestAnimationFrame(() => (this.isMediaLinksEditorModalAnimating = true));
@@ -410,7 +404,6 @@ export class PostForm {
    * Open the Tags Modal
    */
   public openTagsModal() {
-    console.log('Opening tags modal');
     this.isTagsModalOpen = true;
     requestAnimationFrame(() => (this.isTagsModalAnimating = true));
   }

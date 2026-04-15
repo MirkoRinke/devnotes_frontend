@@ -81,8 +81,6 @@ export class QueryParamsDropdown {
       .getAvailableValues(params, endPoint)
       .pipe(take(1))
       .subscribe((availableValues) => {
-        console.log('Fetched available values:', availableValues);
-
         this.availableValues = availableValues.sort((a, b) => b.total_counts - a.total_counts);
         this.calculateTotalCount();
         this.setShowValuesLimit();

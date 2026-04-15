@@ -45,25 +45,15 @@ export class PostTechStackSelector {
     public svgIconsService: SvgIconsService,
   ) {}
 
-  ngOnInit() {
-    console.log('Control Languages:', this.controlLanguages?.value);
-    console.log('Control Technologies:', this.controlTechnologies?.value);
-  }
-
   ngOnChanges() {
     if (this.openModal && this.params && this.endPoint) {
       this.pushControlledValuesToSelected();
       if (!this.dataLoaded) {
-        console.log('openModal is true and data is not loaded, initializing data streams');
         this.initDataStreams(this.params, this.endPoint);
       } else {
         this.sortBasedOnSelection();
       }
     }
-  }
-
-  ngOnDestroy() {
-    console.log('PostTechStackSelector component destroyed');
   }
 
   /**
@@ -75,7 +65,6 @@ export class PostTechStackSelector {
       name: value.name,
       entity: value.entity,
     }));
-    console.log('Selected Values:', this.selectedValues);
   }
 
   /**
@@ -102,7 +91,6 @@ export class PostTechStackSelector {
     } else {
       this.selectedValues.push({ name: value.name, entity: value.entity });
     }
-    console.log('Selected Values after toggle:', this.selectedValues);
   }
 
   /**

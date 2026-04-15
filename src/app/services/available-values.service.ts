@@ -30,7 +30,7 @@ export class AvailableValuesService {
         // console.log('Successfully retrieved values:', data);
       }),
       catchError((error) => {
-        console.error('Error fetching available values:', error);
+        console.error('Error fetching available values');
         return of([]);
       }),
     );

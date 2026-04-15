@@ -50,13 +50,6 @@ export class UserBadgeMenu {
   }
 
   /**
-   * TODO: Implement navigation to user profile
-   */
-  userProfile() {
-    console.log('User Profile clicked');
-  }
-
-  /**
    * Toggle follow/unfollow user and update the UI accordingly.
    */
   toggleFollowUser(user: UserInterface) {

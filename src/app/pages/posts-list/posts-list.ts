@@ -342,8 +342,6 @@ export class PostsList {
 
     const url = ApiEndpointEnums[parsed.endPoint as keyof typeof ApiEndpointEnums] + '?' + options.params.toString();
 
-    // console.log('Fetching posts with URL:', url, Math.random()); // Add random number to ensure log is printed every time
-
     this.apiService.get<ApiResponseArrayInterface<PostInterface>>(url).subscribe({
       next: (response) => {
         this.postsList = response.data.data;
