@@ -93,7 +93,6 @@ export class PostMediaLinksEditor {
     }
 
     if (index === null && this.currentArray.includes(value)) {
-      console.log('Value already exists in the current array:', value);
       return;
     }
 
@@ -137,6 +136,10 @@ export class PostMediaLinksEditor {
    */
   private isValidURL(url: string): boolean {
     try {
+      if (url.length > 2048) {
+        return false;
+      }
+
       const parsedURL = new URL(url);
 
       let hostname = parsedURL.hostname;
