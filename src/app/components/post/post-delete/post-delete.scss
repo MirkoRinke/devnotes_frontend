@@ -1,0 +1,62 @@
+@use '../../../../functions' as *;
+@use '../../../../var' as var;
+@use '../../../../mixins' as *;
+
+:host(.overlay) {
+  @include display-flex(center, center);
+  @include absolute-overlay($animation-style: fade);
+}
+
+.post-delete {
+  @include display-flex($direction: column);
+  gap: px-to-rem(25);
+
+  background-color: var(--page-primary-color-100);
+  border-radius: px-to-rem(15);
+  padding: px-to-rem(25) px-to-rem(50) px-to-rem(50) px-to-rem(50);
+
+  max-width: 50%;
+  min-width: 50%;
+
+  min-height: px-to-rem(300);
+  max-height: px-to-rem(300);
+
+  @include modal-header();
+
+  .content {
+    @include display-flex(start, start, column);
+    gap: px-to-rem(15);
+    flex-grow: 1;
+  }
+
+  .footer {
+    @include display-flex(center, center, column);
+    gap: px-to-rem(15);
+
+    .actions {
+      @include display-flex(center, center);
+      gap: px-to-rem(25);
+
+      .delete-button,
+      .cancel-button {
+        @include button-preset();
+        @include golden-ratio-padding(14);
+        @include font-settings(14, 500);
+        max-width: fit-content;
+        min-width: px-to-rem(200);
+
+        background-color: var(--font-primary-color-5);
+
+        border: 2px solid var(--font-primary-color-50);
+        border-radius: px-to-rem(10);
+
+        transition: background-color var.$transition-duration-medium ease-in-out;
+
+        &:hover {
+          cursor: pointer;
+          background-color: var(--page-primary-color-100);
+        }
+      }
+    }
+  }
+}

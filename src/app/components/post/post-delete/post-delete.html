@@ -1,9 +1,41 @@
-<h1>Beitrag löschen</h1>
-<p>Möchten Sie diesen Beitrag wirklich löschen?</p>
-<button type="button">ja</button>
-<button
-  type="button"
-  (click)="switchMode('view')"
+<div
+  class="post-delete"
+  (click)="$event.stopPropagation()"
 >
-  Nein
-</button>
+  <header class="header">
+    <h3 class="title">Beitrag löschen</h3>
+    <span
+      class="icon"
+      [innerHTML]="svgIconsService.returnIcon('close')"
+      (click)="onClose()"
+    ></span>
+  </header>
+
+  <div class="content">
+    <p>{{ postTitle }}</p>
+  </div>
+
+  <div class="footer">
+    @if (postId && postUserId) {
+      <p>Möchten Sie diesen Beitrag wirklich löschen?</p>
+      <div class="actions">
+        <button
+          class="delete-button"
+          type="button"
+          (click)="onDeletePost(postId, postUserId)"
+        >
+          ja
+        </button>
+        <button
+          class="cancel-button"
+          type="button"
+          (click)="onClose()"
+        >
+          Nein
+        </button>
+      </div>
+    } @else {
+      <p>Fehler: Beitrag konnte nicht gefunden werden.</p>
+    }
+  </div>
+</div>
