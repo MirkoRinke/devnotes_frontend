@@ -30,6 +30,7 @@
         <app-post-settings-dropdown
           class="absolute-top-right"
           (modeChange)="modeChange.emit($event)"
+          (deletePost)="onDeletePost()"
         ></app-post-settings-dropdown>
       } @else {
         <app-report-button
@@ -131,5 +132,19 @@
       [reportId]="currentPost.id"
       (closeModal)="closeReportModal()"
     ></app-report-modal>
+  }
+
+  @if (isDeleteModalOpen && currentPost.user_id && currentPost.title) {
+    <app-post-delete
+      class="overlay"
+      [class.open]="isDeleteModalAnimating"
+      [class.closed]="!isDeleteModalAnimating"
+      (click)="closeDeleteModal()"
+      (animationend)="onAnimationEnd($event)"
+      [postId]="currentPost.id"
+      [postUserId]="currentPost.user_id"
+      [postTitle]="currentPost.title"
+      (closeModal)="closeDeleteModal()"
+    ></app-post-delete>
   }
 </article>

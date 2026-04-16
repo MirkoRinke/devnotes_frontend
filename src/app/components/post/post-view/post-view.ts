@@ -21,10 +21,25 @@ import { PostTechStack } from '../post-tech-stack/post-tech-stack';
 import { PostMediaLinks } from '../post-media-links/post-media-links';
 import { PostTags } from '../post-tags/post-tags';
 import { PostDescription } from '../post-description/post-description';
+import { PostDelete } from '../post-delete/post-delete';
 
 @Component({
   selector: 'app-post-view',
-  imports: [PostResourceModal, PostSettingsDropdown, ReportModal, UserBadge, PostVersionDropdown, ReportButton, PostEngagement, PostCode, PostTechStack, PostMediaLinks, PostTags, PostDescription],
+  imports: [
+    PostResourceModal,
+    PostSettingsDropdown,
+    ReportModal,
+    UserBadge,
+    PostVersionDropdown,
+    ReportButton,
+    PostEngagement,
+    PostCode,
+    PostTechStack,
+    PostMediaLinks,
+    PostTags,
+    PostDescription,
+    PostDelete,
+  ],
   templateUrl: './post-view.html',
   styleUrl: './post-view.scss',
 })
@@ -52,6 +67,9 @@ export class PostView implements OnChanges {
   isReportModalAnimating = false;
 
   @Output() modeChange = new EventEmitter<string>();
+
+  isDeleteModalOpen = false;
+  isDeleteModalAnimating = false;
 
   constructor(
     public svgIconsService: SvgIconsService,
@@ -159,6 +177,21 @@ export class PostView implements OnChanges {
   }
 
   /**
+   * Open delete confirmation modal
+   */
+  onDeletePost() {
+    this.isDeleteModalOpen = true;
+    requestAnimationFrame(() => (this.isDeleteModalAnimating = true));
+  }
+
+  /**
+   * Close delete confirmation modal
+   */
+  closeDeleteModal() {
+    this.isDeleteModalAnimating = false;
+  }
+
+  /**
    * Handle animation end events
    *
    * @param event
@@ -172,6 +205,10 @@ export class PostView implements OnChanges {
 
       if (this.isReportModalOpen) {
         this.isReportModalOpen = false;
+      }
+
+      if (this.isDeleteModalOpen) {
+        this.isDeleteModalOpen = false;
       }
     }
   }
