@@ -10,6 +10,7 @@ import { SvgIconsService } from '../../../../services/svg.icons.service';
 })
 export class PostSettingsDropdown {
   @Output() modeChange = new EventEmitter<string>();
+  @Output() deletePost = new EventEmitter<void>();
 
   isPostSettingsDropdownOpen = false;
   isPostSettingsDropdownAnimating = false;
@@ -41,13 +42,25 @@ export class PostSettingsDropdown {
   }
 
   /**
-   * Switch mode to edit or delete
-   *
-   * TODO Remove create mode later, only for testing purposes
+   * Switch mode and emit mode change event
    *
    * @param mode
    */
-  switchMode(mode: 'edit' | 'create' | 'delete') {
+  switchMode(mode: 'edit' | 'create') {
     this.modeChange.emit(mode);
+  }
+
+  /**
+   * Emit delete post event
+   */
+  onDeletePost() {
+    this.deletePost.emit();
+  }
+
+  /**
+   * Close settings dropdown
+   */
+  closeSettingsDropdown() {
+    this.isPostSettingsDropdownAnimating = false;
   }
 }
