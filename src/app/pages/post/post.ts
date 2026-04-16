@@ -12,12 +12,11 @@ import type { Params } from '@angular/router';
 
 import { ApiEndpointEnums } from '../../enums/api-endpoint';
 import { PostView } from '../../components/post/post-view/post-view';
-import { PostDelete } from '../../components/post/post-delete/post-delete';
 import { PostForm } from '../../components/post/post-form/post-form';
 
 @Component({
   selector: 'app-post',
-  imports: [PostView, PostDelete, PostForm],
+  imports: [PostView, PostForm],
   templateUrl: './post.html',
   styleUrl: './post.scss',
 })
