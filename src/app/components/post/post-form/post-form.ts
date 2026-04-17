@@ -10,7 +10,7 @@ import { SvgIconsService } from '../../../services/svg.icons.service';
 
 import { ApiEndpointEnums } from '../../../enums/api-endpoint';
 
-import { atLeastOne } from '../../../utils/custom-validators';
+import { atLeastOne, requiredWith } from '../../../utils/custom-validators';
 
 import { LocalDatePipe } from '../../../pipes/local-date-pipe';
 
@@ -164,6 +164,7 @@ export class PostForm {
         category: this.fb.control<string>('', { nonNullable: true, validators: [Validators.required] }),
         post_type: this.fb.control<string>('', { nonNullable: true, validators: [Validators.required] }),
         status: this.fb.control<string>('', { nonNullable: true, validators: [Validators.required] }),
+        syntax_highlighting: this.fb.control<string>('', { nonNullable: true }),
 
         // Optional fields (Backend: nullable)
         code: this.fb.control<string>('', { nonNullable: true }),
@@ -179,7 +180,7 @@ export class PostForm {
         technologies: this.fb.control<Array<TechStackSelectedValueInterface>>([], { nonNullable: true }),
       },
       {
-        validators: [atLeastOne(['languages', 'technologies'], 'languageOrTechRequired')],
+        validators: [atLeastOne(['languages', 'technologies'], 'languageOrTechRequired'), requiredWith('languages', 'syntax_highlighting')],
       },
     );
   }
@@ -203,6 +204,7 @@ export class PostForm {
         technologies: this.post.technologies?.map((tech) => ({ name: tech.name, entity: tech.type })) ?? [],
 
         category: this.post.category ?? '',
+        syntax_highlighting: this.post.syntax_highlighting ?? '',
         post_type: this.post.post_type ?? '',
         status: this.post.status ?? '',
       });
@@ -282,28 +284,51 @@ export class PostForm {
       .subscribe({
         next: (response) => {
           console.log('Post saved successfully:', response.data.data);
+          this.isProcessing = false;
+
           if (this.mode === 'edit') {
             this.switchMode('view');
             this.resourceRefresh.emit(response.data.data);
           } else {
             console.log('Post created successfully, navigating to post view with ID:', response.data.data.id);
-            // this.router.navigate(['/post', response.data.data.id], {
-            //   queryParams: {
-            //     selectedEntity: 'placeholder', // TODO Pick the First-Choice Entity and Value based on the User Selection in the Language and Technology Modal
-            //     selectedEntityValue: 'placeholder', // TODO Pick the First-Choice Entity and Value based on  User Selection in the Language and Technology Modal
-            //   },
-            //   queryParamsHandling: 'merge',
-            //   replaceUrl: true,
-            // });
+            let entity: string;
+            let entityValue: string;
+            if (response.data.data.languages && response.data.data.languages.length > 0) {
+              entity = 'languages';
+              entityValue = response.data.data.languages[0].name;
+              this.navigateToPostView(response.data.data.id, entity, entityValue);
+            } else if (response.data.data.technologies && response.data.data.technologies.length > 0) {
+              entity = 'technologies';
+              entityValue = response.data.data.technologies[0].name;
+              this.navigateToPostView(response.data.data.id, entity, entityValue);
+            } else {
+              this.router.navigate(['/']);
+            }
           }
-
-          this.isProcessing = false;
         },
         error: (error) => {
           console.error('Error saving post:', error);
           this.isProcessing = false;
         },
       });
+  }
+
+  /**
+   * Navigates to the post view page for the given post ID.
+   *
+   * @param postId
+   * @param entity
+   * @param entityValue
+   */
+  private navigateToPostView(postId: number, entity: string, entityValue: string) {
+    this.router.navigate(['/post', postId], {
+      queryParams: {
+        selectedEntity: entity,
+        selectedEntityValue: entityValue,
+      },
+      replaceUrl: true,
+    });
+    // this.switchMode('view');
   }
 
   /**
@@ -471,9 +496,9 @@ export class PostForm {
 //   "technologies": ["Docker","Apache","MySQL"],
 //   "tags": ["Clean Code", "Backend", "API", "Webdesign"],
 //   "status": "published"
+//   "syntax_highlighting": "php"
 // }
 
-// Laravel Validation Rules Example:
 /**
  * The validation rules for the Create method
  *
@@ -501,6 +526,7 @@ export class PostForm {
 //         'tags' => 'nullable|array',
 //         'tags.*' => ['string'],
 //         'status' => ['required', 'string', new ValidPostValue('status')],
+//         'syntax_highlighting' => ['nullable', 'required_with:languages', 'string', new ValidPostValue('language')],
 //     ];
 //     return $validationRulesCreate;
 // }
@@ -532,6 +558,7 @@ export class PostForm {
 //         'tags' => 'sometimes|array',
 //         'tags.*' => ['sometimes', 'string'],
 //         'status' => ['sometimes', 'required', 'string', new ValidPostValue('status')],
+//         'syntax_highlighting' => ['sometimes', 'nullable', 'required_with:languages', 'string', new ValidPostValue('language')],
 //     ];
 //     return $validationRulesUpdate;
 // }

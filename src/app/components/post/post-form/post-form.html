@@ -35,6 +35,22 @@
             [params]="getAllowedValuesParams('category')"
             (selectionChange)="patchDropdownValues($event, 'category')"
           ></app-query-params-dropdown>
+
+          <span class="separator">|</span>
+
+          <app-query-params-dropdown
+            class="post-from-dropdown"
+            [mode]="'Component'"
+            [showCount]="false"
+            [label]="'Syntax'"
+            [key]="'entityValue'"
+            [enableSearch]="true"
+            [endPoint]="'POST_ALLOWED_VALUES'"
+            [defaultValueLabel]="getDefaultValue('syntax_highlighting', 'Syntax')"
+            [defaultValue]="getDefaultValue('syntax_highlighting', '')"
+            [params]="['?filter[type]=language&select=count:name']"
+            (selectionChange)="patchDropdownValues($event, 'syntax_highlighting')"
+          ></app-query-params-dropdown>
         </div>
 
         <app-query-params-dropdown
@@ -80,10 +96,8 @@
         [isViewMode]="false"
       ></app-post-description>
 
-      <!-- TODO replace the [language]="'php'" with dynamic value. -->
-      <!-- TODO Create a new field in the database for the primary language of the post and use this value to set the language for the code editor. -->
       <app-post-code
-        [language]="'php'"
+        [language]="getControl('syntax_highlighting')?.value ?? null"
         [code]="postFormCode"
         [control]="getControl('code')"
         (viewModeChange)="postFormCode = getControl('code')?.value"
