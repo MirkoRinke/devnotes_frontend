@@ -62,7 +62,7 @@
 
     @if (currentPost.code && currentPost.code.trim() !== '') {
       <app-post-code
-        [language]="selectedEntityValue"
+        [language]="currentPost.syntax_highlighting ?? null"
         [code]="currentPost.code"
       ></app-post-code>
     }
