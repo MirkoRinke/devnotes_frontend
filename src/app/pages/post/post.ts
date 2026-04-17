@@ -118,7 +118,7 @@ export class Post {
       next: (response) => {
         this.post = response.data.data;
         this.postDataLoaded = true;
-        if (this.checkAllowedEntityValue()) {
+        if (this.checkAllowedEntityValue(response.data.data)) {
           this.router.navigate(['/']);
           console.warn('Invalid entity value');
           return;
@@ -136,10 +136,10 @@ export class Post {
    *
    * @returns boolean
    */
-  private checkAllowedEntityValue(): boolean {
-    const postLanguages = this.post.languages?.map((language) => language.name) || [];
-    const postTechnologies = this.post.technologies?.map((technology) => technology.name) || [];
-    const postTags = this.post.tags?.map((tag) => tag.name) || [];
+  private checkAllowedEntityValue(post: PostInterface): boolean {
+    const postLanguages = post.languages?.map((language) => language.name) || [];
+    const postTechnologies = post.technologies?.map((technology) => technology.name) || [];
+    const postTags = post.tags?.map((tag) => tag.name) || [];
 
     const allowedEntityValues: string[] = postLanguages.concat(postTechnologies, postTags);
 
