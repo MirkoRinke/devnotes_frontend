@@ -16,6 +16,7 @@ export interface PostInterface {
   category?: string;
   post_type?: string;
   status?: string;
+  syntax_highlighting?: string;
   favorite_count?: number;
   likes_count?: number;
   reports_count?: number;
