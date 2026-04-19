@@ -363,6 +363,18 @@ export class PostForm {
   }
 
   /**
+   * Handles the cancel action. If in edit mode, it switches back to view mode.
+   * If in create mode, it navigates back to the home page.
+   */
+  public cancel() {
+    if (this.mode === 'edit') {
+      this.switchMode('view');
+    } else {
+      this.router.navigate(['/']);
+    }
+  }
+
+  /**
    * Generates the query parameters for fetching allowed values for dropdowns based on the type.
    *
    * @param type
