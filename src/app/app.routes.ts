@@ -6,6 +6,7 @@ import { Login } from './pages/login/login';
 import { PostTypesSelection } from './pages/post-types-selection/post-types-selection';
 import { PostsList } from './pages/posts-list/posts-list';
 import { Post } from './pages/post/post';
+import { PostCreate } from './pages/post-create/post-create';
 import { Favorites } from './pages/favorites/favorites';
 import { Network } from './pages/network/network';
 import { MyArea } from './pages/my-area/my-area';
@@ -21,5 +22,6 @@ export const routes: Routes = [
   { path: 'post-types-selection', component: PostTypesSelection },
   { path: 'posts-list', component: PostsList },
   { path: 'post/:id', component: Post },
+  { path: 'post-create', component: PostCreate },
   { path: 'user-profile/:id', component: UserProfile },
 ];
