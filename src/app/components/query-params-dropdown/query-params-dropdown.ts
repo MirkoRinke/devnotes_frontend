@@ -139,6 +139,7 @@ export class QueryParamsDropdown {
   onAnimationEnd(event: AnimationEvent) {
     if (event.animationName.endsWith('animated-out')) {
       this.showDropdownValues = false;
+      this.filterFunction('');
     }
   }
 
@@ -173,6 +174,6 @@ export class QueryParamsDropdown {
    */
   onSelectComponent(value: string) {
     this.selectionChange.emit(value);
-    this.showDropdownValues = false;
+    this.showAnimation = false;
   }
 }
