@@ -19,7 +19,7 @@ import type { PostInterface } from '../../../interfaces/post';
 import type { PostPayload } from '../../../interfaces/post-payload';
 import type { UserInterface } from '../../../interfaces/user';
 import type { TagsInterface } from '../../../interfaces/tags';
-import type { TechStackSelectedValueInterface } from '../../../interfaces/postForm';
+import type { TechStackSelectedValueInterface, resourceRefreshInterface } from '../../../interfaces/postForm';
 import type { ExternalSourceInterface } from '../../../interfaces/post-external-source';
 
 import { QueryParamsDropdown } from '../../query-params-dropdown/query-params-dropdown';
@@ -59,7 +59,7 @@ export class PostForm {
   @Input() post: PostInterface | null = null;
 
   @Output() modeChange = new EventEmitter<'view'>();
-  @Output() resourceRefresh = new EventEmitter<PostInterface>();
+  @Output() resourceRefresh = new EventEmitter<resourceRefreshInterface>();
 
   currentDate = new Date();
 
@@ -285,25 +285,17 @@ export class PostForm {
         next: (response) => {
           console.log('Post saved successfully:', response.data.data);
           this.isProcessing = false;
+          const entity = response.data.data.languages?.length ? 'languages' : response.data.data.technologies?.length ? 'technologies' : null;
+          const entityValue = response.data.data.languages?.[0]?.name || response.data.data.technologies?.[0]?.name || null;
 
           if (this.mode === 'edit') {
             this.switchMode('view');
-            this.resourceRefresh.emit(response.data.data);
+            const updatedPost = response.data.data;
+            this.resourceRefresh.emit({ updatedPost, entity, entityValue });
           } else {
             console.log('Post created successfully, navigating to post view with ID:', response.data.data.id);
-            let entity: string;
-            let entityValue: string;
-            if (response.data.data.languages && response.data.data.languages.length > 0) {
-              entity = 'languages';
-              entityValue = response.data.data.languages[0].name;
-              this.navigateToPostView(response.data.data.id, entity, entityValue);
-            } else if (response.data.data.technologies && response.data.data.technologies.length > 0) {
-              entity = 'technologies';
-              entityValue = response.data.data.technologies[0].name;
-              this.navigateToPostView(response.data.data.id, entity, entityValue);
-            } else {
-              this.router.navigate(['/']);
-            }
+            const createdPost = response.data.data;
+            this.navigateToPostView(createdPost, entity, entityValue);
           }
         },
         error: (error) => {
@@ -314,21 +306,25 @@ export class PostForm {
   }
 
   /**
-   * Navigates to the post view page for the given post ID.
+   * Navigates to the post view page for the given post.
+   * It constructs the URL with query parameters based on the post's languages or technologies to maintain context in the post view.
    *
-   * @param postId
+   * @param post
    * @param entity
    * @param entityValue
    */
-  private navigateToPostView(postId: number, entity: string, entityValue: string) {
-    this.router.navigate(['/post', postId], {
-      queryParams: {
-        selectedEntity: entity,
-        selectedEntityValue: entityValue,
-      },
-      replaceUrl: true,
-    });
-    // this.switchMode('view');
+  private navigateToPostView(createdPost: PostInterface, entity: string | null, entityValue: string | null): void {
+    if (entity && entityValue) {
+      this.router.navigate(['/post', createdPost.id], {
+        queryParams: {
+          selectedEntity: entity,
+          selectedEntityValue: entityValue,
+        },
+        replaceUrl: true,
+      });
+    } else {
+      this.router.navigate(['/']);
+    }
   }
 
   /**
