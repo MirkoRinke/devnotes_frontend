@@ -11,10 +11,10 @@
         (modeChange)="mode = $event"
         (resourceRefreshRequest)="updatePost()"
       ></app-post-view>
-    } @else if (mode === 'edit' || mode === 'create') {
+    } @else if (mode === 'edit' && post) {
       <app-post-form
         [mode]="mode"
-        [post]="post ? post : null"
+        [post]="post"
         (modeChange)="mode = $event"
         (resourceRefresh)="updatePost($event)"
       ></app-post-form>
