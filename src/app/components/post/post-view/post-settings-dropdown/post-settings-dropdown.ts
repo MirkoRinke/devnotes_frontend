@@ -1,10 +1,11 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 
 import { SvgIconsService } from '../../../../services/svg.icons.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-post-settings-dropdown',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './post-settings-dropdown.html',
   styleUrl: './post-settings-dropdown.scss',
 })
