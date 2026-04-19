@@ -8,7 +8,7 @@ import { UserFavoriteTechnologiesService } from '../../../services/user-favorite
 import { SvgIconsService } from '../../../services/svg.icons.service';
 
 import type { AvailableValuesInterface } from '../../../interfaces/available-values';
-import type { TechStackSelectedValueInterface } from '../../../interfaces/postForm';
+import type { TechStackSelectedValueInterface } from '../../../interfaces/post-form';
 @Component({
   selector: 'app-post-tech-stack-selector',
   imports: [ReactiveFormsModule],

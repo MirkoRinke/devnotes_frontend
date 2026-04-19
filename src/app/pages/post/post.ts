@@ -10,7 +10,7 @@ import type { ApiResponseObjektInterface } from '../../interfaces/api-response';
 import type { PostInterface } from '../../interfaces/post';
 import type { PostParamsInterface } from '../../interfaces/post-params';
 import type { Params } from '@angular/router';
-import type { resourceRefreshInterface } from '../../interfaces/postForm';
+import type { resourceRefreshInterface } from '../../interfaces/post-form';
 
 import { ApiEndpointEnums } from '../../enums/api-endpoint';
 import { PostView } from '../../components/post/post-view/post-view';

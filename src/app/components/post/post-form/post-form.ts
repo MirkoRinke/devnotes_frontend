@@ -19,7 +19,7 @@ import type { PostInterface } from '../../../interfaces/post';
 import type { PostPayload } from '../../../interfaces/post-payload';
 import type { UserInterface } from '../../../interfaces/user';
 import type { TagsInterface } from '../../../interfaces/tags';
-import type { TechStackSelectedValueInterface, resourceRefreshInterface } from '../../../interfaces/postForm';
+import type { TechStackSelectedValueInterface, resourceRefreshInterface } from '../../../interfaces/post-form';
 import type { ExternalSourceInterface } from '../../../interfaces/post-external-source';
 
 import { QueryParamsDropdown } from '../../query-params-dropdown/query-params-dropdown';
