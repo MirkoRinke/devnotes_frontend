@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject, DestroyRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { combineLatest } from 'rxjs';
 import { HttpParams } from '@angular/common/http';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { ApiService } from '../../services/api.service';
 
@@ -9,6 +10,7 @@ import type { ApiResponseObjektInterface } from '../../interfaces/api-response';
 import type { PostInterface } from '../../interfaces/post';
 import type { PostParamsInterface } from '../../interfaces/post-params';
 import type { Params } from '@angular/router';
+import type { resourceRefreshInterface } from '../../interfaces/postForm';
 
 import { ApiEndpointEnums } from '../../enums/api-endpoint';
 import { PostView } from '../../components/post/post-view/post-view';
@@ -36,6 +38,8 @@ export class Post {
 
   necessaryUserFields: string = 'display_name,avatar_items,is_following';
 
+  private destroyRef = inject(DestroyRef);
+
   constructor(
     private route: ActivatedRoute,
     private apiService: ApiService,
@@ -43,29 +47,44 @@ export class Post {
   ) {}
 
   ngOnInit(): void {
-    combineLatest([this.route.paramMap, this.route.queryParams]).subscribe(([path, params]) => {
-      const parsed: PostParamsInterface = this.parseQueryParams(params);
+    combineLatest([this.route.paramMap, this.route.queryParams])
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(([path, params]) => {
+        const parsed: PostParamsInterface = this.parseQueryParams(params);
 
-      const paramId = path.get('id');
-      const postId = Number(paramId);
+        const paramId = path.get('id');
+        const postId = Number(paramId);
 
-      if (!paramId || isNaN(postId) || !Number.isInteger(postId)) {
-        this.router.navigate(['/']);
-        console.warn('Missing required query parameters');
-        return;
-      }
+        if (!paramId || isNaN(postId) || !Number.isInteger(postId)) {
+          this.router.navigate(['/']);
+          console.warn('Missing required query parameters');
+          return;
+        }
 
-      this.setSelectedValues(parsed);
-      this.getPost(postId);
-    });
+        if (!this.post || this.post.id !== postId) {
+          this.setSelectedValues(parsed);
+          this.getPost(postId);
+        }
+      });
   }
 
   /**
    * Update the current post with new data from the child component or reload it from the API
    */
-  updatePost(updatedPost?: PostInterface): void {
-    if (updatedPost) {
-      this.post = { ...this.post, ...updatedPost };
+  updatePost(event?: resourceRefreshInterface): void {
+    if (event?.updatedPost) {
+      this.post = { ...this.post, ...event.updatedPost };
+      if (event.entity && event.entityValue) {
+        this.router.navigate([], {
+          relativeTo: this.route,
+          queryParams: {
+            selectedEntity: event.entity,
+            selectedEntityValue: event.entityValue,
+          },
+          queryParamsHandling: 'merge',
+          replaceUrl: true,
+        });
+      }
     } else if (this.post && this.post.id) {
       this.getPost(this.post.id);
     }
