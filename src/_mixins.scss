@@ -513,6 +513,74 @@
   }
 }
 
+@mixin error-compiler-badge($selector: null, $top: unset, $bottom: unset, $right: unset, $left: unset) {
+  .error {
+    display: none;
+  }
+
+  @if $selector != null {
+    &:has(#{$selector}.ng-invalid.ng-touched) {
+      position: relative;
+      .error {
+        display: block;
+        @include badge($bg-color: #f44747, $top: $top, $bottom: $bottom, $right: $right, $left: $left);
+      }
+    }
+  }
+}
+
+@mixin badge($bg-color: #f44747, $font-size: 14px, $top: unset, $bottom: unset, $right: unset, $left: unset, $border-radius: 5px, $z-index: 10) {
+  @if $top != unset and math.unit($top) == 'px' {
+    $top-value: math.div($top, 1px);
+    $top: px-to-rem($top-value);
+  }
+  @if $bottom != unset and math.unit($bottom) == 'px' {
+    $bottom-value: math.div($bottom, 1px);
+    $bottom: px-to-rem($bottom-value);
+  }
+  @if $right != unset and math.unit($right) == 'px' {
+    $right-value: math.div($right, 1px);
+    $right: px-to-rem($right-value);
+  }
+  @if $left != unset and math.unit($left) == 'px' {
+    $left-value: math.div($left, 1px);
+    $left: px-to-rem($left-value);
+  }
+  @if $font-size != unset and math.unit($font-size) == 'px' {
+    $font-size-value: math.div($font-size, 1px);
+    $font-size: px-to-rem($font-size-value);
+  }
+  @if $border-radius != unset and math.unit($border-radius) == 'px' {
+    $border-radius-value: math.div($border-radius, 1px);
+    $border-radius: px-to-rem($border-radius-value);
+  }
+
+  position: absolute;
+  top: $top;
+  bottom: $bottom;
+  right: $right;
+  left: $left;
+
+  font-size: $font-size;
+  color: var(--font-primary-color-100);
+  background-color: $bg-color;
+
+  padding: px-to-rem(2) px-to-rem(6);
+  border-radius: $border-radius;
+  z-index: $z-index;
+  pointer-events: none;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: px-to-rem(-4);
+    left: px-to-rem(8);
+    border-left: px-to-rem(4) solid transparent;
+    border-right: px-to-rem(4) solid transparent;
+    border-top: px-to-rem(4) solid $bg-color;
+  }
+}
+
 @mixin singleline-ellipsis($max-width: 100%) {
   @if math.unit($max-width) == 'px' {
     $max-width-value: math.div($max-width, 1px);
