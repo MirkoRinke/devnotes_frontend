@@ -21,6 +21,10 @@
     @if (isViewMode) {
       <pre class="description">{{ description }}</pre>
     } @else if (control) {
+      <!--TODO Temporary error badge, make dynamic later -->
+      @if (errorIndex) {
+        <div class="error">[!] E{{ errorIndex }}</div>
+      }
       <textarea
         #descriptionTextarea
         (input)="adjustHeight()"
@@ -28,6 +32,7 @@
         [placeholder]="'Beitragsbeschreibung hier eingeben'"
         name="description-input"
         type="text"
+        [maxlength]="65535"
         [formControl]="control"
       ></textarea>
     }
