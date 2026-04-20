@@ -5,8 +5,16 @@ export interface TechStackSelectedValueInterface {
   entity: string;
 }
 
-export interface resourceRefreshInterface {
+export interface ResourceRefreshInterface {
   updatedPost: PostInterface;
   entity: string | null;
   entityValue: string | null;
+}
+
+export interface PostFormErrors {
+  required?: boolean;
+  maxlength?: { requiredLength: number; actualLength: number };
+
+  languageOrTechRequired?: boolean;
+  syntaxHighlighting?: boolean;
 }
