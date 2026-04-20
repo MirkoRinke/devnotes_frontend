@@ -57,6 +57,8 @@
         @include placeholder();
       }
 
+      @include error-compiler-badge('.title-input', $top: -30px, $left: 100px);
+
       &::before {
         content: '';
         height: 1px;

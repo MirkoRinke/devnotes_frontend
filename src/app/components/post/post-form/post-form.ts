@@ -19,7 +19,7 @@ import type { PostInterface } from '../../../interfaces/post';
 import type { PostPayload } from '../../../interfaces/post-payload';
 import type { UserInterface } from '../../../interfaces/user';
 import type { TagsInterface } from '../../../interfaces/tags';
-import type { TechStackSelectedValueInterface, resourceRefreshInterface } from '../../../interfaces/post-form';
+import type { TechStackSelectedValueInterface, ResourceRefreshInterface, PostFormErrors } from '../../../interfaces/post-form';
 import type { ExternalSourceInterface } from '../../../interfaces/post-external-source';
 
 import { QueryParamsDropdown } from '../../query-params-dropdown/query-params-dropdown';
@@ -59,7 +59,7 @@ export class PostForm {
   @Input() post: PostInterface | null = null;
 
   @Output() modeChange = new EventEmitter<'view'>();
-  @Output() resourceRefresh = new EventEmitter<resourceRefreshInterface>();
+  @Output() resourceRefresh = new EventEmitter<ResourceRefreshInterface>();
 
   currentDate = new Date();
 
@@ -82,6 +82,8 @@ export class PostForm {
   isProcessing = false;
 
   private destroyRef = inject(DestroyRef);
+
+  postFormErrors: { [key: string]: PostFormErrors } | PostFormErrors = {};
 
   constructor(
     private fb: FormBuilder,
@@ -160,14 +162,14 @@ export class PostForm {
       {
         // Required fields (Backend: required)
         title: this.fb.control<string>('', { nonNullable: true, validators: [Validators.required, Validators.maxLength(255)] }),
-        description: this.fb.control<string>('', { nonNullable: true, validators: [Validators.required] }),
+        description: this.fb.control<string>('', { nonNullable: true, validators: [Validators.required, Validators.maxLength(65535)] }),
         category: this.fb.control<string>('', { nonNullable: true, validators: [Validators.required] }),
         post_type: this.fb.control<string>('', { nonNullable: true, validators: [Validators.required] }),
         status: this.fb.control<string>('', { nonNullable: true, validators: [Validators.required] }),
         syntax_highlighting: this.fb.control<string>('', { nonNullable: true }),
 
         // Optional fields (Backend: nullable)
-        code: this.fb.control<string>('', { nonNullable: true }),
+        code: this.fb.control<string>('', { nonNullable: true, validators: [Validators.maxLength(65535), Validators.required] }), //TODO Required for Testing purposes, change later to optional
 
         images: this.fb.control<string[]>([], { nonNullable: true }),
         videos: this.fb.control<string[]>([], { nonNullable: true }),
@@ -180,7 +182,7 @@ export class PostForm {
         technologies: this.fb.control<Array<TechStackSelectedValueInterface>>([], { nonNullable: true }),
       },
       {
-        validators: [atLeastOne(['languages', 'technologies'], 'languageOrTechRequired'), requiredWith('languages', 'syntax_highlighting')],
+        validators: [atLeastOne(['languages', 'technologies'], 'languageOrTechRequired'), requiredWith('languages', 'syntax_highlighting', 'syntaxHighlighting')],
       },
     );
   }
@@ -240,6 +242,49 @@ export class PostForm {
   }
 
   /**
+   * Generates a structured object containing the current form errors.
+   * It iterates through all form controls and collects their validation errors, as well as any form-level errors.
+   * The resulting object is stored in the `postFormErrors` property for use in the template to display error messages.
+   *
+   * @returns void
+   */
+  getFormErrors(): void {
+    if (!this.postForm || this.postForm.valid) {
+      this.postFormErrors = {};
+      return;
+    }
+
+    const errors: { [key: string]: PostFormErrors } | PostFormErrors = {};
+
+    Object.entries(this.postForm.controls).forEach(([key, control]) => {
+      if (control.invalid && control.errors) {
+        (errors as any)[key] = control.errors;
+      }
+    });
+
+    if (this.postForm.errors) {
+      Object.assign(errors, this.postForm.errors);
+    }
+
+    this.postFormErrors = errors;
+
+    console.log('Form Errors:', this.postFormErrors);
+  }
+
+  /**
+   * Helper method to get the index of a specific error type for a form control or null if the error type is not present.
+   * This is used to display error badges in the template with a corresponding error code.
+   *
+   * @param fieldKey The key of the form control.
+   * @returns The index of the error or null if not present.
+   */
+  getErrorIndex(fieldKey: string): number | null {
+    const activeErrors = Object.keys(this.postFormErrors);
+    const index = activeErrors.indexOf(fieldKey);
+    return index !== -1 ? index + 1 : null;
+  }
+
+  /**
    * Handles form submission. Validates the form and either creates a new post or updates an existing one based on the mode.
    *
    * @returns
@@ -249,6 +294,7 @@ export class PostForm {
 
     if (this.postForm.invalid) {
       this.postForm.markAllAsTouched();
+      this.getFormErrors();
       return;
     }
 
@@ -517,8 +563,8 @@ export class PostForm {
 // public function getValidationRulesCreate(): array {
 //     $validationRulesCreate = [
 //         'title' => 'required|string|max:255',
-//         'code' => 'nullable|string',
-//         'description' => 'required|string',
+//         'code' => 'nullable|string|max:65535',
+//         'description' => 'required|string|max:65535',
 //         'images' => 'nullable|array',
 //         'images.*' => ['max:2048', new SafeUrl()],
 //         'videos' => 'nullable|array',
@@ -549,8 +595,8 @@ export class PostForm {
 // public function getValidationRulesUpdate(): array {
 //     $validationRulesUpdate = [
 //         'title' => 'sometimes|required|string|max:255',
-//         'code' => 'sometimes|nullable|string',
-//         'description' => 'sometimes|required|string',
+//         'code' => 'sometimes|nullable|string|max:65535',
+//         'description' => 'sometimes|required|string|max:65535',
 //         'images' => 'sometimes|nullable|array',
 //         'images.*' => ['sometimes', 'max:2048', new SafeUrl()],
 //         'videos' => 'sometimes|nullable|array',

@@ -82,17 +82,23 @@
 
     <section class="content">
       <div class="title-wrapper">
+        <!--TODO Temporary error badge, make dynamic later -->
+        @if (getErrorIndex('title')) {
+          <div class="error">[!] E{{ getErrorIndex('title') }}</div>
+        }
         <input
           class="title-input"
           [placeholder]="'Beitragstitel hier eingeben'"
           name="title-input"
           type="text"
+          [maxlength]="255"
           formControlName="title"
         />
       </div>
 
       <app-post-description
         [control]="getControl('description')"
+        [errorIndex]="getErrorIndex('description')"
         [isViewMode]="false"
       ></app-post-description>
 
@@ -100,6 +106,7 @@
         [language]="getControl('syntax_highlighting')?.value ?? null"
         [code]="postFormCode"
         [control]="getControl('code')"
+        [errorIndex]="getErrorIndex('code')"
         (viewModeChange)="postFormCode = getControl('code')?.value"
       ></app-post-code>
     </section>
