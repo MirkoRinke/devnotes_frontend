@@ -10,7 +10,7 @@ import type { ApiResponseObjektInterface } from '../../interfaces/api-response';
 import type { PostInterface } from '../../interfaces/post';
 import type { PostParamsInterface } from '../../interfaces/post-params';
 import type { Params } from '@angular/router';
-import type { resourceRefreshInterface } from '../../interfaces/post-form';
+import type { ResourceRefreshInterface } from '../../interfaces/post-form';
 
 import { ApiEndpointEnums } from '../../enums/api-endpoint';
 import { PostView } from '../../components/post/post-view/post-view';
@@ -71,7 +71,7 @@ export class Post {
   /**
    * Update the current post with new data from the child component or reload it from the API
    */
-  updatePost(event?: resourceRefreshInterface): void {
+  updatePost(event?: ResourceRefreshInterface): void {
     if (event?.updatedPost) {
       this.post = { ...this.post, ...event.updatedPost };
       if (event.entity && event.entityValue) {
