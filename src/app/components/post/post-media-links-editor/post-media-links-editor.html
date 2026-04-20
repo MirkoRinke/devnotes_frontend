@@ -53,6 +53,7 @@
       <input
         class="input"
         type="text"
+        [maxLength]="2048"
         [title]="'Add a new ' + currentType.slice(0, -1) + ' link'"
         [placeholder]="'Add a new ' + currentType.slice(0, -1) + ' link'"
         #newLink
@@ -71,6 +72,7 @@
         <input
           class="input"
           type="text"
+          [maxLength]="2048"
           [title]="input"
           (keydown.enter)="pushToArray($event.target.value, $index)"
           [value]="input"
