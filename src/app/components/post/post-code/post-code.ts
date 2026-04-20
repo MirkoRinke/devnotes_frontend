@@ -18,6 +18,7 @@ export class PostCode implements OnChanges {
 
   @Input() language: string | null = null;
   @Input() code: string | null = null;
+  @Input() errorIndex: number | null = null;
 
   isViewMode = true;
   isFirstLoad = true;

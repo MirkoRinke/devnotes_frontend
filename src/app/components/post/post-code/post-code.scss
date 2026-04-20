@@ -39,7 +39,7 @@
     }
   }
 
-  & pre {
+  .code-view {
     overflow-wrap: break-word;
     max-width: 100%;
 
@@ -94,4 +94,6 @@
 
     @include placeholder();
   }
+
+  @include error-compiler-badge('.code-view', $top: -30px);
 }
