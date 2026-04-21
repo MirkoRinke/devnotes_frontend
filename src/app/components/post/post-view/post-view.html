@@ -1,7 +1,7 @@
 <article class="post">
   <header class="header">
     <div class="system-bar">
-      <div class="version">
+      <div class="left-section">
         <app-post-version-dropdown
           [post]="currentPost"
           (versionSelected)="onSelect($event)"
@@ -26,18 +26,20 @@
         }
       </div>
 
-      @if (isOwner(currentPost)) {
-        <app-post-settings-dropdown
-          class="absolute-top-right"
-          (modeChange)="modeChange.emit($event)"
-          (deletePost)="onDeletePost()"
-        ></app-post-settings-dropdown>
-      } @else {
-        <app-report-button
-          [showLabel]="true"
-          (openReportModal)="openReportModal()"
-        ></app-report-button>
-      }
+      <div class="right-section">
+        @if (isOwner(currentPost)) {
+          <app-post-settings-dropdown
+            class="absolute-top-right"
+            (modeChange)="modeChange.emit($event)"
+            (deletePost)="onDeletePost()"
+          ></app-post-settings-dropdown>
+        } @else {
+          <app-report-button
+            [showLabel]="true"
+            (openReportModal)="openReportModal()"
+          ></app-report-button>
+        }
+      </div>
     </div>
 
     <div class="info-bar">

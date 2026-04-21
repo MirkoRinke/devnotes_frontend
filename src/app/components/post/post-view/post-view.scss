@@ -23,7 +23,7 @@
       border-bottom: 2px solid var(--font-primary-color-50);
       padding-bottom: px-to-rem(10);
 
-      .version {
+      .left-section {
         @include display-flex(center);
         gap: px-to-rem(10);
 
