@@ -161,11 +161,13 @@ export class PostForm {
     this.postForm = this.fb.group(
       {
         // Required fields (Backend: required)
+        post_type: this.fb.control<string>('', { nonNullable: true, validators: [Validators.required] }),
+        category: this.fb.control<string>('', { nonNullable: true, validators: [Validators.required] }),
+        status: this.fb.control<string>('', { nonNullable: true, validators: [Validators.required] }),
+
         title: this.fb.control<string>('', { nonNullable: true, validators: [Validators.required, Validators.maxLength(255)] }),
         description: this.fb.control<string>('', { nonNullable: true, validators: [Validators.required, Validators.maxLength(65535)] }),
-        category: this.fb.control<string>('', { nonNullable: true, validators: [Validators.required] }),
-        post_type: this.fb.control<string>('', { nonNullable: true, validators: [Validators.required] }),
-        status: this.fb.control<string>('', { nonNullable: true, validators: [Validators.required] }),
+
         syntax_highlighting: this.fb.control<string>('', { nonNullable: true }),
 
         // Optional fields (Backend: nullable)
@@ -182,7 +184,7 @@ export class PostForm {
         technologies: this.fb.control<Array<TechStackSelectedValueInterface>>([], { nonNullable: true }),
       },
       {
-        validators: [atLeastOne(['languages', 'technologies'], 'languageOrTechRequired'), requiredWith('languages', 'syntax_highlighting', 'syntaxHighlighting')],
+        validators: [atLeastOne(['languages', 'technologies'], 'language-or-tech-required'), requiredWith('languages', 'syntax_highlighting', 'syntax_highlighting')],
       },
     );
   }
@@ -237,6 +239,7 @@ export class PostForm {
     }
     this.postForm?.markAsPristine();
     this.postForm?.markAsUntouched();
+    this.postFormErrors = {};
 
     this.postFormCode = this.postForm?.get('code')?.value;
   }
@@ -282,6 +285,38 @@ export class PostForm {
     const activeErrors = Object.keys(this.postFormErrors);
     const index = activeErrors.indexOf(fieldKey);
     return index !== -1 ? index + 1 : null;
+  }
+
+  /**
+   * Generates a string of CSS classes based on the status of a form control.
+   * It checks if the control is valid, invalid, pending, touched, untouched, dirty, or pristine.
+   * Optionally, it can also check for a specific error on the parent form group.
+   *
+   * @param control The form control to evaluate.
+   * @param formGroupErrorKey An optional key for a form group-level error to check for.
+   * @returns A string of CSS classes representing the control's status.
+   */
+  getControlStatusClasses(control: FormControl | null | undefined, formGroupErrorKey?: string): string {
+    if (!control) return '';
+
+    const classes = [
+      control.valid ? 'ng-valid' : '',
+      control.invalid ? 'ng-invalid' : '',
+      control.pending ? 'ng-pending' : '',
+      control.touched ? 'ng-touched' : '',
+      control.untouched ? 'ng-untouched' : '',
+      control.dirty ? 'ng-dirty' : '',
+      control.pristine ? 'ng-pristine' : '',
+    ];
+
+    // Check for a specific form group-level error
+    if (formGroupErrorKey && this.postForm?.hasError(formGroupErrorKey)) {
+      if (control.touched) {
+        classes.push('ng-invalid');
+      }
+    }
+
+    return classes.filter((className) => className !== '').join(' ');
   }
 
   /**

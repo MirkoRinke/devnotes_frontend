@@ -23,12 +23,38 @@
       border-bottom: 2px solid var(--font-primary-color-50);
       padding-bottom: px-to-rem(10);
 
-      .version {
+      .left-section {
         @include display-flex(center);
         gap: px-to-rem(10);
 
         .separator {
           color: var(--font-primary-color-50);
+        }
+
+        .post-type-section {
+          @include error-compiler-badge('.post-type', $top: -30px);
+        }
+
+        .post-category-section {
+          @include error-compiler-badge('.post-category', $top: -30px);
+        }
+
+        .post-syntax-section {
+          &:has(.post-syntax.dev-info) {
+            @include info-compiler-badge('.post-syntax', $top: -30px);
+          }
+
+          &:not(:has(.post-syntax.dev-info)) {
+            @include error-compiler-badge('.post-syntax', $top: -30px);
+          }
+        }
+      }
+
+      .right-section {
+        @include display-flex(center);
+
+        .post-status-section {
+          @include error-compiler-badge('.post-status', $top: -30px, $right: 0);
         }
       }
     }
@@ -75,6 +101,14 @@
         background-color: var(--font-primary-color-20);
       }
     }
+
+    .description-section {
+      @include error-compiler-badge('.description', $top: -10px);
+    }
+
+    .code-section {
+      @include error-compiler-badge('.code', $top: -30px);
+    }
   }
 
   .footer {
@@ -89,6 +123,8 @@
       .media-links-section {
         @include display-flex(center);
         gap: px-to-rem(15);
+
+        @include error-compiler-badge('.add-tech-stack-button', $top: -30px);
 
         .add-tech-stack-button,
         .add-media-links-button {

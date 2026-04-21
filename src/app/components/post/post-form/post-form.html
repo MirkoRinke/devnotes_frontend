@@ -5,65 +5,97 @@
   >
     <header class="header">
       <div class="system-bar">
-        <div class="version">
+        <div class="left-section">
           <time class="currentDate"> {{ currentDate | localDate }}</time>
 
           <span class="separator">|</span>
 
-          <app-query-params-dropdown
-            class="post-from-dropdown"
-            [mode]="'Component'"
-            [label]="'Beitragstyp'"
-            [defaultValueLabel]="getDefaultValue('post_type', 'Beitragstyp')"
-            [defaultValue]="getDefaultValue('post_type', '')"
-            [enableSearch]="false"
-            [endPoint]="'POST_ALLOWED_VALUES'"
-            [params]="getAllowedValuesParams('post_type')"
-            (selectionChange)="patchDropdownValues($event, 'post_type')"
-          ></app-query-params-dropdown>
+          <div class="post-type-section">
+            @if (getErrorIndex('post_type')) {
+              <div class="badge">[!] E{{ getErrorIndex('post_type') }}</div>
+            }
+
+            <app-query-params-dropdown
+              class="post-from-dropdown post-type"
+              [class]="getControlStatusClasses(getControl('post_type'))"
+              [mode]="'Component'"
+              [label]="'Beitragstyp'"
+              [defaultValueLabel]="getDefaultValue('post_type', 'Beitragstyp')"
+              [defaultValue]="getDefaultValue('post_type', '')"
+              [enableSearch]="false"
+              [endPoint]="'POST_ALLOWED_VALUES'"
+              [params]="getAllowedValuesParams('post_type')"
+              (selectionChange)="patchDropdownValues($event, 'post_type')"
+            ></app-query-params-dropdown>
+          </div>
 
           <span class="separator">|</span>
 
-          <app-query-params-dropdown
-            class="post-from-dropdown"
-            [mode]="'Component'"
-            [label]="'Category'"
-            [defaultValueLabel]="getDefaultValue('category', 'Category')"
-            [defaultValue]="getDefaultValue('category', '')"
-            [enableSearch]="true"
-            [endPoint]="'POST_ALLOWED_VALUES'"
-            [params]="getAllowedValuesParams('category')"
-            (selectionChange)="patchDropdownValues($event, 'category')"
-          ></app-query-params-dropdown>
+          <div class="post-category-section">
+            @if (getErrorIndex('category')) {
+              <div class="badge">[!] E{{ getErrorIndex('category') }}</div>
+            }
+
+            <app-query-params-dropdown
+              class="post-from-dropdown post-category"
+              [class]="getControlStatusClasses(getControl('category'))"
+              [mode]="'Component'"
+              [label]="'Category'"
+              [defaultValueLabel]="getDefaultValue('category', 'Category')"
+              [defaultValue]="getDefaultValue('category', '')"
+              [enableSearch]="true"
+              [endPoint]="'POST_ALLOWED_VALUES'"
+              [params]="getAllowedValuesParams('category')"
+              (selectionChange)="patchDropdownValues($event, 'category')"
+            ></app-query-params-dropdown>
+          </div>
 
           <span class="separator">|</span>
 
-          <app-query-params-dropdown
-            class="post-from-dropdown"
-            [mode]="'Component'"
-            [showCount]="false"
-            [label]="'Syntax'"
-            [key]="'entityValue'"
-            [enableSearch]="true"
-            [endPoint]="'POST_ALLOWED_VALUES'"
-            [defaultValueLabel]="getDefaultValue('syntax_highlighting', 'Syntax')"
-            [defaultValue]="getDefaultValue('syntax_highlighting', '')"
-            [params]="['?filter[type]=language&select=count:name']"
-            (selectionChange)="patchDropdownValues($event, 'syntax_highlighting')"
-          ></app-query-params-dropdown>
+          <div class="post-syntax-section">
+            @if (getErrorIndex('syntax_highlighting')) {
+              <div class="badge">[!] E{{ getErrorIndex('syntax_highlighting') }}</div>
+            } @else if (getControl('languages')?.value.length > 0 && getErrorIndex('syntax_highlighting') === null) {
+              <div class="badge">[i] Info</div>
+            }
+
+            <app-query-params-dropdown
+              class="post-from-dropdown post-syntax"
+              [class]="getControlStatusClasses(getControl('syntax_highlighting'), 'syntax_highlighting') + (getErrorIndex('syntax_highlighting') === null ? ' dev-info' : '')"
+              [mode]="'Component'"
+              [showCount]="false"
+              [label]="'Syntax'"
+              [key]="'entityValue'"
+              [enableSearch]="true"
+              [endPoint]="'POST_ALLOWED_VALUES'"
+              [defaultValueLabel]="getDefaultValue('syntax_highlighting', 'Syntax')"
+              [defaultValue]="getDefaultValue('syntax_highlighting', '')"
+              [params]="['?filter[type]=language&select=count:name']"
+              (selectionChange)="patchDropdownValues($event, 'syntax_highlighting')"
+            ></app-query-params-dropdown>
+          </div>
         </div>
 
-        <app-query-params-dropdown
-          class="right-aligned post-from-dropdown"
-          [mode]="'Component'"
-          [label]="'Status'"
-          [defaultValueLabel]="getDefaultValue('status', 'Status')"
-          [defaultValue]="getDefaultValue('status', '')"
-          [enableSearch]="false"
-          [endPoint]="'POST_ALLOWED_VALUES'"
-          [params]="getAllowedValuesParams('status')"
-          (selectionChange)="patchDropdownValues($event, 'status')"
-        ></app-query-params-dropdown>
+        <div class="right-section">
+          <div class="post-status-section">
+            @if (getErrorIndex('status')) {
+              <div class="badge">[!] E{{ getErrorIndex('status') }}</div>
+            }
+
+            <app-query-params-dropdown
+              class="right-aligned post-from-dropdown post-status"
+              [class]="getControlStatusClasses(getControl('status'))"
+              [mode]="'Component'"
+              [label]="'Status'"
+              [defaultValueLabel]="getDefaultValue('status', 'Status')"
+              [defaultValue]="getDefaultValue('status', '')"
+              [enableSearch]="false"
+              [endPoint]="'POST_ALLOWED_VALUES'"
+              [params]="getAllowedValuesParams('status')"
+              (selectionChange)="patchDropdownValues($event, 'status')"
+            ></app-query-params-dropdown>
+          </div>
+        </div>
       </div>
 
       <div class="info-bar">
@@ -82,9 +114,8 @@
 
     <section class="content">
       <div class="title-wrapper">
-        <!--TODO Temporary error badge, make dynamic later -->
         @if (getErrorIndex('title')) {
-          <div class="error">[!] E{{ getErrorIndex('title') }}</div>
+          <div class="badge">[!] E{{ getErrorIndex('title') }}</div>
         }
         <input
           class="title-input"
@@ -96,24 +127,42 @@
         />
       </div>
 
-      <app-post-description
-        [control]="getControl('description')"
-        [errorIndex]="getErrorIndex('description')"
-        [isViewMode]="false"
-      ></app-post-description>
+      <div class="description-section">
+        @if (getErrorIndex('description')) {
+          <div class="badge">[!] E{{ getErrorIndex('description') }}</div>
+        }
 
-      <app-post-code
-        [language]="getControl('syntax_highlighting')?.value ?? null"
-        [code]="postFormCode"
-        [control]="getControl('code')"
-        [errorIndex]="getErrorIndex('code')"
-        (viewModeChange)="postFormCode = getControl('code')?.value"
-      ></app-post-code>
+        <app-post-description
+          class="description"
+          [class]="getControlStatusClasses(getControl('description'))"
+          [control]="getControl('description')"
+          [isViewMode]="false"
+        ></app-post-description>
+      </div>
+
+      <div class="code-section">
+        @if (getErrorIndex('code')) {
+          <div class="badge">[!] E{{ getErrorIndex('code') }}</div>
+        }
+
+        <app-post-code
+          class="code"
+          [class]="getControlStatusClasses(getControl('code'))"
+          [language]="getControl('syntax_highlighting')?.value ?? null"
+          [code]="postFormCode"
+          [control]="getControl('code')"
+          (viewModeChange)="postFormCode = getControl('code')?.value"
+        ></app-post-code>
+      </div>
     </section>
 
     <footer class="footer">
       <div class="footer-meta">
         <div class="tech-stack-section">
+          @if (getErrorIndex('language-or-tech-required')) {
+            <div class="badge">[!] E{{ getErrorIndex('language-or-tech-required') }}</div>
+          }
+
           @if (getControl('languages')?.value.length > 0 || getControl('technologies')?.value.length > 0) {
             <app-post-tech-stack
               [isViewMode]="false"
@@ -123,6 +172,7 @@
           }
           <button
             class="add-tech-stack-button"
+            [class]="getControlStatusClasses(getControl('languages'), 'language-or-tech-required') + getControlStatusClasses(getControl('technologies'), 'language-or-tech-required')"
             type="button"
             [title]="'Tech Stack hinzufügen'"
             [innerHTML]="svgIconsService.returnIcon('add_tech_stack')"
