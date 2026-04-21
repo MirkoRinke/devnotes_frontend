@@ -514,16 +514,32 @@
 }
 
 @mixin error-compiler-badge($selector: null, $top: unset, $bottom: unset, $right: unset, $left: unset) {
-  .error {
+  .badge {
     display: none;
   }
 
   @if $selector != null {
     &:has(#{$selector}.ng-invalid.ng-touched) {
       position: relative;
-      .error {
+      .badge {
         display: block;
         @include badge($bg-color: #f44747, $top: $top, $bottom: $bottom, $right: $right, $left: $left);
+      }
+    }
+  }
+}
+
+@mixin info-compiler-badge($selector: null, $top: unset, $bottom: unset, $right: unset, $left: unset) {
+  .badge {
+    display: none;
+  }
+
+  @if $selector != null {
+    &:has(#{$selector}.dev-info) {
+      position: relative;
+      .badge {
+        display: block;
+        @include badge($bg-color: #3b82f6, $top: $top, $bottom: $bottom, $right: $right, $left: $left);
       }
     }
   }
@@ -546,10 +562,6 @@
     $left-value: math.div($left, 1px);
     $left: px-to-rem($left-value);
   }
-  @if $font-size != unset and math.unit($font-size) == 'px' {
-    $font-size-value: math.div($font-size, 1px);
-    $font-size: px-to-rem($font-size-value);
-  }
   @if $border-radius != unset and math.unit($border-radius) == 'px' {
     $border-radius-value: math.div($border-radius, 1px);
     $border-radius: px-to-rem($border-radius-value);
@@ -561,8 +573,9 @@
   right: $right;
   left: $left;
 
-  font-size: $font-size;
-  color: var(--font-primary-color-100);
+  @include singleline-ellipsis();
+  @include font-settings($font-size, 400, $color: var(--font-primary-color-100));
+
   background-color: $bg-color;
 
   padding: px-to-rem(2) px-to-rem(6);
