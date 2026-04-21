@@ -15,7 +15,6 @@ export class PostDescription {
 
   @Input() description: string | null = null;
   @Input() control: FormControl | null = null;
-  @Input() errorIndex: number | null = null;
 
   isCopied = false;
   copiedFailed = false;

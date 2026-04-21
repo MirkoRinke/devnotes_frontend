@@ -21,10 +21,6 @@
     @if (isViewMode) {
       <pre class="description">{{ description }}</pre>
     } @else if (control) {
-      <!--TODO Temporary error badge, make dynamic later -->
-      @if (errorIndex) {
-        <div class="error">[!] E{{ errorIndex }}</div>
-      }
       <textarea
         #descriptionTextarea
         (input)="adjustHeight()"
