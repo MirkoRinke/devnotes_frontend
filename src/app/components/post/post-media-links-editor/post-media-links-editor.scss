@@ -9,7 +9,7 @@
 
 .post-media-links-editor {
   @include display-flex($direction: column);
-  gap: px-to-rem(25);
+  // gap: px-to-rem(25);
 
   background-color: var(--page-primary-color-100);
   border-radius: px-to-rem(15);
@@ -26,6 +26,9 @@
   .tabs {
     @include display-flex(center, start);
     gap: px-to-rem(25);
+
+    margin-top: px-to-rem(25);
+    margin-bottom: px-to-rem(5);
 
     .tab {
       @include button-preset();
@@ -63,7 +66,6 @@
     scrollbar-width: thin;
     scrollbar-color: rgb(60, 60, 60) transparent;
 
-    //TODO Temporary styles, should be replaced later
     .input-group {
       @include display-flex(center, center);
       gap: px-to-rem(15);
@@ -71,7 +73,7 @@
 
       .input {
         padding: px-to-rem(10) px-to-rem(15);
-        margin: px-to-rem(10) px-to-rem(15);
+        margin-block: px-to-rem(10);
         border-radius: px-to-rem(5);
         border: none;
         height: px-to-rem(30);
@@ -114,6 +116,18 @@
           }
         }
       }
+    }
+
+    .badge-anchor {
+      margin-top: px-to-rem(30);
+    }
+
+    &:has(.badge-anchor.dev-info) {
+      @include info-compiler-badge('.badge-anchor', $top: 5px, $left: 0px);
+    }
+
+    &:not(:has(.badge-anchor.dev-info)) {
+      @include error-compiler-badge('.badge-anchor', $top: 5px, $left: 0px);
     }
   }
 }

@@ -49,11 +49,20 @@
     </button>
   </div>
   <div class="content">
-    <div class="input-group">
+    @if (errors['error']) {
+      <div class="badge">[!] {{ errors['error'] }}</div>
+    } @else if (errors['info']) {
+      <div class="badge dev-info">[i] {{ errors['info'] }}</div>
+    }
+
+    <div
+      class="input-group badge-anchor"
+      [class]="setErrorClass()"
+    >
       <input
         class="input"
         type="text"
-        [maxLength]="2048"
+        name="newLink"
         [title]="'Add a new ' + currentType.slice(0, -1) + ' link'"
         [placeholder]="'Add a new ' + currentType.slice(0, -1) + ' link'"
         #newLink
@@ -72,6 +81,7 @@
         <input
           class="input"
           type="text"
+          name="link-{{ $index }}"
           [maxLength]="2048"
           [title]="input"
           (keydown.enter)="pushToArray($event.target.value, $index)"

@@ -24,6 +24,10 @@ export class PostMediaLinksEditor {
 
   @Output() closeModal = new EventEmitter<void>();
 
+  errors: { [key: string]: string } = {};
+
+  feedbackTimeout: number | null = null;
+
   constructor(public svgIconsService: SvgIconsService) {}
 
   ngOnInit() {
@@ -50,6 +54,7 @@ export class PostMediaLinksEditor {
   public changeType(type: 'images' | 'videos' | 'resources') {
     this.currentType = type;
     this.currentArray = this.getArrays(type);
+    this.errors = {};
   }
 
   /**
@@ -78,7 +83,14 @@ export class PostMediaLinksEditor {
    * @returns void
    */
   public pushToArray(value: string, index: number | null = null) {
+    this.clearFeedback();
+
     value = value.trim();
+
+    if (value.includes(' ')) {
+      this.errors['error'] = 'URLs cannot contain spaces.';
+      return;
+    }
 
     if (value === '') {
       if (index !== null) {
@@ -93,6 +105,7 @@ export class PostMediaLinksEditor {
     }
 
     if (index === null && this.currentArray.includes(value)) {
+      this.errors['info'] = 'This URL is already in the list.';
       return;
     }
 
@@ -101,6 +114,21 @@ export class PostMediaLinksEditor {
     } else {
       this.currentArray.unshift(value);
     }
+  }
+
+  /**
+   * Clears any existing feedback messages (errors or info) and sets a timeout to clear them after 3 seconds
+   */
+  private clearFeedback() {
+    if (this.feedbackTimeout) {
+      clearTimeout(this.feedbackTimeout);
+    }
+
+    this.errors = {};
+
+    this.feedbackTimeout = setTimeout(() => {
+      this.errors = {};
+    }, 3000);
   }
 
   /**
@@ -137,6 +165,7 @@ export class PostMediaLinksEditor {
   private isValidURL(url: string): boolean {
     try {
       if (url.length > 2048) {
+        this.errors['error'] = 'URL exceeds 2048 character limit.';
         return false;
       }
 
@@ -151,13 +180,30 @@ export class PostMediaLinksEditor {
       let domainParts = hostname.split('.');
 
       if (domainParts.length === 1) {
+        this.errors['error'] = 'Missing top-level domain (e.g. .com, .de).';
+        return false;
+      }
+
+      const hasTooLongLabel = domainParts.some((part) => part.length > 63);
+      if (hasTooLongLabel) {
+        this.errors['error'] = 'URL segment too long.';
         return false;
       }
 
       return parsedURL.protocol === 'http:' || parsedURL.protocol === 'https:';
     } catch (e) {
+      this.errors['error'] = 'Malformed URL syntax. Check your input.';
       return false;
     }
+  }
+
+  public setErrorClass() {
+    if (this.errors['error']) {
+      return 'ng-invalid ng-touched';
+    } else if (this.errors['info']) {
+      return 'dev-info';
+    }
+    return 'ng-valid';
   }
 
   /**
