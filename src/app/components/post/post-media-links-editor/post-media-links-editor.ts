@@ -24,8 +24,7 @@ export class PostMediaLinksEditor {
 
   @Output() closeModal = new EventEmitter<void>();
 
-  errors: { [key: string]: string } = {};
-
+  messages: { [key: string]: string } = {};
   feedbackTimeout: number | null = null;
 
   constructor(public svgIconsService: SvgIconsService) {}
@@ -54,7 +53,7 @@ export class PostMediaLinksEditor {
   public changeType(type: 'images' | 'videos' | 'resources') {
     this.currentType = type;
     this.currentArray = this.getArrays(type);
-    this.errors = {};
+    this.messages = {};
   }
 
   /**
@@ -88,7 +87,7 @@ export class PostMediaLinksEditor {
     value = value.trim();
 
     if (value.includes(' ')) {
-      this.errors['error'] = 'URLs cannot contain spaces.';
+      this.messages['error'] = 'URLs cannot contain spaces.';
       return;
     }
 
@@ -105,7 +104,7 @@ export class PostMediaLinksEditor {
     }
 
     if (index === null && this.currentArray.includes(value)) {
-      this.errors['info'] = 'This URL is already in the list.';
+      this.messages['info'] = 'This URL is already in the list.';
       return;
     }
 
@@ -124,10 +123,10 @@ export class PostMediaLinksEditor {
       clearTimeout(this.feedbackTimeout);
     }
 
-    this.errors = {};
+    this.messages = {};
 
     this.feedbackTimeout = setTimeout(() => {
-      this.errors = {};
+      this.messages = {};
     }, 3000);
   }
 
@@ -165,7 +164,7 @@ export class PostMediaLinksEditor {
   private isValidURL(url: string): boolean {
     try {
       if (url.length > 2048) {
-        this.errors['error'] = 'URL exceeds 2048 character limit.';
+        this.messages['error'] = 'URL exceeds 2048 character limit.';
         return false;
       }
 
@@ -180,27 +179,34 @@ export class PostMediaLinksEditor {
       let domainParts = hostname.split('.');
 
       if (domainParts.length === 1) {
-        this.errors['error'] = 'Missing top-level domain (e.g. .com, .de).';
+        this.messages['error'] = 'Missing top-level domain (e.g. .com, .de).';
         return false;
       }
 
       const hasTooLongLabel = domainParts.some((part) => part.length > 63);
       if (hasTooLongLabel) {
-        this.errors['error'] = 'URL segment too long.';
+        this.messages['error'] = 'URL segment too long.';
         return false;
       }
 
       return parsedURL.protocol === 'http:' || parsedURL.protocol === 'https:';
     } catch (e) {
-      this.errors['error'] = 'Malformed URL syntax. Check your input.';
+      this.messages['error'] = 'Malformed URL syntax. Check your input.';
       return false;
     }
   }
 
-  public setErrorClass() {
-    if (this.errors['error']) {
+  /**
+   * Determines the appropriate CSS class to apply based on the current message state.
+   * If there is an 'error' key in the messages object, it returns 'ng-invalid ng-touched'.
+   * If there is an 'info' key, it returns 'dev-info'. If there are no messages, it returns 'ng-valid'.
+   *
+   * @returns The CSS class string based on the current message state.
+   */
+  public setMessageClass() {
+    if (this.messages['error']) {
       return 'ng-invalid ng-touched';
-    } else if (this.errors['info']) {
+    } else if (this.messages['info']) {
       return 'dev-info';
     }
     return 'ng-valid';

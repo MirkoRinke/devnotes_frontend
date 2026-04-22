@@ -9,7 +9,6 @@
 
 .post-media-links-editor {
   @include display-flex($direction: column);
-  // gap: px-to-rem(25);
 
   background-color: var(--page-primary-color-100);
   border-radius: px-to-rem(15);
@@ -27,7 +26,7 @@
     @include display-flex(center, start);
     gap: px-to-rem(25);
 
-    margin-top: px-to-rem(25);
+    margin-top: px-to-rem(45);
     margin-bottom: px-to-rem(5);
 
     .tab {
@@ -123,11 +122,11 @@
     }
 
     &:has(.badge-anchor.dev-info) {
-      @include info-compiler-badge('.badge-anchor', $top: 5px, $left: 0px);
+      @include info-compiler-badge('.badge-anchor', $top: 0px, $left: 0px);
     }
 
     &:not(:has(.badge-anchor.dev-info)) {
-      @include error-compiler-badge('.badge-anchor', $top: 5px, $left: 0px);
+      @include error-compiler-badge('.badge-anchor', $top: 0px, $left: 0px);
     }
   }
 }

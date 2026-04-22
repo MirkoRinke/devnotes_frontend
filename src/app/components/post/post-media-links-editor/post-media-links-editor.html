@@ -49,15 +49,19 @@
     </button>
   </div>
   <div class="content">
-    @if (errors['error']) {
-      <div class="badge">[!] {{ errors['error'] }}</div>
-    } @else if (errors['info']) {
-      <div class="badge dev-info">[i] {{ errors['info'] }}</div>
+    @if (messages['error']) {
+      <div class="badge">
+        <span class="badge-text">[!] {{ messages['error'] }}</span>
+      </div>
+    } @else if (messages['info']) {
+      <div class="badge dev-info">
+        <span class="badge-text">[i] {{ messages['info'] }}</span>
+      </div>
     }
 
     <div
       class="input-group badge-anchor"
-      [class]="setErrorClass()"
+      [class]="setMessageClass()"
     >
       <input
         class="input"
