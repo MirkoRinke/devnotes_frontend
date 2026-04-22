@@ -14,6 +14,7 @@ export interface ResourceRefreshInterface {
 export interface PostFormErrors {
   required?: boolean;
   maxlength?: { requiredLength: number; actualLength: number };
+  minlength?: { requiredLength: number; actualLength: number };
 
   languageOrTechRequired?: boolean;
   syntaxHighlighting?: boolean;
