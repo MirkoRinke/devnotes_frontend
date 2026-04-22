@@ -84,6 +84,7 @@ export class PostForm {
   private destroyRef = inject(DestroyRef);
 
   postFormErrors: { [key: string]: PostFormErrors } | PostFormErrors = {};
+  postTerminalMessages: string[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -166,7 +167,7 @@ export class PostForm {
         status: this.fb.control<string>('', { nonNullable: true, validators: [Validators.required] }),
 
         title: this.fb.control<string>('', { nonNullable: true, validators: [Validators.required, Validators.maxLength(255)] }),
-        description: this.fb.control<string>('', { nonNullable: true, validators: [Validators.required, Validators.maxLength(65535)] }),
+        description: this.fb.control<string>('', { nonNullable: true, validators: [Validators.required, Validators.maxLength(65535), Validators.minLength(15)] }),
 
         syntax_highlighting: this.fb.control<string>('', { nonNullable: true }),
 
@@ -184,7 +185,7 @@ export class PostForm {
         technologies: this.fb.control<Array<TechStackSelectedValueInterface>>([], { nonNullable: true }),
       },
       {
-        validators: [atLeastOne(['languages', 'technologies'], 'language-or-tech-required'), requiredWith('languages', 'syntax_highlighting', 'syntax_highlighting')],
+        validators: [atLeastOne(['languages', 'technologies'], 'language_or_tech_required'), requiredWith('languages', 'syntax_highlighting', 'syntax_highlighting')],
       },
     );
   }
@@ -272,6 +273,55 @@ export class PostForm {
     this.postFormErrors = errors;
 
     console.log('Form Errors:', this.postFormErrors);
+
+    this.terminalMessages();
+  }
+
+  /**
+   * Generates human-readable error messages based on the current form errors.
+   * It maps each error to a specific message format and stores them in the `postTerminalMessages` array for display in the template.
+   */
+  public terminalMessages(): void {
+    const messages: string[] = [];
+    const errors = this.postFormErrors;
+
+    const labels: { [key: string]: string } = {
+      post_type: 'Post Typ',
+      category: 'Category',
+      status: 'Status',
+      title: 'Title',
+      description: 'Description',
+      code: 'Code Block',
+      language_or_tech_required: 'Language/Technology',
+      syntax_highlighting: 'Syntax Highlighting',
+    };
+
+    Object.keys(errors).forEach((key, index) => {
+      const errorData = (errors as any)[key] as PostFormErrors;
+
+      if (typeof errorData === 'object' && errorData !== null) {
+        if (errorData.required) {
+          messages.push(`[E${index + 1}] ${labels[key] || key}: is required.`);
+        }
+        if (errorData.maxlength) {
+          messages.push(`[E${index + 1}] ${labels[key] || key}: Text too long.`);
+        }
+        if (errorData.minlength) {
+          messages.push(`[E${index + 1}] ${labels[key] || key}: Text too short.`);
+        }
+      } else if (errorData === true) {
+        if (key === 'syntax_highlighting') {
+          messages.push(`[E${index + 1}] ${labels[key]}: Since you have chosen languages, highlighting is required.`);
+        }
+        if (key === 'language_or_tech_required') {
+          messages.push(`[E${index + 1}] ${labels[key]}: Please select at least one language or technology.`);
+        }
+      }
+    });
+
+    this.postTerminalMessages = messages;
+
+    console.log('Terminal Messages:', this.postTerminalMessages);
   }
 
   /**
@@ -599,7 +649,7 @@ export class PostForm {
 //     $validationRulesCreate = [
 //         'title' => 'required|string|max:255',
 //         'code' => 'nullable|string|max:65535',
-//         'description' => 'required|string|max:65535',
+//         'description' => 'required|string|min:15|max:65535',
 //         'images' => 'nullable|array',
 //         'images.*' => ['max:2048', new SafeUrl()],
 //         'videos' => 'nullable|array',
@@ -613,7 +663,7 @@ export class PostForm {
 //         'technologies' => 'required_without:languages|array',
 //         'technologies.*' => ['required', new ValidPostValue('technology')],
 //         'tags' => 'nullable|array',
-//         'tags.*' => ['string'],
+//         'tags.*' => ['string', 'max:25'],
 //         'status' => ['required', 'string', new ValidPostValue('status')],
 //         'syntax_highlighting' => ['nullable', 'required_with:languages', 'string', new ValidPostValue('language')],
 //     ];
@@ -631,7 +681,7 @@ export class PostForm {
 //     $validationRulesUpdate = [
 //         'title' => 'sometimes|required|string|max:255',
 //         'code' => 'sometimes|nullable|string|max:65535',
-//         'description' => 'sometimes|required|string|max:65535',
+//         'description' => 'sometimes|required|string|min:15|max:65535',
 //         'images' => 'sometimes|nullable|array',
 //         'images.*' => ['sometimes', 'max:2048', new SafeUrl()],
 //         'videos' => 'sometimes|nullable|array',
@@ -645,7 +695,7 @@ export class PostForm {
 //         'technologies' => 'sometimes|required_without:languages|array',
 //         'technologies.*' => ['sometimes', 'required', new ValidPostValue('technology')],
 //         'tags' => 'sometimes|array',
-//         'tags.*' => ['sometimes', 'string'],
+//         'tags.*' => ['sometimes', 'string', 'max:25'],
 //         'status' => ['sometimes', 'required', 'string', new ValidPostValue('status')],
 //         'syntax_highlighting' => ['sometimes', 'nullable', 'required_with:languages', 'string', new ValidPostValue('language')],
 //     ];

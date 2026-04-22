@@ -12,7 +12,9 @@
 
           <div class="post-type-section">
             @if (getErrorIndex('post_type')) {
-              <div class="badge">[!] E{{ getErrorIndex('post_type') }}</div>
+              <div class="badge">
+                <span class="badge-text">[!] E{{ getErrorIndex('post_type') }}</span>
+              </div>
             }
 
             <app-query-params-dropdown
@@ -33,7 +35,9 @@
 
           <div class="post-category-section">
             @if (getErrorIndex('category')) {
-              <div class="badge">[!] E{{ getErrorIndex('category') }}</div>
+              <div class="badge">
+                <span class="badge-text">[!] E{{ getErrorIndex('category') }}</span>
+              </div>
             }
 
             <app-query-params-dropdown
@@ -54,9 +58,13 @@
 
           <div class="post-syntax-section">
             @if (getErrorIndex('syntax_highlighting')) {
-              <div class="badge">[!] E{{ getErrorIndex('syntax_highlighting') }}</div>
+              <div class="badge">
+                <span class="badge-text">[!] E{{ getErrorIndex('syntax_highlighting') }}</span>
+              </div>
             } @else if (getControl('languages')?.value.length > 0 && getErrorIndex('syntax_highlighting') === null) {
-              <div class="badge">[i] Info</div>
+              <div class="badge">
+                <span class="badge-text">[i] Info</span>
+              </div>
             }
 
             <app-query-params-dropdown
@@ -79,7 +87,9 @@
         <div class="right-section">
           <div class="post-status-section">
             @if (getErrorIndex('status')) {
-              <div class="badge">[!] E{{ getErrorIndex('status') }}</div>
+              <div class="badge">
+                <span class="badge-text">[!] E{{ getErrorIndex('status') }}</span>
+              </div>
             }
 
             <app-query-params-dropdown
@@ -115,7 +125,9 @@
     <section class="content">
       <div class="title-wrapper">
         @if (getErrorIndex('title')) {
-          <div class="badge">[!] E{{ getErrorIndex('title') }}</div>
+          <div class="badge">
+            <span class="badge-text">[!] E{{ getErrorIndex('title') }}</span>
+          </div>
         }
         <input
           class="title-input"
@@ -129,7 +141,9 @@
 
       <div class="description-section">
         @if (getErrorIndex('description')) {
-          <div class="badge">[!] E{{ getErrorIndex('description') }}</div>
+          <div class="badge">
+            <span class="badge-text">[!] E{{ getErrorIndex('description') }}</span>
+          </div>
         }
 
         <app-post-description
@@ -142,7 +156,9 @@
 
       <div class="code-section">
         @if (getErrorIndex('code')) {
-          <div class="badge">[!] E{{ getErrorIndex('code') }}</div>
+          <div class="badge">
+            <span class="badge-text">[!] E{{ getErrorIndex('code') }}</span>
+          </div>
         }
 
         <app-post-code
@@ -159,8 +175,10 @@
     <footer class="footer">
       <div class="footer-meta">
         <div class="tech-stack-section">
-          @if (getErrorIndex('language-or-tech-required')) {
-            <div class="badge">[!] E{{ getErrorIndex('language-or-tech-required') }}</div>
+          @if (getErrorIndex('language_or_tech_required')) {
+            <div class="badge">
+              <span class="badge-text">[!] E{{ getErrorIndex('language_or_tech_required') }}</span>
+            </div>
           }
 
           @if (getControl('languages')?.value.length > 0 || getControl('technologies')?.value.length > 0) {
@@ -172,7 +190,7 @@
           }
           <button
             class="add-tech-stack-button"
-            [class]="getControlStatusClasses(getControl('languages'), 'language-or-tech-required') + getControlStatusClasses(getControl('technologies'), 'language-or-tech-required')"
+            [class]="getControlStatusClasses(getControl('languages'), 'language_or_tech_required') + getControlStatusClasses(getControl('technologies'), 'language_or_tech_required')"
             type="button"
             [title]="'Tech Stack hinzufügen'"
             [innerHTML]="svgIconsService.returnIcon('add_tech_stack')"
