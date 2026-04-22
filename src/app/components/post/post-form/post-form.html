@@ -61,7 +61,7 @@
               <div class="badge">
                 <span class="badge-text">[!] E{{ getErrorIndex('syntax_highlighting') }}</span>
               </div>
-            } @else if (getControl('languages')?.value.length > 0 && getErrorIndex('syntax_highlighting') === null) {
+            } @else if (getControl('languages')?.value.length > 0 && getErrorIndex('syntax_highlighting') === null && getControl('syntax_highlighting')?.value === '') {
               <div class="badge">
                 <span class="badge-text">[i] Info</span>
               </div>
