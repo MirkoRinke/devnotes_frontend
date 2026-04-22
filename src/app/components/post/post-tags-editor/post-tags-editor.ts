@@ -47,6 +47,9 @@ export class PostTagsEditor {
 
   selectedValues: TagValueInterface[] = [];
 
+  messages: { [key: string]: string } = {};
+  feedbackTimeout: number | null = null;
+
   constructor(
     public svgIconsService: SvgIconsService,
     private availableValuesService: AvailableValuesService,
@@ -115,16 +118,27 @@ export class PostTagsEditor {
    * @returns void
    */
   public managedNewValues(newValue: string, task: 'add' | 'remove') {
+    this.clearFeedback();
+
     const trimmedValue = newValue.trim().toLowerCase();
     if (trimmedValue.length === 0) {
       return;
     }
+
+    if (trimmedValue.length > 50) {
+      this.messages['error'] = 'Tags cannot be longer than 50 characters.';
+      return;
+    }
+
     const newTag: TagValueInterface = { name: trimmedValue, entity: 'tags' };
 
     if (task === 'add') {
       if (!this.selectedValues.some((value) => value.name === newTag.name)) {
         this.selectedValues.push(newTag);
         this.newAddedValues.push({ name: newTag.name, entity: newTag.entity, total_counts: 0 });
+        this.messages['info'] = `Tag "${newTag.name}" added.`;
+      } else {
+        this.messages['info'] = `Tag "${newTag.name}" is already selected.`;
       }
     }
 
@@ -139,6 +153,37 @@ export class PostTagsEditor {
         this.newAddedValues.splice(indexInNew, 1);
       }
     }
+  }
+
+  /**
+   * Determines the appropriate CSS class to apply based on the current message state.
+   * If there is an 'error' key in the messages object, it returns 'ng-invalid ng-touched'.
+   * If there is an 'info' key, it returns 'dev-info'. If there are no messages, it returns 'ng-valid'.
+   *
+   * @returns The CSS class string based on the current message state.
+   */
+  public setMessageClass() {
+    if (this.messages['error']) {
+      return 'ng-invalid ng-touched';
+    } else if (this.messages['info']) {
+      return 'dev-info';
+    }
+    return 'ng-valid';
+  }
+
+  /**
+   * Clears any existing feedback messages (errors or info) and sets a timeout to clear them after 3 seconds
+   */
+  private clearFeedback() {
+    if (this.feedbackTimeout) {
+      clearTimeout(this.feedbackTimeout);
+    }
+
+    this.messages = {};
+
+    this.feedbackTimeout = setTimeout(() => {
+      this.messages = {};
+    }, 3000);
   }
 
   /**

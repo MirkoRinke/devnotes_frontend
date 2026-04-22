@@ -11,20 +11,36 @@
     ></span>
   </div>
   @if (enableSearch) {
-    <div class="search">
-      <input
-        class="search-input"
-        #searchInput
-        [placeholder]="'Search from ' + originalAvailableValues.length + ' options... Select or press Enter to add new tag'"
-        type="text"
-        (input)="filterFunction(searchInput.value)"
-        (keydown.enter)="managedNewValues(searchInput.value, 'add'); filterFunction(''); searchInput.value = ''"
-      />
-      <button
-        class="add-button"
-        (click)="managedNewValues(searchInput.value, 'add'); filterFunction(''); searchInput.value = ''"
-        [innerHTML]="svgIconsService.returnIcon('add_tags')"
-      ></button>
+    <div class="search-section">
+      @if (messages['error']) {
+        <div class="badge">
+          <span class="badge-text">[!] {{ messages['error'] }}</span>
+        </div>
+      } @else if (messages['info']) {
+        <div class="badge dev-info">
+          <span class="badge-text">[i] {{ messages['info'] }}</span>
+        </div>
+      }
+
+      <div
+        class="search badge-anchor"
+        [class]="setMessageClass()"
+      >
+        <input
+          class="search-input"
+          #searchInput
+          [placeholder]="'Search from ' + originalAvailableValues.length + ' options... Select or press Enter to add new tag'"
+          type="text"
+          name="search"
+          (input)="filterFunction(searchInput.value)"
+          (keydown.enter)="managedNewValues(searchInput.value, 'add'); filterFunction(''); searchInput.value = ''"
+        />
+        <button
+          class="add-button"
+          (click)="managedNewValues(searchInput.value, 'add'); filterFunction(''); searchInput.value = ''"
+          [innerHTML]="svgIconsService.returnIcon('add_tags')"
+        ></button>
+      </div>
     </div>
   }
   @if (filteredValues.length > 0 || specificCategoryValues.length > 0 || isSearchActive) {

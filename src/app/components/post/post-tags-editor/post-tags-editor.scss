@@ -13,7 +13,6 @@
 
 .post-tags-editor {
   @include display-flex($direction: column);
-  gap: px-to-rem(25);
 
   background-color: var(--page-primary-color-100);
   border-radius: px-to-rem(15);
@@ -27,46 +26,65 @@
 
   @include modal-header();
 
-  .search {
-    @include display-flex(center, center);
-    gap: px-to-rem(15);
+  .header {
+    margin-bottom: px-to-rem(5);
+  }
 
-    .search-input {
-      padding: px-to-rem(10) px-to-rem(15);
-      border-radius: px-to-rem(5);
-      border: none;
-      height: px-to-rem(30);
+  .search-section {
+    .search {
+      @include display-flex(center, center);
+      gap: px-to-rem(15);
 
-      min-width: 0;
-      width: 100%;
+      .search-input {
+        padding: px-to-rem(10) px-to-rem(15);
+        border-radius: px-to-rem(5);
+        border: none;
+        height: px-to-rem(30);
 
-      transition: box-shadow var.$transition-duration-fast ease;
+        min-width: 0;
+        width: 100%;
 
-      &:focus {
-        outline: none;
-        box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-50);
+        transition: box-shadow var.$transition-duration-fast ease;
+
+        &:focus {
+          outline: none;
+          box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-50);
+        }
+      }
+
+      .add-button {
+        @include button-preset();
+        @include display-flex(center, center);
+
+        cursor: pointer;
+
+        &::ng-deep .add_tags {
+          width: px-to-rem(20);
+          height: px-to-rem(20);
+          fill: var(--font-primary-color-50);
+        }
+
+        //TODO Fix color later use variable
+        &:hover {
+          &::ng-deep .add_tags {
+            fill: darkgreen;
+            transition: fill var.$transition-duration-medium ease-in-out;
+          }
+        }
       }
     }
 
-    .add-button {
-      @include button-preset();
-      @include display-flex(center, center);
+    .badge-anchor {
+      margin-top: px-to-rem(40);
+      margin-bottom: px-to-rem(35);
+    }
 
-      cursor: pointer;
+    &:has(.badge-anchor.dev-info) {
+      @include info-compiler-badge('.badge-anchor', $top: 0px, $left: 0px);
+    }
 
-      &::ng-deep .add_tags {
-        width: px-to-rem(20);
-        height: px-to-rem(20);
-        fill: var(--font-primary-color-50);
-      }
-
-      //TODO Fix color later use variable
-      &:hover {
-        &::ng-deep .add_tags {
-          fill: darkgreen;
-          transition: fill var.$transition-duration-medium ease-in-out;
-        }
-      }
+    &:not(:has(.badge-anchor.dev-info)) {
+      @include error-compiler-badge('.badge-anchor', $top: 0px, $left: 0px);
     }
   }
 
