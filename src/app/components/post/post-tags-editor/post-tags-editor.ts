@@ -30,7 +30,7 @@ export class PostTagsEditor {
   @Input()
   enableSearch = false;
   isSearchActive = false;
-  initialDisplayLimit = 10;
+  initialDisplayLimit = 20;
 
   @Input() openModal = false;
   dataLoaded = false;
