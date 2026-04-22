@@ -573,8 +573,7 @@
   right: $right;
   left: $left;
 
-  @include singleline-ellipsis();
-  @include font-settings($font-size, 400, $color: var(--font-primary-color-100));
+  max-width: 100%;
 
   background-color: $bg-color;
 
@@ -591,6 +590,12 @@
     border-left: px-to-rem(4) solid transparent;
     border-right: px-to-rem(4) solid transparent;
     border-top: px-to-rem(4) solid $bg-color;
+  }
+
+  .badge-text {
+    display: inline-block;
+    @include font-settings($font-size, 400, $color: var(--font-primary-color-100));
+    @include singleline-ellipsis();
   }
 }
 
