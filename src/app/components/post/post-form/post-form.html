@@ -288,7 +288,6 @@
     </footer>
 
     <!-- Modals -->
-
     <app-post-tech-stack-selector
       class="overlay"
       #techStackSelector
@@ -306,10 +305,6 @@
       [enableSearch]="true"
     ></app-post-tech-stack-selector>
 
-    <!-- Modal für Media Links (Images, Videos, Resources) 
-       Im Modal können die Links eingegeben und verwaltet werden.
-       Nach eingabe vom ersten Link, erscheint ein weiteres Feld für den nächsten Link usw.
-       Es können beliebig viele Links hinzugefügt werden-->
     @if (isMediaLinksEditorModalOpen) {
       <app-post-media-links-editor
         class="overlay"
@@ -327,8 +322,6 @@
       ></app-post-media-links-editor>
     }
 
-    <!-- Modal für tags. Im Modal können die Tags eingegeben und verwaltet werden.
-        Es können beliebig viele Tags hinzugefügt werden-->
     <app-post-tags-editor
       class="overlay"
       #tagsEditor
@@ -346,6 +339,7 @@
       [enableSearch]="true"
     ></app-post-tags-editor>
   </article>
+  <app-terminal-log [terminalMessages]="postTerminalMessages"></app-terminal-log>
 } @else {
   <p>Loading...</p>
 }

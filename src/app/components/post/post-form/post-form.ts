@@ -19,7 +19,7 @@ import type { PostInterface } from '../../../interfaces/post';
 import type { PostPayload } from '../../../interfaces/post-payload';
 import type { UserInterface } from '../../../interfaces/user';
 import type { TagsInterface } from '../../../interfaces/tags';
-import type { TechStackSelectedValueInterface, ResourceRefreshInterface, PostFormErrors } from '../../../interfaces/post-form';
+import type { TechStackSelectedValueInterface, ResourceRefreshInterface, PostFormErrorsInterface, TerminalLineInterface } from '../../../interfaces/post-form';
 import type { ExternalSourceInterface } from '../../../interfaces/post-external-source';
 
 import { QueryParamsDropdown } from '../../query-params-dropdown/query-params-dropdown';
@@ -33,6 +33,7 @@ import { PostMediaLinks } from '../post-media-links/post-media-links';
 import { PostTags } from '../post-tags/post-tags';
 import { PostMediaLinksEditor } from '../post-media-links-editor/post-media-links-editor';
 import { PostTagsEditor } from '../post-tags-editor/post-tags-editor';
+import { TerminalLog } from '../../terminal-log/terminal-log';
 
 @Component({
   selector: 'app-post-form',
@@ -50,6 +51,7 @@ import { PostTagsEditor } from '../post-tags-editor/post-tags-editor';
     PostTags,
     PostMediaLinksEditor,
     PostTagsEditor,
+    TerminalLog,
   ],
   templateUrl: './post-form.html',
   styleUrl: './post-form.scss',
@@ -83,8 +85,9 @@ export class PostForm {
 
   private destroyRef = inject(DestroyRef);
 
-  postFormErrors: { [key: string]: PostFormErrors } | PostFormErrors = {};
-  postTerminalMessages: string[] = [];
+  postFormErrors: { [key: string]: PostFormErrorsInterface } | PostFormErrorsInterface = {};
+  postTerminalMessages: TerminalLineInterface[] = [];
+  submitCount = 0;
 
   constructor(
     private fb: FormBuilder,
@@ -98,6 +101,7 @@ export class PostForm {
     this.createPostForm();
     if (this.mode === 'create') {
       this.loadCurrentUser(this.getCurrentUserId());
+      this.initialMessages(this.mode);
     } else if (this.mode === 'edit' && this.post) {
       if (this.isOwner(this.post)) {
         this.patchPostForm();
@@ -106,6 +110,7 @@ export class PostForm {
         } else {
           this.loadCurrentUser(this.getCurrentUserId());
         }
+        this.initialMessages(this.mode);
       } else {
         console.warn('User is not the owner of the post. Switching to view mode.');
         this.switchMode('view');
@@ -217,6 +222,26 @@ export class PostForm {
   }
 
   /**
+   * Initializes the terminal messages based on the mode of the form.
+   * In edit mode, it shows messages related to loading post data.
+   * in create mode, it prompts the user to fill out the form.
+   *
+   * @param messageMode The mode of the form, either 'edit' or 'create', used to determine which initial messages to display in the terminal log.
+   */
+  private initialMessages(messageMode: string): void {
+    if (messageMode === 'edit') {
+      this.postTerminalMessages.push(
+        { text: '[System] Edit mode initialized.', level: 'system' },
+        { text: '[System] Loading post data...', level: 'system' },
+        { text: '[System] Syntax Highlighting enabled for ' + (this.post?.syntax_highlighting || 'None'), level: 'system' },
+      );
+    } else if (messageMode === 'create') {
+      this.postTerminalMessages.push({ text: '[System] Create mode initialized.', level: 'system' }, { text: '[Info] Please fill out the form and submit to create a new post.', level: 'info' });
+    }
+    console.log('Initial Terminal Messages:', this.postTerminalMessages);
+  }
+
+  /**
    * Helper method to get a form control by name. Returns null if the form is not initialized or if the control does not exist.
    *
    * @param name The name of the form control.
@@ -246,6 +271,51 @@ export class PostForm {
   }
 
   /**
+   * Handles form submission. Validates the form and either creates a new post or updates an existing one based on the mode.
+   *
+   * @returns
+   */
+  public onSubmit(): void {
+    if (!this.postForm) return;
+    this.submitCount++;
+
+    if (this.postForm.invalid) {
+      this.postForm.markAllAsTouched();
+
+      if (this.submitCount > 1) {
+        this.postTerminalMessages = [];
+        this.postTerminalMessages.push({ text: '[System] Re-validating form and clearing old logs...', level: 'system' });
+      } else {
+        this.postTerminalMessages.push({ text: '[System] Validating in process...', level: 'system' });
+      }
+
+      //TODO Maybe add a short delay before showing the validation error messages to simulate processing time
+      this.postTerminalMessages.push({ text: '[Error] Form validation failed. Please check the errors and try again.', level: 'error' });
+      this.getFormErrors();
+      return;
+    }
+
+    if (this.postForm.valid) {
+      this.postTerminalMessages.push({ text: '[System] Validating in process...', level: 'system' });
+      //TODO Maybe add a short delay before showing the success messages to simulate processing time
+      this.postTerminalMessages.push({ text: '[Success] Validation: OK', level: 'success' }, { text: '[Info] Syncing with database...', level: 'info' });
+    }
+
+    const rawValue = this.postForm.getRawValue();
+
+    const data: PostPayload = {
+      ...rawValue,
+      languages: rawValue.languages.map((lang: TechStackSelectedValueInterface) => lang.name),
+      technologies: rawValue.technologies.map((tech: TechStackSelectedValueInterface) => tech.name),
+      tags: rawValue.tags.map((tag: TagsInterface) => tag.name),
+    };
+
+    console.log(this.postTerminalMessages);
+
+    this.savePost(data);
+  }
+
+  /**
    * Generates a structured object containing the current form errors.
    * It iterates through all form controls and collects their validation errors, as well as any form-level errors.
    * The resulting object is stored in the `postFormErrors` property for use in the template to display error messages.
@@ -258,7 +328,7 @@ export class PostForm {
       return;
     }
 
-    const errors: { [key: string]: PostFormErrors } | PostFormErrors = {};
+    const errors: { [key: string]: PostFormErrorsInterface } | PostFormErrorsInterface = {};
 
     Object.entries(this.postForm.controls).forEach(([key, control]) => {
       if (control.invalid && control.errors) {
@@ -282,7 +352,7 @@ export class PostForm {
    * It maps each error to a specific message format and stores them in the `postTerminalMessages` array for display in the template.
    */
   public terminalMessages(): void {
-    const messages: string[] = [];
+    const messages: TerminalLineInterface[] = [];
     const errors = this.postFormErrors;
 
     const labels: { [key: string]: string } = {
@@ -297,29 +367,29 @@ export class PostForm {
     };
 
     Object.keys(errors).forEach((key, index) => {
-      const errorData = (errors as any)[key] as PostFormErrors;
+      const errorData = (errors as any)[key] as PostFormErrorsInterface;
 
       if (typeof errorData === 'object' && errorData !== null) {
         if (errorData.required) {
-          messages.push(`[E${index + 1}] ${labels[key] || key}: is required.`);
+          messages.push({ text: `[E${index + 1}] ${labels[key] || key}: is required.`, level: 'error' });
         }
         if (errorData.maxlength) {
-          messages.push(`[E${index + 1}] ${labels[key] || key}: Text too long.`);
+          messages.push({ text: `[E${index + 1}] ${labels[key] || key}: Text too long.`, level: 'error' });
         }
         if (errorData.minlength) {
-          messages.push(`[E${index + 1}] ${labels[key] || key}: Text too short.`);
+          messages.push({ text: `[E${index + 1}] ${labels[key] || key}: Text too short.`, level: 'error' });
         }
       } else if (errorData === true) {
         if (key === 'syntax_highlighting') {
-          messages.push(`[E${index + 1}] ${labels[key]}: Since you have chosen languages, highlighting is required.`);
+          messages.push({ text: `[E${index + 1}] ${labels[key]}: Since you have chosen languages, highlighting is required.`, level: 'error' });
         }
         if (key === 'language_or_tech_required') {
-          messages.push(`[E${index + 1}] ${labels[key]}: Please select at least one language or technology.`);
+          messages.push({ text: `[E${index + 1}] ${labels[key]}: Please select at least one language or technology.`, level: 'error' });
         }
       }
     });
 
-    this.postTerminalMessages = messages;
+    this.postTerminalMessages.push(...messages);
 
     console.log('Terminal Messages:', this.postTerminalMessages);
   }
@@ -369,32 +439,6 @@ export class PostForm {
     return classes.filter((className) => className !== '').join(' ');
   }
 
-  /**
-   * Handles form submission. Validates the form and either creates a new post or updates an existing one based on the mode.
-   *
-   * @returns
-   */
-  public onSubmit(): void {
-    if (!this.postForm) return;
-
-    if (this.postForm.invalid) {
-      this.postForm.markAllAsTouched();
-      this.getFormErrors();
-      return;
-    }
-
-    const rawValue = this.postForm.getRawValue();
-
-    const data: PostPayload = {
-      ...rawValue,
-      languages: rawValue.languages.map((lang: TechStackSelectedValueInterface) => lang.name),
-      technologies: rawValue.technologies.map((tech: TechStackSelectedValueInterface) => tech.name),
-      tags: rawValue.tags.map((tag: TagsInterface) => tag.name),
-    };
-
-    this.savePost(data);
-  }
-
   private savePost(data: PostPayload): PostInterface | void {
     console.log('Saving post with data:', data);
     /**
@@ -420,17 +464,24 @@ export class PostForm {
           const entityValue = response.data.data.languages?.[0]?.name || response.data.data.technologies?.[0]?.name || null;
 
           if (this.mode === 'edit') {
+            console.log('Post updated successfully, switching to view mode with ID:', response.data.data.id);
+            this.postTerminalMessages.push({ text: '[Success] Post successfully updated!', level: 'success' });
+            //TODO add a short delay before switching to view mode to simulate processing time and allow users to see the success message
             this.switchMode('view');
             const updatedPost = response.data.data;
             this.resourceRefresh.emit({ updatedPost, entity, entityValue });
           } else {
             console.log('Post created successfully, navigating to post view with ID:', response.data.data.id);
+            this.postTerminalMessages.push({ text: '[Success] Post successfully created!', level: 'success' });
+            //TODO add a short delay before navigating to post view to simulate processing time and allow users to see the success message
             const createdPost = response.data.data;
             this.navigateToPostView(createdPost, entity, entityValue);
           }
         },
         error: (error) => {
           console.error('Error saving post:', error);
+          this.postTerminalMessages.push({ text: '[Error] Error saving post!', level: 'error' });
+          this.postTerminalMessages.push({ text: '[Error] Please try again.', level: 'error' });
           this.isProcessing = false;
         },
       });
