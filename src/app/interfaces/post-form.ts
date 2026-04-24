@@ -11,11 +11,16 @@ export interface ResourceRefreshInterface {
   entityValue: string | null;
 }
 
-export interface PostFormErrors {
+export interface PostFormErrorsInterface {
   required?: boolean;
   maxlength?: { requiredLength: number; actualLength: number };
   minlength?: { requiredLength: number; actualLength: number };
 
   languageOrTechRequired?: boolean;
   syntaxHighlighting?: boolean;
+}
+
+export interface TerminalLineInterface {
+  text: string;
+  level: 'info' | 'error' | 'success' | 'system';
 }
