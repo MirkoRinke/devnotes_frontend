@@ -1,0 +1,103 @@
+@use '../../../functions' as *;
+@use '../../../var' as var;
+@use '../../../mixins' as *;
+
+.terminal-log-container {
+  @include display-flex($direction: column);
+  margin-top: px-to-rem(25);
+
+  background-color: var(--page-primary-color-100);
+  border-radius: px-to-rem(15);
+  border: px-to-rem(2) solid var(--font-primary-color-25);
+
+  overflow: hidden;
+
+  .header {
+    @include display-flex(center, space-between);
+    padding: px-to-rem(5) px-to-rem(50);
+
+    .badges {
+      @include display-flex();
+      gap: px-to-rem(25);
+
+      .badge {
+        @include font-settings($font-size: 14);
+
+        &.info {
+          color: #3b82f6;
+        }
+
+        &.error {
+          color: #f44747;
+        }
+
+        &.success {
+          color: #22c55e;
+        }
+
+        &.system {
+          color: #fbbf24;
+        }
+      }
+    }
+  }
+
+  .terminal-log {
+    @include display-flex($direction: column);
+    //TODO Fix hover color later use variable
+    background-color: #181a22;
+    padding: px-to-rem(25) px-to-rem(50);
+    gap: px-to-rem(5);
+
+    min-height: px-to-rem(200);
+    max-height: px-to-rem(200);
+
+    scrollbar-width: thin;
+    scrollbar-color: rgb(60, 60, 60) transparent;
+
+    overflow-y: auto;
+
+    .message {
+      @include font-settings($font-size: 16);
+      @include fade-in-with-delay(--animation-delay);
+
+      &.info {
+        color: #3b82f6;
+      }
+
+      &.error {
+        color: #f44747;
+      }
+
+      &.success {
+        color: #22c55e;
+      }
+
+      &.system {
+        color: #fbbf24;
+      }
+    }
+
+    .new-line {
+      @include font-settings($font-size: 16);
+      color: var(--font-primary-color-50);
+
+      &::after {
+        content: '|';
+        margin-left: px-to-rem(2);
+        animation: blink 1s step-start infinite;
+      }
+
+      @keyframes blink {
+        0%,
+        50% {
+          opacity: 1;
+        }
+        50.01%,
+        100% {
+          opacity: 0;
+        }
+      }
+    }
+  }
+}
