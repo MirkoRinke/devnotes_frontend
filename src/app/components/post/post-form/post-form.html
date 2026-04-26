@@ -11,8 +11,12 @@
           <span class="separator">|</span>
 
           <div class="post-type-section">
-            @if (getErrorIndex('post_type')) {
-              <div class="badge">
+            @if (displayedErrors.includes('post_type')) {
+              <div
+                class="badge"
+                [class.animating]="getErrorIndex('post_type') !== null"
+                [style.--animation-delay]="(getErrorIndex('post_type') ?? 0) * 100 + 'ms'"
+              >
                 <span class="badge-text">[!] E{{ getErrorIndex('post_type') }}</span>
               </div>
             }
@@ -34,8 +38,12 @@
           <span class="separator">|</span>
 
           <div class="post-category-section">
-            @if (getErrorIndex('category')) {
-              <div class="badge">
+            @if (displayedErrors.includes('category')) {
+              <div
+                class="badge"
+                [class.animating]="getErrorIndex('category') !== null"
+                [style.--animation-delay]="(getErrorIndex('category') ?? 0) * 100 + 'ms'"
+              >
                 <span class="badge-text">[!] E{{ getErrorIndex('category') }}</span>
               </div>
             }
@@ -57,12 +65,20 @@
           <span class="separator">|</span>
 
           <div class="post-syntax-section">
-            @if (getErrorIndex('syntax_highlighting')) {
-              <div class="badge">
+            @if (displayedErrors.includes('syntax_highlighting')) {
+              <div
+                class="badge"
+                [class.animating]="getErrorIndex('syntax_highlighting') !== null"
+                [style.--animation-delay]="(getErrorIndex('syntax_highlighting') ?? 0) * 100 + 'ms'"
+              >
                 <span class="badge-text">[!] E{{ getErrorIndex('syntax_highlighting') }}</span>
               </div>
-            } @else if (getControl('languages')?.value.length > 0 && getErrorIndex('syntax_highlighting') === null && getControl('syntax_highlighting')?.value === '') {
-              <div class="badge">
+            } @else if (getControl('languages')?.value.length > 0 && !displayedErrors.includes('syntax_highlighting') && getControl('syntax_highlighting')?.value === '') {
+              <div
+                class="badge dev-info"
+                [class.animating]="getErrorIndex('syntax_highlighting') !== null"
+                [style.--animation-delay]="(getErrorIndex('syntax_highlighting') ?? 0) * 100 + 'ms'"
+              >
                 <span class="badge-text">[i] Info</span>
               </div>
             }
@@ -86,8 +102,12 @@
 
         <div class="right-section">
           <div class="post-status-section">
-            @if (getErrorIndex('status')) {
-              <div class="badge">
+            @if (displayedErrors.includes('status')) {
+              <div
+                class="badge"
+                [class.animating]="getErrorIndex('status') !== null"
+                [style.--animation-delay]="(getErrorIndex('status') ?? 0) * 100 + 'ms'"
+              >
                 <span class="badge-text">[!] E{{ getErrorIndex('status') }}</span>
               </div>
             }
@@ -124,8 +144,12 @@
 
     <section class="content">
       <div class="title-wrapper">
-        @if (getErrorIndex('title')) {
-          <div class="badge">
+        @if (displayedErrors.includes('title')) {
+          <div
+            class="badge"
+            [class.animating]="getErrorIndex('title') !== null"
+            [style.--animation-delay]="(getErrorIndex('title') ?? 0) * 100 + 'ms'"
+          >
             <span class="badge-text">[!] E{{ getErrorIndex('title') }}</span>
           </div>
         }
@@ -140,8 +164,12 @@
       </div>
 
       <div class="description-section">
-        @if (getErrorIndex('description')) {
-          <div class="badge">
+        @if (displayedErrors.includes('description')) {
+          <div
+            class="badge"
+            [class.animating]="getErrorIndex('description') !== null"
+            [style.--animation-delay]="(getErrorIndex('description') ?? 0) * 100 + 'ms'"
+          >
             <span class="badge-text">[!] E{{ getErrorIndex('description') }}</span>
           </div>
         }
@@ -155,8 +183,12 @@
       </div>
 
       <div class="code-section">
-        @if (getErrorIndex('code')) {
-          <div class="badge">
+        @if (displayedErrors.includes('code')) {
+          <div
+            class="badge"
+            [class.animating]="getErrorIndex('code') !== null"
+            [style.--animation-delay]="(getErrorIndex('code') ?? 0) * 100 + 'ms'"
+          >
             <span class="badge-text">[!] E{{ getErrorIndex('code') }}</span>
           </div>
         }
@@ -175,8 +207,12 @@
     <footer class="footer">
       <div class="footer-meta">
         <div class="tech-stack-section">
-          @if (getErrorIndex('language_or_tech_required')) {
-            <div class="badge">
+          @if (displayedErrors.includes('language_or_tech_required')) {
+            <div
+              class="badge"
+              [class.animating]="getErrorIndex('language_or_tech_required') !== null"
+              [style.--animation-delay]="(getErrorIndex('language_or_tech_required') ?? 0) * 100 + 'ms'"
+            >
               <span class="badge-text">[!] E{{ getErrorIndex('language_or_tech_required') }}</span>
             </div>
           }

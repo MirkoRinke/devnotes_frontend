@@ -86,6 +86,7 @@ export class PostForm {
   private destroyRef = inject(DestroyRef);
 
   postFormErrors: { [key: string]: PostFormErrorsInterface } | PostFormErrorsInterface = {};
+  displayedErrors: string[] = [];
   postTerminalMessages: TerminalLineInterface[] = [];
   submitCount = 0;
 
@@ -230,15 +231,32 @@ export class PostForm {
    */
   private initialMessages(messageMode: string): void {
     if (messageMode === 'edit') {
-      this.postTerminalMessages.push(
+      this.pushNewTerminalMessage([
         { text: '[System] Edit mode initialized.', level: 'system' },
         { text: '[System] Loading post data...', level: 'system' },
         { text: '[System] Syntax Highlighting enabled for ' + (this.post?.syntax_highlighting || 'None'), level: 'system' },
-      );
+      ]);
     } else if (messageMode === 'create') {
-      this.postTerminalMessages.push({ text: '[System] Create mode initialized.', level: 'system' }, { text: '[Info] Please fill out the form and submit to create a new post.', level: 'info' });
+      this.pushNewTerminalMessage([
+        { text: '[System] Create mode initialized.', level: 'system' },
+        { text: '[Info] Please fill out the form and submit to create a new post.', level: 'info' },
+      ]);
     }
     console.log('Initial Terminal Messages:', this.postTerminalMessages);
+  }
+
+  /**
+   * Helper method to add a new message to the terminal log.
+   * It creates a new array with the existing messages and the new message to ensure change detection works properly in Angular.
+   *
+   * @param message The message to add to the terminal log.
+   */
+  private pushNewTerminalMessage(message: TerminalLineInterface | TerminalLineInterface[]): void {
+    if (Array.isArray(message)) {
+      this.postTerminalMessages = [...this.postTerminalMessages, ...message];
+    } else {
+      this.postTerminalMessages = [...this.postTerminalMessages, message];
+    }
   }
 
   /**
@@ -266,6 +284,9 @@ export class PostForm {
     this.postForm?.markAsPristine();
     this.postForm?.markAsUntouched();
     this.postFormErrors = {};
+    this.postTerminalMessages = [];
+    this.displayedErrors = [];
+    this.initialMessages(this.mode);
 
     this.postFormCode = this.postForm?.get('code')?.value;
   }
@@ -277,28 +298,21 @@ export class PostForm {
    */
   public onSubmit(): void {
     if (!this.postForm) return;
-    this.submitCount++;
 
     if (this.postForm.invalid) {
       this.postForm.markAllAsTouched();
-
-      if (this.submitCount > 1) {
-        this.postTerminalMessages = [];
-        this.postTerminalMessages.push({ text: '[System] Re-validating form and clearing old logs...', level: 'system' });
-      } else {
-        this.postTerminalMessages.push({ text: '[System] Validating in process...', level: 'system' });
-      }
-
-      //TODO Maybe add a short delay before showing the validation error messages to simulate processing time
-      this.postTerminalMessages.push({ text: '[Error] Form validation failed. Please check the errors and try again.', level: 'error' });
       this.getFormErrors();
       return;
     }
 
     if (this.postForm.valid) {
-      this.postTerminalMessages.push({ text: '[System] Validating in process...', level: 'system' });
-      //TODO Maybe add a short delay before showing the success messages to simulate processing time
-      this.postTerminalMessages.push({ text: '[Success] Validation: OK', level: 'success' }, { text: '[Info] Syncing with database...', level: 'info' });
+      this.postTerminalMessages = [];
+
+      this.pushNewTerminalMessage([
+        { text: '[System] Validating in process...', level: 'system' },
+        { text: '[Success] Validation: OK', level: 'success' },
+        { text: '[System] Syncing with database...', level: 'system' },
+      ]);
     }
 
     const rawValue = this.postForm.getRawValue();
@@ -325,8 +339,21 @@ export class PostForm {
   getFormErrors(): void {
     if (!this.postForm || this.postForm.valid) {
       this.postFormErrors = {};
+      this.displayedErrors = [];
       return;
     }
+    this.submitCount++;
+
+    this.postTerminalMessages = [];
+
+    if (this.submitCount > 1) {
+      this.postTerminalMessages = [];
+      this.pushNewTerminalMessage({ text: '[System] Re-validating form and clearing old logs...', level: 'system' });
+    } else {
+      this.pushNewTerminalMessage({ text: '[System] Validating in process...', level: 'system' });
+    }
+
+    this.pushNewTerminalMessage({ text: '[Error] Form validation failed. Please check the errors and try again.', level: 'error' });
 
     const errors: { [key: string]: PostFormErrorsInterface } | PostFormErrorsInterface = {};
 
@@ -345,6 +372,32 @@ export class PostForm {
     console.log('Form Errors:', this.postFormErrors);
 
     this.terminalMessages();
+    this.updateDisplayedErrors();
+  }
+
+  /**
+   * Updates the `displayedErrors` array based on the current `postFormErrors`.
+   * It extracts the keys of the errors and pushes them into the `displayedErrors` array with a delay
+   * to create a staggered effect when displaying error badges in the template.
+   */
+  private updateDisplayedErrors(): void {
+    this.displayedErrors = [];
+    const errorKeys = Object.keys(this.postFormErrors);
+
+    const startIndex = this.postTerminalMessages.findIndex((message) => message.level === 'error' && message.text.startsWith('[E1]'));
+
+    if (startIndex === -1) {
+      return;
+    }
+
+    errorKeys.forEach((key, index) => {
+      setTimeout(
+        () => {
+          this.displayedErrors.push(key);
+        },
+        (index + startIndex) * 400,
+      );
+    });
   }
 
   /**
@@ -389,7 +442,7 @@ export class PostForm {
       }
     });
 
-    this.postTerminalMessages.push(...messages);
+    this.pushNewTerminalMessage(messages);
 
     console.log('Terminal Messages:', this.postTerminalMessages);
   }
@@ -465,23 +518,29 @@ export class PostForm {
 
           if (this.mode === 'edit') {
             console.log('Post updated successfully, switching to view mode with ID:', response.data.data.id);
-            this.postTerminalMessages.push({ text: '[Success] Post successfully updated!', level: 'success' });
-            //TODO add a short delay before switching to view mode to simulate processing time and allow users to see the success message
-            this.switchMode('view');
-            const updatedPost = response.data.data;
-            this.resourceRefresh.emit({ updatedPost, entity, entityValue });
+            this.pushNewTerminalMessage({ text: '[Success] Post successfully updated!', level: 'success' });
+
+            setTimeout(() => {
+              this.switchMode('view');
+              const updatedPost = response.data.data;
+              this.resourceRefresh.emit({ updatedPost, entity, entityValue });
+            }, 2500);
           } else {
             console.log('Post created successfully, navigating to post view with ID:', response.data.data.id);
-            this.postTerminalMessages.push({ text: '[Success] Post successfully created!', level: 'success' });
-            //TODO add a short delay before navigating to post view to simulate processing time and allow users to see the success message
-            const createdPost = response.data.data;
-            this.navigateToPostView(createdPost, entity, entityValue);
+            this.pushNewTerminalMessage({ text: '[Success] Post successfully created!', level: 'success' });
+
+            setTimeout(() => {
+              const createdPost = response.data.data;
+              this.navigateToPostView(createdPost, entity, entityValue);
+            }, 2500);
           }
         },
         error: (error) => {
           console.error('Error saving post:', error);
-          this.postTerminalMessages.push({ text: '[Error] Error saving post!', level: 'error' });
-          this.postTerminalMessages.push({ text: '[Error] Please try again.', level: 'error' });
+          this.pushNewTerminalMessage([
+            { text: '[Error] Error saving post!', level: 'error' },
+            { text: '[Error] Please try again.', level: 'error' },
+          ]);
           this.isProcessing = false;
         },
       });
