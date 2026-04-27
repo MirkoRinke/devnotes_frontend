@@ -603,11 +603,9 @@
 }
 
 @mixin fade-in-with-delay($delay: 0s) {
-  &.animating {
-    opacity: 0;
-    animation: fadeIn var.$transition-duration-medium forwards;
-    animation-delay: $delay;
-  }
+  opacity: 0;
+  animation: fadeIn var.$transition-duration-medium forwards;
+  animation-delay: $delay;
 
   @keyframes fadeIn {
     from {
