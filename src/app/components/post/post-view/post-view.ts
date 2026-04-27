@@ -238,4 +238,8 @@ export class PostView implements OnChanges {
   isOwner(post: PostInterface): boolean {
     return this.authService.isOwner(post?.user_id ?? null);
   }
+
+  switchMode(mode: 'edit') {
+    this.modeChange.emit(mode);
+  }
 }

@@ -89,6 +89,18 @@
     <span class="line-break"></span>
 
     <div class="footer-sub">
+      @if (isOwner(currentPost) && currentPost.tags && currentPost.tags.length < 1) {
+        <div class="tags-reminder">
+          <button
+            class="no-tags"
+            (click)="switchMode('edit')"
+            [class.active]="true"
+          >
+            Jetzt Hashtags hinzufügen ?
+          </button>
+        </div>
+      }
+
       <app-post-tags
         [context]="context"
         [endPoint]="endPoint"

@@ -90,6 +90,34 @@
       @include display-flex(start, space-between);
       gap: px-to-rem(25);
 
+      .tags-reminder {
+        @include display-flex(center);
+        gap: px-to-rem(20);
+        flex-wrap: wrap;
+
+        .no-tags {
+          @include button-preset();
+          @include golden-ratio-padding(14);
+          @include font-settings(14, 500);
+
+          color: var(--font-primary-color-100);
+          border-radius: px-to-rem(10);
+
+          border: 2px dashed var(--font-primary-color-20);
+
+          background-color: var(--font-primary-color-5);
+          transition: background-color var.$transition-duration-medium ease-in-out;
+
+          cursor: default;
+
+          &.active:hover {
+            cursor: pointer;
+            background-color: var(--font-primary-color-10);
+            transition: background-color var.$transition-duration-medium ease-in-out;
+          }
+        }
+      }
+
       .post-status-info {
         @include display-flex(center);
         gap: px-to-rem(10);
