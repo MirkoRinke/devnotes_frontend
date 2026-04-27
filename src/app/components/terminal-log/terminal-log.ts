@@ -1,11 +1,9 @@
 import { Component, Input, ViewChild, ElementRef, SimpleChanges } from '@angular/core';
 import type { TerminalLineInterface } from '../../interfaces/post-form';
 
-import { LocalDatePipe } from '../../pipes/local-date-pipe';
-
 @Component({
   selector: 'app-terminal-log',
-  imports: [LocalDatePipe],
+  imports: [],
   templateUrl: './terminal-log.html',
   styleUrl: './terminal-log.scss',
 })
@@ -31,7 +29,6 @@ export class TerminalLog {
     if (changes['terminalMessages']) {
       this.currentTime = new Date();
       this.clearTimeouts();
-      this.delayedMessages = [];
       this.pushDelayedMessage();
     }
   }
@@ -48,16 +45,21 @@ export class TerminalLog {
    * Pushes messages to the delayedMessages array with a staggered delay to create a typing effect.
    */
   private pushDelayedMessage(): void {
-    this.terminalMessages.forEach((message, index) => {
-      if (index === 0) {
-        this.delayedMessages.push(message);
-      } else {
-        const timeoutId = setTimeout(() => {
+    if (!this.terminalMessages.length) return;
+
+    const initialMessages = [this.terminalMessages[0]];
+
+    this.terminalMessages.slice(1).forEach((message, index) => {
+      const timeoutId = setTimeout(
+        () => {
           this.delayedMessages.push(message);
-        }, index * 400);
-        this.timeoutIds.push(timeoutId);
-      }
+        },
+        (index + 1) * 400,
+      );
+      this.timeoutIds.push(timeoutId);
     });
+
+    this.delayedMessages = initialMessages;
   }
 
   /**

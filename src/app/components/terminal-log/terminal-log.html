@@ -14,7 +14,6 @@
         <span class="badge error">Error: {{ countMessagesByLevel('error') }}</span>
       }
     </div>
-    <time class="updated_at">[ {{ currentTime | localDate: 'full' }} ]</time>
   </header>
 
   <div
@@ -24,7 +23,6 @@
     @for (message of delayedMessages; track $index) {
       <span
         class="message"
-        [class.animating]="$index > 0"
         [style.--animation-delay]="$index * 100 + 'ms'"
         [title]="message.text"
         [class]="message.level"
