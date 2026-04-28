@@ -23,7 +23,7 @@
     @for (message of delayedMessages; track $index) {
       <span
         class="message"
-        [style.--animation-delay]="$index * 100 + 'ms'"
+        [style.--animation-delay]="($index + 1) * 100 + 'ms'"
         [title]="message.text"
         [class]="message.level"
       >

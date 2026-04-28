@@ -54,7 +54,7 @@ export class TerminalLog {
         () => {
           this.delayedMessages.push(message);
         },
-        (index + 1) * 400,
+        (index + 2) * 300,
       );
       this.timeoutIds.push(timeoutId);
     });
