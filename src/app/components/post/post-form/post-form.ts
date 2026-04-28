@@ -246,16 +246,17 @@ export class PostForm {
   }
 
   /**
-   * Helper method to add a new message to the terminal log.
-   * It creates a new array with the existing messages and the new message to ensure change detection works properly in Angular.
+   * Pushes new messages to the terminal log. It accepts either a single message or an array of messages and an optional reset flag.
    *
-   * @param message The message to add to the terminal log.
+   * @param message The message or array of messages to add to the terminal log.
+   * @param reset If true, replaces the existing messages with the new ones; otherwise, appends the new messages.
    */
-  private pushNewTerminalMessage(message: TerminalLineInterface | TerminalLineInterface[]): void {
-    if (Array.isArray(message)) {
-      this.postTerminalMessages = [...this.postTerminalMessages, ...message];
+  private pushNewTerminalMessage(message: TerminalLineInterface | TerminalLineInterface[], reset?: boolean): void {
+    const newMessages = Array.isArray(message) ? message : [message];
+    if (reset) {
+      this.postTerminalMessages = [...newMessages];
     } else {
-      this.postTerminalMessages = [...this.postTerminalMessages, message];
+      this.postTerminalMessages = [...this.postTerminalMessages, ...newMessages];
     }
   }
 
@@ -299,6 +300,12 @@ export class PostForm {
   public onSubmit(): void {
     if (!this.postForm) return;
 
+    //TODO Activate this check after testing. It should prevent unnecessary submissions when no changes were made to the form.
+    // if (this.postForm.pristine) {
+    //   this.pushNewTerminalMessage({ text: '[Info] No changes detected. Please modify the form before submitting.', level: 'info' }, true);
+    //   return;
+    // }
+
     if (this.postForm.invalid) {
       this.postForm.markAllAsTouched();
       this.getFormErrors();
@@ -306,13 +313,14 @@ export class PostForm {
     }
 
     if (this.postForm.valid) {
-      this.postTerminalMessages = [];
-
-      this.pushNewTerminalMessage([
-        { text: '[System] Validating in process...', level: 'system' },
-        { text: '[Success] Validation: OK', level: 'success' },
-        { text: '[System] Syncing with database...', level: 'system' },
-      ]);
+      this.pushNewTerminalMessage(
+        [
+          { text: '[System] Validating in process...', level: 'system' },
+          { text: '[Success] Validation: OK', level: 'success' },
+          { text: '[System] Syncing with database...', level: 'system' },
+        ],
+        true,
+      );
     }
 
     const rawValue = this.postForm.getRawValue();
@@ -344,13 +352,10 @@ export class PostForm {
     }
     this.submitCount++;
 
-    this.postTerminalMessages = [];
-
     if (this.submitCount > 1) {
-      this.postTerminalMessages = [];
-      this.pushNewTerminalMessage({ text: '[System] Re-validating form and clearing old logs...', level: 'system' });
+      this.pushNewTerminalMessage({ text: '[System] Re-validating form and clearing old logs...', level: 'system' }, true);
     } else {
-      this.pushNewTerminalMessage({ text: '[System] Validating in process...', level: 'system' });
+      this.pushNewTerminalMessage({ text: '[System] Validating in process...', level: 'system' }, true);
     }
 
     this.pushNewTerminalMessage({ text: '[Error] Form validation failed. Please check the errors and try again.', level: 'error' });
@@ -395,7 +400,7 @@ export class PostForm {
         () => {
           this.displayedErrors.push(key);
         },
-        (index + startIndex) * 400,
+        (index + startIndex + 1) * 300,
       );
     });
   }
