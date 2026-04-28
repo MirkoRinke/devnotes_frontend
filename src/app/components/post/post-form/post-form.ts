@@ -231,16 +231,22 @@ export class PostForm {
    */
   private initialMessages(messageMode: string): void {
     if (messageMode === 'edit') {
-      this.pushNewTerminalMessage([
-        { text: '[System] Edit mode initialized.', level: 'system' },
-        { text: '[System] Loading post data...', level: 'system' },
-        { text: '[System] Syntax Highlighting enabled for ' + (this.post?.syntax_highlighting || 'None'), level: 'system' },
-      ]);
+      this.pushNewTerminalMessage(
+        [
+          { text: '[System] Edit mode initialized.', level: 'system' },
+          { text: '[System] Loading post data...', level: 'system' },
+          { text: '[System] Syntax Highlighting enabled for ' + (this.post?.syntax_highlighting || 'None'), level: 'system' },
+        ],
+        true,
+      );
     } else if (messageMode === 'create') {
-      this.pushNewTerminalMessage([
-        { text: '[System] Create mode initialized.', level: 'system' },
-        { text: '[Info] Please fill out the form and submit to create a new post.', level: 'info' },
-      ]);
+      this.pushNewTerminalMessage(
+        [
+          { text: '[System] Create mode initialized.', level: 'system' },
+          { text: '[Info] Please fill out the form and submit to create a new post.', level: 'info' },
+        ],
+        true,
+      );
     }
     console.log('Initial Terminal Messages:', this.postTerminalMessages);
   }
@@ -285,7 +291,6 @@ export class PostForm {
     this.postForm?.markAsPristine();
     this.postForm?.markAsUntouched();
     this.postFormErrors = {};
-    this.postTerminalMessages = [];
     this.displayedErrors = [];
     this.initialMessages(this.mode);
 
