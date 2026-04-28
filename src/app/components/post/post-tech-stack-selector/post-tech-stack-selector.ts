@@ -47,6 +47,8 @@ export class PostTechStackSelector {
 
   ngOnChanges() {
     if (this.openModal && this.params && this.endPoint) {
+      this.resetSelectedValues();
+
       this.pushControlledValuesToSelected();
       if (!this.dataLoaded) {
         this.initDataStreams(this.params, this.endPoint);
@@ -57,10 +59,36 @@ export class PostTechStackSelector {
   }
 
   /**
+   * Resets the selected values if both form controls (languages and technologies) are pristine and have no values.
+   * This ensures that the selectedValues array is cleared when the user has not made any selections in either control.
+   */
+  private resetSelectedValues() {
+    const isEmptyAndPristine = (control: FormControl | null) => control?.pristine && !control?.value?.length;
+
+    const isReset = isEmptyAndPristine(this.controlLanguages) && isEmptyAndPristine(this.controlTechnologies);
+
+    if (isReset) {
+      this.selectedValues = [];
+    }
+  }
+
+  /**
    * Pushes the current values from the form controls (languages and technologies) to the selectedValues array.
    */
   private pushControlledValuesToSelected() {
-    const controlValues = [...(this.controlLanguages?.value || []), ...(this.controlTechnologies?.value || [])];
+    const langValues = this.controlLanguages?.value;
+    const techValues = this.controlTechnologies?.value;
+
+    if (this.selectedValues.length > 0 && !langValues && !techValues) {
+      return;
+    }
+
+    const controlValues = [...(langValues || []), ...(techValues || [])];
+
+    if (this.dataLoaded && controlValues.length === 0 && this.selectedValues.length > 0) {
+      return;
+    }
+
     this.selectedValues = controlValues.map((value: TechStackSelectedValueInterface) => ({
       name: value.name,
       entity: value.entity,
