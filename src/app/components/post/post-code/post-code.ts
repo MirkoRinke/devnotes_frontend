@@ -44,7 +44,9 @@ export class PostCode implements OnChanges {
    */
   ngOnChanges(changes: SimpleChanges) {
     if ((changes['code'] && !changes['code'].firstChange) || (changes['language'] && !changes['language'].firstChange)) {
-      this.highlight();
+      queueMicrotask(() => {
+        this.highlight();
+      });
     }
   }
 
@@ -53,7 +55,7 @@ export class PostCode implements OnChanges {
    */
   private highlight() {
     if (this.codeElement?.nativeElement && this.code) {
-      this.codeElement.nativeElement.innerHTML = this.code || '';
+      this.codeElement.nativeElement.textContent = this.code || '';
       Prism.highlightElement(this.codeElement.nativeElement);
     }
   }

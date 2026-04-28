@@ -22,6 +22,7 @@
   @if (isViewMode) {
     <pre
       class="code-view"
+      [class]="language | prismLanguage"
       (click)="control ? setViewMode(false) : null"
     ><code #codeElement [class]="language | prismLanguage" [class.empty]="!code">{{ code ? code : 'Code hier eingeben' }}</code></pre>
   } @else if (control) {
