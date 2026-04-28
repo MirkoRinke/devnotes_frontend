@@ -17,6 +17,6 @@ export class PrismLanguagePipe implements PipeTransform {
       return `language-${mappedLang}`;
     }
 
-    return '';
+    return 'language-plaintext';
   }
 }
