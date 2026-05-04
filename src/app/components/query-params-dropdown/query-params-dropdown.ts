@@ -7,6 +7,8 @@ import { SvgIconsService } from '../../services/svg.icons.service';
 
 import type { AvailableValuesInterface } from '../../interfaces/available-values';
 
+import { ApiEndpointEnums } from '../../enums/api-endpoint';
+
 @Component({
   selector: 'app-query-params-dropdown',
   imports: [],
@@ -14,6 +16,9 @@ import type { AvailableValuesInterface } from '../../interfaces/available-values
   styleUrl: './query-params-dropdown.scss',
 })
 export class QueryParamsDropdown {
+  @Input() endPoint: keyof typeof ApiEndpointEnums | null = null;
+  @Input() params: Array<string> | null = null;
+
   @Input() mode: 'URL' | 'Component' | null = null;
   @Input() showCount: boolean = false;
 
@@ -25,9 +30,6 @@ export class QueryParamsDropdown {
 
   @Input() enableAllOption: boolean = false;
   @Input() enableSearch: boolean = false;
-
-  @Input() endPoint: string | null = null;
-  @Input() params: Array<string> | null = null;
 
   @Input() values: { [key: string]: string } | null = null;
 
@@ -76,7 +78,7 @@ export class QueryParamsDropdown {
   /**
    * Fetches available values from the service based on provided params and endpoint
    */
-  getAvailableValues(params: Array<string>, endPoint: string) {
+  getAvailableValues(params: Array<string>, endPoint: keyof typeof ApiEndpointEnums) {
     this.availableValuesService
       .getAvailableValues(params, endPoint)
       .pipe(take(1))
