@@ -9,6 +9,8 @@ import { SvgIconsService } from '../../../services/svg.icons.service';
 
 import type { AvailableValuesInterface } from '../../../interfaces/available-values';
 import type { TechStackSelectedValueInterface } from '../../../interfaces/post-form';
+
+import { ApiEndpointEnums } from '../../../enums/api-endpoint';
 @Component({
   selector: 'app-post-tech-stack-selector',
   imports: [ReactiveFormsModule],
@@ -16,10 +18,12 @@ import type { TechStackSelectedValueInterface } from '../../../interfaces/post-f
   styleUrl: './post-tech-stack-selector.scss',
 })
 export class PostTechStackSelector {
+  @Input() endPoint: keyof typeof ApiEndpointEnums | null = null;
+  @Input() params: Array<string> | null = null;
+
   @Input() controlLanguages: FormControl | null = null;
   @Input() controlTechnologies: FormControl | null = null;
-  @Input() params: Array<string> | null = null;
-  @Input() endPoint: string | null = null;
+
   @Input() enableSearch = false;
   isSearchActive = false;
   initialDisplayLimit = 20;
