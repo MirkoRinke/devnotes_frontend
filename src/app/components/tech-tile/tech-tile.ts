@@ -19,7 +19,7 @@ import { ApiEndpointEnums } from '../../enums/api-endpoint';
 })
 export class TechTile {
   @Input() context: string | null = null;
-  @Input() endPoint: string | null = null;
+  @Input() endPoint: keyof typeof ApiEndpointEnums | null = null;
 
   @Input() tile: AvailableValuesInterface | null = null;
 
