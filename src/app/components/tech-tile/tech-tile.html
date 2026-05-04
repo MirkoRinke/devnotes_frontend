@@ -2,7 +2,7 @@
   <a
     class="tile"
     [routerLink]="'/post-types-selection'"
-    [queryParams]="{ entityValue: tile.name, endPoint: endPoint, entity: tile.entity, context: context }"
+    [queryParams]="{ context: context, endPoint: endPoint, entity: tile.entity, entityValue: tile.name }"
   >
     <button
       class="icon"
