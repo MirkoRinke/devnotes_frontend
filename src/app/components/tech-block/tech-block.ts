@@ -25,8 +25,7 @@ import { blurActiveElementInside } from '../../utils/dom-helper';
 })
 export class TechBlock implements OnDestroy, OnInit {
   @Input() context: string | null = null;
-  @Input() endPoint: string | null = null;
-
+  @Input() endPoint: keyof typeof ApiEndpointEnums | null = null;
   @Input() params: Array<string> | null = null;
 
   @Input() heading: string | null = null;
@@ -59,7 +58,6 @@ export class TechBlock implements OnDestroy, OnInit {
     public svgIconsService: SvgIconsService,
     private availableValuesService: AvailableValuesService,
     private searchService: SearchService,
-    private elementRef: ElementRef,
     private cdr: ChangeDetectorRef,
   ) {}
 
