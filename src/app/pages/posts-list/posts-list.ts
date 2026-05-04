@@ -39,17 +39,16 @@ import { PostListElement } from '../../components/post-list-element/post-list-el
   styleUrl: './posts-list.scss',
 })
 export class PostsList {
-  context: string | null = null;
-  endPoint: string | null = null;
+  context: PostListParamsInterface['context'] = null;
+  endPoint: PostListParamsInterface['endPoint'] = null;
+  selectedEntity: PostListParamsInterface['selectedEntity'] = null;
+  selectedEntityValue: PostListParamsInterface['selectedEntityValue'] = null;
+  selectedPostType: PostListParamsInterface['selectedPostType'] = null;
 
-  selectedEntity: string | null = null;
-  selectedEntityValue: string | null = null;
-
-  selectedPostType: string | null = null;
-  selectedCategory: string | null = null;
-  selectedDateFrom: string | null = null;
-  selectedDateTo: string | null = null;
-  selectedSort: string | null = null;
+  selectedCategory: PostListParamsInterface['category'] = null;
+  selectedDateFrom: PostListParamsInterface['dateFrom'] = null;
+  selectedDateTo: PostListParamsInterface['dateTo'] = null;
+  selectedSort: PostListParamsInterface['sort'] = null;
 
   today = new Date();
   minDate: string = environment.RELEASE_DATE;
@@ -114,7 +113,7 @@ export class PostsList {
       this.listElementsPerPage(parsed, true);
 
       this.searchService.syncFromParameters(params);
-      this.searchService.cageIcon(parsed.entityValue);
+      this.searchService.cageIcon(parsed.selectedEntityValue);
     });
     this.searchService.searchMode('posts-list');
     this.searchService.enableSearch(true);
@@ -135,9 +134,9 @@ export class PostsList {
     return {
       context: params['context'] ?? null,
       endPoint: params['endPoint'] ?? null,
-      entity: params['entity'] ?? null,
-      entityValue: params['entityValue'] ?? null,
-      postType: params['postType'] ?? null,
+      selectedEntity: params['selectedEntity'] ?? null,
+      selectedEntityValue: params['selectedEntityValue'] ?? null,
+      selectedPostType: params['selectedPostType'] ?? null,
       category: params['category'] ?? null,
       dateFrom: params['dateFrom'] ?? null,
       dateTo: params['dateTo'] ?? null,
@@ -160,12 +159,12 @@ export class PostsList {
       (parsed.context === null || typeof parsed.context === 'string') &&
       parsed.endPoint !== null &&
       parsed.endPoint in ApiEndpointEnums &&
-      parsed.entityValue !== null &&
-      new RegExp(RegexEnums.entityValue).test(parsed.entityValue) &&
-      Object.values(PostListAllowedEntitiesEnums).includes(parsed.entity as PostListAllowedEntitiesEnums) &&
+      parsed.selectedEntityValue !== null &&
+      new RegExp(RegexEnums.entityValue).test(parsed.selectedEntityValue) &&
+      Object.values(PostListAllowedEntitiesEnums).includes(parsed.selectedEntity as PostListAllowedEntitiesEnums) &&
       Number.isInteger(parsed.page) &&
       Number.isInteger(parsed.perPage) &&
-      (parsed.postType === null || typeof parsed.postType === 'string') &&
+      (parsed.selectedPostType === null || typeof parsed.selectedPostType === 'string') &&
       (parsed.category === null || typeof parsed.category === 'string') &&
       (parsed.dateFrom === null || new RegExp(RegexEnums.datepicker).test(parsed.dateFrom)) &&
       (parsed.dateTo === null || new RegExp(RegexEnums.datepicker).test(parsed.dateTo)) &&
@@ -183,9 +182,9 @@ export class PostsList {
   private setSelectedValues(parsed: PostListParamsInterface): void {
     this.context = parsed.context;
     this.endPoint = parsed.endPoint;
-    this.selectedEntity = parsed.entity;
-    this.selectedEntityValue = parsed.entityValue;
-    this.selectedPostType = parsed.postType;
+    this.selectedEntity = parsed.selectedEntity;
+    this.selectedEntityValue = parsed.selectedEntityValue;
+    this.selectedPostType = parsed.selectedPostType;
     this.selectedCategory = parsed.category;
     this.selectedSort = parsed.sort;
     this.selectedDateFrom = parsed.dateFrom;
@@ -326,8 +325,8 @@ export class PostsList {
     const perPage = this.perPage ?? parsed.perPage;
 
     let params = new HttpParams().set('select', this.selectedFields).set('page', parsed.page.toString()).set('per_page', perPage.toString());
-    if (parsed.postType) params = params.set('filter[post_type]', parsed.postType);
-    if (parsed.entityValue) params = params.set(`filter[${parsed.entity}.name]`, `eq:${parsed.entityValue}`);
+    if (parsed.selectedPostType) params = params.set('filter[post_type]', parsed.selectedPostType);
+    if (parsed.selectedEntityValue) params = params.set(`filter[${parsed.selectedEntity}.name]`, `eq:${parsed.selectedEntityValue}`);
     if (parsed.category) params = params.set('filter[category]', `eq:${parsed.category}`);
     if (parsed.dateFrom || parsed.dateTo) params = params.set('filter[created_at]', `between:[${parsed.dateFrom ? parsed.dateFrom : this.minDate},${parsed.dateTo ? parsed.dateTo : this.maxDate}]`);
     if (parsed.sort) params = params.set('sort', `${parsed.sort}`);
@@ -380,49 +379,59 @@ export class PostsList {
   }
 
   /**
-   * Set query params for dropdowns
+   * Constructs the query strings for fetching available values for the dropdowns based on the selected entity, entity value, post type and endpoint.
+   * These queries are used to validate the selected dropdown values against the available values from the API.
    *
-   * @param entityValue The value of the entity
-   * @param entity  The entity type
-   * @param postType The type of the post
+   * @param parsed
    */
   private setParams(parsed: PostListParamsInterface): void {
-    this.entityValueParams = [this.getEntityValueQuery(parsed)];
-    this.postTypeParams = [this.getPostTypeQuery(parsed)];
-    this.categoryParams = [this.getCategoryQuery(parsed)];
+    if (parsed.selectedEntity) {
+      this.entityValueParams = [this.getEntityValueQuery(parsed.selectedEntity, parsed)];
+      if (parsed.selectedEntityValue) {
+        this.postTypeParams = [this.getPostTypeQuery(parsed.selectedEntity, parsed.selectedEntityValue, parsed)];
+        this.categoryParams = [this.getCategoryQuery(parsed.selectedEntity, parsed.selectedEntityValue, parsed)];
+      }
+    }
   }
 
   /**
-   * Construct the query for fetching available values for the entity dropdown based on the selected entity and endpoint.
+   * Construct the query for fetching available values for the entity value dropdown based on the selected entity and endpoint.
    *
+   * @param entity The entity type
    * @param parsed The parsed parameters for the post list
-   * @returns The query string for the entity dropdown
+   * @returns The query string for the entity value dropdown
    */
-  private getEntityValueQuery(parsed: PostListParamsInterface): string {
-    let query = `?select=count:${encodeURIComponent(parsed.entity)}.name`;
+  private getEntityValueQuery(entity: PostListAllowedEntitiesEnums, parsed: PostListParamsInterface): string {
+    let query = `?select=count:${encodeURIComponent(entity)}.name`;
     return query + this.getEndpointSpecificFilterQuery(parsed);
   }
 
   /**
    * Construct the query for fetching available values for the post type dropdown based on the selected entity, entity value and endpoint.
    *
+   * @param entity The entity type
+   * @param entityValue The value of the entity
    * @param parsed The parsed parameters for the post list
-   * @return The query string for the post type dropdown
+   * @returns The query string for the post type dropdown
    */
-  private getPostTypeQuery(parsed: PostListParamsInterface): string {
-    let query = `?filter[${encodeURIComponent(parsed.entity)}.name]=eq:${encodeURIComponent(parsed.entityValue!)}&select=count:post_type`;
+  private getPostTypeQuery(entity: PostListAllowedEntitiesEnums, entityValue: string, parsed: PostListParamsInterface): string {
+    let query = `?filter[${encodeURIComponent(entity)}.name]=eq:${encodeURIComponent(entityValue)}&select=count:post_type`;
     return query + this.getEndpointSpecificFilterQuery(parsed);
   }
 
   /**
-   * Construct the query for fetching available values for the category dropdown based on the selected entity, entity value, post type and endpoint.
+   * Construct the query for fetching available values for the category dropdown based on the selected entity, entity value and endpoint.
    *
+   * @param entity The entity type
+   * @param entityValue The value of the entity
    * @param parsed The parsed parameters for the post list
-   * @return The query string for the category dropdown
+   * @returns The query string for the category dropdown
    */
-  private getCategoryQuery(parsed: PostListParamsInterface): string {
-    let query = `?filter[${encodeURIComponent(parsed.entity)}.name]=eq:${encodeURIComponent(parsed.entityValue!)}&select=count:category`;
-    if (parsed.postType !== null) query += `&filter[post_type]=${encodeURIComponent(parsed.postType)}`;
+  private getCategoryQuery(entity: PostListAllowedEntitiesEnums, entityValue: string, parsed: PostListParamsInterface): string {
+    let query = `?filter[${encodeURIComponent(entity)}.name]=eq:${encodeURIComponent(entityValue)}&select=count:category`;
+    if (parsed.selectedPostType) {
+      query += `&filter[post_type]=${encodeURIComponent(parsed.selectedPostType)}`;
+    }
     return query + this.getEndpointSpecificFilterQuery(parsed);
   }
 
@@ -451,10 +460,11 @@ export class PostsList {
     // This is only for your TypeScript compiler :)
     if (!parsed.endPoint) return;
 
-    const dropdowns = [{ key: 'entityValue', params: this.entityValueParams, endPoint: parsed.endPoint, selected: parsed.entityValue }];
+    const dropdowns = [{ key: 'selectedEntityValue', params: this.entityValueParams, endPoint: parsed.endPoint, selected: parsed.selectedEntityValue }];
 
     if (parsed.category !== null) dropdowns.push({ key: 'category', params: this.categoryParams, endPoint: parsed.endPoint, selected: parsed.category });
-    if (parsed.postType !== null) dropdowns.push({ key: 'postType', params: this.postTypeParams, endPoint: parsed.endPoint, selected: parsed.postType });
+    if (parsed.selectedPostType !== null && parsed.selectedPostType !== undefined)
+      dropdowns.push({ key: 'selectedPostType', params: this.postTypeParams, endPoint: parsed.endPoint, selected: parsed.selectedPostType });
 
     const requests = dropdowns.map((dropdown) => this.availableValuesService.getAvailableValues(dropdown.params, dropdown.endPoint).pipe(take(1)));
 
@@ -473,7 +483,7 @@ export class PostsList {
           const dropdownValues = availableValues.map((value) => value.name);
           if ((dropdown.selected && !dropdownValues.includes(dropdown.selected)) || dropdown.selected === null) {
             fallbackTriggered = true;
-            if (dropdown.key === 'entityValue') {
+            if (dropdown.key === 'selectedEntityValue') {
               this.router.navigate([], {
                 queryParams: { [dropdown.key]: dropdownValues[0] },
                 queryParamsHandling: 'merge',
