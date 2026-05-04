@@ -1,7 +1,6 @@
-import type { PostTypesParamsInterface } from './post-types-params';
+import type { PostParamsInterface } from './post-params';
 
-export interface PostListParamsInterface extends PostTypesParamsInterface {
-  postType: PostTypesParamsInterface['postType'];
+export interface PostListParamsInterface extends PostParamsInterface {
   category: string | null;
   dateFrom: string | null;
   dateTo: string | null;
