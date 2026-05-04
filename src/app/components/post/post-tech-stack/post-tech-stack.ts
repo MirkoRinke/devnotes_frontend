@@ -6,6 +6,8 @@ import type { TechnologiesInterface } from '../../../interfaces/technologies';
 
 import { SvgIconsService } from '../../../services/svg.icons.service';
 
+import type { PostParamsInterface } from '../../../interfaces/post-params';
+
 @Component({
   selector: 'app-post-tech-stack',
   imports: [RouterLink],
@@ -13,14 +15,14 @@ import { SvgIconsService } from '../../../services/svg.icons.service';
   styleUrl: './post-tech-stack.scss',
 })
 export class PostTechStack {
-  @Input() isViewMode = true;
-  @Input() context: string | null = null;
-  @Input() endPoint: string | null = null;
-
-  @Input() selectedPostType: string | null = null;
+  @Input() context: PostParamsInterface['context'] = null;
+  @Input() endPoint: PostParamsInterface['endPoint'] = null;
+  @Input() selectedPostType: PostParamsInterface['selectedPostType'] = null;
 
   @Input() languages: LanguagesInterface[] = [];
   @Input() technologies: TechnologiesInterface[] = [];
+
+  @Input() isViewMode = true;
 
   constructor(public svgIconsService: SvgIconsService) {}
 }
