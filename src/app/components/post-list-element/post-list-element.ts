@@ -7,6 +7,8 @@ import { SvgIconsService } from '../../services/svg.icons.service';
 
 import type { PostInterface } from '../../interfaces/post';
 
+import type { PostListParamsInterface } from '../../interfaces/post-list-params';
+
 @Component({
   selector: 'app-post-list-element',
   imports: [RouterLink, DatePipe],
@@ -14,14 +16,13 @@ import type { PostInterface } from '../../interfaces/post';
   styleUrl: './post-list-element.scss',
 })
 export class PostListElement {
-  @Input() context: string | null = null;
-  @Input() endPoint: string | null = null;
+  @Input() context: PostListParamsInterface['context'] = null;
+  @Input() endPoint: PostListParamsInterface['endPoint'] = null;
+  @Input() selectedEntity: PostListParamsInterface['selectedEntity'] = null;
+  @Input() selectedEntityValue: PostListParamsInterface['selectedEntityValue'] = null;
+  @Input() selectedPostType: PostListParamsInterface['selectedPostType'] = null;
 
   @Input() post: PostInterface | null = null;
-
-  @Input() selectedEntity: string | null = null;
-  @Input() selectedEntityValue: string | null = null;
-  @Input() selectedPostType: string | null = null;
 
   constructor(public svgIconsService: SvgIconsService) {}
 }
