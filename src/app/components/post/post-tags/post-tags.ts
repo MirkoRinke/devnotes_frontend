@@ -3,6 +3,8 @@ import { RouterLink } from '@angular/router';
 
 import type { TagsInterface } from '../../../interfaces/tags';
 
+import type { PostParamsInterface } from '../../../interfaces/post-params';
+
 @Component({
   selector: 'app-post-tags',
   imports: [RouterLink],
@@ -10,14 +12,13 @@ import type { TagsInterface } from '../../../interfaces/tags';
   styleUrl: './post-tags.scss',
 })
 export class PostTags {
-  @Input() context: string | null = null;
-  @Input() endPoint: string | null = null;
-
-  @Input() isViewMode: boolean = true;
-
-  @Input() selectedEntity: string | null = null;
-  @Input() selectedEntityValue: string | null = null;
-  @Input() selectedPostType: string | null = null;
+  @Input() context: PostParamsInterface['context'] = null;
+  @Input() endPoint: PostParamsInterface['endPoint'] = null;
+  @Input() selectedEntity: PostParamsInterface['selectedEntity'] = null;
+  @Input() selectedEntityValue: PostParamsInterface['selectedEntityValue'] = null;
+  @Input() selectedPostType: PostParamsInterface['selectedPostType'] = null;
 
   @Input() tags: TagsInterface[] = [];
+
+  @Input() isViewMode: boolean = true;
 }
