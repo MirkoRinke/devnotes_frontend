@@ -23,13 +23,11 @@ import { PostForm } from '../../components/post/post-form/post-form';
   styleUrl: './post.scss',
 })
 export class Post {
-  context: string | null = null;
-  endPoint: string | null = null;
-
-  selectedEntity: string | null = null;
-  selectedEntityValue: string | null = null;
-
-  selectedPostType: string | null = null;
+  context: PostParamsInterface['context'] = null;
+  endPoint: PostParamsInterface['endPoint'] = null;
+  selectedEntity: PostParamsInterface['selectedEntity'] = null;
+  selectedEntityValue: PostParamsInterface['selectedEntityValue'] = null;
+  selectedPostType: PostParamsInterface['selectedPostType'] = null;
 
   post: PostInterface = {} as PostInterface;
 
