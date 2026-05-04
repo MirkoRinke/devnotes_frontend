@@ -9,6 +9,7 @@ import { SvgIconsService } from '../../../services/svg.icons.service';
 
 import type { AvailableValuesInterface } from '../../../interfaces/available-values';
 
+import { ApiEndpointEnums } from '../../../enums/api-endpoint';
 interface TagValueInterface {
   name: string;
   entity: string;
@@ -21,14 +22,14 @@ interface TagValueInterface {
   styleUrl: './post-tags-editor.scss',
 })
 export class PostTagsEditor {
-  @Input() control: FormControl | null = null;
-  @Input() endPoint: string | null = null;
+  @Input() endPoint: keyof typeof ApiEndpointEnums | null = null;
   @Input() params: Array<string> | null = null;
-  @Input() specificCategory: string | null = null;
 
-  @Input()
-  @Input()
-  enableSearch = false;
+  @Input() specificCategory: string | null = null;
+  @Input() control: FormControl | null = null;
+
+  @Input() enableSearch = false;
+
   isSearchActive = false;
   initialDisplayLimit = 20;
 
