@@ -43,6 +43,7 @@ export class TerminalLog {
 
   /**
    * Pushes messages to the delayedMessages array with a staggered delay to create a typing effect.
+   * TODO Fix the flicker when new messages are added.
    */
   private pushDelayedMessage(): void {
     if (!this.terminalMessages.length) return;
