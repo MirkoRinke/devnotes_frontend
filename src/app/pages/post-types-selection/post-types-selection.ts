@@ -30,11 +30,10 @@ import { TranslatePipe } from '../../i18n/translate-pipe';
   styleUrl: './post-types-selection.scss',
 })
 export class PostTypesSelection {
-  context: string | null = null;
-  endPoint: string | null = null;
-
-  selectedEntity: string | null = null;
-  selectedEntityValue: string | null = null;
+  context: PostTypesParamsInterface['context'] = null;
+  endPoint: PostTypesParamsInterface['endPoint'] = null;
+  selectedEntity: PostTypesParamsInterface['entity'] = null;
+  selectedEntityValue: PostTypesParamsInterface['entityValue'] = null;
 
   postTypes: PostTypesInterface[] = [];
   filteredPostTypes: PostTypesInterface[] = [];
