@@ -244,4 +244,17 @@ export class PostTypesSelection {
   private calculateTotalCount(): number {
     return this.postTypes.reduce((sum, current) => sum + current.total_counts, 0);
   }
+
+  /**
+   * Get the query parameter value for the given name, returning null if the name is "all_types" or undefined.
+   *
+   * @param name
+   * @returns
+   */
+  getQueryParam(name: string | undefined): string | null {
+    if (!name || name === 'all_types') {
+      return null;
+    }
+    return name;
+  }
 }

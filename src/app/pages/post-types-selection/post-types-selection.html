@@ -7,22 +7,13 @@
       <a
         class="tile"
         [routerLink]="'/posts-list'"
-        [queryParams]="
-          postType.name === 'all_types'
-            ? {
-                context: context,
-                selectedEntity: selectedEntity,
-                selectedEntityValue: selectedEntityValue,
-                endPoint: endPoint,
-              }
-            : {
-                context: context,
-                selectedEntity: selectedEntity,
-                selectedEntityValue: selectedEntityValue,
-                endPoint: endPoint,
-                selectedPostType: postType.name,
-              }
-        "
+        [queryParams]="{
+          context: context,
+          selectedEntity: selectedEntity,
+          selectedEntityValue: selectedEntityValue,
+          endPoint: endPoint,
+          selectedPostType: getQueryParam(postType?.name),
+        }"
       >
         <div class="content">
           <span
