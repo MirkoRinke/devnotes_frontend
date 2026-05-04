@@ -155,10 +155,13 @@
       [class.closed]="!isDeleteModalAnimating"
       (click)="closeDeleteModal()"
       (animationend)="onAnimationEnd($event)"
-      [postId]="currentPost.id"
-      [postUserId]="currentPost.user_id"
-      [postTitle]="currentPost.title"
+      [post]="currentPost"
       (closeModal)="closeDeleteModal()"
+      [context]="context"
+      [endPoint]="endPoint"
+      [selectedEntity]="selectedEntity"
+      [selectedEntityValue]="selectedEntityValue"
+      [selectedPostType]="selectedPostType"
     ></app-post-delete>
   }
 </article>

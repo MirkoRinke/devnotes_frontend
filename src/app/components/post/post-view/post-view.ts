@@ -23,6 +23,7 @@ import { PostTags } from '../post-tags/post-tags';
 import { PostDescription } from '../post-description/post-description';
 import { PostDelete } from '../post-delete/post-delete';
 
+import type { PostParamsInterface } from '../../../interfaces/post-params';
 @Component({
   selector: 'app-post-view',
   imports: [
@@ -44,12 +45,11 @@ import { PostDelete } from '../post-delete/post-delete';
   styleUrl: './post-view.scss',
 })
 export class PostView implements OnChanges {
-  @Input() context: string | null = null;
-  @Input() endPoint: string | null = null;
-
-  @Input() selectedEntity: string | null = null;
-  @Input() selectedEntityValue: string | null = null;
-  @Input() selectedPostType: string | null = null;
+  @Input() context: PostParamsInterface['context'] = null;
+  @Input() endPoint: PostParamsInterface['endPoint'] = null;
+  @Input() selectedEntity: PostParamsInterface['selectedEntity'] = null;
+  @Input() selectedEntityValue: PostParamsInterface['selectedEntityValue'] = null;
+  @Input() selectedPostType: PostParamsInterface['selectedPostType'] = null;
 
   @Input() post: PostInterface | null = null;
 
