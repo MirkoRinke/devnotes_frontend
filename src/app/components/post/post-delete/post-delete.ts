@@ -8,6 +8,10 @@ import { AuthService } from '../../../services/auth.service';
 
 import { ApiEndpointEnums } from '../../../enums/api-endpoint';
 
+import type { PostInterface } from '../../../interfaces/post';
+
+import type { PostParamsInterface } from '../../../interfaces/post-params';
+
 @Component({
   selector: 'app-post-delete',
   imports: [],
@@ -15,9 +19,13 @@ import { ApiEndpointEnums } from '../../../enums/api-endpoint';
   styleUrl: './post-delete.scss',
 })
 export class PostDelete {
-  @Input() postId: number | null = null;
-  @Input() postUserId: number | null = null;
-  @Input() postTitle: string | null = null;
+  @Input() context: PostParamsInterface['context'] = null;
+  @Input() endPoint: PostParamsInterface['endPoint'] = null;
+  @Input() selectedEntity: PostParamsInterface['selectedEntity'] = null;
+  @Input() selectedEntityValue: PostParamsInterface['selectedEntityValue'] = null;
+  @Input() selectedPostType: PostParamsInterface['selectedPostType'] = null;
+
+  @Input() post: PostInterface | null = null;
 
   @Output() closeModal = new EventEmitter<void>();
 
@@ -28,26 +36,44 @@ export class PostDelete {
     private router: Router,
   ) {}
 
+  ngOnInit() {
+    //For debugging purposes, log the input values to ensure they are being passed correctly
+    console.log(this.context, this.endPoint, this.selectedEntity, this.selectedEntityValue, this.selectedPostType);
+  }
+
   /**
    * Handle post deletion
    *
-   * @param postId
-   * @param postUserId
+   * @param post
    * @returns
    */
-  onDeletePost(postId: number, postUserId: number) {
-    if (this.authService.getCurrentUserId() !== postUserId) {
+  onDeletePost(post: PostInterface) {
+    if (this.authService.getCurrentUserId() !== post.user_id) {
       console.error('User is not the owner of the post');
       return;
     }
 
-    const url = `${ApiEndpointEnums.DELETE_POSTS}${postId}`;
+    const url = `${ApiEndpointEnums.DELETE_POSTS}${post.id}`;
+
+    const hasRequiredParams = !!(this.context && this.endPoint && this.selectedEntity && this.selectedEntityValue);
 
     this.apiService.delete(url).subscribe({
       next: () => {
         console.log('Post deleted successfully');
-        //TODO Navigate to the Post List or Home page after deletion
-        this.router.navigate(['/']);
+        if (hasRequiredParams) {
+          this.router.navigate(['/posts-list'], {
+            queryParams: {
+              context: this.context,
+              endPoint: this.endPoint,
+              selectedEntity: this.selectedEntity,
+              selectedEntityValue: this.selectedEntityValue,
+              selectedPostType: this.selectedPostType ?? null,
+            },
+            replaceUrl: true,
+          });
+        } else {
+          this.router.navigate(['/']);
+        }
       },
       error: (error) => {
         console.error('Error deleting post:', error);

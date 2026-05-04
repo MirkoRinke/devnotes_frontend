@@ -11,18 +11,18 @@
     ></span>
   </header>
 
-  <div class="content">
-    <p>{{ postTitle }}</p>
-  </div>
+  @if (post) {
+    <div class="content">
+      <p>{{ post.title }}</p>
+    </div>
 
-  <div class="footer">
-    @if (postId && postUserId) {
+    <div class="footer">
       <p>Möchten Sie diesen Beitrag wirklich löschen?</p>
       <div class="actions">
         <button
           class="delete-button"
           type="button"
-          (click)="onDeletePost(postId, postUserId)"
+          (click)="onDeletePost(post)"
         >
           ja
         </button>
@@ -34,8 +34,8 @@
           Nein
         </button>
       </div>
-    } @else {
-      <p>Fehler: Beitrag konnte nicht gefunden werden.</p>
-    }
-  </div>
+    </div>
+  } @else {
+    <p>Fehler: Beitrag konnte nicht gefunden werden.</p>
+  }
 </div>
