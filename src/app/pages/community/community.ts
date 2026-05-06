@@ -10,6 +10,8 @@ import { AuthService } from '../../services/auth.service';
 import { SearchService } from '../../services/search.service';
 import { UserFavoriteTechnologiesService } from '../../services/user-favorite-technologies.service';
 
+import { PageContextEnums } from '../../enums/context';
+
 @Component({
   selector: 'app-community',
   imports: [TechBlock, GuestTeaserPrompt, CommonModule],
@@ -18,6 +20,8 @@ import { UserFavoriteTechnologiesService } from '../../services/user-favorite-te
 })
 export class Community {
   favoriteTechStack: Array<string> = [];
+
+  readonly PageContextEnums = PageContextEnums;
 
   private destroy$ = new Subject<void>();
 

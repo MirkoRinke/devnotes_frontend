@@ -3,7 +3,7 @@
     <app-tech-block
       [class.active]="searchService.searchActive$ | async"
       [attr.aria-hidden]="!(searchService.searchActive$ | async)"
-      [context]="'community'"
+      [context]="PageContextEnums.COMMUNITY"
       [heading]="'Suchergebnisse'"
       [version]="'search-results'"
       [endPoint]="'POSTS'"
@@ -15,7 +15,7 @@
     <app-tech-block
       [class.active]="!(searchService.searchActive$ | async)"
       [attr.aria-hidden]="searchService.searchActive$ | async"
-      [context]="'community'"
+      [context]="PageContextEnums.COMMUNITY"
       [heading]="'Favoriten'"
       [version]="'favorites'"
       [endPoint]="'POSTS'"
@@ -33,7 +33,7 @@
   <app-tech-block
     [class.active]="!(searchService.searchActive$ | async)"
     [attr.aria-hidden]="searchService.searchActive$ | async"
-    [context]="'community'"
+    [context]="PageContextEnums.COMMUNITY"
     [heading]="'Sprachen / Frameworks'"
     [version]="'default'"
     [endPoint]="'POSTS'"
@@ -43,7 +43,7 @@
   <app-tech-block
     [class.active]="!(searchService.searchActive$ | async)"
     [attr.aria-hidden]="searchService.searchActive$ | async"
-    [context]="'community'"
+    [context]="PageContextEnums.COMMUNITY"
     [heading]="'Tools'"
     [version]="'default'"
     [endPoint]="'POSTS'"
