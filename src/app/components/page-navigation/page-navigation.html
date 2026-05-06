@@ -39,7 +39,7 @@
       <a
         class="link"
         [routerLink]="'/my-area'"
-        [class.active]="isActive('my-area')"
+        [class.active]="isActive(PageContextEnums.MY_AREA)"
       >
         <span
           class="icon-container"
@@ -50,7 +50,7 @@
       <a
         class="link"
         [routerLink]="'/favorites'"
-        [class.active]="isActive('favorites')"
+        [class.active]="isActive(PageContextEnums.FAVORITES)"
       >
         <span
           class="icon-container"
@@ -61,7 +61,7 @@
       <a
         class="link"
         [routerLink]="'/network'"
-        [class.active]="isActive('network')"
+        [class.active]="isActive(PageContextEnums.NETWORK)"
       >
         <span
           class="icon-container"
@@ -72,7 +72,7 @@
       <a
         class="link"
         [routerLink]="'/community'"
-        [class.active]="isActive('community')"
+        [class.active]="isActive(PageContextEnums.COMMUNITY)"
       >
         <span
           class="icon-container"

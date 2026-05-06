@@ -9,6 +9,9 @@ import { Search } from '../search/search';
 
 import { SvgIconsService } from '../../services/svg.icons.service';
 import { SearchService } from '../../services/search.service';
+
+import { PageContextEnums } from '../../enums/context';
+
 @Component({
   selector: 'app-page-navigation',
   imports: [CommonModule, RouterModule, Search],
@@ -16,8 +19,10 @@ import { SearchService } from '../../services/search.service';
   styleUrl: './page-navigation.scss',
 })
 export class PageNavigation {
-  context: string | null = null;
-  activeMap: { [key: string]: boolean } = {};
+  context: PageContextEnums | null = null;
+  activeMap: { [key in PageContextEnums]?: boolean } = {};
+
+  readonly PageContextEnums = PageContextEnums;
 
   showSearch: boolean = false;
   delayedSearch: boolean = false;
@@ -52,10 +57,10 @@ export class PageNavigation {
   updateActiveMap() {
     const url = window.location.href;
     this.activeMap = {
-      'my-area': this.context === 'my-area' || url.includes('/my-area'),
-      favorites: this.context === 'favorites' || url.includes('/favorites'),
-      network: this.context === 'network' || url.includes('/network'),
-      community: this.context === 'community' || url.includes('/community'),
+      [PageContextEnums.MY_AREA]: this.context === PageContextEnums.MY_AREA || url.includes(`/${PageContextEnums.MY_AREA}`),
+      [PageContextEnums.FAVORITES]: this.context === PageContextEnums.FAVORITES || url.includes(`/${PageContextEnums.FAVORITES}`),
+      [PageContextEnums.NETWORK]: this.context === PageContextEnums.NETWORK || url.includes(`/${PageContextEnums.NETWORK}`),
+      [PageContextEnums.COMMUNITY]: this.context === PageContextEnums.COMMUNITY || url.includes(`/${PageContextEnums.COMMUNITY}`),
     };
   }
 
@@ -91,7 +96,7 @@ export class PageNavigation {
    * @param routeFragment
    * @returns
    */
-  isActive(routeFragment: string): boolean {
+  isActive(routeFragment: PageContextEnums): boolean {
     return this.activeMap[routeFragment] || false;
   }
 
