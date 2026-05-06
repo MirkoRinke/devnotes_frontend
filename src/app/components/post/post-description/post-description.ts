@@ -89,4 +89,16 @@ export class PostDescription {
     this.isExpanded = !this.isExpanded;
     this.adjustHeight();
   }
+
+  /**
+   * Trim the description and update the form control value on blur event
+   *
+   * @param description
+   */
+  trimDescription(description: string) {
+    const trimmed = description.trim();
+    if (this.control) {
+      this.control.setValue(trimmed);
+    }
+  }
 }

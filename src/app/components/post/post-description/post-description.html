@@ -24,6 +24,7 @@
       <textarea
         #descriptionTextarea
         (input)="adjustHeight()"
+        (blur)="trimDescription(control.value)"
         class="description-input"
         [placeholder]="'Beitragsbeschreibung hier eingeben'"
         name="description-input"
