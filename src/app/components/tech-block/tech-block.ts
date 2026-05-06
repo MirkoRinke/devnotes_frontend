@@ -8,6 +8,7 @@ import { PageStepper } from '../page-stepper/page-stepper';
 import type { AvailableValuesInterface } from '../../interfaces/available-values';
 
 import { ApiEndpointEnums } from '../../enums/api-endpoint';
+import { PageContextEnums } from '../../enums/context';
 
 import { UserFavoriteTechnologiesService } from '../../services/user-favorite-technologies.service';
 import { SvgIconsService } from '../../services/svg.icons.service';
@@ -24,7 +25,7 @@ import { blurActiveElementInside } from '../../utils/dom-helper';
   styleUrl: './tech-block.scss',
 })
 export class TechBlock implements OnDestroy, OnInit {
-  @Input() context: string | null = null;
+  @Input() context: PageContextEnums | null = null;
   @Input() endPoint: keyof typeof ApiEndpointEnums | null = null;
   @Input() params: Array<string> | null = null;
 
