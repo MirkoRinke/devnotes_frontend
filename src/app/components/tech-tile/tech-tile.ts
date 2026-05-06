@@ -11,6 +11,8 @@ import { ApiService } from '../../services/api.service';
 import { AuthService } from '../../services/auth.service';
 
 import { ApiEndpointEnums } from '../../enums/api-endpoint';
+import { PageContextEnums } from '../../enums/context';
+
 @Component({
   selector: 'app-tech-tile',
   imports: [RouterLink],
@@ -18,7 +20,7 @@ import { ApiEndpointEnums } from '../../enums/api-endpoint';
   styleUrl: './tech-tile.scss',
 })
 export class TechTile {
-  @Input() context: string | null = null;
+  @Input() context: PageContextEnums | null = null;
   @Input() endPoint: keyof typeof ApiEndpointEnums | null = null;
 
   @Input() tile: AvailableValuesInterface | null = null;
