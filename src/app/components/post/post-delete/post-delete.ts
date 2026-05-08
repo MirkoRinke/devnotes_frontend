@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { SvgIconsService } from '../../../services/svg.icons.service';
@@ -29,6 +29,19 @@ export class PostDelete {
 
   @Output() closeModal = new EventEmitter<void>();
 
+  fastDeleteEnabled = false;
+  fastDeleteTimeLimitMinutes = 15;
+  fastDeleteMaxComments = 0;
+
+  isDeleteConfirmed = false;
+  initialTitle: string | null = null;
+  confirmationTitle: string | null = null;
+  confirmationTitleMaxLength = 20;
+  inputConfirmationValue: string | null = null;
+
+  messages: { [key: string]: string } = {};
+  feedbackTimeout: number | null = null;
+
   constructor(
     public svgIconsService: SvgIconsService,
     private apiService: ApiService,
@@ -37,8 +50,101 @@ export class PostDelete {
   ) {}
 
   ngOnInit() {
-    //For debugging purposes, log the input values to ensure they are being passed correctly
-    console.log(this.context, this.endPoint, this.selectedEntity, this.selectedEntityValue, this.selectedPostType);
+    this.checkFastDeletePossibility();
+    if (this.post && this.post.title) {
+      this.initialTitle = this.post.title.replace(/\s+/g, ' ').trim();
+      this.confirmationTitle = this.post.title.substring(0, Math.min(this.confirmationTitleMaxLength, this.post.title.length)).replace(/\s+/g, ' ').trim();
+    }
+  }
+
+  /**
+   * Checks if the post can be deleted quickly without confirmation based on its age and number of comments.
+   * If the post is older than the defined time limit or has more comments than the defined maximum, fast delete is disabled and confirmation is required.
+   * Otherwise, fast delete is enabled and the delete action can be performed immediately without confirmation.
+   */
+  private checkFastDeletePossibility() {
+    if (this.post) {
+      let overTime = false;
+      let hasComments = false;
+
+      if (this.post.created_at) {
+        const createdAt = new Date(this.post.created_at);
+        const now = new Date();
+        const diffInMinutes = (now.getTime() - createdAt.getTime()) / (1000 * 60);
+        overTime = diffInMinutes > this.fastDeleteTimeLimitMinutes;
+      }
+
+      if (this.post.comments_count) {
+        hasComments = this.post.comments_count > this.fastDeleteMaxComments;
+      }
+
+      this.fastDeleteEnabled = !overTime && !hasComments;
+      this.isDeleteConfirmed = this.fastDeleteEnabled;
+    }
+  }
+
+  /**
+   * Handle input change for delete confirmation
+   *
+   * @param event
+   */
+  onDeleteConfirmationInput(event: Event) {
+    const input = event.target as HTMLInputElement;
+    this.inputConfirmationValue = input.value;
+    if (this.confirmationTitle) {
+      if (input.value === this.confirmationTitle) {
+        this.isDeleteConfirmed = true;
+      } else {
+        this.isDeleteConfirmed = false;
+      }
+    }
+  }
+
+  /**
+   * Clears any existing feedback messages (errors or info) and sets a timeout to clear them after 3 seconds
+   */
+  private clearFeedback() {
+    if (this.feedbackTimeout) {
+      clearTimeout(this.feedbackTimeout);
+    }
+
+    this.messages = {};
+
+    this.feedbackTimeout = setTimeout(() => {
+      this.messages = {};
+    }, 3000);
+  }
+
+  /**
+   * Determines the appropriate CSS class to apply based on the current message state.
+   * If there is an 'error' key in the messages object, it returns 'ng-invalid ng-touched'.
+   * If there is an 'info' key, it returns 'dev-info'. If there is a 'success' key, it returns 'dev-success'. If there are no messages, it returns 'ng-valid'.
+   *
+   * @returns The CSS class string based on the current message state.
+   */
+  public setMessageClass() {
+    if (this.messages['error']) {
+      return 'ng-invalid ng-touched';
+    } else if (this.messages['info']) {
+      return 'dev-info';
+    } else if (this.messages['success']) {
+      return 'dev-success';
+    }
+    return 'ng-valid';
+  }
+
+  /**
+   * Focuses the confirmation input field when the fade-in animation ends, ensuring that the user can immediately start
+   * typing the confirmation text without needing to click on the input field.
+   *
+   * @param event The animation event triggered when the fade-in animation ends.
+   */
+  @ViewChild('confirmationInput') confirmationInput!: ElementRef;
+  @HostListener('animationend', ['$event'])
+  onHostAnimationEnd(event: AnimationEvent) {
+    if (event.animationName.endsWith('fade-in') && this.confirmationInput) {
+      this.confirmationInput.nativeElement.focus();
+    }
   }
 
   /**
@@ -49,7 +155,18 @@ export class PostDelete {
    */
   onDeletePost(post: PostInterface) {
     if (this.authService.getCurrentUserId() !== post.user_id) {
-      console.error('User is not the owner of the post');
+      this.clearFeedback();
+      this.messages['error'] = 'Keine Berechtigung zum Löschen.';
+      return;
+    }
+
+    if (!this.isDeleteConfirmed) {
+      this.clearFeedback();
+      if (this.inputConfirmationValue === null || this.inputConfirmationValue.length === 0) {
+        this.messages['info'] = 'Bitte Bestätigungstext eingeben.';
+      } else {
+        this.messages['error'] = 'Bestätigungstext stimmt nicht überein.';
+      }
       return;
     }
 
@@ -60,23 +177,29 @@ export class PostDelete {
     this.apiService.delete(url).subscribe({
       next: () => {
         console.log('Post deleted successfully');
-        if (hasRequiredParams) {
-          this.router.navigate(['/posts-list'], {
-            queryParams: {
-              context: this.context,
-              endPoint: this.endPoint,
-              selectedEntity: this.selectedEntity,
-              selectedEntityValue: this.selectedEntityValue,
-              selectedPostType: this.selectedPostType ?? null,
-            },
-            replaceUrl: true,
-          });
-        } else {
-          this.router.navigate(['/']);
-        }
+        this.clearFeedback();
+        this.messages['success'] = 'Beitrag erfolgreich gelöscht.';
+        setTimeout(() => {
+          if (hasRequiredParams) {
+            this.router.navigate(['/posts-list'], {
+              queryParams: {
+                context: this.context,
+                endPoint: this.endPoint,
+                selectedEntity: this.selectedEntity,
+                selectedEntityValue: this.selectedEntityValue,
+                selectedPostType: this.selectedPostType ?? null,
+              },
+              replaceUrl: true,
+            });
+          } else {
+            this.router.navigate(['/']);
+          }
+        }, 1500);
       },
       error: (error) => {
         console.error('Error deleting post:', error);
+        this.clearFeedback();
+        this.messages['error'] = 'Fehler beim Löschen des Beitrags.';
       },
     });
   }

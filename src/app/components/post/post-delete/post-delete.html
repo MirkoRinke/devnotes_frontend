@@ -1,3 +1,4 @@
+<!-- TODO Work in Progress -->
 <div
   class="post-delete"
   (click)="$event.stopPropagation()"
@@ -13,11 +14,69 @@
 
   @if (post) {
     <div class="content">
-      <p>{{ post.title }}</p>
+      <h4 class="post-title">{{ post.title }}</h4>
+
+      @if (fastDeleteEnabled) {
+        <div class="confirmation-section">
+          @if (messages['error']) {
+            <div class="badge">
+              <span class="badge-text">[!] {{ messages['error'] }}</span>
+            </div>
+          } @else if (messages['info']) {
+            <div class="badge dev-info">
+              <span class="badge-text">[i] {{ messages['info'] }}</span>
+            </div>
+          } @else if (messages['success']) {
+            <div class="badge dev-success">
+              <span class="badge-text">[✓] {{ messages['success'] }}</span>
+            </div>
+          }
+          <p
+            class="message badge-anchor"
+            [class]="setMessageClass()"
+          >
+            Möchten Sie diesen Beitrag wirklich löschen?
+          </p>
+        </div>
+      } @else {
+        @if (initialTitle?.length === confirmationTitle?.length) {
+          <p class="message">Bitte den Titel zur Bestätigung eingeben.</p>
+        } @else {
+          <p class="message">Bitte die ersten {{ confirmationTitle?.length }} Zeichen vom Titel zur Bestätigung eingeben.</p>
+        }
+
+        <div class="confirmation-section">
+          @if (messages['error']) {
+            <div class="badge">
+              <span class="badge-text">[!] {{ messages['error'] }}</span>
+            </div>
+          } @else if (messages['info']) {
+            <div class="badge dev-info">
+              <span class="badge-text">[i] {{ messages['info'] }}</span>
+            </div>
+          } @else if (messages['success']) {
+            <div class="badge dev-success">
+              <span class="badge-text">[✓] {{ messages['success'] }}</span>
+            </div>
+          }
+
+          <span class="confirmation-title">{{ confirmationTitle }}</span>
+
+          <input
+            #confirmationInput
+            class="confirmation-input badge-anchor"
+            [class]="setMessageClass()"
+            type="text"
+            name="confirmationInput"
+            autocomplete="off"
+            placeholder="Bestätigungstext eingeben"
+            (input)="onDeleteConfirmationInput($event)"
+          />
+        </div>
+      }
     </div>
 
     <div class="footer">
-      <p>Möchten Sie diesen Beitrag wirklich löschen?</p>
       <div class="actions">
         <button
           class="delete-button"
