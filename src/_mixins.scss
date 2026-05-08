@@ -546,6 +546,23 @@
   }
 }
 
+@mixin success-compiler-badge($selector: null, $top: unset, $bottom: unset, $right: unset, $left: unset) {
+  .badge {
+    display: none;
+  }
+
+  @if $selector != null {
+    &:has(#{$selector}.dev-success) {
+      position: relative;
+      .badge {
+        display: block;
+        //TODO Fix color later use variable
+        @include badge($bg-color: #07923a, $top: $top, $bottom: $bottom, $right: $right, $left: $left);
+      }
+    }
+  }
+}
+
 @mixin badge($bg-color: #f44747, $font-size: 14px, $top: unset, $bottom: unset, $right: unset, $left: unset, $border-radius: 5px, $z-index: 10) {
   @if $top != unset and math.unit($top) == 'px' {
     $top-value: math.div($top, 1px);
