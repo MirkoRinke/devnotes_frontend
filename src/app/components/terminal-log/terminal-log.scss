@@ -24,19 +24,19 @@
         @include font-settings($font-size: 14);
 
         &.info {
-          color: #3b82f6;
+          color: var(--info-color-100);
         }
 
         &.error {
-          color: #f44747;
+          color: var(--error-color-100);
         }
 
         &.success {
-          color: #22c55e;
+          color: var(--success-color-100);
         }
 
         &.system {
-          color: #fbbf24;
+          color: var(--system-color-100);
         }
       }
     }
@@ -44,8 +44,7 @@
 
   .terminal-log {
     @include display-flex($direction: column);
-    //TODO Fix hover color later use variable
-    background-color: #181a22;
+    background-color: var(--page-secondary-color-45);
     padding: px-to-rem(25) px-to-rem(50);
     gap: px-to-rem(5);
 
@@ -53,7 +52,7 @@
     max-height: px-to-rem(200);
 
     scrollbar-width: thin;
-    scrollbar-color: rgb(60, 60, 60) transparent;
+    scrollbar-color: var(--page-secondary-color-100) transparent;
 
     overflow-y: auto;
 
@@ -62,19 +61,19 @@
       @include fade-in-with-delay(--animation-delay);
 
       &.info {
-        color: #3b82f6;
+        color: var(--info-color-100);
       }
 
       &.error {
-        color: #f44747;
+        color: var(--error-color-100);
       }
 
       &.success {
-        color: #22c55e;
+        color: var(--success-color-100);
       }
 
       &.system {
-        color: #fbbf24;
+        color: var(--system-color-100);
       }
     }
 

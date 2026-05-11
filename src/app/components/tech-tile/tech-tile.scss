@@ -18,7 +18,7 @@
   }
 
   &:has(.icon:hover) {
-    box-shadow: 0 0 px-to-rem(8) rgb(221, 173, 33);
+    box-shadow: 0 0 px-to-rem(8) var(--favorite-color-100);
   }
 
   .icon {
@@ -30,16 +30,14 @@
 
     &.isFavorite {
       &::ng-deep .favorite {
-        //TODO Fix color later use variable
-        fill: rgb(221, 173, 33);
+        fill: var(--favorite-color-100);
         transition: fill var.$transition-duration-medium ease-in-out;
       }
     }
 
     &:hover:not(.isFavorite) {
       &::ng-deep .favorite {
-        //TODO Fix color later use variable
-        fill: rgb(221, 173, 33);
+        fill: var(--favorite-color-100);
         scale: 1.1;
         transition:
           fill var.$transition-duration-medium ease-in-out,

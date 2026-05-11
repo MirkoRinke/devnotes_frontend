@@ -29,8 +29,7 @@
       &:hover {
         .icon {
           &::ng-deep svg {
-            //TODO Fix color later use variable
-            fill: rgb(221, 173, 33);
+            fill: var(--favorite-color-100);
           }
         }
       }
@@ -40,8 +39,7 @@
       &:hover {
         .icon {
           &::ng-deep svg {
-            //TODO Fix color later use variable
-            fill: darkred;
+            fill: var(--red-color-100);
           }
         }
       }
@@ -61,8 +59,7 @@
         &::ng-deep .like,
         &::ng-deep .favorite,
         &::ng-deep .share {
-          //TODO Fix color later use variable
-          fill: green;
+          fill: var(--green-color-100);
           transition: fill var.$transition-duration-medium ease-in-out;
         }
       }
@@ -70,8 +67,7 @@
       &.isLiked:not(.isOwner) {
         &::ng-deep .like,
         &::ng-deep .favorite {
-          //TODO Fix color later use variable
-          fill: darkred;
+          fill: var(--red-color-100);
           transition: fill var.$transition-duration-medium ease-in-out;
         }
       }
@@ -79,8 +75,7 @@
       &.isFavorited {
         &::ng-deep .like,
         &::ng-deep .favorite {
-          //TODO Fix color later use variable
-          fill: rgb(221, 173, 33);
+          fill: var(--favorite-color-100);
           transition: fill var.$transition-duration-medium ease-in-out;
         }
       }

@@ -64,10 +64,9 @@
           fill: var(--font-primary-color-50);
         }
 
-        //TODO Fix color later use variable
         &:hover {
           &::ng-deep .add_tags {
-            fill: darkgreen;
+            fill: var(--green-color-100);
             transition: fill var.$transition-duration-medium ease-in-out;
           }
         }
@@ -96,7 +95,7 @@
     flex-grow: 1;
 
     scrollbar-width: thin;
-    scrollbar-color: rgb(60, 60, 60) transparent;
+    scrollbar-color: var(--page-secondary-color-100) transparent;
 
     .currentValues,
     .specificCategoryValues {
@@ -117,7 +116,7 @@
 
         color: var(--font-primary-color-100);
         border-radius: px-to-rem(10);
-        background-color: var(--font-primary-color-5);
+        background-color: var(--page-secondary-color-100);
         transition: background-color var.$transition-duration-medium ease-in-out;
 
         .name {
@@ -147,23 +146,20 @@
           opacity: 0;
           transition: opacity var.$transition-duration-medium ease-in-out;
 
-          //TODO Fix color later use variable
           &.remove-highlighter {
-            border: 2px solid rgb(139, 2, 2);
+            border: 2px solid var(--red-color-100);
           }
           &.add-highlighter {
-            border: 2px solid rgb(0, 100, 0);
+            border: 2px solid var(--green-color-100);
           }
 
           &::ng-deep .remove,
           &::ng-deep .add {
-            //TODO Fix color later use variable
-
             &.remove {
-              fill: rgb(139, 2, 2);
+              fill: var(--red-color-100);
             }
             &.add {
-              fill: rgb(0, 100, 0);
+              fill: var(--green-color-100);
             }
 
             width: 80%;
@@ -173,7 +169,7 @@
 
         &:hover {
           &:not(.selected) {
-            background-color: var(--font-primary-color-10);
+            background-color: var(--page-secondary-color-70);
           }
 
           .remove-highlighter,
@@ -188,13 +184,13 @@
 
         &.selected {
           &:hover {
-            background-color: var(--font-primary-color-5);
+            background-color: var(--page-secondary-color-100);
             .name {
               color: var(--font-primary-color-50);
             }
           }
 
-          background-color: var(--font-primary-color-10);
+          background-color: var(--page-secondary-color-70);
 
           .name {
             color: var(--font-primary-color-100);

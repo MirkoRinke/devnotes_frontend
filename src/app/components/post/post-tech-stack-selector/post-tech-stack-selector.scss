@@ -52,7 +52,7 @@
     flex-grow: 1;
 
     scrollbar-width: thin;
-    scrollbar-color: rgb(60, 60, 60) transparent;
+    scrollbar-color: var(--page-secondary-color-100) transparent;
 
     .favorites,
     .available {

@@ -11,7 +11,7 @@
   font-family: 'FiraCode';
   scroll-behavior: smooth;
   scrollbar-width: thin;
-  scrollbar-color: rgb(60, 60, 60) rgb(28, 28, 28);
+  scrollbar-color: var(--page-secondary-color-100) transparent;
 }
 
 body {
@@ -46,6 +46,6 @@ img {
 @supports not (scrollbar-gutter: stable) {
   html {
     overflow-y: scroll;
-    scrollbar-color: rgb(60, 60, 60) transparent;
+    scrollbar-color: var(--page-secondary-color-100) transparent;
   }
 }

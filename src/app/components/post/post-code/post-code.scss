@@ -55,7 +55,7 @@
     min-height: var(--codeTextarea-min-height);
 
     scrollbar-width: thin;
-    scrollbar-color: rgb(60, 60, 60) transparent;
+    scrollbar-color: var(--page-secondary-color-100) transparent;
 
     overflow-y: scroll;
 
@@ -87,7 +87,7 @@
     padding-right: var(--codeTextarea-padding-right);
 
     scrollbar-width: thin;
-    scrollbar-color: rgb(60, 60, 60) transparent;
+    scrollbar-color: var(--page-secondary-color-100) transparent;
 
     outline: unset;
     border: none;

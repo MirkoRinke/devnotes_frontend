@@ -133,11 +133,9 @@
 
           &:hover {
             cursor: pointer;
-
-            //TODO Fix color later use variable
             &::ng-deep .add_tech_stack,
             &::ng-deep .add_media_links {
-              fill: rgb(0, 185, 0);
+              fill: var(--glow-green-color-100);
             }
 
             & + .add-tech-stack-label {
@@ -146,12 +144,11 @@
             }
           }
 
-          //TODO Fix color later use variable
           &::ng-deep .add_tech_stack,
           &::ng-deep .add_media_links {
             width: px-to-rem(25);
             height: px-to-rem(25);
-            fill: rgb(0, 128, 0);
+            fill: var(--green-color-100);
             transition: fill var.$transition-duration-medium ease-in-out;
           }
         }
@@ -176,13 +173,13 @@
 
         &:has(.add-tech-stack-label:hover) {
           .add-tech-stack-button ::ng-deep .add_tech_stack {
-            fill: rgb(0, 185, 0);
+            fill: var(--glow-green-color-100);
           }
         }
 
         &:has(.add-media-links-label:hover) {
           .add-media-links-button ::ng-deep .add_media_links {
-            fill: rgb(0, 185, 0);
+            fill: var(--glow-green-color-100);
           }
         }
       }
@@ -211,9 +208,8 @@
           &:hover {
             cursor: pointer;
 
-            //TODO Fix color later use variable
             &::ng-deep .add_tags {
-              fill: rgb(0, 185, 0);
+              fill: var(--glow-green-color-100);
             }
 
             & + .add-tags-label {
@@ -222,11 +218,10 @@
             }
           }
 
-          //TODO Fix color later use variable
           &::ng-deep .add_tags {
             width: px-to-rem(25);
             height: px-to-rem(25);
-            fill: rgb(0, 128, 0);
+            fill: var(--green-color-100);
             transition: fill var.$transition-duration-medium ease-in-out;
           }
         }
@@ -243,7 +238,7 @@
 
         &:has(.add-tags-label:hover) {
           .add-tags-button ::ng-deep .add_tags {
-            fill: rgb(0, 185, 0);
+            fill: var(--glow-green-color-100);
           }
         }
       }
@@ -268,13 +263,11 @@
             }
 
             &::ng-deep .action_cancel {
-              //TODO Fix color later use variable
-              fill: rgb(185, 0, 0);
+              fill: var(--glow-red-color-100);
             }
 
             &::ng-deep .action_save {
-              //TODO Fix color later use variable
-              fill: rgb(0, 185, 0);
+              fill: var(--glow-green-color-100);
             }
           }
 
@@ -283,13 +276,11 @@
           }
 
           &::ng-deep .action_cancel {
-            //TODO Fix color later use variable
-            fill: rgb(139, 2, 2);
+            fill: var(--red-color-70);
           }
 
           &::ng-deep .action_save {
-            //TODO Fix color later use variable
-            fill: green;
+            fill: var(--green-color-100);
           }
 
           &::ng-deep .action_reset,

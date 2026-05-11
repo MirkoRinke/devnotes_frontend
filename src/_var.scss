@@ -1,22 +1,61 @@
 @use 'functions' as *;
+@use 'sass:math';
+@use 'sass:list';
 
 /* Colors */
+$colors-data: (
+  // #ffffff
+  '--font-primary-color': (255, 255, 255),
+  // #1d1f26
+  '--page-primary-color': (29, 31, 38),
+  // #343a46
+  '--page-secondary-color': (52, 54, 60),
+  // #1d1f26
+  '--background-color': (19, 21, 29),
+  // #1d1f26
+  '--green-color': (0, 100, 0),
+  // #4ade80
+  '--glow-green-color': (74, 222, 128),
+  // #3b82f6
+  '--blue-color': (59, 130, 246),
+  // #60a5fa
+  '--glow-blue-color': (96, 165, 250),
+  // #be3534
+  '--red-color': (190, 53, 52),
+  // #f56565
+  '--glow-red-color': (245, 92, 92),
+  // #fbbf24
+  '--yellow-color': (251, 191, 36),
+  // #fcd34d
+  '--glow-yellow-color': (252, 211, 77),
+  // #ddad21
+  '--favorite-color': (221, 173, 33)
+);
 
-$colors: --font-primary-color, --page-primary-color, --background-color;
-$opacities: 1, 0.95, 0.9, 0.85, 0.8, 0.75, 0.7, 0.65, 0.6, 0.55, 0.5, 0.45, 0.4, 0.35, 0.3, 0.25, 0.2, 0.15, 0.1, 0.05;
+$levels: 1, 0.95, 0.9, 0.85, 0.8, 0.75, 0.7, 0.65, 0.6, 0.55, 0.5, 0.45, 0.4, 0.35, 0.3, 0.25, 0.2, 0.15, 0.1, 0.05;
 
 @mixin color-theme() {
-  --font-primary-color-rgb: 255, 255, 255; // white #FFFFFF
+  @each $name, $rgb in $colors-data {
+    #{$name}-rgb: list.nth($rgb, 1), list.nth($rgb, 2), list.nth($rgb, 3);
 
-  --page-primary-color-rgb: 29, 31, 38; // dark gray #1D1F26
+    @each $level in $levels {
+      $r: math.round(list.nth($rgb, 1) * $level);
+      $g: math.round(list.nth($rgb, 2) * $level);
+      $b: math.round(list.nth($rgb, 3) * $level);
 
-  --background-color-rgb: 19, 21, 29; // dark background #13151D
-
-  @each $color in $colors {
-    @each $opacity in $opacities {
-      #{$color}-#{$opacity * 100}: rgba(var(#{$color}-rgb), #{$opacity});
+      #{$name}-#{$level * 100}: rgb($r, $g, $b);
     }
   }
+
+  --success-color-100: var(--green-color-100);
+  --info-color-100: var(--blue-color-100);
+  --error-color-100: var(--red-color-100);
+  --system-color-100: var(--yellow-color-100);
+
+  --status-dot-color-success-100: var(--glow-green-color-100);
+  --status-dot-color-info-100: var(--glow-blue-color-100);
+  --status-dot-color-error-100: var(--glow-red-color-100);
+  --status-dot-color-system-100: var(--glow-yellow-color-100);
 }
 
 :root {

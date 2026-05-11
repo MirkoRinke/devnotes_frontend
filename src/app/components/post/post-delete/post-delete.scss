@@ -59,14 +59,12 @@
             color: var(--font-primary-color-100);
           }
 
-          //TODO Fix color later use variable
           &.matched {
-            color: green;
+            color: var(--success-color-100);
           }
 
-          //TODO Fix color later use variable
           &.error {
-            color: red;
+            color: var(--error-color-100);
           }
         }
       }

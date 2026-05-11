@@ -64,8 +64,7 @@
 
       &:hover {
         &::ng-deep .remove_link {
-          //TODO Fix color later use variable
-          fill: darkred;
+          fill: var(--red-color-100);
         }
       }
 
@@ -146,17 +145,14 @@
           @include font-settings(14, 500);
         }
 
-        //TODO Fix button color styles later
         .selected {
           @include button-preset();
           @include golden-ratio-padding(14);
           @include font-settings(14, 500);
 
-          background-color: var(--font-primary-color-5);
-
-          cursor: pointer;
-
           border: 2px solid var(--font-primary-color-50);
+          background-color: var(--page-secondary-color-100);
+          cursor: pointer;
 
           &:first-child {
             border-top-left-radius: px-to-rem(10);
@@ -180,7 +176,7 @@
           transition: background-color var.$transition-duration-medium ease-in-out;
 
           &:hover {
-            background-color: var(--page-primary-color-100);
+            background-color: var(--page-secondary-color-70);
           }
         }
       }

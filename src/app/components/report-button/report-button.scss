@@ -14,7 +14,7 @@
   &:hover {
     .icon {
       &::ng-deep .report {
-        fill: rgb(122, 2, 2);
+        fill: var(--red-color-100);
         transition: fill var.$transition-duration-medium ease-in-out;
       }
     }
