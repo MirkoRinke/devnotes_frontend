@@ -9,8 +9,8 @@ import { AuthService } from '../../../services/auth.service';
 import { ApiEndpointEnums } from '../../../enums/api-endpoint';
 
 import type { PostInterface } from '../../../interfaces/post';
-
 import type { PostParamsInterface } from '../../../interfaces/post-params';
+import type { SplittedConfirmationTitleInterface } from '../../../interfaces/post-delete';
 
 @Component({
   selector: 'app-post-delete',
@@ -39,6 +39,8 @@ export class PostDelete {
   confirmationTitleMaxLength = 20;
   inputConfirmationValue: string | null = null;
 
+  splittedConfirmationTitle: SplittedConfirmationTitleInterface[] = [];
+
   messages: { [key: string]: string } = {};
   feedbackTimeout: number | null = null;
 
@@ -51,10 +53,7 @@ export class PostDelete {
 
   ngOnInit() {
     this.checkFastDeletePossibility();
-    if (this.post && this.post.title) {
-      this.initialTitle = this.post.title.replace(/\s+/g, ' ').trim();
-      this.confirmationTitle = this.post.title.substring(0, Math.min(this.confirmationTitleMaxLength, this.post.title.length)).replace(/\s+/g, ' ').trim();
-    }
+    this.createConfirmation();
   }
 
   /**
@@ -62,7 +61,7 @@ export class PostDelete {
    * If the post is older than the defined time limit or has more comments than the defined maximum, fast delete is disabled and confirmation is required.
    * Otherwise, fast delete is enabled and the delete action can be performed immediately without confirmation.
    */
-  private checkFastDeletePossibility() {
+  private checkFastDeletePossibility(): void {
     if (this.post) {
       let overTime = false;
       let hasComments = false;
@@ -84,15 +83,32 @@ export class PostDelete {
   }
 
   /**
+   * Creates the confirmation title and splits it into individual characters with their initial status.
+   */
+  private createConfirmation(): void {
+    if (this.post && this.post.title) {
+      this.initialTitle = this.post.title.replace(/\s+/g, ' ').trim();
+      this.confirmationTitle = this.initialTitle.substring(0, Math.min(this.confirmationTitleMaxLength, this.initialTitle.length));
+      this.splittedConfirmationTitle = this.confirmationTitle.split('').map((value) => ({
+        value,
+        status: 'pending',
+      }));
+    }
+  }
+
+  /**
    * Handle input change for delete confirmation
    *
    * @param event
    */
-  onDeleteConfirmationInput(event: Event) {
+  onDeleteConfirmationInput(event: Event): void {
     const input = event.target as HTMLInputElement;
     this.inputConfirmationValue = input.value;
+
     if (this.confirmationTitle) {
-      if (input.value === this.confirmationTitle) {
+      this.updateSplittedConfirmationTitle();
+
+      if (this.inputConfirmationValue === this.confirmationTitle) {
         this.isDeleteConfirmed = true;
       } else {
         this.isDeleteConfirmed = false;
@@ -101,9 +117,30 @@ export class PostDelete {
   }
 
   /**
+   * Updates the splittedConfirmationTitle array based on the current inputConfirmationValue and confirmationTitle.
+   */
+  private updateSplittedConfirmationTitle(): void {
+    if (this.confirmationTitle) {
+      this.splittedConfirmationTitle = this.confirmationTitle.split('').map((value, index) => {
+        let status: SplittedConfirmationTitleInterface['status'] = 'pending';
+
+        if (this.inputConfirmationValue && this.inputConfirmationValue[index]) {
+          if (this.inputConfirmationValue[index] === value) {
+            status = 'matched';
+          } else if (this.inputConfirmationValue[index] !== value) {
+            status = 'error';
+          }
+        }
+
+        return { value, status };
+      });
+    }
+  }
+
+  /**
    * Clears any existing feedback messages (errors or info) and sets a timeout to clear them after 3 seconds
    */
-  private clearFeedback() {
+  private clearFeedback(): void {
     if (this.feedbackTimeout) {
       clearTimeout(this.feedbackTimeout);
     }
@@ -122,7 +159,7 @@ export class PostDelete {
    *
    * @returns The CSS class string based on the current message state.
    */
-  public setMessageClass() {
+  public setMessageClass(): string {
     if (this.messages['error']) {
       return 'ng-invalid ng-touched';
     } else if (this.messages['info']) {
@@ -153,7 +190,7 @@ export class PostDelete {
    * @param post
    * @returns
    */
-  onDeletePost(post: PostInterface) {
+  onDeletePost(post: PostInterface): void {
     if (this.authService.getCurrentUserId() !== post.user_id) {
       this.clearFeedback();
       this.messages['error'] = 'Keine Berechtigung zum Löschen.';
@@ -207,7 +244,7 @@ export class PostDelete {
   /**
    * Close the delete confirmation modal
    */
-  public onClose() {
+  public onClose(): void {
     this.closeModal.emit();
   }
 }

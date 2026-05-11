@@ -45,9 +45,28 @@
         }
       }
 
-      .confirmation-title {
-        @include font-settings(14, 500);
-        white-space: pre-wrap;
+      .splitted-confirmation-title {
+        @include display-flex();
+
+        .confirmation-char {
+          @include font-settings(16, 500);
+          min-width: 1ch;
+          position: relative;
+
+          &.pending {
+            color: var(--font-primary-color-100);
+          }
+
+          //TODO Fix color later use variable
+          &.matched {
+            color: green;
+          }
+
+          //TODO Fix color later use variable
+          &.error {
+            color: red;
+          }
+        }
       }
 
       .confirmation-input {

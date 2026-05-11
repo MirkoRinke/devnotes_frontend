@@ -60,7 +60,18 @@
             </div>
           }
 
-          <span class="confirmation-title">{{ confirmationTitle }}</span>
+          <div class="splitted-confirmation-title">
+            @for (char of splittedConfirmationTitle; track $index) {
+              <span
+                class="confirmation-char"
+                [class.pending]="char.status === 'pending'"
+                [class.matched]="char.status === 'matched'"
+                [class.error]="char.status === 'error'"
+              >
+                {{ char.value }}
+              </span>
+            }
+          </div>
 
           <input
             #confirmationInput
