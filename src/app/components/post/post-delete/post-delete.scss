@@ -53,6 +53,8 @@
           min-width: 1ch;
           position: relative;
 
+          transition: color var.$transition-duration-medium ease-in-out;
+
           &.pending {
             color: var(--font-primary-color-100);
           }
