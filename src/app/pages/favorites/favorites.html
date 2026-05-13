@@ -1,1 +1,52 @@
-<p>favorites works!</p>
+<section class="favorites">
+  @if (authService.isLoggedIn()) {
+    @if (searchService.showSearchResults$ | async) {
+      <app-tech-block
+        [class.active]="searchService.searchActive$ | async"
+        [attr.aria-hidden]="!(searchService.searchActive$ | async)"
+        [context]="PageContextEnums.FAVORITES"
+        [heading]="'Suchergebnisse'"
+        [version]="'search-results'"
+        [endPoint]="endPoint"
+        [params]="languagesTechnologies"
+      ></app-tech-block>
+    }
+
+    <app-tech-block
+      [class.active]="!(searchService.searchActive$ | async)"
+      [attr.aria-hidden]="searchService.searchActive$ | async"
+      [context]="PageContextEnums.FAVORITES"
+      [heading]="'Favoriten'"
+      [version]="'favorites'"
+      [endPoint]="endPoint"
+      [params]="languagesTechnologies"
+    ></app-tech-block>
+
+    <app-tech-block
+      [class.active]="!(searchService.searchActive$ | async)"
+      [attr.aria-hidden]="searchService.searchActive$ | async"
+      [context]="PageContextEnums.FAVORITES"
+      [heading]="'Sprachen / Frameworks'"
+      [version]="'default'"
+      [endPoint]="endPoint"
+      [params]="languages"
+    ></app-tech-block>
+
+    <app-tech-block
+      [class.active]="!(searchService.searchActive$ | async)"
+      [attr.aria-hidden]="searchService.searchActive$ | async"
+      [context]="PageContextEnums.FAVORITES"
+      [heading]="'Tools'"
+      [version]="'default'"
+      [endPoint]="endPoint"
+      [params]="technologies"
+    ></app-tech-block>
+  } @else {
+    <app-guest-teaser-prompt
+      [title]="'Favoriten'"
+      [message]="'Bitte melde dich an, um deine Favoriten zu sehen.'"
+      [buttonText]="'Anmelden'"
+      [buttonLink]="'/login'"
+    ></app-guest-teaser-prompt>
+  }
+</section>
