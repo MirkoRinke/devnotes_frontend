@@ -1,1 +1,52 @@
-<p>my-area works!</p>
+<section class="my-area">
+  @if (authService.isLoggedIn()) {
+    @if (searchService.showSearchResults$ | async) {
+      <app-tech-block
+        [class.active]="searchService.searchActive$ | async"
+        [attr.aria-hidden]="!(searchService.searchActive$ | async)"
+        [context]="PageContextEnums.MY_AREA"
+        [heading]="'Suchergebnisse'"
+        [version]="'search-results'"
+        [endPoint]="endPoint"
+        [params]="languagesTechnologies"
+      ></app-tech-block>
+    }
+
+    <app-tech-block
+      [class.active]="!(searchService.searchActive$ | async)"
+      [attr.aria-hidden]="searchService.searchActive$ | async"
+      [context]="PageContextEnums.MY_AREA"
+      [heading]="'Favoriten'"
+      [version]="'favorites'"
+      [endPoint]="endPoint"
+      [params]="languagesTechnologies"
+    ></app-tech-block>
+
+    <app-tech-block
+      [class.active]="!(searchService.searchActive$ | async)"
+      [attr.aria-hidden]="searchService.searchActive$ | async"
+      [context]="PageContextEnums.MY_AREA"
+      [heading]="'Sprachen / Frameworks'"
+      [version]="'default'"
+      [endPoint]="endPoint"
+      [params]="languages"
+    ></app-tech-block>
+
+    <app-tech-block
+      [class.active]="!(searchService.searchActive$ | async)"
+      [attr.aria-hidden]="searchService.searchActive$ | async"
+      [context]="PageContextEnums.MY_AREA"
+      [heading]="'Tools'"
+      [version]="'default'"
+      [endPoint]="endPoint"
+      [params]="technologies"
+    ></app-tech-block>
+  } @else {
+    <app-guest-teaser-prompt
+      [title]="'Mein Bereich'"
+      [message]="'Bitte melde dich an, um deine Beiträge zu sehen.'"
+      [buttonText]="'Anmelden'"
+      [buttonLink]="'/login'"
+    ></app-guest-teaser-prompt>
+  }
+</section>
