@@ -6,8 +6,8 @@
       [context]="PageContextEnums.COMMUNITY"
       [heading]="'Suchergebnisse'"
       [version]="'search-results'"
-      [endPoint]="'POSTS'"
-      [params]="['?select=count:languages.name&filter[status]=eq:published', '?select=count:technologies.name&filter[status]=eq:published']"
+      [endPoint]="endPoint"
+      [params]="languagesTechnologies"
     ></app-tech-block>
   }
 
@@ -18,8 +18,8 @@
       [context]="PageContextEnums.COMMUNITY"
       [heading]="'Favoriten'"
       [version]="'favorites'"
-      [endPoint]="'POSTS'"
-      [params]="['?select=count:languages.name&filter[status]=eq:published', '?select=count:technologies.name&filter[status]=eq:published']"
+      [endPoint]="endPoint"
+      [params]="languagesTechnologies"
     ></app-tech-block>
   } @else if (!(searchService.searchActive$ | async)) {
     <app-guest-teaser-prompt
@@ -36,8 +36,8 @@
     [context]="PageContextEnums.COMMUNITY"
     [heading]="'Sprachen / Frameworks'"
     [version]="'default'"
-    [endPoint]="'POSTS'"
-    [params]="['?select=count:languages.name&filter[status]=eq:published']"
+    [endPoint]="endPoint"
+    [params]="languages"
   ></app-tech-block>
 
   <app-tech-block
@@ -46,7 +46,7 @@
     [context]="PageContextEnums.COMMUNITY"
     [heading]="'Tools'"
     [version]="'default'"
-    [endPoint]="'POSTS'"
-    [params]="['?select=count:technologies.name&filter[status]=eq:published']"
+    [endPoint]="endPoint"
+    [params]="technologies"
   ></app-tech-block>
 </section>

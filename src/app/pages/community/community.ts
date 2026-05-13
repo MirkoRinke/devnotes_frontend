@@ -10,6 +10,7 @@ import { AuthService } from '../../services/auth.service';
 import { SearchService } from '../../services/search.service';
 import { UserFavoriteTechnologiesService } from '../../services/user-favorite-technologies.service';
 
+import { ApiEndpointEnums } from '../../enums/api-endpoint';
 import { PageContextEnums } from '../../enums/context';
 
 @Component({
@@ -25,6 +26,12 @@ export class Community {
 
   private destroy$ = new Subject<void>();
 
+  endPoint: keyof typeof ApiEndpointEnums = 'POSTS';
+
+  languagesTechnologies: Array<string> = [];
+  languages: Array<string> = [];
+  technologies: Array<string> = [];
+
   constructor(
     public authService: AuthService,
     public searchService: SearchService,
@@ -32,6 +39,7 @@ export class Community {
   ) {}
 
   ngOnInit() {
+    this.setParams();
     this.searchService.cageIcon('tiles');
     this.searchService.enableSearch(true);
 
@@ -43,6 +51,12 @@ export class Community {
     this.searchService.enableSearch(false);
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  setParams() {
+    this.languagesTechnologies = ['?select=count:languages.name&filter[status]=eq:published', '?select=count:technologies.name&filter[status]=eq:published'];
+    this.languages = ['?select=count:languages.name&filter[status]=eq:published'];
+    this.technologies = ['?select=count:technologies.name&filter[status]=eq:published'];
   }
 
   /**
