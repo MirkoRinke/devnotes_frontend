@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 
 import { TechBlock } from '../../components/tech-block/tech-block';
-import { GuestTeaserPrompt } from '../../components/guest-teaser-prompt/guest-teaser-prompt';
+import { ActionPlaceholder } from '../../components/action-placeholder/action-placeholder';
 
 import { AuthService } from '../../services/auth.service';
 import { SearchService } from '../../services/search.service';
@@ -15,16 +13,12 @@ import { PageContextEnums } from '../../enums/context';
 
 @Component({
   selector: 'app-favorites',
-  imports: [TechBlock, GuestTeaserPrompt, CommonModule],
+  imports: [TechBlock, ActionPlaceholder, CommonModule],
   templateUrl: './favorites.html',
   styleUrl: './favorites.scss',
 })
 export class Favorites {
-  favoriteTechStack: Array<string> = [];
-
   readonly PageContextEnums = PageContextEnums;
-
-  private destroy$ = new Subject<void>();
 
   endPoint: keyof typeof ApiEndpointEnums = 'FAVORITE_POSTS';
 
@@ -32,6 +26,10 @@ export class Favorites {
   languages: Array<string> = [];
   technologies: Array<string> = [];
   cacheTTL = 10;
+
+  hasAvailableData: boolean | null = null;
+  hasLanguages: boolean | null = null;
+  hasTechnologies: boolean | null = null;
 
   constructor(
     public authService: AuthService,
@@ -42,31 +40,53 @@ export class Favorites {
   ngOnInit() {
     this.setParams();
     this.searchService.cageIcon('tiles');
-    this.searchService.enableSearch(true);
-
-    this.getUserFavoriteTechStack();
+    this.enableSearch();
     this.userFavoriteTechnologiesService.clearFavoriteUpdate();
   }
 
   ngOnDestroy() {
     this.searchService.enableSearch(false);
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
-  setParams() {
-    this.languagesTechnologies = [`?select=count:languages.name&cacheTTL=${this.cacheTTL}`, `?select=count:technologies.name&cacheTTL=${this.cacheTTL}`];
-    this.languages = [`?select=count:languages.name&cacheTTL=${this.cacheTTL}`];
-    this.technologies = [`?select=count:technologies.name&cacheTTL=${this.cacheTTL}`];
   }
 
   /**
-   * Fetches the user's favorite tech stack from the service.
+   * Enables or disables the search functionality based on the availability of data.
+   * Default: Search is enabled when the user loads the page for the first time,
+   * and will be disabled only if the TechBlock component explicitly emits
+   * an event indicating that no data is available.
    */
-  private getUserFavoriteTechStack() {
-    this.userFavoriteTechnologiesService.favoriteTechStack$.pipe(takeUntil(this.destroy$)).subscribe((stack) => {
-      this.favoriteTechStack = stack;
-    });
-    this.userFavoriteTechnologiesService.loadFavoriteTechStack();
+  enableSearch() {
+    if (this.hasAvailableData !== false) {
+      this.searchService.enableSearch(true);
+    } else {
+      this.searchService.enableSearch(false);
+    }
+  }
+
+  /**
+   * Handles the event emitted by the TechBlock component to update the hasAvailableData property, which
+   * determines whether to display the user's favorite posts or a message indicating that no favorite posts are available.
+   *
+   * @param hasData
+   * @param dataType
+   */
+  handleHasAvailableData(hasData: boolean, dataType: 'languages' | 'technologies') {
+    if (dataType === 'languages') {
+      this.hasLanguages = hasData;
+    } else if (dataType === 'technologies') {
+      this.hasTechnologies = hasData;
+    }
+
+    this.hasAvailableData = this.hasLanguages || this.hasTechnologies;
+
+    this.enableSearch();
+  }
+
+  /**
+   * Set the parameters for the API calls to fetch the user's favorite languages and technologies, including a cache TTL to optimize performance.
+   */
+  setParams() {
+    this.languages = [`?select=count:languages.name&cacheTTL=${this.cacheTTL}`];
+    this.technologies = [`?select=count:technologies.name&cacheTTL=${this.cacheTTL}`];
+    this.languagesTechnologies = [...this.languages, ...this.technologies];
   }
 }
