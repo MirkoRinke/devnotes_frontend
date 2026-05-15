@@ -1,52 +1,70 @@
 <section class="community">
-  @if (searchService.showSearchResults$ | async) {
-    <app-tech-block
-      [class.active]="searchService.searchActive$ | async"
-      [attr.aria-hidden]="!(searchService.searchActive$ | async)"
-      [context]="PageContextEnums.COMMUNITY"
-      [heading]="'Suchergebnisse'"
-      [version]="'search-results'"
-      [endPoint]="endPoint"
-      [params]="languagesTechnologies"
-    ></app-tech-block>
-  }
+  @if (hasAvailableData !== false) {
+    @if (searchService.showSearchResults$ | async) {
+      <app-tech-block
+        [class.active]="searchService.searchActive$ | async"
+        [attr.aria-hidden]="!(searchService.searchActive$ | async)"
+        [context]="PageContextEnums.COMMUNITY"
+        [heading]="'Suchergebnisse'"
+        [version]="'search-results'"
+        [endPoint]="endPoint"
+        [params]="languagesTechnologies"
+      ></app-tech-block>
+    }
 
-  @if (authService.isLoggedIn()) {
+    @if (authService.isLoggedIn()) {
+      <app-tech-block
+        [class.active]="!(searchService.searchActive$ | async)"
+        [attr.aria-hidden]="searchService.searchActive$ | async"
+        [context]="PageContextEnums.COMMUNITY"
+        [heading]="'Favoriten'"
+        [version]="'favorites'"
+        [endPoint]="endPoint"
+        [params]="languagesTechnologies"
+      ></app-tech-block>
+    } @else if (!(searchService.searchActive$ | async)) {
+      <app-action-placeholder
+        [title]="'Favoriten'"
+        [message]="'Bitte melde dich an, um deine Favoriten zu sehen.'"
+        [buttonText]="'Anmelden'"
+        [buttonLink]="'/login'"
+      ></app-action-placeholder>
+    }
+
     <app-tech-block
       [class.active]="!(searchService.searchActive$ | async)"
       [attr.aria-hidden]="searchService.searchActive$ | async"
       [context]="PageContextEnums.COMMUNITY"
-      [heading]="'Favoriten'"
-      [version]="'favorites'"
+      [heading]="'Sprachen / Frameworks'"
+      [version]="'default'"
       [endPoint]="endPoint"
-      [params]="languagesTechnologies"
+      [params]="languages"
+      (hasAvailableData)="handleHasAvailableData($event, 'languages')"
     ></app-tech-block>
-  } @else if (!(searchService.searchActive$ | async)) {
-    <app-guest-teaser-prompt
-      [title]="'Favoriten'"
-      [message]="'Bitte melde dich an, um deine Favoriten zu sehen.'"
+
+    <app-tech-block
+      [class.active]="!(searchService.searchActive$ | async)"
+      [attr.aria-hidden]="searchService.searchActive$ | async"
+      [context]="PageContextEnums.COMMUNITY"
+      [heading]="'Tools'"
+      [version]="'default'"
+      [endPoint]="endPoint"
+      [params]="technologies"
+      (hasAvailableData)="handleHasAvailableData($event, 'technologies')"
+    ></app-tech-block>
+  } @else if (authService.isLoggedIn() && hasAvailableData === false) {
+    <app-action-placeholder
+      [title]="'Community'"
+      [message]="'Es sind noch keine Beiträge in der Community verfügbar. Sei der Erste, der einen Beitrag erstellt!'"
+      [buttonText]="'Beitrag erstellen'"
+      [buttonLink]="'/post-create'"
+    ></app-action-placeholder>
+  } @else {
+    <app-action-placeholder
+      [title]="'Community'"
+      [message]="'Es sind noch keine Beiträge in der Community verfügbar. Melde dich an und sei der Erste, der einen Beitrag erstellt!'"
       [buttonText]="'Anmelden'"
       [buttonLink]="'/login'"
-    ></app-guest-teaser-prompt>
+    ></app-action-placeholder>
   }
-
-  <app-tech-block
-    [class.active]="!(searchService.searchActive$ | async)"
-    [attr.aria-hidden]="searchService.searchActive$ | async"
-    [context]="PageContextEnums.COMMUNITY"
-    [heading]="'Sprachen / Frameworks'"
-    [version]="'default'"
-    [endPoint]="endPoint"
-    [params]="languages"
-  ></app-tech-block>
-
-  <app-tech-block
-    [class.active]="!(searchService.searchActive$ | async)"
-    [attr.aria-hidden]="searchService.searchActive$ | async"
-    [context]="PageContextEnums.COMMUNITY"
-    [heading]="'Tools'"
-    [version]="'default'"
-    [endPoint]="endPoint"
-    [params]="technologies"
-  ></app-tech-block>
 </section>
