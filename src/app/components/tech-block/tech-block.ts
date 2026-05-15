@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy, HostListener, ElementRef, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnDestroy, HostListener, ElementRef, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { Subject } from 'rxjs';
 import { take, takeUntil, debounceTime } from 'rxjs/operators';
 
@@ -31,6 +31,8 @@ export class TechBlock implements OnDestroy, OnInit {
 
   @Input() heading: string | null = null;
   @Input() version: 'default' | 'favorites' | 'search-results' = 'default';
+
+  @Output() hasAvailableData = new EventEmitter<boolean>();
 
   isLoading = true;
 
@@ -243,6 +245,7 @@ export class TechBlock implements OnDestroy, OnInit {
       .pipe(take(1))
       .subscribe((availableValues) => {
         this.availableTiles = this.sortAvailableValues(availableValues);
+        this.emitAvailableData();
         this.setCurrentTiles();
         this.refreshPagination();
         if (this.version === 'search-results') {
@@ -250,6 +253,13 @@ export class TechBlock implements OnDestroy, OnInit {
         }
         this.isLoading = false;
       });
+  }
+
+  /**
+   * Emits an event indicating whether there is available data.
+   */
+  private emitAvailableData() {
+    this.hasAvailableData.emit(this.availableTiles.length > 0);
   }
 
   /**
