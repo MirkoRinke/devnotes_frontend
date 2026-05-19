@@ -4,7 +4,7 @@
 
 .datepicker-component {
   @include display-flex(center, center);
-  min-height: px-to-rem(80);
+  min-height: px-to-rem(40);
   width: px-to-rem(220);
   max-width: 100%;
 

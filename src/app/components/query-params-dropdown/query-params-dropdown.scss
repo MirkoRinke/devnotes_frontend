@@ -5,7 +5,7 @@
 .dropdown-component {
   @include display-flex(center, center, column);
   position: relative;
-  min-height: px-to-rem(80);
+  min-height: px-to-rem(40);
 
   :host(.post-from-dropdown) & {
     min-height: px-to-rem(0);
@@ -76,4 +76,8 @@
   }
 
   @include dropdown-values();
+
+  .values {
+    border-top: 2px solid var(--font-primary-color-50);
+  }
 }
