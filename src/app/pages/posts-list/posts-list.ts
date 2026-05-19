@@ -54,7 +54,7 @@ export class PostsList {
   minDate: string = environment.RELEASE_DATE;
   maxDate: string = this.today.getFullYear() + '-' + String(this.today.getMonth() + 1).padStart(2, '0') + '-' + String(this.today.getDate()).padStart(2, '0');
 
-  selectedFields: string = 'id,title,category,likes_count,comments_count,created_at';
+  selectedFields: string = 'id,title,category,likes_count,comments_count,created_at,status';
 
   entityValueParams: string[] = [];
   postTypeParams: string[] = [];
