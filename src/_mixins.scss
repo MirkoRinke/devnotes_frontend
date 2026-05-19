@@ -150,6 +150,7 @@
       height: px-to-rem(35);
       padding: px-to-rem(10) px-to-rem(15);
       width: 100%;
+      border: none;
     }
 
     @if $orientation == center {
