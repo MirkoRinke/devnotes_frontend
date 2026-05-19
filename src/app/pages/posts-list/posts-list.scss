@@ -30,20 +30,24 @@
   margin-inline: auto;
 
   .query-bar {
-    @include display-flex(center, space-between);
-    gap: px-to-rem(20);
+    @include display-flex(center);
+    min-height: px-to-rem(80);
+
     padding-inline: px-to-rem(50);
     background-color: var(--page-primary-color-100);
     border-radius: px-to-rem(15);
 
     .filter {
       @include display-flex(center, center);
-      gap: px-to-rem(20);
+      gap: px-to-rem(10);
+      border-bottom: 2px solid var(--font-primary-color-50);
     }
 
     .sort {
-      @include display-flex(center, center);
-      gap: px-to-rem(20);
+      @include display-flex(center, end);
+      gap: px-to-rem(10);
+      border-bottom: 2px solid var(--font-primary-color-50);
+      flex-grow: 1;
     }
   }
 

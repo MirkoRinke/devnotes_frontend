@@ -21,7 +21,7 @@
         [showCount]="true"
         [label]="'Beitragstyp'"
         [key]="'selectedPostType'"
-        [defaultValueLabel]="selectedPostType ? selectedPostType : 'Alle Typen'"
+        [defaultValueLabel]="selectedPostType ? selectedPostType : 'Alle'"
         [defaultValue]="selectedPostType ? selectedPostType : ''"
         [enableAllOption]="true"
         [enableSearch]="true"
@@ -36,7 +36,7 @@
         [showCount]="true"
         [label]="'Kategorie'"
         [key]="'category'"
-        [defaultValueLabel]="selectedCategory ? selectedCategory : 'Alle Kategorien'"
+        [defaultValueLabel]="selectedCategory ? selectedCategory : 'Alle'"
         [defaultValue]="selectedCategory ? selectedCategory : ''"
         [enableAllOption]="true"
         [enableSearch]="true"
@@ -44,6 +44,22 @@
         [params]="categoryParams"
         [changeDetectionToken]="changeDetectionValue()"
       ></app-query-params-dropdown>
+
+      @if (endPoint === 'USER_POSTS') {
+        <app-query-params-dropdown
+          [mode]="'URL'"
+          class="left-aligned"
+          [label]="'Status'"
+          [key]="'status'"
+          [defaultValueLabel]="selectedStatus ? selectedStatus : 'Alle'"
+          [defaultValue]="selectedStatus ? selectedStatus : ''"
+          [enableAllOption]="true"
+          [enableSearch]="false"
+          [endPoint]="endPoint"
+          [values]="{ published: 'Veröffentlicht', private: 'Privat', draft: 'Entwurf', archived: 'Archiviert' }"
+        >
+        </app-query-params-dropdown>
+      }
 
       <app-query-params-datepicker
         [label]="'Von'"
@@ -63,13 +79,12 @@
     <section class="sort">
       <app-query-params-dropdown
         [mode]="'URL'"
-        [showCount]="true"
         class="right-aligned"
         [label]="'Sortieren'"
         [key]="'sort'"
         [defaultValueLabel]="selectedSort ? selectedSort : 'Datum ↑'"
         [defaultValue]="selectedSort ? selectedSort : '-created_at'"
-        [enableSearch]="true"
+        [enableSearch]="false"
         [endPoint]="endPoint"
         [values]="{ '-created_at': 'Latest', created_at: 'Oldest', '-likes_count': 'Most Liked' }"
       >

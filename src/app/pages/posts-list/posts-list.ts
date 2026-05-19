@@ -49,6 +49,7 @@ export class PostsList {
   selectedDateFrom: PostListParamsInterface['dateFrom'] = null;
   selectedDateTo: PostListParamsInterface['dateTo'] = null;
   selectedSort: PostListParamsInterface['sort'] = null;
+  selectedStatus: PostListParamsInterface['status'] = null;
 
   today = new Date();
   minDate: string = environment.RELEASE_DATE;
@@ -189,6 +190,7 @@ export class PostsList {
     this.selectedSort = parsed.sort;
     this.selectedDateFrom = parsed.dateFrom;
     this.selectedDateTo = parsed.dateTo;
+    this.selectedStatus = parsed.status;
   }
 
   /**
@@ -197,7 +199,7 @@ export class PostsList {
    * @returns
    */
   public changeDetectionValue(): string {
-    return 'changeDetectionValues' + this.endPoint + this.selectedEntity + this.selectedEntityValue + this.selectedPostType + this.selectedCategory + this.selectedSort;
+    return 'changeDetectionValues' + this.endPoint + this.selectedEntity + this.selectedEntityValue + this.selectedPostType + this.selectedCategory + this.selectedSort + this.selectedStatus;
   }
 
   /**
