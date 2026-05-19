@@ -49,6 +49,26 @@
             height: px-to-rem(30);
             margin-right: px-to-rem(10);
           }
+
+          &::ng-deep .draft,
+          &::ng-deep .private,
+          &::ng-deep .published,
+          &::ng-deep .archived {
+            width: px-to-rem(30);
+            height: px-to-rem(30);
+            transition: fill var.$transition-duration-medium ease-in-out;
+            fill: var(--font-primary-color-50);
+
+            &.private {
+              fill: rgb(182, 112, 202);
+            }
+            &.published {
+              fill: rgb(156, 220, 254);
+            }
+            &.archived {
+              fill: rgb(196, 145, 117);
+            }
+          }
         }
       }
     }

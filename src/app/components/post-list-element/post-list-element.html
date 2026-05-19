@@ -35,6 +35,15 @@
             [innerHTML]="svgIconsService.returnIcon('like')"
           ></span>
         </div>
+
+        @if (post.status && endPoint === 'USER_POSTS') {
+          <div class="metric">
+            <span
+              class="icon"
+              [innerHTML]="svgIconsService.returnIcon(post.status + '_posts', post.status)"
+            ></span>
+          </div>
+        }
       </div>
     </div>
   </article>
