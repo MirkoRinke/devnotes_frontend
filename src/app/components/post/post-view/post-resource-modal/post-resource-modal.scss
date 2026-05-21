@@ -146,13 +146,9 @@
         }
 
         .selected {
-          @include button-preset();
-          @include golden-ratio-padding(14);
-          @include font-settings(14, 500);
-
-          border: 2px solid var(--font-primary-color-50);
-          background-color: var(--page-secondary-color-100);
-          cursor: pointer;
+          @include button-default-style();
+          min-width: unset;
+          border-radius: unset;
 
           &:first-child {
             border-top-left-radius: px-to-rem(10);
@@ -171,12 +167,6 @@
           &:last-child {
             border-top-right-radius: px-to-rem(10);
             border-bottom-right-radius: px-to-rem(10);
-          }
-
-          transition: background-color var.$transition-duration-medium ease-in-out;
-
-          &:hover {
-            background-color: var(--page-secondary-color-70);
           }
         }
       }
