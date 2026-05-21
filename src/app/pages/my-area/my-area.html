@@ -45,15 +45,16 @@
     ></app-tech-block>
   } @else if (authService.isLoggedIn() && hasAvailableData === false) {
     <app-action-placeholder
-      [title]="'Mein Bereich'"
-      [message]="'Du hast noch keine Beiträge erstellt. Erstelle deinen ersten Beitrag.'"
+      [title]="'Bereit für den ersten Post?'"
+      [message]="['Dein Bereich ist aktuell noch leer.', 'Erstelle deinen ersten Beitrag und werde Teil der Community!']"
       [buttonText]="'Beitrag erstellen'"
       [buttonLink]="'/post-create'"
+      [returnIcon]="'my-area-duck'"
     ></app-action-placeholder>
   } @else {
     <app-action-placeholder
-      [title]="'Mein Bereich'"
-      [message]="'Bitte melde dich an, um deine Beiträge zu sehen.'"
+      [title]="'Willkommen in deinem Bereich!'"
+      [message]="['Bitte melde dich an, um deine Beiträge zu sehen.']"
       [buttonText]="'Anmelden'"
       [buttonLink]="'/login'"
     ></app-action-placeholder>
