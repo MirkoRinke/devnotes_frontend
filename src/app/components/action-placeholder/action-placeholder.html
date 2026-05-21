@@ -1,14 +1,29 @@
-<!--  Temporary guest teaser prompt -->
-@if (title) {
-  <h2>{{ title }}</h2>
-}
+<div class="action-placeholder">
+  @if (title) {
+    <h1 class="title">{{ title }}</h1>
+  }
 
-@if (message) {
-  <p>{{ message }}</p>
-}
+  @if (returnIcon) {
+    <span
+      class="icon-container"
+      [innerHTML]="svgIconsService.returnIcon(returnIcon, 'icon')"
+    ></span>
+  }
 
-@if (buttonLink && buttonText) {
-  <a [routerLink]="buttonLink">{{ buttonText }}</a>
-}
+  @if (message) {
+    <div class="message">
+      @for (item of message; track $index) {
+        <p>{{ item }}</p>
+      }
+    </div>
+  }
 
-<br /><br />
+  @if (buttonLink && buttonText) {
+    <button
+      class="action-button"
+      [routerLink]="buttonLink"
+    >
+      {{ buttonText }}
+    </button>
+  }
+</div>
