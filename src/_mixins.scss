@@ -72,6 +72,26 @@
   user-select: none;
 }
 
+@mixin button-default-style() {
+  @include button-preset();
+  @include golden-ratio-padding(14);
+  @include font-settings(14, 500);
+  max-width: fit-content;
+  min-width: px-to-rem(200);
+
+  background-color: var(--page-primary-color-100);
+
+  border: 2px solid var(--font-primary-color-50);
+  border-radius: px-to-rem(10);
+
+  transition: background-color var.$transition-duration-medium ease-in-out;
+
+  &:hover {
+    cursor: pointer;
+    background-color: var(--page-primary-color-80);
+  }
+}
+
 @mixin chevron-icon() {
   &:hover {
     .chevron-icon {
