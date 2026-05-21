@@ -25,7 +25,7 @@
     } @else if (!(searchService.searchActive$ | async)) {
       <app-action-placeholder
         [title]="'Favoriten'"
-        [message]="'Bitte melde dich an, um deine Favoriten zu sehen.'"
+        [message]="['Bitte melde dich an, um deine Favoriten zu sehen.']"
         [buttonText]="'Anmelden'"
         [buttonLink]="'/login'"
       ></app-action-placeholder>
@@ -54,15 +54,15 @@
     ></app-tech-block>
   } @else if (authService.isLoggedIn() && hasAvailableData === false) {
     <app-action-placeholder
-      [title]="'Community'"
-      [message]="'Es sind noch keine Beiträge in der Community verfügbar. Sei der Erste, der einen Beitrag erstellt!'"
+      [title]="'Willkommen in der Community!'"
+      [message]="['Es sind noch keine Beiträge in der Community verfügbar. Sei der Erste, der einen Beitrag erstellt!']"
       [buttonText]="'Beitrag erstellen'"
       [buttonLink]="'/post-create'"
     ></app-action-placeholder>
   } @else {
     <app-action-placeholder
-      [title]="'Community'"
-      [message]="'Es sind noch keine Beiträge in der Community verfügbar. Melde dich an und sei der Erste, der einen Beitrag erstellt!'"
+      [title]="'Willkommen in der Community!'"
+      [message]="['Es sind noch keine Beiträge in der Community verfügbar. Melde dich an und sei der Erste, der einen Beitrag erstellt!']"
       [buttonText]="'Anmelden'"
       [buttonLink]="'/login'"
     ></app-action-placeholder>
