@@ -6,6 +6,7 @@ import { getAppIcon } from './data/app-icons';
 import { getLangIcon } from './data/lang-icons';
 import { getTechIcon } from './data/tech-icons';
 import { getPostTypeIcon } from './data/post-type-icons';
+import { getDucksIcon } from './data/ducks';
 @Injectable({
   providedIn: 'root',
 })
@@ -36,7 +37,13 @@ export class SvgIconsService {
   public returnIcon(type: string, className: string = type): SafeHtml {
     let typeLower = type.toLowerCase().replace(/[.\s]+/g, '_');
 
-    const iconHtml = getAppIcon(typeLower, className) || getLangIcon(typeLower, className) || getTechIcon(typeLower, className) || getPostTypeIcon(typeLower, className) || getFallbackIcon();
+    const iconHtml =
+      getAppIcon(typeLower, className) ||
+      getLangIcon(typeLower, className) ||
+      getTechIcon(typeLower, className) ||
+      getPostTypeIcon(typeLower, className) ||
+      getDucksIcon(typeLower, className) ||
+      getFallbackIcon();
 
     return this.sanitizer.bypassSecurityTrustHtml(iconHtml);
   }
