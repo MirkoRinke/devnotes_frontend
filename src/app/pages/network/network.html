@@ -1,1 +1,19 @@
-<p>network works!</p>
+@if (authService.isLoggedIn()) {
+  <app-action-placeholder
+    class="center"
+    [title]="'Lust dich zu vernetzen?'"
+    [message]="['Entdecke spannende Profile, folge ihnen und bau dir dein persönliches Entwickler-Netzwerk auf.']"
+    [buttonText]="'Zur Community'"
+    [buttonLink]="'/community'"
+    [returnIcon]="'network_duck'"
+  ></app-action-placeholder>
+} @else {
+  <app-action-placeholder
+    class="center"
+    [title]="'Hey, kommst du rein?'"
+    [message]="['Melde dich an, um spannende Profile zu entdecken, ihnen zu folgen und dein persönliches Entwickler-Netzwerk aufzubauen.']"
+    [buttonText]="'Anmelden'"
+    [buttonLink]="'/login'"
+    [returnIcon]="'not_logged_in_duck'"
+  ></app-action-placeholder>
+}
