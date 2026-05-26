@@ -4,12 +4,14 @@
     [routerLink]="'/post-types-selection'"
     [queryParams]="{ context: context, endPoint: endPoint, entity: tile.entity, entityValue: tile.name }"
   >
-    <button
-      class="icon"
-      [class.isFavorite]="isFavorite"
-      [innerHTML]="svgIconsService.returnIcon(isFavorite ? 'favorite' : 'favorite_outline', 'favorite')"
-      (click)="$event.stopPropagation(); toggleFavorite($event, tile)"
-    ></button>
+    @if (authService.isLoggedIn()) {
+      <button
+        class="icon"
+        [class.isFavorite]="isFavorite"
+        [innerHTML]="svgIconsService.returnIcon(isFavorite ? 'favorite' : 'favorite_outline', 'favorite')"
+        (click)="$event.stopPropagation(); toggleFavorite($event, tile)"
+      ></button>
+    }
     <div class="content">
       <span
         class="container"
