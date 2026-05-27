@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -28,7 +29,12 @@ export class ApiService {
     let headers = new HttpHeaders({});
     headers = this.authenticationHeader(headers);
 
-    const response$ = this.http.get<T>(url, { headers });
+    const response$ = this.http.get<T>(url, { headers }).pipe(
+      catchError((error) => {
+        console.error('API Fehler:', error);
+        return throwError(() => error);
+      }),
+    );
     return response$;
   }
 
@@ -45,7 +51,15 @@ export class ApiService {
     });
     headers = this.authenticationHeader(headers);
 
-    const response$ = this.http.post<T>(url, data, { headers });
+    // const response$ = this.http.post<T>(url, data, { headers });
+
+    const response$ = this.http.post<T>(url, data, { headers }).pipe(
+      catchError((error) => {
+        console.error('API Fehler:', error);
+        return throwError(() => error);
+      }),
+    );
+
     return response$;
   }
 
@@ -62,7 +76,13 @@ export class ApiService {
     });
     headers = this.authenticationHeader(headers);
 
-    const response$ = this.http.patch<T>(url, data, { headers });
+    const response$ = this.http.patch<T>(url, data, { headers }).pipe(
+      catchError((error) => {
+        console.error('API Fehler:', error);
+        return throwError(() => error);
+      }),
+    );
+
     return response$;
   }
 
@@ -78,7 +98,12 @@ export class ApiService {
     });
     headers = this.authenticationHeader(headers);
 
-    const response$ = this.http.delete<T>(url, { headers, body: data });
+    const response$ = this.http.delete<T>(url, { headers, body: data }).pipe(
+      catchError((error) => {
+        console.error('API Fehler:', error);
+        return throwError(() => error);
+      }),
+    );
     return response$;
   }
 
