@@ -16,8 +16,8 @@ export interface PostFormErrorsInterface {
   maxlength?: { requiredLength: number; actualLength: number };
   minlength?: { requiredLength: number; actualLength: number };
 
-  languageOrTechRequired?: boolean;
-  syntaxHighlighting?: boolean;
+  language_or_tech_required?: boolean;
+  syntax_highlighting?: boolean;
 }
 
 export interface TerminalLineInterface {
