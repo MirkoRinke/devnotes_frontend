@@ -1,4 +1,5 @@
 export enum ApiEndpointEnums {
+  LOGIN = '/login/',
   POSTS = '/posts/',
   USER_POSTS = '/posts/',
   DELETE_POSTS = '/posts/',
