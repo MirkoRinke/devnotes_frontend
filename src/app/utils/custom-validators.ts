@@ -1,4 +1,5 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { RegexEnums } from '../enums/regex';
 
 /**
  * Checks if a given value is considered to have a meaningful value.
@@ -53,5 +54,27 @@ export function requiredWith(sourceFieldName: string, targetFieldName: string, e
     }
 
     return null;
+  };
+}
+
+/**
+ * Custom validator to check if a value is either a valid email or a valid username.
+ *
+ * @param errorKey The error key to return if validation fails. Defaults to 'invalidIdentifier'.
+ * @returns A ValidatorFn or null.
+ */
+export function emailOrUsernameValidator(errorKey: string = 'invalidIdentifier'): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const value = control.value;
+    if (!value) return null;
+
+    const emailPattern = new RegExp(RegexEnums.email);
+
+    if (emailPattern.test(value)) {
+      return null;
+    }
+
+    const usernamePattern = new RegExp(RegexEnums.username);
+    return usernamePattern.test(value) ? null : { [errorKey]: true };
   };
 }
