@@ -1,0 +1,15 @@
+@if (loginForm !== null) {
+  <div [formGroup]="loginForm">
+    <label for="identifier">Email or Username</label>
+    <input
+      type="text"
+      formControlName="identifier"
+    />
+    <label for="password">Password</label>
+    <input
+      type="password"
+      formControlName="password"
+    />
+    <button (click)="onSubmit()">Anmelden</button>
+  </div>
+}
