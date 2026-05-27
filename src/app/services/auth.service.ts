@@ -24,6 +24,11 @@ export class AuthService {
     return environment.TEMP_FINGERPRINT;
   }
 
+  getDeviceName(): string {
+    // Temporary implementation, returns a mock device name
+    return navigator.userAgent;
+  }
+
   getCurrentUserId(): number | null {
     // Temporary implementation, returns a mock user ID or null
     if (this.isLoggedIn()) {
