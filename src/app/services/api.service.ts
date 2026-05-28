@@ -4,6 +4,8 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 
+import { environment } from '../../environments/environment';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -12,7 +14,7 @@ export class ApiService {
    * The base URL for the proxy server.
    * The proxy server forwards requests and adds necessary headers (e.g., API keys) to ensure secure communication with the actual API.
    */
-  private proxyUrl = 'http://192.168.178.188:9090/backend/proxy.php';
+  private proxyUrl = environment.PROXY_URL;
 
   constructor(
     private http: HttpClient,
