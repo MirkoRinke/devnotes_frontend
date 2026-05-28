@@ -18,3 +18,9 @@ export interface LoginDataInterface extends LoginFormInterface {
   device_name: string;
   device_fingerprint: string;
 }
+
+export interface LoginResponseInterface {
+  accessToken: string;
+  type: string;
+  user_id: number;
+}
