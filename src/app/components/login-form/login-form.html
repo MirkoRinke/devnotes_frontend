@@ -1,19 +1,91 @@
 @if (loginForm !== null) {
-  <div [formGroup]="loginForm">
-    <label for="identifier">Email or Username</label>
-    <input
-      type="text"
-      name="identifier"
-      id="identifier"
-      formControlName="identifier"
-    />
-    <label for="password">Password</label>
-    <input
-      type="password"
-      name="password"
-      id="password"
-      formControlName="password"
-    />
-    <button (click)="onSubmit()">Anmelden</button>
+  <div class="login">
+    <div class="header">
+      <h1 class="heading">Anmelden</h1>
+      <h2 class="subheading">Anmelden, um loszulegen.</h2>
+    </div>
+
+    <span
+      class="icon-container"
+      [innerHTML]="svgIconsService.returnIcon('login_1_duck', 'icon')"
+    ></span>
+
+    <form
+      class="form"
+      [formGroup]="loginForm"
+    >
+      <div class="input-container">
+        @if (messages['identifier']['error']) {
+          <div class="badge">
+            <span class="badge-text">[!] {{ messages['identifier']['error'] }}</span>
+          </div>
+        } @else if (messages['identifier']['info']) {
+          <div class="badge dev-info">
+            <span class="badge-text">[i] {{ messages['identifier']['info'] }}</span>
+          </div>
+        }
+
+        <input
+          class="input badge-anchor"
+          type="text"
+          name="identifier"
+          formControlName="identifier"
+          placeholder="E-Mail-Adresse oder Benutzernamen eingeben"
+        />
+      </div>
+
+      <div class="input-container">
+        @if (messages['password']['error']) {
+          <div class="badge">
+            <span class="badge-text">[!] {{ messages['password']['error'] }}</span>
+          </div>
+        } @else if (messages['password']['info']) {
+          <div class="badge dev-info">
+            <span class="badge-text">[i] {{ messages['password']['info'] }}</span>
+          </div>
+        }
+
+        <input
+          class="input badge-anchor"
+          type="password"
+          name="password"
+          formControlName="password"
+          placeholder="Passwort eingeben"
+        />
+      </div>
+
+      @if (mustAcceptConditions) {
+        <div class="conditions-warning">
+          <p>Unsere Nutzungsbedingungen und Datenschutzbestimmungen wurden aktualisiert. Bitte lesen und akzeptieren Sie diese erneut.</p>
+
+          <label class="checkbox-container">
+            <input
+              class="checkbox"
+              type="checkbox"
+              formControlName="acceptedConditions"
+            />
+            <span class="custom-checkbox"></span>
+            Ich akzeptiere die Nutzungsbedingungen und die Datenschutzerklärung.
+          </label>
+        </div>
+      }
+
+      <button
+        class="submit-button"
+        (click)="onSubmit()"
+      >
+        Anmelden
+      </button>
+    </form>
+
+    <!--TODO add routerLink to the links-->
+    <div class="footer-links">
+      <a class="link">Konto löschen</a>
+
+      <span class="register-wrapper">
+        Noch kein Konto?
+        <a class="link">Konto erstellen</a>
+      </span>
+    </div>
   </div>
 }
