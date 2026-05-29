@@ -43,13 +43,13 @@
 
   .icon-container {
     @include display-flex(center);
-    max-width: px-to-rem(200);
-    max-height: px-to-rem(200);
+    max-width: px-to-rem(160);
+    max-height: px-to-rem(160);
     align-self: center;
 
     &::ng-deep .icon {
-      max-width: px-to-rem(200);
-      max-height: px-to-rem(200);
+      max-width: px-to-rem(160);
+      max-height: px-to-rem(160);
       width: 100%;
       height: 100%;
     }
