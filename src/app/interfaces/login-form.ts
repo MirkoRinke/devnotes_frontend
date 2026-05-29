@@ -10,8 +10,8 @@ export interface LoginFormInterface {
   email?: string;
   user_name?: string;
   password: string;
-  privacy_policy_accepted: boolean;
-  terms_of_service_accepted: boolean;
+  privacy_policy_accepted?: boolean;
+  terms_of_service_accepted?: boolean;
 }
 
 export interface LoginDataInterface extends LoginFormInterface {
