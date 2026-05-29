@@ -451,6 +451,21 @@
   }
 }
 
+@mixin context-box($max-width: unset) {
+  @if $max-width != unset and math.unit($max-width) == 'px' {
+    $max-width-value: math.div($max-width, 1px);
+    $max-width: px-to-rem($max-width-value);
+  }
+
+  background-color: var(--page-primary-color-100);
+  border-radius: px-to-rem(15);
+  padding: px-to-rem(25) px-to-rem(50);
+
+  @if $max-width != unset {
+    max-width: $max-width;
+  }
+}
+
 @mixin content-highlight-box($focus-highlight-class: null) {
   background-color: var(--page-secondary-color-45);
   border: px-to-rem(2) solid var(--font-primary-color-25);
@@ -466,6 +481,39 @@
 
 @mixin focus-highlight-style() {
   box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-100);
+}
+
+@mixin input-feld($height: unset, $color: unset) {
+  @if $height != unset and math.unit($height) == 'px' {
+    $height-value: math.div($height, 1px);
+    $height: px-to-rem($height-value);
+  }
+
+  @if $color != unset {
+    color: $color;
+  }
+
+  padding: px-to-rem(10) px-to-rem(15);
+  border-radius: px-to-rem(5);
+  border: none;
+
+  @if $height != unset {
+    height: $height;
+  }
+
+  min-width: 0;
+  width: 100%;
+
+  transition: box-shadow var.$transition-duration-fast ease-in-out;
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-50);
+  }
+
+  &::placeholder {
+    color: var(--font-primary-color-50);
+  }
 }
 
 @mixin status-dot($parent-selector: null, $selector: null, $color: var(--status-dot-color-success-100), $size: 8px, $top: unset, $bottom: unset, $right: unset, $left: unset) {
@@ -644,6 +692,75 @@
     }
     to {
       opacity: 1;
+    }
+  }
+}
+
+@mixin custom-check-box(
+  $check-box-class: null,
+  $size: 18px,
+  $color: var(--font-primary-color-25),
+  $invalid-color: var(--error-color-100),
+  $valid-color: var(--success-color-100),
+  $hover-color: var(--font-primary-color-50)
+) {
+  @if math.unit($size) == 'px' {
+    $size-value: math.div($size, 1px);
+    $size: px-to-rem($size-value);
+  }
+  position: relative;
+
+  input[type='checkbox'] {
+    opacity: 0;
+    min-width: $size;
+    min-height: $size;
+    position: absolute;
+    cursor: pointer;
+
+    &:checked + .custom-checkbox {
+      &::after {
+        display: block;
+      }
+    }
+    @if $check-box-class != null {
+      &:hover + #{$check-box-class} {
+        &:not(.ng-invalid):not(.ng-valid) {
+          border-color: $hover-color;
+        }
+      }
+
+      &.ng-invalid.ng-touched + #{$check-box-class} {
+        border-color: $invalid-color;
+      }
+
+      &.ng-valid + #{$check-box-class} {
+        border-color: $valid-color;
+      }
+    }
+  }
+
+  @if $check-box-class != null {
+    #{$check-box-class} {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      background-color: transparent;
+      border: px-to-rem(2) solid $color;
+      border-radius: px-to-rem(2);
+      min-width: $size;
+      min-height: $size;
+      max-width: $size;
+      max-height: $size;
+      transition:
+        background-color var.$transition-duration-medium ease-in-out,
+        border-color var.$transition-duration-medium ease-in-out;
+
+      &::after {
+        display: none;
+        content: '✔';
+        color: $valid-color;
+        font-size: px-to-rem(14);
+      }
     }
   }
 }
