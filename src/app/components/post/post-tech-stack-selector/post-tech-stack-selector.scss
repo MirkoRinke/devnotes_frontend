@@ -28,20 +28,7 @@
   @include modal-header();
 
   .search-input {
-    padding: px-to-rem(10) px-to-rem(15);
-    border-radius: px-to-rem(5);
-    border: none;
-    height: px-to-rem(30);
-
-    min-width: 0;
-    width: 100%;
-
-    transition: box-shadow var.$transition-duration-fast ease;
-
-    &:focus {
-      outline: none;
-      box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-50);
-    }
+    @include input-feld($height: 30px);
   }
 
   .content {
