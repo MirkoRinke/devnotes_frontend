@@ -668,7 +668,16 @@
     content: '';
     position: absolute;
     bottom: px-to-rem(-4);
-    left: px-to-rem(8);
+
+    @if $left != unset and $right == unset {
+      left: px-to-rem(8);
+    } @else if $right != unset and $left == unset {
+      right: px-to-rem(8);
+    } @else {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
     border-left: px-to-rem(4) solid transparent;
     border-right: px-to-rem(4) solid transparent;
     border-top: px-to-rem(4) solid $bg-color;
