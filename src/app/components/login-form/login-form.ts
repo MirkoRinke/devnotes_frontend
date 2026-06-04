@@ -19,11 +19,13 @@ import { SvgIconsService } from '../../services/svg.icons.service';
 })
 export class LoginForm {
   loginForm: FormGroup | null = null;
-  mustAcceptConditions: boolean = true; //TODO true for Testing, false for Production
+  mustAcceptConditions: boolean = false;
 
-  messages: { [key: string]: { error?: string | null; info: string | null } } = {
-    identifier: { error: null, info: null },
-    password: { error: null, info: null },
+  messages: { [key: string]: { error?: string | null; info: string | null; success?: string | null } } = {
+    identifier: { error: null, info: null, success: null },
+    password: { error: null, info: null, success: null },
+    acceptedConditions: { error: null, info: null, success: null },
+    login: { error: null, info: null, success: null },
   };
 
   constructor(
@@ -79,19 +81,61 @@ export class LoginForm {
     this.loginService.login(data).subscribe({
       next: (response) => {
         console.log('Login successful:', response);
-        // this.router.navigate(['/my-area']);
+
+        this.messages['login']['success'] = 'Login erfolgreich. Weiterleitung...';
+        this.messages['login']['error'] = null;
+        this.messages['login']['info'] = null;
+
+        setTimeout(() => {
+          this.router.navigate(['/my-area']);
+        }, 2000);
       },
       error: (error) => {
-        console.error('Login failed:', error);
+        const errorResponse = error.error;
+        const errors = errorResponse.errors;
+
+        if (errorResponse?.code === 422 && (errors['privacy_policy_accepted'] || errors['terms_of_service_accepted'])) {
+          this.messages['login']['info'] = 'Es gab neue Nutzungsbedingungen | Datenschutzrichtlinie';
+          this.mustAcceptConditions = true;
+          this.loginForm?.get('acceptedConditions')?.setValidators(Validators.requiredTrue);
+          this.loginForm?.get('acceptedConditions')?.updateValueAndValidity();
+          return;
+        }
+
+        this.messages['login']['error'] = 'Es ist ein Fehler aufgetreten. Bitte erneut versuchen.';
+
+        console.log(this.messages);
       },
     });
   }
 
+  public setMessageClass(field: string): string {
+    if (this.messages[field]['error']) {
+      return 'ng-invalid ng-touched';
+    } else if (this.messages[field]['info']) {
+      return 'dev-info';
+    } else if (this.messages[field]['success']) {
+      return 'dev-success';
+    }
+    return 'ng-valid';
+  }
+
+  checkboxChanged() {
+    if (this.loginForm?.get('acceptedConditions')?.value) {
+      this.messages['acceptedConditions']['error'] = null;
+      this.messages['acceptedConditions']['success'] = 'Nutzungsbedingungen & Datenschutzrichtlinie akzeptiert.';
+      this.messages['login']['info'] = null;
+    } else {
+      this.messages['acceptedConditions']['error'] = 'Bitte Nutzungsbedingungen & Datenschutzrichtlinie akzeptieren.';
+      this.messages['acceptedConditions']['success'] = null;
+    }
+  }
+
   setErrorMessage() {
     const errors = this.getFormErrors();
-
     this.messages['identifier']['error'] = null;
     this.messages['password']['error'] = null;
+    this.messages['acceptedConditions']['error'] = null;
 
     if (errors['identifier']) {
       if (errors['identifier']['required']) {
@@ -110,6 +154,12 @@ export class LoginForm {
         this.messages['password']['error'] = 'Das Passwort muss mindestens 6 Zeichen lang sein.';
       } else if (errors['password']['maxlength']) {
         this.messages['password']['error'] = 'Das Passwort darf maximal 255 Zeichen lang sein.';
+      }
+    }
+
+    if (errors['acceptedConditions']) {
+      if (errors['acceptedConditions']['required']) {
+        this.messages['acceptedConditions']['error'] = 'Bitte Nutzungsbedingungen & Datenschutzrichtlinie akzeptieren.';
       }
     }
 

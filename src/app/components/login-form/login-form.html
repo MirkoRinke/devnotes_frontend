@@ -5,10 +5,27 @@
       <h2 class="subheading">Anmelden, um loszulegen.</h2>
     </div>
 
-    <span
-      class="icon-container"
-      [innerHTML]="svgIconsService.returnIcon('login_1_duck', 'icon')"
-    ></span>
+    <div class="icon-wrapper">
+      @if (messages['login']['error']) {
+        <div class="badge">
+          <span class="badge-text">[!] {{ messages['login']['error'] }}</span>
+        </div>
+      } @else if (messages['login']['info']) {
+        <div class="badge dev-info">
+          <span class="badge-text">[i] {{ messages['login']['info'] }}</span>
+        </div>
+      } @else if (messages['login']['success']) {
+        <div class="badge dev-success">
+          <span class="badge-text">[✓] {{ messages['login']['success'] }}</span>
+        </div>
+      }
+
+      <span
+        class="icon-container badge-anchor"
+        [class]="setMessageClass('login')"
+        [innerHTML]="svgIconsService.returnIcon('login_1_duck', 'icon')"
+      ></span>
+    </div>
 
     <form
       class="form"
@@ -23,10 +40,15 @@
           <div class="badge dev-info">
             <span class="badge-text">[i] {{ messages['identifier']['info'] }}</span>
           </div>
+        } @else if (messages['identifier']['success']) {
+          <div class="badge dev-success">
+            <span class="badge-text">[✓] {{ messages['identifier']['success'] }}</span>
+          </div>
         }
 
         <input
           class="input badge-anchor"
+          [class]="setMessageClass('identifier')"
           type="text"
           name="identifier"
           formControlName="identifier"
@@ -43,10 +65,15 @@
           <div class="badge dev-info">
             <span class="badge-text">[i] {{ messages['password']['info'] }}</span>
           </div>
+        } @else if (messages['password']['success']) {
+          <div class="badge dev-success">
+            <span class="badge-text">[✓] {{ messages['password']['success'] }}</span>
+          </div>
         }
 
         <input
           class="input badge-anchor"
+          [class]="setMessageClass('password')"
           type="password"
           name="password"
           formControlName="password"
@@ -56,13 +83,29 @@
 
       @if (mustAcceptConditions) {
         <div class="conditions-warning">
-          <p>Unsere Nutzungsbedingungen und Datenschutzbestimmungen wurden aktualisiert. Bitte lesen und akzeptieren Sie diese erneut.</p>
+          @if (messages['acceptedConditions']['error']) {
+            <div class="badge">
+              <span class="badge-text">[!] {{ messages['acceptedConditions']['error'] }}</span>
+            </div>
+          } @else if (messages['acceptedConditions']['info']) {
+            <div class="badge dev-info">
+              <span class="badge-text">[i] {{ messages['acceptedConditions']['info'] }}</span>
+            </div>
+          } @else if (messages['acceptedConditions']['success']) {
+            <div class="badge dev-success">
+              <span class="badge-text">[✓] {{ messages['acceptedConditions']['success'] }}</span>
+            </div>
+          }
 
-          <label class="checkbox-container">
+          <label
+            class="checkbox-container badge-anchor"
+            [class]="setMessageClass('acceptedConditions')"
+          >
             <input
               class="checkbox"
               type="checkbox"
               formControlName="acceptedConditions"
+              (change)="checkboxChanged()"
             />
             <span class="custom-checkbox"></span>
             Ich akzeptiere die Nutzungsbedingungen und die Datenschutzerklärung.
