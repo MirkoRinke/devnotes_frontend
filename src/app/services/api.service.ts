@@ -48,8 +48,6 @@ export class ApiService {
     });
     headers = this.authenticationHeader(headers);
 
-    // const response$ = this.http.post<T>(url, data, { headers });
-
     const response$ = this.http.post<T>(url, data, { headers }).pipe(catchError((error) => this.handleApiError(error)));
 
     return response$;
