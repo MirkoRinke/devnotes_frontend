@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { LoginService } from '../../services/login.service';
 
@@ -28,6 +29,7 @@ export class LoginForm {
   constructor(
     private fb: FormBuilder,
     private loginService: LoginService,
+    private router: Router,
     public svgIconsService: SvgIconsService,
   ) {}
 
@@ -40,7 +42,7 @@ export class LoginForm {
 
     this.loginForm = this.fb.group({
       identifier: ['', [Validators.required, emailOrUsernameValidator('login_identifier_invalid'), Validators.maxLength(255)]],
-      password: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(255)]], //TODO Expand the password validation (e.g., the password must contain uppercase letters, lowercase letters, numbers, and special characters, etc.)
+      password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(255)]],
       acceptedConditions: [false, acceptedConditionsValidators],
     });
   }
@@ -77,6 +79,7 @@ export class LoginForm {
     this.loginService.login(data).subscribe({
       next: (response) => {
         console.log('Login successful:', response);
+        // this.router.navigate(['/my-area']);
       },
       error: (error) => {
         console.error('Login failed:', error);
