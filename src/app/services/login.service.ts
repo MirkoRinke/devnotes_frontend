@@ -64,14 +64,4 @@ export class LoginService {
   saveUserId(userId: number) {
     localStorage.setItem('user_id', userId.toString());
   }
-
-  /**
-   * Performs the logout operation by removing the access token and user ID from local storage, effectively logging the user out.
-   */
-  logout() {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('user_id');
-
-    //TODO: Implement logout logic, e.g., redirect to the login page.
-  }
 }
