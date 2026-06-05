@@ -75,9 +75,12 @@ export class LoginForm {
 
     const data: LoginFormInterface = {
       password: formData.password,
-      privacy_policy_accepted: formData.acceptedConditions,
-      terms_of_service_accepted: formData.acceptedConditions,
     };
+
+    if (this.mustAcceptConditions && formData.acceptedConditions) {
+      data.privacy_policy_accepted = formData.acceptedConditions;
+      data.terms_of_service_accepted = formData.acceptedConditions;
+    }
 
     const isEmail = new RegExp(RegexEnums.email).test(formData.identifier);
     if (isEmail) {
@@ -123,18 +126,23 @@ export class LoginForm {
         const errorResponse = error.error;
         const errors = errorResponse.errors;
 
-        if (errorResponse?.code === 422 && (errors['privacy_policy_accepted'] || errors['terms_of_service_accepted'])) {
-          this.messages['login']['info'] = 'Es gab neue Nutzungsbedingungen | Datenschutzrichtlinie';
+        if (errorResponse?.code === 403 && (errors === 'PRIVACY_POLICY_NOT_ACCEPTED' || errors === 'TERMS_OF_SERVICE_NOT_ACCEPTED')) {
+          this.messages['login']['info'] = 'Es gab neue Nutzungsbedingungen oder Datenschutzrichtlinien';
           this.mustAcceptConditions = true;
+          this.isProcessing = false;
           this.loginForm?.get('acceptedConditions')?.setValidators(Validators.requiredTrue);
           this.loginForm?.get('acceptedConditions')?.updateValueAndValidity();
           return;
         }
 
+        if (errorResponse?.code === 401 && errors === 'CREDENTIALS_INCORRECT') {
+          this.messages['login']['error'] = 'E-Mail-Adresse / Benutzername oder Passwort ist falsch.';
+          this.isProcessing = false;
+          return;
+        }
+
         this.messages['login']['error'] = 'Es ist ein Fehler aufgetreten. Bitte erneut versuchen.';
         this.isProcessing = false;
-
-        console.log(this.messages);
       },
     });
   }
