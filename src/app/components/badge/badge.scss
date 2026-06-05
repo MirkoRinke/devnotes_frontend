@@ -1,0 +1,41 @@
+@use '../../../functions' as *;
+@use '../../../var' as var;
+@use '../../../mixins' as *;
+
+.badge {
+  &.dev-error {
+    &.center {
+      @include error-badge();
+    }
+    &.left {
+      @include error-badge($left: 8px);
+    }
+    &.right {
+      @include error-badge($right: 8px);
+    }
+  }
+
+  &.dev-info {
+    &.center {
+      @include info-badge();
+    }
+    &.left {
+      @include info-badge($left: 8px);
+    }
+    &.right {
+      @include info-badge($right: 8px);
+    }
+  }
+
+  &.dev-success {
+    &.center {
+      @include success-badge();
+    }
+    &.left {
+      @include success-badge($left: 8px);
+    }
+    &.right {
+      @include success-badge($right: 8px);
+    }
+  }
+}
