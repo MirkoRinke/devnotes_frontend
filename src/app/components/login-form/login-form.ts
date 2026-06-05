@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { LoginService } from '../../services/login.service';
 
-import type { LoginFormErrorsInterface, LoginFormInterface } from '../../interfaces/login-form';
+import type { LoginFormErrorsInterface, LoginFormInterface, LoginMessagesInterface } from '../../interfaces/login-form';
 
 import { emailOrUsernameValidator } from '../../utils/custom-validators';
 import { RegexEnums } from '../../enums/regex';
@@ -22,12 +22,14 @@ export class LoginForm {
   loginForm: FormGroup | null = null;
   mustAcceptConditions: boolean = false;
 
-  messages: { [key: string]: { error?: string | null; info: string | null; success?: string | null } } = {
+  messages: LoginMessagesInterface = {
     identifier: { error: null, info: null, success: null },
     password: { error: null, info: null, success: null },
     acceptedConditions: { error: null, info: null, success: null },
     login: { error: null, info: null, success: null },
   };
+
+  isProcessing = false;
 
   constructor(
     private fb: FormBuilder,
@@ -40,6 +42,9 @@ export class LoginForm {
     this.createForm();
   }
 
+  /**
+   * Initializes the login form with form controls and validators. If the user must accept conditions, it adds a requiredTrue validator to the acceptedConditions control.
+   */
   createForm() {
     const acceptedConditionsValidators = this.mustAcceptConditions ? [Validators.requiredTrue] : [];
 
@@ -50,6 +55,12 @@ export class LoginForm {
     });
   }
 
+  /**
+   * Handles the form submission. It first checks if the form is valid. If not, it marks all controls as touched, retrieves form errors, and sets appropriate error messages.
+   * If the form is valid, it constructs a LoginFormInterface object based on the form values and calls the login method to perform the login operation.
+   *
+   * @returns
+   */
   onSubmit() {
     if (!this.loginForm) return;
 
@@ -78,7 +89,23 @@ export class LoginForm {
     this.login(data);
   }
 
+  /**
+   * Performs the login operation by calling the login method of the LoginService.
+   * It also handles the response and error scenarios, updating the messages and navigation accordingly.
+   *
+   * @param data
+   * @returns
+   */
   login(data: LoginFormInterface) {
+    /**
+     * Prevent multiple submissions while the login request is being processed.
+     */
+    if (this.isProcessing) {
+      return;
+    }
+
+    this.isProcessing = true;
+
     this.loginService.login(data).subscribe({
       next: (response) => {
         console.log('Login successful:', response);
@@ -86,6 +113,7 @@ export class LoginForm {
         this.messages['login']['success'] = 'Login erfolgreich. Weiterleitung...';
         this.messages['login']['error'] = null;
         this.messages['login']['info'] = null;
+        this.isProcessing = false;
 
         setTimeout(() => {
           this.router.navigate(['/my-area']);
@@ -104,23 +132,17 @@ export class LoginForm {
         }
 
         this.messages['login']['error'] = 'Es ist ein Fehler aufgetreten. Bitte erneut versuchen.';
+        this.isProcessing = false;
 
         console.log(this.messages);
       },
     });
   }
 
-  public setMessageClass(field: string): string {
-    if (this.messages[field]['error']) {
-      return 'ng-invalid ng-touched';
-    } else if (this.messages[field]['info']) {
-      return 'dev-info';
-    } else if (this.messages[field]['success']) {
-      return 'dev-success';
-    }
-    return 'ng-valid';
-  }
-
+  /**
+   * Handles the change event of the accepted conditions checkbox.
+   * It updates the error and success messages based on whether the checkbox is checked or not.
+   */
   checkboxChanged() {
     if (this.loginForm?.get('acceptedConditions')?.value) {
       this.messages['acceptedConditions']['error'] = null;
@@ -132,6 +154,9 @@ export class LoginForm {
     }
   }
 
+  /**
+   * Sets the error messages for the form fields based on the validation errors present in the form controls.
+   */
   setErrorMessage() {
     const errors = this.getFormErrors();
     this.messages['identifier']['error'] = null;
@@ -163,10 +188,14 @@ export class LoginForm {
         this.messages['acceptedConditions']['error'] = 'Bitte Nutzungsbedingungen & Datenschutzrichtlinie akzeptieren.';
       }
     }
-
-    console.log(this.messages);
   }
 
+  /**
+   * Retrieves the validation errors from the form controls and returns an object containing the errors for each control.
+   * It iterates through the form controls, checks if they are invalid, and if so, adds their errors to the resulting object.
+   *
+   * @returns
+   */
   getFormErrors() {
     const errors: { [key: string]: LoginFormErrorsInterface } = {};
     Object.entries(this.loginForm?.controls || {}).forEach(([key, control]) => {
@@ -174,8 +203,6 @@ export class LoginForm {
         (errors as any)[key] = control.errors;
       }
     });
-    console.log(errors);
-
     return errors;
   }
 }

@@ -12,8 +12,7 @@
       ></app-badge>
 
       <span
-        class="icon-container badge-anchor"
-        [class]="setMessageClass('login')"
+        class="icon-container"
         [innerHTML]="svgIconsService.returnIcon('login_1_duck', 'icon')"
       ></span>
     </div>
@@ -30,8 +29,7 @@
         ></app-badge>
 
         <input
-          class="input badge-anchor"
-          [class]="setMessageClass('identifier')"
+          class="input"
           type="text"
           name="identifier"
           formControlName="identifier"
@@ -47,8 +45,7 @@
         ></app-badge>
 
         <input
-          class="input badge-anchor"
-          [class]="setMessageClass('password')"
+          class="input"
           type="password"
           name="password"
           formControlName="password"
@@ -64,10 +61,7 @@
             [caret]="'left'"
           ></app-badge>
 
-          <label
-            class="checkbox-container badge-anchor"
-            [class]="setMessageClass('acceptedConditions')"
-          >
+          <label class="checkbox-container">
             <input
               class="checkbox"
               type="checkbox"
