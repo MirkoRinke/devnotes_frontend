@@ -24,7 +24,7 @@
       <div class="input-container">
         <app-badge
           class="badge"
-          [messages]="messages['identifier']"
+          [messages]="loginForm.get('identifier')?.invalid && loginForm.get('identifier')?.touched ? messages['identifier'] : null"
           [caret]="'left'"
         ></app-badge>
 
@@ -40,7 +40,7 @@
       <div class="input-container">
         <app-badge
           class="badge"
-          [messages]="messages['password']"
+          [messages]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched ? messages['password'] : null"
           [caret]="'left'"
         ></app-badge>
 
@@ -57,7 +57,7 @@
         <div class="conditions-warning">
           <app-badge
             class="badge"
-            [messages]="messages['acceptedConditions']"
+            [messages]="loginForm.get('acceptedConditions')?.invalid && loginForm.get('acceptedConditions')?.touched ? messages['acceptedConditions'] : null"
             [caret]="'left'"
           ></app-badge>
 
