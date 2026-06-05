@@ -690,6 +690,81 @@
   }
 }
 
+@mixin position-absolute($class: null, $top: unset, $bottom: unset, $right: unset, $left: unset, $transform: unset) {
+  position: relative;
+
+  @if $class != null {
+    #{$class} {
+      position: absolute;
+      top: $top;
+      bottom: $bottom;
+      right: $right;
+      left: $left;
+      @if $transform != unset {
+        transform: $transform;
+      }
+    }
+  }
+}
+
+@mixin error-badge($left: unset, $right: unset) {
+  @include new-badge($bg-color: var(--error-color-100), $left: $left, $right: $right);
+}
+
+@mixin info-badge($left: unset, $right: unset) {
+  @include new-badge($bg-color: var(--info-color-100), $left: $left, $right: $right);
+}
+
+@mixin success-badge($left: unset, $right: unset) {
+  @include new-badge($bg-color: var(--success-color-100), $left: $left, $right: $right);
+}
+
+@mixin new-badge($bg-color: var(--error-color-100), $font-size: 14px, $left: unset, $right: unset, $border-radius: 5px, $z-index: 10) {
+  @if $border-radius != unset and math.unit($border-radius) == 'px' {
+    $border-radius-value: math.div($border-radius, 1px);
+    $border-radius: px-to-rem($border-radius-value);
+  }
+
+  width: max-content;
+  max-width: 100%;
+
+  background-color: $bg-color;
+
+  padding: px-to-rem(2) px-to-rem(6);
+  border-radius: $border-radius;
+  z-index: $z-index;
+  pointer-events: none;
+
+  @include fade-in-with-delay(--animation-delay);
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: px-to-rem(-4);
+
+    @if $left != unset and $right == unset {
+      $left-value: math.div($left, 1px);
+      left: px-to-rem($left-value);
+    } @else if $right != unset and $left == unset {
+      $right-value: math.div($right, 1px);
+      right: px-to-rem($right-value);
+    } @else {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    border-left: px-to-rem(4) solid transparent;
+    border-right: px-to-rem(4) solid transparent;
+    border-top: px-to-rem(4) solid $bg-color;
+  }
+
+  .badge-text {
+    display: inline-block;
+    @include font-settings($font-size, 400, $color: var(--font-primary-color-100));
+    @include singleline-ellipsis();
+  }
+}
+
 @mixin fade-in-with-delay($delay: 0s) {
   opacity: 0;
   animation: fadeIn var.$transition-duration-medium forwards;
