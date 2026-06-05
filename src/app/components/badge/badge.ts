@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Input } from '@angular/core';
 
+import type { BadgeMessagesInterface } from '../../interfaces/validation-messages';
+
 @Component({
   selector: 'app-badge',
   imports: [],
@@ -8,11 +10,6 @@ import { Input } from '@angular/core';
   styleUrl: './badge.scss',
 })
 export class Badge {
-  @Input() messages: {
-    error?: string | null;
-    info?: string | null;
-    success?: string | null;
-  } = {};
-
+  @Input() messages: BadgeMessagesInterface | null = null;
   @Input() caret: 'left' | 'right' | 'center' | null = null;
 }
