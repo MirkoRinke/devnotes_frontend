@@ -6,19 +6,10 @@
     </div>
 
     <div class="icon-wrapper">
-      @if (messages['login']['error']) {
-        <div class="badge">
-          <span class="badge-text">[!] {{ messages['login']['error'] }}</span>
-        </div>
-      } @else if (messages['login']['info']) {
-        <div class="badge dev-info">
-          <span class="badge-text">[i] {{ messages['login']['info'] }}</span>
-        </div>
-      } @else if (messages['login']['success']) {
-        <div class="badge dev-success">
-          <span class="badge-text">[✓] {{ messages['login']['success'] }}</span>
-        </div>
-      }
+      <app-badge
+        class="badge"
+        [messages]="messages['login']"
+      ></app-badge>
 
       <span
         class="icon-container badge-anchor"
@@ -32,19 +23,11 @@
       [formGroup]="loginForm"
     >
       <div class="input-container">
-        @if (messages['identifier']['error']) {
-          <div class="badge">
-            <span class="badge-text">[!] {{ messages['identifier']['error'] }}</span>
-          </div>
-        } @else if (messages['identifier']['info']) {
-          <div class="badge dev-info">
-            <span class="badge-text">[i] {{ messages['identifier']['info'] }}</span>
-          </div>
-        } @else if (messages['identifier']['success']) {
-          <div class="badge dev-success">
-            <span class="badge-text">[✓] {{ messages['identifier']['success'] }}</span>
-          </div>
-        }
+        <app-badge
+          class="badge"
+          [messages]="messages['identifier']"
+          [caret]="'left'"
+        ></app-badge>
 
         <input
           class="input badge-anchor"
@@ -57,19 +40,11 @@
       </div>
 
       <div class="input-container">
-        @if (messages['password']['error']) {
-          <div class="badge">
-            <span class="badge-text">[!] {{ messages['password']['error'] }}</span>
-          </div>
-        } @else if (messages['password']['info']) {
-          <div class="badge dev-info">
-            <span class="badge-text">[i] {{ messages['password']['info'] }}</span>
-          </div>
-        } @else if (messages['password']['success']) {
-          <div class="badge dev-success">
-            <span class="badge-text">[✓] {{ messages['password']['success'] }}</span>
-          </div>
-        }
+        <app-badge
+          class="badge"
+          [messages]="messages['password']"
+          [caret]="'left'"
+        ></app-badge>
 
         <input
           class="input badge-anchor"
@@ -83,19 +58,11 @@
 
       @if (mustAcceptConditions) {
         <div class="conditions-warning">
-          @if (messages['acceptedConditions']['error']) {
-            <div class="badge">
-              <span class="badge-text">[!] {{ messages['acceptedConditions']['error'] }}</span>
-            </div>
-          } @else if (messages['acceptedConditions']['info']) {
-            <div class="badge dev-info">
-              <span class="badge-text">[i] {{ messages['acceptedConditions']['info'] }}</span>
-            </div>
-          } @else if (messages['acceptedConditions']['success']) {
-            <div class="badge dev-success">
-              <span class="badge-text">[✓] {{ messages['acceptedConditions']['success'] }}</span>
-            </div>
-          }
+          <app-badge
+            class="badge"
+            [messages]="messages['acceptedConditions']"
+            [caret]="'left'"
+          ></app-badge>
 
           <label
             class="checkbox-container badge-anchor"

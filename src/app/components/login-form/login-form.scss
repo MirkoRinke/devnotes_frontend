@@ -42,17 +42,7 @@
       }
     }
 
-    &:has(.badge-anchor.dev-info) {
-      @include info-compiler-badge('.badge-anchor', $top: -25px);
-    }
-
-    &:not(:has(.badge-anchor.dev-info)):has(.badge-anchor.dev-success) {
-      @include success-compiler-badge('.badge-anchor', $top: -25px);
-    }
-
-    &:not(:has(.badge-anchor.dev-info)):not(:has(.badge-anchor.dev-success)) {
-      @include error-compiler-badge('.badge-anchor', $top: -25px);
-    }
+    @include position-absolute($class: '.badge', $top: -25px, $left: 50%, $transform: translateX(-50%));
   }
 
   .form {
@@ -63,6 +53,7 @@
     .input-container {
       @include display-flex($direction: column);
       gap: px-to-rem(15);
+      margin-top: px-to-rem(25);
 
       .input {
         @include input-feld($height: 50px, $color: var(--font-primary-color-100));
@@ -72,17 +63,7 @@
         border-radius: px-to-rem(10);
       }
 
-      &:has(.badge-anchor.dev-info) {
-        @include info-compiler-badge('.badge-anchor', $top: -40px, $left: 0px);
-      }
-
-      &:not(:has(.badge-anchor.dev-info)):has(.badge-anchor.dev-success) {
-        @include success-compiler-badge('.badge-anchor', $top: -40px, $left: 0px);
-      }
-
-      &:not(:has(.badge-anchor.dev-info)):not(:has(.badge-anchor.dev-success)) {
-        @include error-compiler-badge('.badge-anchor', $top: -40px, $left: 0px);
-      }
+      @include position-absolute($class: '.badge', $top: -40px, $left: 0);
     }
 
     .conditions-warning {
@@ -99,17 +80,7 @@
         @include custom-check-box('.custom-checkbox');
       }
 
-      &:has(.badge-anchor.dev-info) {
-        @include info-compiler-badge('.badge-anchor', $top: -40px, $left: 0px);
-      }
-
-      &:not(:has(.badge-anchor.dev-info)):has(.badge-anchor.dev-success) {
-        @include success-compiler-badge('.badge-anchor', $top: -40px, $left: 0px);
-      }
-
-      &:not(:has(.badge-anchor.dev-info)):not(:has(.badge-anchor.dev-success)) {
-        @include error-compiler-badge('.badge-anchor', $top: -40px, $left: 0px);
-      }
+      @include position-absolute($class: '.badge', $top: -40px, $left: 0);
     }
 
     .submit-button {

@@ -10,10 +10,11 @@ import { emailOrUsernameValidator } from '../../utils/custom-validators';
 import { RegexEnums } from '../../enums/regex';
 
 import { SvgIconsService } from '../../services/svg.icons.service';
+import { Badge } from '../badge/badge';
 
 @Component({
   selector: 'app-login-form',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, Badge],
   templateUrl: './login-form.html',
   styleUrl: './login-form.scss',
 })
