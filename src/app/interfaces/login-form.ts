@@ -1,3 +1,5 @@
+import type { BadgeMessagesInterface } from './validation-messages';
+
 export interface LoginFormErrorsInterface {
   required?: boolean;
   maxlength?: { requiredLength: number; actualLength: number };
@@ -23,4 +25,11 @@ export interface LoginResponseInterface {
   accessToken: string;
   type: string;
   user_id: number;
+}
+
+export interface LoginMessagesInterface {
+  identifier: BadgeMessagesInterface;
+  password: BadgeMessagesInterface;
+  acceptedConditions: BadgeMessagesInterface;
+  login: BadgeMessagesInterface;
 }
