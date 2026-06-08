@@ -1,5 +1,12 @@
-export interface BadgeMessagesInterface {
-  error: string | null;
+export interface InfoTypeInterface {
   info: string | null;
+}
+
+export interface SuccessTypeInterface extends InfoTypeInterface {
   success: string | null;
 }
+export interface ErrorTypeInterface extends InfoTypeInterface {
+  error: string | null;
+}
+
+export interface BadgeMessagesInterface extends SuccessTypeInterface, ErrorTypeInterface {}
