@@ -3,8 +3,10 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 import { Router } from '@angular/router';
 
 import { LoginService } from '../../services/login.service';
+import { ApiErrorHandlingService } from '../../services/api-error-handling.service';
 
 import type { LoginFormErrorsInterface, LoginFormInterface, LoginMessagesInterface } from '../../interfaces/login-form';
+import type { BusinessActionInterface } from '../../interfaces/error-handling';
 
 import { emailOrUsernameValidator } from '../../utils/custom-validators';
 import { RegexEnums } from '../../enums/regex';
@@ -36,6 +38,7 @@ export class LoginForm {
     private loginService: LoginService,
     private router: Router,
     public svgIconsService: SvgIconsService,
+    private apiErrorHandlingService: ApiErrorHandlingService,
   ) {}
 
   ngOnInit() {
@@ -124,27 +127,27 @@ export class LoginForm {
       },
       error: (error) => {
         const errorResponse = error.error;
-        const errors = errorResponse.errors;
+        const businessAction = this.apiErrorHandlingService.processBusinessEvent(errorResponse);
+        this.messages['login'][businessAction.messages.messageType] = businessAction.messages.message;
 
-        if (errorResponse?.code === 403 && (errors === 'PRIVACY_POLICY_NOT_ACCEPTED' || errors === 'TERMS_OF_SERVICE_NOT_ACCEPTED')) {
-          this.messages['login']['info'] = 'Es gab neue Nutzungsbedingungen oder Datenschutzrichtlinien';
-          this.mustAcceptConditions = true;
-          this.isProcessing = false;
-          this.loginForm?.get('acceptedConditions')?.setValidators(Validators.requiredTrue);
-          this.loginForm?.get('acceptedConditions')?.updateValueAndValidity();
-          return;
+        if (businessAction.mustAcceptConditions) {
+          this.handleAcceptConditions();
         }
 
-        if (errorResponse?.code === 401 && errors === 'CREDENTIALS_INCORRECT') {
-          this.messages['login']['error'] = 'E-Mail-Adresse / Benutzername oder Passwort ist falsch.';
-          this.isProcessing = false;
-          return;
-        }
-
-        this.messages['login']['error'] = 'Es ist ein Fehler aufgetreten. Bitte erneut versuchen.';
         this.isProcessing = false;
+        return;
       },
     });
+  }
+
+  /**
+   * Handles the scenario where the user must accept conditions (e.g., privacy policy or terms of service).
+   * It sets the mustAcceptConditions flag to true and adds a requiredTrue validator to the acceptedConditions form control, then updates its validity.
+   */
+  handleAcceptConditions(): void {
+    this.mustAcceptConditions = true;
+    this.loginForm?.get('acceptedConditions')?.setValidators(Validators.requiredTrue);
+    this.loginForm?.get('acceptedConditions')?.updateValueAndValidity();
   }
 
   /**
