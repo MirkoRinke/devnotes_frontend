@@ -13,7 +13,7 @@
 
       <span
         class="icon-container"
-        [innerHTML]="svgIconsService.returnIcon('login_1_duck', 'icon')"
+        [innerHTML]="svgIconsService.returnIcon(getDuckIcon(), 'icon')"
       ></span>
     </div>
 
@@ -48,6 +48,8 @@
           class="input"
           type="password"
           name="password"
+          (focus)="isPasswordFocused = true"
+          (blur)="isPasswordFocused = false"
           formControlName="password"
           placeholder="Passwort eingeben"
         />

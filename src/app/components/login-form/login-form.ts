@@ -33,6 +33,8 @@ export class LoginForm {
 
   isProcessing = false;
 
+  isPasswordFocused = false;
+
   constructor(
     private fb: FormBuilder,
     private loginService: LoginService,
@@ -216,5 +218,15 @@ export class LoginForm {
       }
     });
     return errors;
+  }
+
+  getDuckIcon(): string {
+    if (!this.isPasswordFocused) return 'login_normal_duck';
+
+    const length = this.loginForm?.get('password')?.value?.length || 0;
+
+    if (length === 0) return 'login_half_closed_duck_1';
+    if (length <= 2) return 'login_half_closed_duck_2';
+    return 'login_close_duck';
   }
 }
