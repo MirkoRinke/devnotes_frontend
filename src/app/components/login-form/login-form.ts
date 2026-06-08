@@ -148,6 +148,7 @@ export class LoginForm {
     this.mustAcceptConditions = true;
     this.loginForm?.get('acceptedConditions')?.setValidators(Validators.requiredTrue);
     this.loginForm?.get('acceptedConditions')?.updateValueAndValidity();
+    this.loginForm?.get('acceptedConditions')?.markAsUntouched();
   }
 
   /**

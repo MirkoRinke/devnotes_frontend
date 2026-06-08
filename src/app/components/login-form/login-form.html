@@ -57,7 +57,7 @@
         <div class="conditions-warning">
           <app-badge
             class="badge"
-            [messages]="loginForm.get('acceptedConditions')?.invalid && loginForm.get('acceptedConditions')?.touched ? messages['acceptedConditions'] : null"
+            [messages]="loginForm.get('acceptedConditions')?.invalid || loginForm.get('acceptedConditions')?.valid ? messages['acceptedConditions'] : null"
             [caret]="'left'"
           ></app-badge>
 
