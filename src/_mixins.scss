@@ -514,6 +514,15 @@
   &::placeholder {
     color: var(--font-primary-color-50);
   }
+
+  &:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px transparent inset;
+    transition: background-color 5000s ease-in-out 0s;
+
+    @if $color != unset {
+      -webkit-text-fill-color: $color;
+    }
+  }
 }
 
 @mixin status-dot($parent-selector: null, $selector: null, $color: var(--status-dot-color-success-100), $size: 8px, $top: unset, $bottom: unset, $right: unset, $left: unset) {
