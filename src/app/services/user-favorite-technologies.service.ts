@@ -46,7 +46,6 @@ export class UserFavoriteTechnologiesService {
         this.loaded = false;
       },
       error: (error) => {
-        console.error('Error fetching user favorite tech stack:', error);
         this.loaded = false;
       },
     });
