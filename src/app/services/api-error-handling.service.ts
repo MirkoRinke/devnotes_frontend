@@ -76,6 +76,7 @@ export class ApiErrorHandlingService {
       const isLoginPage = this.router.url.includes('/login');
       if (!isLoginPage) {
         //TODO replace later with a specific page. /compliance-check or something like that
+        this.authStorageService.clearLoginData();
         this.router.navigate(['/login']);
         return;
       }
