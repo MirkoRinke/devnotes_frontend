@@ -6,7 +6,7 @@ import { LoginService } from '../../services/login.service';
 import { ApiErrorHandlingService } from '../../services/api-error-handling.service';
 
 import type { LoginFormErrorsInterface, LoginFormInterface, LoginMessagesInterface } from '../../interfaces/login-form';
-import type { BusinessActionInterface } from '../../interfaces/error-handling';
+import type { BackendErrorResponseInterface } from '../../interfaces/error-handling';
 
 import { emailOrUsernameValidator } from '../../utils/custom-validators';
 import { RegexEnums } from '../../enums/regex';
@@ -128,11 +128,15 @@ export class LoginForm {
         }, 2000);
       },
       error: (error) => {
-        const errorResponse = error.error;
-        const businessAction = this.apiErrorHandlingService.processBusinessEvent(errorResponse);
-        this.messages['login'][businessAction.messages.messageType] = businessAction.messages.message;
+        const errorResponse: BackendErrorResponseInterface = error.error;
+        const businessAction = this.apiErrorHandlingService.handleApiError(errorResponse);
+        const hasMessages = businessAction?.messages && businessAction.messages.messageType;
 
-        if (businessAction.mustAcceptConditions) {
+        if (hasMessages) {
+          this.messages['login'][businessAction.messages.messageType] = businessAction.messages.message;
+        }
+
+        if (businessAction?.mustAcceptConditions) {
           this.handleAcceptConditions();
         }
 
