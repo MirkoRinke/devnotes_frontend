@@ -6,6 +6,9 @@ import { AuthService } from './auth.service';
 
 import { environment } from '../../environments/environment';
 
+import { ApiErrorHandlingService } from './api-error-handling.service';
+import type { BackendErrorResponseInterface } from '../interfaces/error-handling';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -19,6 +22,7 @@ export class ApiService {
   constructor(
     private http: HttpClient,
     private authService: AuthService,
+    private apiErrorHandlingService: ApiErrorHandlingService,
   ) {}
 
   /**
@@ -109,7 +113,8 @@ export class ApiService {
   }
 
   private handleApiError(error: any) {
-    console.error('API Fehler (API Service):', error);
+    const errorResponse: BackendErrorResponseInterface = error.error;
+    this.apiErrorHandlingService.handleApiError(errorResponse);
     return throwError(() => error);
   }
 }
