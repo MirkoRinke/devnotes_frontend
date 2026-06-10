@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input, inject, DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -21,6 +22,8 @@ import { Badge } from '../badge/badge';
   styleUrl: './login-form.scss',
 })
 export class LoginForm {
+  @Input() agreementPage: boolean = false;
+
   loginForm: FormGroup | null = null;
   mustAcceptConditions: boolean = false;
 
@@ -35,6 +38,8 @@ export class LoginForm {
 
   isPasswordFocused = false;
 
+  private destroyRef = inject(DestroyRef);
+
   constructor(
     private fb: FormBuilder,
     private loginService: LoginService,
@@ -44,6 +49,9 @@ export class LoginForm {
   ) {}
 
   ngOnInit() {
+    if (this.agreementPage) {
+      this.mustAcceptConditions = true;
+    }
     this.createForm();
   }
 
@@ -114,36 +122,39 @@ export class LoginForm {
 
     this.isProcessing = true;
 
-    this.loginService.login(data).subscribe({
-      next: (response) => {
-        console.log('Login successful:', response);
+    this.loginService
+      .login(data)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (response) => {
+          console.log('Login successful:', response);
 
-        this.messages['login']['success'] = 'Login erfolgreich. Weiterleitung...';
-        this.messages['login']['error'] = null;
-        this.messages['login']['info'] = null;
-        this.isProcessing = false;
+          this.messages['login']['success'] = 'Login erfolgreich. Weiterleitung...';
+          this.messages['login']['error'] = null;
+          this.messages['login']['info'] = null;
+          this.isProcessing = false;
 
-        setTimeout(() => {
-          this.router.navigate(['/my-area']);
-        }, 2000);
-      },
-      error: (error) => {
-        const errorResponse: BackendErrorResponseInterface = error.error;
-        const businessAction = this.apiErrorHandlingService.handleApiError(errorResponse);
-        const hasMessages = businessAction?.messages && businessAction.messages.messageType;
+          setTimeout(() => {
+            this.router.navigate(['/my-area']);
+          }, 2000);
+        },
+        error: (error) => {
+          const errorResponse: BackendErrorResponseInterface = error.error;
+          const businessAction = this.apiErrorHandlingService.handleApiError(errorResponse);
+          const hasMessages = businessAction?.messages && businessAction.messages.messageType;
 
-        if (hasMessages) {
-          this.messages['login'][businessAction.messages.messageType] = businessAction.messages.message;
-        }
+          if (hasMessages) {
+            this.messages['login'][businessAction.messages.messageType] = businessAction.messages.message;
+          }
 
-        if (businessAction?.mustAcceptConditions) {
-          this.handleAcceptConditions();
-        }
+          if (businessAction?.mustAcceptConditions) {
+            this.handleAcceptConditions();
+          }
 
-        this.isProcessing = false;
-        return;
-      },
-    });
+          this.isProcessing = false;
+          return;
+        },
+      });
   }
 
   /**
