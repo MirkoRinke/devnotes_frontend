@@ -74,10 +74,10 @@ export class ApiErrorHandlingService {
   private handle403(error: BackendErrorResponseInterface): BusinessActionInterface | void {
     if (error.errors === 'PRIVACY_POLICY_NOT_ACCEPTED' || error.errors === 'TERMS_OF_SERVICE_NOT_ACCEPTED') {
       const isLoginPage = this.router.url.includes('/login');
-      if (!isLoginPage) {
-        //TODO replace later with a specific page. /compliance-check or something like that
+      const isAgreementPage = this.router.url.includes('/agreement');
+      if (!isLoginPage && !isAgreementPage) {
         this.authStorageService.clearLoginData();
-        this.router.navigate(['/login']);
+        this.router.navigate(['/agreement']);
         return;
       }
       return {
