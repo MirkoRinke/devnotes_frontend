@@ -295,6 +295,7 @@ export function getDucksIcon(iconName: string, className: string): string | unde
        `;
 
     case 'login_normal_duck':
+    case 'delete_account_normal_duck':
       return /*html*/ `
         <!-- © Mirko Rinke – All rights reserved.-->
         <svg class="${className}" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
@@ -305,6 +306,7 @@ export function getDucksIcon(iconName: string, className: string): string | unde
        `;
 
     case 'login_half_closed_duck_1':
+    case 'delete_account_half_closed_duck_1':
       return /*html*/ `
         <!-- © Mirko Rinke – All rights reserved.-->
         <svg class="${className}" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
@@ -328,6 +330,7 @@ export function getDucksIcon(iconName: string, className: string): string | unde
           `;
 
     case 'login_half_closed_duck_2':
+    case 'delete_account_half_closed_duck_2':
       return /*html*/ `
         <!-- © Mirko Rinke – All rights reserved.-->
         <svg class="${className}" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
@@ -338,6 +341,7 @@ export function getDucksIcon(iconName: string, className: string): string | unde
          `;
 
     case 'login_close_duck':
+    case 'delete_account_close_duck':
       return /*html*/ `
         <!-- © Mirko Rinke – All rights reserved.-->
         <svg class="${className}" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
