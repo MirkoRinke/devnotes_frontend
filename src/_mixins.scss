@@ -72,7 +72,7 @@
   user-select: none;
 }
 
-@mixin button-default-style() {
+@mixin button-default-style($hover-border-color: var(--font-primary-color-50)) {
   @include button-preset();
   @include golden-ratio-padding(14);
   @include font-settings(14, 500);
@@ -89,6 +89,7 @@
   &:hover {
     cursor: pointer;
     background-color: var(--page-primary-color-80);
+    border-color: $hover-border-color;
   }
 }
 
