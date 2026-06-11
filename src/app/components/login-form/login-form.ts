@@ -1,7 +1,7 @@
 import { Component, Input, inject, DestroyRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 import { LoginService } from '../../services/login.service';
 import { ApiErrorHandlingService } from '../../services/api-error-handling.service';
@@ -17,7 +17,7 @@ import { Badge } from '../badge/badge';
 
 @Component({
   selector: 'app-login-form',
-  imports: [ReactiveFormsModule, Badge],
+  imports: [ReactiveFormsModule, Badge, RouterModule],
   templateUrl: './login-form.html',
   styleUrl: './login-form.scss',
 })

@@ -86,11 +86,19 @@
 
     <!--TODO add routerLink to the links-->
     <div class="footer-links">
-      <a class="link">Konto löschen</a>
+      <a
+        [routerLink]="['/account-deletion']"
+        class="link"
+        >Konto löschen</a
+      >
 
       <span class="register-wrapper">
         Noch kein Konto?
-        <a class="link">Konto erstellen</a>
+        <a
+          [routerLink]="['/register']"
+          class="link"
+          >Konto erstellen</a
+        >
       </span>
     </div>
   </div>
