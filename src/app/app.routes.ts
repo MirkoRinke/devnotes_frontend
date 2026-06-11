@@ -5,6 +5,8 @@ import { Community } from './pages/community/community';
 import { Login } from './pages/login/login';
 import { Agreement } from './pages/agreement/agreement';
 import { Goodbye } from './pages/goodbye/goodbye';
+import { AccountDeletion } from './pages/account-deletion/account-deletion';
+import { Register } from './pages/register/register';
 import { PostTypesSelection } from './pages/post-types-selection/post-types-selection';
 import { PostsList } from './pages/posts-list/posts-list';
 import { Post } from './pages/post/post';
@@ -23,6 +25,8 @@ export const routes: Routes = [
   { path: 'login', component: Login },
   { path: 'agreement', component: Agreement },
   { path: 'goodbye', component: Goodbye },
+  { path: 'account-deletion', component: AccountDeletion },
+  { path: 'register', component: Register },
   { path: 'post-types-selection', component: PostTypesSelection },
   { path: 'posts-list', component: PostsList },
   { path: 'post/:id', component: Post },
