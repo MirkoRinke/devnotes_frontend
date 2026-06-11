@@ -49,7 +49,10 @@ export class ApiErrorHandlingService {
    * @returns
    */
   private handle401(error: BackendErrorResponseInterface): BusinessActionInterface | void {
-    if (error.errors === 'CREDENTIALS_INCORRECT') {
+    /**
+     * Unified error message for Login and Account Deletion to prevent User Enumeration attacks.
+     */
+    if (error.errors === 'CREDENTIALS_INCORRECT' || error.errors === 'ACCOUNT_DELETION_INVALID_CREDENTIALS') {
       return {
         messages: {
           message: 'E-Mail-Adresse / Benutzername oder Passwort ist falsch.',
@@ -57,6 +60,7 @@ export class ApiErrorHandlingService {
         },
       };
     }
+
     if (error.errors === 'UNAUTHORIZED') {
       this.authStorageService.clearLoginData();
       this.router.navigate(['/login']);
@@ -75,6 +79,7 @@ export class ApiErrorHandlingService {
     if (error.errors === 'PRIVACY_POLICY_NOT_ACCEPTED' || error.errors === 'TERMS_OF_SERVICE_NOT_ACCEPTED') {
       const isLoginPage = this.router.url.includes('/login');
       const isAgreementPage = this.router.url.includes('/agreement');
+
       if (!isLoginPage && !isAgreementPage) {
         this.authStorageService.clearLoginData();
         this.router.navigate(['/agreement']);
@@ -88,6 +93,20 @@ export class ApiErrorHandlingService {
         },
       };
     }
+
+    /**
+     * Specific handling for internal account types (e.g., 'guest')
+     * where standard self-service deletion is restricted for business reasons.
+     */
+    if (error.errors === 'ACCOUNT_DELETION_FORBIDDEN') {
+      return {
+        messages: {
+          message: 'Das Löschen des Kontos ist nicht möglich.',
+          messageType: 'error',
+        },
+      };
+    }
+
     return this.handleDefault(error);
   }
 }
