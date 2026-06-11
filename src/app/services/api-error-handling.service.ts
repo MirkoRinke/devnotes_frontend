@@ -95,7 +95,7 @@ export class ApiErrorHandlingService {
     }
 
     /**
-     * Specific handling for internal account types (e.g., 'guest')
+     * Specific handling for internal account types (e.g., 'guest','admin', etc.)
      * where standard self-service deletion is restricted for business reasons.
      */
     if (error.errors === 'ACCOUNT_DELETION_FORBIDDEN') {
