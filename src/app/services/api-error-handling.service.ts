@@ -111,10 +111,17 @@ export class ApiErrorHandlingService {
     }
 
     if (error.errors === 'ACCOUNT_SUSPENDED') {
+      const isLoginPage = this.router.url.includes('/login');
+      const isAgreementPage = this.router.url.includes('/agreement');
+
       const match = error.message.match(new RegExp(RegexEnums.digitsOnly));
       const days = match ? match[0] : 'unbekannt';
-      this.authStorageService.clearLoginData();
-      this.router.navigate(['/community']);
+
+      if (!isLoginPage && !isAgreementPage) {
+        this.authStorageService.clearLoginData();
+        this.router.navigate(['/login']);
+        return;
+      }
 
       return {
         messages: {
