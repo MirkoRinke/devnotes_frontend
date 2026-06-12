@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 
 import type { BackendErrorResponseInterface, BusinessActionInterface } from '../interfaces/error-handling';
 import { AuthStorageService } from './auth-storage.service';
+import { RegexEnums } from '../enums/regex';
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +20,8 @@ export class ApiErrorHandlingService {
         return this.handle401(error);
       case 403:
         return this.handle403(error);
+      case 429:
+        return this.handle429(error);
       default:
         return this.handleDefault(error);
     }
@@ -107,6 +110,38 @@ export class ApiErrorHandlingService {
       };
     }
 
+    if (error.errors === 'ACCOUNT_SUSPENDED') {
+      const match = error.message.match(new RegExp(RegexEnums.digitsOnly));
+      const days = match ? match[0] : 'unbekannt';
+      this.authStorageService.clearLoginData();
+      this.router.navigate(['/community']);
+
+      return {
+        messages: {
+          message: `Ihr Konto wurde für ${days} Tage gesperrt.`,
+          messageType: 'error',
+        },
+      };
+    }
+
+    return this.handleDefault(error);
+  }
+
+  /**
+   * Handles 429 Too Many Requests errors.
+   *
+   * @param error
+   * @returns
+   */
+  private handle429(error: BackendErrorResponseInterface): BusinessActionInterface | void {
+    if (error.errors === 'TOO_MANY_REQUESTS') {
+      return {
+        messages: {
+          message: 'Zu viele Anfragen. Bitte warten sie einen Moment.',
+          messageType: 'error',
+        },
+      };
+    }
     return this.handleDefault(error);
   }
 }
