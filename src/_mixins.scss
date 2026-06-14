@@ -878,3 +878,56 @@
   -webkit-line-clamp: $lines;
   -webkit-box-orient: vertical;
 }
+
+@mixin svg-opacity-animation($class: null, $animation-duration: var.$transition-duration-medium) {
+  @if $class != null {
+    &::ng-deep [class*='#{$class}'] {
+      animation: svg-opacity #{$animation-duration} ease-in-out forwards;
+
+      @keyframes svg-opacity {
+        0% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+        }
+      }
+    }
+  }
+}
+
+@mixin svg-translate-animation($class: null, $animation-duration: var.$transition-duration-medium, $direction: right, $translateX: 30%, $translateY: 5%) {
+  @if $class != null {
+    &::ng-deep [class*='#{$class}'] {
+      animation: svg-translate-#{$direction} #{$animation-duration} ease-in-out forwards;
+
+      @keyframes svg-translate-#{$direction} {
+        0% {
+          transform: translate(0, 0);
+        }
+        100% {
+          transform: translate($translateX, $translateY);
+        }
+      }
+    }
+  }
+}
+
+@mixin svg-opacity-translate-animation($class: null, $animation-duration: var.$transition-duration-medium, $direction: right, $translateX: 30%, $translateY: 5%) {
+  @if $class != null {
+    &::ng-deep [class*='#{$class}'] {
+      animation: svg-opacity-translate-#{$direction} #{$animation-duration} ease-in-out forwards;
+
+      @keyframes svg-opacity-translate-#{$direction} {
+        0% {
+          opacity: 1;
+          transform: translate(0, 0);
+        }
+        100% {
+          opacity: 0;
+          transform: translate($translateX, $translateY);
+        }
+      }
+    }
+  }
+}
