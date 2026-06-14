@@ -140,8 +140,7 @@ export class DeleteAccount {
           this.isProcessing = false;
 
           setTimeout(() => {
-            //TODO replace with a specific page that informs the user about the successful deletion of their account and provides further options or information.
-            this.router.navigate(['/goodbye']);
+            this.router.navigate(['/farewell']);
           }, 2000);
         },
         error: (error) => {
