@@ -6,6 +6,7 @@ import { Login } from './pages/login/login';
 import { Agreement } from './pages/agreement/agreement';
 import { Goodbye } from './pages/goodbye/goodbye';
 import { AccountDeletion } from './pages/account-deletion/account-deletion';
+import { Farewell } from './pages/farewell/farewell';
 import { Register } from './pages/register/register';
 import { PostTypesSelection } from './pages/post-types-selection/post-types-selection';
 import { PostsList } from './pages/posts-list/posts-list';
@@ -26,6 +27,7 @@ export const routes: Routes = [
   { path: 'agreement', component: Agreement },
   { path: 'goodbye', component: Goodbye },
   { path: 'account-deletion', component: AccountDeletion },
+  { path: 'farewell', component: Farewell },
   { path: 'register', component: Register },
   { path: 'post-types-selection', component: PostTypesSelection },
   { path: 'posts-list', component: PostsList },
