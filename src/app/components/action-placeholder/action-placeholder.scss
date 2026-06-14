@@ -24,6 +24,24 @@
   }
 }
 
+:host(.opacity-translate-animation) {
+  .icon-container {
+    @include svg-opacity-translate-animation($class: 'opacity_translate', $animation-duration: var.$transition-duration-ultra-slow * 2, $translateX: 30%, $translateY: 5%);
+  }
+}
+
+:host(.translate-animation-right) {
+  .icon-container {
+    @include svg-translate-animation($class: 'translate', $animation-duration: var.$transition-duration-ultra-slow * 2, $translateX: 30%, $translateY: 5%);
+  }
+}
+
+:host(.translate-animation-left) {
+  .icon-container {
+    @include svg-translate-animation($class: 'translate', $animation-duration: var.$transition-duration-ultra-slow * 2, $direction: 'left', $translateX: -30%, $translateY: -5%);
+  }
+}
+
 .action-placeholder {
   @include display-flex($direction: column);
   gap: px-to-rem(25);
