@@ -32,21 +32,15 @@
         }
 
         .post-type-section {
-          @include error-compiler-badge('.post-type', $top: -30px);
+          @include position-absolute($class: '.badge', $top: -30px);
         }
 
         .post-category-section {
-          @include error-compiler-badge('.post-category', $top: -30px);
+          @include position-absolute($class: '.badge', $top: -30px);
         }
 
         .post-syntax-section {
-          &:has(.post-syntax.dev-info) {
-            @include info-compiler-badge('.post-syntax', $top: -30px);
-          }
-
-          &:not(:has(.post-syntax.dev-info)) {
-            @include error-compiler-badge('.post-syntax', $top: -30px);
-          }
+          @include position-absolute($class: '.badge', $top: -30px);
         }
       }
 
@@ -54,7 +48,7 @@
         @include display-flex(center);
 
         .post-status-section {
-          @include error-compiler-badge('.post-status', $top: -30px, $right: 0);
+          @include position-absolute($class: '.badge', $top: -30px, $right: 0);
         }
       }
     }
@@ -83,7 +77,7 @@
         @include placeholder();
       }
 
-      @include error-compiler-badge('.title-input', $top: -30px, $left: 100px);
+      @include position-absolute($class: '.badge', $top: -30px, $left: 100px);
 
       &::before {
         content: '';
@@ -103,11 +97,11 @@
     }
 
     .description-section {
-      @include error-compiler-badge('.description', $top: -10px);
+      @include position-absolute($class: '.badge', $top: -10px, $left: 0);
     }
 
     .code-section {
-      @include error-compiler-badge('.code', $top: -30px);
+      @include position-absolute($class: '.badge', $top: -30px, $left: 0);
     }
   }
 
@@ -124,7 +118,7 @@
         @include display-flex(center);
         gap: px-to-rem(15);
 
-        @include error-compiler-badge('.add-tech-stack-button', $top: -30px);
+        @include position-absolute($class: '.badge', $top: -30px, $left: 0);
 
         .add-tech-stack-button,
         .add-media-links-button {

@@ -11,18 +11,15 @@
           <span class="separator">|</span>
 
           <div class="post-type-section">
-            @if (displayedErrors.includes('post_type')) {
-              <div
-                class="badge"
-                [style.--animation-delay]="(getErrorIndex('post_type') ?? 0) * 100 + 'ms'"
-              >
-                <span class="badge-text">[!] E{{ getErrorIndex('post_type') }}</span>
-              </div>
-            }
+            <app-badge
+              class="badge"
+              [messages]="postForm.get('post_type')?.invalid ? getErrorMessage('post_type') : null"
+              [caret]="'left'"
+              [animationDelay]="(getErrorIndex('post_type') ?? 0) * badgeAnimationDelay"
+            ></app-badge>
 
             <app-query-params-dropdown
-              class="post-from-dropdown post-type"
-              [class]="getControlStatusClasses(getControl('post_type'))"
+              class="post-from-dropdown"
               [mode]="'Component'"
               [label]="'Beitragstyp'"
               [defaultValueLabel]="getDefaultValue('post_type', 'Beitragstyp')"
@@ -37,18 +34,15 @@
           <span class="separator">|</span>
 
           <div class="post-category-section">
-            @if (displayedErrors.includes('category')) {
-              <div
-                class="badge"
-                [style.--animation-delay]="(getErrorIndex('category') ?? 0) * 100 + 'ms'"
-              >
-                <span class="badge-text">[!] E{{ getErrorIndex('category') }}</span>
-              </div>
-            }
+            <app-badge
+              class="badge"
+              [messages]="postForm.get('category')?.invalid ? getErrorMessage('category') : null"
+              [caret]="'left'"
+              [animationDelay]="(getErrorIndex('category') ?? 0) * badgeAnimationDelay"
+            ></app-badge>
 
             <app-query-params-dropdown
-              class="post-from-dropdown post-category"
-              [class]="getControlStatusClasses(getControl('category'))"
+              class="post-from-dropdown"
               [mode]="'Component'"
               [label]="'Category'"
               [defaultValueLabel]="getDefaultValue('category', 'Category')"
@@ -63,25 +57,15 @@
           <span class="separator">|</span>
 
           <div class="post-syntax-section">
-            @if (displayedErrors.includes('syntax_highlighting')) {
-              <div
-                class="badge"
-                [style.--animation-delay]="(getErrorIndex('syntax_highlighting') ?? 0) * 100 + 'ms'"
-              >
-                <span class="badge-text">[!] E{{ getErrorIndex('syntax_highlighting') }}</span>
-              </div>
-            } @else if (getControl('languages')?.value.length > 0 && !displayedErrors.includes('syntax_highlighting') && getControl('syntax_highlighting')?.value === '') {
-              <div
-                class="badge dev-info"
-                [style.--animation-delay]="(getErrorIndex('syntax_highlighting') ?? 0) * 100 + 'ms'"
-              >
-                <span class="badge-text">[i] Info</span>
-              </div>
-            }
+            <app-badge
+              class="badge"
+              [messages]="getSyntaxHighlightingBadgeMessage()"
+              [caret]="'left'"
+              [animationDelay]="(getErrorIndex('syntax_highlighting') ?? 0) * badgeAnimationDelay"
+            ></app-badge>
 
             <app-query-params-dropdown
-              class="post-from-dropdown post-syntax"
-              [class]="getControlStatusClasses(getControl('syntax_highlighting'), 'syntax_highlighting') + (getErrorIndex('syntax_highlighting') === null ? ' dev-info' : '')"
+              class="post-from-dropdown"
               [mode]="'Component'"
               [showCount]="false"
               [label]="'Syntax'"
@@ -98,18 +82,15 @@
 
         <div class="right-section">
           <div class="post-status-section">
-            @if (displayedErrors.includes('status')) {
-              <div
-                class="badge"
-                [style.--animation-delay]="(getErrorIndex('status') ?? 0) * 100 + 'ms'"
-              >
-                <span class="badge-text">[!] E{{ getErrorIndex('status') }}</span>
-              </div>
-            }
+            <app-badge
+              class="badge"
+              [messages]="postForm.get('status')?.invalid ? getErrorMessage('status') : null"
+              [caret]="'left'"
+              [animationDelay]="(getErrorIndex('status') ?? 0) * badgeAnimationDelay"
+            ></app-badge>
 
             <app-query-params-dropdown
-              class="right-aligned post-from-dropdown post-status"
-              [class]="getControlStatusClasses(getControl('status'))"
+              class="right-aligned post-from-dropdown"
               [mode]="'Component'"
               [label]="'Status'"
               [defaultValueLabel]="getDefaultValue('status', 'Status')"
@@ -139,14 +120,13 @@
 
     <section class="content">
       <div class="title-wrapper">
-        @if (displayedErrors.includes('title')) {
-          <div
-            class="badge"
-            [style.--animation-delay]="(getErrorIndex('title') ?? 0) * 100 + 'ms'"
-          >
-            <span class="badge-text">[!] E{{ getErrorIndex('title') }}</span>
-          </div>
-        }
+        <app-badge
+          class="badge"
+          [messages]="postForm.get('title')?.invalid ? getErrorMessage('title') : null"
+          [caret]="'left'"
+          [animationDelay]="(getErrorIndex('title') ?? 0) * badgeAnimationDelay"
+        ></app-badge>
+
         <input
           class="title-input"
           [placeholder]="'Beitragstitel hier eingeben'"
@@ -158,36 +138,30 @@
       </div>
 
       <div class="description-section">
-        @if (displayedErrors.includes('description')) {
-          <div
-            class="badge"
-            [style.--animation-delay]="(getErrorIndex('description') ?? 0) * 100 + 'ms'"
-          >
-            <span class="badge-text">[!] E{{ getErrorIndex('description') }}</span>
-          </div>
-        }
+        <app-badge
+          class="badge"
+          [messages]="postForm.get('description')?.invalid ? getErrorMessage('description') : null"
+          [caret]="'left'"
+          [animationDelay]="(getErrorIndex('description') ?? 0) * badgeAnimationDelay"
+        ></app-badge>
 
         <app-post-description
           class="description"
-          [class]="getControlStatusClasses(getControl('description'))"
           [control]="getControl('description')"
           [isViewMode]="false"
         ></app-post-description>
       </div>
 
       <div class="code-section">
-        @if (displayedErrors.includes('code')) {
-          <div
-            class="badge"
-            [style.--animation-delay]="(getErrorIndex('code') ?? 0) * 100 + 'ms'"
-          >
-            <span class="badge-text">[!] E{{ getErrorIndex('code') }}</span>
-          </div>
-        }
+        <app-badge
+          class="badge"
+          [messages]="postForm.get('code')?.invalid ? getErrorMessage('code') : null"
+          [caret]="'left'"
+          [animationDelay]="(getErrorIndex('code') ?? 0) * badgeAnimationDelay"
+        ></app-badge>
 
         <app-post-code
           class="code"
-          [class]="getControlStatusClasses(getControl('code'))"
           [language]="getControl('syntax_highlighting')?.value ?? null"
           [code]="postFormCode"
           [control]="getControl('code')"
@@ -199,14 +173,12 @@
     <footer class="footer">
       <div class="footer-meta">
         <div class="tech-stack-section">
-          @if (displayedErrors.includes('language_or_tech_required')) {
-            <div
-              class="badge"
-              [style.--animation-delay]="(getErrorIndex('language_or_tech_required') ?? 0) * 100 + 'ms'"
-            >
-              <span class="badge-text">[!] E{{ getErrorIndex('language_or_tech_required') }}</span>
-            </div>
-          }
+          <app-badge
+            class="badge"
+            [messages]="postForm.hasError('language_or_tech_required') ? getErrorMessage('language_or_tech_required') : null"
+            [caret]="'left'"
+            [animationDelay]="(getErrorIndex('language_or_tech_required') ?? 0) * badgeAnimationDelay"
+          ></app-badge>
 
           @if (getControl('languages')?.value.length > 0 || getControl('technologies')?.value.length > 0) {
             <app-post-tech-stack
@@ -217,7 +189,6 @@
           }
           <button
             class="add-tech-stack-button"
-            [class]="getControlStatusClasses(getControl('languages'), 'language_or_tech_required') + getControlStatusClasses(getControl('technologies'), 'language_or_tech_required')"
             type="button"
             [title]="'Tech Stack hinzufügen'"
             [innerHTML]="svgIconsService.returnIcon('add_tech_stack')"

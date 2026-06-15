@@ -21,6 +21,7 @@ import type { UserInterface } from '../../../interfaces/user';
 import type { TagsInterface } from '../../../interfaces/tags';
 import type { TechStackSelectedValueInterface, ResourceRefreshInterface, PostFormErrorsInterface, TerminalLineInterface } from '../../../interfaces/post-form';
 import type { ExternalSourceInterface } from '../../../interfaces/post-external-source';
+import type { BadgeMessagesInterface } from '../../../interfaces/validation-messages';
 
 import { QueryParamsDropdown } from '../../query-params-dropdown/query-params-dropdown';
 import { UserBadge } from '../../user-badge/user-badge';
@@ -34,6 +35,8 @@ import { PostTags } from '../post-tags/post-tags';
 import { PostMediaLinksEditor } from '../post-media-links-editor/post-media-links-editor';
 import { PostTagsEditor } from '../post-tags-editor/post-tags-editor';
 import { TerminalLog } from '../../terminal-log/terminal-log';
+
+import { Badge } from '../../badge/badge';
 
 @Component({
   selector: 'app-post-form',
@@ -52,6 +55,7 @@ import { TerminalLog } from '../../terminal-log/terminal-log';
     PostMediaLinksEditor,
     PostTagsEditor,
     TerminalLog,
+    Badge,
   ],
   templateUrl: './post-form.html',
   styleUrl: './post-form.scss',
@@ -86,9 +90,10 @@ export class PostForm {
   private destroyRef = inject(DestroyRef);
 
   postFormErrors: { [key: string]: PostFormErrorsInterface } | PostFormErrorsInterface = {};
-  displayedErrors: string[] = [];
   postTerminalMessages: TerminalLineInterface[] = [];
   submitCount = 0;
+
+  badgeAnimationDelay = 400;
 
   constructor(
     private fb: FormBuilder,
@@ -291,7 +296,6 @@ export class PostForm {
     this.postForm?.markAsPristine();
     this.postForm?.markAsUntouched();
     this.postFormErrors = {};
-    this.displayedErrors = [];
     this.initialMessages(this.mode);
 
     this.postFormCode = this.postForm?.get('code')?.value;
@@ -352,7 +356,7 @@ export class PostForm {
   getFormErrors(): void {
     if (!this.postForm || this.postForm.valid) {
       this.postFormErrors = {};
-      this.displayedErrors = [];
+      // this.displayedErrors = [];
       return;
     }
     this.submitCount++;
@@ -382,32 +386,6 @@ export class PostForm {
     console.log('Form Errors:', this.postFormErrors);
 
     this.terminalMessages();
-    this.updateDisplayedErrors();
-  }
-
-  /**
-   * Updates the `displayedErrors` array based on the current `postFormErrors`.
-   * It extracts the keys of the errors and pushes them into the `displayedErrors` array with a delay
-   * to create a staggered effect when displaying error badges in the template.
-   */
-  private updateDisplayedErrors(): void {
-    this.displayedErrors = [];
-    const errorKeys = Object.keys(this.postFormErrors);
-
-    const startIndex = this.postTerminalMessages.findIndex((message) => message.level === 'error' && message.text.startsWith('[E1]'));
-
-    if (startIndex === -1) {
-      return;
-    }
-
-    errorKeys.forEach((key, index) => {
-      setTimeout(
-        () => {
-          this.displayedErrors.push(key);
-        },
-        (index + startIndex + 1) * 300,
-      );
-    });
   }
 
   /**
@@ -471,37 +449,45 @@ export class PostForm {
   }
 
   /**
-   * Generates a string of CSS classes based on the status of a form control.
-   * It checks if the control is valid, invalid, pending, touched, untouched, dirty, or pristine.
-   * Optionally, it can also check for a specific error on the parent form group.
+   * Generates a structured object containing the error message for a specific form control based on its validation errors.
    *
-   * @param control The form control to evaluate.
-   * @param formGroupErrorKey An optional key for a form group-level error to check for.
-   * @returns A string of CSS classes representing the control's status.
+   * @param fieldKey The key of the form control.
+   * @returns An object containing the error, info, and success messages for the form control.
    */
-  getControlStatusClasses(control: FormControl | null | undefined, formGroupErrorKey?: string): string {
-    if (!control) return '';
-
-    const classes = [
-      control.valid ? 'ng-valid' : '',
-      control.invalid ? 'ng-invalid' : '',
-      control.pending ? 'ng-pending' : '',
-      control.touched ? 'ng-touched' : '',
-      control.untouched ? 'ng-untouched' : '',
-      control.dirty ? 'ng-dirty' : '',
-      control.pristine ? 'ng-pristine' : '',
-    ];
-
-    // Check for a specific form group-level error
-    if (formGroupErrorKey && this.postForm?.hasError(formGroupErrorKey)) {
-      if (control.touched) {
-        classes.push('ng-invalid');
-      }
-    }
-
-    return classes.filter((className) => className !== '').join(' ');
+  getErrorMessage(fieldKey: string): BadgeMessagesInterface {
+    const errorIndex = this.getErrorIndex(fieldKey);
+    return { error: errorIndex ? `E${errorIndex}` : null, info: null, success: null };
   }
 
+  /**
+   * Generates a structured object containing the badge message for the syntax highlighting field based on its validation errors and the current state of the form.
+   *
+   * @returns An object containing the error, info, and success messages for the syntax highlighting field or null if there are no relevant messages to display.
+   */
+  public getSyntaxHighlightingBadgeMessage(): BadgeMessagesInterface | null {
+    const hasSubmitError = this.postFormErrors && this.postFormErrors['syntax_highlighting'];
+    const hasLanguagesSelected = (this.getControl('languages')?.value?.length ?? 0) > 0;
+
+    const isSyntaxEmpty = this.getControl('syntax_highlighting')?.value === '';
+    const isSyntaxInvalid = this.postForm?.hasError('syntax_highlighting');
+
+    if (hasSubmitError && isSyntaxInvalid) {
+      return this.getErrorMessage('syntax_highlighting');
+    }
+
+    if (hasLanguagesSelected && isSyntaxEmpty) {
+      return { error: null, info: 'Info', success: null };
+    }
+
+    return null;
+  }
+
+  /**
+   * Saves the post by sending a request to the API. It determines whether to create a new post or update an existing one based on the mode.
+   *
+   * @param data The payload containing the post data to be saved.
+   * @returns The saved post object or void if the save operation is not allowed.
+   */
   private savePost(data: PostPayload): PostInterface | void {
     console.log('Saving post with data:', data);
     /**
@@ -732,92 +718,3 @@ export class PostForm {
     };
   }
 }
-
-// Postman Example Payload:
-// {
-//   "title": "Laravel 11 & Angular: Clean Architecture",
-//   "code": "public function store(PostRequest $request)\n{\n    $validated = $request->validated();\n    return Post::create($validated);\n}",
-//   "description": "In diesem Beitrag schauen wir uns an, wie man eine saubere API-Struktur mit Laravel 11 aufbaut und diese effizient in eine Angular-Frontend-Architektur integriert. Fokus liegt auf Portabilität und DRY-Prinzipien.",
-//   "images": [
-//     "https://images.unsplash.com/photo-1555066931-4365d14bab8c",
-//     "https://images.unsplash.com/photo-1587620962725-abab7fe55159"
-//   ],
-//   "videos": [
-//     "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-//   ],
-//   "resources": [
-//     "https://laravel.com/docs/11.x",
-//     "https://angular.io/guide/architecture"
-//   ],
-//   "languages": ["Laravel", "PHP", "JavaScript", "SCSS" ,"Pandas"],
-//   "category": "Fullstack Development",
-//   "post_type": "resources",
-//   "technologies": ["Docker","Apache","MySQL"],
-//   "tags": ["Clean Code", "Backend", "API", "Webdesign"],
-//   "status": "published"
-//   "syntax_highlighting": "php"
-// }
-
-/**
- * The validation rules for the Create method
- *
- * @return array
- *
- * @example | $this->getValidationRulesCreate()
- */
-// public function getValidationRulesCreate(): array {
-//     $validationRulesCreate = [
-//         'title' => 'required|string|max:255',
-//         'code' => 'nullable|string|max:65535',
-//         'description' => 'required|string|min:15|max:65535',
-//         'images' => 'nullable|array',
-//         'images.*' => ['max:2048', new SafeUrl()],
-//         'videos' => 'nullable|array',
-//         'videos.*' => ['max:2048', new SafeUrl()],
-//         'resources' => 'nullable|array',
-//         'resources.*' => ['max:2048', new SafeUrl()],
-//         'languages' => 'required_without:technologies|array',
-//         'languages.*' => ['required', new ValidPostValue('language')],
-//         'category' => ['required', 'string', new ValidPostValue('category')],
-//         'post_type' => ['required', 'string', new ValidPostValue('post_type')],
-//         'technologies' => 'required_without:languages|array',
-//         'technologies.*' => ['required', new ValidPostValue('technology')],
-//         'tags' => 'nullable|array',
-//         'tags.*' => ['string', 'max:25'],
-//         'status' => ['required', 'string', new ValidPostValue('status')],
-//         'syntax_highlighting' => ['nullable', 'required_with:languages', 'string', new ValidPostValue('language')],
-//     ];
-//     return $validationRulesCreate;
-// }
-
-/**
- * The validation rules for the Update method
- *
- * @return array
- *
- * @example | $this->getValidationRulesUpdate()
- */
-// public function getValidationRulesUpdate(): array {
-//     $validationRulesUpdate = [
-//         'title' => 'sometimes|required|string|max:255',
-//         'code' => 'sometimes|nullable|string|max:65535',
-//         'description' => 'sometimes|required|string|min:15|max:65535',
-//         'images' => 'sometimes|nullable|array',
-//         'images.*' => ['sometimes', 'max:2048', new SafeUrl()],
-//         'videos' => 'sometimes|nullable|array',
-//         'videos.*' => ['sometimes', 'max:2048', new SafeUrl()],
-//         'resources' => 'sometimes|nullable|array',
-//         'resources.*' => ['sometimes', 'max:2048', new SafeUrl()],
-//         'languages' => 'sometimes|required_without:technologies|array',
-//         'languages.*' => ['sometimes', 'required', new ValidPostValue('language')],
-//         'category' => ['sometimes', 'required', 'string', new ValidPostValue('category')],
-//         'post_type' => ['sometimes', 'required', 'string', new ValidPostValue('post_type')],
-//         'technologies' => 'sometimes|required_without:languages|array',
-//         'technologies.*' => ['sometimes', 'required', new ValidPostValue('technology')],
-//         'tags' => 'sometimes|array',
-//         'tags.*' => ['sometimes', 'string', 'max:25'],
-//         'status' => ['sometimes', 'required', 'string', new ValidPostValue('status')],
-//         'syntax_highlighting' => ['sometimes', 'nullable', 'required_with:languages', 'string', new ValidPostValue('language')],
-//     ];
-//     return $validationRulesUpdate;
-// }
