@@ -672,7 +672,7 @@
   z-index: $z-index;
   pointer-events: none;
 
-  @include fade-in-with-delay(--animation-delay);
+  @include fade-in-with-delay(var(--animation-delay));
 
   &::after {
     content: '';
@@ -745,7 +745,7 @@
   z-index: $z-index;
   pointer-events: none;
 
-  @include fade-in-with-delay(--animation-delay);
+  @include fade-in-with-delay(var(--animation-delay));
 
   &::after {
     content: '';
