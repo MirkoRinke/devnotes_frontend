@@ -2,40 +2,38 @@
 @use '../../../var' as var;
 @use '../../../mixins' as *;
 
+@mixin dispatch-badge($type, $left: unset, $right: unset) {
+  @if $type == 'error' {
+    @include error-badge($left: $left, $right: $right);
+  }
+  @if $type == 'info' {
+    @include info-badge($left: $left, $right: $right);
+  }
+  @if $type == 'success' {
+    @include success-badge($left: $left, $right: $right);
+  }
+}
+
+@mixin badges($type) {
+  &.center {
+    @include dispatch-badge($type);
+  }
+  &.left {
+    @include dispatch-badge($type, $left: 8px);
+  }
+  &.right {
+    @include dispatch-badge($type, $right: 8px);
+  }
+}
+
 .badge {
-  &.dev-error {
-    &.center {
-      @include error-badge();
-    }
-    &.left {
-      @include error-badge($left: 8px);
-    }
-    &.right {
-      @include error-badge($right: 8px);
-    }
+  &.error {
+    @include badges('error');
   }
-
-  &.dev-info {
-    &.center {
-      @include info-badge();
-    }
-    &.left {
-      @include info-badge($left: 8px);
-    }
-    &.right {
-      @include info-badge($right: 8px);
-    }
+  &.info {
+    @include badges('info');
   }
-
-  &.dev-success {
-    &.center {
-      @include success-badge();
-    }
-    &.left {
-      @include success-badge($left: 8px);
-    }
-    &.right {
-      @include success-badge($right: 8px);
-    }
+  &.success {
+    @include badges('success');
   }
 }

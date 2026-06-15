@@ -1,32 +1,11 @@
-<!--TODO Refactor this component to one that can be used for all badge types (error, info, success).-->
-
-@if (messages !== null) {
-  @if (messages['error']) {
-    <div
-      class="badge dev-error"
-      [class.center]="caret === 'center' || caret === null"
-      [class.left]="caret === 'left'"
-      [class.right]="caret === 'right'"
-    >
-      <span class="badge-text">[!] {{ messages['error'] }}</span>
-    </div>
-  } @else if (messages['info']) {
-    <div
-      class="badge dev-info"
-      [class.center]="caret === 'center' || caret === null"
-      [class.left]="caret === 'left'"
-      [class.right]="caret === 'right'"
-    >
-      <span class="badge-text">[i] {{ messages['info'] }}</span>
-    </div>
-  } @else if (messages['success']) {
-    <div
-      class="badge dev-success"
-      [class.center]="caret === 'center' || caret === null"
-      [class.left]="caret === 'left'"
-      [class.right]="caret === 'right'"
-    >
-      <span class="badge-text">[✓] {{ messages['success'] }}</span>
-    </div>
-  }
+@if (getActiveBadge()) {
+  <div
+    class="badge {{ getActiveBadge()?.type }}"
+    [class.center]="!caret || caret === 'center'"
+    [class.left]="caret === 'left'"
+    [class.right]="caret === 'right'"
+    [style.--animation-delay]="animationDelay + 'ms'"
+  >
+    <span class="badge-text">{{ getActiveBadge()?.icon }} {{ getActiveBadge()?.text }}</span>
+  </div>
 }
