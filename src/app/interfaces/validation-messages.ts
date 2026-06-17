@@ -16,3 +16,13 @@ export interface ActiveBadgeInterface {
 }
 
 export interface BadgeMessagesInterface extends SuccessTypeInterface, ErrorTypeInterface {}
+
+/**
+ *  This object initializes the badge messages with null values
+ *  to ensure that they are defined and can be used in the application without causing errors.
+ */
+export const badgeMessagesInit: Record<keyof BadgeMessagesInterface, null> = {
+  error: null,
+  info: null,
+  success: null,
+};
