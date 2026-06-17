@@ -21,7 +21,9 @@ import type { UserInterface } from '../../../interfaces/user';
 import type { TagsInterface } from '../../../interfaces/tags';
 import type { TechStackSelectedValueInterface, ResourceRefreshInterface, PostFormErrorsInterface, TerminalLineInterface } from '../../../interfaces/post-form';
 import type { ExternalSourceInterface } from '../../../interfaces/post-external-source';
+
 import type { BadgeMessagesInterface } from '../../../interfaces/validation-messages';
+import { badgeMessagesInit } from '../../../interfaces/validation-messages';
 
 import { QueryParamsDropdown } from '../../query-params-dropdown/query-params-dropdown';
 import { UserBadge } from '../../user-badge/user-badge';
@@ -88,6 +90,8 @@ export class PostForm {
   isProcessing = false;
 
   private destroyRef = inject(DestroyRef);
+
+  messages: BadgeMessagesInterface = { ...badgeMessagesInit };
 
   postFormErrors: { [key: string]: PostFormErrorsInterface } | PostFormErrorsInterface = {};
   postTerminalMessages: TerminalLineInterface[] = [];
@@ -302,6 +306,13 @@ export class PostForm {
   }
 
   /**
+   * Clears the feedback messages by resetting the `messages` object to its initial state.
+   */
+  private clearFeedback(): void {
+    this.messages = { ...badgeMessagesInit };
+  }
+
+  /**
    * Handles form submission. Validates the form and either creates a new post or updates an existing one based on the mode.
    *
    * @returns
@@ -356,7 +367,6 @@ export class PostForm {
   getFormErrors(): void {
     if (!this.postForm || this.postForm.valid) {
       this.postFormErrors = {};
-      // this.displayedErrors = [];
       return;
     }
     this.submitCount++;
@@ -456,7 +466,13 @@ export class PostForm {
    */
   getErrorMessage(fieldKey: string): BadgeMessagesInterface {
     const errorIndex = this.getErrorIndex(fieldKey);
-    return { error: errorIndex ? `E${errorIndex}` : null, info: null, success: null };
+    this.clearFeedback();
+
+    if (errorIndex) {
+      this.messages.error = `E${errorIndex}`;
+    }
+
+    return this.messages;
   }
 
   /**
@@ -476,7 +492,9 @@ export class PostForm {
     }
 
     if (hasLanguagesSelected && isSyntaxEmpty) {
-      return { error: null, info: 'Info', success: null };
+      this.clearFeedback();
+      this.messages.info = 'Info';
+      return this.messages;
     }
 
     return null;
