@@ -8,6 +8,7 @@ import { ApiErrorHandlingService } from '../../services/api-error-handling.servi
 
 import type { LoginFormErrorsInterface, LoginFormInterface, LoginMessagesInterface } from '../../interfaces/login-form';
 import type { BackendErrorResponseInterface } from '../../interfaces/error-handling';
+import { badgeMessagesInit } from '../../interfaces/validation-messages';
 
 import { emailOrUsernameValidator } from '../../utils/custom-validators';
 import { RegexEnums } from '../../enums/regex';
@@ -28,10 +29,10 @@ export class LoginForm {
   mustAcceptConditions: boolean = false;
 
   messages: LoginMessagesInterface = {
-    identifier: { error: null, info: null, success: null },
-    password: { error: null, info: null, success: null },
-    acceptedConditions: { error: null, info: null, success: null },
-    login: { error: null, info: null, success: null },
+    identifier: { ...badgeMessagesInit },
+    password: { ...badgeMessagesInit },
+    acceptedConditions: { ...badgeMessagesInit },
+    login: { ...badgeMessagesInit },
   };
 
   isProcessing = false;
@@ -66,6 +67,13 @@ export class LoginForm {
       password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(255)]],
       acceptedConditions: [false, acceptedConditionsValidators],
     });
+  }
+
+  /**
+   * Clears the feedback messages for a given BadgeMessagesInterface object by resetting it to the initial state defined in badgeMessagesInit.
+   */
+  private clearFeedback(key: keyof LoginMessagesInterface): void {
+    this.messages[key] = { ...badgeMessagesInit };
   }
 
   /**
@@ -129,9 +137,9 @@ export class LoginForm {
         next: (response) => {
           console.log('Login successful:', response);
 
+          this.clearFeedback('login');
           this.messages['login']['success'] = 'Login erfolgreich. Weiterleitung...';
-          this.messages['login']['error'] = null;
-          this.messages['login']['info'] = null;
+
           this.isProcessing = false;
 
           setTimeout(() => {
@@ -144,6 +152,7 @@ export class LoginForm {
           const hasMessages = businessAction?.messages && businessAction.messages.messageType;
 
           if (hasMessages) {
+            this.clearFeedback('login');
             this.messages['login'][businessAction.messages.messageType] = businessAction.messages.message;
           }
 
@@ -174,12 +183,12 @@ export class LoginForm {
    */
   checkboxChanged() {
     if (this.loginForm?.get('acceptedConditions')?.value) {
-      this.messages['acceptedConditions']['error'] = null;
+      this.clearFeedback('acceptedConditions');
       this.messages['acceptedConditions']['success'] = 'Nutzungsbedingungen & Datenschutzrichtlinie akzeptiert.';
-      this.messages['login']['info'] = null;
+      this.clearFeedback('login');
     } else {
+      this.clearFeedback('acceptedConditions');
       this.messages['acceptedConditions']['error'] = 'Bitte Nutzungsbedingungen & Datenschutzrichtlinie akzeptieren.';
-      this.messages['acceptedConditions']['success'] = null;
     }
   }
 
@@ -188,10 +197,8 @@ export class LoginForm {
    */
   setErrorMessage() {
     const errors = this.getFormErrors();
-    this.messages['identifier']['error'] = null;
-    this.messages['password']['error'] = null;
-    this.messages['acceptedConditions']['error'] = null;
 
+    this.clearFeedback('identifier');
     if (errors['identifier']) {
       if (errors['identifier']['required']) {
         this.messages['identifier']['error'] = 'E-Mail-Adresse / Benutzernamen eingeben.';
@@ -202,6 +209,7 @@ export class LoginForm {
       }
     }
 
+    this.clearFeedback('password');
     if (errors['password']) {
       if (errors['password']['required']) {
         this.messages['password']['error'] = 'Passwort eingeben.';
@@ -212,6 +220,7 @@ export class LoginForm {
       }
     }
 
+    this.clearFeedback('acceptedConditions');
     if (errors['acceptedConditions']) {
       if (errors['acceptedConditions']['required']) {
         this.messages['acceptedConditions']['error'] = 'Bitte Nutzungsbedingungen & Datenschutzrichtlinie akzeptieren.';
