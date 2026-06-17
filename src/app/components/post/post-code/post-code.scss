@@ -94,6 +94,4 @@
 
     @include placeholder();
   }
-
-  @include error-compiler-badge('.code-view', $top: -30px);
 }

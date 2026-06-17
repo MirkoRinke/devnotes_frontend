@@ -85,6 +85,4 @@
 
     @include placeholder();
   }
-
-  @include error-compiler-badge('.description-input', $top: -30px);
 }
