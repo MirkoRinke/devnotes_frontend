@@ -27,3 +27,16 @@
   }
   @return $string;
 }
+
+/**
+  * Converts pixel values to rem units if the input is a number with 'px' unit.
+  *
+  * @param {Number|String} $value - The value to convert, which can be a number with 'px' unit or any other value.
+  * @return {Number|String} - The converted value in rem units if the input was a pixel value, otherwise returns the original value.
+  */
+@function convert-to-rem-if-needed($value) {
+  @if type-of($value) == 'number' and math.unit($value) == 'px' {
+    @return px-to-rem(math.div($value, 1px));
+  }
+  @return $value;
+}
