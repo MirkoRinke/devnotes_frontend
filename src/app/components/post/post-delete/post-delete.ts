@@ -142,7 +142,8 @@ export class PostDelete {
   }
 
   /**
-   * Clears any existing feedback messages (errors or info) and sets a timeout to clear them after 3 seconds
+   * Clears any existing feedback messages (errors, info, success) and sets a timeout to clear them after 3 seconds,
+   * ensuring that the user receives timely feedback without cluttering the interface with old messages.
    */
   private clearFeedback(): void {
     if (this.feedbackTimeout) {
