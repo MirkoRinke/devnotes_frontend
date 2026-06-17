@@ -700,7 +700,7 @@
   }
 }
 
-@mixin position-absolute($class: null, $top: unset, $bottom: unset, $right: unset, $left: unset, $transform: unset) {
+@mixin position-absolute($class: null, $top: unset, $bottom: unset, $right: unset, $left: unset, $transform: unset, $z-index: null) {
   position: relative;
 
   @if $class != null {
@@ -710,6 +710,9 @@
       bottom: $bottom;
       right: $right;
       left: $left;
+      @if $z-index != null {
+        z-index: $z-index;
+      }
       @if $transform != unset {
         transform: $transform;
       }
