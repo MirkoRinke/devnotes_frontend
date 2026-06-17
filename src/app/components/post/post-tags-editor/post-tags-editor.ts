@@ -8,8 +8,12 @@ import { AvailableValuesService } from '../../../services/available-values.servi
 import { SvgIconsService } from '../../../services/svg.icons.service';
 
 import type { AvailableValuesInterface } from '../../../interfaces/available-values';
+import type { BadgeMessagesInterface } from '../../../interfaces/validation-messages';
+import { badgeMessagesInit } from '../../../interfaces/validation-messages';
 
 import { ApiEndpointEnums } from '../../../enums/api-endpoint';
+import { Badge } from '../../badge/badge';
+
 interface TagValueInterface {
   name: string;
   entity: string;
@@ -17,7 +21,7 @@ interface TagValueInterface {
 
 @Component({
   selector: 'app-post-tags-editor',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, Badge],
   templateUrl: './post-tags-editor.html',
   styleUrl: './post-tags-editor.scss',
 })
@@ -48,7 +52,7 @@ export class PostTagsEditor {
 
   selectedValues: TagValueInterface[] = [];
 
-  messages: { [key: string]: string } = {};
+  messages: BadgeMessagesInterface = { ...badgeMessagesInit };
   feedbackTimeout: number | null = null;
 
   constructor(
@@ -157,33 +161,18 @@ export class PostTagsEditor {
   }
 
   /**
-   * Determines the appropriate CSS class to apply based on the current message state.
-   * If there is an 'error' key in the messages object, it returns 'ng-invalid ng-touched'.
-   * If there is an 'info' key, it returns 'dev-info'. If there are no messages, it returns 'ng-valid'.
-   *
-   * @returns The CSS class string based on the current message state.
+   * Clears any existing feedback messages (errors, info, success) and sets a timeout to clear them after 3 seconds,
+   * ensuring that the user receives timely feedback without cluttering the interface with old messages.
    */
-  public setMessageClass() {
-    if (this.messages['error']) {
-      return 'ng-invalid ng-touched';
-    } else if (this.messages['info']) {
-      return 'dev-info';
-    }
-    return 'ng-valid';
-  }
-
-  /**
-   * Clears any existing feedback messages (errors or info) and sets a timeout to clear them after 3 seconds
-   */
-  private clearFeedback() {
+  private clearFeedback(): void {
     if (this.feedbackTimeout) {
       clearTimeout(this.feedbackTimeout);
     }
 
-    this.messages = {};
+    this.messages = { ...badgeMessagesInit };
 
     this.feedbackTimeout = setTimeout(() => {
-      this.messages = {};
+      this.messages = { ...badgeMessagesInit };
     }, 3000);
   }
 
