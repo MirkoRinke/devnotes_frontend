@@ -9,8 +9,8 @@ import { ApiErrorHandlingService } from '../../services/api-error-handling.servi
 import { AuthService } from '../../services/auth.service';
 
 import type { DeleteAccountErrorsInterface, DeleteAccountInterface, DeleteAccountMessagesInterface } from '../../interfaces/delete-account';
-
 import type { BackendErrorResponseInterface } from '../../interfaces/error-handling';
+import { badgeMessagesInit } from '../../interfaces/validation-messages';
 
 import { emailOrUsernameValidator } from '../../utils/custom-validators';
 import { RegexEnums } from '../../enums/regex';
@@ -28,9 +28,9 @@ export class DeleteAccount {
   doubleCheckIdentifier = false;
 
   messages: DeleteAccountMessagesInterface = {
-    identifier: { error: null, info: null, success: null },
-    password: { error: null, info: null, success: null },
-    deleteAccount: { error: null, info: null, success: null },
+    identifier: { ...badgeMessagesInit },
+    password: { ...badgeMessagesInit },
+    deleteAccount: { ...badgeMessagesInit },
   };
 
   isProcessing = false;
@@ -60,6 +60,13 @@ export class DeleteAccount {
       identifier: ['', [Validators.required, emailOrUsernameValidator('delete_account_identifier_invalid'), Validators.maxLength(255)]],
       password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(255)]],
     });
+  }
+
+  /**
+   * Clears the feedback messages for a given BadgeMessagesInterface object by resetting it to the initial state defined in badgeMessagesInit.
+   */
+  private clearFeedback(key: keyof DeleteAccountMessagesInterface): void {
+    this.messages[key] = { ...badgeMessagesInit };
   }
 
   /**
@@ -134,9 +141,9 @@ export class DeleteAccount {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (response) => {
+          this.clearFeedback('deleteAccount');
           this.messages['deleteAccount']['success'] = 'Konto erfolgreich gelöscht. Weiterleitung...';
-          this.messages['deleteAccount']['error'] = null;
-          this.messages['deleteAccount']['info'] = null;
+
           this.isProcessing = false;
 
           setTimeout(() => {
@@ -163,9 +170,8 @@ export class DeleteAccount {
    */
   setErrorMessage() {
     const errors = this.getFormErrors();
-    this.messages['identifier']['error'] = null;
-    this.messages['password']['error'] = null;
 
+    this.clearFeedback('identifier');
     if (errors['identifier']) {
       if (errors['identifier']['required']) {
         this.messages['identifier']['error'] = 'E-Mail-Adresse / Benutzernamen eingeben.';
@@ -176,6 +182,7 @@ export class DeleteAccount {
       }
     }
 
+    this.clearFeedback('password');
     if (errors['password']) {
       if (errors['password']['required']) {
         this.messages['password']['error'] = 'Passwort eingeben.';
