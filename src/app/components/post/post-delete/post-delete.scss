@@ -39,10 +39,6 @@
 
       .message {
         @include font-settings(16);
-
-        &.badge-anchor {
-          margin-top: px-to-rem(30);
-        }
       }
 
       .splitted-confirmation-title {
@@ -87,17 +83,7 @@
         }
       }
 
-      &:has(.badge-anchor.dev-info) {
-        @include info-compiler-badge('.badge-anchor', $top: -10px, $left: 0px);
-      }
-
-      &:not(:has(.badge-anchor.dev-info)):has(.badge-anchor.dev-success) {
-        @include success-compiler-badge('.badge-anchor', $top: -10px, $left: 0px);
-      }
-
-      &:not(:has(.badge-anchor.dev-info)):not(:has(.badge-anchor.dev-success)) {
-        @include error-compiler-badge('.badge-anchor', $top: -10px, $left: 0px);
-      }
+      @include position-absolute($class: '.badge', $top: -40px, $z-index: 10);
     }
   }
 

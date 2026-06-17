@@ -11,10 +11,12 @@ import { ApiEndpointEnums } from '../../../enums/api-endpoint';
 import type { PostInterface } from '../../../interfaces/post';
 import type { PostParamsInterface } from '../../../interfaces/post-params';
 import type { SplittedConfirmationTitleInterface } from '../../../interfaces/post-delete';
+import type { BadgeMessagesInterface } from '../../../interfaces/validation-messages';
+import { Badge } from '../../badge/badge';
 
 @Component({
   selector: 'app-post-delete',
-  imports: [],
+  imports: [Badge],
   templateUrl: './post-delete.html',
   styleUrl: './post-delete.scss',
 })
@@ -41,7 +43,12 @@ export class PostDelete {
 
   splittedConfirmationTitle: SplittedConfirmationTitleInterface[] = [];
 
-  messages: { [key: string]: string } = {};
+  messages: BadgeMessagesInterface = {
+    error: null,
+    info: null,
+    success: null,
+  };
+
   feedbackTimeout: number | null = null;
 
   constructor(
@@ -145,29 +152,17 @@ export class PostDelete {
       clearTimeout(this.feedbackTimeout);
     }
 
-    this.messages = {};
+    const messagesReset: BadgeMessagesInterface = {
+      error: null,
+      info: null,
+      success: null,
+    };
+
+    this.messages = { ...messagesReset };
 
     this.feedbackTimeout = setTimeout(() => {
-      this.messages = {};
+      this.messages = { ...messagesReset };
     }, 3000);
-  }
-
-  /**
-   * Determines the appropriate CSS class to apply based on the current message state.
-   * If there is an 'error' key in the messages object, it returns 'ng-invalid ng-touched'.
-   * If there is an 'info' key, it returns 'dev-info'. If there is a 'success' key, it returns 'dev-success'. If there are no messages, it returns 'ng-valid'.
-   *
-   * @returns The CSS class string based on the current message state.
-   */
-  public setMessageClass(): string {
-    if (this.messages['error']) {
-      return 'ng-invalid ng-touched';
-    } else if (this.messages['info']) {
-      return 'dev-info';
-    } else if (this.messages['success']) {
-      return 'dev-success';
-    }
-    return 'ng-valid';
   }
 
   /**

@@ -1,4 +1,3 @@
-<!-- TODO Work in Progress -->
 <div
   class="post-delete"
   (click)="$event.stopPropagation()"
@@ -18,25 +17,13 @@
 
       @if (fastDeleteEnabled) {
         <div class="confirmation-section">
-          @if (messages['error']) {
-            <div class="badge">
-              <span class="badge-text">[!] {{ messages['error'] }}</span>
-            </div>
-          } @else if (messages['info']) {
-            <div class="badge dev-info">
-              <span class="badge-text">[i] {{ messages['info'] }}</span>
-            </div>
-          } @else if (messages['success']) {
-            <div class="badge dev-success">
-              <span class="badge-text">[✓] {{ messages['success'] }}</span>
-            </div>
-          }
-          <p
-            class="message badge-anchor"
-            [class]="setMessageClass()"
-          >
-            Möchten Sie diesen Beitrag wirklich löschen?
-          </p>
+          <app-badge
+            class="badge"
+            [messages]="messages"
+            [caret]="'center'"
+          ></app-badge>
+
+          <p class="message">Möchten Sie diesen Beitrag wirklich löschen?</p>
         </div>
       } @else {
         @if (initialTitle?.length === confirmationTitle?.length) {
@@ -46,19 +33,11 @@
         }
 
         <div class="confirmation-section">
-          @if (messages['error']) {
-            <div class="badge">
-              <span class="badge-text">[!] {{ messages['error'] }}</span>
-            </div>
-          } @else if (messages['info']) {
-            <div class="badge dev-info">
-              <span class="badge-text">[i] {{ messages['info'] }}</span>
-            </div>
-          } @else if (messages['success']) {
-            <div class="badge dev-success">
-              <span class="badge-text">[✓] {{ messages['success'] }}</span>
-            </div>
-          }
+          <app-badge
+            class="badge"
+            [messages]="messages"
+            [caret]="'center'"
+          ></app-badge>
 
           <div class="splitted-confirmation-title">
             @for (char of splittedConfirmationTitle; track $index) {
@@ -75,8 +54,7 @@
 
           <input
             #confirmationInput
-            class="confirmation-input badge-anchor"
-            [class]="setMessageClass()"
+            class="confirmation-input"
             type="text"
             name="confirmationInput"
             autocomplete="off"
