@@ -112,6 +112,7 @@
     .footer-meta {
       @include display-flex(start, space-between);
       gap: px-to-rem(25);
+      min-height: px-to-rem(35);
 
       .tech-stack-section,
       .media-links-section {
@@ -188,6 +189,7 @@
     .footer-sub {
       @include display-flex(center, space-between);
       gap: px-to-rem(50);
+      min-height: px-to-rem(35);
 
       .tags-section {
         @include display-flex(center);
@@ -240,7 +242,6 @@
       .action-buttons {
         @include display-flex(center);
         gap: px-to-rem(15);
-        align-self: start;
 
         .reset-button,
         .cancel-button,
