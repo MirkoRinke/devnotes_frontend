@@ -12,6 +12,7 @@ import type { PostInterface } from '../../../interfaces/post';
 import type { PostParamsInterface } from '../../../interfaces/post-params';
 import type { SplittedConfirmationTitleInterface } from '../../../interfaces/post-delete';
 import type { BadgeMessagesInterface } from '../../../interfaces/validation-messages';
+import { badgeMessagesInit } from '../../../interfaces/validation-messages';
 import { Badge } from '../../badge/badge';
 
 @Component({
@@ -43,11 +44,7 @@ export class PostDelete {
 
   splittedConfirmationTitle: SplittedConfirmationTitleInterface[] = [];
 
-  messages: BadgeMessagesInterface = {
-    error: null,
-    info: null,
-    success: null,
-  };
+  messages: BadgeMessagesInterface = { ...badgeMessagesInit };
 
   feedbackTimeout: number | null = null;
 
@@ -152,16 +149,10 @@ export class PostDelete {
       clearTimeout(this.feedbackTimeout);
     }
 
-    const messagesReset: BadgeMessagesInterface = {
-      error: null,
-      info: null,
-      success: null,
-    };
-
-    this.messages = { ...messagesReset };
+    this.messages = { ...badgeMessagesInit };
 
     this.feedbackTimeout = setTimeout(() => {
-      this.messages = { ...messagesReset };
+      this.messages = { ...badgeMessagesInit };
     }, 3000);
   }
 
