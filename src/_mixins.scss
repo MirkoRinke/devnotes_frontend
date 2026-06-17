@@ -706,10 +706,10 @@
   @if $class != null {
     #{$class} {
       position: absolute;
-      top: $top;
-      bottom: $bottom;
-      right: $right;
-      left: $left;
+      top: convert-to-rem-if-needed($top);
+      bottom: convert-to-rem-if-needed($bottom);
+      right: convert-to-rem-if-needed($right);
+      left: convert-to-rem-if-needed($left);
       @if $z-index != null {
         z-index: $z-index;
       }
