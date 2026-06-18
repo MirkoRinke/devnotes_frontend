@@ -1,3 +1,4 @@
+// TODO: Refactor API error handling to use translation keys only. Remove 'message' field once all components are migrated.
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -40,6 +41,7 @@ export class ApiErrorHandlingService {
     return {
       messages: {
         message: 'Es ist ein Fehler aufgetreten. Bitte erneut versuchen.',
+        validatorKey: 'UNKNOWN_ERROR',
         messageType: 'error',
       },
     };
@@ -59,6 +61,7 @@ export class ApiErrorHandlingService {
       return {
         messages: {
           message: 'E-Mail-Adresse / Benutzername oder Passwort ist falsch.',
+          validatorKey: 'CREDENTIALS_INCORRECT',
           messageType: 'error',
         },
       };
@@ -92,6 +95,7 @@ export class ApiErrorHandlingService {
         mustAcceptConditions: true,
         messages: {
           message: 'Es gab neue Nutzungsbedingungen oder Datenschutzrichtlinien',
+          validatorKey: 'MUST_ACCEPT_CONDITIONS',
           messageType: 'info',
         },
       };
@@ -105,6 +109,7 @@ export class ApiErrorHandlingService {
       return {
         messages: {
           message: 'Das Löschen des Kontos ist nicht möglich.',
+          validatorKey: 'ACCOUNT_DELETION_FORBIDDEN',
           messageType: 'error',
         },
       };
@@ -126,6 +131,8 @@ export class ApiErrorHandlingService {
       return {
         messages: {
           message: `Ihr Konto wurde für ${days} Tage gesperrt.`,
+          validatorKey: 'ACCOUNT_SUSPENDED',
+          params: { days },
           messageType: 'error',
         },
       };
@@ -142,12 +149,9 @@ export class ApiErrorHandlingService {
    */
   private handle429(error: BackendErrorResponseInterface): BusinessActionInterface | void {
     if (error.errors === 'TOO_MANY_REQUESTS') {
-      return {
-        messages: {
-          message: 'Zu viele Anfragen. Bitte warten sie einen Moment.',
-          messageType: 'error',
-        },
-      };
+      //TODO Navigating to a dedicated "Too Many Requests" page.
+      this.router.navigate(['/']);
+      return;
     }
     return this.handleDefault(error);
   }

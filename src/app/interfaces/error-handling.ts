@@ -15,8 +15,14 @@ export interface BackendErrorResponseInterface {
   };
 }
 
+export interface ParamsInterface {
+  [key: string]: number | string;
+}
+
 export interface ErrorMessageInterface {
   message: string;
+  validatorKey: string;
+  params?: ParamsInterface;
   messageType: keyof ErrorTypeInterface;
 }
 
