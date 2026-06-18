@@ -31,4 +31,41 @@ export const CONTENT_EN: Content = {
       description: 'Guides & Tutorials. Find or create easy-to-understand instructions for new skills.',
     },
   },
+  Auth: {
+    error: {
+      identifier: {
+        required: 'Enter email address / username.',
+        login_identifier_invalid: 'The email address or username is invalid.',
+        maxlength: 'The email address or username is invalid.',
+      },
+      password: {
+        required: 'Enter password.',
+        minlength: 'The password must be at least 8 characters long.',
+        maxlength: 'The password must be at most 255 characters long.',
+      },
+      acceptedConditions: {
+        required: 'Please accept the terms of use & privacy policy.',
+      },
+      login: {
+        UNKNOWN_ERROR: 'An error occurred. Please try again.',
+        CREDENTIALS_INCORRECT: 'Email address / username or password is incorrect.',
+        ACCOUNT_DELETION_FORBIDDEN: 'Account deletion is not possible.',
+        ACCOUNT_SUSPENDED: 'Your account has been suspended for {days} days.',
+      },
+      deleteAccount: {},
+    },
+    info: {
+      login: {
+        MUST_ACCEPT_CONDITIONS: 'There are new terms of use or privacy policies.',
+      },
+    },
+    success: {
+      login: {
+        SUCCESSFUL: 'Login successful. Redirecting...',
+      },
+      acceptedConditions: {
+        ACCEPTED_CONDITIONS: 'Terms of use & privacy policy accepted.',
+      },
+    },
+  },
 };
