@@ -5,6 +5,8 @@ import { CONTENT_EN } from './data/translations.en';
 
 import { Content } from './data/translation.interface';
 
+import type { ParamsInterface } from '../interfaces/error-handling';
+
 interface Translations {
   [key: string]: Content;
 }
@@ -33,9 +35,10 @@ export class TranslationService {
    * For example, "PostTypes.feedback.title" would retrieve the title for the feedback post type.
    *
    * @param path The dot-separated key path to the desired translation (e.g., "PostTypes.feedback.title").
+   * @param params Optional parameters to be used in the translation string.
    * @returns The translated string if found, or "quak" if the translation is not found or if the path is invalid.
    */
-  getTranslation(path: string): string {
+  getTranslation(path: string, params?: ParamsInterface | null): string {
     const keys = path.split('.');
     let data: any = this.translations[this.currentLang];
 
@@ -46,6 +49,11 @@ export class TranslationService {
     }
 
     if (typeof data === 'string') {
+      if (params) {
+        Object.keys(params).forEach((key) => {
+          data = data.replace(`{${key}}`, String(params[key]));
+        });
+      }
       return data;
     }
 
