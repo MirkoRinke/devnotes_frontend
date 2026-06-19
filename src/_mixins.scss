@@ -682,6 +682,29 @@
   }
 }
 
+@mixin shake($suffix: 'spinner', $intensity: 5px, $duration: var.$transition-duration-slow) {
+  animation: shake-#{$suffix} $duration ease-in-out;
+  animation-iteration-count: infinite;
+
+  @keyframes shake-#{$suffix} {
+    0% {
+      transform: translate(0, 0);
+    }
+    25% {
+      transform: translate(-#{$intensity}, 0);
+    }
+    50% {
+      transform: translate(#{$intensity}, 0);
+    }
+    75% {
+      transform: translate(-#{$intensity}, 0);
+    }
+    100% {
+      transform: translate(0, 0);
+    }
+  }
+}
+
 @mixin custom-check-box(
   $check-box-class: null,
   $size: 18px,
