@@ -49,19 +49,27 @@ export const CONTENT_DE: Content = {
       login: {
         UNKNOWN_ERROR: 'Es ist ein Fehler aufgetreten. Bitte erneut versuchen.',
         CREDENTIALS_INCORRECT: 'E-Mail-Adresse / Benutzername oder Passwort ist falsch.',
-        ACCOUNT_DELETION_FORBIDDEN: 'Das Löschen des Kontos ist nicht möglich.',
         ACCOUNT_SUSPENDED: 'Ihr Konto wurde für {days} Tage gesperrt.',
       },
-      deleteAccount: {},
+      deleteAccount: {
+        ACCOUNT_DELETION_INVALID_CREDENTIALS: 'E-Mail-Adresse / Benutzername oder Passwort ist falsch.',
+        ACCOUNT_DELETION_FORBIDDEN: 'Das Löschen des Kontos ist nicht möglich.',
+      },
     },
     info: {
       login: {
         MUST_ACCEPT_CONDITIONS: 'Es gab neue Nutzungsbedingungen oder Datenschutzrichtlinien',
       },
+      deleteAccount: {
+        DELETE_ACCOUNT_CONFIRMATION: 'Konto wirklich löschen?',
+      },
     },
     success: {
       login: {
-        SUCCESSFUL: 'Login erfolgreich. Weiterleitung...',
+        LOGIN_SUCCESSFUL: 'Login erfolgreich. Weiterleitung...',
+      },
+      deleteAccount: {
+        DELETE_ACCOUNT_SUCCESSFUL: 'Konto erfolgreich gelöscht. Weiterleitung...',
       },
       acceptedConditions: {
         ACCEPTED_CONDITIONS: 'Nutzungsbedingungen & Datenschutzrichtlinie akzeptiert.',
