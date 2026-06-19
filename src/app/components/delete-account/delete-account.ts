@@ -6,10 +6,12 @@ import { Router, RouterModule } from '@angular/router';
 import { SvgIconsService } from '../../services/svg.icons.service';
 import { DeleteAccountService } from '../../services/delete-account.service';
 import { ApiErrorHandlingService } from '../../services/api-error-handling.service';
+import { TranslationService } from '../../i18n/translation.service';
+
 import { AuthService } from '../../services/auth.service';
 
 import type { DeleteAccountErrorsInterface, DeleteAccountInterface, DeleteAccountMessagesInterface } from '../../interfaces/delete-account';
-import type { BackendErrorResponseInterface } from '../../interfaces/error-handling';
+import type { BackendErrorResponseInterface, ParamsInterface } from '../../interfaces/error-handling';
 import { badgeMessagesInit } from '../../interfaces/validation-messages';
 
 import { emailOrUsernameValidator } from '../../utils/custom-validators';
@@ -46,6 +48,7 @@ export class DeleteAccount {
     public svgIconsService: SvgIconsService,
     private apiErrorHandlingService: ApiErrorHandlingService,
     private authService: AuthService,
+    private translationService: TranslationService,
   ) {}
 
   ngOnInit() {
@@ -80,13 +83,12 @@ export class DeleteAccount {
 
     if (this.deleteAccountForm.invalid) {
       this.deleteAccountForm.markAllAsTouched();
-      this.getFormErrors();
       this.setErrorMessage();
       return;
     }
 
     if (!this.doubleCheckIdentifier) {
-      this.messages['deleteAccount']['info'] = 'Konto wirklich löschen?';
+      this.setMessage('deleteAccount', 'info', 'DELETE_ACCOUNT_CONFIRMATION');
       this.doubleCheckIdentifier = true;
       return;
     }
@@ -141,8 +143,7 @@ export class DeleteAccount {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (response) => {
-          this.clearFeedback('deleteAccount');
-          this.messages['deleteAccount']['success'] = 'Konto erfolgreich gelöscht. Weiterleitung...';
+          this.setMessage('deleteAccount', 'success', 'DELETE_ACCOUNT_SUCCESSFUL');
 
           this.isProcessing = false;
 
@@ -153,10 +154,11 @@ export class DeleteAccount {
         error: (error) => {
           const errorResponse: BackendErrorResponseInterface = error.error;
           const businessAction = this.apiErrorHandlingService.handleApiError(errorResponse);
-          const hasMessages = businessAction?.messages && businessAction.messages.messageType;
+          const hasValidatorKey = businessAction?.messages && businessAction.messages.validatorKey;
+          const params = businessAction?.messages?.params || null;
 
-          if (hasMessages) {
-            this.messages['deleteAccount'][businessAction.messages.messageType] = businessAction.messages.message;
+          if (hasValidatorKey) {
+            this.setMessage('deleteAccount', businessAction.messages.messageType, businessAction.messages.validatorKey, params);
           }
 
           this.isProcessing = false;
@@ -166,32 +168,37 @@ export class DeleteAccount {
   }
 
   /**
-   * Sets the error messages for the form fields based on the validation errors present in the form controls.
+   * Sets a message for a specific field, type, and validator key.
+   * It retrieves the translation from the translation service and updates the messages object accordingly.
+   *
+   * @param field - The field for which the message is being set.
+   * @param type - The type of message ('error', 'success', or 'info').
+   * @param validatorKey - The key of the validator for which the message is being set.
+   * @param params - Optional parameters to be used in the message.
    */
-  setErrorMessage() {
+  private setMessage(field: keyof DeleteAccountMessagesInterface, type: 'error' | 'success' | 'info', validatorKey: string, params?: ParamsInterface | null): void {
+    this.clearFeedback(field);
+    const path = `Auth.${type}.${field}.${validatorKey}`;
+    const message = this.translationService.getTranslation(path, params);
+    this.messages[field][type] = message;
+  }
+
+  /**
+   * Sets the error messages for the form controls based on the validation errors present in the form.
+   * It iterates through the defined fields and checks if there are any errors for each field.
+   */
+  private setErrorMessage() {
     const errors = this.getFormErrors();
+    const fields: (keyof DeleteAccountMessagesInterface)[] = ['identifier', 'password'];
 
-    this.clearFeedback('identifier');
-    if (errors['identifier']) {
-      if (errors['identifier']['required']) {
-        this.messages['identifier']['error'] = 'E-Mail-Adresse / Benutzernamen eingeben.';
-      } else if (errors['identifier']['delete_account_identifier_invalid']) {
-        this.messages['identifier']['error'] = 'Die E-Mail-Adresse oder der Benutzername ist ungültig.';
-      } else if (errors['identifier']['maxlength']) {
-        this.messages['identifier']['error'] = 'Die E-Mail-Adresse oder der Benutzername ist ungültig.';
+    fields.forEach((field) => {
+      if (errors[field]) {
+        const validatorKey = Object.keys(errors[field])[0];
+        this.setMessage(field, 'error', validatorKey);
+      } else {
+        this.clearFeedback(field);
       }
-    }
-
-    this.clearFeedback('password');
-    if (errors['password']) {
-      if (errors['password']['required']) {
-        this.messages['password']['error'] = 'Passwort eingeben.';
-      } else if (errors['password']['minlength']) {
-        this.messages['password']['error'] = 'Das Passwort muss mindestens 6 Zeichen lang sein.';
-      } else if (errors['password']['maxlength']) {
-        this.messages['password']['error'] = 'Das Passwort darf maximal 255 Zeichen lang sein.';
-      }
-    }
+    });
   }
 
   /**
@@ -210,6 +217,11 @@ export class DeleteAccount {
     return errors;
   }
 
+  /**
+   * Determines the appropriate duck icon to display based on the focus state of the password field and the length of the entered password.
+   *
+   * @returns The name of the duck icon to display.
+   */
   getDuckIcon(): string {
     if (!this.isPasswordFocused) return 'delete_account_normal_duck';
 
