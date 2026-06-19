@@ -138,7 +138,7 @@ export class LoginForm {
         next: (response) => {
           console.log('Login successful:', response);
 
-          this.setMessage('login', 'success', 'SUCCESSFUL');
+          this.setMessage('login', 'success', 'LOGIN_SUCCESSFUL');
 
           this.isProcessing = false;
 
