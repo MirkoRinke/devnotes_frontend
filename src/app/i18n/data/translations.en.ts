@@ -49,19 +49,27 @@ export const CONTENT_EN: Content = {
       login: {
         UNKNOWN_ERROR: 'An error occurred. Please try again.',
         CREDENTIALS_INCORRECT: 'Email address / username or password is incorrect.',
-        ACCOUNT_DELETION_FORBIDDEN: 'Account deletion is not possible.',
         ACCOUNT_SUSPENDED: 'Your account has been suspended for {days} days.',
       },
-      deleteAccount: {},
+      deleteAccount: {
+        ACCOUNT_DELETION_INVALID_CREDENTIALS: 'Email address / username or password is incorrect.',
+        ACCOUNT_DELETION_FORBIDDEN: 'Account deletion is not possible.',
+      },
     },
     info: {
       login: {
         MUST_ACCEPT_CONDITIONS: 'There are new terms of use or privacy policies.',
       },
+      deleteAccount: {
+        DELETE_ACCOUNT_CONFIRMATION: 'Really delete account?',
+      },
     },
     success: {
       login: {
-        SUCCESSFUL: 'Login successful. Redirecting...',
+        LOGIN_SUCCESSFUL: 'Login successful. Redirecting...',
+      },
+      deleteAccount: {
+        DELETE_ACCOUNT_SUCCESSFUL: 'Account successfully deleted. Redirecting...',
       },
       acceptedConditions: {
         ACCEPTED_CONDITIONS: 'Terms of use & privacy policy accepted.',
