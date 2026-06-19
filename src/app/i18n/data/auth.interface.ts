@@ -24,6 +24,7 @@ interface FormErrorsInterface {
 interface CustomErrorMessages {
   UNKNOWN_ERROR?: string;
   CREDENTIALS_INCORRECT?: string;
+  ACCOUNT_DELETION_INVALID_CREDENTIALS?: string;
   MUST_ACCEPT_CONDITIONS?: string;
   ACCOUNT_DELETION_FORBIDDEN?: string;
   ACCOUNT_SUSPENDED?: string;
@@ -33,11 +34,13 @@ interface CustomErrorMessages {
 // #region Success Messages
 interface SuccessMessages {
   login?: CustomSuccessInterface;
+  deleteAccount?: CustomSuccessInterface;
   acceptedConditions?: CustomSuccessInterface;
 }
 
 interface CustomSuccessInterface {
-  SUCCESSFUL?: string;
+  LOGIN_SUCCESSFUL?: string;
+  DELETE_ACCOUNT_SUCCESSFUL?: string;
   ACCEPTED_CONDITIONS?: string;
 }
 // #endregion
@@ -45,9 +48,11 @@ interface CustomSuccessInterface {
 // #region Info Messages
 interface InfoMessages {
   login?: CustomInfoInterface;
+  deleteAccount?: CustomInfoInterface;
 }
 
 interface CustomInfoInterface {
   MUST_ACCEPT_CONDITIONS?: string;
+  DELETE_ACCOUNT_CONFIRMATION?: string;
 }
 // #endregion
