@@ -13,6 +13,7 @@
 
       <span
         class="icon-container"
+        [class.animated]="isProcessing"
         [innerHTML]="svgIconsService.returnIcon(getDuckIcon(), 'icon')"
       ></span>
     </div>

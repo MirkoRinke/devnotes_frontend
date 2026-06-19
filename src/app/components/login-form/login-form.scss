@@ -34,6 +34,10 @@
       max-height: px-to-rem(160);
       align-self: center;
 
+      &.animated {
+        @include shake();
+      }
+
       &::ng-deep .icon {
         max-width: px-to-rem(160);
         max-height: px-to-rem(160);
