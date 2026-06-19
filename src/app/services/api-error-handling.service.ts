@@ -61,7 +61,7 @@ export class ApiErrorHandlingService {
       return {
         messages: {
           message: 'E-Mail-Adresse / Benutzername oder Passwort ist falsch.',
-          validatorKey: 'CREDENTIALS_INCORRECT',
+          validatorKey: error.errors,
           messageType: 'error',
         },
       };
@@ -109,7 +109,7 @@ export class ApiErrorHandlingService {
       return {
         messages: {
           message: 'Das Löschen des Kontos ist nicht möglich.',
-          validatorKey: 'ACCOUNT_DELETION_FORBIDDEN',
+          validatorKey: error.errors,
           messageType: 'error',
         },
       };
@@ -131,7 +131,7 @@ export class ApiErrorHandlingService {
       return {
         messages: {
           message: `Ihr Konto wurde für ${days} Tage gesperrt.`,
-          validatorKey: 'ACCOUNT_SUSPENDED',
+          validatorKey: error.errors,
           params: { days },
           messageType: 'error',
         },
