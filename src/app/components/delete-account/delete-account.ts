@@ -159,6 +159,8 @@ export class DeleteAccount {
 
           if (hasValidatorKey) {
             this.setMessage('deleteAccount', businessAction.messages.messageType, businessAction.messages.validatorKey, params);
+          } else {
+            this.setMessage('deleteAccount', 'error', 'UNKNOWN_ERROR');
           }
 
           this.isProcessing = false;
