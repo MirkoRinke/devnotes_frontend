@@ -1,4 +1,4 @@
-export interface PostTypes {
+export interface PostTypesMessagesInterface {
   all_types: PostType;
   feedback: PostType;
   questions: PostType;
