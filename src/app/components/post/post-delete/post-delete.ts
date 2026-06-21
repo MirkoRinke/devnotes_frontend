@@ -5,13 +5,17 @@ import { SvgIconsService } from '../../../services/svg.icons.service';
 
 import { ApiService } from '../../../services/api.service';
 import { AuthService } from '../../../services/auth.service';
+import { ApiErrorHandlingService } from '../../../services/api-error-handling.service';
+import { TranslationService } from '../../../i18n/translation.service';
 
 import { ApiEndpointEnums } from '../../../enums/api-endpoint';
 
 import type { PostInterface } from '../../../interfaces/post';
 import type { PostParamsInterface } from '../../../interfaces/post-params';
 import type { SplittedConfirmationTitleInterface } from '../../../interfaces/post-delete';
-import type { BadgeMessagesInterface } from '../../../interfaces/validation-messages';
+import type { BackendErrorResponseInterface, ParamsInterface } from '../../../interfaces/error-handling';
+import { PostDeleteMessagesInterface } from '../../../interfaces/post-delete';
+
 import { badgeMessagesInit } from '../../../interfaces/validation-messages';
 import { Badge } from '../../badge/badge';
 
@@ -44,7 +48,9 @@ export class PostDelete {
 
   splittedConfirmationTitle: SplittedConfirmationTitleInterface[] = [];
 
-  messages: BadgeMessagesInterface = { ...badgeMessagesInit };
+  messages: PostDeleteMessagesInterface = {
+    delete: { ...badgeMessagesInit },
+  };
 
   feedbackTimeout: number | null = null;
 
@@ -52,7 +58,9 @@ export class PostDelete {
     public svgIconsService: SvgIconsService,
     private apiService: ApiService,
     private authService: AuthService,
+    private apiErrorHandlingService: ApiErrorHandlingService,
     private router: Router,
+    private translationService: TranslationService,
   ) {}
 
   ngOnInit() {
@@ -142,18 +150,33 @@ export class PostDelete {
   }
 
   /**
-   * Clears any existing feedback messages (errors, info, success) and sets a timeout to clear them after 3 seconds,
-   * ensuring that the user receives timely feedback without cluttering the interface with old messages.
+   * Sets a message for a specific field, type, and validator key.
+   * It retrieves the translation from the translation service and updates the messages object accordingly.
+   *
+   * @param field - The field for which the message is being set.
+   * @param type - The type of message ('error', 'success', or 'info').
+   * @param validatorKey - The key of the validator for which the message is being set.
+   * @param params - Optional parameters to be used in the message.
    */
-  private clearFeedback(): void {
+  private setMessage(field: keyof PostDeleteMessagesInterface, type: 'error' | 'success' | 'info', validatorKey: string, params?: ParamsInterface | null): void {
+    this.clearMessage(field);
+    const path = `Post.${type}.${field}.${validatorKey}`;
+    const message = this.translationService.getTranslation(path, params);
+    this.messages[field][type] = message;
+  }
+
+  /**
+   * Clears the feedback messages for a given BadgeMessagesInterface object by resetting it to the initial state defined in badgeMessagesInit.
+   */
+  private clearMessage(key: keyof PostDeleteMessagesInterface): void {
     if (this.feedbackTimeout) {
       clearTimeout(this.feedbackTimeout);
     }
 
-    this.messages = { ...badgeMessagesInit };
+    this.messages[key] = { ...badgeMessagesInit };
 
     this.feedbackTimeout = setTimeout(() => {
-      this.messages = { ...badgeMessagesInit };
+      this.messages[key] = { ...badgeMessagesInit };
     }, 3000);
   }
 
@@ -179,17 +202,15 @@ export class PostDelete {
    */
   onDeletePost(post: PostInterface): void {
     if (this.authService.getCurrentUserId() !== post.user_id) {
-      this.clearFeedback();
-      this.messages['error'] = 'Keine Berechtigung zum Löschen.';
+      this.setMessage('delete', 'error', 'NO_PERMISSION');
       return;
     }
 
     if (!this.isDeleteConfirmed) {
-      this.clearFeedback();
       if (this.inputConfirmationValue === null || this.inputConfirmationValue.length === 0) {
-        this.messages['info'] = 'Bitte Bestätigungstext eingeben.';
+        this.setMessage('delete', 'info', 'CONFIRMATION_TEXT_REQUIRED');
       } else {
-        this.messages['error'] = 'Bestätigungstext stimmt nicht überein.';
+        this.setMessage('delete', 'error', 'CONFIRMATION_TEXT_MISMATCH');
       }
       return;
     }
@@ -200,9 +221,7 @@ export class PostDelete {
 
     this.apiService.delete(url).subscribe({
       next: () => {
-        console.log('Post deleted successfully');
-        this.clearFeedback();
-        this.messages['success'] = 'Beitrag erfolgreich gelöscht.';
+        this.setMessage('delete', 'success', 'DELETE_SUCCESS');
         setTimeout(() => {
           if (hasRequiredParams) {
             this.router.navigate(['/posts-list'], {
@@ -221,9 +240,16 @@ export class PostDelete {
         }, 1500);
       },
       error: (error) => {
-        console.error('Error deleting post:', error);
-        this.clearFeedback();
-        this.messages['error'] = 'Fehler beim Löschen des Beitrags.';
+        const errorResponse: BackendErrorResponseInterface = error.error;
+        const businessAction = this.apiErrorHandlingService.handleApiError(errorResponse);
+        const hasValidatorKey = businessAction?.messages && businessAction.messages.validatorKey;
+        const params = businessAction?.messages?.params || null;
+
+        if (hasValidatorKey) {
+          this.setMessage('delete', businessAction.messages.messageType, businessAction.messages.validatorKey, params);
+        } else {
+          this.setMessage('delete', 'error', 'UNKNOWN_ERROR');
+        }
       },
     });
   }
