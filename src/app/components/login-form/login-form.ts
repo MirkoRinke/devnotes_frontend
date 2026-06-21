@@ -147,6 +147,8 @@ export class LoginForm {
 
           if (hasValidatorKey) {
             this.setMessage('login', businessAction.messages.messageType, businessAction.messages.validatorKey, params);
+          } else {
+            this.setMessage('login', 'error', 'UNKNOWN_ERROR');
           }
 
           if (businessAction?.mustAcceptConditions) {
