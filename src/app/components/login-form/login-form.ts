@@ -72,13 +72,6 @@ export class LoginForm {
   }
 
   /**
-   * Clears the feedback messages for a given BadgeMessagesInterface object by resetting it to the initial state defined in badgeMessagesInit.
-   */
-  private clearFeedback(key: keyof LoginMessagesInterface): void {
-    this.messages[key] = { ...badgeMessagesInit };
-  }
-
-  /**
    * Handles the form submission. It first checks if the form is valid. If not, it marks all controls as touched, retrieves form errors, and sets appropriate error messages.
    * If the form is valid, it constructs a LoginFormInterface object based on the form values and calls the login method to perform the login operation.
    *
@@ -187,10 +180,17 @@ export class LoginForm {
    * @param params - Optional parameters to be used in the message.
    */
   private setMessage(field: keyof LoginMessagesInterface, type: 'error' | 'success' | 'info', validatorKey: string, params?: ParamsInterface | null): void {
-    this.clearFeedback(field);
+    this.clearMessage(field);
     const path = `Auth.${type}.${field}.${validatorKey}`;
     const message = this.translationService.getTranslation(path, params);
     this.messages[field][type] = message;
+  }
+
+  /**
+   * Clears the feedback messages for a given BadgeMessagesInterface object by resetting it to the initial state defined in badgeMessagesInit.
+   */
+  private clearMessage(key: keyof LoginMessagesInterface): void {
+    this.messages[key] = { ...badgeMessagesInit };
   }
 
   /**
@@ -201,7 +201,7 @@ export class LoginForm {
     const isAccepted = this.loginForm?.get('acceptedConditions')?.value;
     if (isAccepted) {
       this.setMessage('acceptedConditions', 'success', 'ACCEPTED_CONDITIONS');
-      this.clearFeedback('login');
+      this.clearMessage('login');
     } else {
       this.setMessage('acceptedConditions', 'error', 'required');
     }
@@ -220,7 +220,7 @@ export class LoginForm {
         const validatorKey = Object.keys(errors[field])[0];
         this.setMessage(field, 'error', validatorKey);
       } else {
-        this.clearFeedback(field);
+        this.clearMessage(field);
       }
     });
   }
