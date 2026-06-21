@@ -66,13 +66,6 @@ export class DeleteAccount {
   }
 
   /**
-   * Clears the feedback messages for a given BadgeMessagesInterface object by resetting it to the initial state defined in badgeMessagesInit.
-   */
-  private clearFeedback(key: keyof DeleteAccountMessagesInterface): void {
-    this.messages[key] = { ...badgeMessagesInit };
-  }
-
-  /**
    * Handles the form submission. It first checks if the form is valid. If not, it marks all controls as touched, retrieves form errors, and sets appropriate error messages.
    * If the form is valid, it constructs a DeleteAccountInterface object based on the form values and calls the deleteAccount method to perform the delete account operation.
    *
@@ -179,10 +172,17 @@ export class DeleteAccount {
    * @param params - Optional parameters to be used in the message.
    */
   private setMessage(field: keyof DeleteAccountMessagesInterface, type: 'error' | 'success' | 'info', validatorKey: string, params?: ParamsInterface | null): void {
-    this.clearFeedback(field);
+    this.clearMessage(field);
     const path = `Auth.${type}.${field}.${validatorKey}`;
     const message = this.translationService.getTranslation(path, params);
     this.messages[field][type] = message;
+  }
+
+  /**
+   * Clears the feedback messages for a given BadgeMessagesInterface object by resetting it to the initial state defined in badgeMessagesInit.
+   */
+  private clearMessage(key: keyof DeleteAccountMessagesInterface): void {
+    this.messages[key] = { ...badgeMessagesInit };
   }
 
   /**
@@ -198,7 +198,7 @@ export class DeleteAccount {
         const validatorKey = Object.keys(errors[field])[0];
         this.setMessage(field, 'error', validatorKey);
       } else {
-        this.clearFeedback(field);
+        this.clearMessage(field);
       }
     });
   }
