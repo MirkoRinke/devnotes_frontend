@@ -7,6 +7,8 @@ import { Content } from './data/translation.interface';
 
 import type { ParamsInterface } from '../interfaces/error-handling';
 
+import { environment } from '../../environments/environment';
+
 interface Translations {
   [key: string]: Content;
 }
@@ -57,6 +59,6 @@ export class TranslationService {
       return data;
     }
 
-    return 'quak';
+    return environment.DEBUG ? path : 'quak';
   }
 }
