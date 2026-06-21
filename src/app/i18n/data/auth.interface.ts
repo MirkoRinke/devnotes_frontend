@@ -1,4 +1,4 @@
-export interface Auth {
+export interface AuthMessagesInterface {
   error: ErrorMessages;
   info: InfoMessages;
   success: SuccessMessages;
@@ -6,11 +6,11 @@ export interface Auth {
 
 // #region Error Messages
 interface ErrorMessages {
-  identifier?: FormErrorsInterface & CustomErrorMessages;
-  password?: FormErrorsInterface & CustomErrorMessages;
-  acceptedConditions?: FormErrorsInterface & CustomErrorMessages;
-  login?: FormErrorsInterface & CustomErrorMessages;
-  deleteAccount?: FormErrorsInterface & CustomErrorMessages;
+  identifier?: FormErrorsInterface;
+  password?: FormErrorsInterface;
+  acceptedConditions?: FormErrorsInterface;
+  login?: CustomErrorMessages;
+  deleteAccount?: CustomErrorMessages;
 }
 
 interface FormErrorsInterface {
@@ -22,12 +22,23 @@ interface FormErrorsInterface {
 }
 
 interface CustomErrorMessages {
-  UNKNOWN_ERROR?: string;
+  UNKNOWN_ERROR: string;
   CREDENTIALS_INCORRECT?: string;
   ACCOUNT_DELETION_INVALID_CREDENTIALS?: string;
-  MUST_ACCEPT_CONDITIONS?: string;
   ACCOUNT_DELETION_FORBIDDEN?: string;
   ACCOUNT_SUSPENDED?: string;
+}
+// #endregion
+
+// #region Info Messages
+interface InfoMessages {
+  login?: CustomInfoInterface;
+  deleteAccount?: CustomInfoInterface;
+}
+
+interface CustomInfoInterface {
+  MUST_ACCEPT_CONDITIONS?: string;
+  DELETE_ACCOUNT_CONFIRMATION?: string;
 }
 // #endregion
 
@@ -42,17 +53,5 @@ interface CustomSuccessInterface {
   LOGIN_SUCCESSFUL?: string;
   DELETE_ACCOUNT_SUCCESSFUL?: string;
   ACCEPTED_CONDITIONS?: string;
-}
-// #endregion
-
-// #region Info Messages
-interface InfoMessages {
-  login?: CustomInfoInterface;
-  deleteAccount?: CustomInfoInterface;
-}
-
-interface CustomInfoInterface {
-  MUST_ACCEPT_CONDITIONS?: string;
-  DELETE_ACCOUNT_CONFIRMATION?: string;
 }
 // #endregion
