@@ -336,7 +336,6 @@ export class PostForm {
     if (this.postForm.invalid) {
       this.postForm.markAllAsTouched();
       this.processFormValidation();
-      // this.setErrorMessage(this.messageKeys);
       return;
     }
 
@@ -677,6 +676,10 @@ export class PostForm {
    */
   public closeTechStackModal() {
     this.isTechStackSelectorModalAnimating = false;
+
+    if (!this.getSyntaxHighlightingBadgeMessage() && this.submitCount > 0) {
+      this.setErrorMessage();
+    }
   }
 
   @ViewChild('mediaLinksEditor') mediaLinksEditor!: PostMediaLinksEditor;
