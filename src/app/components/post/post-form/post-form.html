@@ -13,7 +13,7 @@
           <div class="post-type-section">
             <app-badge
               class="badge"
-              [messages]="postForm.get('post_type')?.invalid ? getErrorMessage('post_type') : null"
+              [messages]="postForm.get('post_type')?.invalid ? messages['post_type'] : null"
               [caret]="'left'"
               [animationDelay]="(getErrorIndex('post_type') ?? 0) * badgeAnimationDelay"
             ></app-badge>
@@ -36,7 +36,7 @@
           <div class="post-category-section">
             <app-badge
               class="badge"
-              [messages]="postForm.get('category')?.invalid ? getErrorMessage('category') : null"
+              [messages]="postForm.get('category')?.invalid ? messages['category'] : null"
               [caret]="'left'"
               [animationDelay]="(getErrorIndex('category') ?? 0) * badgeAnimationDelay"
             ></app-badge>
@@ -59,7 +59,7 @@
           <div class="post-syntax-section">
             <app-badge
               class="badge"
-              [messages]="getSyntaxHighlightingBadgeMessage()"
+              [messages]="getSyntaxHighlightingBadgeMessage() ? messages['syntax_highlighting'] : null"
               [caret]="'left'"
               [animationDelay]="(getErrorIndex('syntax_highlighting') ?? 0) * badgeAnimationDelay"
             ></app-badge>
@@ -84,7 +84,7 @@
           <div class="post-status-section">
             <app-badge
               class="badge"
-              [messages]="postForm.get('status')?.invalid ? getErrorMessage('status') : null"
+              [messages]="postForm.get('status')?.invalid ? messages['status'] : null"
               [caret]="'left'"
               [animationDelay]="(getErrorIndex('status') ?? 0) * badgeAnimationDelay"
             ></app-badge>
@@ -122,7 +122,7 @@
       <div class="title-wrapper">
         <app-badge
           class="badge"
-          [messages]="postForm.get('title')?.invalid ? getErrorMessage('title') : null"
+          [messages]="postForm.get('title')?.invalid ? messages['title'] : null"
           [caret]="'left'"
           [animationDelay]="(getErrorIndex('title') ?? 0) * badgeAnimationDelay"
         ></app-badge>
@@ -140,7 +140,7 @@
       <div class="description-section">
         <app-badge
           class="badge"
-          [messages]="postForm.get('description')?.invalid ? getErrorMessage('description') : null"
+          [messages]="postForm.get('description')?.invalid ? messages['description'] : null"
           [caret]="'left'"
           [animationDelay]="(getErrorIndex('description') ?? 0) * badgeAnimationDelay"
         ></app-badge>
@@ -155,7 +155,7 @@
       <div class="code-section">
         <app-badge
           class="badge"
-          [messages]="postForm.get('code')?.invalid ? getErrorMessage('code') : null"
+          [messages]="postForm.get('code')?.invalid ? messages['code'] : null"
           [caret]="'left'"
           [animationDelay]="(getErrorIndex('code') ?? 0) * badgeAnimationDelay"
         ></app-badge>
@@ -175,7 +175,7 @@
         <div class="tech-stack-section">
           <app-badge
             class="badge"
-            [messages]="postForm.hasError('language_or_tech_required') ? getErrorMessage('language_or_tech_required') : null"
+            [messages]="postForm.hasError('language_or_tech_required') ? messages['language_or_tech_required'] : null"
             [caret]="'left'"
             [animationDelay]="(getErrorIndex('language_or_tech_required') ?? 0) * badgeAnimationDelay"
           ></app-badge>

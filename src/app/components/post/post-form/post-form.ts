@@ -8,21 +8,22 @@ import { ApiService } from '../../../services/api.service';
 import { AuthService } from '../../../services/auth.service';
 import { SvgIconsService } from '../../../services/svg.icons.service';
 
-import { ApiEndpointEnums } from '../../../enums/api-endpoint';
+import { LocalDatePipe } from '../../../pipes/local-date-pipe';
+import { TranslationService } from '../../../i18n/translation.service';
 
+import { BadgeMessageHandler } from '../../../utils/badge-message-handler';
 import { atLeastOne, requiredWith } from '../../../utils/custom-validators';
 
-import { LocalDatePipe } from '../../../pipes/local-date-pipe';
+import { ApiEndpointEnums } from '../../../enums/api-endpoint';
 
 import type { ApiResponseObjektInterface } from '../../../interfaces/api-response';
 import type { PostInterface } from '../../../interfaces/post';
 import type { PostPayload } from '../../../interfaces/post-payload';
 import type { UserInterface } from '../../../interfaces/user';
 import type { TagsInterface } from '../../../interfaces/tags';
-import type { TechStackSelectedValueInterface, ResourceRefreshInterface, PostFormErrorsInterface, TerminalLineInterface } from '../../../interfaces/post-form';
+import type { TechStackSelectedValueInterface, ResourceRefreshInterface, PostFormErrorsInterface, TerminalLineInterface, ErrorCodeMessagesInterface } from '../../../interfaces/post-form';
 import type { ExternalSourceInterface } from '../../../interfaces/post-external-source';
 
-import type { BadgeMessagesInterface } from '../../../interfaces/validation-messages';
 import { badgeMessagesInit } from '../../../interfaces/validation-messages';
 
 import { QueryParamsDropdown } from '../../query-params-dropdown/query-params-dropdown';
@@ -37,7 +38,6 @@ import { PostTags } from '../post-tags/post-tags';
 import { PostMediaLinksEditor } from '../post-media-links-editor/post-media-links-editor';
 import { PostTagsEditor } from '../post-tags-editor/post-tags-editor';
 import { TerminalLog } from '../../terminal-log/terminal-log';
-
 import { Badge } from '../../badge/badge';
 
 @Component({
@@ -91,7 +91,20 @@ export class PostForm {
 
   private destroyRef = inject(DestroyRef);
 
-  messages: BadgeMessagesInterface = { ...badgeMessagesInit };
+  messages: ErrorCodeMessagesInterface = {
+    post_type: { ...badgeMessagesInit },
+    category: { ...badgeMessagesInit },
+    syntax_highlighting: { ...badgeMessagesInit },
+    status: { ...badgeMessagesInit },
+    title: { ...badgeMessagesInit },
+    description: { ...badgeMessagesInit },
+    code: { ...badgeMessagesInit },
+    language_or_tech_required: { ...badgeMessagesInit },
+  };
+
+  private messageKeys: (keyof ErrorCodeMessagesInterface)[] = ['post_type', 'category', 'status', 'title', 'description', 'code', 'syntax_highlighting', 'language_or_tech_required'];
+
+  private msg = new BadgeMessageHandler<ErrorCodeMessagesInterface>(this.messages, 'Post', inject(TranslationService));
 
   postFormErrors: { [key: string]: PostFormErrorsInterface } | PostFormErrorsInterface = {};
   postTerminalMessages: TerminalLineInterface[] = [];
@@ -257,7 +270,6 @@ export class PostForm {
         true,
       );
     }
-    console.log('Initial Terminal Messages:', this.postTerminalMessages);
   }
 
   /**
@@ -300,16 +312,11 @@ export class PostForm {
     this.postForm?.markAsPristine();
     this.postForm?.markAsUntouched();
     this.postFormErrors = {};
+    this.submitCount = 0;
+    this.messageKeys.forEach((key) => this.msg.clearMessage(key));
     this.initialMessages(this.mode);
 
     this.postFormCode = this.postForm?.get('code')?.value;
-  }
-
-  /**
-   * Clears the feedback messages by resetting the `messages` object to its initial state.
-   */
-  private clearFeedback(): void {
-    this.messages = { ...badgeMessagesInit };
   }
 
   /**
@@ -328,7 +335,8 @@ export class PostForm {
 
     if (this.postForm.invalid) {
       this.postForm.markAllAsTouched();
-      this.getFormErrors();
+      this.processFormValidation();
+      // this.setErrorMessage(this.messageKeys);
       return;
     }
 
@@ -351,9 +359,6 @@ export class PostForm {
       technologies: rawValue.technologies.map((tech: TechStackSelectedValueInterface) => tech.name),
       tags: rawValue.tags.map((tag: TagsInterface) => tag.name),
     };
-
-    console.log(this.postTerminalMessages);
-
     this.savePost(data);
   }
 
@@ -364,7 +369,7 @@ export class PostForm {
    *
    * @returns void
    */
-  getFormErrors(): void {
+  processFormValidation(): void {
     if (!this.postForm || this.postForm.valid) {
       this.postFormErrors = {};
       return;
@@ -379,22 +384,7 @@ export class PostForm {
 
     this.pushNewTerminalMessage({ text: '[Error] Form validation failed. Please check the errors and try again.', level: 'error' });
 
-    const errors: { [key: string]: PostFormErrorsInterface } | PostFormErrorsInterface = {};
-
-    Object.entries(this.postForm.controls).forEach(([key, control]) => {
-      if (control.invalid && control.errors) {
-        (errors as any)[key] = control.errors;
-      }
-    });
-
-    if (this.postForm.errors) {
-      Object.assign(errors, this.postForm.errors);
-    }
-
-    this.postFormErrors = errors;
-
-    console.log('Form Errors:', this.postFormErrors);
-
+    this.setErrorMessage();
     this.terminalMessages();
   }
 
@@ -441,8 +431,22 @@ export class PostForm {
     });
 
     this.pushNewTerminalMessage(messages);
+  }
 
-    console.log('Terminal Messages:', this.postTerminalMessages);
+  /**
+   * Retrieves the validation errors from the form controls and returns an object containing the errors for each control.
+   * It iterates through the form controls, checks if they are invalid, and if so, adds their errors to the resulting object.
+   *
+   * @returns
+   */
+  private getFormErrors() {
+    const errors: { [key: string]: ErrorCodeMessagesInterface } = {};
+    Object.entries(this.postForm?.controls || {}).forEach(([key, control]) => {
+      if (control.invalid && control.errors) {
+        (errors as any)[key] = control.errors;
+      }
+    });
+    return errors;
   }
 
   /**
@@ -459,28 +463,33 @@ export class PostForm {
   }
 
   /**
-   * Generates a structured object containing the error message for a specific form control based on its validation errors.
+   * Sets the error messages for the specified fields based on the current form errors.
+   * It checks if each field has an error and sets the corresponding message using the BadgeMessageHandler.
+   * If a field does not have an error, it clears any existing message for that field.
    *
-   * @param fieldKey The key of the form control.
-   * @returns An object containing the error, info, and success messages for the form control.
    */
-  getErrorMessage(fieldKey: string): BadgeMessagesInterface {
-    const errorIndex = this.getErrorIndex(fieldKey);
-    this.clearFeedback();
+  private setErrorMessage(): void {
+    const controlErrors = this.getFormErrors();
+    const formErrors = this.postForm?.errors || {};
+    const allErrors = { ...controlErrors, ...formErrors };
+    this.postFormErrors = allErrors;
 
-    if (errorIndex) {
-      this.messages.error = `E${errorIndex}`;
-    }
-
-    return this.messages;
+    this.messageKeys.forEach((field) => {
+      const errorIndex = this.getErrorIndex(field);
+      if (allErrors[field as string] && errorIndex) {
+        this.msg.setMessage(field, 'error', 'E', { index: errorIndex });
+      } else {
+        this.msg.clearMessage(field);
+      }
+    });
   }
 
   /**
-   * Generates a structured object containing the badge message for the syntax highlighting field based on its validation errors and the current state of the form.
+   * Determines whether to show the syntax highlighting badge message based on the current form errors and values.
    *
-   * @returns An object containing the error, info, and success messages for the syntax highlighting field or null if there are no relevant messages to display.
+   * @returns True if the syntax highlighting badge message should be shown, false if it should not be shown.
    */
-  public getSyntaxHighlightingBadgeMessage(): BadgeMessagesInterface | null {
+  public getSyntaxHighlightingBadgeMessage(): boolean {
     const hasSubmitError = this.postFormErrors && this.postFormErrors['syntax_highlighting'];
     const hasLanguagesSelected = (this.getControl('languages')?.value?.length ?? 0) > 0;
 
@@ -488,16 +497,16 @@ export class PostForm {
     const isSyntaxInvalid = this.postForm?.hasError('syntax_highlighting');
 
     if (hasSubmitError && isSyntaxInvalid) {
-      return this.getErrorMessage('syntax_highlighting');
+      this.msg.setMessage('syntax_highlighting', 'error', 'E', { index: this.getErrorIndex('syntax_highlighting') ?? 0 });
+      return true;
     }
 
     if (hasLanguagesSelected && isSyntaxEmpty) {
-      this.clearFeedback();
-      this.messages.info = 'Info';
-      return this.messages;
+      this.msg.setMessage('syntax_highlighting', 'info', 'syntax_highlighting_required');
+      return true;
     }
 
-    return null;
+    return false;
   }
 
   /**
