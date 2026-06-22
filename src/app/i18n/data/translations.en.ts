@@ -84,10 +84,45 @@ export const CONTENT_EN: Content = {
         NO_PERMISSION: 'No permission to delete the post.',
         CONFIRMATION_TEXT_MISMATCH: 'Confirmation text does not match.',
       },
+      post_type: {
+        UNKNOWN_ERROR: 'An error occurred. Please try again.',
+        E: 'E{index}',
+      },
+      category: {
+        UNKNOWN_ERROR: 'An error occurred. Please try again.',
+        E: 'E{index}',
+      },
+      syntax_highlighting: {
+        UNKNOWN_ERROR: 'An error occurred. Please try again.',
+        E: 'E{index}',
+      },
+      status: {
+        UNKNOWN_ERROR: 'An error occurred. Please try again.',
+        E: 'E{index}',
+      },
+      title: {
+        UNKNOWN_ERROR: 'An error occurred. Please try again.',
+        E: 'E{index}',
+      },
+      description: {
+        UNKNOWN_ERROR: 'An error occurred. Please try again.',
+        E: 'E{index}',
+      },
+      code: {
+        UNKNOWN_ERROR: 'An error occurred. Please try again.',
+        E: 'E{index}',
+      },
+      language_or_tech_required: {
+        UNKNOWN_ERROR: 'An error occurred. Please try again.',
+        E: 'E{index}',
+      },
     },
     info: {
       delete: {
         CONFIRMATION_TEXT_REQUIRED: 'Please enter the confirmation text.',
+      },
+      syntax_highlighting: {
+        syntax_highlighting_required: 'Info',
       },
     },
     success: {
