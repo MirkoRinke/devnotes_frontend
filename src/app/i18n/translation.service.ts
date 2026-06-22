@@ -45,7 +45,7 @@ export class TranslationService {
     let data: any = this.translations[this.currentLang];
 
     for (const key of keys) {
-      if (!data) return 'quak';
+      if (!data) return environment.DEBUG ? path : 'quak';
 
       data = data[key];
     }
