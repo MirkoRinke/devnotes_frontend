@@ -7,8 +7,10 @@ import { LoginService } from '../../services/login.service';
 import { ApiErrorHandlingService } from '../../services/api-error-handling.service';
 import { TranslationService } from '../../i18n/translation.service';
 
+import { BadgeMessageHandler } from '../../utils/badge-message-handler';
+
 import type { LoginFormErrorsInterface, LoginFormInterface, LoginMessagesInterface } from '../../interfaces/login-form';
-import type { BackendErrorResponseInterface, ParamsInterface } from '../../interfaces/error-handling';
+import type { BackendErrorResponseInterface, BusinessActionInterface, ParamsInterface } from '../../interfaces/error-handling';
 import { badgeMessagesInit } from '../../interfaces/validation-messages';
 
 import { emailOrUsernameValidator } from '../../utils/custom-validators';
@@ -42,13 +44,14 @@ export class LoginForm {
 
   private destroyRef = inject(DestroyRef);
 
+  private msg = new BadgeMessageHandler<LoginMessagesInterface>(this.messages, 'Auth', inject(TranslationService));
+
   constructor(
     private fb: FormBuilder,
     private loginService: LoginService,
     private router: Router,
     public svgIconsService: SvgIconsService,
     private apiErrorHandlingService: ApiErrorHandlingService,
-    private translationService: TranslationService,
   ) {}
 
   ngOnInit() {
@@ -129,9 +132,7 @@ export class LoginForm {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (response) => {
-          console.log('Login successful:', response);
-
-          this.setMessage('login', 'success', 'LOGIN_SUCCESSFUL');
+          this.msg.setMessage('login', 'success', 'LOGIN_SUCCESSFUL');
 
           this.isProcessing = false;
 
@@ -141,14 +142,14 @@ export class LoginForm {
         },
         error: (error) => {
           const errorResponse: BackendErrorResponseInterface = error.error;
-          const businessAction = this.apiErrorHandlingService.handleApiError(errorResponse);
-          const hasValidatorKey = businessAction?.messages && businessAction.messages.validatorKey;
-          const params = businessAction?.messages?.params || null;
 
-          if (hasValidatorKey) {
-            this.setMessage('login', businessAction.messages.messageType, businessAction.messages.validatorKey, params);
+          const businessAction: BusinessActionInterface | null = this.apiErrorHandlingService.handleApiError(errorResponse) || null;
+          const params: ParamsInterface | null = businessAction?.messages?.params || null;
+
+          if (businessAction) {
+            this.msg.setMessage('login', businessAction.messages.messageType, businessAction.messages.validatorKey, params);
           } else {
-            this.setMessage('login', 'error', 'UNKNOWN_ERROR');
+            this.msg.setMessage('login', 'error', 'UNKNOWN_ERROR');
           }
 
           if (businessAction?.mustAcceptConditions) {
@@ -173,39 +174,16 @@ export class LoginForm {
   }
 
   /**
-   * Sets a message for a specific field, type, and validator key.
-   * It retrieves the translation from the translation service and updates the messages object accordingly.
-   *
-   * @param field - The field for which the message is being set.
-   * @param type - The type of message ('error', 'success', or 'info').
-   * @param validatorKey - The key of the validator for which the message is being set.
-   * @param params - Optional parameters to be used in the message.
-   */
-  private setMessage(field: keyof LoginMessagesInterface, type: 'error' | 'success' | 'info', validatorKey: string, params?: ParamsInterface | null): void {
-    this.clearMessage(field);
-    const path = `Auth.${type}.${field}.${validatorKey}`;
-    const message = this.translationService.getTranslation(path, params);
-    this.messages[field][type] = message;
-  }
-
-  /**
-   * Clears the feedback messages for a given BadgeMessagesInterface object by resetting it to the initial state defined in badgeMessagesInit.
-   */
-  private clearMessage(key: keyof LoginMessagesInterface): void {
-    this.messages[key] = { ...badgeMessagesInit };
-  }
-
-  /**
    * Handles the change event of the accepted conditions checkbox.
    * It updates the error and success messages based on whether the checkbox is checked or not.
    */
   public checkboxChanged() {
     const isAccepted = this.loginForm?.get('acceptedConditions')?.value;
     if (isAccepted) {
-      this.setMessage('acceptedConditions', 'success', 'ACCEPTED_CONDITIONS');
-      this.clearMessage('login');
+      this.msg.setMessage('acceptedConditions', 'success', 'ACCEPTED_CONDITIONS');
+      this.msg.clearMessage('login');
     } else {
-      this.setMessage('acceptedConditions', 'error', 'required');
+      this.msg.setMessage('acceptedConditions', 'error', 'required');
     }
   }
 
@@ -220,9 +198,9 @@ export class LoginForm {
     fields.forEach((field) => {
       if (errors[field]) {
         const validatorKey = Object.keys(errors[field])[0];
-        this.setMessage(field, 'error', validatorKey);
+        this.msg.setMessage(field, 'error', validatorKey);
       } else {
-        this.clearMessage(field);
+        this.msg.clearMessage(field);
       }
     });
   }
