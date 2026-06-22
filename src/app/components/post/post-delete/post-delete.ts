@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, HostListener } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, HostListener, inject, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { SvgIconsService } from '../../../services/svg.icons.service';
@@ -8,12 +8,14 @@ import { AuthService } from '../../../services/auth.service';
 import { ApiErrorHandlingService } from '../../../services/api-error-handling.service';
 import { TranslationService } from '../../../i18n/translation.service';
 
+import { BadgeMessageHandler } from '../../../utils/badge-message-handler';
+
 import { ApiEndpointEnums } from '../../../enums/api-endpoint';
 
 import type { PostInterface } from '../../../interfaces/post';
 import type { PostParamsInterface } from '../../../interfaces/post-params';
 import type { SplittedConfirmationTitleInterface } from '../../../interfaces/post-delete';
-import type { BackendErrorResponseInterface, ParamsInterface } from '../../../interfaces/error-handling';
+import type { BackendErrorResponseInterface, BusinessActionInterface, ParamsInterface } from '../../../interfaces/error-handling';
 import { PostDeleteMessagesInterface } from '../../../interfaces/post-delete';
 
 import { badgeMessagesInit } from '../../../interfaces/validation-messages';
@@ -25,7 +27,7 @@ import { Badge } from '../../badge/badge';
   templateUrl: './post-delete.html',
   styleUrl: './post-delete.scss',
 })
-export class PostDelete {
+export class PostDelete implements OnDestroy {
   @Input() context: PostParamsInterface['context'] = null;
   @Input() endPoint: PostParamsInterface['endPoint'] = null;
   @Input() selectedEntity: PostParamsInterface['selectedEntity'] = null;
@@ -52,7 +54,7 @@ export class PostDelete {
     delete: { ...badgeMessagesInit },
   };
 
-  feedbackTimeout: number | null = null;
+  private msg = new BadgeMessageHandler<PostDeleteMessagesInterface>(this.messages, 'Post', inject(TranslationService), 3000);
 
   constructor(
     public svgIconsService: SvgIconsService,
@@ -60,12 +62,15 @@ export class PostDelete {
     private authService: AuthService,
     private apiErrorHandlingService: ApiErrorHandlingService,
     private router: Router,
-    private translationService: TranslationService,
   ) {}
 
   ngOnInit() {
     this.checkFastDeletePossibility();
     this.createConfirmation();
+  }
+
+  ngOnDestroy() {
+    this.msg.destroy();
   }
 
   /**
@@ -150,37 +155,6 @@ export class PostDelete {
   }
 
   /**
-   * Sets a message for a specific field, type, and validator key.
-   * It retrieves the translation from the translation service and updates the messages object accordingly.
-   *
-   * @param field - The field for which the message is being set.
-   * @param type - The type of message ('error', 'success', or 'info').
-   * @param validatorKey - The key of the validator for which the message is being set.
-   * @param params - Optional parameters to be used in the message.
-   */
-  private setMessage(field: keyof PostDeleteMessagesInterface, type: 'error' | 'success' | 'info', validatorKey: string, params?: ParamsInterface | null): void {
-    this.clearMessage(field);
-    const path = `Post.${type}.${field}.${validatorKey}`;
-    const message = this.translationService.getTranslation(path, params);
-    this.messages[field][type] = message;
-  }
-
-  /**
-   * Clears the feedback messages for a given BadgeMessagesInterface object by resetting it to the initial state defined in badgeMessagesInit.
-   */
-  private clearMessage(key: keyof PostDeleteMessagesInterface): void {
-    if (this.feedbackTimeout) {
-      clearTimeout(this.feedbackTimeout);
-    }
-
-    this.messages[key] = { ...badgeMessagesInit };
-
-    this.feedbackTimeout = setTimeout(() => {
-      this.messages[key] = { ...badgeMessagesInit };
-    }, 3000);
-  }
-
-  /**
    * Focuses the confirmation input field when the fade-in animation ends, ensuring that the user can immediately start
    * typing the confirmation text without needing to click on the input field.
    *
@@ -202,15 +176,15 @@ export class PostDelete {
    */
   onDeletePost(post: PostInterface): void {
     if (this.authService.getCurrentUserId() !== post.user_id) {
-      this.setMessage('delete', 'error', 'NO_PERMISSION');
+      this.msg.setMessage('delete', 'error', 'NO_PERMISSION');
       return;
     }
 
     if (!this.isDeleteConfirmed) {
       if (this.inputConfirmationValue === null || this.inputConfirmationValue.length === 0) {
-        this.setMessage('delete', 'info', 'CONFIRMATION_TEXT_REQUIRED');
+        this.msg.setMessage('delete', 'info', 'CONFIRMATION_TEXT_REQUIRED');
       } else {
-        this.setMessage('delete', 'error', 'CONFIRMATION_TEXT_MISMATCH');
+        this.msg.setMessage('delete', 'error', 'CONFIRMATION_TEXT_MISMATCH');
       }
       return;
     }
@@ -221,7 +195,7 @@ export class PostDelete {
 
     this.apiService.delete(url).subscribe({
       next: () => {
-        this.setMessage('delete', 'success', 'DELETE_SUCCESS');
+        this.msg.setMessage('delete', 'success', 'DELETE_SUCCESS');
         setTimeout(() => {
           if (hasRequiredParams) {
             this.router.navigate(['/posts-list'], {
@@ -241,14 +215,14 @@ export class PostDelete {
       },
       error: (error) => {
         const errorResponse: BackendErrorResponseInterface = error.error;
-        const businessAction = this.apiErrorHandlingService.handleApiError(errorResponse);
-        const hasValidatorKey = businessAction?.messages && businessAction.messages.validatorKey;
-        const params = businessAction?.messages?.params || null;
 
-        if (hasValidatorKey) {
-          this.setMessage('delete', businessAction.messages.messageType, businessAction.messages.validatorKey, params);
+        const businessAction: BusinessActionInterface | null = this.apiErrorHandlingService.handleApiError(errorResponse) || null;
+        const params: ParamsInterface | null = businessAction?.messages?.params || null;
+
+        if (businessAction) {
+          this.msg.setMessage('delete', businessAction.messages.messageType, businessAction.messages.validatorKey, params);
         } else {
-          this.setMessage('delete', 'error', 'UNKNOWN_ERROR');
+          this.msg.setMessage('delete', 'error', 'UNKNOWN_ERROR');
         }
       },
     });
