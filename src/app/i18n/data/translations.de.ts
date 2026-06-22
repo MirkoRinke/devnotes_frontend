@@ -84,10 +84,45 @@ export const CONTENT_DE: Content = {
         NO_PERMISSION: 'Keine Berechtigung zum Löschen des Beitrags.',
         CONFIRMATION_TEXT_MISMATCH: 'Bestätigungstext stimmt nicht überein.',
       },
+      post_type: {
+        UNKNOWN_ERROR: 'Ein Fehler ist aufgetreten. Bitte erneut versuchen.',
+        E: 'E{index}',
+      },
+      category: {
+        UNKNOWN_ERROR: 'Ein Fehler ist aufgetreten. Bitte erneut versuchen.',
+        E: 'E{index}',
+      },
+      syntax_highlighting: {
+        UNKNOWN_ERROR: 'Ein Fehler ist aufgetreten. Bitte erneut versuchen.',
+        E: 'E{index}',
+      },
+      status: {
+        UNKNOWN_ERROR: 'Ein Fehler ist aufgetreten. Bitte erneut versuchen.',
+        E: 'E{index}',
+      },
+      title: {
+        UNKNOWN_ERROR: 'Ein Fehler ist aufgetreten. Bitte erneut versuchen.',
+        E: 'E{index}',
+      },
+      description: {
+        UNKNOWN_ERROR: 'Ein Fehler ist aufgetreten. Bitte erneut versuchen.',
+        E: 'E{index}',
+      },
+      code: {
+        UNKNOWN_ERROR: 'Ein Fehler ist aufgetreten. Bitte erneut versuchen.',
+        E: 'E{index}',
+      },
+      language_or_tech_required: {
+        UNKNOWN_ERROR: 'Ein Fehler ist aufgetreten. Bitte erneut versuchen.',
+        E: 'E{index}',
+      },
     },
     info: {
       delete: {
         CONFIRMATION_TEXT_REQUIRED: 'Bitte Bestätigungstext eingeben.',
+      },
+      syntax_highlighting: {
+        syntax_highlighting_required: 'Info',
       },
     },
     success: {
