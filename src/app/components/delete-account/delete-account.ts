@@ -8,10 +8,12 @@ import { DeleteAccountService } from '../../services/delete-account.service';
 import { ApiErrorHandlingService } from '../../services/api-error-handling.service';
 import { TranslationService } from '../../i18n/translation.service';
 
+import { BadgeMessageHandler } from '../../utils/badge-message-handler';
+
 import { AuthService } from '../../services/auth.service';
 
 import type { DeleteAccountErrorsInterface, DeleteAccountInterface, DeleteAccountMessagesInterface } from '../../interfaces/delete-account';
-import type { BackendErrorResponseInterface, ParamsInterface } from '../../interfaces/error-handling';
+import type { BackendErrorResponseInterface, BusinessActionInterface, ParamsInterface } from '../../interfaces/error-handling';
 import { badgeMessagesInit } from '../../interfaces/validation-messages';
 
 import { emailOrUsernameValidator } from '../../utils/custom-validators';
@@ -41,6 +43,8 @@ export class DeleteAccount {
 
   private destroyRef = inject(DestroyRef);
 
+  private msg = new BadgeMessageHandler<DeleteAccountMessagesInterface>(this.messages, 'Auth', inject(TranslationService));
+
   constructor(
     private fb: FormBuilder,
     private deleteAccountService: DeleteAccountService,
@@ -48,7 +52,6 @@ export class DeleteAccount {
     public svgIconsService: SvgIconsService,
     private apiErrorHandlingService: ApiErrorHandlingService,
     private authService: AuthService,
-    private translationService: TranslationService,
   ) {}
 
   ngOnInit() {
@@ -81,7 +84,7 @@ export class DeleteAccount {
     }
 
     if (!this.doubleCheckIdentifier) {
-      this.setMessage('deleteAccount', 'info', 'DELETE_ACCOUNT_CONFIRMATION');
+      this.msg.setMessage('deleteAccount', 'info', 'DELETE_ACCOUNT_CONFIRMATION');
       this.doubleCheckIdentifier = true;
       return;
     }
@@ -136,7 +139,7 @@ export class DeleteAccount {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (response) => {
-          this.setMessage('deleteAccount', 'success', 'DELETE_ACCOUNT_SUCCESSFUL');
+          this.msg.setMessage('deleteAccount', 'success', 'DELETE_ACCOUNT_SUCCESSFUL');
 
           this.isProcessing = false;
 
@@ -146,43 +149,20 @@ export class DeleteAccount {
         },
         error: (error) => {
           const errorResponse: BackendErrorResponseInterface = error.error;
-          const businessAction = this.apiErrorHandlingService.handleApiError(errorResponse);
-          const hasValidatorKey = businessAction?.messages && businessAction.messages.validatorKey;
-          const params = businessAction?.messages?.params || null;
 
-          if (hasValidatorKey) {
-            this.setMessage('deleteAccount', businessAction.messages.messageType, businessAction.messages.validatorKey, params);
+          const businessAction: BusinessActionInterface | null = this.apiErrorHandlingService.handleApiError(errorResponse) || null;
+          const params: ParamsInterface | null = businessAction?.messages?.params || null;
+
+          if (businessAction) {
+            this.msg.setMessage('deleteAccount', businessAction.messages.messageType, businessAction.messages.validatorKey, params);
           } else {
-            this.setMessage('deleteAccount', 'error', 'UNKNOWN_ERROR');
+            this.msg.setMessage('deleteAccount', 'error', 'UNKNOWN_ERROR');
           }
 
           this.isProcessing = false;
           return;
         },
       });
-  }
-
-  /**
-   * Sets a message for a specific field, type, and validator key.
-   * It retrieves the translation from the translation service and updates the messages object accordingly.
-   *
-   * @param field - The field for which the message is being set.
-   * @param type - The type of message ('error', 'success', or 'info').
-   * @param validatorKey - The key of the validator for which the message is being set.
-   * @param params - Optional parameters to be used in the message.
-   */
-  private setMessage(field: keyof DeleteAccountMessagesInterface, type: 'error' | 'success' | 'info', validatorKey: string, params?: ParamsInterface | null): void {
-    this.clearMessage(field);
-    const path = `Auth.${type}.${field}.${validatorKey}`;
-    const message = this.translationService.getTranslation(path, params);
-    this.messages[field][type] = message;
-  }
-
-  /**
-   * Clears the feedback messages for a given BadgeMessagesInterface object by resetting it to the initial state defined in badgeMessagesInit.
-   */
-  private clearMessage(key: keyof DeleteAccountMessagesInterface): void {
-    this.messages[key] = { ...badgeMessagesInit };
   }
 
   /**
@@ -196,9 +176,9 @@ export class DeleteAccount {
     fields.forEach((field) => {
       if (errors[field]) {
         const validatorKey = Object.keys(errors[field])[0];
-        this.setMessage(field, 'error', validatorKey);
+        this.msg.setMessage(field, 'error', validatorKey);
       } else {
-        this.clearMessage(field);
+        this.msg.clearMessage(field);
       }
     });
   }
