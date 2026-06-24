@@ -38,15 +38,22 @@ export class TranslationService {
    *
    * @param path The dot-separated key path to the desired translation (e.g., "PostTypes.feedback.title").
    * @param params Optional parameters to be used in the translation string.
+   * @param validatorKey Optional key to determine if a global error message should be used.
    * @returns The translated string if found, or "quak" if the translation is not found or if the path is invalid.
    */
-  getTranslation(path: string, params?: ParamsInterface | null): string {
+  getTranslation(path: string, params?: ParamsInterface | null, validatorKey?: string): string {
     const keys = path.split('.');
     let data: any = this.translations[this.currentLang];
 
-    for (const key of keys) {
-      if (!data) return environment.DEBUG ? path : 'quak';
+    const globalFallback = this.translations[this.currentLang]?.Global?.UNKNOWN_ERROR || (environment.DEBUG ? path : 'quak');
 
+    for (const key of keys) {
+      if (!data) {
+        if (validatorKey === 'UNKNOWN_ERROR') {
+          return globalFallback;
+        }
+        return environment.DEBUG ? path : 'quak';
+      }
       data = data[key];
     }
 
@@ -59,6 +66,9 @@ export class TranslationService {
       return data;
     }
 
+    if (validatorKey === 'UNKNOWN_ERROR') {
+      return globalFallback;
+    }
     return environment.DEBUG ? path : 'quak';
   }
 }
