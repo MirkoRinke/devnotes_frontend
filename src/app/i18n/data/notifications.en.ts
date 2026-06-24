@@ -83,7 +83,6 @@ export const NOTIFICATIONS_EN: Notifications = {
       },
       mediaLinks: {
         INVALID_URL: 'Invalid URL. Please check your input.',
-        DUPLICATE_URL: 'This URL is already in the list.',
         URL_TOO_LONG: 'Maximum URL length exceeded.',
         MISSING_TLD: 'Top-level domain required (e.g. .com, .de).',
       },
@@ -94,6 +93,9 @@ export const NOTIFICATIONS_EN: Notifications = {
       },
       syntax_highlighting: {
         syntax_highlighting_required: 'Info',
+      },
+      mediaLinks: {
+        DUPLICATE_URL: 'This URL is already in the list.',
       },
     },
     success: {

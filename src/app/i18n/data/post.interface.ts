@@ -32,7 +32,6 @@ interface PostFieldErrors {
 
 interface MediaLinksErrorActions {
   INVALID_URL: string;
-  DUPLICATE_URL: string;
   URL_TOO_LONG: string;
   MISSING_TLD: string;
 }
@@ -42,6 +41,7 @@ interface MediaLinksErrorActions {
 interface PostInfoMessages {
   delete: DeleteInfoActions;
   syntax_highlighting: SyntaxInfoActions;
+  mediaLinks: MediaLinksInfoActions;
 }
 
 interface DeleteInfoActions {
@@ -50,6 +50,10 @@ interface DeleteInfoActions {
 
 interface SyntaxInfoActions {
   syntax_highlighting_required: string;
+}
+
+interface MediaLinksInfoActions {
+  DUPLICATE_URL: string;
 }
 
 // #endregion
