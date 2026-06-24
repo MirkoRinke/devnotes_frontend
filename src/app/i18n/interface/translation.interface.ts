@@ -1,4 +1,4 @@
-import { GlobalMessagesInterface } from './global';
+import { GlobalMessagesInterface } from './global.interface';
 import { AuthMessagesInterface } from './auth.interface';
 import { PostTypesMessagesInterface } from './post-types.interface';
 import { PostMessagesInterface } from './post.interface';

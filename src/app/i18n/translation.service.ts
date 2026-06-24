@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { CONTENT_DE } from './data/translations.de';
 import { CONTENT_EN } from './data/translations.en';
 
-import { Content } from './data/translation.interface';
+import { Content } from './interface/translation.interface';
 
 import type { ParamsInterface } from '../interfaces/error-handling';
 

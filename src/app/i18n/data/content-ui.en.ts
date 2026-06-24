@@ -1,4 +1,4 @@
-import { ContentUI } from './translation.interface';
+import { ContentUI } from '../interface/translation.interface';
 
 export const CONTENT_UI_EN: ContentUI = {
   PostTypes: {

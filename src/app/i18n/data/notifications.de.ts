@@ -1,4 +1,4 @@
-import { Notifications } from './translation.interface';
+import { Notifications } from '../interface/translation.interface';
 
 export const NOTIFICATIONS_DE: Notifications = {
   Global: {

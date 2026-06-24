@@ -31,7 +31,6 @@ interface DeleteAccountErrors extends BaseError {
   ACCOUNT_DELETION_INVALID_CREDENTIALS: string;
   ACCOUNT_DELETION_FORBIDDEN: string;
 }
-
 // #endregion
 
 // #region Info Messages

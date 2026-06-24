@@ -1,4 +1,4 @@
-import { Content } from './translation.interface';
+import { Content } from '../interface/translation.interface';
 import { CONTENT_UI_DE } from './content-ui.de';
 import { NOTIFICATIONS_DE } from './notifications.de';
 
