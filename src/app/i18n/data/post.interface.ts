@@ -1,51 +1,65 @@
 export interface PostMessagesInterface {
-  error: ErrorMessages;
-  info: InfoMessages;
-  success: SuccessMessages;
+  error: PostErrorMessages;
+  info: PostInfoMessages;
+  success: PostSuccessMessages;
 }
 
 // #region Error Messages
-interface ErrorMessages {
-  delete?: CustomErrorMessages;
-
-  post_type?: CustomErrorMessages;
-  category?: CustomErrorMessages;
-  syntax_highlighting?: CustomErrorMessages;
-  status?: CustomErrorMessages;
-  title?: CustomErrorMessages;
-  description?: CustomErrorMessages;
-  code?: CustomErrorMessages;
-  language_or_tech_required?: CustomErrorMessages;
+interface PostErrorMessages {
+  delete: DeleteErrorActions;
+  post_type: PostFieldErrors;
+  category: PostFieldErrors;
+  syntax_highlighting: PostFieldErrors;
+  status: PostFieldErrors;
+  title: PostFieldErrors;
+  description: PostFieldErrors;
+  code: PostFieldErrors;
+  language_or_tech_required: PostFieldErrors;
+  mediaLinks: MediaLinksErrorActions;
+}
+interface BaseError {
+  UNKNOWN_ERROR: string;
 }
 
-interface CustomErrorMessages {
-  UNKNOWN_ERROR: string;
-  NO_PERMISSION?: string;
-  CONFIRMATION_TEXT_MISMATCH?: string;
-  E?: string;
-  syntax_highlighting_required?: string;
+interface DeleteErrorActions extends BaseError {
+  NO_PERMISSION: string;
+  CONFIRMATION_TEXT_MISMATCH: string;
+}
+
+interface PostFieldErrors {
+  E: string;
+}
+
+interface MediaLinksErrorActions {
+  INVALID_URL: string;
+  DUPLICATE_URL: string;
+  URL_TOO_LONG: string;
+  MISSING_TLD: string;
 }
 // #endregion
 
 // #region Info Messages
-interface InfoMessages {
-  delete?: CustomInfoInterface;
-  syntax_highlighting?: CustomInfoInterface;
+interface PostInfoMessages {
+  delete: DeleteInfoActions;
+  syntax_highlighting: SyntaxInfoActions;
 }
 
-interface CustomInfoInterface {
-  CONFIRMATION_TEXT_REQUIRED?: string;
-  syntax_highlighting_required?: string;
+interface DeleteInfoActions {
+  CONFIRMATION_TEXT_REQUIRED: string;
 }
+
+interface SyntaxInfoActions {
+  syntax_highlighting_required: string;
+}
+
 // #endregion
 
 // #region Success Messages
-interface SuccessMessages {
-  delete?: CustomSuccessInterface;
-  errorCode?: CustomSuccessInterface;
+interface PostSuccessMessages {
+  delete: DeleteSuccessActions;
 }
 
-interface CustomSuccessInterface {
-  DELETE_SUCCESS?: string;
+interface DeleteSuccessActions {
+  DELETE_SUCCESS: string;
 }
 // #endregion
