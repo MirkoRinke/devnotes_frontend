@@ -24,7 +24,7 @@ export class BadgeMessageHandler<T extends Record<keyof T, BadgeMessagesInterfac
    */
   setMessage(field: keyof T, type: keyof BadgeMessagesInterface, validatorKey: string, params?: ParamsInterface | null): void {
     this.clearMessage(field);
-    const path = `${this.pathPrefix}.${type}.${String(field)}.${validatorKey}`;
+    const path = [this.pathPrefix, type, field, validatorKey].join('.');
     (this.messages[field] as BadgeMessagesInterface)[type] = this.translationService.getTranslation(path, params, validatorKey);
   }
 
