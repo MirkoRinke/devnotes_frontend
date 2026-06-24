@@ -36,3 +36,7 @@ export interface TerminalLineInterface {
   text: string;
   level: 'info' | 'error' | 'success' | 'system';
 }
+
+export interface mediaLinksMessagesInterface {
+  mediaLinks: BadgeMessagesInterface;
+}

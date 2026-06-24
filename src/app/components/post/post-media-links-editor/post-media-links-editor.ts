@@ -1,9 +1,12 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 import { SvgIconsService } from '../../../services/svg.icons.service';
+import { TranslationService } from '../../../i18n/translation.service';
 
-import type { BadgeMessagesInterface } from '../../../interfaces/validation-messages';
+import { BadgeMessageHandler } from '../../../utils/badge-message-handler';
+
+import type { mediaLinksMessagesInterface } from '../../../interfaces/post-form';
 import { badgeMessagesInit } from '../../../interfaces/validation-messages';
 import { Badge } from '../../badge/badge';
 
@@ -28,9 +31,11 @@ export class PostMediaLinksEditor {
 
   @Output() closeModal = new EventEmitter<void>();
 
-  messages: BadgeMessagesInterface = { ...badgeMessagesInit };
+  messages: mediaLinksMessagesInterface = {
+    mediaLinks: { ...badgeMessagesInit },
+  };
 
-  feedbackTimeout: number | null = null;
+  private msg = new BadgeMessageHandler<mediaLinksMessagesInterface>(this.messages, 'Post', inject(TranslationService), 3000);
 
   constructor(public svgIconsService: SvgIconsService) {}
 
@@ -58,7 +63,7 @@ export class PostMediaLinksEditor {
   public changeType(type: 'images' | 'videos' | 'resources') {
     this.currentType = type;
     this.currentArray = this.getArrays(type);
-    this.clearFeedback();
+    this.msg.clearMessage('mediaLinks');
   }
 
   /**
@@ -87,12 +92,10 @@ export class PostMediaLinksEditor {
    * @returns void
    */
   public pushToArray(value: string, index: number | null = null) {
-    this.clearFeedback();
-
     value = value.trim();
 
     if (value.includes(' ')) {
-      this.messages['error'] = 'URLs cannot contain spaces.';
+      this.msg.setMessage('mediaLinks', 'error', 'INVALID_URL');
       return;
     }
 
@@ -109,7 +112,7 @@ export class PostMediaLinksEditor {
     }
 
     if (index === null && this.currentArray.includes(value)) {
-      this.messages['info'] = 'This URL is already in the list.';
+      this.msg.setMessage('mediaLinks', 'info', 'DUPLICATE_URL');
       return;
     }
 
@@ -118,22 +121,6 @@ export class PostMediaLinksEditor {
     } else {
       this.currentArray.unshift(value);
     }
-  }
-
-  /**
-   * Clears any existing feedback messages (errors, info, success) and sets a timeout to clear them after 3 seconds,
-   * ensuring that the user receives timely feedback without cluttering the interface with old messages.
-   */
-  private clearFeedback(): void {
-    if (this.feedbackTimeout) {
-      clearTimeout(this.feedbackTimeout);
-    }
-
-    this.messages = { ...badgeMessagesInit };
-
-    this.feedbackTimeout = setTimeout(() => {
-      this.messages = { ...badgeMessagesInit };
-    }, 3000);
   }
 
   /**
@@ -170,7 +157,7 @@ export class PostMediaLinksEditor {
   private isValidURL(url: string): boolean {
     try {
       if (url.length > 2048) {
-        this.messages['error'] = 'URL exceeds 2048 character limit.';
+        this.msg.setMessage('mediaLinks', 'error', 'URL_TOO_LONG');
         return false;
       }
 
@@ -185,19 +172,19 @@ export class PostMediaLinksEditor {
       let domainParts = hostname.split('.');
 
       if (domainParts.length === 1) {
-        this.messages['error'] = 'Missing top-level domain (e.g. .com, .de).';
+        this.msg.setMessage('mediaLinks', 'error', 'MISSING_TLD');
         return false;
       }
 
       const hasTooLongLabel = domainParts.some((part) => part.length > 63);
       if (hasTooLongLabel) {
-        this.messages['error'] = 'URL segment too long.';
+        this.msg.setMessage('mediaLinks', 'error', 'INVALID_URL');
         return false;
       }
 
       return parsedURL.protocol === 'http:' || parsedURL.protocol === 'https:';
     } catch (e) {
-      this.messages['error'] = 'Malformed URL syntax. Check your input.';
+      this.msg.setMessage('mediaLinks', 'error', 'INVALID_URL');
       return false;
     }
   }
