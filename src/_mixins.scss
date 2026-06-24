@@ -705,6 +705,23 @@
   }
 }
 
+@mixin jump($suffix: 'spinner', $intensity: 10px, $duration: var.$transition-duration-medium) {
+  animation: jump-#{$suffix} $duration ease-in-out;
+  animation-iteration-count: infinite;
+
+  @keyframes jump-#{$suffix} {
+    0% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-#{$intensity});
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+}
+
 @mixin custom-check-box(
   $check-box-class: null,
   $size: 18px,

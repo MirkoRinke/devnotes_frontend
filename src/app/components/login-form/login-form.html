@@ -13,7 +13,8 @@
 
       <span
         class="icon-container"
-        [class.animated]="isProcessing"
+        [class.processing]="isProcessing"
+        [class.success]="loginSuccessful"
         [innerHTML]="svgIconsService.returnIcon(getDuckIcon(), 'icon')"
       ></span>
     </div>

@@ -39,6 +39,7 @@ export class LoginForm {
   };
 
   isProcessing = false;
+  loginSuccessful = false;
 
   isPasswordFocused = false;
 
@@ -134,6 +135,7 @@ export class LoginForm {
         next: (response) => {
           this.msg.setMessage('login', 'success', 'LOGIN_SUCCESSFUL');
 
+          this.loginSuccessful = true;
           this.isProcessing = false;
 
           setTimeout(() => {

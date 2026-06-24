@@ -34,8 +34,13 @@
       max-height: px-to-rem(160);
       align-self: center;
 
-      &.animated {
+      &.processing {
         @include shake();
+      }
+
+      &.success {
+        @include jump();
+        animation-delay: var.$transition-duration-medium;
       }
 
       &::ng-deep .icon {
