@@ -2,7 +2,9 @@ import { Notifications } from './translation.interface';
 
 export const NOTIFICATIONS_EN: Notifications = {
   Global: {
-    UNKNOWN_ERROR: 'An unexpected error occurred. Please try again later.',
+    error: {
+      UNKNOWN_ERROR: 'An unexpected error occurred. Please try again later.',
+    },
   },
   Auth: {
     error: {

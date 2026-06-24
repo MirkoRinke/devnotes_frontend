@@ -2,7 +2,9 @@ import { Notifications } from './translation.interface';
 
 export const NOTIFICATIONS_DE: Notifications = {
   Global: {
-    UNKNOWN_ERROR: 'Ein unerwarteter Fehler ist aufgetreten. Bitte versuche es später noch einmal.',
+    error: {
+      UNKNOWN_ERROR: 'Ein unerwarteter Fehler ist aufgetreten. Bitte versuche es später noch einmal.',
+    },
   },
   Auth: {
     error: {

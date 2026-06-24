@@ -45,12 +45,12 @@ export class TranslationService {
     const keys = path.split('.');
     let data: any = this.translations[this.currentLang];
 
-    const globalFallback = this.translations[this.currentLang]?.Global?.UNKNOWN_ERROR || (environment.DEBUG ? path : 'quak');
+    const globalErrorFallback = this.translations[this.currentLang]?.Global?.error?.UNKNOWN_ERROR || (environment.DEBUG ? path : 'quak');
 
     for (const key of keys) {
       if (!data) {
         if (validatorKey === 'UNKNOWN_ERROR') {
-          return globalFallback;
+          return globalErrorFallback;
         }
         return environment.DEBUG ? path : 'quak';
       }
@@ -67,7 +67,7 @@ export class TranslationService {
     }
 
     if (validatorKey === 'UNKNOWN_ERROR') {
-      return globalFallback;
+      return globalErrorFallback;
     }
     return environment.DEBUG ? path : 'quak';
   }
