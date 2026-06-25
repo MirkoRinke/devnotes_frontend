@@ -25,13 +25,13 @@
           [placeholder]="'Search from ' + originalAvailableValues.length + ' options... Select or press Enter to add new tag'"
           type="text"
           name="search"
-          maxlength="50"
-          (input)="filterFunction(searchInput.value)"
-          (keydown.enter)="managedNewValues(searchInput.value, 'add'); filterFunction(''); searchInput.value = ''"
+          maxlength="51"
+          (input)="filterFunction(searchInput.value); searchInput.value.length > 50 ? validateInputLength(searchInput.value) : null"
+          (keydown.enter)="managedNewValues(searchInput.value, 'add'); filterFunction('')"
         />
         <button
           class="add-button"
-          (click)="managedNewValues(searchInput.value, 'add'); filterFunction(''); searchInput.value = ''"
+          (click)="managedNewValues(searchInput.value, 'add'); filterFunction('')"
           [innerHTML]="svgIconsService.returnIcon('add_tags')"
         ></button>
       </div>

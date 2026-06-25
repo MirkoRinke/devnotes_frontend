@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, SimpleChanges, inject } from '@angular/core';
+import { Component, Input, Output, EventEmitter, SimpleChanges, inject, ViewChild, ElementRef } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { take } from 'rxjs/operators';
 import { combineLatest } from 'rxjs';
@@ -58,6 +58,8 @@ export class PostTagsEditor {
   messages: tagsMessagesInterface = {
     tags: { ...badgeMessagesInit },
   };
+
+  private searchInput: ElementRef | null = null;
 
   private msg = new BadgeMessageHandler<tagsMessagesInterface>(this.messages, 'Post', inject(TranslationService), 3000);
 
@@ -121,6 +123,33 @@ export class PostTagsEditor {
   }
 
   /**
+   * Sets the reference to the search input element when it is available. This allows for direct manipulation of the input value in the component.
+   *
+   * @param content The ElementRef of the search input element.
+   */
+  @ViewChild('searchInput') set searchInputRef(content: ElementRef) {
+    if (content) {
+      this.searchInput = content;
+    }
+  }
+
+  /**
+   * Validates the length of the input value.
+   * If the length exceeds 50 characters, it sets an error message and trims the input value to 50 characters.
+   *
+   * @param newValue
+   */
+  public validateInputLength(newValue: string) {
+    const trimmedValue = newValue.trim().toLowerCase();
+    if (trimmedValue.length > 50) {
+      this.msg.setMessage('tags', 'error', 'TAG_TOO_LONG');
+      if (this.searchInput) {
+        this.searchInput.nativeElement.value = trimmedValue.slice(0, 50);
+      }
+    }
+  }
+
+  /**
    * Adds a new value to the selectedValues array if it is not already present.
    * The new value is trimmed of whitespace and checked for emptiness before being added.
    * If the new value is valid and not already selected, it is added to the selectedValues array with the specified entity type.
@@ -130,12 +159,7 @@ export class PostTagsEditor {
    */
   public managedNewValues(newValue: string, task: 'add' | 'remove') {
     const trimmedValue = newValue.trim().toLowerCase();
-    if (trimmedValue.length === 0) {
-      return;
-    }
-
-    if (trimmedValue.length > 50) {
-      this.msg.setMessage('tags', 'error', 'TAG_TOO_LONG');
+    if (trimmedValue.length === 0 || trimmedValue.length > 50) {
       return;
     }
 
@@ -148,6 +172,9 @@ export class PostTagsEditor {
         this.msg.setMessage('tags', 'info', 'TAG_ADDED', { tagName: newTag.name });
       } else {
         this.msg.setMessage('tags', 'info', 'TAG_ALREADY_SELECTED', { tagName: newTag.name });
+      }
+      if (this.searchInput) {
+        this.searchInput.nativeElement.value = '';
       }
     }
 
