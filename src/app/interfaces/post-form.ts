@@ -40,3 +40,7 @@ export interface TerminalLineInterface {
 export interface mediaLinksMessagesInterface {
   mediaLinks: BadgeMessagesInterface;
 }
+
+export interface tagsMessagesInterface {
+  tags: BadgeMessagesInterface;
+}
