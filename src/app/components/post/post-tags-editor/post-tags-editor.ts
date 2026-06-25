@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, SimpleChanges, inject } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { take } from 'rxjs/operators';
 import { combineLatest } from 'rxjs';
@@ -6,9 +6,12 @@ import { combineLatest } from 'rxjs';
 import { AvailableValuesService } from '../../../services/available-values.service';
 
 import { SvgIconsService } from '../../../services/svg.icons.service';
+import { TranslationService } from '../../../i18n/translation.service';
 
+import { BadgeMessageHandler } from '../../../utils/badge-message-handler';
+
+import type { tagsMessagesInterface } from '../../../interfaces/post-form';
 import type { AvailableValuesInterface } from '../../../interfaces/available-values';
-import type { BadgeMessagesInterface } from '../../../interfaces/validation-messages';
 import { badgeMessagesInit } from '../../../interfaces/validation-messages';
 
 import { ApiEndpointEnums } from '../../../enums/api-endpoint';
@@ -52,8 +55,11 @@ export class PostTagsEditor {
 
   selectedValues: TagValueInterface[] = [];
 
-  messages: BadgeMessagesInterface = { ...badgeMessagesInit };
-  feedbackTimeout: number | null = null;
+  messages: tagsMessagesInterface = {
+    tags: { ...badgeMessagesInit },
+  };
+
+  private msg = new BadgeMessageHandler<tagsMessagesInterface>(this.messages, 'Post', inject(TranslationService), 3000);
 
   constructor(
     public svgIconsService: SvgIconsService,
@@ -123,15 +129,13 @@ export class PostTagsEditor {
    * @returns void
    */
   public managedNewValues(newValue: string, task: 'add' | 'remove') {
-    this.clearFeedback();
-
     const trimmedValue = newValue.trim().toLowerCase();
     if (trimmedValue.length === 0) {
       return;
     }
 
     if (trimmedValue.length > 50) {
-      this.messages['error'] = 'Tags cannot be longer than 50 characters.';
+      this.msg.setMessage('tags', 'error', 'TAG_TOO_LONG');
       return;
     }
 
@@ -141,9 +145,9 @@ export class PostTagsEditor {
       if (!this.selectedValues.some((value) => value.name === newTag.name)) {
         this.selectedValues.push(newTag);
         this.newAddedValues.push({ name: newTag.name, entity: newTag.entity, total_counts: 0 });
-        this.messages['info'] = `Tag "${newTag.name}" added.`;
+        this.msg.setMessage('tags', 'info', 'TAG_ADDED', { tagName: newTag.name });
       } else {
-        this.messages['info'] = `Tag "${newTag.name}" is already selected.`;
+        this.msg.setMessage('tags', 'info', 'TAG_ALREADY_SELECTED', { tagName: newTag.name });
       }
     }
 
@@ -158,22 +162,6 @@ export class PostTagsEditor {
         this.newAddedValues.splice(indexInNew, 1);
       }
     }
-  }
-
-  /**
-   * Clears any existing feedback messages (errors, info, success) and sets a timeout to clear them after 3 seconds,
-   * ensuring that the user receives timely feedback without cluttering the interface with old messages.
-   */
-  private clearFeedback(): void {
-    if (this.feedbackTimeout) {
-      clearTimeout(this.feedbackTimeout);
-    }
-
-    this.messages = { ...badgeMessagesInit };
-
-    this.feedbackTimeout = setTimeout(() => {
-      this.messages = { ...badgeMessagesInit };
-    }, 3000);
   }
 
   /**

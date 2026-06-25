@@ -14,7 +14,7 @@
     <div class="search-section">
       <app-badge
         class="badge"
-        [messages]="messages"
+        [messages]="messages['tags']"
         [caret]="'left'"
       ></app-badge>
 
@@ -25,6 +25,7 @@
           [placeholder]="'Search from ' + originalAvailableValues.length + ' options... Select or press Enter to add new tag'"
           type="text"
           name="search"
+          maxlength="50"
           (input)="filterFunction(searchInput.value)"
           (keydown.enter)="managedNewValues(searchInput.value, 'add'); filterFunction(''); searchInput.value = ''"
         />
