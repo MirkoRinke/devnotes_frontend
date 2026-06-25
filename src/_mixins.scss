@@ -453,17 +453,12 @@
 }
 
 @mixin context-box($max-width: unset) {
-  @if $max-width != unset and math.unit($max-width) == 'px' {
-    $max-width-value: math.div($max-width, 1px);
-    $max-width: px-to-rem($max-width-value);
-  }
-
   background-color: var(--page-primary-color-100);
   border-radius: px-to-rem(15);
   padding: px-to-rem(25) px-to-rem(50);
 
   @if $max-width != unset {
-    max-width: $max-width;
+    max-width: convert-to-rem-if-needed($max-width);
   }
 }
 
@@ -484,13 +479,8 @@
   box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-100);
 }
 
-@mixin input-feld($height: unset, $color: unset) {
-  @if $height != unset and math.unit($height) == 'px' {
-    $height-value: math.div($height, 1px);
-    $height: px-to-rem($height-value);
-  }
-
-  @if $color != unset {
+@mixin input-feld($height: unset, $color: null) {
+  @if $color != null {
     color: $color;
   }
 
@@ -498,10 +488,7 @@
   border-radius: px-to-rem(5);
   border: none;
 
-  @if $height != unset {
-    height: $height;
-  }
-
+  height: convert-to-rem-if-needed($height);
   min-width: 0;
   width: 100%;
 
@@ -522,41 +509,24 @@
 
     caret-color: var(--font-primary-color-100);
 
-    @if $color != unset {
+    @if $color != null {
       -webkit-text-fill-color: $color;
     }
   }
 }
 
-@mixin status-dot($parent-selector: null, $selector: null, $color: var(--status-dot-color-success-100), $size: 8px, $top: unset, $bottom: unset, $right: unset, $left: unset) {
-  @if math.unit($size) == 'px' {
-    $size-value: math.div($size, 1px);
-    $size: px-to-rem($size-value);
-  }
-  @if $top != unset and math.unit($top) == 'px' {
-    $top-value: math.div($top, 1px);
-    $top: px-to-rem($top-value);
-  }
-  @if $right != unset and math.unit($right) == 'px' {
-    $right-value: math.div($right, 1px);
-    $right: px-to-rem($right-value);
-  }
-  @if $left != unset and math.unit($left) == 'px' {
-    $left-value: math.div($left, 1px);
-    $left: px-to-rem($left-value);
-  }
-
+@mixin status-dot($parent-selector: null, $selector: null, $color: var(--status-dot-color-success-100), $size: 8px, $top: unset, $bottom: unset, $left: unset, $right: unset) {
   &::after {
     content: '';
     position: absolute;
 
-    top: $top;
-    bottom: $bottom;
-    right: $right;
-    left: $left;
+    top: convert-to-rem-if-needed($top);
+    bottom: convert-to-rem-if-needed($bottom);
+    left: convert-to-rem-if-needed($left);
+    right: convert-to-rem-if-needed($right);
 
-    width: $size;
-    height: $size;
+    width: convert-to-rem-if-needed($size);
+    height: convert-to-rem-if-needed($size);
     background-color: $color;
     border-radius: 50%;
     border: px-to-rem(2) solid var(--page-primary-color-100);
@@ -610,30 +580,25 @@
 }
 
 @mixin error-badge($left: unset, $right: unset) {
-  @include new-badge($bg-color: var(--error-color-100), $left: $left, $right: $right);
+  @include badge($bg-color: var(--error-color-100), $left: $left, $right: $right);
 }
 
 @mixin info-badge($left: unset, $right: unset) {
-  @include new-badge($bg-color: var(--info-color-100), $left: $left, $right: $right);
+  @include badge($bg-color: var(--info-color-100), $left: $left, $right: $right);
 }
 
 @mixin success-badge($left: unset, $right: unset) {
-  @include new-badge($bg-color: var(--success-color-100), $left: $left, $right: $right);
+  @include badge($bg-color: var(--success-color-100), $left: $left, $right: $right);
 }
 
-@mixin new-badge($bg-color: var(--error-color-100), $font-size: 14px, $left: unset, $right: unset, $border-radius: 5px, $z-index: 10) {
-  @if $border-radius != unset and math.unit($border-radius) == 'px' {
-    $border-radius-value: math.div($border-radius, 1px);
-    $border-radius: px-to-rem($border-radius-value);
-  }
-
+@mixin badge($bg-color: var(--error-color-100), $font-size: 14px, $left: unset, $right: unset, $border-radius: 5px, $z-index: 10) {
   width: max-content;
   max-width: 100%;
 
   background-color: $bg-color;
 
   padding: px-to-rem(2) px-to-rem(6);
-  border-radius: $border-radius;
+  border-radius: convert-to-rem-if-needed($border-radius);
   z-index: $z-index;
   pointer-events: none;
 
@@ -645,11 +610,9 @@
     bottom: px-to-rem(-4);
 
     @if $left != unset and $right == unset {
-      $left-value: math.div($left, 1px);
-      left: px-to-rem($left-value);
+      left: convert-to-rem-if-needed($left);
     } @else if $right != unset and $left == unset {
-      $right-value: math.div($right, 1px);
-      right: px-to-rem($right-value);
+      right: convert-to-rem-if-needed($right);
     } @else {
       left: 50%;
       transform: translateX(-50%);
@@ -730,16 +693,12 @@
   $valid-color: var(--success-color-100),
   $hover-color: var(--font-primary-color-50)
 ) {
-  @if math.unit($size) == 'px' {
-    $size-value: math.div($size, 1px);
-    $size: px-to-rem($size-value);
-  }
   position: relative;
 
   input[type='checkbox'] {
     opacity: 0;
-    min-width: $size;
-    min-height: $size;
+    min-width: convert-to-rem-if-needed($size);
+    min-height: convert-to-rem-if-needed($size);
     position: absolute;
     cursor: pointer;
 
@@ -773,10 +732,10 @@
       background-color: transparent;
       border: px-to-rem(2) solid $color;
       border-radius: px-to-rem(2);
-      min-width: $size;
-      min-height: $size;
-      max-width: $size;
-      max-height: $size;
+      min-width: convert-to-rem-if-needed($size);
+      min-height: convert-to-rem-if-needed($size);
+      max-width: convert-to-rem-if-needed($size);
+      max-height: convert-to-rem-if-needed($size);
       transition:
         background-color var.$transition-duration-medium ease-in-out,
         border-color var.$transition-duration-medium ease-in-out;
@@ -792,12 +751,7 @@
 }
 
 @mixin singleline-ellipsis($max-width: 100%) {
-  @if math.unit($max-width) == 'px' {
-    $max-width-value: math.div($max-width, 1px);
-    max-width: px-to-rem($max-width-value);
-  } @else {
-    max-width: $max-width;
-  }
+  max-width: convert-to-rem-if-needed($max-width);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
