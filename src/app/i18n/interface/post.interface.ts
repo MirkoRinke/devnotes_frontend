@@ -16,6 +16,7 @@ interface PostErrorMessages {
   code: PostFieldErrors;
   language_or_tech_required: PostFieldErrors;
   mediaLinks: MediaLinksErrorActions;
+  tags: PostErrorActions;
 }
 interface BaseError {
   UNKNOWN_ERROR: string;
@@ -35,6 +36,11 @@ interface MediaLinksErrorActions {
   URL_TOO_LONG: string;
   MISSING_TLD: string;
 }
+
+interface PostErrorActions {
+  TAG_TOO_LONG: string;
+}
+
 // #endregion
 
 // #region Info Messages
@@ -42,6 +48,7 @@ interface PostInfoMessages {
   delete: DeleteInfoActions;
   syntax_highlighting: SyntaxInfoActions;
   mediaLinks: MediaLinksInfoActions;
+  tags: TagsInfoActions;
 }
 
 interface DeleteInfoActions {
@@ -54,6 +61,11 @@ interface SyntaxInfoActions {
 
 interface MediaLinksInfoActions {
   DUPLICATE_URL: string;
+}
+
+interface TagsInfoActions {
+  TAG_ADDED: string;
+  TAG_ALREADY_SELECTED: string;
 }
 
 // #endregion

@@ -88,6 +88,9 @@ export const NOTIFICATIONS_DE: Notifications = {
         URL_TOO_LONG: 'Maximale URL-Länge überschritten.',
         MISSING_TLD: 'Top-Level-Domain erforderlich (z. B. .de, .com).',
       },
+      tags: {
+        TAG_TOO_LONG: 'Tags dürfen nicht länger als 50 Zeichen sein.',
+      },
     },
     info: {
       delete: {
@@ -98,6 +101,10 @@ export const NOTIFICATIONS_DE: Notifications = {
       },
       mediaLinks: {
         DUPLICATE_URL: 'Diese URL ist bereits in der Liste.',
+      },
+      tags: {
+        TAG_ADDED: 'Tag "{tagName}" hinzugefügt.',
+        TAG_ALREADY_SELECTED: 'Tag "{tagName}" ist bereits ausgewählt.',
       },
     },
     success: {
