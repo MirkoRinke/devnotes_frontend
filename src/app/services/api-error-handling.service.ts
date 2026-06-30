@@ -1,8 +1,7 @@
-// TODO: Refactor API error handling to use translation keys only. Remove 'message' field once all components are migrated.
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
-import type { BackendErrorResponseInterface, BusinessActionInterface } from '../interfaces/error-handling';
+import type { BackendErrorResponseInterface, BusinessActionInterface, ValidationErrorsInterface } from '../interfaces/error-handling';
 import { AuthStorageService } from './auth-storage.service';
 import { RegexEnums } from '../enums/regex';
 
@@ -21,6 +20,8 @@ export class ApiErrorHandlingService {
         return this.handle401(error);
       case 403:
         return this.handle403(error);
+      case 422:
+        return this.handle422(error);
       case 429:
         return this.handle429(error);
       default:
@@ -40,7 +41,6 @@ export class ApiErrorHandlingService {
     console.log('Fehlerdetails:', error);
     return {
       messages: {
-        message: 'Es ist ein Fehler aufgetreten. Bitte erneut versuchen.',
         validatorKey: 'UNKNOWN_ERROR',
         messageType: 'error',
       },
@@ -60,7 +60,6 @@ export class ApiErrorHandlingService {
     if (error.errors === 'CREDENTIALS_INCORRECT' || error.errors === 'ACCOUNT_DELETION_INVALID_CREDENTIALS') {
       return {
         messages: {
-          message: 'E-Mail-Adresse / Benutzername oder Passwort ist falsch.',
           validatorKey: error.errors,
           messageType: 'error',
         },
@@ -94,7 +93,6 @@ export class ApiErrorHandlingService {
       return {
         mustAcceptConditions: true,
         messages: {
-          message: 'Es gab neue Nutzungsbedingungen oder Datenschutzrichtlinien',
           validatorKey: 'MUST_ACCEPT_CONDITIONS',
           messageType: 'info',
         },
@@ -108,7 +106,6 @@ export class ApiErrorHandlingService {
     if (error.errors === 'ACCOUNT_DELETION_FORBIDDEN') {
       return {
         messages: {
-          message: 'Das Löschen des Kontos ist nicht möglich.',
           validatorKey: error.errors,
           messageType: 'error',
         },
@@ -130,7 +127,6 @@ export class ApiErrorHandlingService {
 
       return {
         messages: {
-          message: `Ihr Konto wurde für ${days} Tage gesperrt.`,
           validatorKey: error.errors,
           params: { days },
           messageType: 'error',
@@ -138,6 +134,83 @@ export class ApiErrorHandlingService {
       };
     }
 
+    return this.handleDefault(error);
+  }
+
+  private handle422(error: BackendErrorResponseInterface): BusinessActionInterface | void {
+    if (typeof error.errors === 'string') {
+      if (error.errors === 'VALIDATION_FAILED') {
+        return {
+          messages: {
+            validatorKey: error.errors,
+            messageType: 'error',
+          },
+        };
+      }
+    }
+
+    if (typeof error.errors === 'object' && error.errors !== null && !Array.isArray(error.errors)) {
+      const errors = error.errors as ValidationErrorsInterface;
+      const keys = Object.keys(errors);
+
+      for (const key of keys) {
+        const validatorKey = errors[key];
+
+        if (validatorKey.includes('NAME_ALREADY_IN_USE')) {
+          return {
+            messages: {
+              validatorKey: 'NAME_ALREADY_IN_USE',
+              messageType: 'error',
+            },
+          };
+        }
+
+        if (validatorKey.includes('DISPLAY_NAME_ALREADY_IN_USE')) {
+          return {
+            messages: {
+              validatorKey: 'DISPLAY_NAME_ALREADY_IN_USE',
+              messageType: 'error',
+            },
+          };
+        }
+
+        if (validatorKey.includes('PASSWORD_MUST_BE_UNCOMPROMISED')) {
+          return {
+            messages: {
+              validatorKey: 'PASSWORD_MUST_BE_UNCOMPROMISED',
+              messageType: 'error',
+            },
+          };
+        }
+
+        if (validatorKey.includes('FORBIDDEN_NAME')) {
+          return {
+            messages: {
+              validatorKey: 'FORBIDDEN_NAME',
+              messageType: 'error',
+            },
+          };
+        }
+
+        if (validatorKey.includes('FORBIDDEN_DISPLAY_NAME')) {
+          return {
+            messages: {
+              validatorKey: 'FORBIDDEN_DISPLAY_NAME',
+              messageType: 'error',
+            },
+          };
+        }
+
+        if (validatorKey.includes('EMAIL_ALREADY_IN_USE')) {
+          return {
+            messages: {
+              validatorKey: 'EMAIL_ALREADY_IN_USE',
+              messageType: 'error',
+            },
+          };
+        }
+      }
+    }
     return this.handleDefault(error);
   }
 

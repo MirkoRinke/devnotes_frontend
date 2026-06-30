@@ -20,7 +20,6 @@ export interface ParamsInterface {
 }
 
 export interface ErrorMessageInterface {
-  message: string;
   validatorKey: string;
   params?: ParamsInterface;
   messageType: keyof ErrorTypeInterface;
