@@ -1,0 +1,160 @@
+@if (registerForm !== null) {
+  <div class="register">
+    <div class="header">
+      <h1 class="heading">Register</h1>
+      <h2 class="subheading">Registrieren, um loszulegen.</h2>
+    </div>
+
+    <div class="icon-wrapper">
+      <app-badge
+        class="badge"
+        [messages]="messages['register']"
+      ></app-badge>
+
+      <span
+        class="icon-container"
+        [class.processing]="isProcessing"
+        [class.success]="registerSuccessful"
+        [innerHTML]="svgIconsService.returnIcon(getDuckIcon(), 'icon')"
+      ></span>
+    </div>
+
+    <form
+      class="form"
+      [formGroup]="registerForm"
+    >
+      <div class="input-container">
+        <app-badge
+          class="badge"
+          [messages]="registerForm.get('name')?.invalid && registerForm.get('name')?.touched ? messages['name'] : null"
+          [caret]="'left'"
+        ></app-badge>
+
+        <input
+          class="input"
+          type="text"
+          name="name"
+          formControlName="name"
+          placeholder="Benutzername"
+        />
+      </div>
+
+      <div class="input-container">
+        <app-badge
+          class="badge"
+          [messages]="registerForm.get('display_name')?.invalid && registerForm.get('display_name')?.touched ? messages['display_name'] : null"
+          [caret]="'left'"
+        ></app-badge>
+
+        <input
+          class="input"
+          type="text"
+          name="display_name"
+          formControlName="display_name"
+          placeholder="Anzeigename"
+        />
+      </div>
+
+      <div class="input-container">
+        <app-badge
+          class="badge"
+          [messages]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched ? messages['email'] : null"
+          [caret]="'left'"
+        ></app-badge>
+
+        <input
+          class="input"
+          type="text"
+          name="email"
+          formControlName="email"
+          placeholder="E-Mail-Adresse"
+        />
+      </div>
+
+      <div class="input-container">
+        <app-badge
+          class="badge"
+          [messages]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched ? messages['password'] : null"
+          [caret]="'left'"
+        ></app-badge>
+
+        <input
+          class="input"
+          type="password"
+          name="password"
+          (focus)="isPasswordFocused = true"
+          (blur)="isPasswordFocused = false"
+          formControlName="password"
+          placeholder="Passwort eingeben"
+        />
+      </div>
+
+      <div class="input-container">
+        <app-badge
+          class="badge"
+          [messages]="
+            registerForm.get('password_confirmation')?.invalid && registerForm.get('password_confirmation')?.touched
+              ? messages['password_confirmation']
+              : messages['passwordMismatch']
+                ? messages['passwordMismatch']
+                : null
+          "
+          [caret]="'left'"
+        ></app-badge>
+
+        <input
+          class="input"
+          type="password"
+          name="password_confirmation"
+          (focus)="isPasswordFocused = true"
+          (blur)="isPasswordFocused = false"
+          formControlName="password_confirmation"
+          placeholder="Passwort bestätigen"
+        />
+      </div>
+
+      <div class="conditions-warning">
+        <app-badge
+          class="badge"
+          [messages]="registerForm.get('acceptedConditions')?.invalid || registerForm.get('acceptedConditions')?.valid ? messages['acceptedConditions'] : null"
+          [caret]="'left'"
+        ></app-badge>
+
+        <label class="checkbox-container">
+          <input
+            class="checkbox"
+            type="checkbox"
+            formControlName="acceptedConditions"
+            (change)="checkboxChanged()"
+          />
+          <span class="custom-checkbox"></span>
+          Ich akzeptiere die Nutzungsbedingungen und die Datenschutzerklärung.
+        </label>
+      </div>
+
+      <button
+        class="submit-button"
+        (click)="onSubmit()"
+      >
+        Registrieren
+      </button>
+    </form>
+
+    <div class="footer-links">
+      <a
+        [routerLink]="['/account-deletion']"
+        class="link"
+        >Konto löschen</a
+      >
+
+      <span class="register-wrapper">
+        Bereits ein Konto?
+        <a
+          [routerLink]="['/login']"
+          class="link"
+          >Anmelden</a
+        >
+      </span>
+    </div>
+  </div>
+}
