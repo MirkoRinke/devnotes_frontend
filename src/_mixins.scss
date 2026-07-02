@@ -575,6 +575,8 @@
       @if $transform != unset {
         transform: $transform;
       }
+      margin-bottom: px-to-rem(10);
+      max-width: 100%;
     }
   }
 }
@@ -600,7 +602,8 @@
   padding: px-to-rem(2) px-to-rem(6);
   border-radius: convert-to-rem-if-needed($border-radius);
   z-index: $z-index;
-  pointer-events: none;
+
+  overflow: hidden;
 
   @include fade-in-with-delay(var(--animation-delay));
 
@@ -624,9 +627,40 @@
   }
 
   .badge-text {
-    display: inline-block;
+    @include display-flex();
     @include font-settings($font-size, 400, $color: var(--font-primary-color-100));
-    @include singleline-ellipsis();
+
+    transition: max-height var.$transition-duration-medium ease-in-out;
+    overflow: hidden;
+    min-height: 1.5rem;
+    max-height: 1.5rem;
+
+    &.single-word {
+      word-break: break-all;
+    }
+
+    &.is-overflowing-y {
+      cursor: pointer;
+
+      &:hover {
+        max-height: 10rem;
+      }
+
+      padding-right: 1.7ch;
+      position: relative;
+
+      &:not(:hover) {
+        &::after {
+          content: '';
+          position: absolute;
+          top: px-to-rem(2);
+          right: px-to-rem(0);
+          border-left: 0.7ch solid transparent;
+          border-right: 0.7ch solid transparent;
+          border-top: 0.7ch solid white;
+        }
+      }
+    }
   }
 }
 
@@ -758,7 +792,6 @@
 }
 
 @mixin multiline-ellipsis($lines: 4) {
-  display: -webkit-box;
   overflow: hidden;
   line-clamp: $lines;
   -webkit-line-clamp: $lines;
