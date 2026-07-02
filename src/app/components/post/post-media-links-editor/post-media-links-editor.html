@@ -11,11 +11,6 @@
     ></span>
   </header>
   <div class="tabs">
-    <app-badge
-      class="badge"
-      [messages]="messages['mediaLinks']"
-      [caret]="'center'"
-    ></app-badge>
     <button
       class="tab"
       [class.active]="currentType === 'images'"
@@ -55,6 +50,12 @@
   </div>
   <div class="content">
     <div class="input-group add-new">
+      <app-badge
+        class="badge"
+        [messages]="messages['mediaLinks']"
+        [caret]="'center'"
+      ></app-badge>
+
       <input
         class="input"
         type="text"
@@ -72,24 +73,26 @@
       ></button>
     </div>
 
-    @for (input of currentArray; track $index) {
-      <div class="input-group">
-        <input
-          class="input"
-          type="text"
-          name="link-{{ $index }}"
-          [maxLength]="2048"
-          [title]="input"
-          (keydown.enter)="pushToArray($event.target.value, $index)"
-          [value]="input"
-        />
-        <button
-          class="remove-button"
-          (click)="removeFromArray($index)"
-          title="Delete this link"
-          [innerHTML]="svgIconsService.returnIcon('delete_media_links')"
-        ></button>
-      </div>
-    }
+    <div class="inputs">
+      @for (input of currentArray; track $index) {
+        <div class="input-group">
+          <input
+            class="input"
+            type="text"
+            name="link-{{ $index }}"
+            [maxLength]="2048"
+            [title]="input"
+            (keydown.enter)="pushToArray($event.target.value, $index)"
+            [value]="input"
+          />
+          <button
+            class="remove-button"
+            (click)="removeFromArray($index)"
+            title="Delete this link"
+            [innerHTML]="svgIconsService.returnIcon('delete_media_links')"
+          ></button>
+        </div>
+      }
+    </div>
   </div>
 </div>

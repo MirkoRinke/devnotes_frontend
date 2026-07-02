@@ -25,9 +25,7 @@
   .tabs {
     @include display-flex(center, start);
     gap: px-to-rem(25);
-
-    margin-top: px-to-rem(45);
-    margin-bottom: px-to-rem(5);
+    margin-top: px-to-rem(25);
 
     .tab {
       @include button-preset();
@@ -53,13 +51,11 @@
         }
       }
     }
-    @include position-absolute($class: '.badge', $top: -40px, $left: 0px, $z-index: 10);
   }
 
   .content {
     @include display-flex(center, start, column);
-    overflow-y: auto;
-    padding-right: px-to-rem(10);
+    overflow: hidden;
 
     flex-grow: 1;
 
@@ -102,6 +98,22 @@
           }
         }
       }
+      @include position-absolute($class: '.badge', $bottom: 100%, $left: 0px, $z-index: 10);
+    }
+    .add-new {
+      padding-right: px-to-rem(22);
+      margin-top: px-to-rem(50);
+
+      .input {
+        margin-block: unset;
+        margin-bottom: px-to-rem(10);
+      }
+    }
+
+    .inputs {
+      overflow-y: auto;
+      width: 100%;
+      padding-right: px-to-rem(11);
     }
   }
 }
