@@ -59,10 +59,17 @@
     gap: px-to-rem(25);
     width: 100%;
 
+    .input-row {
+      @include display-flex($justify: space-between, $direction: row);
+      gap: px-to-rem(15);
+    }
+
     .input-container {
       @include display-flex($direction: column);
       gap: px-to-rem(15);
       margin-top: px-to-rem(25);
+
+      flex: 1;
 
       .input {
         @include input-feld($height: 50px, $color: var(--font-primary-color-100));
@@ -72,7 +79,7 @@
         border-radius: px-to-rem(10);
       }
 
-      @include position-absolute($class: '.badge', $top: -40px, $left: 0);
+      @include position-absolute($class: '.badge', $bottom: 100%, $left: 0);
     }
 
     .conditions-warning {
@@ -89,7 +96,7 @@
         @include custom-check-box('.custom-checkbox');
       }
 
-      @include position-absolute($class: '.badge', $top: -40px, $left: 0);
+      @include position-absolute($class: '.badge', $bottom: 100%, $left: 0);
     }
 
     .submit-button {

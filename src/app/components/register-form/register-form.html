@@ -23,36 +23,38 @@
       class="form"
       [formGroup]="registerForm"
     >
-      <div class="input-container">
-        <app-badge
-          class="badge"
-          [messages]="registerForm.get('name')?.invalid && registerForm.get('name')?.touched ? messages['name'] : null"
-          [caret]="'left'"
-        ></app-badge>
+      <div class="input-row">
+        <div class="input-container">
+          <app-badge
+            class="badge"
+            [messages]="registerForm.get('name')?.invalid && registerForm.get('name')?.touched ? messages['name'] : null"
+            [caret]="'left'"
+          ></app-badge>
 
-        <input
-          class="input"
-          type="text"
-          name="name"
-          formControlName="name"
-          placeholder="Benutzername"
-        />
-      </div>
+          <input
+            class="input"
+            type="text"
+            name="name"
+            formControlName="name"
+            placeholder="Benutzername"
+          />
+        </div>
 
-      <div class="input-container">
-        <app-badge
-          class="badge"
-          [messages]="registerForm.get('display_name')?.invalid && registerForm.get('display_name')?.touched ? messages['display_name'] : null"
-          [caret]="'left'"
-        ></app-badge>
+        <div class="input-container">
+          <app-badge
+            class="badge"
+            [messages]="registerForm.get('display_name')?.invalid && registerForm.get('display_name')?.touched ? messages['display_name'] : null"
+            [caret]="'left'"
+          ></app-badge>
 
-        <input
-          class="input"
-          type="text"
-          name="display_name"
-          formControlName="display_name"
-          placeholder="Anzeigename"
-        />
+          <input
+            class="input"
+            type="text"
+            name="display_name"
+            formControlName="display_name"
+            placeholder="Anzeigename"
+          />
+        </div>
       </div>
 
       <div class="input-container">
@@ -71,46 +73,48 @@
         />
       </div>
 
-      <div class="input-container">
-        <app-badge
-          class="badge"
-          [messages]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched ? messages['password'] : null"
-          [caret]="'left'"
-        ></app-badge>
+      <div class="input-row">
+        <div class="input-container">
+          <app-badge
+            class="badge"
+            [messages]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched ? messages['password'] : null"
+            [caret]="'left'"
+          ></app-badge>
 
-        <input
-          class="input"
-          type="password"
-          name="password"
-          (focus)="isPasswordFocused = true"
-          (blur)="isPasswordFocused = false"
-          formControlName="password"
-          placeholder="Passwort eingeben"
-        />
-      </div>
+          <input
+            class="input"
+            type="password"
+            name="password"
+            (focus)="isPasswordFocused = true"
+            (blur)="isPasswordFocused = false"
+            formControlName="password"
+            placeholder="Passwort eingeben"
+          />
+        </div>
 
-      <div class="input-container">
-        <app-badge
-          class="badge"
-          [messages]="
-            registerForm.get('password_confirmation')?.invalid && registerForm.get('password_confirmation')?.touched
-              ? messages['password_confirmation']
-              : messages['passwordMismatch']
-                ? messages['passwordMismatch']
-                : null
-          "
-          [caret]="'left'"
-        ></app-badge>
+        <div class="input-container">
+          <app-badge
+            class="badge"
+            [messages]="
+              registerForm.get('password_confirmation')?.invalid && registerForm.get('password_confirmation')?.touched
+                ? messages['password_confirmation']
+                : messages['passwordMismatch']
+                  ? messages['passwordMismatch']
+                  : null
+            "
+            [caret]="'left'"
+          ></app-badge>
 
-        <input
-          class="input"
-          type="password"
-          name="password_confirmation"
-          (focus)="isPasswordFocused = true"
-          (blur)="isPasswordFocused = false"
-          formControlName="password_confirmation"
-          placeholder="Passwort bestätigen"
-        />
+          <input
+            class="input"
+            type="password"
+            name="password_confirmation"
+            (focus)="isPasswordFocused = true"
+            (blur)="isPasswordFocused = false"
+            formControlName="password_confirmation"
+            placeholder="Passwort bestätigen"
+          />
+        </div>
       </div>
 
       <div class="conditions-warning">
