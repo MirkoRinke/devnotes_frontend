@@ -31,10 +31,12 @@
   }
 
   .search-section {
+    margin-top: px-to-rem(35);
+    margin-bottom: px-to-rem(5);
+
     .search {
       @include display-flex(center, center);
       gap: px-to-rem(15);
-      margin-block: px-to-rem(40) px-to-rem(10);
 
       .search-input {
         @include input-feld($height: 30px);
@@ -61,7 +63,7 @@
       }
     }
 
-    @include position-absolute($class: '.badge', $top: 0px, $left: 0px, $z-index: 10);
+    @include position-absolute($class: '.badge', $bottom: 100%, $left: 0px, $z-index: 10);
   }
 
   .content {
