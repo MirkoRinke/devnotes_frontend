@@ -51,7 +51,7 @@
       }
     }
 
-    @include position-absolute($class: '.badge', $top: -25px, $left: 50%, $transform: translateX(-50%));
+    @include position-absolute($class: '.badge', $bottom: 100%, $left: 50%, $transform: translateX(-50%));
   }
 
   .form {
