@@ -83,7 +83,7 @@
         }
       }
 
-      @include position-absolute($class: '.badge', $top: -40px, $z-index: 10);
+      @include position-absolute($class: '.badge', $bottom: 100%, $z-index: 10);
     }
   }
 
