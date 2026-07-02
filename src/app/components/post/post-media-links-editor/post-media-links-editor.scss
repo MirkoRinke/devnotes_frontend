@@ -101,7 +101,12 @@
       @include position-absolute($class: '.badge', $bottom: 100%, $left: 0px, $z-index: 10);
     }
     .add-new {
-      padding-right: px-to-rem(22);
+      padding-right: px-to-rem(11);
+
+      &.is-overflowing-x {
+        padding-right: px-to-rem(22);
+      }
+
       margin-top: px-to-rem(50);
 
       .input {

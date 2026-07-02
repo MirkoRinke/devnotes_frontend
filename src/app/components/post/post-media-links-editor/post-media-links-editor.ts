@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
+import { Component, Input, Output, EventEmitter, inject, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 import { SvgIconsService } from '../../../services/svg.icons.service';
@@ -29,6 +29,9 @@ export class PostMediaLinksEditor {
   currentType: 'images' | 'videos' | 'resources' = 'images';
   currentArray: Array<string> = [];
 
+  inputsContainer: ElementRef | null = null;
+  isOverflowingY = false;
+
   @Output() closeModal = new EventEmitter<void>();
 
   messages: mediaLinksMessagesInterface = {
@@ -37,12 +40,38 @@ export class PostMediaLinksEditor {
 
   private msg = new BadgeMessageHandler<mediaLinksMessagesInterface>(this.messages, 'Post', inject(TranslationService), 3000);
 
-  constructor(public svgIconsService: SvgIconsService) {}
+  constructor(
+    public svgIconsService: SvgIconsService,
+    private cdr: ChangeDetectorRef,
+  ) {}
 
   ngOnInit() {
     this.pushControlledValuesToArray();
     this.currentType = this.type;
     this.currentArray = this.getArrays(this.currentType);
+  }
+
+  @ViewChild('inputsContainer') set inputsContainerRef(content: ElementRef) {
+    this.inputsContainer = content;
+  }
+
+  /**
+   * Checks if the content of the inputs container is overflowing vertically (Y-axis) and updates the isOverflowingY property accordingly.
+   * This method uses requestAnimationFrame to ensure that the check is performed after the DOM has been updated.
+   */
+  private checkIsOverflowingY(): void {
+    requestAnimationFrame(() => {
+      if (!this.inputsContainer) return;
+      const el = this.inputsContainer.nativeElement;
+
+      const isOverflowingY = el.scrollHeight > el.clientHeight;
+
+      if (isOverflowingY !== this.isOverflowingY) {
+        this.isOverflowingY = isOverflowingY;
+        this.cdr.detectChanges();
+      }
+      console.log(this.isOverflowingY);
+    });
   }
 
   /**
@@ -121,6 +150,8 @@ export class PostMediaLinksEditor {
     } else {
       this.currentArray.unshift(value);
     }
+
+    this.checkIsOverflowingY();
   }
 
   /**
@@ -130,6 +161,7 @@ export class PostMediaLinksEditor {
    */
   public removeFromArray(index: number) {
     this.currentArray.splice(index, 1);
+    this.checkIsOverflowingY();
   }
 
   /**

@@ -49,7 +49,10 @@
     </button>
   </div>
   <div class="content">
-    <div class="input-group add-new">
+    <div
+      class="input-group add-new"
+      [class.is-overflowing-x]="isOverflowingY"
+    >
       <app-badge
         class="badge"
         [messages]="messages['mediaLinks']"
@@ -73,7 +76,10 @@
       ></button>
     </div>
 
-    <div class="inputs">
+    <div
+      class="inputs"
+      #inputsContainer
+    >
       @for (input of currentArray; track $index) {
         <div class="input-group">
           <input
