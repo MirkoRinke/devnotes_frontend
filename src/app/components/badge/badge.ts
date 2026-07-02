@@ -20,16 +20,19 @@ export class Badge implements AfterViewChecked {
   isOverflowingY = false;
   isTranslationsPath = false;
 
+  hasCheckedOverflow = false;
+
   constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnChanges(): void {
+    this.hasCheckedOverflow = false;
     if (this.messages?.error || this.messages?.info || this.messages?.success) {
       this.checkForTranslationsPath(this.getActiveBadge()?.text || '');
     }
   }
 
   ngAfterViewChecked(): void {
-    if (this.messages?.error || this.messages?.info || this.messages?.success) {
+    if (!this.hasCheckedOverflow && (this.messages?.error || this.messages?.info || this.messages?.success)) {
       this.checkIsOverflowingY();
     }
   }
@@ -56,6 +59,7 @@ export class Badge implements AfterViewChecked {
       this.isOverflowingY = isOverflowingY;
       this.cdr.detectChanges();
     }
+    this.hasCheckedOverflow = true;
   }
 
   /**
