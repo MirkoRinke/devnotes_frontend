@@ -50,8 +50,7 @@
         height: 100%;
       }
     }
-
-    @include position-absolute($class: '.badge', $top: -25px, $left: 50%, $transform: translateX(-50%));
+    @include position-absolute($class: '.badge', $bottom: 100%, $left: 50%, $transform: translateX(-50%));
   }
 
   .form {
@@ -72,7 +71,7 @@
         border-radius: px-to-rem(10);
       }
 
-      @include position-absolute($class: '.badge', $top: -40px, $left: 0);
+      @include position-absolute($class: '.badge', $bottom: 100%, $left: 0);
     }
 
     .conditions-warning {
@@ -89,7 +88,7 @@
         @include custom-check-box('.custom-checkbox');
       }
 
-      @include position-absolute($class: '.badge', $top: -40px, $left: 0);
+      @include position-absolute($class: '.badge', $bottom: 100%, $left: 0);
     }
 
     .submit-button {
