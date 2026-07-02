@@ -6,6 +6,12 @@
     [class.right]="caret === 'right'"
     [style.--animation-delay]="animationDelay + 'ms'"
   >
-    <span class="badge-text">{{ getActiveBadge()?.icon }} {{ getActiveBadge()?.text }}</span>
+    <span
+      class="badge-text"
+      #badgeText
+      [class.is-overflowing-y]="isOverflowingY"
+      [class.single-word]="isTranslationsPath"
+      >{{ getActiveBadge()?.icon }} {{ getActiveBadge()?.text }}</span
+    >
   </div>
 }
