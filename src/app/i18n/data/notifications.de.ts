@@ -86,7 +86,7 @@ export const NOTIFICATIONS_DE: Notifications = {
       mediaLinks: {
         INVALID_URL: 'Ungültige URL. Bitte überprüfe deine Eingabe.',
         URL_TOO_LONG: 'Maximale URL-Länge überschritten.',
-        MISSING_TLD: 'Top-Level-Domain erforderlich (z. B. .de, .com).',
+        MISSING_TLD: 'Top-Level-Domain erforderlich.(z.B. .de)',
       },
       tags: {
         TAG_TOO_LONG: 'Tags dürfen nicht länger als 50 Zeichen sein.',

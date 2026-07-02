@@ -86,7 +86,7 @@ export const NOTIFICATIONS_EN: Notifications = {
       mediaLinks: {
         INVALID_URL: 'Invalid URL. Please check your input.',
         URL_TOO_LONG: 'Maximum URL length exceeded.',
-        MISSING_TLD: 'Top-level domain required (e.g. .com, .de).',
+        MISSING_TLD: 'Top-Level-Domain required.(e.g. .de)',
       },
       tags: {
         TAG_TOO_LONG: 'Tags cannot be longer than 50 characters.',
