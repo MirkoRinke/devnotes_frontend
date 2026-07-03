@@ -8,6 +8,23 @@ export const NOTIFICATIONS_EN: Notifications = {
   },
   Auth: {
     error: {
+      name: {
+        required: 'Enter name.',
+        minlength: 'The name must be at least 2 characters long.',
+        maxlength: 'The name must be at most 255 characters long.',
+        pattern: 'The name cannot contain @.',
+      },
+      display_name: {
+        required: 'Enter display name.',
+        minlength: 'The display name must be at least 2 characters long.',
+        maxlength: 'The display name must be at most 255 characters long.',
+        pattern: 'Only letters, numbers, underscores, and hyphens are allowed.',
+      },
+      email: {
+        required: 'Enter email address.',
+        email: 'The email address is invalid.',
+        maxlength: 'The email address must be at most 255 characters long.',
+      },
       identifier: {
         required: 'Enter email address / username.',
         login_identifier_invalid: 'The email address or username is invalid.',
@@ -17,6 +34,15 @@ export const NOTIFICATIONS_EN: Notifications = {
         required: 'Enter password.',
         minlength: 'The password must be at least 8 characters long.',
         maxlength: 'The password must be at most 255 characters long.',
+        weakPassword: 'The password is too weak.',
+      },
+      password_confirmation: {
+        required: 'Confirm password.',
+        minlength: 'The password must be at least 8 characters long.',
+        maxlength: 'The password must be at most 255 characters long.',
+      },
+      passwordMismatch: {
+        passwordMismatch: 'Passwords do not match.',
       },
       acceptedConditions: {
         required: 'Please accept the terms of use & privacy policy.',
@@ -25,6 +51,16 @@ export const NOTIFICATIONS_EN: Notifications = {
         UNKNOWN_ERROR: 'An error occurred during login. Please try again.',
         CREDENTIALS_INCORRECT: 'Email address / username or password is incorrect.',
         ACCOUNT_SUSPENDED: 'Your account has been suspended for {days} days.',
+      },
+      register: {
+        UNKNOWN_ERROR: 'An error occurred during registration. Please try again.',
+        VALIDATION_FAILED: 'Validation failed. Please check your input.',
+        NAME_ALREADY_IN_USE: 'The name is already in use.',
+        DISPLAY_NAME_ALREADY_IN_USE: 'The display name is already in use.',
+        FORBIDDEN_NAME: 'The name is not allowed.',
+        FORBIDDEN_DISPLAY_NAME: 'The display name is not allowed.',
+        EMAIL_ALREADY_IN_USE: 'The email address is already in use.',
+        PASSWORD_MUST_BE_UNCOMPROMISED: 'Your password has been found in a data breach. Please choose a different password. For more information, visit https://haveibeenpwned.com/Passwords',
       },
       deleteAccount: {
         UNKNOWN_ERROR: 'Error deleting the account. Please try again.',
@@ -43,6 +79,9 @@ export const NOTIFICATIONS_EN: Notifications = {
     success: {
       login: {
         LOGIN_SUCCESSFUL: 'Login successful. Redirecting...',
+      },
+      register: {
+        REGISTER_SUCCESSFUL: 'Registration successful. Redirecting...',
       },
       deleteAccount: {
         DELETE_ACCOUNT_SUCCESSFUL: 'Account successfully deleted. Redirecting...',

@@ -8,6 +8,23 @@ export const NOTIFICATIONS_DE: Notifications = {
   },
   Auth: {
     error: {
+      name: {
+        required: 'Name eingeben.',
+        minlength: 'Der Name muss mindestens 2 Zeichen lang sein.',
+        maxlength: 'Der Name darf maximal 255 Zeichen lang sein.',
+        pattern: 'Der Name darf kein @ enthalten.',
+      },
+      display_name: {
+        required: 'Anzeigenamen eingeben.',
+        minlength: 'Der Anzeigename muss mindestens 2 Zeichen lang sein.',
+        maxlength: 'Der Anzeigename darf maximal 255 Zeichen lang sein.',
+        pattern: 'Nur Buchstaben, Zahlen, Unterstriche und Bindestriche sind erlaubt.',
+      },
+      email: {
+        required: 'E-Mail-Adresse eingeben.',
+        email: 'Die E-Mail-Adresse ist ungültig.',
+        maxlength: 'Die E-Mail-Adresse darf maximal 255 Zeichen lang sein.',
+      },
       identifier: {
         required: 'E-Mail-Adresse / Benutzernamen eingeben.',
         login_identifier_invalid: 'Die E-Mail-Adresse oder der Benutzername ist ungültig.',
@@ -17,6 +34,15 @@ export const NOTIFICATIONS_DE: Notifications = {
         required: 'Passwort eingeben.',
         minlength: 'Das Passwort muss mindestens 8 Zeichen lang sein.',
         maxlength: 'Das Passwort darf maximal 255 Zeichen lang sein.',
+        weakPassword: 'Das Passwort ist zu schwach.',
+      },
+      password_confirmation: {
+        required: 'Passwort bestätigen.',
+        minlength: 'Das Passwort muss mindestens 8 Zeichen lang sein.',
+        maxlength: 'Das Passwort darf maximal 255 Zeichen lang sein.',
+      },
+      passwordMismatch: {
+        passwordMismatch: 'Die Passwörter stimmen nicht überein.',
       },
       acceptedConditions: {
         required: 'Bitte Nutzungsbedingungen & Datenschutzrichtlinie akzeptieren.',
@@ -25,6 +51,17 @@ export const NOTIFICATIONS_DE: Notifications = {
         UNKNOWN_ERROR: 'Fehler beim Login. Bitte erneut versuchen.',
         CREDENTIALS_INCORRECT: 'E-Mail-Adresse / Benutzername oder Passwort ist falsch.',
         ACCOUNT_SUSPENDED: 'Ihr Konto wurde für {days} Tage gesperrt.',
+      },
+      register: {
+        UNKNOWN_ERROR: 'Fehler bei der Registrierung. Bitte erneut versuchen.',
+        VALIDATION_FAILED: 'Verifizierung fehlgeschlagen. Bitte überprüfe deine Eingaben.',
+        NAME_ALREADY_IN_USE: 'Der Name ist bereits vergeben.',
+        DISPLAY_NAME_ALREADY_IN_USE: 'Der Anzeigename ist bereits vergeben.',
+        FORBIDDEN_NAME: 'Der Name ist nicht erlaubt.',
+        FORBIDDEN_DISPLAY_NAME: 'Der Anzeigename ist nicht erlaubt.',
+        EMAIL_ALREADY_IN_USE: 'Die E-Mail-Adresse ist bereits vergeben.',
+        PASSWORD_MUST_BE_UNCOMPROMISED:
+          'Dein Passwort wurde in einem Datenleck gefunden. Bitte wähle ein anderes Passwort. Weitere Informationen findest du unter https://haveibeenpwned.com/Passwords',
       },
       deleteAccount: {
         UNKNOWN_ERROR: 'Fehler beim Löschen des Kontos. Bitte erneut versuchen.',
@@ -43,6 +80,9 @@ export const NOTIFICATIONS_DE: Notifications = {
     success: {
       login: {
         LOGIN_SUCCESSFUL: 'Login erfolgreich. Weiterleitung...',
+      },
+      register: {
+        REGISTER_SUCCESSFUL: 'Registrierung erfolgreich. Weiterleitung...',
       },
       deleteAccount: {
         DELETE_ACCOUNT_SUCCESSFUL: 'Konto erfolgreich gelöscht. Weiterleitung...',
