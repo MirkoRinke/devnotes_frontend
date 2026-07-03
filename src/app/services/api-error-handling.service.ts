@@ -138,17 +138,6 @@ export class ApiErrorHandlingService {
   }
 
   private handle422(error: BackendErrorResponseInterface): BusinessActionInterface | void {
-    if (typeof error.errors === 'string') {
-      if (error.errors === 'VALIDATION_FAILED') {
-        return {
-          messages: {
-            validatorKey: error.errors,
-            messageType: 'error',
-          },
-        };
-      }
-    }
-
     if (typeof error.errors === 'object' && error.errors !== null && !Array.isArray(error.errors)) {
       const errors = error.errors as ValidationErrorsInterface;
       const keys = Object.keys(errors);
