@@ -1,6 +1,13 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { RegexEnums } from '../enums/regex';
 
+const EMAIL_RE = new RegExp(RegexEnums.email);
+const USERNAME_RE = new RegExp(RegexEnums.username);
+const UPPER_RE = new RegExp(RegexEnums.hasUpperCase);
+const LOWER_RE = new RegExp(RegexEnums.hasLowerCase);
+const NUMBER_RE = new RegExp(RegexEnums.hasNumber);
+const SPECIAL_RE = new RegExp(RegexEnums.hasSpecialChar);
+
 /**
  * Checks if a given value is considered to have a meaningful value.
  * Handles arrays, strings (with trimming), and other types.
@@ -68,14 +75,11 @@ export function emailOrUsernameValidator(errorKey: string = 'invalidIdentifier')
     const value = control.value;
     if (!value) return null;
 
-    const emailPattern = new RegExp(RegexEnums.email);
-
-    if (emailPattern.test(value)) {
+    if (EMAIL_RE.test(value)) {
       return null;
     }
 
-    const usernamePattern = new RegExp(RegexEnums.username);
-    return usernamePattern.test(value) ? null : { [errorKey]: true };
+    return USERNAME_RE.test(value) ? null : { [errorKey]: true };
   };
 }
 
@@ -97,5 +101,29 @@ export function passwordConfirmationValidator(passwordFieldName: string, confirm
     }
 
     return null;
+  };
+}
+
+/**
+ * Custom validator to check the strength of a password.
+ *
+ * @param errorKey
+ * @returns
+ */
+export function passwordStrengthValidator(errorKey: string = 'weakPassword'): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const value = control.value;
+    if (!value) return null;
+
+    const results = {
+      hasUpperCase: UPPER_RE.test(value),
+      hasLowerCase: LOWER_RE.test(value),
+      hasNumber: NUMBER_RE.test(value),
+      hasSpecialChar: SPECIAL_RE.test(value),
+    };
+
+    const isValid = Object.values(results).every((val) => val === true);
+
+    return isValid ? null : { [errorKey]: results };
   };
 }
