@@ -4,4 +4,8 @@ export enum RegexEnums {
   email = '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$',
   username = '^[a-zA-Z0-9._-]{2,}$',
   digitsOnly = '\\d+',
+  hasUpperCase = '[A-Z]',
+  hasLowerCase = '[a-z]',
+  hasNumber = '\\d',
+  hasSpecialChar = '[^A-Za-z0-9]',
 }
