@@ -5,10 +5,11 @@ import { Router, RouterModule } from '@angular/router';
 
 import { RegisterService } from '../../services/register.service';
 
-import { passwordConfirmationValidator } from '../../utils/custom-validators';
+import { passwordConfirmationValidator, passwordStrengthValidator } from '../../utils/custom-validators';
 
 import { ApiErrorHandlingService } from '../../services/api-error-handling.service';
 import { TranslationService } from '../../i18n/translation.service';
+import { RegexEnums } from '../../enums/regex';
 
 import { BadgeMessageHandler } from '../../utils/badge-message-handler';
 
@@ -39,6 +40,8 @@ export class RegisterForm {
     passwordMismatch: { ...badgeMessagesInit },
   };
 
+  private messageKeys: (keyof RegisterMessagesInterface)[] = ['email', 'name', 'display_name', 'password', 'password_confirmation', 'acceptedConditions'];
+
   isProcessing = false;
   registerSuccessful = false;
 
@@ -46,7 +49,7 @@ export class RegisterForm {
 
   private destroyRef = inject(DestroyRef);
 
-  private msg = new BadgeMessageHandler<RegisterMessagesInterface>(this.messages, 'Register', inject(TranslationService));
+  private msg = new BadgeMessageHandler<RegisterMessagesInterface>(this.messages, 'Auth', inject(TranslationService));
 
   constructor(
     private fb: FormBuilder,
@@ -67,10 +70,10 @@ export class RegisterForm {
   private createForm() {
     this.registerForm = this.fb.group(
       {
-        name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(255), Validators.pattern(/[^@]+/)]],
-        display_name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(255)]],
+        name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(255), Validators.pattern(RegexEnums.username)]],
+        display_name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(255), Validators.pattern(RegexEnums.username)]],
         email: ['', [Validators.required, Validators.email, Validators.maxLength(255)]],
-        password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(255)]],
+        password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(255), passwordStrengthValidator('weakPassword')]],
         password_confirmation: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(255)]],
         acceptedConditions: [false, [Validators.requiredTrue]],
       },
@@ -92,7 +95,6 @@ export class RegisterForm {
     if (this.registerForm.invalid) {
       this.registerForm.markAllAsTouched();
       this.setErrorMessage();
-      console.log(this.messages);
       return;
     }
 
@@ -134,8 +136,6 @@ export class RegisterForm {
       .subscribe({
         next: (response) => {
           this.msg.setMessage('register', 'success', 'REGISTER_SUCCESSFUL');
-          console.log('Registration successful:', response);
-
           this.registerSuccessful = true;
           this.isProcessing = false;
 
@@ -150,14 +150,10 @@ export class RegisterForm {
           const params: ParamsInterface | null = businessAction?.messages?.params || null;
 
           if (businessAction) {
-            console.log('Business action received:', businessAction);
-
             this.msg.setMessage('register', businessAction.messages.messageType, businessAction.messages.validatorKey, params);
           } else {
             this.msg.setMessage('register', 'error', 'UNKNOWN_ERROR');
           }
-
-          console.log('Registration failed:', errorResponse);
 
           this.isProcessing = false;
           return;
@@ -186,10 +182,9 @@ export class RegisterForm {
   private setErrorMessage() {
     const controlErrors = this.getFormErrors();
     const formErrors = this.registerForm?.errors || {};
-    const fields: (keyof RegisterMessagesInterface)[] = ['email', 'name', 'display_name', 'password', 'password_confirmation', 'acceptedConditions', 'passwordMismatch'];
     const allErrors = { ...controlErrors, ...formErrors };
 
-    fields.forEach((field) => {
+    this.messageKeys.forEach((field) => {
       if (allErrors[field]) {
         const validatorKey = Object.keys(allErrors[field])[0];
         this.msg.setMessage(field, 'error', validatorKey);
@@ -197,6 +192,10 @@ export class RegisterForm {
         this.msg.clearMessage(field);
       }
     });
+
+    if (allErrors['passwordMismatch']) {
+      this.msg.setMessage('passwordMismatch', 'error', 'passwordMismatch');
+    }
   }
 
   /**
@@ -228,5 +227,22 @@ export class RegisterForm {
     if (length === 0) return 'register_half_closed_duck_1';
     if (length <= 2) return 'register_half_closed_duck_2';
     return 'register_close_duck';
+  }
+
+  /**
+   * Retrieves the appropriate error message for the password confirmation field based on its validation state.
+   */
+  get passwordConfirmationErrorMessage() {
+    const control = this.registerForm?.get('password_confirmation');
+
+    if (control?.invalid && control?.touched) {
+      return this.messages['password_confirmation'];
+    }
+
+    if (this.registerForm?.hasError('passwordMismatch')) {
+      return this.messages['passwordMismatch'];
+    }
+
+    return null;
   }
 }

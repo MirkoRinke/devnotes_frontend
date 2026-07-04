@@ -95,13 +95,7 @@
         <div class="input-container">
           <app-badge
             class="badge"
-            [messages]="
-              registerForm.get('password_confirmation')?.invalid && registerForm.get('password_confirmation')?.touched
-                ? messages['password_confirmation']
-                : messages['passwordMismatch']
-                  ? messages['passwordMismatch']
-                  : null
-            "
+            [messages]="passwordConfirmationErrorMessage"
             [caret]="'left'"
           ></app-badge>
 
