@@ -1,4 +1,5 @@
 import { Component, Input, ViewChild, ElementRef, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
+import { Router } from '@angular/router';
 
 import type { BadgeMessagesInterface, ActiveBadgeInterface } from '../../interfaces/validation-messages';
 
@@ -22,7 +23,10 @@ export class Badge implements AfterViewChecked {
 
   hasCheckedOverflow = false;
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private router: Router,
+  ) {}
 
   ngOnChanges(): void {
     this.hasCheckedOverflow = false;
@@ -80,15 +84,100 @@ export class Badge implements AfterViewChecked {
   }
 
   /**
-   * Returns the currently active badge based on the provided messages.
+   * Retrieves the active badge details based on the current messages.
+   * If there are no active messages, it returns null.
    *
-   * @returns The active badge or null if no badge is active.
+   * @returns The active badge details or null if no active messages.
    */
   getActiveBadge(): ActiveBadgeInterface | null {
+    const baseDetails = this._getBaseBadgeDetails();
+    if (!baseDetails) return null;
+
+    const { text, type, icon } = baseDetails;
+    const htmlText = this._parseMessageForLinks(text);
+
+    if (htmlText) {
+      return { type, icon, text: text, htmlText };
+    }
+
+    return { type, icon, text: text };
+  }
+
+  /**
+   * Retrieves the base badge details based on the current messages.
+   * If there are no active messages, it returns null.
+   *
+   * @returns The base badge details or null if no active messages.
+   */
+  private _getBaseBadgeDetails(): ActiveBadgeInterface | null {
     if (!this.messages) return null;
-    if (this.messages.error) return { type: 'error', icon: '[!]', text: this.messages.error };
-    if (this.messages.info) return { type: 'info', icon: '[i]', text: this.messages.info };
-    if (this.messages.success) return { type: 'success', icon: '[✓]', text: this.messages.success };
+
+    if (this.messages.error) {
+      return { text: this.messages.error, type: 'error', icon: '[!]' };
+    }
+    if (this.messages.info) {
+      return { text: this.messages.info, type: 'info', icon: '[i]' };
+    }
+    if (this.messages.success) {
+      return { text: this.messages.success, type: 'success', icon: '[✓]' };
+    }
+
     return null;
+  }
+
+  /**
+   * Parses the provided message for custom link patterns and replaces them with HTML anchor tags.
+   *
+   * The expected format for custom links is: [type]="url|alias"
+   * - type: "routerLink" or "href"
+   * - url: The URL or route
+   * - alias: (Optional) The text to display for the link
+   *
+   * @param message The message to parse.
+   * @returns The parsed message with HTML anchor tags or null if no custom links are found.
+   */
+  private _parseMessageForLinks(message: string): string | null {
+    const typePart = `\\[(routerLink|href)\\]`;
+    const urlPart = `([^"|]+)`;
+    const optionalAliasPart = `(?:\\|([^"]+))?`;
+
+    const customLinkRegex = new RegExp(`${typePart}="${urlPart}${optionalAliasPart}"`, 'g');
+
+    if (!message.match(customLinkRegex)) {
+      return null;
+    }
+
+    return message.replace(customLinkRegex, (match, type, url, alias) => {
+      const linkText = alias || url;
+
+      if (type === 'routerLink') {
+        return `<a class="badge-link" aria-label="${linkText}" href="${url}">${linkText}</a>`;
+      }
+
+      if (type === 'href') {
+        const fullUrl = url.startsWith('www.') ? `https://${url}` : url;
+        return `<a class="badge-link" aria-label="${linkText}" href="${fullUrl}" target="_blank" rel="noopener noreferrer">${linkText}</a>`;
+      }
+
+      return match;
+    });
+  }
+
+  /**
+   * Handles click events on links within the badge text.
+   * If the clicked link is a router link, it prevents the default behavior and navigates using Angular's router.
+   *
+   * @param event The click event.
+   */
+  handleLinkClick(event: Event) {
+    const target = event.target as HTMLElement;
+    if (target.tagName === 'A') {
+      const href = target.getAttribute('href');
+
+      if (href && href.startsWith('/')) {
+        event.preventDefault();
+        this.router.navigate([href]);
+      }
+    }
   }
 }

@@ -1,6 +1,6 @@
-@if (getActiveBadge()) {
+@if (getActiveBadge(); as badge) {
   <div
-    class="badge {{ getActiveBadge()?.type }}"
+    class="badge {{ badge.type }}"
     [class.center]="!caret || caret === 'center'"
     [class.left]="caret === 'left'"
     [class.right]="caret === 'right'"
@@ -11,7 +11,16 @@
       #badgeText
       [class.is-overflowing-y]="isOverflowingY"
       [class.single-word]="isTranslationsPath"
-      >{{ getActiveBadge()?.icon }} {{ getActiveBadge()?.text }}</span
     >
+      <span>{{ badge.icon }}</span>
+      @if (badge.htmlText) {
+        <span
+          (click)="handleLinkClick($event)"
+          [innerHTML]="badge.htmlText"
+        ></span>
+      } @else {
+        <span>{{ badge.text }}</span>
+      }
+    </span>
   </div>
 }
