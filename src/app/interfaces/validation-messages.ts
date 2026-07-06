@@ -13,6 +13,7 @@ export interface ActiveBadgeInterface {
   type: keyof BadgeMessagesInterface;
   icon: string;
   text: string;
+  htmlText?: string;
 }
 
 export interface BadgeMessagesInterface extends SuccessTypeInterface, ErrorTypeInterface {}
