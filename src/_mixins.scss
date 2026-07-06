@@ -17,11 +17,12 @@
   }
 }
 
-@mixin display-flex($align: stretch, $justify: flex-start, $direction: row) {
+@mixin display-flex($align: stretch, $justify: flex-start, $direction: row, $gap: unset) {
   display: flex;
   align-items: $align;
   justify-content: $justify;
   flex-direction: $direction;
+  gap: $gap;
 }
 
 @mixin display-grid($align: stretch, $justify: stretch, $justify-content: unset) {
@@ -627,13 +628,32 @@
   }
 
   .badge-text {
-    @include display-flex();
+    @include display-flex($gap: px-to-rem(5));
     @include font-settings($font-size, 400, $color: var(--font-primary-color-100));
+    @include text-shadow();
 
     transition: max-height var.$transition-duration-medium ease-in-out;
     overflow: hidden;
     min-height: 1.5rem;
     max-height: 1.5rem;
+
+    &::ng-deep .badge-link {
+      @include font-settings($font-weight: 600, $color: var(--font-primary-color-100));
+
+      &:hover {
+        cursor: pointer;
+        color: var(--font-primary-color-80);
+      }
+
+      &::before {
+        content: '[';
+        margin-right: px-to-rem(5);
+      }
+      &::after {
+        content: ']';
+        margin-left: px-to-rem(5);
+      }
+    }
 
     &.single-word {
       word-break: break-all;
@@ -796,6 +816,14 @@
   line-clamp: $lines;
   -webkit-line-clamp: $lines;
   -webkit-box-orient: vertical;
+}
+
+@mixin text-shadow($color: var(--page-primary-color-100), $offset: 1px) {
+  text-shadow:
+    $offset $offset 0 $color,
+    -$offset -$offset 0 $color,
+    $offset -$offset 0 $color,
+    -$offset $offset 0 $color;
 }
 
 @mixin svg-opacity-animation($class: null, $animation-duration: var.$transition-duration-medium) {
