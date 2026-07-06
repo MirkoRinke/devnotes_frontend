@@ -60,7 +60,8 @@ export const NOTIFICATIONS_EN: Notifications = {
         FORBIDDEN_NAME: 'The name is not allowed.',
         FORBIDDEN_DISPLAY_NAME: 'The display name is not allowed.',
         EMAIL_ALREADY_IN_USE: 'The email address is already in use.',
-        PASSWORD_MUST_BE_UNCOMPROMISED: 'Your password has been found in a data breach. Please choose a different password. For more information, visit https://haveibeenpwned.com/Passwords',
+        PASSWORD_MUST_BE_UNCOMPROMISED:
+          'Your password has been found in a data breach. Please choose a different password. For more information, visit [href]="https://haveibeenpwned.com/Passwords|Have I Been Pwned"',
       },
       deleteAccount: {
         UNKNOWN_ERROR: 'Error deleting the account. Please try again.',

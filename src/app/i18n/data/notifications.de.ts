@@ -61,7 +61,7 @@ export const NOTIFICATIONS_DE: Notifications = {
         FORBIDDEN_DISPLAY_NAME: 'Der Anzeigename ist nicht erlaubt.',
         EMAIL_ALREADY_IN_USE: 'Die E-Mail-Adresse ist bereits vergeben.',
         PASSWORD_MUST_BE_UNCOMPROMISED:
-          'Dein Passwort wurde in einem Datenleck gefunden. Bitte wähle ein anderes Passwort. Weitere Informationen findest du unter https://haveibeenpwned.com/Passwords',
+          'Dein Passwort wurde in einem Datenleck gefunden. Bitte wähle ein anderes Passwort. Weitere Informationen findest du unter [href]="https://haveibeenpwned.com/Passwords|Have I Been Pwned"',
       },
       deleteAccount: {
         UNKNOWN_ERROR: 'Fehler beim Löschen des Kontos. Bitte erneut versuchen.',
