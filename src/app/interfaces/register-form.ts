@@ -31,3 +31,8 @@ export interface RegisterMessagesInterface {
   register: BadgeMessagesInterface;
   passwordMismatch: BadgeMessagesInterface;
 }
+
+export interface RegistrationAvailabilityResponseInterface {
+  name?: string[];
+  display_name?: string[];
+}
