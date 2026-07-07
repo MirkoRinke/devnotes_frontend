@@ -1,6 +1,7 @@
 export enum ApiEndpointEnums {
   LOGIN = '/login/',
   REGISTER = '/register/',
+  CHECK_REGISTRATION_AVAILABILITY = '/check-registration-availability/',
   LOGOUT = '/logout/',
   DELETE_ACCOUNT = '/users/request-deletion/',
   POSTS = '/posts/',
