@@ -1,24 +1,28 @@
-import { Component, Input, inject, DestroyRef } from '@angular/core';
+import { Component, inject, DestroyRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 
 import { RegisterService } from '../../services/register.service';
 
-import { passwordConfirmationValidator, passwordStrengthValidator } from '../../utils/custom-validators';
+import { passwordConfirmationValidator, passwordStrengthValidator, toMuchWhitespaceValidator } from '../../utils/custom-validators';
 
 import { ApiErrorHandlingService } from '../../services/api-error-handling.service';
 import { TranslationService } from '../../i18n/translation.service';
+import { RegistrationAvailabilityService } from '../../services/registration-availability.service';
 import { RegexEnums } from '../../enums/regex';
 
 import { BadgeMessageHandler } from '../../utils/badge-message-handler';
 
-import type { RegisterFormErrorsInterface, RegisterMessagesInterface, RegisterFormInterface } from '../../interfaces/register-form';
+import type { RegisterFormErrorsInterface, RegisterMessagesInterface, RegisterFormInterface, RegistrationAvailabilityResponseInterface } from '../../interfaces/register-form';
 import type { BackendErrorResponseInterface, BusinessActionInterface, ParamsInterface } from '../../interfaces/error-handling';
+import type { BadgeMessagesInterface } from '../../interfaces/validation-messages';
 import { badgeMessagesInit } from '../../interfaces/validation-messages';
 
 import { SvgIconsService } from '../../services/svg.icons.service';
 import { Badge } from '../badge/badge';
+
+import { catchError, debounceTime, distinctUntilChanged, of, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-register-form',
@@ -57,6 +61,7 @@ export class RegisterForm {
     private router: Router,
     public svgIconsService: SvgIconsService,
     private apiErrorHandlingService: ApiErrorHandlingService,
+    private registrationAvailabilityService: RegistrationAvailabilityService,
   ) {}
 
   ngOnInit() {
@@ -70,8 +75,8 @@ export class RegisterForm {
   private createForm() {
     this.registerForm = this.fb.group(
       {
-        name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(255), Validators.pattern(RegexEnums.username)]],
-        display_name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(255), Validators.pattern(RegexEnums.username)]],
+        name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(40), Validators.pattern(RegexEnums.username), toMuchWhitespaceValidator('tooMuchWhitespace')]],
+        display_name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(40), Validators.pattern(RegexEnums.username), toMuchWhitespaceValidator('tooMuchWhitespace')]],
         email: ['', [Validators.required, Validators.email, Validators.maxLength(255)]],
         password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(255), passwordStrengthValidator('weakPassword')]],
         password_confirmation: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(255)]],
@@ -81,6 +86,96 @@ export class RegisterForm {
         validators: passwordConfirmationValidator('password', 'password_confirmation', 'passwordMismatch'),
       },
     );
+
+    this.setupAvailabilityCheck(this.registerForm.get('name'), 'name');
+    this.setupAvailabilityCheck(this.registerForm.get('display_name'), 'display_name');
+
+    this.setupLiveFeedback(this.registerForm.get('name'), 'register', 'info', 'tooMuchWhitespace');
+    this.setupLiveFeedback(this.registerForm.get('display_name'), 'register', 'info', 'tooMuchWhitespace');
+
+    this.setupLiveFeedback(this.registerForm.get('name'), 'name', 'error', 'tooMuchWhitespace');
+    this.setupLiveFeedback(this.registerForm.get('display_name'), 'display_name', 'error', 'tooMuchWhitespace');
+  }
+
+  /**
+   * Sets up a live availability check for the specified form control.
+   * It listens to value changes of the control and performs an availability check using the RegistrationAvailabilityService.
+   * If the control is valid and has a value, it sends a request to check the availability of the value.
+   * Based on the response, it sets or clears the registration error and updates the corresponding messages.
+   *
+   * @param control
+   * @param controlName
+   * @returns
+   */
+  private setupAvailabilityCheck(control: AbstractControl | null, controlName: keyof RegistrationAvailabilityResponseInterface) {
+    if (!control) return;
+
+    control.valueChanges
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        switchMap((value) => {
+          if (control.valid && value && value.trim() !== '' && value.length >= 2) {
+            return this.registrationAvailabilityService.checkRegistrationAvailability(control, value, controlName).pipe(
+              tap((response) => {
+                const data: RegistrationAvailabilityResponseInterface | null = response?.data?.data || null;
+                if (!data) return;
+
+                console.log(`Availability check for ${controlName}:`, data);
+
+                if (data && data[controlName] && data[controlName].includes(`${controlName.toUpperCase()}_ALREADY_IN_USE`)) {
+                  this.registrationAvailabilityService.setRegistrationError(control);
+                  this.msg.setMessage('register', 'info', `${controlName.toUpperCase()}_ALREADY_IN_USE`);
+                } else {
+                  this.registrationAvailabilityService.clearRegistrationError(control);
+                  this.msg.setMessage('register', 'success', `${controlName.toUpperCase()}_AVAILABLE`);
+                }
+              }),
+              catchError((error) => {
+                const errorResponse: BackendErrorResponseInterface = error.error;
+                const businessAction = this.apiErrorHandlingService.handleApiError(errorResponse);
+
+                if (businessAction) {
+                  this.msg.setMessage('register', businessAction.messages.messageType, businessAction.messages.validatorKey, businessAction.messages.params);
+                }
+                return of(null);
+              }),
+            );
+          }
+          this.registrationAvailabilityService.clearRegistrationError(control);
+
+          if (control.hasError('registrationUnavailable')) {
+            this.msg.clearMessage('register');
+          }
+
+          return of(null);
+        }),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe();
+  }
+
+  /**
+   * Sets up live feedback for the specified form control.
+   * It listens to value changes of the control and checks for the specified error key.
+   * If the control has the error, it sets the corresponding message.
+   *
+   * @param control
+   * @param field
+   * @param type
+   * @param errorKey
+   * @returns
+   */
+  private setupLiveFeedback(control: AbstractControl | null, field: keyof RegisterMessagesInterface, type: keyof BadgeMessagesInterface, errorKey: string) {
+    if (!control) return;
+
+    control.valueChanges.pipe(debounceTime(200), takeUntilDestroyed(this.destroyRef)).subscribe(() => {
+      if (control.hasError(errorKey)) {
+        this.msg.setMessage(field, type, errorKey);
+      } else if (!control.hasError(errorKey)) {
+        this.msg.clearMessage(field);
+      }
+    });
   }
 
   /**
