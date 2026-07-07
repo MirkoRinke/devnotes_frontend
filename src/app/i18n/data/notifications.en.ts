@@ -11,14 +11,14 @@ export const NOTIFICATIONS_EN: Notifications = {
       name: {
         required: 'Enter name.',
         minlength: 'The name must be at least 2 characters long.',
-        maxlength: 'The name must be at most 255 characters long.',
-        pattern: 'The name cannot contain @.',
+        maxlength: 'The name must be at most 40 characters long.',
+        pattern: 'The username may only contain letters (A-Z), numbers, periods, underscores, hyphens, and spaces.',
       },
       display_name: {
         required: 'Enter display name.',
         minlength: 'The display name must be at least 2 characters long.',
-        maxlength: 'The display name must be at most 255 characters long.',
-        pattern: 'Only letters, numbers, underscores, and hyphens are allowed.',
+        maxlength: 'The display name must be at most 40 characters long.',
+        pattern: 'The display name may only contain letters (A-Z), numbers, periods, underscores, hyphens, and spaces.',
       },
       email: {
         required: 'Enter email address.',

@@ -11,14 +11,14 @@ export const NOTIFICATIONS_DE: Notifications = {
       name: {
         required: 'Name eingeben.',
         minlength: 'Der Name muss mindestens 2 Zeichen lang sein.',
-        maxlength: 'Der Name darf maximal 255 Zeichen lang sein.',
-        pattern: 'Der Name darf kein @ enthalten.',
+        maxlength: 'Der Name darf maximal 40 Zeichen lang sein.',
+        pattern: 'Der Benutzername darf nur aus Buchstaben (A-Z), Zahlen, Punkten, Unterstrichen, Bindestrichen und einfachen Leerzeichen bestehen.',
       },
       display_name: {
         required: 'Anzeigenamen eingeben.',
         minlength: 'Der Anzeigename muss mindestens 2 Zeichen lang sein.',
-        maxlength: 'Der Anzeigename darf maximal 255 Zeichen lang sein.',
-        pattern: 'Nur Buchstaben, Zahlen, Unterstriche und Bindestriche sind erlaubt.',
+        maxlength: 'Der Anzeigename darf maximal 40 Zeichen lang sein.',
+        pattern: 'Der Anzeigename darf nur aus Buchstaben (A-Z), Zahlen, Punkten, Unterstrichen, Bindestrichen und einfachen Leerzeichen bestehen.',
       },
       email: {
         required: 'E-Mail-Adresse eingeben.',
