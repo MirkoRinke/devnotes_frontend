@@ -9,14 +9,13 @@ export interface ErrorTypeInterface extends InfoTypeInterface {
   error: string | null;
 }
 
+export interface BadgeMessagesInterface extends SuccessTypeInterface, ErrorTypeInterface {}
 export interface ActiveBadgeInterface {
   type: keyof BadgeMessagesInterface;
   icon: string;
   text: string;
   htmlText?: string;
 }
-
-export interface BadgeMessagesInterface extends SuccessTypeInterface, ErrorTypeInterface {}
 
 /**
  *  This object initializes the badge messages with null values
