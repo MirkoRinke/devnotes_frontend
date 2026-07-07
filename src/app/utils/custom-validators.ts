@@ -127,3 +127,18 @@ export function passwordStrengthValidator(errorKey: string = 'weakPassword'): Va
     return isValid ? null : { [errorKey]: results };
   };
 }
+
+/**
+ * Custom validator to check if a string contains too much whitespace (two or more consecutive spaces).
+ *
+ * @param errorKey The error key to return if validation fails. Defaults to 'tooMuchWhitespace'.
+ * @returns A ValidatorFn or null.
+ */
+export function toMuchWhitespaceValidator(errorKey: string = 'tooMuchWhitespace'): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const value = control.value;
+    if (!value) return null;
+    const hasTooMuchWhitespace = /\s{2,}/.test(value);
+    return hasTooMuchWhitespace ? { [errorKey]: true } : null;
+  };
+}
