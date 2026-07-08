@@ -172,6 +172,7 @@ export class RegisterForm {
       { control: 'name', field: 'name', type: 'error', errorKey: 'tooMuchWhitespace' },
       { control: 'display_name', field: 'display_name', type: 'error', errorKey: 'tooMuchWhitespace' },
       { control: 'password', field: 'password', type: 'error', errorKey: 'minlength' },
+      { control: 'password', field: 'password', type: 'error', errorKey: 'weakPassword' },
     ];
 
     fieldConfigs.forEach(({ control, field, type, errorKey }) => {
