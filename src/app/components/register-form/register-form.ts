@@ -23,10 +23,12 @@ import { SvgIconsService } from '../../services/svg.icons.service';
 import { Badge } from '../badge/badge';
 
 import { catchError, debounceTime, distinctUntilChanged, of, switchMap, tap } from 'rxjs';
+import { PasswordToggleButton } from '../password-toggle-button/password-toggle-button';
+import { PasswordStrengthFeedback } from '../password-strength-feedback/password-strength-feedback';
 
 @Component({
   selector: 'app-register-form',
-  imports: [ReactiveFormsModule, RouterModule, Badge],
+  imports: [ReactiveFormsModule, RouterModule, Badge, PasswordToggleButton, PasswordStrengthFeedback],
   templateUrl: './register-form.html',
   styleUrl: './register-form.scss',
 })
@@ -46,10 +48,11 @@ export class RegisterForm {
 
   private messageKeys: (keyof RegisterMessagesInterface)[] = ['email', 'name', 'display_name', 'password', 'password_confirmation', 'acceptedConditions'];
 
-  isProcessing = false;
-  registerSuccessful = false;
+  isProcessing: boolean = false;
+  registerSuccessful: boolean = false;
 
-  isPasswordFocused = false;
+  isPasswordFocused: boolean = false;
+  isPasswordVisible: boolean = false;
 
   private destroyRef = inject(DestroyRef);
 
@@ -168,6 +171,7 @@ export class RegisterForm {
       { control: 'display_name', field: 'register', type: 'info', errorKey: 'tooMuchWhitespace' },
       { control: 'name', field: 'name', type: 'error', errorKey: 'tooMuchWhitespace' },
       { control: 'display_name', field: 'display_name', type: 'error', errorKey: 'tooMuchWhitespace' },
+      { control: 'password', field: 'password', type: 'error', errorKey: 'minlength' },
     ];
 
     fieldConfigs.forEach(({ control, field, type, errorKey }) => {

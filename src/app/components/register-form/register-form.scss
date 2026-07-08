@@ -71,6 +71,16 @@
 
       flex: 1;
 
+      .password-strength-feedback {
+        @include display-flex($align: center, $justify: center, $direction: row, $gap: px-to-rem(20));
+        width: 100%;
+      }
+
+      .password-input-wrapper {
+        @include display-flex(center);
+        @include position-absolute($class: '.password-toggle-button', $right: px-to-rem(20), $margin-bottom: unset);
+      }
+
       .input {
         @include input-feld($height: 50px, $color: var(--font-primary-color-100));
 
@@ -80,6 +90,7 @@
       }
 
       @include position-absolute($class: '.badge', $bottom: 100%, $left: 0);
+      @include position-absolute($class: '.password-strength-feedback', $bottom: 100%, $left: 0);
     }
 
     .conditions-warning {
