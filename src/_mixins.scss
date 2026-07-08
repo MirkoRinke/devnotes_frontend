@@ -560,7 +560,7 @@
   }
 }
 
-@mixin position-absolute($class: null, $top: unset, $bottom: unset, $right: unset, $left: unset, $transform: unset, $z-index: null) {
+@mixin position-absolute($class: null, $top: unset, $bottom: unset, $right: unset, $left: unset, $transform: unset, $z-index: null, $margin-bottom: 10px) {
   position: relative;
 
   @if $class != null {
@@ -576,7 +576,7 @@
       @if $transform != unset {
         transform: $transform;
       }
-      margin-bottom: px-to-rem(10);
+      margin-bottom: convert-to-rem-if-needed($margin-bottom);
       max-width: 100%;
     }
   }
