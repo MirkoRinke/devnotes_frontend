@@ -87,94 +87,100 @@ export class RegisterForm {
       },
     );
 
-    this.setupAvailabilityCheck(this.registerForm.get('name'), 'name');
-    this.setupAvailabilityCheck(this.registerForm.get('display_name'), 'display_name');
-
-    this.setupLiveFeedback(this.registerForm.get('name'), 'register', 'info', 'tooMuchWhitespace');
-    this.setupLiveFeedback(this.registerForm.get('display_name'), 'register', 'info', 'tooMuchWhitespace');
-
-    this.setupLiveFeedback(this.registerForm.get('name'), 'name', 'error', 'tooMuchWhitespace');
-    this.setupLiveFeedback(this.registerForm.get('display_name'), 'display_name', 'error', 'tooMuchWhitespace');
+    this.initAvailabilityCheck();
+    this.initLiveFeedback();
   }
 
   /**
-   * Sets up a live availability check for the specified form control.
-   * It listens to value changes of the control and performs an availability check using the RegistrationAvailabilityService.
-   * If the control is valid and has a value, it sends a request to check the availability of the value.
-   * Based on the response, it sets or clears the registration error and updates the corresponding messages.
-   *
-   * @param control
-   * @param controlName
-   * @returns
+   * Initializes the availability check for specific form controls by subscribing to their value changes.
+   * It checks the availability of the entered values and updates the form control's error state accordingly.
+   * This provides real-time feedback to the user regarding the availability of their chosen name and display name.
    */
-  private setupAvailabilityCheck(control: AbstractControl | null, controlName: keyof RegistrationAvailabilityResponseInterface) {
-    if (!control) return;
+  private initAvailabilityCheck() {
+    const fields: (keyof RegistrationAvailabilityResponseInterface)[] = ['name', 'display_name'];
 
-    control.valueChanges
-      .pipe(
-        debounceTime(500),
-        distinctUntilChanged(),
-        switchMap((value) => {
-          if (control.valid && value && value.trim() !== '' && value.length >= 2) {
-            return this.registrationAvailabilityService.checkRegistrationAvailability(control, value, controlName).pipe(
-              tap((response) => {
-                const data: RegistrationAvailabilityResponseInterface | null = response?.data?.data || null;
-                if (!data) return;
+    fields.forEach((controlName) => {
+      console.log(`Initializing availability check for control: ${controlName}`);
 
-                console.log(`Availability check for ${controlName}:`, data);
-
-                if (data && data[controlName] && data[controlName].includes(`${controlName.toUpperCase()}_ALREADY_IN_USE`)) {
-                  this.registrationAvailabilityService.setRegistrationError(control);
-                  this.msg.setMessage('register', 'info', `${controlName.toUpperCase()}_ALREADY_IN_USE`);
-                } else {
-                  this.registrationAvailabilityService.clearRegistrationError(control);
-                  this.msg.setMessage('register', 'success', `${controlName.toUpperCase()}_AVAILABLE`);
-                }
-              }),
-              catchError((error) => {
-                const errorResponse: BackendErrorResponseInterface = error.error;
-                const businessAction = this.apiErrorHandlingService.handleApiError(errorResponse);
-
-                if (businessAction) {
-                  this.msg.setMessage('register', businessAction.messages.messageType, businessAction.messages.validatorKey, businessAction.messages.params);
-                }
-                return of(null);
-              }),
-            );
-          }
-          this.registrationAvailabilityService.clearRegistrationError(control);
-
-          if (control.hasError('registrationUnavailable')) {
-            this.msg.clearMessage('register');
-          }
-
-          return of(null);
-        }),
-        takeUntilDestroyed(this.destroyRef),
-      )
-      .subscribe();
+      const formControl: AbstractControl | null = this.registerForm?.get(controlName) || null;
+      if (!formControl) return;
+      this.createAvailabilityStream(formControl, controlName).pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
+    });
   }
 
   /**
-   * Sets up live feedback for the specified form control.
-   * It listens to value changes of the control and checks for the specified error key.
-   * If the control has the error, it sets the corresponding message.
+   * Creates an observable stream that listens for value changes on the specified form control.
+   * It checks the availability of the value and updates the form control's error state accordingly.
    *
-   * @param control
-   * @param field
-   * @param type
-   * @param errorKey
-   * @returns
+   * @param formControl The form control to listen for value changes.
+   * @param controlName The name of the control to check availability for.
+   * @returns An observable stream that emits availability check results.
    */
-  private setupLiveFeedback(control: AbstractControl | null, field: keyof RegisterMessagesInterface, type: keyof BadgeMessagesInterface, errorKey: string) {
-    if (!control) return;
+  private createAvailabilityStream(formControl: AbstractControl, controlName: keyof RegistrationAvailabilityResponseInterface) {
+    return formControl.valueChanges.pipe(
+      debounceTime(500),
+      distinctUntilChanged(),
+      switchMap((value) => {
+        if (formControl.valid && value && value.trim() !== '' && value.length >= 2) {
+          return this.registrationAvailabilityService.checkRegistrationAvailability(formControl, value, controlName).pipe(
+            tap((response) => {
+              const data: RegistrationAvailabilityResponseInterface | null = response?.data?.data || null;
+              if (!data) return;
 
-    control.valueChanges.pipe(debounceTime(200), takeUntilDestroyed(this.destroyRef)).subscribe(() => {
-      if (control.hasError(errorKey)) {
-        this.msg.setMessage(field, type, errorKey);
-      } else if (!control.hasError(errorKey)) {
-        this.msg.clearMessage(field);
-      }
+              if (data && data[controlName] && data[controlName].includes(`${controlName.toUpperCase()}_ALREADY_IN_USE`)) {
+                this.registrationAvailabilityService.setRegistrationError(formControl);
+                this.msg.setMessage('register', 'info', `${controlName.toUpperCase()}_ALREADY_IN_USE`);
+              } else {
+                this.registrationAvailabilityService.clearRegistrationError(formControl);
+                this.msg.setMessage('register', 'success', `${controlName.toUpperCase()}_AVAILABLE`);
+              }
+            }),
+            catchError((error) => {
+              const errorResponse: BackendErrorResponseInterface = error.error;
+              const businessAction = this.apiErrorHandlingService.handleApiError(errorResponse);
+
+              if (businessAction) {
+                this.msg.setMessage('register', businessAction.messages.messageType, businessAction.messages.validatorKey, businessAction.messages.params);
+              }
+              return of(null);
+            }),
+          );
+        }
+        this.registrationAvailabilityService.clearRegistrationError(formControl);
+
+        if (formControl.hasError('registrationUnavailable')) {
+          this.msg.clearMessage('register');
+        }
+
+        return of(null);
+      }),
+    );
+  }
+
+  /**
+   * Initializes live feedback for the form controls by subscribing to their value changes.
+   * It checks for specific validation errors and sets or clears the corresponding messages accordingly.
+   * This provides real-time feedback to the user as they interact with the form controls.
+   */
+  private initLiveFeedback() {
+    const fieldConfigs: { control: string; field: keyof RegisterMessagesInterface; type: keyof BadgeMessagesInterface; errorKey: string }[] = [
+      { control: 'name', field: 'register', type: 'info', errorKey: 'tooMuchWhitespace' },
+      { control: 'display_name', field: 'register', type: 'info', errorKey: 'tooMuchWhitespace' },
+      { control: 'name', field: 'name', type: 'error', errorKey: 'tooMuchWhitespace' },
+      { control: 'display_name', field: 'display_name', type: 'error', errorKey: 'tooMuchWhitespace' },
+    ];
+
+    fieldConfigs.forEach(({ control, field, type, errorKey }) => {
+      const formControl = this.registerForm?.get(control);
+      if (!formControl) return;
+
+      formControl.valueChanges.pipe(debounceTime(200), takeUntilDestroyed(this.destroyRef)).subscribe(() => {
+        if (formControl.hasError(errorKey)) {
+          this.msg.setMessage(field, type, errorKey);
+        } else if (!formControl.hasError(errorKey)) {
+          this.msg.clearMessage(field);
+        }
+      });
     });
   }
 
