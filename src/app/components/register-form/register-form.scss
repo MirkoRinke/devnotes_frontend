@@ -104,6 +104,10 @@
         @include display-flex(center);
         gap: px-to-rem(10);
 
+        &:hover {
+          cursor: pointer;
+        }
+
         @include custom-check-box('.custom-checkbox');
       }
 
