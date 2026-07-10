@@ -132,10 +132,10 @@ export class RegisterForm {
 
               if (data && data[controlName] && data[controlName].includes(`${controlName.toUpperCase()}_ALREADY_IN_USE`)) {
                 this.registrationAvailabilityService.setRegistrationError(formControl);
-                this.msg.setMessage('register', 'info', `${controlName.toUpperCase()}_ALREADY_IN_USE`);
+                this.msg.setMessage('register', 'info', `${controlName.toUpperCase()}_ALREADY_IN_USE`, { name: value });
               } else {
                 this.registrationAvailabilityService.clearRegistrationError(formControl);
-                this.msg.setMessage('register', 'success', `${controlName.toUpperCase()}_AVAILABLE`);
+                this.msg.setMessage('register', 'success', `${controlName.toUpperCase()}_AVAILABLE`, { name: value });
               }
             }),
             catchError((error) => {
@@ -143,7 +143,11 @@ export class RegisterForm {
               const businessAction = this.apiErrorHandlingService.handleApiError(errorResponse);
 
               if (businessAction) {
-                this.msg.setMessage('register', businessAction.messages.messageType, businessAction.messages.validatorKey, businessAction.messages.params);
+                if (businessAction.messages.validatorKey === 'FORBIDDEN_NAME' || businessAction.messages.validatorKey === 'FORBIDDEN_DISPLAY_NAME') {
+                  this.msg.setMessage('register', businessAction.messages.messageType, businessAction.messages.validatorKey, { name: value });
+                } else {
+                  this.msg.setMessage('register', businessAction.messages.messageType, businessAction.messages.validatorKey, businessAction.messages.params);
+                }
               }
               return of(null);
             }),
@@ -181,7 +185,11 @@ export class RegisterForm {
 
       formControl.valueChanges.pipe(debounceTime(200), takeUntilDestroyed(this.destroyRef)).subscribe(() => {
         if (formControl.hasError(errorKey)) {
-          this.msg.setMessage(field, type, errorKey);
+          if (control === 'name' || control === 'display_name') {
+            this.msg.setMessage(field, type, errorKey, { name: formControl.value });
+          } else {
+            this.msg.setMessage(field, type, errorKey);
+          }
         } else if (!formControl.hasError(errorKey)) {
           this.msg.clearMessage(field);
         }
