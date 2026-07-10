@@ -18,10 +18,11 @@ import { RegexEnums } from '../../enums/regex';
 
 import { SvgIconsService } from '../../services/svg.icons.service';
 import { Badge } from '../badge/badge';
+import { PasswordToggleButton } from '../password-toggle-button/password-toggle-button';
 
 @Component({
   selector: 'app-login-form',
-  imports: [ReactiveFormsModule, Badge, RouterModule],
+  imports: [ReactiveFormsModule, Badge, RouterModule, PasswordToggleButton],
   templateUrl: './login-form.html',
   styleUrl: './login-form.scss',
 })
@@ -38,10 +39,11 @@ export class LoginForm {
     login: { ...badgeMessagesInit },
   };
 
-  isProcessing = false;
-  loginSuccessful = false;
+  isProcessing: boolean = false;
+  loginSuccessful: boolean = false;
 
-  isPasswordFocused = false;
+  isPasswordFocused: boolean = false;
+  isPasswordVisible: boolean = false;
 
   private destroyRef = inject(DestroyRef);
 

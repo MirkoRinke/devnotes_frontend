@@ -63,6 +63,11 @@
       gap: px-to-rem(15);
       margin-top: px-to-rem(25);
 
+      .password-input-wrapper {
+        @include display-flex(center);
+        @include position-absolute($class: '.password-toggle-button', $right: px-to-rem(20), $margin-bottom: unset);
+      }
+
       .input {
         @include input-feld($height: 50px, $color: var(--font-primary-color-100));
 

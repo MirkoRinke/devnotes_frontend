@@ -46,15 +46,23 @@
           [caret]="'left'"
         ></app-badge>
 
-        <input
-          class="input"
-          type="password"
-          name="password"
-          (focus)="isPasswordFocused = true"
-          (blur)="isPasswordFocused = false"
-          formControlName="password"
-          placeholder="Passwort eingeben"
-        />
+        <div class="password-input-wrapper">
+          <app-password-toggle-button
+            class="password-toggle-button"
+            [isPasswordVisible]="isPasswordVisible"
+            (passwordVisibilityChange)="isPasswordVisible = $event"
+          ></app-password-toggle-button>
+
+          <input
+            class="input"
+            [type]="isPasswordVisible ? 'text' : 'password'"
+            name="password"
+            (focus)="isPasswordFocused = true"
+            (blur)="isPasswordFocused = false"
+            formControlName="password"
+            placeholder="Passwort eingeben"
+          />
+        </div>
       </div>
 
       @if (mustAcceptConditions) {
