@@ -45,12 +45,15 @@ export class TranslationService {
     const keys = path.split('.');
     let data: any = this.translations[this.currentLang];
 
-    const globalErrorFallback = this.translations[this.currentLang]?.Global?.error?.UNKNOWN_ERROR || (environment.DEBUG ? path : 'quak');
+    const globalErrorMap: { [key: string]: string } = {
+      UNKNOWN_ERROR: this.translations[this.currentLang]?.Global?.error?.UNKNOWN_ERROR || (environment.DEBUG ? path : 'quak'),
+      BACKEND_CONNECTION_ERROR: this.translations[this.currentLang]?.Global?.error?.BACKEND_CONNECTION_ERROR || (environment.DEBUG ? path : 'quak'),
+    };
 
     for (const key of keys) {
       if (!data) {
-        if (validatorKey === 'UNKNOWN_ERROR') {
-          return globalErrorFallback;
+        if (validatorKey && globalErrorMap[validatorKey]) {
+          return globalErrorMap[validatorKey];
         }
         return environment.DEBUG ? path : 'quak';
       }
@@ -66,9 +69,10 @@ export class TranslationService {
       return data;
     }
 
-    if (validatorKey === 'UNKNOWN_ERROR') {
-      return globalErrorFallback;
+    if (validatorKey && globalErrorMap[validatorKey]) {
+      return globalErrorMap[validatorKey];
     }
+
     return environment.DEBUG ? path : 'quak';
   }
 }
