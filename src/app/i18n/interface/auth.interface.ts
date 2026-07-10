@@ -40,8 +40,6 @@ interface LoginActionErrors extends BaseError {
 
 interface RegisterActionErrors extends BaseError {
   VALIDATION_FAILED: string;
-  NAME_ALREADY_IN_USE: string;
-  DISPLAY_NAME_ALREADY_IN_USE: string;
   FORBIDDEN_NAME: string;
   FORBIDDEN_DISPLAY_NAME: string;
   EMAIL_ALREADY_IN_USE: string;
@@ -58,11 +56,20 @@ interface DeleteAccountErrors extends BaseError {
 interface AuthInfoMessages {
   login: LoginActionInfo;
   deleteAccount: DeleteAccountActionInfo;
+  register: RegisterActionInfo;
 }
 
 interface LoginActionInfo {
   MUST_ACCEPT_CONDITIONS: string;
 }
+
+interface RegisterActionInfo {
+  tooMuchWhitespace: string;
+
+  NAME_ALREADY_IN_USE: string;
+  DISPLAY_NAME_ALREADY_IN_USE: string;
+}
+
 interface DeleteAccountActionInfo {
   DELETE_ACCOUNT_CONFIRMATION: string;
 }
@@ -82,6 +89,8 @@ interface LoginActionSuccess {
 
 interface RegisterActionSuccess {
   REGISTER_SUCCESSFUL: string;
+  NAME_AVAILABLE: string;
+  DISPLAY_NAME_AVAILABLE: string;
 }
 
 interface DeleteAccountActionSuccess {
