@@ -20,10 +20,11 @@ import { emailOrUsernameValidator } from '../../utils/custom-validators';
 import { RegexEnums } from '../../enums/regex';
 
 import { Badge } from '../badge/badge';
+import { PasswordToggleButton } from '../password-toggle-button/password-toggle-button';
 
 @Component({
   selector: 'app-delete-account',
-  imports: [ReactiveFormsModule, Badge, RouterModule],
+  imports: [ReactiveFormsModule, Badge, RouterModule, PasswordToggleButton],
   templateUrl: './delete-account.html',
   styleUrl: './delete-account.scss',
 })
@@ -37,9 +38,10 @@ export class DeleteAccount {
     deleteAccount: { ...badgeMessagesInit },
   };
 
-  isProcessing = false;
+  isProcessing: boolean = false;
 
-  isPasswordFocused = false;
+  isPasswordFocused: boolean = false;
+  isPasswordVisible: boolean = false;
 
   private destroyRef = inject(DestroyRef);
 
