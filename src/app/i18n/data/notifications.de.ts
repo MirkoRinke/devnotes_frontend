@@ -4,6 +4,7 @@ export const NOTIFICATIONS_DE: Notifications = {
   Global: {
     error: {
       UNKNOWN_ERROR: 'Ein unerwarteter Fehler ist aufgetreten. Bitte versuche es später noch einmal.',
+      BACKEND_CONNECTION_ERROR: 'Verbindung zum Server konnte nicht hergestellt werden. Bitte versuche es später noch einmal.',
     },
   },
   Auth: {

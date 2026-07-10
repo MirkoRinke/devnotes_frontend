@@ -4,6 +4,7 @@ export const NOTIFICATIONS_EN: Notifications = {
   Global: {
     error: {
       UNKNOWN_ERROR: 'An unexpected error occurred. Please try again later.',
+      BACKEND_CONNECTION_ERROR: 'Unable to connect to the server. Please try again later.',
     },
   },
   Auth: {
