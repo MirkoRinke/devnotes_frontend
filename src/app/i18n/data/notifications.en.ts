@@ -56,10 +56,8 @@ export const NOTIFICATIONS_EN: Notifications = {
       register: {
         UNKNOWN_ERROR: 'An error occurred during registration. Please try again.',
         VALIDATION_FAILED: 'Validation failed. Please check your input.',
-        NAME_ALREADY_IN_USE: 'The name is already in use.',
-        DISPLAY_NAME_ALREADY_IN_USE: 'The display name is already in use.',
-        FORBIDDEN_NAME: 'The name is not allowed.',
-        FORBIDDEN_DISPLAY_NAME: 'The display name is not allowed.',
+        FORBIDDEN_NAME: '"{name}" is not allowed.',
+        FORBIDDEN_DISPLAY_NAME: '"{name}" is not allowed.',
         EMAIL_ALREADY_IN_USE: 'The email address is already in use.',
         PASSWORD_MUST_BE_UNCOMPROMISED:
           'Your password has been found in a data breach. Please choose a different password. For more information, visit [href]="https://haveibeenpwned.com/Passwords|Have I Been Pwned"',
@@ -77,6 +75,11 @@ export const NOTIFICATIONS_EN: Notifications = {
       deleteAccount: {
         DELETE_ACCOUNT_CONFIRMATION: 'Really delete account?',
       },
+      register: {
+        tooMuchWhitespace: '"{name}" has too many consecutive whitespace characters.',
+        NAME_ALREADY_IN_USE: '"{name}" is already in use.',
+        DISPLAY_NAME_ALREADY_IN_USE: '"{name}" is already in use.',
+      },
     },
     success: {
       login: {
@@ -84,6 +87,8 @@ export const NOTIFICATIONS_EN: Notifications = {
       },
       register: {
         REGISTER_SUCCESSFUL: 'Registration successful. Redirecting...',
+        NAME_AVAILABLE: '"{name}" is available.',
+        DISPLAY_NAME_AVAILABLE: '"{name}" is available.',
       },
       deleteAccount: {
         DELETE_ACCOUNT_SUCCESSFUL: 'Account successfully deleted. Redirecting...',

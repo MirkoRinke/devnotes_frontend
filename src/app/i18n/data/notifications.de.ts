@@ -56,10 +56,8 @@ export const NOTIFICATIONS_DE: Notifications = {
       register: {
         UNKNOWN_ERROR: 'Fehler bei der Registrierung. Bitte erneut versuchen.',
         VALIDATION_FAILED: 'Verifizierung fehlgeschlagen. Bitte überprüfe deine Eingaben.',
-        NAME_ALREADY_IN_USE: 'Der Name ist bereits vergeben.',
-        DISPLAY_NAME_ALREADY_IN_USE: 'Der Anzeigename ist bereits vergeben.',
-        FORBIDDEN_NAME: 'Der Name ist nicht erlaubt.',
-        FORBIDDEN_DISPLAY_NAME: 'Der Anzeigename ist nicht erlaubt.',
+        FORBIDDEN_NAME: '"{name}" ist nicht erlaubt.',
+        FORBIDDEN_DISPLAY_NAME: '"{name}" ist nicht erlaubt.',
         EMAIL_ALREADY_IN_USE: 'Die E-Mail-Adresse ist bereits vergeben.',
         PASSWORD_MUST_BE_UNCOMPROMISED:
           'Dein Passwort wurde in einem Datenleck gefunden. Bitte wähle ein anderes Passwort. Weitere Informationen findest du unter [href]="https://haveibeenpwned.com/Passwords|Have I Been Pwned"',
@@ -77,6 +75,11 @@ export const NOTIFICATIONS_DE: Notifications = {
       deleteAccount: {
         DELETE_ACCOUNT_CONFIRMATION: 'Konto wirklich löschen?',
       },
+      register: {
+        tooMuchWhitespace: '"{name}" hat zu viele aufeinanderfolgende Leerzeichen',
+        NAME_ALREADY_IN_USE: '"{name}" ist bereits vergeben.',
+        DISPLAY_NAME_ALREADY_IN_USE: '"{name}" ist bereits vergeben.',
+      },
     },
     success: {
       login: {
@@ -84,6 +87,8 @@ export const NOTIFICATIONS_DE: Notifications = {
       },
       register: {
         REGISTER_SUCCESSFUL: 'Registrierung erfolgreich. Weiterleitung...',
+        NAME_AVAILABLE: '"{name}" ist verfügbar.',
+        DISPLAY_NAME_AVAILABLE: '"{name}" ist verfügbar.',
       },
       deleteAccount: {
         DELETE_ACCOUNT_SUCCESSFUL: 'Konto erfolgreich gelöscht. Weiterleitung...',
