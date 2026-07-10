@@ -821,9 +821,9 @@
 @mixin text-shadow($color: var(--page-primary-color-100), $offset: 1px) {
   text-shadow:
     $offset $offset 0 $color,
-    -$offset -$offset 0 $color,
-    $offset -$offset 0 $color,
-    -$offset $offset 0 $color;
+    (-$offset) (-$offset) 0 $color,
+    $offset (-$offset) 0 $color,
+    (-$offset) $offset 0 $color;
 }
 
 @mixin svg-opacity-animation($class: null, $animation-duration: var.$transition-duration-medium) {
