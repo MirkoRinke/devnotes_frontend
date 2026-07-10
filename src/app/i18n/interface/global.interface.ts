@@ -4,4 +4,5 @@ export interface GlobalMessagesInterface {
 
 interface GlobalErrorMessagesInterface {
   UNKNOWN_ERROR: string;
+  BACKEND_CONNECTION_ERROR: string;
 }
