@@ -24,6 +24,8 @@ export class ApiErrorHandlingService {
         return this.handle422(error);
       case 429:
         return this.handle429(error);
+      case 502:
+        return this.handle502(error);
       default:
         return this.handleDefault(error);
     }
@@ -38,7 +40,7 @@ export class ApiErrorHandlingService {
    */
   private handleDefault(error: BackendErrorResponseInterface): BusinessActionInterface | void {
     console.warn('Unbekannter Fehlercode:', error.code);
-    console.log('Fehlerdetails:', error);
+    console.log('API Error Handling Service - Unhandled error:', error);
     return {
       messages: {
         validatorKey: 'UNKNOWN_ERROR',
@@ -82,21 +84,21 @@ export class ApiErrorHandlingService {
    */
   private handle403(error: BackendErrorResponseInterface): BusinessActionInterface | void {
     if (error.errors === 'PRIVACY_POLICY_NOT_ACCEPTED' || error.errors === 'TERMS_OF_SERVICE_NOT_ACCEPTED') {
-      const isLoginPage = this.router.url.includes('/login');
-      const isAgreementPage = this.router.url.includes('/agreement');
+      const pagesMap = ['/login', '/agreement'];
 
-      if (!isLoginPage && !isAgreementPage) {
-        this.authStorageService.clearLoginData();
-        this.router.navigate(['/agreement']);
-        return;
+      if (pagesMap.some((page) => this.router.url.includes(page))) {
+        return {
+          mustAcceptConditions: true,
+          messages: {
+            validatorKey: 'MUST_ACCEPT_CONDITIONS',
+            messageType: 'info',
+          },
+        };
       }
-      return {
-        mustAcceptConditions: true,
-        messages: {
-          validatorKey: 'MUST_ACCEPT_CONDITIONS',
-          messageType: 'info',
-        },
-      };
+
+      this.authStorageService.clearLoginData();
+      this.router.navigate(['/agreement']);
+      return;
     }
 
     /**
@@ -113,25 +115,25 @@ export class ApiErrorHandlingService {
     }
 
     if (error.errors === 'ACCOUNT_SUSPENDED') {
-      const isLoginPage = this.router.url.includes('/login');
-      const isAgreementPage = this.router.url.includes('/agreement');
+      const pagesMap = ['/login', '/agreement'];
 
       const match = error.message.match(new RegExp(RegexEnums.digitsOnly));
       const days = match ? match[0] : 'unbekannt';
 
-      if (!isLoginPage && !isAgreementPage) {
-        this.authStorageService.clearLoginData();
-        this.router.navigate(['/login']);
-        return;
+      if (pagesMap.some((page) => this.router.url.includes(page))) {
+        return {
+          mustAcceptConditions: true,
+          messages: {
+            validatorKey: error.errors,
+            params: { days },
+            messageType: 'error',
+          },
+        };
       }
 
-      return {
-        messages: {
-          validatorKey: error.errors,
-          params: { days },
-          messageType: 'error',
-        },
-      };
+      this.authStorageService.clearLoginData();
+      this.router.navigate(['/login']);
+      return;
     }
 
     return this.handleDefault(error);
@@ -213,6 +215,32 @@ export class ApiErrorHandlingService {
     if (error.errors === 'TOO_MANY_REQUESTS') {
       //TODO Navigating to a dedicated "Too Many Requests" page.
       this.router.navigate(['/']);
+      return;
+    }
+    return this.handleDefault(error);
+  }
+
+  /**
+   * Handles 502 Bad Gateway errors, specifically for backend connection issues.
+   *
+   * @param error
+   * @returns
+   */
+  private handle502(error: BackendErrorResponseInterface): BusinessActionInterface | void {
+    if (error.errors === 'BACKEND_CONNECTION_ERROR') {
+      const pagesMap = ['/login', '/agreement', '/register', '/account-deletion'];
+
+      if (pagesMap.some((page) => this.router.url.includes(page))) {
+        return {
+          messages: {
+            validatorKey: error.errors,
+            messageType: 'error',
+          },
+        };
+      }
+
+      this.authStorageService.clearLoginData();
+      this.router.navigate(['/bad-gateway']);
       return;
     }
     return this.handleDefault(error);
