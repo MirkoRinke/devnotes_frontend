@@ -1,5 +1,6 @@
 import { Component, Input, ViewChild, ElementRef, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 import type { BadgeMessagesInterface, ActiveBadgeInterface } from '../../interfaces/validation-messages';
 
@@ -26,6 +27,7 @@ export class Badge implements AfterViewChecked {
   constructor(
     private cdr: ChangeDetectorRef,
     private router: Router,
+    private sanitizer: DomSanitizer,
   ) {}
 
   ngOnChanges(): void {
@@ -94,7 +96,7 @@ export class Badge implements AfterViewChecked {
     if (!baseDetails) return null;
 
     const { text, type, icon } = baseDetails;
-    const htmlText = this._parseMessageForLinks(text);
+    const htmlText: SafeHtml | null = this._parseMessageForLinks(text);
 
     if (htmlText) {
       return { type, icon, text: text, htmlText };
@@ -136,7 +138,7 @@ export class Badge implements AfterViewChecked {
    * @param message The message to parse.
    * @returns The parsed message with HTML anchor tags or null if no custom links are found.
    */
-  private _parseMessageForLinks(message: string): string | null {
+  private _parseMessageForLinks(message: string): SafeHtml | null {
     const typePart = `\\[(routerLink|href)\\]`;
     const urlPart = `([^"|]+)`;
     const optionalAliasPart = `(?:\\|([^"]+))?`;
@@ -147,20 +149,22 @@ export class Badge implements AfterViewChecked {
       return null;
     }
 
-    return message.replace(customLinkRegex, (match, type, url, alias) => {
+    const parsedMessage = message.replace(customLinkRegex, (match, type, url, alias) => {
       const linkText = alias || url;
 
       if (type === 'routerLink') {
-        return `<a class="badge-link" aria-label="${linkText}" href="${url}">${linkText}</a>`;
+        const routerLinkHTML = `<a class="badge-link" aria-label="${linkText}" href="${url}">${linkText}</a>`;
+        return routerLinkHTML;
       }
-
       if (type === 'href') {
         const fullUrl = url.startsWith('www.') ? `https://${url}` : url;
-        return `<a class="badge-link" aria-label="${linkText}" href="${fullUrl}" target="_blank" rel="noopener noreferrer">${linkText}</a>`;
+        const hrefHTML = `<a class="badge-link" aria-label="${linkText}" href="${fullUrl}" target="_blank" rel="noopener noreferrer">${linkText}</a>`;
+        return hrefHTML;
       }
-
       return match;
     });
+
+    return this.sanitizer.bypassSecurityTrustHtml(parsedMessage);
   }
 
   /**
