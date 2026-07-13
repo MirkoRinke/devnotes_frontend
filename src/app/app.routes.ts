@@ -17,6 +17,9 @@ import { Network } from './pages/network/network';
 import { MyArea } from './pages/my-area/my-area';
 import { UserProfile } from './pages/user-profile/user-profile';
 import { BadGateway } from './pages/bad-gateway/bad-gateway';
+import { Imprint } from './pages/legal/imprint/imprint';
+import { Privacy } from './pages/legal/privacy/privacy';
+import { Terms } from './pages/legal/terms/terms';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -36,4 +39,7 @@ export const routes: Routes = [
   { path: 'post-create', component: PostCreate },
   { path: 'user-profile/:id', component: UserProfile },
   { path: 'bad-gateway', component: BadGateway },
+  { path: 'legal/imprint', component: Imprint },
+  { path: 'legal/privacy', component: Privacy },
+  { path: 'legal/terms', component: Terms },
 ];
