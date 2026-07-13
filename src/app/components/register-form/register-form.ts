@@ -1,6 +1,6 @@
 import { Component, inject, DestroyRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 
 import { RegisterService } from '../../services/register.service';
@@ -25,10 +25,11 @@ import { Badge } from '../badge/badge';
 import { catchError, debounceTime, distinctUntilChanged, of, switchMap, tap } from 'rxjs';
 import { PasswordToggleButton } from '../password-toggle-button/password-toggle-button';
 import { PasswordStrengthFeedback } from '../password-strength-feedback/password-strength-feedback';
+import { LegalAcceptance } from '../legal-acceptance/legal-acceptance';
 
 @Component({
   selector: 'app-register-form',
-  imports: [ReactiveFormsModule, RouterModule, Badge, PasswordToggleButton, PasswordStrengthFeedback],
+  imports: [ReactiveFormsModule, RouterModule, Badge, PasswordToggleButton, PasswordStrengthFeedback, LegalAcceptance],
   templateUrl: './register-form.html',
   styleUrl: './register-form.scss',
 })
@@ -92,6 +93,19 @@ export class RegisterForm {
 
     this.initAvailabilityCheck();
     this.initLiveFeedback();
+  }
+
+  /**
+   * Helper method to get a form control by name. Returns null if the form is not initialized or if the control does not exist.
+   *
+   * @param name The name of the form control.
+   * @returns The form control or null if it does not exist.
+   */
+  public getControl(name: string): FormControl | null {
+    if (!this.registerForm) {
+      return null;
+    }
+    return this.registerForm.get(name) as FormControl;
   }
 
   /**
@@ -277,9 +291,8 @@ export class RegisterForm {
    * Handles the change event of the accepted conditions checkbox.
    * It updates the error and success messages based on whether the checkbox is checked or not.
    */
-  public checkboxChanged() {
-    const isAccepted = this.registerForm?.get('acceptedConditions')?.value;
-    if (isAccepted) {
+  public onAcceptedConditionsChange(isChecked: boolean): void {
+    if (isChecked) {
       this.msg.setMessage('acceptedConditions', 'success', 'ACCEPTED_CONDITIONS');
       this.msg.clearMessage('register');
     } else {

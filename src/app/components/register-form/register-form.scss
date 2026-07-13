@@ -104,8 +104,32 @@
         @include display-flex(center);
         gap: px-to-rem(10);
 
-        &:hover {
-          cursor: pointer;
+        .checkbox-text {
+          @include display-flex(center, center);
+
+          .terms,
+          .privacy {
+            margin-inline: 1ch;
+
+            &:hover {
+              cursor: pointer;
+              color: var(--font-primary-color-50);
+              transition: color var.$transition-duration-medium ease-in-out;
+            }
+
+            &::before {
+              content: '[';
+              margin-right: 0.5ch;
+            }
+            &::after {
+              content: ']';
+              margin-left: 0.5ch;
+            }
+
+            &.privacy {
+              margin-right: 0;
+            }
+          }
         }
 
         @include custom-check-box('.custom-checkbox');
