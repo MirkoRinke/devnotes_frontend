@@ -103,8 +103,6 @@ export class RegisterForm {
     const fields: (keyof RegistrationAvailabilityResponseInterface)[] = ['name', 'display_name'];
 
     fields.forEach((controlName) => {
-      console.log(`Initializing availability check for control: ${controlName}`);
-
       const formControl: AbstractControl | null = this.registerForm?.get(controlName) || null;
       if (!formControl) return;
       this.createAvailabilityStream(formControl, controlName).pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
