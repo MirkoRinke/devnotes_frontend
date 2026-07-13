@@ -1,0 +1,25 @@
+@if (control) {
+  <label class="checkbox-container">
+    <input
+      class="checkbox"
+      type="checkbox"
+      [formControl]="control"
+      (change)="onCheckboxChange()"
+    />
+    <span class="custom-checkbox"></span>
+    <span class="checkbox-text">
+      Ich akzeptiere die
+      <a
+        class="terms"
+        [routerLink]="['/legal/terms']"
+        >Nutzungsbedingungen</a
+      >
+      &
+      <a
+        class="privacy"
+        [routerLink]="['/legal/privacy']"
+        >Datenschutzerklärung</a
+      >.
+    </span>
+  </label>
+}
