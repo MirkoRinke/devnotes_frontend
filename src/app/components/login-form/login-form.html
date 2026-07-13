@@ -73,16 +73,10 @@
             [caret]="'left'"
           ></app-badge>
 
-          <label class="checkbox-container">
-            <input
-              class="checkbox"
-              type="checkbox"
-              formControlName="acceptedConditions"
-              (change)="checkboxChanged()"
-            />
-            <span class="custom-checkbox"></span>
-            Ich akzeptiere die Nutzungsbedingungen und die Datenschutzerklärung.
-          </label>
+          <app-legal-acceptance
+            [control]="getControl('acceptedConditions')"
+            (acceptedConditionsChange)="onAcceptedConditionsChange($event)"
+          ></app-legal-acceptance>
         </div>
       }
 

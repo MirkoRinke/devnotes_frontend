@@ -82,20 +82,8 @@
     .conditions-warning {
       @include display-flex($direction: column);
       @include font-settings(14);
-      gap: px-to-rem(15);
-      text-align: center;
       margin-top: px-to-rem(25);
-
-      .checkbox-container {
-        @include display-flex(center);
-        gap: px-to-rem(10);
-
-        &:hover {
-          cursor: pointer;
-        }
-
-        @include custom-check-box('.custom-checkbox');
-      }
+      width: 100%;
 
       @include position-absolute($class: '.badge', $bottom: 100%, $left: 0);
     }
