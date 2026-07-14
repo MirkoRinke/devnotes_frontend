@@ -1,0 +1,74 @@
+@use '../../../functions' as *;
+@use '../../../var' as var;
+@use '../../../mixins' as *;
+
+:host {
+  --content-max-width: #{var.$content-max-width};
+
+  &.is-fluid {
+    --content-max-width: 100%;
+  }
+}
+
+.legal {
+  max-width: var(--content-max-width);
+  margin-inline: auto;
+
+  overflow-wrap: break-word;
+  hyphens: auto;
+
+  .header,
+  .address,
+  .representedBy,
+  .contact {
+    margin-block: px-to-rem(10);
+  }
+
+  & a {
+    color: var(--font-primary-color-100);
+    @include framed-link();
+
+    &:hover {
+      color: var(--font-primary-color-50);
+    }
+  }
+
+  & h1,
+  h2,
+  h3,
+  p,
+  ul {
+    @include font-settings();
+    margin-top: px-to-rem(15);
+  }
+
+  & ul {
+    margin-left: px-to-rem(20);
+  }
+
+  & li {
+    margin-block: px-to-rem(10);
+  }
+
+  & h1 {
+    @include font-settings(36, 700);
+    color: var(--font-primary-color-100);
+  }
+
+  & h2 {
+    @include font-settings(24, 700);
+    color: var(--font-primary-color-100);
+  }
+
+  & h3 {
+    color: var(--font-primary-color-100);
+  }
+
+  .address,
+  .representedBy,
+  .contact {
+    & p {
+      margin-top: px-to-rem(0);
+    }
+  }
+}
