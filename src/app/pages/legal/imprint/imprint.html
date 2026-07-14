@@ -1,1 +1,63 @@
-<p>imprint works!</p>
+@let translatePath = 'Imprint.';
+
+<section class="legal">
+  <div class="header">
+    <h1>{{ translatePath + 'header.title' | translate }}</h1>
+    <p>{{ translatePath + 'header.lastUpdated' | translate }}</p>
+    <p>{{ translatePath + 'header.info' | translate }}</p>
+  </div>
+  <div class="address">
+    <p>{{ translatePath + 'address.name' | translate }}</p>
+    <p>{{ translatePath + 'address.street' | translate }}</p>
+    <p>{{ translatePath + 'address.city' | translate }}</p>
+  </div>
+  <div class="representedBy">
+    <p>
+      <strong>{{ translatePath + 'representedBy.label' | translate }}</strong>
+    </p>
+    <p>{{ translatePath + 'representedBy.name' | translate }}</p>
+  </div>
+  <div class="contact">
+    <p>
+      <strong>{{ translatePath + 'contact.label' | translate }}</strong>
+    </p>
+    <div>
+      {{ translatePath + 'contact.emailLabel' | translate }}
+      <a href="mailto:contact@mirkorinke.dev">{{ translatePath + 'contact.email' | translate }}</a>
+    </div>
+  </div>
+  <h2>{{ translatePath + 'disclaimer.title' | translate }}</h2>
+  <h3>{{ translatePath + 'disclaimer.liabilityForContent.title' | translate }}</h3>
+  <p>
+    {{ translatePath + 'disclaimer.liabilityForContent.text' | translate }}
+  </p>
+  <h3>{{ translatePath + 'disclaimer.liabilityForLinks.title' | translate }}</h3>
+  <p>
+    {{ translatePath + 'disclaimer.liabilityForLinks.text' | translate }}
+  </p>
+  <h3>{{ translatePath + 'disclaimer.copyright.title' | translate }}</h3>
+  <p>
+    {{ translatePath + 'disclaimer.copyright.text' | translate }}
+  </p>
+  <h3>{{ translatePath + 'dataProtection.title' | translate }}</h3>
+  <p>
+    {{ translatePath + 'dataProtection.text' | translate }}
+  </p>
+  <p>
+    {{ translatePath + 'source.text' | translate }}
+    <a
+      [href]="translatePath + 'source.generator.url' | translate"
+      target="_blank"
+      rel="noopener noreferrer nofollow"
+    >
+      {{ translatePath + 'source.generator.name' | translate }}</a
+    >
+    {{ translatePath + 'source.lawFirm.prefix' | translate }}
+    <a
+      [href]="translatePath + 'source.lawFirm.url' | translate"
+      target="_blank"
+      rel="noopener noreferrer nofollow"
+      >{{ translatePath + 'source.lawFirm.name' | translate }}</a
+    >.
+  </p>
+</section>

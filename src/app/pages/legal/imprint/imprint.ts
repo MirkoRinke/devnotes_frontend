@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 
+import { TranslatePipe } from '../../../i18n/translate-pipe';
+
 @Component({
   selector: 'app-imprint',
-  imports: [],
+  imports: [TranslatePipe],
   templateUrl: './imprint.html',
-  styleUrl: './imprint.scss',
+  styleUrls: ['../legal.scss', './imprint.scss'],
 })
-export class Imprint {
-
-}
+export class Imprint {}
