@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 
+import { TranslatePipe } from '../../../i18n/translate-pipe';
+
 @Component({
   selector: 'app-privacy',
-  imports: [],
+  imports: [TranslatePipe],
   templateUrl: './privacy.html',
-  styleUrl: './privacy.scss',
+  styleUrls: ['../legal.scss', './privacy.scss'],
 })
-export class Privacy {
-
-}
+export class Privacy {}
