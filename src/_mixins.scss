@@ -645,14 +645,7 @@
         color: var(--font-primary-color-80);
       }
 
-      &::before {
-        content: '[';
-        margin-right: 0.5ch;
-      }
-      &::after {
-        content: ']';
-        margin-left: 0.5ch;
-      }
+      @include framed-link();
     }
 
     &.single-word {
@@ -816,6 +809,17 @@
   line-clamp: $lines;
   -webkit-line-clamp: $lines;
   -webkit-box-orient: vertical;
+}
+
+@mixin framed-link($before: '[', $after: ']', $margin: 0.5ch) {
+  &::before {
+    content: $before;
+    margin-right: convert-to-rem-if-needed($margin);
+  }
+  &::after {
+    content: $after;
+    margin-left: convert-to-rem-if-needed($margin);
+  }
 }
 
 @mixin text-shadow($color: var(--page-primary-color-100), $offset: 1px) {
