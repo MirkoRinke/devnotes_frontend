@@ -1,1 +1,33 @@
-<p>terms works!</p>
+@let translatePath = 'Terms.';
+
+<section class="legal">
+  <div class="header">
+    <h1>{{ translatePath + 'header.title' | translate }}</h1>
+    <p>{{ translatePath + 'header.lastUpdated' | translate }}</p>
+  </div>
+
+  <h2>{{ translatePath + 'sections.about.title' | translate }}</h2>
+  <p>
+    {{ translatePath + 'sections.about.text' | translate }}
+  </p>
+
+  <h2>{{ translatePath + 'sections.registration.title' | translate }}</h2>
+  <p>
+    {{ translatePath + 'sections.registration.text' | translate }}
+  </p>
+
+  <h2>{{ translatePath + 'sections.copyright.title' | translate }}</h2>
+  <p>
+    {{ translatePath + 'sections.copyright.text' | translate }}
+  </p>
+
+  <h2>{{ translatePath + 'sections.fairplay.title' | translate }}</h2>
+  <p>
+    {{ translatePath + 'sections.fairplay.text' | translate }}
+  </p>
+
+  <h2>{{ translatePath + 'sections.amendments.title' | translate }}</h2>
+  <p>
+    {{ translatePath + 'sections.amendments.text' | translate }}
+  </p>
+</section>
