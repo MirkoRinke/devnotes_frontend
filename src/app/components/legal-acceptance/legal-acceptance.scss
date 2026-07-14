@@ -19,14 +19,7 @@
         transition: color var.$transition-duration-medium ease-in-out;
       }
 
-      &::before {
-        content: '[';
-        margin-right: 0.5ch;
-      }
-      &::after {
-        content: ']';
-        margin-left: 0.5ch;
-      }
+      @include framed-link();
 
       &.privacy {
         margin-right: 0;
