@@ -34,7 +34,7 @@ export class Post {
   postDataLoaded: boolean = false;
   mode = 'view';
 
-  necessaryUserFields: string = 'display_name,avatar_items,is_following';
+  necessaryUserFields: string = 'display_name,avatar_items,is_following,avatar_mvp_id';
 
   private destroyRef = inject(DestroyRef);
 
