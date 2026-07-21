@@ -74,7 +74,7 @@ export class PostForm {
   postForm: FormGroup | null = null;
   postFormCode: string | null = null;
 
-  necessaryUserFields: string = 'display_name,avatar_items';
+  necessaryUserFields: string = 'display_name,avatar_items,avatar_mvp_id';
   currentUser: UserInterface | null = null;
 
   isTechStackSelectorModalOpen = false;
