@@ -495,6 +495,15 @@
 
   transition: box-shadow var.$transition-duration-fast ease-in-out;
 
+  &::spelling-error,
+  &::grammar-error,
+  &::-webkit-grammar-error,
+  &::-webkit-spelling-error {
+    @if $color != null {
+      color: $color;
+    }
+  }
+
   &:focus {
     outline: none;
     box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-50);
