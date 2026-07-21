@@ -6,6 +6,7 @@ export interface UserInterface {
   github_id?: string | null;
   display_name?: string;
   role?: string;
+  avatar_mvp_id?: number | null;
   avatar_items?: AvatarItems | null;
   is_banned?: boolean | null;
   was_ever_banned?: boolean;
