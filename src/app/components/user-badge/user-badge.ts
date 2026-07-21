@@ -21,7 +21,13 @@ export class UserBadge {
   isReportModalOpen = false;
   isReportModalAnimating = false;
 
+  avatarMvpPath: string | null = null;
+
   constructor() {}
+
+  ngOnInit() {
+    this.mvpAvatarPath(this.user);
+  }
 
   /**
    * Toggle Settings Dropdown
@@ -68,6 +74,23 @@ export class UserBadge {
       if (this.isReportModalOpen) {
         this.isReportModalOpen = false;
       }
+    }
+  }
+
+  /**
+   * Get the path for the user's MVP avatar
+   *
+   * @param user
+   */
+  mvpAvatarPath(user: UserInterface | null): void {
+    const avatarMvpId = user?.avatar_mvp_id ?? null;
+    const isStandard = avatarMvpId && avatarMvpId >= 1 && avatarMvpId <= 20;
+    const isSystem = avatarMvpId && avatarMvpId >= 997 && avatarMvpId <= 999;
+
+    if (isStandard || isSystem) {
+      this.avatarMvpPath = `/avatar-mvp/mvp_${avatarMvpId}.webp`;
+    } else {
+      this.avatarMvpPath = '/avatar-mvp/mvp_1.webp';
     }
   }
 }

@@ -1,41 +1,43 @@
-@if (isReportModalOpen && user) {
-  <app-report-modal
-    class="overlay"
-    [reportId]="user.id"
-    [reportContext]="'user'"
-    [class.open]="isReportModalAnimating"
-    [class.closed]="!isReportModalAnimating"
-    (click)="closeReportModal()"
-    (animationend)="onAnimationEnd($event)"
-    (closeModal)="closeReportModal()"
-  ></app-report-modal>
-}
-
-<div class="user-badge-component">
-  <div
-    (click)="toggleBadgeMenu()"
-    class="user-badge"
-  >
-    <div class="avatar">
-      <img
-        [class.opened]="isUserBadgeMenuOpen"
-        src="/avatar-items/placeholder.webp"
-        alt="placeholder"
-      />
-    </div>
-    <span class="display-name">{{ user?.display_name }}</span>
-  </div>
-
-  @if (isUserBadgeMenuOpen) {
-    <app-user-badge-menu
-      [user]="user"
-      [isUserBadgeMenuOpen]="isUserBadgeMenuOpen"
-      [isUserBadgeMenuAnimating]="isUserBadgeMenuAnimating"
-      (closeMenu)="closeBadgeMenu()"
-      (openReportModal)="openReportModal()"
-    ></app-user-badge-menu>
+@if (user) {
+  @if (isReportModalOpen) {
+    <app-report-modal
+      class="overlay"
+      [reportId]="user.id"
+      [reportContext]="'user'"
+      [class.open]="isReportModalAnimating"
+      [class.closed]="!isReportModalAnimating"
+      (click)="closeReportModal()"
+      (animationend)="onAnimationEnd($event)"
+      (closeModal)="closeReportModal()"
+    ></app-report-modal>
   }
-</div>
+
+  <div class="user-badge-component">
+    <div
+      (click)="toggleBadgeMenu()"
+      class="user-badge"
+    >
+      <div class="avatar">
+        <img
+          [class.opened]="isUserBadgeMenuOpen"
+          [src]="avatarMvpPath"
+          [alt]="user.display_name + ' ' + 'Avatar'"
+        />
+      </div>
+      <span class="display-name">{{ user.display_name }}</span>
+    </div>
+
+    @if (isUserBadgeMenuOpen) {
+      <app-user-badge-menu
+        [user]="user"
+        [isUserBadgeMenuOpen]="isUserBadgeMenuOpen"
+        [isUserBadgeMenuAnimating]="isUserBadgeMenuAnimating"
+        (closeMenu)="closeBadgeMenu()"
+        (openReportModal)="openReportModal()"
+      ></app-user-badge-menu>
+    }
+  </div>
+}
 
 <!--TODO For later avatar implementation -->
 <!-- @for (avatarItem of avatarItemsEntries(); track $index) {
