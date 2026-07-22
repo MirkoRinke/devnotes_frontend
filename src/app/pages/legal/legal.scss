@@ -61,6 +61,7 @@
   }
 
   & h3 {
+    @include font-settings(18, 700);
     color: var(--font-primary-color-100);
   }
 
