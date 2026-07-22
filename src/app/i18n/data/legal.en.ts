@@ -57,7 +57,7 @@ export const LEGAL_EN = {
         },
         whatWeUseFor: {
           title: 'What do we use your data for?',
-          text: 'Part of the data is collected to ensure the error-free provision of the website. Other data can be used to analyze your user behavior. If contracts can be concluded or initiated via the website, the transmitted data will also be processed for contract offers, orders, or other order inquiries.',
+          text: 'Part of the data is collected to ensure the error-free provision of the website. Other data—such as information entered during registration or when using community features—is used to manage your user account and provide our features.',
         },
         yourRights: {
           title: 'What rights do you have regarding your data?',
@@ -101,6 +101,18 @@ export const LEGAL_EN = {
         email: 'contact@mirkorinke.dev',
         text2:
           'The responsible party is the natural or legal person who, alone or jointly with others, decides on the purposes and means of processing personal data (e.g., names, e-mail addresses, or the like).',
+      },
+      registrationAndSecurity: {
+        title: 'Registration, User Account, and Login Security',
+        text: "You can register on our website to use the features of the platform. During registration, we collect and store the data you provide exclusively for the purpose of providing and managing your user account. The legal basis for this is Art. 6 para. 1 lit. b GDPR (performance of a user contract). For the technical provision of the login, we store a so-called bearer token in your browser's local storage. This is strictly necessary for the operation of the login (§ 25 para. 2 no. 2 TDDDG in conjunction with Art. 6 para. 1 lit. b GDPR). To secure your user account and protect against unauthorized access, a technical verification value is generated upon login from selected browser and system information. The underlying browser and system information are not stored as such or transmitted to our server. Only this technical verification value is transmitted to the server. It is used exclusively to verify the legitimate use of an existing login session and to detect the misuse of stolen login credentials or session tokens. The legal basis for this is Art. 6 para. 1 lit. f GDPR (legitimate interest in the security of our platform).",
+      },
+      deviceManagement: {
+        title: 'Device Management and Active Sessions',
+        text: 'To manage your active logins, we provide you with an overview of the devices currently used to access your account. For this purpose, a technical device name is generated based on general browser and platform information. This information is used exclusively to allow you to manage your own sessions and identify currently logged-in devices. The legal basis for this processing is Art. 6 para. 1 lit. b GDPR (provision of user account features).',
+      },
+      userGeneratedContent: {
+        title: 'Processing of User-Generated Content',
+        text: 'When you create your own content on our platform, we store and process this data in order to provide the core functions of the application. The storage and display of this content takes place as part of the platform usage. The legal basis for this processing is the provision of the user contract pursuant to Art. 6 para. 1 lit. b GDPR. Please note that you are responsible for ensuring that you do not publish personal data relating to yourself or third parties in content you create. After deletion of your user account, content created by you, including posts and comments, may remain available in anonymized form. If such content nevertheless contains personal data, you can contact us using the provided contact options so that the affected information can be reviewed and, where appropriate, removed.',
       },
       storageDuration: {
         title: 'Storage Duration',
@@ -152,7 +164,7 @@ export const LEGAL_EN = {
       sslTlsEncryption: {
         title: 'SSL or TLS Encryption',
         text1:
-          'For security reasons and to protect the transmission of confidential content, such as orders or inquiries that you send to us as the site operator, this site uses SSL or TLS encryption. You can recognize an encrypted connection by the fact that the address line of the browser changes from "http://" to "https://" and by the lock symbol in your browser line.',
+          'This site uses SSL or TLS encryption for security reasons and to protect the transmission of confidential content, such as requests or registration data that you send to us as the site operator. You can recognize an encrypted connection in your browsers address line when it changes from "http://" to "https://" and by the lock symbol in your browser line.',
         text2: 'If SSL or TLS encryption is activated, the data you transmit to us cannot be read by third parties.',
       },
       source: {

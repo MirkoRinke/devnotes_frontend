@@ -1,5 +1,3 @@
-import { Terms } from '../../pages/legal/terms/terms';
-
 export const LEGAL_DE = {
   Imprint: {
     header: {
@@ -59,7 +57,7 @@ export const LEGAL_DE = {
         },
         whatWeUseFor: {
           title: 'Wofür nutzen wir Ihre Daten?',
-          text: 'Ein Teil der Daten wird erhoben, um eine fehlerfreie Bereitstellung der Website zu gewährleisten. Andere Daten können zur Analyse Ihres Nutzerverhaltens verwendet werden. Sofern über die Website Verträge geschlossen oder angebahnt werden können, werden die übermittelten Daten auch für Vertragsangebote, Bestellungen oder sonstige Auftragsanfragen verarbeitet.',
+          text: 'Ein Teil der Daten wird erhoben, um eine fehlerfreie Bereitstellung der Website zu gewährleisten. Andere Daten – wie beispielsweise bei einer Registrierung oder Nutzung von Community-Funktionen eingegebene Informationen – werden zur Verwaltung Ihres Benutzerkontos und zur Bereitstellung unserer Funktionen verwendet.',
         },
         yourRights: {
           title: 'Welche Rechte haben Sie bezüglich Ihrer Daten?',
@@ -103,6 +101,18 @@ export const LEGAL_DE = {
         email: 'contact@mirkorinke.dev',
         text2:
           'Verantwortliche Stelle ist die natürliche oder juristische Person, die allein oder gemeinsam mit anderen über die Zwecke und Mittel der Verarbeitung von personenbezogenen Daten (z. B. Namen, E-Mail-Adressen o. Ä.) entscheidet.',
+      },
+      registrationAndSecurity: {
+        title: 'Registrierung, Benutzerkonto und Login-Sicherheit',
+        text: 'Sie können sich auf unserer Website registrieren, um die Funktionen der Plattform zu nutzen. Im Rahmen der Registrierung erheben und speichern wir die von Ihnen eingegebenen Daten ausschließlich zur Bereitstellung und Verwaltung Ihres Benutzerkontos. Rechtsgrundlage hierfür ist Art. 6 Abs. 1 lit. b DSGVO (Erfüllung des Nutzervertrages). Für die technische Bereitstellung des Logins speichern wir ein sogenanntes Bearer-Token im Local Storage Ihres Browsers. Dies ist für den Betrieb der Anmeldung zwingend erforderlich (§ 25 Abs. 2 Nr. 2 TDDDG in Verbindung mit Art. 6 Abs. 1 lit. b DSGVO). Zur Absicherung Ihres Benutzerkontos und zum Schutz vor unberechtigten Zugriffen wird beim Login aus ausgewählten Browser- und Systeminformationen ein technischer Prüfwert erzeugt. Die zugrunde liegenden Browser- und Systeminformationen werden dabei nicht als solche gespeichert oder an unseren Server übermittelt. An den Server wird ausschließlich dieser technische Prüfwert übertragen. Er dient ausschließlich dazu, die rechtmäßige Nutzung einer bestehenden Anmeldung zu überprüfen und einen Missbrauch gestohlener Anmeldedaten oder Sitzungstoken zu erkennen. Rechtsgrundlage hierfür ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der Sicherheit unserer Plattform).',
+      },
+      deviceManagement: {
+        title: 'Geräteverwaltung und aktive Sitzungen',
+        text: 'Zur Verwaltung Ihrer aktiven Anmeldungen zeigen wir Ihnen eine Übersicht der aktuell verwendeten Geräte an. Hierfür wird eine technische Gerätebezeichnung aus allgemeinen Browser- und Plattforminformationen erstellt. Diese Informationen dienen ausschließlich dazu, Ihnen die Verwaltung Ihrer eigenen Sitzungen zu ermöglichen und angemeldete Geräte zu erkennen. Rechtsgrundlage hierfür ist Art. 6 Abs. 1 lit. b DSGVO (Bereitstellung der Benutzerkontofunktionen).',
+      },
+      userGeneratedContent: {
+        title: 'Verarbeitung von nutzergenerierten Inhalten',
+        text: 'Wenn Sie auf unserer Plattform eigene Inhalte erstellen, speichern und verarbeiten wir diese Daten, um Ihnen die Kernfunktionen der Anwendung zur Verfügung zu stellen. Die Speicherung und Anzeige dieser Inhalte erfolgt im Rahmen der Plattformnutzung. Rechtsgrundlage für diese Verarbeitung ist die Bereitstellung des Nutzervertrages nach Art. 6 Abs. 1 lit. b DSGVO. Bitte beachten Sie, dass Sie selbst dafür verantwortlich sind, in von Ihnen erstellten Inhalten keine personenbezogenen Daten von sich selbst oder von Dritten zu veröffentlichen. Nach einer Kontolöschung können von Ihnen erstellte Inhalte einschließlich Beiträgen und Kommentaren gegebenenfalls in anonymisierter Form bestehen bleiben. Sollten diese Inhalte dennoch personenbezogene Daten enthalten, können Sie uns über die vorgesehenen Kontaktmöglichkeiten kontaktieren, damit eine entsprechende Prüfung und gegebenenfalls Entfernung der betroffenen Informationen erfolgen kann.',
       },
       storageDuration: {
         title: 'Speicherdauer',
@@ -154,7 +164,7 @@ export const LEGAL_DE = {
       sslTlsEncryption: {
         title: 'SSL- bzw. TLS-Verschlüsselung',
         text1:
-          'Diese Seite nutzt aus Sicherheitsgründen und zum Schutz der Übertragung vertraulicher Inhalte, wie zum Beispiel Bestellungen oder Anfragen, die Sie an uns als Seitenbetreiber senden, eine SSL- bzw. TLS-Verschlüsselung. Eine verschlüsselte Verbindung erkennen Sie daran, dass die Adresszeile des Browsers von „http://“ auf „https://“ wechselt und an dem Schloss-Symbol in Ihrer Browserzeile.',
+          'Diese Seite nutzt aus Sicherheitsgründen und zum Schutz der Übertragung vertraulicher Inhalte, wie zum Beispiel Anfragen oder Registrierungsdaten, die Sie an uns als Seitenbetreiber senden, eine SSL- bzw. TLS-Verschlüsselung. Eine verschlüsselte Verbindung erkennen Sie daran, dass die Adresszeile des Browsers von „http://“ auf „https://“ wechselt und an dem Schloss-Symbol in Ihrer Browserzeile.',
         text2: 'Wenn die SSL- bzw. TLS-Verschlüsselung aktiviert ist, können die Daten, die Sie an uns übermitteln, nicht von Dritten mitgelesen werden.',
       },
       source: {
