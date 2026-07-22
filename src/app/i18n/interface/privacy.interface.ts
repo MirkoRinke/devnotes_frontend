@@ -58,6 +58,14 @@ export interface PrivacyMessagesInterface {
       email: string;
       text2: string;
     };
+    registrationAndSecurity: {
+      title: string;
+      text: string;
+    };
+    userGeneratedContent: {
+      title: string;
+      text: string;
+    };
     storageDuration: {
       title: string;
       text: string;
