@@ -1,7 +1,6 @@
 export interface ImprintMessagesInterface {
   header: {
     title: string;
-    lastUpdated: string;
     info: string;
   };
   address: {
@@ -31,22 +30,6 @@ export interface ImprintMessagesInterface {
     copyright: {
       title: string;
       text: string;
-    };
-  };
-  dataProtection: {
-    title: string;
-    text: string;
-  };
-  source: {
-    text: string;
-    generator: {
-      name: string;
-      url: string;
-    };
-    lawFirm: {
-      prefix: string;
-      name: string;
-      url: string;
     };
   };
 }

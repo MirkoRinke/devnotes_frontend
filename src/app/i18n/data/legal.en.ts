@@ -2,7 +2,6 @@ export const LEGAL_EN = {
   Imprint: {
     header: {
       title: 'Imprint',
-      lastUpdated: 'Last updated: 2026-07-14',
       info: 'Information according to § 5 DDG',
     },
     address: {
@@ -23,31 +22,15 @@ export const LEGAL_EN = {
       title: 'Disclaimer',
       liabilityForContent: {
         title: 'Liability for content',
-        text: 'The contents of our pages were created with the greatest care. However, we cannot guarantee the accuracy, completeness, and timeliness of the content. As a service provider, we are responsible for our own content on these pages according to § 7 Abs.1 DDG under general laws. According to §§ 8 to 10 DDG, we are not obligated as a service provider to monitor transmitted or stored third-party information or to investigate circumstances that indicate illegal activity. Obligations to remove or block the use of information under general laws remain unaffected. However, liability in this regard is only possible from the time of knowledge of a specific infringement. Upon becoming aware of such violations, we will remove this content immediately.',
+        text: 'We create the content of our pages with the utmost care. However, we cannot assume any guarantee for its accuracy, completeness, or up-to-dateness. As a service provider, we are responsible for our own content on these pages under general laws pursuant to Section 7 (1) of the German Digital Services Act (DDG). According to Sections 8 to 10 of the DDG, however, as a service provider we are not obligated to permanently monitor transmitted or stored third-party information or to actively search for circumstances indicating illegal activity. Obligations to remove or block the use of information under general laws remain unaffected by this. Liability in this regard is only possible from the moment we gain knowledge of a specific legal violation. Upon becoming aware of such violations, we will remove the respective content immediately.',
       },
       liabilityForLinks: {
         title: 'Liability for links',
-        text: 'Our offer contains links to external websites of third parties, on whose contents we have no influence. Therefore, we cannot assume any liability for these external contents. The respective provider or operator of the pages is always responsible for the contents of the linked pages. The linked pages were checked for possible legal violations at the time of linking. Illegal contents were not recognizable at the time of linking. A permanent content control of the linked pages is not reasonable without concrete evidence of a violation of the law. Upon becoming aware of legal violations, we will remove such links immediately.',
+        text: 'Our website contains direct or indirect links to external third-party websites (as well as links published by users within posts or comments), over whose content we have no control. Therefore, we cannot assume any liability for these external contents. The respective provider or operator of the linked pages is always responsible for their content. Links permanently set by us were checked for potential legal violations at the time of linking, and no illegal contents were recognizable at that time. However, a permanent content control of user-generated links as well as external pages is unreasonable without concrete evidence of a legal violation. Upon becoming aware of any legal violations, we will remove such links immediately.',
       },
       copyright: {
         title: 'Copyright',
-        text: 'The content and works created by the site operators on these pages are subject to German copyright law. The duplication, processing, distribution, and any kind of exploitation outside the limits of copyright require the written consent of the respective author or creator. Downloads and copies of this site are only permitted for private, non-commercial use. Insofar as the content on this site was not created by the operator, the copyrights of third parties are respected. In particular, third-party content is marked as such. Should you nevertheless become aware of a copyright infringement, please inform us accordingly. Upon becoming aware of legal violations, we will remove such content immediately.',
-      },
-    },
-    dataProtection: {
-      title: 'Data protection',
-      text: 'The use of our website is usually possible without providing personal data. Insofar as personal data (for example, name, address, or email addresses) are collected on our pages, this is always done on a voluntary basis as far as possible. These data will not be passed on to third parties without your express consent.We point out that data transmission over the Internet (e.g., communication by email) can have security gaps. A complete protection of the data from access by third parties is not possible.The use of contact data published within the framework of the imprint obligation by third parties for sending unsolicited advertising and information materials is hereby expressly prohibited. The operators of the pages expressly reserve the right to take legal action in the event of unsolicited sending of advertising information, such as spam emails.',
-    },
-    source: {
-      text: 'Website imprint created by',
-      generator: {
-        name: 'impressum-generator.de',
-        url: 'https://www.impressum-generator.de',
-      },
-      lawFirm: {
-        prefix: 'from the',
-        name: 'Kanzlei Hasselbach',
-        url: 'https://www.kanzlei-hasselbach.de/',
+        text: 'All works and content created by the site operator on these pages are subject to German copyright law. In cases where the content on this site was not created by the operator, the copyrights of third parties are duly respected, and third-party content is explicitly marked as such. Should you become aware of a copyright infringement, please notify us accordingly. Upon becoming aware of such violations, we will remove the respective content immediately.',
       },
     },
   },
