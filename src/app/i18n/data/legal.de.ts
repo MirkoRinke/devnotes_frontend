@@ -114,6 +114,10 @@ export const LEGAL_DE = {
         title: 'Verarbeitung von nutzergenerierten Inhalten',
         text: 'Wenn Sie auf unserer Plattform eigene Inhalte erstellen, speichern und verarbeiten wir diese Daten, um Ihnen die Kernfunktionen der Anwendung zur Verfügung zu stellen. Die Speicherung und Anzeige dieser Inhalte erfolgt im Rahmen der Plattformnutzung. Rechtsgrundlage für diese Verarbeitung ist die Bereitstellung des Nutzervertrages nach Art. 6 Abs. 1 lit. b DSGVO. Bitte beachten Sie, dass Sie selbst dafür verantwortlich sind, in von Ihnen erstellten Inhalten keine personenbezogenen Daten von sich selbst oder von Dritten zu veröffentlichen. Nach einer Kontolöschung können von Ihnen erstellte Inhalte einschließlich Beiträgen und Kommentaren gegebenenfalls in anonymisierter Form bestehen bleiben. Sollten diese Inhalte dennoch personenbezogene Daten enthalten, können Sie uns über die vorgesehenen Kontaktmöglichkeiten kontaktieren, damit eine entsprechende Prüfung und gegebenenfalls Entfernung der betroffenen Informationen erfolgen kann.',
       },
+      userExternalResources: {
+        title: 'Externe Inhalte in nutzergenerierten Beiträgen',
+        text: 'Auf unserer Plattform können von Nutzern erstellte Inhalte Verweise zu externen Webseiten oder Ressourcen Dritter enthalten. Diese externen Inhalte werden nicht automatisch geladen oder in unsere Plattform eingebunden. Es werden lediglich Verlinkungen zu externen Angeboten dargestellt. Erst wenn Sie eine solche Verlinkung aktiv aufrufen, verlassen Sie unsere Plattform und es kann eine Datenverarbeitung durch den jeweiligen Drittanbieter erfolgen. Für die Verarbeitung personenbezogener Daten durch externe Anbieter gelten die Datenschutzbestimmungen des jeweiligen Anbieters.',
+      },
       storageDuration: {
         title: 'Speicherdauer',
         text: 'Soweit innerhalb dieser Datenschutzerklärung keine speziellere Speicherdauer genannt wurde, verbleiben Ihre personenbezogenen Daten bei uns, bis der Zweck für die Datenverarbeitung entfällt. Wenn Sie ein berechtigtes Löschersuchen geltend machen oder eine Einwilligung zur Datenverarbeitung widerrufen, werden Ihre Daten gelöscht, sofern wir keine anderen rechtlich zulässigen Gründe für die Speicherung Ihrer personenbezogenen Daten haben (z. B. steuer- oder handelsrechtliche Aufbewahrungsfristen); im letztgenannten Fall erfolgt die Löschung nach Fortfall dieser Gründe.',
@@ -125,6 +129,10 @@ export const LEGAL_DE = {
       recipients: {
         title: 'Empfänger von personenbezogenen Daten',
         text: 'Im Rahmen unserer Geschäftstätigkeit arbeiten wir mit verschiedenen externen Stellen zusammen. Dabei ist teilweise auch eine Übermittlung von personenbezogenen Daten an diese externen Stellen erforderlich. Wir geben personenbezogene Daten nur dann an externe Stellen weiter, wenn dies im Rahmen einer Vertragserfüllung erforderlich ist, wenn wir gesetzlich hierzu verpflichtet sind (z. B. Weitergabe von Daten an Steuerbehörden), wenn wir ein berechtigtes Interesse nach Art. 6 Abs. 1 lit. f DSGVO an der Weitergabe haben oder wenn eine sonstige Rechtsgrundlage die Datenweitergabe erlaubt. Beim Einsatz von Auftragsverarbeitern geben wir personenbezogene Daten unserer Kunden nur auf Grundlage eines gültigen Vertrags über Auftragsverarbeitung weiter. Im Falle einer gemeinsamen Verarbeitung wird ein Vertrag über gemeinsame Verarbeitung geschlossen.',
+      },
+      externalThirdPartyLinks: {
+        title: 'Externe Verlinkungen zu Drittanbietern',
+        text: 'Diese Website enthält Verlinkungen zu externen Webseiten Dritter. Die Verlinkungen werden ausschließlich als normale Links bereitgestellt. Beim Besuch unserer Website werden keine Inhalte dieser externen Anbieter eingebunden und keine Datenübertragung an diese Anbieter durch unsere Website ausgelöst. Erst wenn Sie einen solchen Link aktiv anklicken, verlassen Sie unsere Website und es kann eine Datenverarbeitung durch den jeweiligen Drittanbieter erfolgen. Für die weitere Verarbeitung personenbezogener Daten durch externe Anbieter gelten die Datenschutzbestimmungen des jeweiligen Anbieters.',
       },
       revocation: {
         title: 'Widerruf Ihrer Einwilligung zur Datenverarbeitung',

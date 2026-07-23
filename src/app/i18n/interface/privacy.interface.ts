@@ -66,6 +66,10 @@ export interface PrivacyMessagesInterface {
       title: string;
       text: string;
     };
+    userExternalResources: {
+      title: string;
+      text: string;
+    };
     storageDuration: {
       title: string;
       text: string;
@@ -75,6 +79,10 @@ export interface PrivacyMessagesInterface {
       text: string;
     };
     recipients: {
+      title: string;
+      text: string;
+    };
+    externalThirdPartyLinks: {
       title: string;
       text: string;
     };

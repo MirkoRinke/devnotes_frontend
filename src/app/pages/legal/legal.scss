@@ -36,6 +36,7 @@
   & h1,
   h2,
   h3,
+  h4,
   p,
   ul {
     @include font-settings();
@@ -62,6 +63,11 @@
 
   & h3 {
     @include font-settings(18, 700);
+    color: var(--font-primary-color-100);
+  }
+
+  & h4 {
+    @include font-settings(16, 700);
     color: var(--font-primary-color-100);
   }
 

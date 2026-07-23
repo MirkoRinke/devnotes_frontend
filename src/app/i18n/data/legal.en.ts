@@ -114,6 +114,10 @@ export const LEGAL_EN = {
         title: 'Processing of User-Generated Content',
         text: 'When you create your own content on our platform, we store and process this data in order to provide the core functions of the application. The storage and display of this content takes place as part of the platform usage. The legal basis for this processing is the provision of the user contract pursuant to Art. 6 para. 1 lit. b GDPR. Please note that you are responsible for ensuring that you do not publish personal data relating to yourself or third parties in content you create. After deletion of your user account, content created by you, including posts and comments, may remain available in anonymized form. If such content nevertheless contains personal data, you can contact us using the provided contact options so that the affected information can be reviewed and, where appropriate, removed.',
       },
+      userExternalResources: {
+        title: 'External Content in User-Generated Posts',
+        text: 'Our platform may contain links to external websites or resources from third parties within user-generated content. These external contents are not loaded automatically or embedded into our platform. Only links to external services are displayed. Only when you actively open such a link, you leave our platform and data processing by the respective third-party provider may occur. For the processing of personal data by external providers, the privacy policies of the respective providers apply.',
+      },
       storageDuration: {
         title: 'Storage Duration',
         text: 'Unless a more specific storage period has been specified within this privacy policy, your personal data will remain with us until the purpose for data processing ceases to apply. If you assert a legitimate request for deletion or revoke your consent to data processing, your data will be deleted, unless we have other legally permissible reasons for storing your personal data (e.g., tax or commercial law retention periods); in the latter case, the deletion will take place after these reasons cease to apply.',
@@ -125,6 +129,10 @@ export const LEGAL_EN = {
       recipients: {
         title: 'Recipients of Personal Data',
         text: 'In the course of our business activities, we work with various external bodies. In some cases, this also requires the transfer of personal data to these external bodies. We only pass on personal data to external bodies if this is necessary for the performance of a contract, if we are legally obliged to do so (e.g., passing on data to tax authorities), if we have a legitimate interest in passing it on according to Art. 6 para. 1 lit. f GDPR, or if another legal basis allows the data to be passed on. When using processors, we only pass on personal data of our customers on the basis of a valid contract for order processing. In the case of joint processing, a contract for joint processing is concluded.',
+      },
+      externalThirdPartyLinks: {
+        title: 'External links to third-party providers',
+        text: 'This website contains links to external websites of third parties. These links are provided exclusively as regular links. When visiting our website, no content from these external providers is embedded and no data transfer to these providers is initiated by our website. Only when you actively click on such a link do you leave our website, and the respective third-party provider may process personal data. The privacy policies of the respective providers apply to any further processing of personal data by external providers.',
       },
       revocation: {
         title: 'Revocation of Your Consent to Data Processing',
