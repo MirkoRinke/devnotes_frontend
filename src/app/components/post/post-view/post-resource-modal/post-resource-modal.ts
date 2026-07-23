@@ -4,6 +4,7 @@ import type { PostResourceModalInterface, PostResourceType } from '../../../../i
 
 import { ApiService } from '../../../../services/api.service';
 import { AuthService } from '../../../../services/auth.service';
+import { LocalConsentService } from '../../../../services/local-consent.service';
 import { SvgIconsService } from '../../../../services/svg.icons.service';
 
 import { ApiEndpointEnums } from '../../../../enums/api-endpoint';
@@ -25,6 +26,7 @@ export class PostResourceModal {
     public svgIconsService: SvgIconsService,
     private apiService: ApiService,
     private authService: AuthService,
+    private localConsentService: LocalConsentService,
   ) {}
 
   onClose() {
@@ -32,10 +34,15 @@ export class PostResourceModal {
   }
 
   enableExternalContent(type: PostResourceType, hours: number) {
+    if (!this.authService.isLoggedIn()) {
+      this.handleGuestConsent(type, hours);
+      return;
+    }
+
     /**
-     * Prevent multiple requests and ensure user is logged in and type is valid
+     * Prevent multiple requests if the user clicks the button multiple times or if the type is null (which means no external content type is selected).
      */
-    if (this.isProcessing || !this.authService.isLoggedIn() || type === null) {
+    if (this.isProcessing || type === null) {
       return;
     }
 
@@ -57,6 +64,27 @@ export class PostResourceModal {
         this.isProcessing = false;
       },
     });
+  }
+
+  /**
+   * Handles the consent for guest users by saving their preference in local storage and emitting an event to enable external content.
+   *
+   * @param type
+   * @param hours
+   * @returns
+   */
+  handleGuestConsent(type: PostResourceType, hours: number) {
+    if (type === null) return;
+    const capitalizedType = type.charAt(0).toUpperCase() + type.slice(1);
+    const localStorageName = `X-Show-External-${capitalizedType}`;
+
+    const data = {
+      type: type,
+    };
+
+    this.localConsentService.saveLocalConsent(localStorageName, hours, data);
+
+    this.externalContentEnabled.emit(type);
   }
 
   /**
