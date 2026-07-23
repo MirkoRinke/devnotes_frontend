@@ -36,7 +36,7 @@ export const LEGAL_DE = {
   },
   Privacy: {
     title: 'Datenschutzerklärung',
-    lastUpdated: 'Stand: 14.07.2026',
+    lastUpdated: 'Stand: 23.07.2026',
     dataProtectionAtAGlance: {
       title: '1. Datenschutz auf einen Blick',
       generalNotes: {
@@ -184,28 +184,93 @@ export const LEGAL_DE = {
   Terms: {
     header: {
       title: 'Nutzungsbedingungen',
-      lastUpdated: 'Stand: 14.07.2026',
+      lastUpdated: 'Stand: 23.07.2026',
     },
     sections: {
-      about: {
-        title: '1. Worum geht es hier?',
-        text: 'DevNotes ist ein privates Lernprojekt und eine Wissensplattform, die sich aktuell in der Entwicklung befindet (Pre-MVP-Status). Diese Plattform dient dem Austausch von Notizen und Artikeln rund um die Softwareentwicklung.',
+      platform: {
+        title: '1. Gegenstand der Plattform',
+        knowledgePlatform: {
+          label: 'Wissensplattform:',
+          text: 'Die Plattform dient dem Austausch und der Weitergabe von Wissen rund um die Softwareentwicklung.',
+        },
+        noGuarantee: {
+          label: 'Keine Verfügbarkeitsgarantie:',
+          text: 'Da es sich um ein unentgeltliches Freizeit- und Lernprojekt handelt, wird zu keinerlei ständiger Verfügbarkeit oder Fehlerfreiheit verpflichtet. Die Nutzung erfolgt auf eigenes Risiko. Der Dienst kann jederzeit angepasst, unterbrochen oder eingestellt werden.',
+        },
       },
       registration: {
-        title: '2. Registrierung und Nutzung',
-        text: 'Um Inhalte zu erstellen und mit anderen zu interagieren, ist eine Registrierung erforderlich. Mit deiner Registrierung stimmst du diesen einfachen Nutzungsbedingungen zu. Bitte gehe sorgsam mit deinen Zugangsdaten um.',
+        title: '2. Registrierung und Benutzerkonto',
+        credentials: {
+          label: 'Zugangsdaten:',
+          text: 'Für das Erstellen von Inhalten und aktive Interaktionen ist ein Benutzerkonto erforderlich. Du bist verpflichtet, deine Zugangsdaten geheim zu halten und vor dem Zugriff durch Dritte zu schützen.',
+        },
       },
-      copyright: {
-        title: '3. Deine Inhalte und das Urheberrecht',
-        text: 'Die von dir erstellten Inhalte (Posts, Notizen etc.) gehören dir. Du behältst das volle Urheberrecht. Damit deine Inhalte auf der Plattform angezeigt werden können, räumst du DevNotes das einfache und unwiderrufliche Recht ein, sie im Rahmen des Plattformbetriebs zu nutzen und darzustellen.',
+      userContent: {
+        title: '3. Nutzergenerierte Inhalte und Nutzungsrechte',
+        publicVisibility: {
+          label: 'Öffentliche Sichtbarkeit:',
+          text: 'Öffentliche Beiträge und Inhalte können von jedermann (auch ohne Registrierung) im Rahmen der Plattform eingesehen werden.',
+        },
+        ownershipAndLicense: {
+          label: 'Eigentum und Lizenz:',
+          text: 'Die von dir erstellten Inhalte verbleiben in deinem Urheberrecht. Du räumst dem Betreiber das erforderliche Recht ein, diese Inhalte für den Betrieb, die Darstellung, Speicherung, Archivierung und Weiterentwicklung der Plattform zu verwenden sowie öffentlich zugänglich zu machen.',
+        },
+        communitySpirit: {
+          label: 'Community-Gedanke:',
+          text: 'Da die Plattform dem Wissensaustausch dient, stimmst du zu, dass andere Nutzer öffentlich bereitgestellte Inhalte einsehen und das darin enthaltene Wissen für eigene Lern-, Entwicklungs- und Projektzwecke nutzen dürfen. Die Nutzung erfolgt unter Beachtung der Rechte der jeweiligen Urheber. Eine vollständige Übernahme oder Weiterveröffentlichung fremder Inhalte als eigene Werke ist hiervon nicht umfasst.',
+        },
+        responsibility: {
+          label: 'Eigenverantwortung & Rechtmäßigkeit:',
+          text: 'Du bist allein dafür verantwortlich, dass deine erstellten Inhalte (inklusive verwendeter externer Links) zum Zeitpunkt ihrer Erstellung und Veröffentlichung nicht gegen geltendes Recht verstoßen, keine offensichtlich illegalen Inhalte verbreiten und keine unzulässigen personenbezogenen Daten (weder von dir noch von Dritten) enthalten.',
+        },
       },
-      fairplay: {
-        title: '4. Fairplay, Datenschutz und Haftung',
-        text: 'Sei respektvoll im Umgang mit anderen. Inhalte, die gegen geltendes Recht verstoßen oder beleidigend sind, haben hier keinen Platz. Veröffentliche keine personenbezogenen Daten weder deine eigenen noch die von Dritten. Die auf DevNotes geteilten Informationen und Code-Beispiele stammen von der Community. Obwohl wir uns um Qualität bemühen, können wir keine Garantie für die Richtigkeit oder Aktualität der Inhalte übernehmen. Die Nutzung erfolgt auf dein eigenes Risiko.',
+      contentAfterDeletion: {
+        title: '4. Umgang mit Inhalten nach Account-Löschung',
+        transferToSystem: {
+          label: 'Übertragung auf Systemkonto:',
+          text: 'Wenn du deinen Account löschst, ohne vorher deine öffentlichen Beiträge zu entfernen, bleiben diese als Teil der Plattform erhalten und werden einem neutralen Systemkonto zugeordnet.',
+        },
+        nonPublicContent: {
+          label: 'Nicht-öffentliche Inhalte:',
+          text: 'Alle nicht-öffentlichen Beiträge werden bei einer Account-Löschung vollständig gelöscht.',
+        },
+        subsequentCorrections: {
+          label: 'Nachträgliche Korrekturen:',
+          text: 'Solltest du nach einer Account-Löschung feststellen, dass ein von dir veröffentlichter öffentlicher Beitrag versehentlich personenbezogene Daten enthält, auf die du selbst keinen Zugriff mehr hast, kannst du dich zur nachträglichen Entfernung oder Korrektur an den Support wenden.',
+        },
       },
-      amendments: {
-        title: '5. Änderungen und Schlussworte',
-        text: 'Da sich das Projekt ständig weiterentwickelt, können sich diese Nutzungsbedingungen in Zukunft ändern. Sollte das passieren, werden wir darauf hinweisen. Es gilt deutsches Recht.',
+      moderation: {
+        title: '5. Moderation, Verhaltensregeln und Hausrecht',
+        prohibitedContent: {
+          label: 'Verbotene Inhalte:',
+          text: 'Es ist insbesondere untersagt, rechtswidrige, beleidigende, diskriminierende, volksverhetzende, gewaltverherrlichende oder urheberrechtsverletzende Inhalte zu veröffentlichen.',
+        },
+        moderationAndBlocking: {
+          label: 'Moderation & Sperrung:',
+          text: 'Der Betreiber behält sich das Recht vor, Beiträge oder Kommentare bei Verstößen gegen diese Nutzungsbedingungen, geltendes Recht oder bei berechtigten Hinweisen auf Rechtsverletzungen oder missbräuchliche Nutzung zu bearbeiten, einzuschränken oder zu löschen. Darüber hinaus kann der Betreiber Benutzerkonten bei schweren oder wiederholten Verstößen gegen diese Nutzungsbedingungen zeitweise einschränken oder dauerhaft sperren.',
+        },
+      },
+      externalContent: {
+        title: '6. Externe Inhalte und Verlinkungen',
+        manualActivation: {
+          label: 'Manuelle Freischaltung:',
+          text: 'Beiträge können Verweise zu externen Webseiten und Ressourcen enthalten. Diese werden nicht automatisch geladen oder eingebunden. Stattdessen wird zunächst lediglich die Zieladresse beziehungsweise Quelldomain angezeigt. Der Aufruf externer Inhalte erfolgt ausschließlich durch eine aktive Handlung des Nutzers über eine bereitgestellte Verlinkung. Für Inhalte externer Webseiten sind ausschließlich deren jeweilige Betreiber verantwortlich.',
+        },
+      },
+      disclaimer: {
+        title: '7. Haftungsausschluss',
+        thirdPartyContent: {
+          label: 'Inhalte Dritter:',
+          text: 'Der Betreiber übernimmt keine Gewähr oder Haftung für die Richtigkeit, Vollständigkeit, Aktualität oder Sicherheit der durch die Community bereitgestellten Inhalte.',
+        },
+        exclusion: {
+          label: 'Ausschluss:',
+          text: 'Jegliche Haftung für Schäden, die durch die Nutzung der kostenlosen Plattform oder durch von Nutzern bereitgestellte Inhalte entstehen, ist im gesetzlich zulässigen Rahmen ausgeschlossen. Gesetzliche Haftungsansprüche, insbesondere bei Vorsatz, grober Fahrlässigkeit oder zwingenden gesetzlichen Vorschriften, bleiben hiervon unberührt.',
+        },
+        amendments: {
+          label: 'Änderungen:',
+          text: 'Diese Nutzungsbedingungen können bei Weiterentwicklung der Plattform angepasst werden; in diesem Fall wird der Benutzer darauf hingewiesen. Es gilt deutsches Recht.',
+        },
       },
     },
   },

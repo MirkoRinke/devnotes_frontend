@@ -4,25 +4,42 @@ export interface TermsMessagesInterface {
     lastUpdated: string;
   };
   sections: {
-    about: {
+    platform: {
       title: string;
-      text: string;
+      knowledgePlatform: { label: string; text: string };
+      noGuarantee: { label: string; text: string };
     };
     registration: {
       title: string;
-      text: string;
+      credentials: { label: string; text: string };
     };
-    copyright: {
+    userContent: {
       title: string;
-      text: string;
+      publicVisibility: { label: string; text: string };
+      ownershipAndLicense: { label: string; text: string };
+      communitySpirit: { label: string; text: string };
+      responsibility: { label: string; text: string };
     };
-    fairplay: {
+    contentAfterDeletion: {
       title: string;
-      text: string;
+      transferToSystem: { label: string; text: string };
+      nonPublicContent: { label: string; text: string };
+      subsequentCorrections: { label: string; text: string };
     };
-    amendments: {
+    moderation: {
       title: string;
-      text: string;
+      prohibitedContent: { label: string; text: string };
+      moderationAndBlocking: { label: string; text: string };
+    };
+    externalContent: {
+      title: string;
+      manualActivation: { label: string; text: string };
+    };
+    disclaimer: {
+      title: string;
+      thirdPartyContent: { label: string; text: string };
+      exclusion: { label: string; text: string };
+      amendments: { label: string; text: string };
     };
   };
 }

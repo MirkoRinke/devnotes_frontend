@@ -36,7 +36,7 @@ export const LEGAL_EN = {
   },
   Privacy: {
     title: 'Privacy Policy',
-    lastUpdated: 'Last updated: 2026-07-14',
+    lastUpdated: 'Last updated: 2026-07-23',
     dataProtectionAtAGlance: {
       title: '1. Data Protection at a Glance',
       generalNotes: {
@@ -183,29 +183,94 @@ export const LEGAL_EN = {
   },
   Terms: {
     header: {
-      title: 'Terms of Use',
-      lastUpdated: 'Last updated: 2026-07-14',
+      title: 'Terms of Service',
+      lastUpdated: 'Last updated: 2026-07-23',
     },
     sections: {
-      about: {
-        title: '1. What is this about?',
-        text: 'DevNotes is a private learning project and knowledge platform currently under development (pre-MVP status). This platform is for sharing notes and articles about software development.',
+      platform: {
+        title: '1. Scope of the Platform',
+        knowledgePlatform: {
+          label: 'Knowledge Platform:',
+          text: 'The platform is dedicated to the exchange and sharing of knowledge related to software development.',
+        },
+        noGuarantee: {
+          label: 'No Availability Guarantee:',
+          text: 'As this is a free-time and learning project provided free of charge, no commitment is made to any permanent availability or freedom from errors. Use is at your own risk. The service may be modified, interrupted, or discontinued at any time.',
+        },
       },
       registration: {
-        title: '2. Registration and Use',
-        text: 'Registration is required to create content and interact with others. By registering, you agree to these simple terms of use. Please handle your access data with care.',
+        title: '2. Registration and User Account',
+        credentials: {
+          label: 'Login Credentials:',
+          text: 'A user account is required to create content and engage in active interactions. You are obligated to keep your login credentials confidential and to protect them from access by third parties.',
+        },
       },
-      copyright: {
-        title: '3. Your Content and Copyright',
-        text: "The content you create (posts, notes, etc.) belongs to you. You retain full copyright. To allow your content to be displayed on the platform, you grant DevNotes the simple and irrevocable right to use and display it within the scope of the platform's operation.",
+      userContent: {
+        title: '3. User-Generated Content and Usage Rights',
+        publicVisibility: {
+          label: 'Public Visibility:',
+          text: 'Public posts and content can be viewed by anyone (even without registration) within the scope of the platform.',
+        },
+        ownershipAndLicense: {
+          label: 'Ownership and License:',
+          text: 'The content you create remains protected by your copyright. You grant the operator the necessary right to use this content for the operation, display, storage, archiving, and further development of the platform, as well as to make it publicly accessible.',
+        },
+        communitySpirit: {
+          label: 'Community Spirit:',
+          text: "As the platform is dedicated to the exchange of knowledge, you agree that other users may view publicly provided content and use the knowledge contained therein for their own learning, development, and project purposes. Such use is subject to the rights of the respective authors. This does not include the complete copying or republication of third-party content as one's own work.",
+        },
+        responsibility: {
+          label: 'Personal Responsibility & Legality:',
+          text: 'You are solely responsible for ensuring that the content you create (including any external links used) does not violate applicable law at the time of its creation and publication, does not contain any obviously illegal content, and does not contain any impermissible personal data (neither your own nor that of third parties).',
+        },
       },
-      fairplay: {
-        title: '4. Fair Play, Data Protection, and Liability',
-        text: 'Be respectful when interacting with others. Content that violates applicable law or is offensive has no place here. Do not publish any personal data neither your own nor that of third parties. The information and code examples shared on DevNotes come from the community. Although we strive for quality, we cannot guarantee the accuracy or timeliness of the content. Use is at your own risk.',
+      contentAfterDeletion: {
+        title: '4. Handling of Content After Account Deletion',
+        transferToSystem: {
+          label: 'Transfer to System Account:',
+          text: 'If you delete your account without first removing your public posts, those posts will remain as part of the platform and will be assigned to a neutral system account.',
+        },
+        nonPublicContent: {
+          label: 'Non-Public Content:',
+          text: 'All non-public posts will be permanently deleted upon account deletion.',
+        },
+        subsequentCorrections: {
+          label: 'Subsequent Corrections:',
+          text: 'If, after deleting your account, you discover that a public post you published inadvertently contains personal data that you no longer have access to, you may contact support to request the subsequent removal or correction of the affected content.',
+        },
       },
-      amendments: {
-        title: '5. Amendments and Final Words',
-        text: 'As the project is constantly evolving, these terms of use may change in the future. If that happens, we will provide notice. German law applies.',
+      moderation: {
+        title: '5. Moderation, Rules of Conduct, and Platform Authority',
+        prohibitedContent: {
+          label: 'Prohibited Content:',
+          text: 'In particular, it is prohibited to publish content that is illegal, offensive, discriminatory, inciting to hatred, glorifying violence, or infringing on copyright.',
+        },
+        moderationAndBlocking: {
+          label: 'Moderation & Blocking:',
+          text: 'The operator reserves the right to edit, restrict, or delete posts or comments in the event of violations of these terms of use, applicable law, or upon justified reports of legal violations or abusive use. Furthermore, the operator may temporarily restrict or permanently block user accounts in the event of serious or repeated violations of these terms of use.',
+        },
+      },
+      externalContent: {
+        title: '6. External Content and Links',
+        manualActivation: {
+          label: 'Manual Activation:',
+          text: 'Posts may contain links to external websites and resources. These are not automatically loaded or embedded. Instead, only the target address or source domain is initially displayed. External content is only accessed when the user actively follows a provided link. The respective operators of external websites are solely responsible for their content.',
+        },
+      },
+      disclaimer: {
+        title: '7. Disclaimer',
+        thirdPartyContent: {
+          label: 'Third-Party Content:',
+          text: 'The operator assumes no liability for the accuracy, completeness, timeliness, or security of content provided by the community.',
+        },
+        exclusion: {
+          label: 'Exclusion of Liability:',
+          text: 'Any liability for damages arising from the use of the free platform or from content provided by users is excluded to the extent permitted by law. Statutory liability claims, in particular in cases of intent, gross negligence, or mandatory statutory provisions, remain unaffected.',
+        },
+        amendments: {
+          label: 'Amendments:',
+          text: 'These terms of use may be updated as the platform continues to develop; in such cases, users will be notified. German law applies.',
+        },
       },
     },
   },
