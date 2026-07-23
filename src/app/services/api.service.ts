@@ -7,6 +7,7 @@ import { AuthService } from './auth.service';
 import { environment } from '../../environments/environment';
 
 import { ApiErrorHandlingService } from './api-error-handling.service';
+import { LocalConsentService } from './local-consent.service';
 import type { BackendErrorResponseInterface } from '../interfaces/error-handling';
 
 @Injectable({
@@ -22,6 +23,7 @@ export class ApiService {
   constructor(
     private http: HttpClient,
     private authService: AuthService,
+    private localConsentService: LocalConsentService,
     private apiErrorHandlingService: ApiErrorHandlingService,
   ) {}
 
@@ -92,15 +94,16 @@ export class ApiService {
   }
 
   /**
-   * Adds authentication headers to the provided HttpHeaders object if the user is logged in.
+   * Adds authentication headers to the provided HttpHeaders object based on the user's login status and local consent preferences.
    *
-   * @param headers The HttpHeaders object to which authentication headers will be added.
-   * @returns The updated HttpHeaders object with authentication headers if the user is logged in.
+   * @param headers
+   * @returns
    */
   authenticationHeader(headers: HttpHeaders): HttpHeaders {
     if (this.authService.isLoggedIn()) {
       const token = this.authService.getToken();
       const deviceFingerprint = this.authService.getDeviceFingerprint();
+
       if (token) {
         headers = headers.set('Authorization', `Bearer ${token}`);
       }
@@ -109,6 +112,21 @@ export class ApiService {
       }
     }
 
+    if (!this.authService.isLoggedIn()) {
+      const showExternalImages = this.localConsentService.hasLocalConsent('X-Show-External-Images');
+      const showExternalVideos = this.localConsentService.hasLocalConsent('X-Show-External-Videos');
+      const showExternalResources = this.localConsentService.hasLocalConsent('X-Show-External-Resources');
+
+      if (showExternalImages) {
+        headers = headers.set('X-Show-External-Images', 'true');
+      }
+      if (showExternalVideos) {
+        headers = headers.set('X-Show-External-Videos', 'true');
+      }
+      if (showExternalResources) {
+        headers = headers.set('X-Show-External-Resources', 'true');
+      }
+    }
     return headers;
   }
 
