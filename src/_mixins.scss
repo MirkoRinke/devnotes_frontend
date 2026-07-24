@@ -133,19 +133,26 @@
   }
 }
 
-@mixin dropdown-values($item-spacing-vertical: px-to-rem(10), $item-spacing-horizontal: px-to-rem(15), $border-radius: px-to-rem(15), $font-size: 14, $orientation: left, $z-index: 10) {
+@mixin dropdown-values($border-radius: px-to-rem(15), $docked: true, $orientation: left, $z-index: 10) {
   .values {
     @include display-flex(start, start, column);
-    width: 100%;
 
     color: var(--font-primary-color-100);
 
     background-color: var(--page-primary-color-100);
 
     border: 2px solid var(--font-primary-color-50);
-    border-top: unset;
-    border-bottom-left-radius: $border-radius;
-    border-bottom-right-radius: $border-radius;
+
+    @if ($docked == true) {
+      border-top: unset;
+      border-bottom-left-radius: $border-radius;
+      border-bottom-right-radius: $border-radius;
+      width: 100%;
+    } @else {
+      margin-top: px-to-rem(15);
+      border-radius: $border-radius;
+      width: max-content;
+    }
 
     position: absolute;
     top: 100%;
@@ -180,12 +187,10 @@
     } @else {
       @include dropdown-animations($origin: top, $translateX: 0%);
     }
-
-    @include value-list-item($item-spacing-vertical, $item-spacing-horizontal, $font-size, $height: unset, $width: 100%);
   }
 }
 
-@mixin dropside-values($item-spacing-vertical: px-to-rem(10), $item-spacing-horizontal: px-to-rem(15), $border-radius: px-to-rem(15), $font-size: 14, $orientation: left, $z-index: 10) {
+@mixin dropside-values($border-radius: px-to-rem(15), $orientation: left, $z-index: 10) {
   .values {
     @include display-flex(center, center, row);
     width: max-content;
@@ -196,22 +201,25 @@
     background-color: var(--page-primary-color-100);
 
     border: 2px solid var(--font-primary-color-50);
-    border-radius: $border-radius;
-    border-top-left-radius: unset;
-    border-bottom-left-radius: unset;
-
-    margin-left: px-to-rem(20);
+    @if $orientation == right {
+      border-radius: $border-radius;
+      border-top-left-radius: unset;
+      border-bottom-left-radius: unset;
+    } @else if $orientation == left {
+      border-radius: $border-radius;
+      border-top-right-radius: unset;
+      border-bottom-right-radius: unset;
+    }
 
     position: absolute;
-    top: 0;
-
-    @if $orientation == left {
+    @if $orientation == right {
+      margin-left: px-to-rem(20);
+      top: 0;
       left: 0;
-    } @else if $orientation == right {
-      right: 0;
-    } @else if $orientation == center {
-      left: 50%;
-      transform: translateX(-50%);
+    } @else if $orientation == left {
+      margin-right: px-to-rem(-20);
+      top: 0;
+      right: 100%;
     }
 
     z-index: $z-index;
@@ -229,25 +237,23 @@
       width: 100%;
     }
 
-    @if $orientation == center {
-      @include dropdown-animations($origin: left, $transform-scale-axis: 'X', $translateX: -50%);
-    } @else {
+    @if $orientation == right {
       @include dropdown-animations($origin: left, $transform-scale-axis: 'X', $translateX: 0%);
+    } @else if $orientation == left {
+      @include dropdown-animations($origin: right, $transform-scale-axis: 'X', $translateX: 0%);
     }
-
-    @include value-list-item($item-spacing-vertical, $item-spacing-horizontal, $font-size, px-to-rem(50), max-content);
   }
 }
 
-@mixin value-list-item($item-spacing-vertical: px-to-rem(10), $item-spacing-horizontal: px-to-rem(15), $font-size: 14, $height: 100%, $width: 100%) {
+@mixin value-list-item($item-spacing-vertical: px-to-rem(10), $item-spacing-horizontal: px-to-rem(15), $font-size: 16, $height: 100%, $width: 100%, $justify-content: space-between) {
   .value {
     @include button-preset();
-    @include display-flex(center, space-between);
+    @include display-flex(center, $justify-content);
     @include font-settings($font-size, 400);
     gap: px-to-rem(10);
     text-align: left;
-    height: $height;
-    width: $width;
+    height: convert-to-rem-if-needed($height);
+    width: convert-to-rem-if-needed($width);
     color: var(--font-primary-color-100);
     padding-inline: $item-spacing-horizontal;
     padding-block: $item-spacing-vertical;
@@ -268,6 +274,14 @@
     .count {
       color: var(--font-primary-color-100);
     }
+  }
+}
+
+@mixin divider($color: var(--font-primary-color-50), $height: 2px, $width: 100%) {
+  .divider {
+    width: convert-to-rem-if-needed($width);
+    height: convert-to-rem-if-needed($height);
+    background-color: $color;
   }
 }
 
