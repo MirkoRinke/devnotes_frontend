@@ -1,0 +1,27 @@
+@use '../../../../functions' as *;
+@use '../../../../var' as var;
+@use '../../../../mixins' as *;
+
+@include dropdown-values($docked: false, $orientation: right);
+
+@include value-list-item($item-spacing-vertical: px-to-rem(15), $item-spacing-horizontal: px-to-rem(15), $height: unset, $width: 100%, $justify-content: left);
+
+.values {
+  @include divider();
+
+  .value {
+    gap: px-to-rem(15);
+
+    .icon-container {
+      @include display-flex(center);
+      width: px-to-rem(20);
+      height: px-to-rem(20);
+
+      &::ng-deep .icon {
+        width: 100%;
+        width: 100%;
+        fill: var(--font-primary-color-50);
+      }
+    }
+  }
+}

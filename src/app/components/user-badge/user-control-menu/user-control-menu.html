@@ -1,0 +1,46 @@
+@if (user) {
+  <div
+    class="values"
+    [class.active]="isUserBadgeMenuOpen"
+    [class.animated-in]="isUserBadgeMenuAnimating"
+    [class.animated-out]="!isUserBadgeMenuAnimating"
+    (animationend)="onAnimationEnd($event)"
+  >
+    <button
+      class="value"
+      [routerLink]="['/user-profile', user.id]"
+      (click)="onClose()"
+    >
+      <span
+        class="icon-container"
+        [innerHTML]="svgIconsService.returnIcon('user_profile', 'icon')"
+      ></span
+      >Mein Profil
+    </button>
+    <button class="value">
+      <span
+        class="icon-container"
+        [innerHTML]="svgIconsService.returnIcon('user_settings', 'icon')"
+      ></span
+      >Avatar & Konto
+    </button>
+    <button class="value">
+      <span
+        class="icon-container"
+        [innerHTML]="svgIconsService.returnIcon('app_settings', 'icon')"
+      ></span
+      >Einstellungen
+    </button>
+    <span class="divider"></span>
+    <button
+      class="value"
+      (click)="logoutService.logout()"
+    >
+      <span
+        class="icon-container"
+        [innerHTML]="svgIconsService.returnIcon('logout', 'icon')"
+      ></span
+      >Abmelden
+    </button>
+  </div>
+}
