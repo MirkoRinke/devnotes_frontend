@@ -1,15 +1,5 @@
 <header class="app-header">
   <a [routerLink]="'/'">Home</a>
   <app-page-navigation></app-page-navigation>
-
-  <!--TODO This is only a placeholder for now, needs to be replaced with a extra component for the user profile and settings-->
-  @if (authService.isLoggedIn()) {
-    <a
-      style="cursor: pointer"
-      (click)="logoutService.logout()"
-      >Logout</a
-    >
-  } @else {
-    <a [routerLink]="'/login'">Login</a>
-  }
+  <app-user-control-area></app-user-control-area>
 </header>
