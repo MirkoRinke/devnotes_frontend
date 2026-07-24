@@ -10,7 +10,9 @@
     gap: px-to-rem(10);
 
     &:hover {
-      cursor: pointer;
+      &.menu-active {
+        cursor: pointer;
+      }
 
       .avatar img {
         transform: scale(1.1);

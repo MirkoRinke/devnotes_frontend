@@ -14,8 +14,9 @@
 
   <div class="user-badge-component">
     <div
-      (click)="toggleBadgeMenu()"
+      (click)="menuActive ? toggleBadgeMenu() : null"
       class="user-badge"
+      [class.menu-active]="menuActive"
     >
       <div class="avatar">
         <img
@@ -27,14 +28,26 @@
       <span class="display-name">{{ user.display_name }}</span>
     </div>
 
-    @if (isUserBadgeMenuOpen) {
-      <app-user-badge-menu
-        [user]="user"
-        [isUserBadgeMenuOpen]="isUserBadgeMenuOpen"
-        [isUserBadgeMenuAnimating]="isUserBadgeMenuAnimating"
-        (closeMenu)="closeBadgeMenu()"
-        (openReportModal)="openReportModal()"
-      ></app-user-badge-menu>
+    @if (menuActive) {
+      @if (isUserBadgeMenuOpen && userBadgeContext !== 'profile') {
+        <app-user-badge-menu
+          [user]="user"
+          [isUserBadgeMenuOpen]="isUserBadgeMenuOpen"
+          [isUserBadgeMenuAnimating]="isUserBadgeMenuAnimating"
+          (closeMenu)="closeBadgeMenu()"
+          (openReportModal)="openReportModal()"
+        ></app-user-badge-menu>
+      }
+
+      @if (isUserBadgeMenuOpen && userBadgeContext === 'profile') {
+        <app-user-control-menu
+          [user]="user"
+          [isUserBadgeMenuOpen]="isUserBadgeMenuOpen"
+          [isUserBadgeMenuAnimating]="isUserBadgeMenuAnimating"
+          (closeMenu)="closeBadgeMenu()"
+          (openReportModal)="openReportModal()"
+        ></app-user-control-menu>
+      }
     }
   </div>
 }

@@ -3,10 +3,11 @@ import { Component, Input } from '@angular/core';
 import type { UserInterface } from '../../interfaces/user';
 import { UserBadgeMenu } from './user-badge-menu/user-badge-menu';
 import { ReportModal } from '../report-modal/report-modal';
+import { UserControlMenu } from './user-control-menu/user-control-menu';
 
 @Component({
   selector: 'app-user-badge',
-  imports: [UserBadgeMenu, ReportModal],
+  imports: [UserBadgeMenu, ReportModal, UserControlMenu],
   templateUrl: './user-badge.html',
   styleUrl: './user-badge.scss',
 })
