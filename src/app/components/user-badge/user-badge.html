@@ -12,7 +12,12 @@
     ></app-report-modal>
   }
 
-  <div class="user-badge-component">
+  <div
+    class="user-badge-component"
+    appClickOutsideDirective
+    [clickOutsideEnabled]="isUserBadgeMenuOpen"
+    (clickOutside)="triggerCloseBadgeMenu()"
+  >
     <div
       (click)="menuActive ? toggleBadgeMenu() : null"
       class="user-badge"

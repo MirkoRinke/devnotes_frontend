@@ -5,9 +5,11 @@ import { UserBadgeMenu } from './user-badge-menu/user-badge-menu';
 import { ReportModal } from '../report-modal/report-modal';
 import { UserControlMenu } from './user-control-menu/user-control-menu';
 
+import { ClickOutsideDirective } from '../../directives/click-outside.directive';
+
 @Component({
   selector: 'app-user-badge',
-  imports: [UserBadgeMenu, ReportModal, UserControlMenu],
+  imports: [UserBadgeMenu, ReportModal, UserControlMenu, ClickOutsideDirective],
   templateUrl: './user-badge.html',
   styleUrl: './user-badge.scss',
 })
@@ -47,6 +49,13 @@ export class UserBadge {
    */
   closeBadgeMenu() {
     this.isUserBadgeMenuOpen = false;
+  }
+
+  /**
+   * Close Badge Menu from click outside directive
+   * This method is called when a click outside the badge menu is detected
+   */
+  triggerCloseBadgeMenu() {
     this.isUserBadgeMenuAnimating = false;
   }
 
