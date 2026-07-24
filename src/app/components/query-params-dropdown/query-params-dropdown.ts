@@ -5,13 +5,15 @@ import { take } from 'rxjs/operators';
 import { AvailableValuesService } from '../../services/available-values.service';
 import { SvgIconsService } from '../../services/svg.icons.service';
 
+import { ClickOutsideDirective } from '../../directives/click-outside.directive';
+
 import type { AvailableValuesInterface } from '../../interfaces/available-values';
 
 import { ApiEndpointEnums } from '../../enums/api-endpoint';
 
 @Component({
   selector: 'app-query-params-dropdown',
-  imports: [],
+  imports: [ClickOutsideDirective],
   templateUrl: './query-params-dropdown.html',
   styleUrl: './query-params-dropdown.scss',
 })
@@ -131,6 +133,14 @@ export class QueryParamsDropdown {
       this.showDropdownValues = true;
       requestAnimationFrame(() => (this.showAnimation = true));
     }
+  }
+
+  /**
+   * Closes the dropdown values with an animation
+   * This method is called when a click outside the dropdown is detected
+   */
+  closeDropdown() {
+    this.showAnimation = false;
   }
 
   /**

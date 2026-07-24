@@ -1,5 +1,10 @@
 @if (label != null && defaultValueLabel != null && defaultValue != null && mode != null) {
-  <div class="dropdown-component">
+  <div
+    class="dropdown-component"
+    appClickOutsideDirective
+    [clickOutsideEnabled]="showDropdownValues"
+    (clickOutside)="closeDropdown()"
+  >
     <div class="dropdown">
       <button
         type="button"
