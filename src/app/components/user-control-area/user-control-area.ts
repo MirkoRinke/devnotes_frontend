@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject, DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 
@@ -8,9 +9,11 @@ import { AuthService } from '../../services/auth.service';
 import { ApiService } from '../../services/api.service';
 import { ApiErrorHandlingService } from '../../services/api-error-handling.service';
 
+import { AuthStorageService } from '../../services/auth-storage.service';
+
 import { ApiEndpointEnums } from '../../enums/api-endpoint';
 
-import type { BackendErrorResponseInterface, BusinessActionInterface, ParamsInterface } from '../../interfaces/error-handling';
+import type { BackendErrorResponseInterface, BusinessActionInterface } from '../../interfaces/error-handling';
 import type { ApiResponseObjektInterface } from '../../interfaces/api-response';
 import type { UserInterface } from '../../interfaces/user';
 import { UserBadge } from '../user-badge/user-badge';
@@ -22,9 +25,12 @@ import { UserBadge } from '../user-badge/user-badge';
   styleUrl: './user-control-area.scss',
 })
 export class UserControlArea {
+  private destroyRef = inject(DestroyRef);
+
   constructor(
     private apiService: ApiService,
     public authService: AuthService,
+    private authStorageService: AuthStorageService,
     private apiErrorHandlingService: ApiErrorHandlingService,
     private router: Router,
   ) {}
@@ -33,7 +39,15 @@ export class UserControlArea {
   necessaryUserFields: string = 'display_name,avatar_items,avatar_mvp_id';
 
   ngOnInit(): void {
-    this.getUser();
+    this.subscribeLoginState();
+  }
+
+  /**
+   * Subscribes to the authentication state changes and fetches the current user's data when the authentication state changes.
+   * The BehaviorSubject immediately emits its initial value upon subscription. We intentionally use this as the initial trigger for getUser()
+   */
+  subscribeLoginState() {
+    this.authStorageService.authChanged$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => this.getUser());
   }
 
   /**
