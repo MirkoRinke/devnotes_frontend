@@ -17,7 +17,11 @@
       ></span
       >Mein Profil
     </button>
-    <button class="value">
+    <button
+      class="value"
+      [routerLink]="['/user-settings']"
+      (click)="onClose()"
+    >
       <span
         class="icon-container"
         [innerHTML]="svgIconsService.returnIcon('user_settings', 'icon')"
