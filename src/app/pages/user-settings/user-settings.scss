@@ -1,0 +1,7 @@
+@use '../../../functions' as *;
+@use '../../../var' as var;
+@use '../../../mixins' as *;
+
+.user-settings-page {
+  @include display-flex($justify: center, $gap: px-to-rem(25));
+}
