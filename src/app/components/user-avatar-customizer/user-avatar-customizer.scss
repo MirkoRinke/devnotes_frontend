@@ -1,0 +1,8 @@
+@use '../../../functions' as *;
+@use '../../../var' as var;
+@use '../../../mixins' as *;
+
+.user-avatar-customizer {
+  @include display-flex($align: center, $direction: column, $gap: px-to-rem(25));
+  @include context-box($max-width: 700px, $width: 700px, $max-height: 700px, $height: 100%);
+}
