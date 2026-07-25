@@ -467,14 +467,15 @@
   }
 }
 
-@mixin context-box($max-width: unset) {
+@mixin context-box($max-width: unset, $width: unset, $max-height: unset, $height: unset) {
   background-color: var(--page-primary-color-100);
   border-radius: px-to-rem(15);
   padding: px-to-rem(25) px-to-rem(50);
 
-  @if $max-width != unset {
-    max-width: convert-to-rem-if-needed($max-width);
-  }
+  max-width: convert-to-rem-if-needed($max-width);
+  width: convert-to-rem-if-needed($width);
+  max-height: convert-to-rem-if-needed($max-height);
+  height: convert-to-rem-if-needed($height);
 }
 
 @mixin content-highlight-box($focus-highlight-class: null) {
