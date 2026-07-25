@@ -3,12 +3,9 @@
 @use '../../../mixins' as *;
 
 .delete-account {
-  @include display-flex($align: center, $direction: column);
-  @include context-box($max-width: 700px);
-  gap: px-to-rem(25);
-
+  @include display-flex($align: center, $direction: column, $gap: px-to-rem(25));
+  @include context-box($max-width: 700px, $width: 700px, $max-height: 700px);
   margin-inline: auto;
-  margin-block: px-to-rem(0) px-to-rem(25);
 
   .header {
     @include display-flex($align: center, $direction: column);
