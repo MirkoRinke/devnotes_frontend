@@ -9,7 +9,7 @@ import { AuthService } from '../../services/auth.service';
 import { ApiService } from '../../services/api.service';
 import { ApiErrorHandlingService } from '../../services/api-error-handling.service';
 
-import { AuthStorageService } from '../../services/auth-storage.service';
+import { UserControlRefreshService } from '../../services/user-control-refresh.service';
 
 import { ApiEndpointEnums } from '../../enums/api-endpoint';
 
@@ -30,7 +30,7 @@ export class UserControlArea {
   constructor(
     private apiService: ApiService,
     public authService: AuthService,
-    private authStorageService: AuthStorageService,
+    private userControlRefreshService: UserControlRefreshService,
     private apiErrorHandlingService: ApiErrorHandlingService,
     private router: Router,
   ) {}
@@ -47,7 +47,7 @@ export class UserControlArea {
    * The BehaviorSubject immediately emits its initial value upon subscription. We intentionally use this as the initial trigger for getUser()
    */
   subscribeLoginState() {
-    this.authStorageService.authChanged$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => this.getUser());
+    this.userControlRefreshService.refresh$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => this.getUser());
   }
 
   /**
