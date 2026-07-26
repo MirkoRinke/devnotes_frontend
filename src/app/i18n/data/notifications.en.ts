@@ -14,6 +14,7 @@ export const NOTIFICATIONS_EN: Notifications = {
         minlength: 'The name must be at least 2 characters long.',
         maxlength: 'The name must be at most 40 characters long.',
         pattern: 'The username may only contain letters (A-Z), numbers, periods, underscores, hyphens, and spaces.',
+        tooMuchWhitespace: 'The username may not contain more than 2 consecutive whitespace characters.',
       },
       display_name: {
         required: 'Enter display name.',

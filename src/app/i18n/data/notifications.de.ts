@@ -14,6 +14,7 @@ export const NOTIFICATIONS_DE: Notifications = {
         minlength: 'Der Name muss mindestens 2 Zeichen lang sein.',
         maxlength: 'Der Name darf maximal 40 Zeichen lang sein.',
         pattern: 'Der Benutzername darf nur aus Buchstaben (A-Z), Zahlen, Punkten, Unterstrichen, Bindestrichen und einfachen Leerzeichen bestehen.',
+        tooMuchWhitespace: 'Der Benutzername darf nicht mehr als 2 aufeinanderfolgende Leerzeichen enthalten.',
       },
       display_name: {
         required: 'Anzeigenamen eingeben.',

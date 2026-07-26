@@ -6,7 +6,7 @@ export interface AuthMessagesInterface {
 
 // #region Error Messages
 interface AuthErrorMessages {
-  name: Pick<AuthFormFieldErrors, 'required' | 'minlength' | 'maxlength' | 'pattern'>;
+  name: Pick<AuthFormFieldErrors, 'required' | 'minlength' | 'maxlength' | 'pattern' | 'tooMuchWhitespace'>;
   display_name: Pick<AuthFormFieldErrors, 'required' | 'minlength' | 'maxlength' | 'pattern'>;
   email: Pick<AuthFormFieldErrors, 'required' | 'email' | 'maxlength'>;
   identifier: Pick<AuthFormFieldErrors, 'required' | 'login_identifier_invalid' | 'maxlength'>;
@@ -28,6 +28,7 @@ interface AuthFormFieldErrors {
   login_identifier_invalid: string;
   delete_account_identifier_invalid: string;
   weakPassword: string;
+  tooMuchWhitespace: string;
 }
 
 interface BaseError {
