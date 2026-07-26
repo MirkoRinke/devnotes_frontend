@@ -1,3 +1,50 @@
-<div class="user-avatar-customizer">
-  <p>user-avatar-customizer works!</p>
-</div>
+<section class="user-avatar-customizer">
+  <h1 class="heading">Avatar Anpassung</h1>
+
+  <div class="avatar-carousel">
+    <button
+      class="prev"
+      (click)="switchAvatar('prev')"
+    >
+      <span [innerHTML]="svgIconsService.returnIcon('arrow_backward', 'direction-icon')"></span>
+    </button>
+
+    <div class="avatar-container">
+      <img
+        class="avatar"
+        (click)="randomizeAvatar()"
+        [src]="avatarMvpPath"
+        alt=""
+      />
+      <span
+        class="dice-icon"
+        [class.shake]="randomizeCount < 10"
+        (click)="randomizeAvatar()"
+        [innerHTML]="svgIconsService.returnIcon('one_dice', 'dice')"
+      ></span>
+    </div>
+
+    <button
+      class="next"
+      (click)="switchAvatar('next')"
+    >
+      <span [innerHTML]="svgIconsService.returnIcon('arrow_forward', 'direction-icon')"></span>
+    </button>
+  </div>
+
+  <div class="avatar-actions">
+    <button
+      class="save"
+      (click)="saveAvatar()"
+    >
+      Speichern
+    </button>
+
+    <button
+      class="reset"
+      (click)="resetAvatar()"
+    >
+      Zurücksetzen
+    </button>
+  </div>
+</section>

@@ -3,6 +3,86 @@
 @use '../../../mixins' as *;
 
 .user-avatar-customizer {
-  @include display-flex($align: center, $direction: column, $gap: px-to-rem(25));
+  @include display-flex($align: center, $direction: column, $gap: px-to-rem(50));
   @include context-box($max-width: 700px, $width: 700px, $max-height: 700px, $height: 100%);
+
+  .heading {
+    @include font-settings($font-size: 32);
+    width: 100%;
+    text-align: left;
+  }
+
+  .avatar-carousel {
+    @include display-flex($gap: px-to-rem(20));
+
+    .prev,
+    .next {
+      @include button-preset();
+
+      &:hover {
+        &::ng-deep .direction-icon {
+          fill: var(--font-primary-color-50);
+        }
+      }
+
+      &::ng-deep .direction-icon {
+        fill: var(--font-primary-color-100);
+        width: px-to-rem(34);
+        height: px-to-rem(34);
+      }
+    }
+
+    .avatar-container {
+      position: relative;
+
+      .avatar {
+        display: block;
+        width: px-to-rem(200);
+        height: px-to-rem(200);
+
+        border-radius: px-to-rem(15);
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+
+      .avatar:hover + .dice-icon {
+        opacity: 1;
+        transition: opacity var.$transition-duration-medium ease-in-out;
+      }
+
+      @include position-absolute('.dice-icon', $top: px-to-rem(10), $right: px-to-rem(10));
+
+      .dice-icon {
+        opacity: 0;
+
+        &:hover {
+          cursor: grabbing;
+          opacity: 1;
+          transition: opacity var.$transition-duration-medium ease-in-out;
+        }
+
+        &.shake {
+          @include shake($suffix: 'dice', $intensity: 2px);
+        }
+
+        &::ng-deep .dice {
+          fill: var(--page-primary-color-100);
+          width: px-to-rem(34);
+          height: px-to-rem(34);
+        }
+      }
+    }
+  }
+
+  .avatar-actions {
+    @include display-flex($gap: px-to-rem(20));
+
+    .save,
+    .reset {
+      @include button-preset();
+      @include button-default-style();
+    }
+  }
 }
