@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { UserControlRefreshService } from './user-control-refresh.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthStorageService {
-  private logged$ = new BehaviorSubject<void>(undefined);
-
-  readonly authChanged$ = this.logged$.asObservable();
+  constructor(private userControlRefreshService: UserControlRefreshService) {}
 
   /**
    * Saves both the access token and user ID to local storage, typically called after a successful login.
@@ -19,7 +17,7 @@ export class AuthStorageService {
   saveLoginData(token: string, userId: number) {
     localStorage.setItem('accessToken', token);
     localStorage.setItem('user_id', userId.toString());
-    this.logged$.next();
+    this.userControlRefreshService.refreshSource$.next();
   }
 
   /**
@@ -29,6 +27,6 @@ export class AuthStorageService {
   clearLoginData() {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('user_id');
-    this.logged$.next();
+    this.userControlRefreshService.refreshSource$.next();
   }
 }
