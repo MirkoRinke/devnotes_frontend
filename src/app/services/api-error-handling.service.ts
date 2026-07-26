@@ -16,15 +16,15 @@ export class ApiErrorHandlingService {
 
   handleApiError(error: BackendErrorResponseInterface): BusinessActionInterface | void {
     switch (error.code) {
-      case 401:
+      case 401: // Unauthorized
         return this.handle401(error);
-      case 403:
+      case 403: // Forbidden
         return this.handle403(error);
-      case 422:
+      case 422: // Unprocessable Entity (Validation Error)
         return this.handle422(error);
-      case 429:
+      case 429: // Too Many Requests
         return this.handle429(error);
-      case 502:
+      case 502: // Bad Gateway (Backend Connection Error)
         return this.handle502(error);
       default:
         return this.handleDefault(error);
@@ -133,6 +133,11 @@ export class ApiErrorHandlingService {
 
       this.authStorageService.clearLoginData();
       this.router.navigate(['/login']);
+      return;
+    }
+
+    if (error.errors === 'AVATAR_NOT_ALLOWED') {
+      this.router.navigate(['/dont-duck-with-me']);
       return;
     }
 
