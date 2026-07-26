@@ -1,0 +1,10 @@
+@use '../../../functions' as *;
+@use '../../../var' as var;
+@use '../../../mixins' as *;
+
+.mvp-pill {
+  @include font-settings($font-size: 16);
+  @include golden-ratio-padding();
+  border-radius: px-to-rem(50);
+  background-color: var(--page-secondary-color-100);
+}
