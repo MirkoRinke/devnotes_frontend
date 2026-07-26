@@ -6,10 +6,15 @@
   @include display-flex($align: center, $direction: column, $gap: px-to-rem(50));
   @include context-box($max-width: 700px, $width: 700px, $max-height: 700px, $height: 100%);
 
-  .heading {
-    @include font-settings($font-size: 32);
+  .header {
+    @include display-flex($align: center, $justify: space-between);
     width: 100%;
-    text-align: left;
+
+    .heading {
+      @include font-settings($font-size: 32);
+      width: 100%;
+      text-align: left;
+    }
   }
 
   .avatar-carousel {

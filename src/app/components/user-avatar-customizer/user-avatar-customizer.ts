@@ -14,10 +14,11 @@ import { ApiEndpointEnums } from '../../enums/api-endpoint';
 import type { BackendErrorResponseInterface, BusinessActionInterface } from '../../interfaces/error-handling';
 import type { ApiResponseObjektInterface } from '../../interfaces/api-response';
 import type { UserInterface } from '../../interfaces/user';
+import { MvpPill } from '../mvp-pill/mvp-pill';
 
 @Component({
   selector: 'app-user-avatar-customizer',
-  imports: [],
+  imports: [MvpPill],
   templateUrl: './user-avatar-customizer.html',
   styleUrl: './user-avatar-customizer.scss',
 })
