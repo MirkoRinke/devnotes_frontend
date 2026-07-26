@@ -18,6 +18,7 @@ import { MyArea } from './pages/my-area/my-area';
 import { UserProfile } from './pages/user-profile/user-profile';
 import { UserSettings } from './pages/user-settings/user-settings';
 import { BadGateway } from './pages/bad-gateway/bad-gateway';
+import { DontDuckWithMe } from './pages/dont-duck-with-me/dont-duck-with-me';
 import { Imprint } from './pages/legal/imprint/imprint';
 import { Privacy } from './pages/legal/privacy/privacy';
 import { Terms } from './pages/legal/terms/terms';
@@ -41,6 +42,7 @@ export const routes: Routes = [
   { path: 'user-profile/:id', component: UserProfile },
   { path: 'user-settings', component: UserSettings },
   { path: 'bad-gateway', component: BadGateway },
+  { path: 'dont-duck-with-me', component: DontDuckWithMe },
   { path: 'legal/imprint', component: Imprint },
   { path: 'legal/privacy', component: Privacy },
   { path: 'legal/terms', component: Terms },
