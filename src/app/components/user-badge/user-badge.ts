@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { SimpleChanges } from '@angular/core';
 
 import type { UserInterface } from '../../interfaces/user';
 import { UserBadgeMenu } from './user-badge-menu/user-badge-menu';
@@ -28,8 +29,10 @@ export class UserBadge {
 
   constructor() {}
 
-  ngOnInit() {
-    this.mvpAvatarPath(this.user);
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['user']) {
+      this.mvpAvatarPath(this.user);
+    }
   }
 
   /**
