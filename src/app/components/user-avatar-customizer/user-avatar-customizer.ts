@@ -25,22 +25,22 @@ import type { UserInterface } from '../../interfaces/user';
 //TODO This is only the MVP Avatar System, before we implement the full Avatar System with items and customization, this is a temporary solution to allow users to select their avatar from a predefined set of avatars.
 export class UserAvatarCustomizer {
   user: UserInterface | null = null;
-  necessaryUserFields: string = 'display_name,avatar_items,avatar_mvp_id,role';
+  necessaryUserFields: string = 'display_name,avatar_mvp_id,role';
 
   currentAvatarID: number = 1;
-  maxAvatarID: number = 20;
+  availableAvatars: number = 20;
 
-  adminAvatarID: number = 999;
-  moderatorAvatarID: number = 998;
+  adminAvatarID: number = 1000;
+  moderatorAvatarID: number = 1001;
+  systemAvatarID: number = 1002;
 
   avatarMvpPath: string | null = null;
-
-  randomizeCount: number = 10;
 
   isLoading: boolean = true;
 
   randomizeTimeout: ReturnType<typeof setTimeout> | null = null;
   landOnCorrectAvatar: boolean = false;
+  randomizeCount: number = 10;
 
   constructor(
     private apiService: ApiService,
@@ -80,7 +80,7 @@ export class UserAvatarCustomizer {
         this.isLoading = false;
         this.user = response.data.data;
         this.landOnCorrectAvatar = true;
-        this.currentAvatarID = this.user?.avatar_mvp_id || 1;
+        this.setCurrentAvatarID();
         this.mvpAvatarPath();
       },
       error: (error) => {
@@ -95,11 +95,52 @@ export class UserAvatarCustomizer {
   }
 
   /**
+   * Sets the current avatar ID based on the user's avatar_mvp_id or defaults to 1 if not set.
+   */
+  setCurrentAvatarID(): void {
+    this.currentAvatarID = this.validAvatarID();
+  }
+
+  /**
+   * Resets the current avatar ID to the user's original avatar ID (or 1 if not set) and updates the avatar path accordingly.
+   */
+  public resetAvatar(): void {
+    this.currentAvatarID = this.validAvatarID();
+    this.mvpAvatarPath();
+  }
+
+  /**
+   * Get the path for the user's MVP avatar
+   *
+   * @param user
+   */
+  mvpAvatarPath(): void {
+    this.avatarMvpPath = `/avatar-mvp/mvp_${this.currentAvatarID}.webp`;
+  }
+
+  /**
+   * Checks if the provided avatar ID is valid based on the defined standard and system avatar IDs.
+   *
+   * @returns The valid avatar ID, which is either the provided avatar ID if valid, or 1 if invalid.
+   */
+  validAvatarID(): number {
+    const avatarMvpId = this.user?.avatar_mvp_id ?? 1;
+    const isStandard = avatarMvpId && avatarMvpId >= 1 && avatarMvpId <= 20;
+    const isSystem = avatarMvpId && (avatarMvpId === this.adminAvatarID || avatarMvpId === this.moderatorAvatarID || avatarMvpId === this.systemAvatarID);
+
+    if (isStandard || isSystem) {
+      return avatarMvpId;
+    } else {
+      return 1;
+    }
+  }
+
+  /**
    * Switches the current avatar ID based on the provided direction ('prev' or 'next') and updates the avatar path accordingly.
    *
    * @param direction
    */
-  public switchAvatar(direction: 'prev' | 'next') {
+  public switchAvatar(direction: 'prev' | 'next'): void {
     const userRole = this.user?.role || null;
     const current = this.currentAvatarID;
     const isSpecialAvatar = current === this.adminAvatarID || current === this.moderatorAvatarID;
@@ -107,7 +148,7 @@ export class UserAvatarCustomizer {
     if (direction === 'next') {
       if (isSpecialAvatar) {
         this.currentAvatarID = 1;
-      } else if (current >= this.maxAvatarID) {
+      } else if (current >= this.availableAvatars) {
         if (userRole === 'admin') this.currentAvatarID = this.adminAvatarID;
         else if (userRole === 'moderator') this.currentAvatarID = this.moderatorAvatarID;
         else this.currentAvatarID = 1;
@@ -118,9 +159,9 @@ export class UserAvatarCustomizer {
       if (current <= 1) {
         if (userRole === 'admin') this.currentAvatarID = this.adminAvatarID;
         else if (userRole === 'moderator') this.currentAvatarID = this.moderatorAvatarID;
-        else this.currentAvatarID = this.maxAvatarID;
+        else this.currentAvatarID = this.availableAvatars;
       } else if (isSpecialAvatar) {
-        this.currentAvatarID = this.maxAvatarID;
+        this.currentAvatarID = this.availableAvatars;
       } else {
         this.currentAvatarID = current - 1;
       }
@@ -135,9 +176,9 @@ export class UserAvatarCustomizer {
    * in quick succession, with a delay of 100 milliseconds between each call, until a specified count is reached.
    * After reaching the count, it resets the randomization count to its initial value.
    */
-  public randomizeAvatar() {
-    const randomAvatarID = Math.floor(Math.random() * this.maxAvatarID) + 1;
-    this.currentAvatarID = randomAvatarID != this.currentAvatarID ? randomAvatarID : (randomAvatarID % this.maxAvatarID) + 1;
+  public randomizeAvatar(): void {
+    const randomAvatarID = Math.floor(Math.random() * this.availableAvatars) + 1;
+    this.currentAvatarID = randomAvatarID != this.currentAvatarID ? randomAvatarID : (randomAvatarID % this.availableAvatars) + 1;
     this.mvpAvatarPath();
 
     if (this.randomizeCount > 0) {
@@ -155,18 +196,6 @@ export class UserAvatarCustomizer {
     }
   }
 
-  public resetAvatar() {
-    this.currentAvatarID = this.user?.avatar_mvp_id || 1;
-    this.mvpAvatarPath();
-  }
-
-  /**
-   * Updates the avatarMvpPath property based on the currentAvatarID, constructing the path to the corresponding avatar image.
-   */
-  public mvpAvatarPath() {
-    this.avatarMvpPath = `/avatar-mvp/mvp_${this.currentAvatarID}.webp`;
-  }
-
   /**
    * Saves the currently selected avatar ID for the user by sending a PATCH request to the API.
    * If the current avatar ID or user ID is null, the function returns early. Upon a successful response, it refreshes the user's control state.
@@ -174,9 +203,7 @@ export class UserAvatarCustomizer {
    *
    * @returns
    */
-  public saveAvatar() {
-    if (this.currentAvatarID === null) return;
-
+  public saveAvatar(): void {
     const user_id = this.authService.getCurrentUserId();
     if (user_id === null) return;
 
@@ -186,10 +213,13 @@ export class UserAvatarCustomizer {
       avatar_mvp_id: this.currentAvatarID,
     };
 
-    console.log(`Sending avatar selection for user ${user_id}:`, data);
-
     this.apiService.patch<ApiResponseObjektInterface<UserInterface>>(url, data).subscribe({
       next: (response) => {
+        if (this.user) {
+          const avatarMvpId = response.data.data.avatar_mvp_id;
+          this.user.avatar_mvp_id = avatarMvpId;
+        }
+
         this.mvpAvatarPath();
         this.userControlRefreshService.refreshSource$.next();
       },

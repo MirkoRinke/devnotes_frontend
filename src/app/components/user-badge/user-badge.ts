@@ -25,20 +25,24 @@ export class UserBadge {
   isReportModalOpen = false;
   isReportModalAnimating = false;
 
+  adminAvatarID: number = 1000;
+  moderatorAvatarID: number = 1001;
+  systemAvatarID: number = 1002;
+
   avatarMvpPath: string | null = null;
 
   constructor() {}
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['user']) {
-      this.mvpAvatarPath(this.user);
+      this.mvpAvatarPath();
     }
   }
 
   /**
    * Toggle Settings Dropdown
    */
-  toggleBadgeMenu() {
+  toggleBadgeMenu(): void {
     if (this.isUserBadgeMenuOpen) {
       this.isUserBadgeMenuAnimating = false;
     } else {
@@ -50,7 +54,7 @@ export class UserBadge {
   /**
    * Close Badge Menu from menu component
    */
-  closeBadgeMenu() {
+  closeBadgeMenu(): void {
     this.isUserBadgeMenuOpen = false;
   }
 
@@ -58,14 +62,14 @@ export class UserBadge {
    * Close Badge Menu from click outside directive
    * This method is called when a click outside the badge menu is detected
    */
-  triggerCloseBadgeMenu() {
+  triggerCloseBadgeMenu(): void {
     this.isUserBadgeMenuAnimating = false;
   }
 
   /**
    * Open Report Modal
    */
-  openReportModal() {
+  openReportModal(): void {
     this.isReportModalOpen = true;
     requestAnimationFrame(() => (this.isReportModalAnimating = true));
   }
@@ -73,7 +77,7 @@ export class UserBadge {
   /**
    * Close Report Modal
    */
-  closeReportModal() {
+  closeReportModal(): void {
     this.isReportModalAnimating = false;
   }
 
@@ -82,7 +86,7 @@ export class UserBadge {
    *
    * @param event
    */
-  onAnimationEnd(event: AnimationEvent) {
+  onAnimationEnd(event: AnimationEvent): void {
     if (event.animationName.endsWith('fade-out')) {
       if (this.isReportModalOpen) {
         this.isReportModalOpen = false;
@@ -95,15 +99,25 @@ export class UserBadge {
    *
    * @param user
    */
-  mvpAvatarPath(user: UserInterface | null): void {
-    const avatarMvpId = user?.avatar_mvp_id ?? null;
+  mvpAvatarPath(): void {
+    const avatarMvpId = this.validAvatarID();
+    this.avatarMvpPath = `/avatar-mvp/mvp_${avatarMvpId}.webp`;
+  }
+
+  /**
+   * Checks if the provided avatar ID is valid based on the defined standard and system avatar IDs.
+   *
+   * @returns The valid avatar ID, which is either the provided avatar ID if valid, or 1 if invalid.
+   */
+  validAvatarID(): number {
+    const avatarMvpId = this.user?.avatar_mvp_id ?? 1;
     const isStandard = avatarMvpId && avatarMvpId >= 1 && avatarMvpId <= 20;
-    const isSystem = avatarMvpId && avatarMvpId >= 997 && avatarMvpId <= 999;
+    const isSystem = avatarMvpId && (avatarMvpId === this.adminAvatarID || avatarMvpId === this.moderatorAvatarID || avatarMvpId === this.systemAvatarID);
 
     if (isStandard || isSystem) {
-      this.avatarMvpPath = `/avatar-mvp/mvp_${avatarMvpId}.webp`;
+      return avatarMvpId;
     } else {
-      this.avatarMvpPath = '/avatar-mvp/mvp_1.webp';
+      return 1;
     }
   }
 }
