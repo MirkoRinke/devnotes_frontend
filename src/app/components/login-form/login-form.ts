@@ -40,6 +40,8 @@ export class LoginForm {
     login: { ...badgeMessagesInit },
   };
 
+  private messageKeys: (keyof LoginMessagesInterface)[] = ['identifier', 'password', 'acceptedConditions'];
+
   isProcessing: boolean = false;
   loginSuccessful: boolean = false;
 
@@ -211,9 +213,8 @@ export class LoginForm {
    */
   private setErrorMessage() {
     const errors = this.getFormErrors();
-    const fields: (keyof LoginMessagesInterface)[] = ['identifier', 'password', 'acceptedConditions'];
 
-    fields.forEach((field) => {
+    this.messageKeys.forEach((field) => {
       if (errors[field]) {
         const validatorKey = Object.keys(errors[field])[0];
         this.msg.setMessage(field, 'error', validatorKey);

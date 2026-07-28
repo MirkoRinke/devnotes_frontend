@@ -38,6 +38,8 @@ export class DeleteAccount {
     deleteAccount: { ...badgeMessagesInit },
   };
 
+  private messageKeys: (keyof DeleteAccountMessagesInterface)[] = ['identifier', 'password'];
+
   isProcessing: boolean = false;
 
   isPasswordFocused: boolean = false;
@@ -173,9 +175,8 @@ export class DeleteAccount {
    */
   private setErrorMessage() {
     const errors = this.getFormErrors();
-    const fields: (keyof DeleteAccountMessagesInterface)[] = ['identifier', 'password'];
 
-    fields.forEach((field) => {
+    this.messageKeys.forEach((field) => {
       if (errors[field]) {
         const validatorKey = Object.keys(errors[field])[0];
         this.msg.setMessage(field, 'error', validatorKey);
