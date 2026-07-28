@@ -1,18 +1,18 @@
 import { Component, inject, DestroyRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ReactiveFormsModule, FormBuilder, FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormGroup, FormControl, AbstractControl } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 
 import { RegisterService } from '../../services/register.service';
 
-import { passwordConfirmationValidator, passwordStrengthValidator, toMuchWhitespaceValidator } from '../../utils/custom-validators';
+import { passwordConfirmationValidator } from '../../utils/custom-validators';
 
 import { ApiErrorHandlingService } from '../../services/api-error-handling.service';
 import { TranslationService } from '../../i18n/translation.service';
 import { RegistrationAvailabilityService } from '../../services/registration-availability.service';
-import { RegexEnums } from '../../enums/regex';
 
 import { BadgeMessageHandler } from '../../utils/badge-message-handler';
+import { AUTH_FORMS_CONFIG } from '../../config/auth-forms.config';
 
 import type { RegisterFormErrorsInterface, RegisterMessagesInterface, RegisterFormInterface, RegistrationAvailabilityResponseInterface } from '../../interfaces/register-form';
 import type { BackendErrorResponseInterface, BusinessActionInterface, ParamsInterface } from '../../interfaces/error-handling';
@@ -79,12 +79,12 @@ export class RegisterForm {
   private createForm() {
     this.registerForm = this.fb.group(
       {
-        name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(40), Validators.pattern(RegexEnums.username), toMuchWhitespaceValidator('tooMuchWhitespace')]],
-        display_name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(40), Validators.pattern(RegexEnums.username), toMuchWhitespaceValidator('tooMuchWhitespace')]],
-        email: ['', [Validators.required, Validators.email, Validators.maxLength(255)]],
-        password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(255), passwordStrengthValidator('weakPassword')]],
-        password_confirmation: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(255)]],
-        acceptedConditions: [false, [Validators.requiredTrue]],
+        name: AUTH_FORMS_CONFIG.name(),
+        display_name: AUTH_FORMS_CONFIG.display_name(),
+        email: AUTH_FORMS_CONFIG.email(),
+        password: AUTH_FORMS_CONFIG.registerPassword(),
+        password_confirmation: AUTH_FORMS_CONFIG.registerPassword_confirmation(),
+        acceptedConditions: AUTH_FORMS_CONFIG.acceptedConditions(),
       },
       {
         validators: passwordConfirmationValidator('password', 'password_confirmation', 'passwordMismatch'),
