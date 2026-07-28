@@ -3,22 +3,35 @@
 @use '../../../mixins' as *;
 
 .user-avatar-customizer {
-  @include display-flex($align: center, $direction: column, $gap: px-to-rem(50));
+  @include display-flex($align: center, $direction: column, $gap: px-to-rem(25));
   @include context-box($max-width: 700px, $width: 700px, $max-height: 700px, $height: 100%);
 
   .header {
-    @include display-flex($align: center, $justify: space-between);
+    @include display-flex($align: center, $direction: column, $gap: px-to-rem(10));
     width: 100%;
 
-    .heading {
-      @include font-settings($font-size: 32);
+    .heading-wrapper {
+      @include display-flex($align: center, $justify: space-between);
+      width: 100%;
+
+      .heading {
+        @include font-settings($font-size: 32);
+        width: 100%;
+        text-align: left;
+      }
+    }
+
+    .subheading {
+      @include font-settings(16);
       width: 100%;
       text-align: left;
+      color: var(--font-primary-color-50);
     }
   }
 
   .avatar-carousel {
     @include display-flex($gap: px-to-rem(20));
+    margin-block: px-to-rem(40);
 
     .prev,
     .next {

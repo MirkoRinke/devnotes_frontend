@@ -28,6 +28,8 @@ export class UserAvatarCustomizer {
   user: UserInterface | null = null;
   necessaryUserFields: string = 'display_name,avatar_mvp_id,role';
 
+  isProcessing: boolean = false;
+
   currentAvatarID: number = 1;
   availableAvatars: number = 20;
 
@@ -205,8 +207,17 @@ export class UserAvatarCustomizer {
    * @returns
    */
   public saveAvatar(): void {
+    /**
+     * Prevent multiple submissions while the request is being processed.
+     */
+    if (this.isProcessing) {
+      return;
+    }
+
     const user_id = this.authService.getCurrentUserId();
     if (user_id === null) return;
+
+    this.isProcessing = true;
 
     const url = `${ApiEndpointEnums.USER}${user_id}/`;
 
@@ -220,6 +231,7 @@ export class UserAvatarCustomizer {
           const avatarMvpId = response.data.data.avatar_mvp_id;
           this.user.avatar_mvp_id = avatarMvpId;
         }
+        this.isProcessing = false;
 
         this.mvpAvatarPath();
         this.userControlRefreshService.refreshSource$.next();
@@ -230,6 +242,7 @@ export class UserAvatarCustomizer {
         if (businessAction?.messages?.validatorKey === 'UNKNOWN_ERROR') {
           this.router.navigate(['/bad-gateway']);
         }
+        this.isProcessing = false;
       },
     });
   }
