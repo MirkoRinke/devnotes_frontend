@@ -84,22 +84,21 @@ export function emailOrUsernameValidator(errorKey: string = 'invalidIdentifier')
 }
 
 /**
- * Custom validator to check if the password and confirm password fields match.
+ * Custom validator to check if two fields have mismatched values.
  *
- * @param passwordFieldName The name of the password control.
- * @param confirmPasswordFieldName The name of the confirm password control.
- * @param errorKey The error key to return if validation fails. Defaults to 'passwordMismatch'.
- * @returns A ValidatorFn or null.
+ * @param field1Name
+ * @param field2Name
+ * @param errorKey
+ * @returns
  */
-export function passwordConfirmationValidator(passwordFieldName: string, confirmPasswordFieldName: string, errorKey: string = 'passwordMismatch'): ValidatorFn {
+export function mismatchedFieldsValidator(field1Name: string, field2Name: string, errorKey: string = 'fieldsMismatch'): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
-    const password = control.get(passwordFieldName)?.value;
-    const confirmPassword = control.get(confirmPasswordFieldName)?.value;
+    const field1Value = control.get(field1Name)?.value;
+    const field2Value = control.get(field2Name)?.value;
 
-    if (password !== confirmPassword) {
+    if (field1Value !== field2Value) {
       return { [errorKey]: true };
     }
-
     return null;
   };
 }
