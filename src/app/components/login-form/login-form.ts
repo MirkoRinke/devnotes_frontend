@@ -1,6 +1,6 @@
 import { Component, Input, inject, DestroyRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ReactiveFormsModule, FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 
 import { LoginService } from '../../services/login.service';
@@ -8,12 +8,12 @@ import { ApiErrorHandlingService } from '../../services/api-error-handling.servi
 import { TranslationService } from '../../i18n/translation.service';
 
 import { BadgeMessageHandler } from '../../utils/badge-message-handler';
+import { AUTH_FORMS_CONFIG } from '../../config/auth-forms.config';
 
 import type { LoginFormErrorsInterface, LoginFormInterface, LoginMessagesInterface } from '../../interfaces/login-form';
 import type { BackendErrorResponseInterface, BusinessActionInterface, ParamsInterface } from '../../interfaces/error-handling';
 import { badgeMessagesInit } from '../../interfaces/validation-messages';
 
-import { emailOrUsernameValidator } from '../../utils/custom-validators';
 import { RegexEnums } from '../../enums/regex';
 
 import { SvgIconsService } from '../../services/svg.icons.service';
@@ -69,12 +69,12 @@ export class LoginForm {
    * Initializes the login form with form controls and validators. If the user must accept conditions, it adds a requiredTrue validator to the acceptedConditions control.
    */
   private createForm() {
-    const acceptedConditionsValidators = this.mustAcceptConditions ? [Validators.requiredTrue] : [];
+    const acceptedConditionsValidators = this.mustAcceptConditions ? AUTH_FORMS_CONFIG.acceptedConditions() : [false, []];
 
     this.loginForm = this.fb.group({
-      identifier: ['', [Validators.required, emailOrUsernameValidator('login_identifier_invalid'), Validators.maxLength(255)]],
-      password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(255)]],
-      acceptedConditions: [false, acceptedConditionsValidators],
+      identifier: AUTH_FORMS_CONFIG.identifier(),
+      password: AUTH_FORMS_CONFIG.loginPassword(),
+      acceptedConditions: acceptedConditionsValidators,
     });
   }
 
@@ -186,7 +186,8 @@ export class LoginForm {
    */
   private handleAcceptConditions(): void {
     this.mustAcceptConditions = true;
-    this.loginForm?.get('acceptedConditions')?.setValidators(Validators.requiredTrue);
+    const [_, acceptedConditionsValidators] = AUTH_FORMS_CONFIG.acceptedConditions();
+    this.loginForm?.get('acceptedConditions')?.setValidators(acceptedConditionsValidators);
     this.loginForm?.get('acceptedConditions')?.updateValueAndValidity();
     this.loginForm?.get('acceptedConditions')?.markAsUntouched();
   }
