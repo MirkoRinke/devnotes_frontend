@@ -1,3 +1,180 @@
-<div class="user-account-settings">
-  <p>user-account-settings works!</p>
-</div>
+@if (accountSettingsForm !== null) {
+  <div class="user-account-settings">
+    <div class="header">
+      <div class="heading-wrapper">
+        <h1 class="heading">Konto Sicherheit</h1>
+        <h2 class="subheading">Benutzername, E-Mail-Adresse und Passwort ändern</h2>
+      </div>
+
+      <div class="global-message-wrapper">
+        <app-badge
+          class="badge"
+          [messages]="messages['accountSettings']"
+          [caret]="'none'"
+        ></app-badge>
+      </div>
+    </div>
+
+    <form
+      class="form"
+      [formGroup]="accountSettingsForm"
+    >
+      <div class="input-row">
+        <div class="input-container">
+          <app-badge
+            class="badge"
+            [messages]="accountSettingsForm.get('name')?.invalid && accountSettingsForm.get('name')?.touched ? messages['name'] : null"
+            [caret]="'left'"
+          ></app-badge>
+
+          <input
+            class="input"
+            type="text"
+            name="name"
+            formControlName="name"
+            maxlength="40"
+            spellcheck="false"
+            placeholder="Benutzername"
+          />
+        </div>
+      </div>
+
+      <div class="input-row">
+        <div class="input-container">
+          <app-badge
+            class="badge"
+            [messages]="accountSettingsForm.get('email')?.invalid && accountSettingsForm.get('email')?.touched ? messages['email'] : null"
+            [caret]="'left'"
+          ></app-badge>
+
+          <input
+            class="input"
+            type="text"
+            name="email"
+            formControlName="email"
+            spellcheck="false"
+            placeholder="E-Mail-Adresse"
+          />
+        </div>
+
+        <div class="input-container">
+          <app-badge
+            class="badge"
+            [messages]="emailConfirmationErrorMessage"
+            [caret]="'left'"
+          ></app-badge>
+
+          <input
+            class="input"
+            type="text"
+            name="email_confirmation"
+            formControlName="email_confirmation"
+            spellcheck="false"
+            placeholder="E-Mail-Adresse Bestätigen"
+          />
+        </div>
+      </div>
+
+      <div class="input-row">
+        <div class="input-container">
+          <app-badge
+            class="badge"
+            [messages]="accountSettingsForm.get('password')?.invalid && accountSettingsForm.get('password')?.touched && !isPasswordFocused ? messages['password'] : null"
+            [caret]="'left'"
+          ></app-badge>
+
+          <app-password-strength-feedback
+            class="password-strength-feedback"
+            [isPasswordFocused]="isPasswordFocused"
+            [control]="accountSettingsForm.get('password')"
+          ></app-password-strength-feedback>
+
+          <div class="password-input-wrapper">
+            <app-password-toggle-button
+              class="password-toggle-button"
+              [isPasswordVisible]="isPasswordVisible"
+              (passwordVisibilityChange)="isPasswordVisible = $event"
+            ></app-password-toggle-button>
+
+            <input
+              class="input"
+              [type]="isPasswordVisible ? 'text' : 'password'"
+              name="password"
+              (focus)="isPasswordFocused = true"
+              (blur)="isPasswordFocused = false"
+              formControlName="password"
+              placeholder="Passwort eingeben"
+            />
+          </div>
+        </div>
+
+        <div class="input-container">
+          <app-badge
+            class="badge"
+            [messages]="passwordConfirmationErrorMessage"
+            [caret]="'left'"
+          ></app-badge>
+
+          <div class="password-input-wrapper">
+            <app-password-toggle-button
+              class="password-toggle-button"
+              [isPasswordVisible]="isPasswordVisible"
+              (passwordVisibilityChange)="isPasswordVisible = $event"
+            ></app-password-toggle-button>
+
+            <input
+              class="input"
+              [type]="isPasswordVisible ? 'text' : 'password'"
+              name="password_confirmation"
+              (focus)="isPasswordFocused = true"
+              (blur)="isPasswordFocused = false"
+              formControlName="password_confirmation"
+              placeholder="Passwort bestätigen"
+            />
+          </div>
+        </div>
+      </div>
+
+      <span class="divider"></span>
+
+      <div class="input-container">
+        <app-badge
+          class="badge"
+          [messages]="accountSettingsForm.get('current_password')?.invalid && accountSettingsForm.get('current_password')?.touched ? messages['current_password'] : null"
+          [caret]="'left'"
+        ></app-badge>
+
+        <div class="password-input-wrapper">
+          <app-password-toggle-button
+            class="password-toggle-button"
+            [isPasswordVisible]="isPasswordVisible"
+            (passwordVisibilityChange)="isPasswordVisible = $event"
+          ></app-password-toggle-button>
+
+          <input
+            class="input"
+            [type]="isPasswordVisible ? 'text' : 'password'"
+            name="current_password"
+            formControlName="current_password"
+            placeholder="Aktuelles Passwort zur Bestätigung eingeben"
+          />
+        </div>
+      </div>
+
+      <footer class="footer">
+        <a
+          [routerLink]="['/account-deletion']"
+          class="link"
+          >Konto löschen</a
+        >
+
+        <button
+          class="submit-button"
+          (click)="onSubmit()"
+        >
+          Speichern
+        </button>
+      </footer>
+    </form>
+  </div>
+}
