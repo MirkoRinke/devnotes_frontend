@@ -1,6 +1,6 @@
 import { Component, inject, DestroyRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 
 import { SvgIconsService } from '../../services/svg.icons.service';
@@ -9,6 +9,7 @@ import { ApiErrorHandlingService } from '../../services/api-error-handling.servi
 import { TranslationService } from '../../i18n/translation.service';
 
 import { BadgeMessageHandler } from '../../utils/badge-message-handler';
+import { AUTH_FORMS_CONFIG } from '../../config/auth-forms.config';
 
 import { AuthService } from '../../services/auth.service';
 
@@ -16,7 +17,6 @@ import type { DeleteAccountErrorsInterface, DeleteAccountInterface, DeleteAccoun
 import type { BackendErrorResponseInterface, BusinessActionInterface, ParamsInterface } from '../../interfaces/error-handling';
 import { badgeMessagesInit } from '../../interfaces/validation-messages';
 
-import { emailOrUsernameValidator } from '../../utils/custom-validators';
 import { RegexEnums } from '../../enums/regex';
 
 import { Badge } from '../badge/badge';
@@ -65,8 +65,8 @@ export class DeleteAccount {
    */
   createForm() {
     this.deleteAccountForm = this.fb.group({
-      identifier: ['', [Validators.required, emailOrUsernameValidator('delete_account_identifier_invalid'), Validators.maxLength(255)]],
-      password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(255)]],
+      identifier: AUTH_FORMS_CONFIG.identifier(),
+      password: AUTH_FORMS_CONFIG.loginPassword(),
     });
   }
 
