@@ -5,7 +5,7 @@ export interface DeleteAccountErrorsInterface {
   maxlength?: { requiredLength: number; actualLength: number };
   minlength?: { requiredLength: number; actualLength: number };
 
-  delete_account_identifier_invalid?: boolean;
+  auth_identifier_invalid?: boolean;
 }
 
 export interface DeleteAccountInterface {

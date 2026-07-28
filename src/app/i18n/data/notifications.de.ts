@@ -29,7 +29,7 @@ export const NOTIFICATIONS_DE: Notifications = {
       },
       identifier: {
         required: 'E-Mail-Adresse / Benutzernamen eingeben.',
-        login_identifier_invalid: 'Die E-Mail-Adresse oder der Benutzername ist ungültig.',
+        auth_identifier_invalid: 'Die E-Mail-Adresse oder der Benutzername ist ungültig.',
         maxlength: 'Die E-Mail-Adresse oder der Benutzername ist ungültig.',
       },
       password: {

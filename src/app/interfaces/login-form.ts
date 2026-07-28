@@ -5,7 +5,7 @@ export interface LoginFormErrorsInterface {
   maxlength?: { requiredLength: number; actualLength: number };
   minlength?: { requiredLength: number; actualLength: number };
 
-  login_identifier_invalid?: boolean;
+  auth_identifier_invalid?: boolean;
 }
 
 export interface LoginFormInterface {

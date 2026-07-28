@@ -29,7 +29,7 @@ export const NOTIFICATIONS_EN: Notifications = {
       },
       identifier: {
         required: 'Enter email address / username.',
-        login_identifier_invalid: 'The email address or username is invalid.',
+        auth_identifier_invalid: 'The email address or username is invalid.',
         maxlength: 'The email address or username is invalid.',
       },
       password: {

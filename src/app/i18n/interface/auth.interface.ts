@@ -9,7 +9,7 @@ interface AuthErrorMessages {
   name: Pick<AuthFormFieldErrors, 'required' | 'minlength' | 'maxlength' | 'pattern' | 'tooMuchWhitespace'>;
   display_name: Pick<AuthFormFieldErrors, 'required' | 'minlength' | 'maxlength' | 'pattern'>;
   email: Pick<AuthFormFieldErrors, 'required' | 'email' | 'maxlength'>;
-  identifier: Pick<AuthFormFieldErrors, 'required' | 'login_identifier_invalid' | 'maxlength'>;
+  identifier: Pick<AuthFormFieldErrors, 'required' | 'auth_identifier_invalid' | 'maxlength'>;
   password: Pick<AuthFormFieldErrors, 'required' | 'minlength' | 'maxlength' | 'weakPassword'>;
   password_confirmation: Pick<AuthFormFieldErrors, 'required' | 'minlength' | 'maxlength'>;
   passwordMismatch: Pick<AuthFormFieldErrors, 'passwordMismatch'>;
@@ -25,8 +25,7 @@ interface AuthFormFieldErrors {
   pattern: string;
   email: string;
   passwordMismatch: string;
-  login_identifier_invalid: string;
-  delete_account_identifier_invalid: string;
+  auth_identifier_invalid: string;
   weakPassword: string;
   tooMuchWhitespace: string;
 }
