@@ -606,19 +606,19 @@
   }
 }
 
-@mixin error-badge($left: unset, $right: unset) {
-  @include badge($bg-color: var(--error-color-100), $left: $left, $right: $right);
+@mixin error-badge($left: unset, $right: unset, $caret: true) {
+  @include badge($bg-color: var(--error-color-100), $left: $left, $right: $right, $caret: $caret);
 }
 
-@mixin info-badge($left: unset, $right: unset) {
-  @include badge($bg-color: var(--info-color-100), $left: $left, $right: $right);
+@mixin info-badge($left: unset, $right: unset, $caret: true) {
+  @include badge($bg-color: var(--info-color-100), $left: $left, $right: $right, $caret: $caret);
 }
 
-@mixin success-badge($left: unset, $right: unset) {
-  @include badge($bg-color: var(--success-color-100), $left: $left, $right: $right);
+@mixin success-badge($left: unset, $right: unset, $caret: true) {
+  @include badge($bg-color: var(--success-color-100), $left: $left, $right: $right, $caret: $caret);
 }
 
-@mixin badge($bg-color: var(--error-color-100), $font-size: 14px, $left: unset, $right: unset, $border-radius: 5px, $z-index: 10) {
+@mixin badge($bg-color: var(--error-color-100), $font-size: 14px, $left: unset, $right: unset, $caret: true, $border-radius: 5px, $z-index: 10) {
   width: max-content;
   max-width: 100%;
 
@@ -632,23 +632,25 @@
 
   @include fade-in-with-delay(var(--animation-delay));
 
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: px-to-rem(-4);
+  @if $caret == true {
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: px-to-rem(-4);
 
-    @if $left != unset and $right == unset {
-      left: convert-to-rem-if-needed($left);
-    } @else if $right != unset and $left == unset {
-      right: convert-to-rem-if-needed($right);
-    } @else {
-      left: 50%;
-      transform: translateX(-50%);
+      @if $left != unset and $right == unset {
+        left: convert-to-rem-if-needed($left);
+      } @else if $right != unset and $left == unset {
+        right: convert-to-rem-if-needed($right);
+      } @else {
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      border-left: px-to-rem(4) solid transparent;
+      border-right: px-to-rem(4) solid transparent;
+      border-top: px-to-rem(4) solid $bg-color;
     }
-
-    border-left: px-to-rem(4) solid transparent;
-    border-right: px-to-rem(4) solid transparent;
-    border-top: px-to-rem(4) solid $bg-color;
   }
 
   .badge-text {
