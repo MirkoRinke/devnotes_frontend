@@ -5,7 +5,7 @@ import { Router, RouterModule } from '@angular/router';
 
 import { RegisterService } from '../../services/register.service';
 
-import { passwordConfirmationValidator } from '../../utils/custom-validators';
+import { mismatchedFieldsValidator } from '../../utils/custom-validators';
 
 import { ApiErrorHandlingService } from '../../services/api-error-handling.service';
 import { TranslationService } from '../../i18n/translation.service';
@@ -87,7 +87,7 @@ export class RegisterForm {
         acceptedConditions: AUTH_FORMS_CONFIG.acceptedConditions(),
       },
       {
-        validators: passwordConfirmationValidator('password', 'password_confirmation', 'passwordMismatch'),
+        validators: mismatchedFieldsValidator('password', 'password_confirmation', 'passwordMismatch'),
       },
     );
 
