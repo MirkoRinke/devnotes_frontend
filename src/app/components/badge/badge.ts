@@ -14,7 +14,7 @@ import { environment } from '../../../environments/environment';
 })
 export class Badge implements AfterViewChecked {
   @Input() messages: BadgeMessagesInterface | null = null;
-  @Input() caret: 'left' | 'right' | 'center' | null = null;
+  @Input() caret: 'left' | 'right' | 'center' | 'none' | null = null;
   @Input() animationDelay: number = 0;
 
   badgeText: ElementRef | null = null;

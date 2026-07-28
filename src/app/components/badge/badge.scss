@@ -2,15 +2,15 @@
 @use '../../../var' as var;
 @use '../../../mixins' as *;
 
-@mixin dispatch-badge($type, $left: unset, $right: unset) {
+@mixin dispatch-badge($type, $left: unset, $right: unset, $caret: true) {
   @if $type == 'error' {
-    @include error-badge($left: $left, $right: $right);
+    @include error-badge($left: $left, $right: $right, $caret: $caret);
   }
   @if $type == 'info' {
-    @include info-badge($left: $left, $right: $right);
+    @include info-badge($left: $left, $right: $right, $caret: $caret);
   }
   @if $type == 'success' {
-    @include success-badge($left: $left, $right: $right);
+    @include success-badge($left: $left, $right: $right, $caret: $caret);
   }
 }
 
@@ -23,6 +23,9 @@
   }
   &.right {
     @include dispatch-badge($type, $right: 8px);
+  }
+  &.none {
+    @include dispatch-badge($type, $caret: false);
   }
 }
 
