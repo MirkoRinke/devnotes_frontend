@@ -175,7 +175,7 @@ export class UserAccountSettings {
               const businessAction = this.apiErrorHandlingService.handleApiError(errorResponse);
 
               if (businessAction) {
-                if (businessAction.messages.validatorKey === 'FORBIDDEN_NAME' || businessAction.messages.validatorKey === 'FORBIDDEN_DISPLAY_NAME') {
+                if (businessAction.messages.validatorKey === 'FORBIDDEN_NAME') {
                   this.msg.setMessage('accountSettings', businessAction.messages.messageType, businessAction.messages.validatorKey, { name: value });
                 } else {
                   this.msg.setMessage('accountSettings', businessAction.messages.messageType, businessAction.messages.validatorKey, businessAction.messages.params);
