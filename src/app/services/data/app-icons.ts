@@ -642,7 +642,7 @@ export function getAppIcon(iconName: string, className: string): string | undefi
     </svg>
     `;
 
-    case 'user_settings':
+    case 'account_settings':
       return /*html*/ `
     <!-- Icon used are from Google Material Symbols, licensed under the Apache License 2.0. -->
      <svg class="${className}" viewBox="0 0 20 17" xmlns="http://www.w3.org/2000/svg">
