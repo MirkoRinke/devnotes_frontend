@@ -73,6 +73,7 @@ interface AuthInfoMessages {
 
 interface LoginActionInfo {
   MUST_ACCEPT_CONDITIONS: string;
+  EMAIL_NOT_VERIFIED: string;
 }
 
 interface RegisterActionInfo {

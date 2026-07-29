@@ -90,7 +90,8 @@ export const NOTIFICATIONS_EN: Notifications = {
     },
     info: {
       login: {
-        MUST_ACCEPT_CONDITIONS: 'There are new terms of use or privacy policies.',
+        MUST_ACCEPT_CONDITIONS: 'Updated terms of use or privacy policy',
+        EMAIL_NOT_VERIFIED: 'Your email address has not been verified. Please check your inbox for the verification email.',
       },
       deleteAccount: {
         DELETE_ACCOUNT_CONFIRMATION: 'Really delete account?',
