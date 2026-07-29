@@ -1,0 +1,12 @@
+@use '../../../functions' as *;
+@use '../../../var' as var;
+@use '../../../mixins' as *;
+
+:host {
+  @include display-flex(stretch, center);
+  flex-grow: 1;
+}
+
+.account-deletion-page {
+  @include display-flex($justify: center, $gap: px-to-rem(25));
+}
