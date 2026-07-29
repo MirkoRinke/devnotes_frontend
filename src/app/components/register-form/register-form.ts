@@ -9,7 +9,7 @@ import { mismatchedFieldsValidator } from '../../utils/custom-validators';
 
 import { ApiErrorHandlingService } from '../../services/api-error-handling.service';
 import { TranslationService } from '../../i18n/translation.service';
-import { RegistrationAvailabilityService } from '../../services/registration-availability.service';
+import { UserNameAvailabilityService } from '../../services/user-name-availability.service';
 
 import { BadgeMessageHandler } from '../../utils/badge-message-handler';
 import { AUTH_FORMS_CONFIG } from '../../config/auth-forms.config';
@@ -65,7 +65,7 @@ export class RegisterForm {
     private router: Router,
     public svgIconsService: SvgIconsService,
     private apiErrorHandlingService: ApiErrorHandlingService,
-    private registrationAvailabilityService: RegistrationAvailabilityService,
+    private userNameAvailabilityService: UserNameAvailabilityService,
   ) {}
 
   ngOnInit() {
@@ -124,12 +124,11 @@ export class RegisterForm {
   }
 
   /**
-   * Creates an observable stream that listens for value changes on the specified form control.
-   * It checks the availability of the value and updates the form control's error state accordingly.
+   * Creates an observable stream that checks the availability of a user name or display name based on the value changes of the provided form control.
    *
-   * @param formControl The form control to listen for value changes.
-   * @param controlName The name of the control to check availability for.
-   * @returns An observable stream that emits availability check results.
+   * @param formControl The form control to monitor for value changes.
+   * @param controlName The name of the control to check for availability.
+   * @returns An observable that emits the availability check results.
    */
   private createAvailabilityStream(formControl: AbstractControl, controlName: keyof RegistrationAvailabilityResponseInterface) {
     return formControl.valueChanges.pipe(
@@ -137,16 +136,16 @@ export class RegisterForm {
       distinctUntilChanged(),
       switchMap((value) => {
         if (formControl.valid && value && value.trim() !== '' && value.length >= 2) {
-          return this.registrationAvailabilityService.checkRegistrationAvailability(formControl, value, controlName).pipe(
+          return this.userNameAvailabilityService.checkUserNameAvailability(formControl, value, controlName).pipe(
             tap((response) => {
               const data: RegistrationAvailabilityResponseInterface | null = response?.data?.data || null;
               if (!data) return;
 
               if (data && data[controlName] && data[controlName].includes(`${controlName.toUpperCase()}_ALREADY_IN_USE`)) {
-                this.registrationAvailabilityService.setRegistrationError(formControl);
+                this.userNameAvailabilityService.setUserNameError(formControl);
                 this.msg.setMessage('register', 'info', `${controlName.toUpperCase()}_ALREADY_IN_USE`, { name: value });
               } else {
-                this.registrationAvailabilityService.clearRegistrationError(formControl);
+                this.userNameAvailabilityService.clearUserNameError(formControl);
                 this.msg.setMessage('register', 'success', `${controlName.toUpperCase()}_AVAILABLE`, { name: value });
               }
             }),
@@ -165,9 +164,9 @@ export class RegisterForm {
             }),
           );
         }
-        this.registrationAvailabilityService.clearRegistrationError(formControl);
+        this.userNameAvailabilityService.clearUserNameError(formControl);
 
-        if (formControl.hasError('registrationUnavailable')) {
+        if (formControl.hasError('userNameUnavailable')) {
           this.msg.clearMessage('register');
         }
 

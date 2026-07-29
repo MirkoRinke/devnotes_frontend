@@ -12,11 +12,11 @@ import { AbstractControl } from '@angular/forms';
 @Injectable({
   providedIn: 'root',
 })
-export class RegistrationAvailabilityService {
+export class UserNameAvailabilityService {
   constructor(private apiService: ApiService) {}
 
   /**
-   * Checks the availability of a registration field.
+   * Checks the availability of a user name or display name by making a POST request to the API.
    * 
    * @param control The form control to check.
    * @param value The value to check for availability.
@@ -24,37 +24,37 @@ export class RegistrationAvailabilityService {
    * @returns An observable of the API response.
 
    */
-  public checkRegistrationAvailability(control: AbstractControl, value: string, controlName: keyof RegistrationAvailabilityResponseInterface) {
+  public checkUserNameAvailability(control: AbstractControl, value: string, controlName: keyof RegistrationAvailabilityResponseInterface) {
     const data = { [controlName]: value };
     const url = ApiEndpointEnums.CHECK_REGISTRATION_AVAILABILITY;
 
     return this.apiService.post<ApiResponseObjektInterface<RegistrationAvailabilityResponseInterface>>(url, data).pipe(
       tap(() => {
-        this.clearRegistrationError(control);
+        this.clearUserNameError(control);
       }),
     );
   }
 
   /**
-   * Clears the registration error from the form control if it exists.
+   * Clears the user name error from the form control if it exists.
    *
    * @param control The form control to clear the error from.
    */
-  public clearRegistrationError(control: AbstractControl) {
+  public clearUserNameError(control: AbstractControl) {
     const errors = control?.errors;
-    if (errors && errors['registrationUnavailable']) {
-      delete errors['registrationUnavailable'];
+    if (errors && errors['userNameUnavailable']) {
+      delete errors['userNameUnavailable'];
       control?.setErrors(Object.keys(errors).length ? errors : null);
     }
   }
 
   /**
-   * Sets the registration error on the form control.
+   * Sets the user name error on the form control.
    *
    * @param control
    */
-  public setRegistrationError(control: AbstractControl) {
+  public setUserNameError(control: AbstractControl) {
     const errors = control?.errors || {};
-    control?.setErrors({ ...errors, registrationUnavailable: true });
+    control?.setErrors({ ...errors, userNameUnavailable: true });
   }
 }
