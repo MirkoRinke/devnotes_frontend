@@ -7,6 +7,6 @@
   flex-grow: 1;
 }
 
-.user-settings-page {
+.account-settings-page {
   @include display-flex($justify: center, $gap: px-to-rem(25));
 }
