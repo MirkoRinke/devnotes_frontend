@@ -27,6 +27,11 @@ export const NOTIFICATIONS_EN: Notifications = {
         email: 'The email address is invalid.',
         maxlength: 'The email address must be at most 255 characters long.',
       },
+      email_confirmation: {
+        required: 'Confirm email address.',
+        email: 'The email address is invalid.',
+        maxlength: 'The email address must be at most 255 characters long.',
+      },
       identifier: {
         required: 'Enter email address / username.',
         auth_identifier_invalid: 'The email address or username is invalid.',
@@ -43,8 +48,16 @@ export const NOTIFICATIONS_EN: Notifications = {
         minlength: 'The password must be at least 8 characters long.',
         maxlength: 'The password must be at most 255 characters long.',
       },
+      current_password: {
+        required: 'Enter current password.',
+        minlength: 'The password must be at least 8 characters long.',
+        maxlength: 'The password must be at most 255 characters long.',
+      },
       passwordMismatch: {
         passwordMismatch: 'Passwords do not match.',
+      },
+      emailMismatch: {
+        emailMismatch: 'Email addresses do not match.',
       },
       acceptedConditions: {
         required: 'Please accept the terms of use & privacy policy.',
@@ -68,6 +81,12 @@ export const NOTIFICATIONS_EN: Notifications = {
         ACCOUNT_DELETION_INVALID_CREDENTIALS: 'Email address / username or password is incorrect.',
         ACCOUNT_DELETION_FORBIDDEN: 'Account deletion is not possible.',
       },
+      accountSettings: {
+        UNKNOWN_ERROR: 'Error updating account settings. Please try again.',
+        PASSWORD_MUST_BE_UNCOMPROMISED:
+          'Your password has been found in a data breach. Please choose a different password. For more information, visit [href]="https://haveibeenpwned.com/Passwords|Have I Been Pwned"',
+        FORBIDDEN_NAME: '"{name}" is not allowed.',
+      },
     },
     info: {
       login: {
@@ -81,6 +100,11 @@ export const NOTIFICATIONS_EN: Notifications = {
         NAME_ALREADY_IN_USE: '"{name}" is already in use.',
         DISPLAY_NAME_ALREADY_IN_USE: '"{name}" is already in use.',
       },
+      accountSettings: {
+        tooMuchWhitespace: '"{name}" has too many consecutive whitespace characters.',
+        NAME_ALREADY_IN_USE: '"{name}" is already in use.',
+        NO_CHANGES: 'No changes were made to the account settings.',
+      },
     },
     success: {
       login: {
@@ -93,6 +117,10 @@ export const NOTIFICATIONS_EN: Notifications = {
       },
       deleteAccount: {
         DELETE_ACCOUNT_SUCCESSFUL: 'Account successfully deleted. Redirecting...',
+      },
+      accountSettings: {
+        ACCOUNT_SETTINGS_UPDATED: 'Account settings successfully updated.',
+        NAME_AVAILABLE: '"{name}" is available.',
       },
       acceptedConditions: {
         ACCEPTED_CONDITIONS: 'Terms of use & privacy policy accepted.',

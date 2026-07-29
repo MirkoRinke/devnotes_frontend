@@ -27,6 +27,11 @@ export const NOTIFICATIONS_DE: Notifications = {
         email: 'Die E-Mail-Adresse ist ungültig.',
         maxlength: 'Die E-Mail-Adresse darf maximal 255 Zeichen lang sein.',
       },
+      email_confirmation: {
+        required: 'E-Mail-Adresse bestätigen.',
+        email: 'Die E-Mail-Adresse ist ungültig.',
+        maxlength: 'Die E-Mail-Adresse darf maximal 255 Zeichen lang sein.',
+      },
       identifier: {
         required: 'E-Mail-Adresse / Benutzernamen eingeben.',
         auth_identifier_invalid: 'Die E-Mail-Adresse oder der Benutzername ist ungültig.',
@@ -43,8 +48,16 @@ export const NOTIFICATIONS_DE: Notifications = {
         minlength: 'Das Passwort muss mindestens 8 Zeichen lang sein.',
         maxlength: 'Das Passwort darf maximal 255 Zeichen lang sein.',
       },
+      current_password: {
+        required: 'Aktuelles Passwort eingeben.',
+        minlength: 'Das Passwort muss mindestens 8 Zeichen lang sein.',
+        maxlength: 'Das Passwort darf maximal 255 Zeichen lang sein.',
+      },
       passwordMismatch: {
         passwordMismatch: 'Die Passwörter stimmen nicht überein.',
+      },
+      emailMismatch: {
+        emailMismatch: 'Die E-Mail-Adressen stimmen nicht überein.',
       },
       acceptedConditions: {
         required: 'Bitte Nutzungsbedingungen & Datenschutzrichtlinie akzeptieren.',
@@ -68,6 +81,12 @@ export const NOTIFICATIONS_DE: Notifications = {
         ACCOUNT_DELETION_INVALID_CREDENTIALS: 'E-Mail-Adresse / Benutzername oder Passwort ist falsch.',
         ACCOUNT_DELETION_FORBIDDEN: 'Das Löschen des Kontos ist nicht möglich.',
       },
+      accountSettings: {
+        UNKNOWN_ERROR: 'Fehler beim Aktualisieren der Kontoeinstellungen. Bitte erneut versuchen.',
+        PASSWORD_MUST_BE_UNCOMPROMISED:
+          'Dein Passwort wurde in einem Datenleck gefunden. Bitte wähle ein anderes Passwort. Weitere Informationen findest du unter [href]="https://haveibeenpwned.com/Passwords|Have I Been Pwned"',
+        FORBIDDEN_NAME: '"{name}" ist nicht erlaubt.',
+      },
     },
     info: {
       login: {
@@ -81,6 +100,11 @@ export const NOTIFICATIONS_DE: Notifications = {
         NAME_ALREADY_IN_USE: '"{name}" ist bereits vergeben.',
         DISPLAY_NAME_ALREADY_IN_USE: '"{name}" ist bereits vergeben.',
       },
+      accountSettings: {
+        tooMuchWhitespace: '"{name}" hat zu viele aufeinanderfolgende Leerzeichen',
+        NAME_ALREADY_IN_USE: '"{name}" ist bereits vergeben.',
+        NO_CHANGES: 'Es wurden keine Änderungen an den Kontoeinstellungen vorgenommen.',
+      },
     },
     success: {
       login: {
@@ -93,6 +117,10 @@ export const NOTIFICATIONS_DE: Notifications = {
       },
       deleteAccount: {
         DELETE_ACCOUNT_SUCCESSFUL: 'Konto erfolgreich gelöscht. Weiterleitung...',
+      },
+      accountSettings: {
+        ACCOUNT_SETTINGS_UPDATED: 'Kontoeinstellungen erfolgreich aktualisiert.',
+        NAME_AVAILABLE: '"{name}" ist verfügbar.',
       },
       acceptedConditions: {
         ACCEPTED_CONDITIONS: 'Nutzungsbedingungen & Datenschutzrichtlinie akzeptiert.',
