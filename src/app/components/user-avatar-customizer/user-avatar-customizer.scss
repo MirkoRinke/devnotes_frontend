@@ -30,7 +30,7 @@
   }
 
   .avatar-carousel {
-    @include display-flex($gap: px-to-rem(20));
+    @include display-flex($gap: px-to-rem(50));
     margin-block: px-to-rem(40);
 
     .prev,
@@ -45,8 +45,8 @@
 
       &::ng-deep .direction-icon {
         fill: var(--font-primary-color-100);
-        width: px-to-rem(34);
-        height: px-to-rem(34);
+        width: px-to-rem(60);
+        height: px-to-rem(60);
       }
     }
 
@@ -55,8 +55,8 @@
 
       .avatar {
         display: block;
-        width: px-to-rem(200);
-        height: px-to-rem(200);
+        width: px-to-rem(250);
+        height: px-to-rem(250);
 
         border-radius: px-to-rem(15);
 
@@ -95,7 +95,9 @@
   }
 
   .avatar-actions {
-    @include display-flex($gap: px-to-rem(20));
+    @include display-flex($align: end, $justify: space-between, $gap: px-to-rem(20));
+    width: 100%;
+    flex: 1;
 
     .save,
     .reset {
