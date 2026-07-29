@@ -288,14 +288,10 @@ export class UserAccountSettings {
 
     this.apiService.patch<ApiResponseObjektInterface<UserInterface>>(url, data).subscribe({
       next: (response) => {
-        console.log('Account settings updated successfully:', response.data.data);
-
         this.msg.setMessage('accountSettings', 'success', 'ACCOUNT_SETTINGS_UPDATED');
         this.isProcessing = false;
       },
       error: (error) => {
-        console.log('Error updating account settings:', error);
-
         const errorResponse: BackendErrorResponseInterface = error.error;
 
         const businessAction: BusinessActionInterface | null = this.apiErrorHandlingService.handleApiError(errorResponse) || null;
