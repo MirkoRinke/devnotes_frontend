@@ -92,11 +92,11 @@ export class Badge implements AfterViewChecked {
    * @returns The active badge details or null if no active messages.
    */
   getActiveBadge(): ActiveBadgeInterface | null {
-    const baseDetails = this._getBaseBadgeDetails();
+    const baseDetails = this.getBaseBadgeDetails();
     if (!baseDetails) return null;
 
     const { text, type, icon } = baseDetails;
-    const htmlText: SafeHtml | null = this._parseMessageForLinks(text);
+    const htmlText: SafeHtml | null = this.resolveSafeHtml(text);
 
     if (htmlText) {
       return { type, icon, text: text, htmlText };
@@ -106,12 +106,36 @@ export class Badge implements AfterViewChecked {
   }
 
   /**
+   * Checks if the provided text contains custom link patterns or specific HTML entities and returns a SafeHtml version of the text if it does.
+   *
+   * @param text
+   * @returns
+   */
+  private resolveSafeHtml(text: string): SafeHtml | null {
+    const hasLinks = this.parseMessageForLinks(text);
+    const hasHtmlEntities = this.hasHtmlEntities(text);
+    return hasLinks || hasHtmlEntities;
+  }
+
+  /**
+   * Checks if the provided text contains specific HTML entities and returns a SafeHtml version of the text if it does.
+   *
+   * @param text
+   * @returns
+   */
+  private hasHtmlEntities(text: string): SafeHtml | null {
+    const htmlEntities = ['&nbsp;', '&shy;'];
+    const containsHtmlEntity = htmlEntities.some((entity) => text.includes(entity));
+    return containsHtmlEntity ? this.sanitizer.bypassSecurityTrustHtml(text) : null;
+  }
+
+  /**
    * Retrieves the base badge details based on the current messages.
    * If there are no active messages, it returns null.
    *
    * @returns The base badge details or null if no active messages.
    */
-  private _getBaseBadgeDetails(): ActiveBadgeInterface | null {
+  private getBaseBadgeDetails(): ActiveBadgeInterface | null {
     if (!this.messages) return null;
 
     if (this.messages.error) {
@@ -138,7 +162,7 @@ export class Badge implements AfterViewChecked {
    * @param message The message to parse.
    * @returns The parsed message with HTML anchor tags or null if no custom links are found.
    */
-  private _parseMessageForLinks(message: string): SafeHtml | null {
+  private parseMessageForLinks(message: string): SafeHtml | null {
     const typePart = `\\[(routerLink|href)\\]`;
     const urlPart = `([^"|]+)`;
     const optionalAliasPart = `(?:\\|([^"]+))?`;
