@@ -19,16 +19,31 @@
     </button>
     <button
       class="value"
-      [routerLink]="['/user-settings']"
+      [routerLink]="['/account-settings']"
       (click)="onClose()"
     >
       <span
         class="icon-container"
-        [innerHTML]="svgIconsService.returnIcon('user_settings', 'icon')"
+        [innerHTML]="svgIconsService.returnIcon('account_settings', 'icon')"
       ></span
-      >Avatar & Konto
+      >Konto
     </button>
-    <button class="value">
+    <button
+      class="value"
+      [routerLink]="['/avatar-settings']"
+      (click)="onClose()"
+    >
+      <span
+        class="icon-container"
+        [innerHTML]="svgIconsService.returnIcon('avatar_settings', 'icon')"
+      ></span
+      >Avatar
+    </button>
+    <button
+      class="value"
+      [routerLink]="['/app-settings']"
+      (click)="onClose()"
+    >
       <span
         class="icon-container"
         [innerHTML]="svgIconsService.returnIcon('app_settings', 'icon')"
