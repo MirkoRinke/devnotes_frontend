@@ -16,7 +16,9 @@ import { Favorites } from './pages/favorites/favorites';
 import { Network } from './pages/network/network';
 import { MyArea } from './pages/my-area/my-area';
 import { UserProfile } from './pages/user-profile/user-profile';
-import { UserSettings } from './pages/user-settings/user-settings';
+import { AvatarSettings } from './pages/avatar-settings/avatar-settings';
+import { AccountSettings } from './pages/account-settings/account-settings';
+import { AppSettings } from './pages/app-settings/app-settings';
 import { BadGateway } from './pages/bad-gateway/bad-gateway';
 import { DontDuckWithMe } from './pages/dont-duck-with-me/dont-duck-with-me';
 import { Imprint } from './pages/legal/imprint/imprint';
@@ -40,7 +42,9 @@ export const routes: Routes = [
   { path: 'post/:id', component: Post },
   { path: 'post-create', component: PostCreate },
   { path: 'user-profile/:id', component: UserProfile },
-  { path: 'user-settings', component: UserSettings },
+  { path: 'avatar-settings', component: AvatarSettings },
+  { path: 'account-settings', component: AccountSettings },
+  { path: 'app-settings', component: AppSettings },
   { path: 'bad-gateway', component: BadGateway },
   { path: 'dont-duck-with-me', component: DontDuckWithMe },
   { path: 'legal/imprint', component: Imprint },
