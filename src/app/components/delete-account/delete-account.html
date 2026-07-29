@@ -67,20 +67,33 @@
 
       <div class="action-buttons">
         <button
-          class="submit-button"
-          (click)="onSubmit()"
-        >
-          {{ doubleCheckIdentifier ? 'Ja, Konto löschen' : 'Konto löschen' }}
-        </button>
-
-        <button
           type="button"
           class="cancel-button"
           (click)="onCancel()"
         >
           Abbrechen
         </button>
+        <button
+          class="submit-button"
+          (click)="onSubmit()"
+        >
+          {{ doubleCheckIdentifier ? 'Ja, Konto löschen' : 'Konto löschen' }}
+        </button>
       </div>
     </form>
+    <!--TODO Replace the routerLink with the actual route to your contact page -->
+    <div class="footer-links">
+      <a
+        [routerLink]="['/']"
+        class="link"
+        >Kontakt</a
+      >
+
+      <a
+        [routerLink]="['/login']"
+        class="link dimmed"
+        >Anmelden</a
+      >
+    </div>
   </div>
 }
