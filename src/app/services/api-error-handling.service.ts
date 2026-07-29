@@ -141,6 +141,23 @@ export class ApiErrorHandlingService {
       return;
     }
 
+    if (error.errors === 'EMAIL_NOT_VERIFIED') {
+      const pagesMap = ['/login', '/agreement'];
+
+      if (pagesMap.some((page) => this.router.url.includes(page))) {
+        return {
+          messages: {
+            validatorKey: error.errors,
+            messageType: 'info',
+          },
+        };
+      }
+
+      this.authStorageService.clearLoginData();
+      this.router.navigate(['/login']);
+      return;
+    }
+
     return this.handleDefault(error);
   }
 
