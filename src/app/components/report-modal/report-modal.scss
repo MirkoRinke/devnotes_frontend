@@ -4,6 +4,7 @@
 
 :host(.overlay) {
   @include display-flex(center, center);
+  //TODO: Fix border-radius inherit not working on overlay
   @include absolute-overlay($animation-style: fade);
 }
 
