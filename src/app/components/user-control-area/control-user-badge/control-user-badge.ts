@@ -1,14 +1,14 @@
 import { Component, Input } from '@angular/core';
 
 import type { UserInterface } from '../../../interfaces/user';
-import { UserControlMenu } from '../user-control-menu/user-control-menu';
 
 import { ClickOutsideDirective } from '../../../directives/click-outside.directive';
 import { AvatarLayer } from '../../avatar-layer/avatar-layer';
+import { ControlUserMenu } from './control-user-menu/control-user-menu';
 
 @Component({
   selector: 'app-control-user-badge',
-  imports: [UserControlMenu, ClickOutsideDirective, AvatarLayer],
+  imports: [ClickOutsideDirective, AvatarLayer, ControlUserMenu],
   templateUrl: './control-user-badge.html',
   styleUrl: './control-user-badge.scss',
 })

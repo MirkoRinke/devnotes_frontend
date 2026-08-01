@@ -19,12 +19,12 @@
     </div>
 
     @if (menuActive && menuOpen) {
-      <app-user-control-menu
+      <app-control-user-menu
         [user]="user"
         [isUserBadgeMenuOpen]="menuOpen"
         [isUserBadgeMenuAnimating]="menuAnimating"
         (closeMenu)="closeBadgeMenu()"
-      ></app-user-control-menu>
+      ></app-control-user-menu>
     }
   </div>
 }
