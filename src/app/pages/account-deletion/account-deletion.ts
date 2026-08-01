@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { DeleteAccount } from '../../components/auth/delete-account/delete-account';
+import { DeleteAccountForm } from '../../components/auth/delete-account-form/delete-account-form';
 
 @Component({
   selector: 'app-account-deletion',
-  imports: [DeleteAccount],
+  imports: [DeleteAccountForm],
   templateUrl: './account-deletion.html',
   styleUrl: './account-deletion.scss',
 })

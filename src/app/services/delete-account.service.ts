@@ -7,7 +7,7 @@ import { ApiService } from './api.service';
 import { ApiEndpointEnums } from '../enums/api-endpoint';
 import { AuthStorageService } from './auth-storage.service';
 
-import type { DeleteAccountInterface } from '../interfaces/delete-account';
+import type { DeleteAccountInterface } from '../interfaces/delete-account-form';
 import type { ApiResponseObjektInterface } from '../interfaces/api-response';
 
 @Injectable({

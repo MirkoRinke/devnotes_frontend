@@ -13,7 +13,7 @@ import { AUTH_FORMS_CONFIG } from '../../../config/auth-forms.config';
 
 import { AuthService } from '../../../services/auth.service';
 
-import type { DeleteAccountErrorsInterface, DeleteAccountInterface, DeleteAccountMessagesInterface } from '../../../interfaces/delete-account';
+import type { DeleteAccountErrorsInterface, DeleteAccountInterface, DeleteAccountMessagesInterface } from '../../../interfaces/delete-account-form';
 import type { BackendErrorResponseInterface, BusinessActionInterface, ParamsInterface } from '../../../interfaces/error-handling';
 import { badgeMessagesInit } from '../../../interfaces/validation-messages';
 
@@ -23,12 +23,12 @@ import { Badge } from '../../badge/badge';
 import { PasswordToggleButton } from '../../password-toggle-button/password-toggle-button';
 
 @Component({
-  selector: 'app-delete-account',
+  selector: 'app-delete-account-form',
   imports: [ReactiveFormsModule, Badge, RouterModule, PasswordToggleButton],
-  templateUrl: './delete-account.html',
-  styleUrl: './delete-account.scss',
+  templateUrl: './delete-account-form.html',
+  styleUrl: './delete-account-form.scss',
 })
-export class DeleteAccount {
+export class DeleteAccountForm {
   deleteAccountForm: FormGroup | null = null;
   doubleCheckIdentifier = false;
 
