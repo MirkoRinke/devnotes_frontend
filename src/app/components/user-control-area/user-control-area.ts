@@ -16,11 +16,11 @@ import { ApiEndpointEnums } from '../../enums/api-endpoint';
 import type { BackendErrorResponseInterface, BusinessActionInterface } from '../../interfaces/error-handling';
 import type { ApiResponseObjektInterface } from '../../interfaces/api-response';
 import type { UserInterface } from '../../interfaces/user';
-import { UserBadge } from '../user-badge/user-badge';
+import { ControlUserBadge } from './control-user-badge/control-user-badge';
 
 @Component({
   selector: 'app-user-control-area',
-  imports: [UserAuth, UserBadge],
+  imports: [UserAuth, ControlUserBadge],
   templateUrl: './user-control-area.html',
   styleUrl: './user-control-area.scss',
 })

@@ -1,9 +1,8 @@
 @if (authService.isLoggedIn() && user) {
-  <app-user-badge
+  <app-control-user-badge
     [user]="user"
-    [userBadgeContext]="'profile'"
     [menuActive]="true"
-  ></app-user-badge>
+  ></app-control-user-badge>
 } @else {
   <app-user-auth></app-user-auth>
 }
