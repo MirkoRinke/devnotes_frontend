@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { UserAccountSettings } from '../../components/auth/user-account-settings/user-account-settings';
+import { AccountUpdateForm } from '../../components/auth/account-update-form/account-update-form';
 
 @Component({
   selector: 'app-account-settings',
-  imports: [UserAccountSettings],
+  imports: [AccountUpdateForm],
   templateUrl: './account-settings.html',
   styleUrl: './account-settings.scss',
 })

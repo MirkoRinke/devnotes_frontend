@@ -37,12 +37,12 @@ import { PasswordToggleButton } from '../../password-toggle-button/password-togg
 import { PasswordStrengthFeedback } from '../../password-strength-feedback/password-strength-feedback';
 
 @Component({
-  selector: 'app-user-account-settings',
+  selector: 'app-account-update-form',
   imports: [ReactiveFormsModule, RouterModule, Badge, PasswordToggleButton, PasswordStrengthFeedback],
-  templateUrl: './user-account-settings.html',
-  styleUrl: './user-account-settings.scss',
+  templateUrl: './account-update-form.html',
+  styleUrl: './account-update-form.scss',
 })
-export class UserAccountSettings {
+export class AccountUpdateForm {
   accountSettingsForm: FormGroup | null = null;
 
   messages: AccountSettingsMessagesInterface = {
