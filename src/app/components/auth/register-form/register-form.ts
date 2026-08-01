@@ -3,29 +3,29 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule, FormBuilder, FormGroup, FormControl, AbstractControl } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 
-import { RegisterService } from '../../services/register.service';
+import { RegisterService } from '../../../services/register.service';
 
-import { mismatchedFieldsValidator } from '../../utils/custom-validators';
+import { mismatchedFieldsValidator } from '../../../utils/custom-validators';
 
-import { ApiErrorHandlingService } from '../../services/api-error-handling.service';
-import { TranslationService } from '../../i18n/translation.service';
-import { UserNameAvailabilityService } from '../../services/user-name-availability.service';
+import { ApiErrorHandlingService } from '../../../services/api-error-handling.service';
+import { TranslationService } from '../../../i18n/translation.service';
+import { UserNameAvailabilityService } from '../../../services/user-name-availability.service';
 
-import { BadgeMessageHandler } from '../../utils/badge-message-handler';
-import { AUTH_FORMS_CONFIG } from '../../config/auth-forms.config';
+import { BadgeMessageHandler } from '../../../utils/badge-message-handler';
+import { AUTH_FORMS_CONFIG } from '../../../config/auth-forms.config';
 
-import type { RegisterFormErrorsInterface, RegisterMessagesInterface, RegisterFormInterface, RegistrationAvailabilityResponseInterface } from '../../interfaces/register-form';
-import type { BackendErrorResponseInterface, BusinessActionInterface, ParamsInterface } from '../../interfaces/error-handling';
-import type { BadgeMessagesInterface } from '../../interfaces/validation-messages';
-import { badgeMessagesInit } from '../../interfaces/validation-messages';
+import type { RegisterFormErrorsInterface, RegisterMessagesInterface, RegisterFormInterface, RegistrationAvailabilityResponseInterface } from '../../../interfaces/register-form';
+import type { BackendErrorResponseInterface, BusinessActionInterface, ParamsInterface } from '../../../interfaces/error-handling';
+import type { BadgeMessagesInterface } from '../../../interfaces/validation-messages';
+import { badgeMessagesInit } from '../../../interfaces/validation-messages';
 
-import { SvgIconsService } from '../../services/svg.icons.service';
-import { Badge } from '../badge/badge';
+import { SvgIconsService } from '../../../services/svg.icons.service';
+import { Badge } from '../../badge/badge';
 
 import { catchError, debounceTime, distinctUntilChanged, of, switchMap, tap } from 'rxjs';
-import { PasswordToggleButton } from '../password-toggle-button/password-toggle-button';
-import { PasswordStrengthFeedback } from '../password-strength-feedback/password-strength-feedback';
-import { LegalAcceptance } from '../legal-acceptance/legal-acceptance';
+import { PasswordToggleButton } from '../../password-toggle-button/password-toggle-button';
+import { PasswordStrengthFeedback } from '../../password-strength-feedback/password-strength-feedback';
+import { LegalAcceptance } from '../../legal-acceptance/legal-acceptance';
 
 @Component({
   selector: 'app-register-form',
