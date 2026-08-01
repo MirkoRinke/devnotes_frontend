@@ -3,24 +3,24 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 
-import { SvgIconsService } from '../../services/svg.icons.service';
-import { DeleteAccountService } from '../../services/delete-account.service';
-import { ApiErrorHandlingService } from '../../services/api-error-handling.service';
-import { TranslationService } from '../../i18n/translation.service';
+import { SvgIconsService } from '../../../services/svg.icons.service';
+import { DeleteAccountService } from '../../../services/delete-account.service';
+import { ApiErrorHandlingService } from '../../../services/api-error-handling.service';
+import { TranslationService } from '../../../i18n/translation.service';
 
-import { BadgeMessageHandler } from '../../utils/badge-message-handler';
-import { AUTH_FORMS_CONFIG } from '../../config/auth-forms.config';
+import { BadgeMessageHandler } from '../../../utils/badge-message-handler';
+import { AUTH_FORMS_CONFIG } from '../../../config/auth-forms.config';
 
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../../services/auth.service';
 
-import type { DeleteAccountErrorsInterface, DeleteAccountInterface, DeleteAccountMessagesInterface } from '../../interfaces/delete-account';
-import type { BackendErrorResponseInterface, BusinessActionInterface, ParamsInterface } from '../../interfaces/error-handling';
-import { badgeMessagesInit } from '../../interfaces/validation-messages';
+import type { DeleteAccountErrorsInterface, DeleteAccountInterface, DeleteAccountMessagesInterface } from '../../../interfaces/delete-account';
+import type { BackendErrorResponseInterface, BusinessActionInterface, ParamsInterface } from '../../../interfaces/error-handling';
+import { badgeMessagesInit } from '../../../interfaces/validation-messages';
 
-import { RegexEnums } from '../../enums/regex';
+import { RegexEnums } from '../../../enums/regex';
 
-import { Badge } from '../badge/badge';
-import { PasswordToggleButton } from '../password-toggle-button/password-toggle-button';
+import { Badge } from '../../badge/badge';
+import { PasswordToggleButton } from '../../password-toggle-button/password-toggle-button';
 
 @Component({
   selector: 'app-delete-account',

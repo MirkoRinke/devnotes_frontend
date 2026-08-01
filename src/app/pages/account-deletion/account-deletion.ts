@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { DeleteAccount } from '../../components/delete-account/delete-account';
+import { DeleteAccount } from '../../components/auth/delete-account/delete-account';
 
 @Component({
   selector: 'app-account-deletion',
