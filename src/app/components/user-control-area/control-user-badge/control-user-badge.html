@@ -1,0 +1,30 @@
+@if (user) {
+  <div
+    class="control-user-badge"
+    appClickOutsideDirective
+    [clickOutsideEnabled]="menuOpen"
+    (clickOutside)="triggerCloseBadgeMenu()"
+  >
+    <div
+      (click)="menuActive ? toggleBadgeMenu() : null"
+      class="user-badge"
+      [class.menu-active]="menuActive"
+    >
+      <app-avatar-layer
+        [avatarMvpId]="user.avatar_mvp_id ?? null"
+        [menuOpen]="menuOpen"
+      ></app-avatar-layer>
+
+      <span class="display-name">{{ user.display_name }}</span>
+    </div>
+
+    @if (menuActive && menuOpen) {
+      <app-user-control-menu
+        [user]="user"
+        [isUserBadgeMenuOpen]="menuOpen"
+        [isUserBadgeMenuAnimating]="menuAnimating"
+        (closeMenu)="closeBadgeMenu()"
+      ></app-user-control-menu>
+    }
+  </div>
+}

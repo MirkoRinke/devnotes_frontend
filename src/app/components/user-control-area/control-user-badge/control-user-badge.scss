@@ -1,0 +1,24 @@
+@use '../../../../functions' as *;
+@use '../../../../var' as var;
+@use '../../../../mixins' as *;
+
+.control-user-badge {
+  position: relative;
+
+  .user-badge {
+    @include display-flex(center);
+    gap: px-to-rem(10);
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    .display-name {
+      color: var(--font-primary-color-100);
+
+      &::first-letter {
+        text-transform: uppercase;
+      }
+    }
+  }
+}
