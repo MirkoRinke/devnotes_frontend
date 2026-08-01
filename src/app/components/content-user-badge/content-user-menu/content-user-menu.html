@@ -1,9 +1,9 @@
 @if (user) {
   <div
     class="values"
-    [class.active]="isUserBadgeMenuOpen"
-    [class.animated-in]="isUserBadgeMenuAnimating"
-    [class.animated-out]="!isUserBadgeMenuAnimating"
+    [class.active]="menuOpen"
+    [class.animated-in]="menuAnimating"
+    [class.animated-out]="!menuAnimating"
     (animationend)="onAnimationEnd($event)"
   >
     <button

@@ -1,18 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UserBadgeMenu } from './user-badge-menu';
+import { ContentUserMenu } from './content-user-menu';
 
-describe('UserBadgeMenu', () => {
-  let component: UserBadgeMenu;
-  let fixture: ComponentFixture<UserBadgeMenu>;
+describe('ContentUserMenu', () => {
+  let component: ContentUserMenu;
+  let fixture: ComponentFixture<ContentUserMenu>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UserBadgeMenu]
-    })
-    .compileComponents();
+      imports: [ContentUserMenu],
+    }).compileComponents();
 
-    fixture = TestBed.createComponent(UserBadgeMenu);
+    fixture = TestBed.createComponent(ContentUserMenu);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

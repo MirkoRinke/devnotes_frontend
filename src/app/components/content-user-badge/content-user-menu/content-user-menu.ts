@@ -9,16 +9,16 @@ import type { UserInterface } from '../../../interfaces/user';
 import { ApiEndpointEnums } from '../../../enums/api-endpoint';
 
 @Component({
-  selector: 'app-user-badge-menu',
+  selector: 'app-content-user-menu',
   imports: [RouterModule],
-  templateUrl: './user-badge-menu.html',
-  styleUrl: './user-badge-menu.scss',
+  templateUrl: './content-user-menu.html',
+  styleUrl: './content-user-menu.scss',
 })
-export class UserBadgeMenu {
+export class ContentUserMenu {
   @Input() user: UserInterface | null = null;
 
-  @Input() isUserBadgeMenuOpen: boolean = false;
-  @Input() isUserBadgeMenuAnimating: boolean = false;
+  @Input() menuOpen: boolean = false;
+  @Input() menuAnimating: boolean = false;
 
   @Output() closeMenu = new EventEmitter<void>();
   @Output() openReportModal = new EventEmitter<void>();
@@ -35,7 +35,7 @@ export class UserBadgeMenu {
    * triggered onAnimationEnd when animated out
    */
   onClose() {
-    this.isUserBadgeMenuAnimating = false;
+    this.menuAnimating = false;
   }
 
   /**
