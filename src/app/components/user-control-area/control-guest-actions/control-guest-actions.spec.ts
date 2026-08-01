@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UserAuth } from './user-auth';
+import { ControlGuestActions } from './control-guest-actions';
 
-describe('UserAuth', () => {
-  let component: UserAuth;
-  let fixture: ComponentFixture<UserAuth>;
+describe('ControlGuestActions', () => {
+  let component: ControlGuestActions;
+  let fixture: ComponentFixture<ControlGuestActions>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UserAuth]
+      imports: [ControlGuestActions]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(UserAuth);
+    fixture = TestBed.createComponent(ControlGuestActions);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

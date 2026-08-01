@@ -3,8 +3,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 
-import { UserAuth } from '../user-auth/user-auth';
-
 import { AuthService } from '../../services/auth.service';
 import { ApiService } from '../../services/api.service';
 import { ApiErrorHandlingService } from '../../services/api-error-handling.service';
@@ -17,10 +15,11 @@ import type { BackendErrorResponseInterface, BusinessActionInterface } from '../
 import type { ApiResponseObjektInterface } from '../../interfaces/api-response';
 import type { UserInterface } from '../../interfaces/user';
 import { ControlUserBadge } from './control-user-badge/control-user-badge';
+import { ControlGuestActions } from './control-guest-actions/control-guest-actions';
 
 @Component({
   selector: 'app-user-control-area',
-  imports: [UserAuth, ControlUserBadge],
+  imports: [ControlUserBadge, ControlGuestActions],
   templateUrl: './user-control-area.html',
   styleUrl: './user-control-area.scss',
 })
