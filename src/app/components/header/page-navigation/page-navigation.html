@@ -36,50 +36,19 @@
       class="links"
       [attr.aria-hidden]="showSearch"
     >
-      <a
-        class="link"
-        [routerLink]="'/my-area'"
-        [class.active]="isActive(PageContextEnums.MY_AREA)"
-      >
-        <span
-          class="icon-container"
-          [innerHTML]="svgIconsService.returnIcon('myArea')"
-        ></span>
-        Mein Bereich
-      </a>
-      <a
-        class="link"
-        [routerLink]="'/favorites'"
-        [class.active]="isActive(PageContextEnums.FAVORITES)"
-      >
-        <span
-          class="icon-container"
-          [innerHTML]="svgIconsService.returnIcon('favorites')"
-        ></span>
-        Favoriten
-      </a>
-      <a
-        class="link"
-        [routerLink]="'/network'"
-        [class.active]="isActive(PageContextEnums.NETWORK)"
-      >
-        <span
-          class="icon-container"
-          [innerHTML]="svgIconsService.returnIcon('network')"
-        ></span>
-        Netzwerk
-      </a>
-      <a
-        class="link"
-        [routerLink]="'/community'"
-        [class.active]="isActive(PageContextEnums.COMMUNITY)"
-      >
-        <span
-          class="icon-container"
-          [innerHTML]="svgIconsService.returnIcon('community')"
-        ></span>
-        Community</a
-      >
+      @for (link of navigationLinks; track $index) {
+        <a
+          class="link"
+          [routerLink]="link.path"
+          [class.active]="activeMap[link.context]"
+        >
+          <span
+            class="icon-container"
+            [innerHTML]="svgIconsService.returnIcon(link.label)"
+          ></span>
+          {{ link.label }}
+        </a>
+      }
     </div>
   </div>
 </nav>

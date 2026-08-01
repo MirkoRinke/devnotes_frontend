@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, ActivatedRoute, Router, NavigationEnd, NavigationStart } from '@angular/router';
+import { RouterModule, ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 
 import { filter, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
-import { Search } from '../search/search';
+import { Search } from '../../search/search';
 
-import { SvgIconsService } from '../../services/svg.icons.service';
-import { SearchService } from '../../services/search.service';
+import { SvgIconsService } from '../../../services/svg.icons.service';
+import { SearchService } from '../../../services/search.service';
 
-import { PageContextEnums } from '../../enums/context';
+import { PageContextEnums } from '../../../enums/context';
 
 @Component({
   selector: 'app-page-navigation',
@@ -23,6 +23,13 @@ export class PageNavigation {
   activeMap: { [key in PageContextEnums]?: boolean } = {};
 
   readonly PageContextEnums = PageContextEnums;
+
+  navigationLinks = [
+    { label: 'myArea', path: '/my-area', context: PageContextEnums.MY_AREA },
+    { label: 'favorites', path: '/favorites', context: PageContextEnums.FAVORITES },
+    { label: 'network', path: '/network', context: PageContextEnums.NETWORK },
+    { label: 'community', path: '/community', context: PageContextEnums.COMMUNITY },
+  ];
 
   showSearch: boolean = false;
   delayedSearch: boolean = false;
@@ -52,19 +59,6 @@ export class PageNavigation {
   }
 
   /**
-   * Update activeMap based on current context or URL
-   */
-  updateActiveMap() {
-    const url = window.location.href;
-    this.activeMap = {
-      [PageContextEnums.MY_AREA]: this.context === PageContextEnums.MY_AREA || url.includes(`/${PageContextEnums.MY_AREA}`),
-      [PageContextEnums.FAVORITES]: this.context === PageContextEnums.FAVORITES || url.includes(`/${PageContextEnums.FAVORITES}`),
-      [PageContextEnums.NETWORK]: this.context === PageContextEnums.NETWORK || url.includes(`/${PageContextEnums.NETWORK}`),
-      [PageContextEnums.COMMUNITY]: this.context === PageContextEnums.COMMUNITY || url.includes(`/${PageContextEnums.COMMUNITY}`),
-    };
-  }
-
-  /**
    * Subscribe to route query params and router events to update context and active map
    */
   subscribeNavigationEnd() {
@@ -91,13 +85,14 @@ export class PageNavigation {
   }
 
   /**
-   * Check if a route fragment is active
-   *
-   * @param routeFragment
-   * @returns
+   * Update activeMap based on current context or URL
    */
-  isActive(routeFragment: PageContextEnums): boolean {
-    return this.activeMap[routeFragment] || false;
+  updateActiveMap() {
+    const url = window.location.href;
+
+    this.navigationLinks.forEach((link) => {
+      this.activeMap[link.context] = this.context === link.context || url.includes(link.path);
+    });
   }
 
   /**
