@@ -31,13 +31,13 @@
     </div>
 
     @if (menuActive && menuOpen) {
-      <app-user-badge-menu
+      <app-content-user-menu
         [user]="user"
-        [isUserBadgeMenuOpen]="menuOpen"
-        [isUserBadgeMenuAnimating]="menuAnimating"
+        [menuOpen]="menuOpen"
+        [menuAnimating]="menuAnimating"
         (closeMenu)="closeBadgeMenu()"
         (openReportModal)="openReportModal()"
-      ></app-user-badge-menu>
+      ></app-content-user-menu>
     }
   </div>
 }

@@ -27,7 +27,6 @@ import type { ExternalSourceInterface } from '../../../interfaces/post-external-
 import { badgeMessagesInit } from '../../../interfaces/validation-messages';
 
 import { QueryParamsDropdown } from '../../query-params-dropdown/query-params-dropdown';
-import { UserBadge } from '../../user-badge/user-badge';
 import { PostEngagement } from '../post-engagement/post-engagement';
 import { PostCode } from '../post-code/post-code';
 import { PostDescription } from '../post-description/post-description';
@@ -39,6 +38,7 @@ import { PostMediaLinksEditor } from '../post-media-links-editor/post-media-link
 import { PostTagsEditor } from '../post-tags-editor/post-tags-editor';
 import { TerminalLog } from '../../terminal-log/terminal-log';
 import { Badge } from '../../badge/badge';
+import { ContentUserBadge } from '../../content-user-badge/content-user-badge';
 
 @Component({
   selector: 'app-post-form',
@@ -46,7 +46,6 @@ import { Badge } from '../../badge/badge';
     ReactiveFormsModule,
     LocalDatePipe,
     QueryParamsDropdown,
-    UserBadge,
     PostEngagement,
     PostCode,
     PostDescription,
@@ -58,6 +57,7 @@ import { Badge } from '../../badge/badge';
     PostTagsEditor,
     TerminalLog,
     Badge,
+    ContentUserBadge,
   ],
   templateUrl: './post-form.html',
   styleUrl: './post-form.scss',

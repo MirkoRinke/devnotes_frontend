@@ -1,19 +1,19 @@
 import { Component, Input } from '@angular/core';
 
 import type { UserInterface } from '../../interfaces/user';
-import { UserBadgeMenu } from './user-badge-menu/user-badge-menu';
 import { ReportModal } from '../report-modal/report-modal';
 
 import { ClickOutsideDirective } from '../../directives/click-outside.directive';
 import { AvatarLayer } from '../avatar-layer/avatar-layer';
+import { ContentUserMenu } from './content-user-menu/content-user-menu';
 
 @Component({
-  selector: 'app-user-badge',
-  imports: [UserBadgeMenu, ReportModal, ClickOutsideDirective, AvatarLayer],
-  templateUrl: './user-badge.html',
-  styleUrl: './user-badge.scss',
+  selector: 'app-content-user-badge',
+  imports: [ReportModal, ClickOutsideDirective, AvatarLayer, ContentUserMenu],
+  templateUrl: './content-user-badge.html',
+  styleUrl: './content-user-badge.scss',
 })
-export class UserBadge {
+export class ContentUserBadge {
   @Input() user: UserInterface | null = null;
   @Input() menuActive: boolean = false;
 

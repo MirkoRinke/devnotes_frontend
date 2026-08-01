@@ -44,10 +44,10 @@
 
     <div class="info-bar">
       @if (currentPost.user) {
-        <app-user-badge
+        <app-content-user-badge
           [user]="currentPost.user"
           [menuActive]="true"
-        ></app-user-badge>
+        ></app-content-user-badge>
       }
 
       <app-post-engagement [post]="currentPost"></app-post-engagement>

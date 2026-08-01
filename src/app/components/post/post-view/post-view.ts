@@ -12,7 +12,6 @@ import { AuthService } from '../../../services/auth.service';
 
 import { PostSettingsDropdown } from './post-settings-dropdown/post-settings-dropdown';
 import { ReportModal } from '../../report-modal/report-modal';
-import { UserBadge } from '../../user-badge/user-badge';
 import { PostVersionDropdown } from './post-version-dropdown/post-version-dropdown';
 import { ReportButton } from '../../report-button/report-button';
 import { PostEngagement } from '../post-engagement/post-engagement';
@@ -24,13 +23,13 @@ import { PostDescription } from '../post-description/post-description';
 import { PostDelete } from '../post-delete/post-delete';
 
 import type { PostParamsInterface } from '../../../interfaces/post-params';
+import { ContentUserBadge } from '../../content-user-badge/content-user-badge';
 @Component({
   selector: 'app-post-view',
   imports: [
     PostResourceModal,
     PostSettingsDropdown,
     ReportModal,
-    UserBadge,
     PostVersionDropdown,
     ReportButton,
     PostEngagement,
@@ -40,6 +39,7 @@ import type { PostParamsInterface } from '../../../interfaces/post-params';
     PostTags,
     PostDescription,
     PostDelete,
+    ContentUserBadge,
   ],
   templateUrl: './post-view.html',
   styleUrl: './post-view.scss',
