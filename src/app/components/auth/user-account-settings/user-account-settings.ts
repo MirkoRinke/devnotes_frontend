@@ -3,38 +3,38 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule, FormBuilder, FormGroup, FormControl, AbstractControl } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
-import { mismatchedFieldsValidator } from '../../utils/custom-validators';
+import { mismatchedFieldsValidator } from '../../../utils/custom-validators';
 
-import { AuthService } from '../../services/auth.service';
-import { ApiService } from '../../services/api.service';
-import { ApiErrorHandlingService } from '../../services/api-error-handling.service';
-import { TranslationService } from '../../i18n/translation.service';
-import { UserNameAvailabilityService } from '../../services/user-name-availability.service';
+import { AuthService } from '../../../services/auth.service';
+import { ApiService } from '../../../services/api.service';
+import { ApiErrorHandlingService } from '../../../services/api-error-handling.service';
+import { TranslationService } from '../../../i18n/translation.service';
+import { UserNameAvailabilityService } from '../../../services/user-name-availability.service';
 
-import { BadgeMessageHandler } from '../../utils/badge-message-handler';
-import { AUTH_FORMS_CONFIG } from '../../config/auth-forms.config';
+import { BadgeMessageHandler } from '../../../utils/badge-message-handler';
+import { AUTH_FORMS_CONFIG } from '../../../config/auth-forms.config';
 
 import type {
   AccountSettingsFormErrorsInterface,
   AccountSettingsMessagesInterface,
   AccountSettingsFormInterface,
   AccountSettingsAvailabilityResponseInterface,
-} from '../../interfaces/account-settings';
-import type { BackendErrorResponseInterface, BusinessActionInterface, ParamsInterface } from '../../interfaces/error-handling';
-import type { BadgeMessagesInterface } from '../../interfaces/validation-messages';
-import { badgeMessagesInit } from '../../interfaces/validation-messages';
+} from '../../../interfaces/account-settings';
+import type { BackendErrorResponseInterface, BusinessActionInterface, ParamsInterface } from '../../../interfaces/error-handling';
+import type { BadgeMessagesInterface } from '../../../interfaces/validation-messages';
+import { badgeMessagesInit } from '../../../interfaces/validation-messages';
 
-import type { ApiResponseObjektInterface } from '../../interfaces/api-response';
-import type { UserInterface } from '../../interfaces/user';
+import type { ApiResponseObjektInterface } from '../../../interfaces/api-response';
+import type { UserInterface } from '../../../interfaces/user';
 
-import { ApiEndpointEnums } from '../../enums/api-endpoint';
+import { ApiEndpointEnums } from '../../../enums/api-endpoint';
 
-import { SvgIconsService } from '../../services/svg.icons.service';
-import { Badge } from '../badge/badge';
+import { SvgIconsService } from '../../../services/svg.icons.service';
+import { Badge } from '../../badge/badge';
 
 import { catchError, debounceTime, distinctUntilChanged, of, switchMap, tap } from 'rxjs';
-import { PasswordToggleButton } from '../password-toggle-button/password-toggle-button';
-import { PasswordStrengthFeedback } from '../password-strength-feedback/password-strength-feedback';
+import { PasswordToggleButton } from '../../password-toggle-button/password-toggle-button';
+import { PasswordStrengthFeedback } from '../../password-strength-feedback/password-strength-feedback';
 
 @Component({
   selector: 'app-user-account-settings',

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { UserAccountSettings } from '../../components/user-account-settings/user-account-settings';
+import { UserAccountSettings } from '../../components/auth/user-account-settings/user-account-settings';
 
 @Component({
   selector: 'app-account-settings',
