@@ -25,7 +25,7 @@ import { Badge } from '../../badge/badge';
 import { catchError, debounceTime, distinctUntilChanged, of, switchMap, tap } from 'rxjs';
 import { PasswordToggleButton } from '../../password-toggle-button/password-toggle-button';
 import { PasswordStrengthFeedback } from '../../password-strength-feedback/password-strength-feedback';
-import { LegalAcceptance } from '../../legal-acceptance/legal-acceptance';
+import { LegalAcceptance } from '../legal-acceptance/legal-acceptance';
 
 @Component({
   selector: 'app-register-form',

@@ -19,7 +19,7 @@ import { RegexEnums } from '../../../enums/regex';
 import { SvgIconsService } from '../../../services/svg.icons.service';
 import { Badge } from '../../badge/badge';
 import { PasswordToggleButton } from '../../password-toggle-button/password-toggle-button';
-import { LegalAcceptance } from '../../legal-acceptance/legal-acceptance';
+import { LegalAcceptance } from '../legal-acceptance/legal-acceptance';
 
 @Component({
   selector: 'app-login-form',
