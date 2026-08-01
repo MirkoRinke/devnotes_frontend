@@ -1,19 +1,19 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { AuthService } from '../../../services/auth.service';
-import { LogoutService } from '../../../services/logout.service';
-import { SvgIconsService } from '../../../services/svg.icons.service';
+import { AuthService } from '../../../../services/auth.service';
+import { LogoutService } from '../../../../services/logout.service';
+import { SvgIconsService } from '../../../../services/svg.icons.service';
 
-import type { UserInterface } from '../../../interfaces/user';
+import type { UserInterface } from '../../../../interfaces/user';
 
 @Component({
-  selector: 'app-user-control-menu',
+  selector: 'app-control-user-menu',
   imports: [RouterModule],
-  templateUrl: './user-control-menu.html',
-  styleUrl: './user-control-menu.scss',
+  templateUrl: './control-user-menu.html',
+  styleUrl: './control-user-menu.scss',
 })
-export class UserControlMenu {
+export class ControlUserMenu {
   @Input() user: UserInterface | null = null;
 
   @Input() isUserBadgeMenuOpen: boolean = false;
