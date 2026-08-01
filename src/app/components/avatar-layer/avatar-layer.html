@@ -1,0 +1,22 @@
+@if (avatarMvpPath != null) {
+  <div class="avatar">
+    <img
+      [class.opened]="menuOpen"
+      [src]="avatarMvpPath"
+    />
+  </div>
+}
+
+<!--TODO For later avatar implementation -->
+<!-- @for (avatarItem of avatarItemsEntries(); track $index) {
+      <div>
+        @if (avatarItem.url) {
+          <img
+            [src]="avatarItem.url"
+            [alt]="avatarItem.key"
+            [class]="avatarItem.key"
+          />
+        }
+      </div>
+    } 
+-->
