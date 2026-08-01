@@ -3,23 +3,23 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule, FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 
-import { LoginService } from '../../services/login.service';
-import { ApiErrorHandlingService } from '../../services/api-error-handling.service';
-import { TranslationService } from '../../i18n/translation.service';
+import { LoginService } from '../../../services/login.service';
+import { ApiErrorHandlingService } from '../../../services/api-error-handling.service';
+import { TranslationService } from '../../../i18n/translation.service';
 
-import { BadgeMessageHandler } from '../../utils/badge-message-handler';
-import { AUTH_FORMS_CONFIG } from '../../config/auth-forms.config';
+import { BadgeMessageHandler } from '../../../utils/badge-message-handler';
+import { AUTH_FORMS_CONFIG } from '../../../config/auth-forms.config';
 
-import type { LoginFormErrorsInterface, LoginFormInterface, LoginMessagesInterface } from '../../interfaces/login-form';
-import type { BackendErrorResponseInterface, BusinessActionInterface, ParamsInterface } from '../../interfaces/error-handling';
-import { badgeMessagesInit } from '../../interfaces/validation-messages';
+import type { LoginFormErrorsInterface, LoginFormInterface, LoginMessagesInterface } from '../../../interfaces/login-form';
+import type { BackendErrorResponseInterface, BusinessActionInterface, ParamsInterface } from '../../../interfaces/error-handling';
+import { badgeMessagesInit } from '../../../interfaces/validation-messages';
 
-import { RegexEnums } from '../../enums/regex';
+import { RegexEnums } from '../../../enums/regex';
 
-import { SvgIconsService } from '../../services/svg.icons.service';
-import { Badge } from '../badge/badge';
-import { PasswordToggleButton } from '../password-toggle-button/password-toggle-button';
-import { LegalAcceptance } from '../legal-acceptance/legal-acceptance';
+import { SvgIconsService } from '../../../services/svg.icons.service';
+import { Badge } from '../../badge/badge';
+import { PasswordToggleButton } from '../../password-toggle-button/password-toggle-button';
+import { LegalAcceptance } from '../../legal-acceptance/legal-acceptance';
 
 @Component({
   selector: 'app-login-form',
