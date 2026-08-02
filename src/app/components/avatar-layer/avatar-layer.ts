@@ -10,6 +10,7 @@ import { SimpleChanges } from '@angular/core';
 export class AvatarLayer {
   @Input() avatarMvpId: number | null = null;
   @Input() menuOpen: boolean = false;
+  @Input() direction: 'right' | 'left' = 'right';
 
   adminAvatarID: number = 1000;
   moderatorAvatarID: number = 1001;

@@ -1,7 +1,9 @@
 @if (avatarMvpPath != null) {
   <div class="avatar">
     <img
+      class="image"
       [class.opened]="menuOpen"
+      [class.rotated]="direction === 'left'"
       [src]="avatarMvpPath"
     />
   </div>
