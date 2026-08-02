@@ -5,12 +5,12 @@ import { RouterModule, ActivatedRoute, Router, NavigationEnd } from '@angular/ro
 import { filter, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
-import { Search } from '../../search/search';
+import { Search } from '../search/search';
 
-import { SvgIconsService } from '../../../services/svg.icons.service';
-import { SearchService } from '../../../services/search.service';
+import { SvgIconsService } from '../../services/svg.icons.service';
+import { SearchService } from '../../services/search.service';
 
-import { PageContextEnums } from '../../../enums/context';
+import { PageContextEnums } from '../../enums/context';
 
 @Component({
   selector: 'app-page-navigation',

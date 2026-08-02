@@ -1,6 +1,6 @@
-@use '../../../../functions' as *;
-@use '../../../../var' as var;
-@use '../../../../mixins' as *;
+@use '../../../functions' as *;
+@use '../../../var' as var;
+@use '../../../mixins' as *;
 
 .page-navigation {
   @include display-flex($align: center, $justify: center, $gap: px-to-rem(25));
