@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter, OnInit, OnDestroy, HostListener
 import { Subject } from 'rxjs';
 import { take, takeUntil, debounceTime } from 'rxjs/operators';
 
-import { TechTile } from '../tech-tile/tech-tile';
+import { TechTile } from './tech-tile/tech-tile';
 
 import type { AvailableValuesInterface } from '../../interfaces/available-values';
 

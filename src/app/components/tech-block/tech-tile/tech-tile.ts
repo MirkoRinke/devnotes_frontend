@@ -3,15 +3,15 @@ import { RouterLink } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { AvailableValuesInterface } from '../../interfaces/available-values';
+import { AvailableValuesInterface } from '../../../interfaces/available-values';
 
-import { UserFavoriteTechnologiesService } from '../../services/user-favorite-technologies.service';
-import { SvgIconsService } from '../../services/svg.icons.service';
-import { ApiService } from '../../services/api.service';
-import { AuthService } from '../../services/auth.service';
+import { UserFavoriteTechnologiesService } from '../../../services/user-favorite-technologies.service';
+import { SvgIconsService } from '../../../services/svg.icons.service';
+import { ApiService } from '../../../services/api.service';
+import { AuthService } from '../../../services/auth.service';
 
-import { ApiEndpointEnums } from '../../enums/api-endpoint';
-import { PageContextEnums } from '../../enums/context';
+import { ApiEndpointEnums } from '../../../enums/api-endpoint';
+import { PageContextEnums } from '../../../enums/context';
 
 @Component({
   selector: 'app-tech-tile',
