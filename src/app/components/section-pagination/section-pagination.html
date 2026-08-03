@@ -1,4 +1,4 @@
-@if (paginationInfo.last_page > 1) {
+@if (paginationInfo && paginationInfo.last_page > 1) {
   <nav class="pagination">
     <!-- First Page -->
     <a
@@ -29,14 +29,14 @@
     </a>
 
     <!-- Page Numbers (max 4, centered around current page) -->
-    @for (page of getPages(); track $index) {
+    @for (page of getPages(paginationInfo.current_page, paginationInfo.last_page); track $index) {
       <a
         class="page-number"
         [routerLink]="[]"
         [queryParams]="{ page: page }"
         [queryParamsHandling]="'merge'"
         [class.active]="page === paginationInfo.current_page"
-        [class]="getDistanceClass(page)"
+        [class]="getDistanceClass(paginationInfo.current_page, page)"
       >
         {{ page }}
       </a>

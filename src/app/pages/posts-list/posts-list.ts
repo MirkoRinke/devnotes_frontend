@@ -8,7 +8,6 @@ import { forkJoin } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
 
-import { PagePagination } from '../../components/page-pagination/page-pagination';
 import { QueryParamsDropdown } from '../../components/query-params-dropdown/query-params-dropdown';
 import { QueryParamsDatepicker } from '../../components/query-params-datepicker/query-params-datepicker';
 
@@ -31,10 +30,11 @@ import { PostListAllowedEntitiesEnums } from '../../enums/post-list-allowed-enti
 import { RegexEnums } from '../../enums/regex';
 
 import { PostListElement } from '../../components/post-list-element/post-list-element';
+import { SectionPagination } from '../../components/section-pagination/section-pagination';
 
 @Component({
   selector: 'app-posts-list',
-  imports: [PagePagination, QueryParamsDropdown, QueryParamsDatepicker, PostListElement],
+  imports: [QueryParamsDropdown, QueryParamsDatepicker, PostListElement, SectionPagination],
   templateUrl: './posts-list.html',
   styleUrl: './posts-list.scss',
 })

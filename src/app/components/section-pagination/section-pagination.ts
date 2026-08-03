@@ -6,13 +6,13 @@ import type { PaginationInfoInterface } from '../../interfaces/pagination-info';
 import { SvgIconsService } from '../../services/svg.icons.service';
 
 @Component({
-  selector: 'app-page-pagination',
+  selector: 'app-section-pagination',
   imports: [RouterLink],
-  templateUrl: './page-pagination.html',
-  styleUrl: './page-pagination.scss',
+  templateUrl: './section-pagination.html',
+  styleUrl: './section-pagination.scss',
 })
-export class PagePagination<T> {
-  @Input() paginationInfo!: PaginationInfoInterface<T>;
+export class SectionPagination<T> {
+  @Input() paginationInfo: PaginationInfoInterface<T> | null = null;
 
   constructor(public svgIconsService: SvgIconsService) {}
 
@@ -21,29 +21,26 @@ export class PagePagination<T> {
    *
    * @returns
    */
-  getPages(): number[] {
-    const total = this.paginationInfo.last_page;
-    const current = this.paginationInfo.current_page;
+  getPages(currentPage: number, totalPages: number): number[] {
     const pages: number[] = [];
-
     const maxPages = 9;
 
     let start = 1;
-    let end = total;
+    let end = totalPages;
 
-    if (total > maxPages) {
+    if (totalPages > maxPages) {
       const halfMax = Math.floor(maxPages / 2);
-      start = current - halfMax;
-      end = current + halfMax;
+      start = currentPage - halfMax;
+      end = currentPage + halfMax;
 
       if (start < 1) {
         start = 1;
         end = maxPages;
       }
 
-      if (end > total) {
-        end = total;
-        start = total - maxPages + 1;
+      if (end > totalPages) {
+        end = totalPages;
+        start = totalPages - maxPages + 1;
       }
     }
 
@@ -59,8 +56,8 @@ export class PagePagination<T> {
    * @param page
    * @returns
    */
-  getDistanceClass(page: number): string {
-    const distance = Math.abs(page - this.paginationInfo.current_page);
+  getDistanceClass(current_page: number, page: number): string {
+    const distance = Math.abs(page - current_page);
     return distance > 0 && distance <= 4 ? `is-near-${distance}` : '';
   }
 }
