@@ -2,6 +2,13 @@
 @use '../../../var' as var;
 @use '../../../mixins' as *;
 
+:host {
+  &:not(.active) {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
 button {
   @include button-preset();
 

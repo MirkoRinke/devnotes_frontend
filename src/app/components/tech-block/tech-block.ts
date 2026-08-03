@@ -3,7 +3,6 @@ import { Subject } from 'rxjs';
 import { take, takeUntil, debounceTime } from 'rxjs/operators';
 
 import { TechTile } from '../tech-tile/tech-tile';
-import { PageStepper } from '../page-stepper/page-stepper';
 
 import type { AvailableValuesInterface } from '../../interfaces/available-values';
 
@@ -17,10 +16,11 @@ import { SearchService } from '../../services/search.service';
 
 import { getCssVariableValue, getElementSizeFrom } from '../../utils/css-helper';
 import { blurActiveElementInside } from '../../utils/dom-helper';
+import { SectionStepper } from '../section-stepper/section-stepper';
 
 @Component({
   selector: 'app-tech-block',
-  imports: [TechTile, PageStepper],
+  imports: [TechTile, SectionStepper],
   templateUrl: './tech-block.html',
   styleUrl: './tech-block.scss',
 })

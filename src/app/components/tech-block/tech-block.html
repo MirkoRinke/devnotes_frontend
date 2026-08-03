@@ -15,14 +15,14 @@
     <h3>Loading...</h3>
   } @else if (paginatedTiles.length > 0) {
     <div class="tech">
-      <app-page-stepper
+      <app-section-stepper
         [direction]="'backward'"
         [currentPage]="currentPage"
         [totalPages]="totalPages"
         (pageChange)="onPageChange($event)"
         [attr.aria-hidden]="totalPages <= 1"
         [class.active]="totalPages > 1"
-      ></app-page-stepper>
+      ></app-section-stepper>
       <div
         #tilesContainer
         class="tiles-container"
@@ -36,14 +36,14 @@
           ></app-tech-tile>
         }
       </div>
-      <app-page-stepper
+      <app-section-stepper
         [direction]="'forward'"
         [currentPage]="currentPage"
         [totalPages]="totalPages"
         (pageChange)="onPageChange($event)"
         [attr.aria-hidden]="totalPages <= 1"
         [class.active]="totalPages > 1"
-      ></app-page-stepper>
+      ></app-section-stepper>
     </div>
   } @else {
     <h3>Keine {{ heading }} gefunden.</h3>

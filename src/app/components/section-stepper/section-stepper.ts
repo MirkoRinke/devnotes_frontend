@@ -3,30 +3,21 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { SvgIconsService } from '../../services/svg.icons.service';
 
 @Component({
-  selector: 'app-page-stepper',
+  selector: 'app-section-stepper',
   imports: [],
-  templateUrl: './page-stepper.html',
-  styleUrl: './page-stepper.scss',
+  templateUrl: './section-stepper.html',
+  styleUrl: './section-stepper.scss',
 })
-export class PageStepper {
-  @Input() direction!: string;
-  @Input() currentPage!: number;
-  @Input() totalPages!: number;
+export class SectionStepper {
+  @Input() direction: 'forward' | 'backward' = 'forward';
+  @Input() currentPage: number = 0;
+  @Input() totalPages: number = 0;
 
   @Output() pageChange: EventEmitter<number> = new EventEmitter<number>();
 
   constructor(public svgIconsService: SvgIconsService) {}
 
-  ngOnInit() {
-    if (!this.direction || (this.direction !== 'forward' && this.direction !== 'backward')) {
-      console.error(`Invalid direction input for PageStepper component: ${this.direction}`);
-    }
-    if (this.currentPage === undefined || this.totalPages === undefined) {
-      console.error(`currentPage and totalPages inputs are required for PageStepper component`);
-    }
-  }
-
-  handleClick() {
+  handleClick(): void {
     let newPage = this.currentPage;
     if (this.direction === 'forward') {
       if (this.currentPage < this.totalPages - 1) {

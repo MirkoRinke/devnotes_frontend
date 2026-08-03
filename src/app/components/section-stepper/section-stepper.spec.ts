@@ -1,18 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PageStepper } from './page-stepper';
+import { SectionStepper } from './section-stepper';
 
-describe('PageStepper', () => {
-  let component: PageStepper;
-  let fixture: ComponentFixture<PageStepper>;
+describe('SectionStepper', () => {
+  let component: SectionStepper;
+  let fixture: ComponentFixture<SectionStepper>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PageStepper]
-    })
-    .compileComponents();
+      imports: [SectionStepper],
+    }).compileComponents();
 
-    fixture = TestBed.createComponent(PageStepper);
+    fixture = TestBed.createComponent(SectionStepper);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
