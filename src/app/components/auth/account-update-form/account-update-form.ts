@@ -33,8 +33,8 @@ import { SvgIconsService } from '../../../services/svg.icons.service';
 import { Badge } from '../../badge/badge';
 
 import { catchError, debounceTime, distinctUntilChanged, of, switchMap, tap } from 'rxjs';
-import { PasswordToggleButton } from '../../password-toggle-button/password-toggle-button';
-import { PasswordStrengthFeedback } from '../../password-strength-feedback/password-strength-feedback';
+import { PasswordToggleButton } from '../password-toggle-button/password-toggle-button';
+import { PasswordStrengthFeedback } from '../password-strength-feedback/password-strength-feedback';
 
 @Component({
   selector: 'app-account-update-form',

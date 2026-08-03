@@ -20,7 +20,7 @@ import { badgeMessagesInit } from '../../../interfaces/validation-messages';
 import { RegexEnums } from '../../../enums/regex';
 
 import { Badge } from '../../badge/badge';
-import { PasswordToggleButton } from '../../password-toggle-button/password-toggle-button';
+import { PasswordToggleButton } from '../password-toggle-button/password-toggle-button';
 
 @Component({
   selector: 'app-delete-account-form',
