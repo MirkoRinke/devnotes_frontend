@@ -1,9 +1,9 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
-import { SvgIconsService } from '../../services/svg.icons.service';
-import { ApiService } from '../../services/api.service';
+import { SvgIconsService } from '../../../services/svg.icons.service';
+import { ApiService } from '../../../services/api.service';
 
-import { ApiEndpointEnums } from '../../enums/api-endpoint';
+import { ApiEndpointEnums } from '../../../enums/api-endpoint';
 
 @Component({
   selector: 'app-report-modal',

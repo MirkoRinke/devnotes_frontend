@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
-import { SvgIconsService } from '../../services/svg.icons.service';
+import { SvgIconsService } from '../../../services/svg.icons.service';
 
 @Component({
   selector: 'app-report-button',

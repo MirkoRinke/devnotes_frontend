@@ -11,9 +11,9 @@ import { SvgIconsService } from '../../../services/svg.icons.service';
 import { AuthService } from '../../../services/auth.service';
 
 import { PostSettingsDropdown } from './post-settings-dropdown/post-settings-dropdown';
-import { ReportModal } from '../../report-modal/report-modal';
+import { ReportModal } from '../../report/report-modal/report-modal';
 import { PostVersionDropdown } from './post-version-dropdown/post-version-dropdown';
-import { ReportButton } from '../../report-button/report-button';
+import { ReportButton } from '../../report/report-button/report-button';
 import { PostEngagement } from '../post-engagement/post-engagement';
 import { PostCode } from '../post-code/post-code';
 import { PostTechStack } from '../post-tech-stack/post-tech-stack';

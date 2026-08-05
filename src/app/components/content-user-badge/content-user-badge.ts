@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 import type { UserInterface } from '../../interfaces/user';
-import { ReportModal } from '../report-modal/report-modal';
+import { ReportModal } from '../report/report-modal/report-modal';
 
 import { ClickOutsideDirective } from '../../directives/click-outside.directive';
 import { AvatarLayer } from '../avatar-layer/avatar-layer';
