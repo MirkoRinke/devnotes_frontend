@@ -38,14 +38,16 @@ export class UserControlArea {
   necessaryUserFields: string = 'display_name,avatar_items,avatar_mvp_id';
 
   ngOnInit(): void {
-    this.subscribeLoginState();
+    this.subscribeRefresh();
   }
 
   /**
-   * Subscribes to the authentication state changes and fetches the current user's data when the authentication state changes.
-   * The BehaviorSubject immediately emits its initial value upon subscription. We intentionally use this as the initial trigger for getUser()
+   * Subscribes to the `refresh$` observable from the `UserControlRefreshService`. When a refresh event is emitted, it calls the `getUser()` method to fetch the current user's data.
+   * The subscription is automatically cleaned up when the component is destroyed, thanks to the `takeUntilDestroyed` operator.
+   *
+   * @returns
    */
-  subscribeLoginState() {
+  subscribeRefresh() {
     this.userControlRefreshService.refresh$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => this.getUser());
   }
 
