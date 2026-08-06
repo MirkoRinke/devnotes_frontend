@@ -100,15 +100,6 @@ export class PostView implements OnChanges {
   }
 
   /**
-   * Get avatar items entries
-   *
-   * @returns
-   */
-  avatarItemsEntries() {
-    return this.post?.user?.avatar_items ? Object.entries(this.post.user.avatar_items).map(([key, url]) => ({ key, url })) : [];
-  }
-
-  /**
    * Opens the Post Resource Modal.
    *
    * @param type
