@@ -1,6 +1,11 @@
 import { ContentUI } from '../interface/translation.interface';
 
 export const CONTENT_UI_EN: ContentUI = {
+  HomeButton: {
+    ariaLabel: {
+      goToHome: 'Go to Home',
+    },
+  },
   PostTypes: {
     all_types: {
       title: 'All Types',
@@ -30,5 +35,6 @@ export const CONTENT_UI_EN: ContentUI = {
       title: 'Tutorials',
       description: 'Guides & Tutorials. Find or create easy-to-understand instructions for new skills.',
     },
+    ariaLabel: {},
   },
 };
