@@ -2,6 +2,7 @@ import { ContentUI } from '../interface/translation.interface';
 
 export const CONTENT_UI_DE: ContentUI = {
   HomeButton: {
+    AppName: 'DevNotes',
     ariaLabel: {
       goToHome: 'Zur Startseite',
     },
