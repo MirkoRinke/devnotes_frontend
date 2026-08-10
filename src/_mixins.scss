@@ -17,6 +17,24 @@
   }
 }
 
+@mixin svg-icon($icon-class, $height: 24px, $width: 24px, $min-height: px-to-rem(48), $min-width: px-to-rem(48), $fill-color: null) {
+  $height-number: math.div($height, 1px);
+  $width-number: math.div($width, 1px);
+
+  $vw-height: #{$height-number * 0.06}vw;
+  $vw-width: #{$width-number * 0.06}vw;
+
+  &::ng-deep .#{$icon-class} {
+    height: clamp(convert-to-rem-if-needed($min-height), $vw-height, convert-to-rem-if-needed($height));
+    width: clamp(convert-to-rem-if-needed($min-width), $vw-width, convert-to-rem-if-needed($width));
+
+    @if $fill-color != null {
+      transition: fill var.$transition-duration-medium ease-in-out;
+      fill: $fill-color;
+    }
+  }
+}
+
 @mixin display-flex($align: stretch, $justify: flex-start, $direction: row, $gap: unset) {
   display: flex;
   align-items: $align;
@@ -63,8 +81,6 @@
 
 @mixin button-preset() {
   -webkit-tap-highlight-color: transparent;
-  -webkit-appearance: none;
-  appearance: none;
   background: transparent;
   border: none;
   display: inline-block;
@@ -73,12 +89,12 @@
   user-select: none;
 }
 
-@mixin button-default-style($hover-border-color: var(--font-primary-color-50)) {
+@mixin button-default-style($hover-border-color: var(--font-primary-color-50), $min-width: px-to-rem(200)) {
   @include button-preset();
   @include golden-ratio-padding(14);
   @include font-settings(14, 500);
   max-width: fit-content;
-  min-width: px-to-rem(200);
+  min-width: convert-to-rem-if-needed($min-width);
 
   background-color: var(--page-primary-color-100);
 
