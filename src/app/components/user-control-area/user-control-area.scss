@@ -1,0 +1,8 @@
+@use '../../../functions' as *;
+@use '../../../var' as var;
+@use '../../../mixins' as *;
+
+:host {
+  @include display-flex($justify: end);
+  flex: 1;
+}
