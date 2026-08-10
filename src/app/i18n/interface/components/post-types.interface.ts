@@ -6,6 +6,7 @@ export interface PostTypesMessagesInterface {
   showcase: PostType;
   snippets: PostType;
   tutorials: PostType;
+  ariaLabel: {};
 }
 
 interface PostType {
