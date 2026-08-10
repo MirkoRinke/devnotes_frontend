@@ -18,6 +18,8 @@
 }
 
 @mixin svg-icon($icon-class, $height: 24px, $width: 24px, $min-height: px-to-rem(48), $min-width: px-to-rem(48), $fill-color: null) {
+  @include display-flex($justify: center, $align: center);
+
   $height-number: math.div($height, 1px);
   $width-number: math.div($width, 1px);
 
