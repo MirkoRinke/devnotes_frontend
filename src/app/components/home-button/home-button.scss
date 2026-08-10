@@ -9,6 +9,10 @@
 
 .home-button {
   @include button-preset();
-  @include display-flex($justify: center, $align: center);
-  @include svg-icon($icon-class: 'home', $height: 60px, $width: 60px, $fill-color: var(--font-primary-color-50));
+  @include display-flex($justify: center, $align: center, $gap: px-to-rem(10));
+  @include font-settings($font-size: 24, $font-weight: 700);
+
+  .icon {
+    @include svg-icon($icon-class: 'home', $height: 60px, $width: 60px, $fill-color: var(--font-primary-color-50));
+  }
 }

@@ -4,7 +4,12 @@
 <button
   class="home-button"
   [routerLink]="'/'"
-  [innerHTML]="svgIconsService.returnIcon('home')"
   type="button"
   [attr.aria-label]="translatePathAriaLabel + 'goToHome' | translate"
-></button>
+>
+  <span
+    class="icon"
+    [innerHTML]="svgIconsService.returnIcon('home')"
+  ></span>
+  {{ translatePath + 'AppName' | translate }}
+</button>
