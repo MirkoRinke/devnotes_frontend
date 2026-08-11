@@ -7,6 +7,13 @@ export const CONTENT_UI_DE: ContentUI = {
       goToHome: 'Zur Startseite',
     },
   },
+  SearchButton: {
+    ariaLabel: {
+      openSearch: 'Suchfeld öffnen',
+      closeSearch: 'Suchfeld schließen',
+      clearSearch: 'Suchfeld leeren',
+    },
+  },
   PostTypes: {
     all_types: {
       title: 'Alle Typen',
