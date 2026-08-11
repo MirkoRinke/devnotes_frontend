@@ -4,12 +4,15 @@
   (click)="toggleSearch()"
   [attr.aria-disabled]="!(searchService.enableSearch$ | async)"
   [disabled]="!(searchService.enableSearch$ | async)"
+  [attr.aria-label]="showSearch ? 'Close search input' : 'Open search input'"
 >
   @if (hasSearchValue) {
     <span
+      appAccessibleButtonDirective
+      [accessibleButtonAction]="clearSearch.bind(this)"
       class="search-clear"
-      (click)="$event.stopPropagation(); clearSearch()"
       [innerHTML]="svgIconsService.returnIcon('search_clear')"
+      [attr.aria-label]="'Clear search input'"
     ></span>
   }
 

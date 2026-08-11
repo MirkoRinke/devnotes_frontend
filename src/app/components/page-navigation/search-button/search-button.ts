@@ -5,9 +5,11 @@ import { CommonModule } from '@angular/common';
 import { SvgIconsService } from '../../../services/svg.icons.service';
 import { SearchService } from '../../../services/search.service';
 
+import { AccessibleButtonDirective } from '../../../directives/accessible-button-directive';
+
 @Component({
   selector: 'app-search-button',
-  imports: [CommonModule],
+  imports: [CommonModule, AccessibleButtonDirective],
   templateUrl: './search-button.html',
   styleUrl: './search-button.scss',
 })
