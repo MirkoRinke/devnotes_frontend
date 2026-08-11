@@ -36,19 +36,16 @@
     height: px-to-rem(20);
 
     transition: transform var.$transition-duration-medium ease-in-out;
+
     &:hover {
       transform: scale(1.1);
       transition: transform var.$transition-duration-medium ease-in-out;
     }
 
-    &::ng-deep .search_clear {
-      fill: var(--red-color-100);
-      width: 80%;
-      height: 80%;
-    }
+    @include svg-icon($icon-class: 'search_clear', $height: 80%, $width: 80%, $fill-color: var(--red-color-100));
   }
 
-  span {
+  .icon-container {
     &.spin {
       @include display-flex($align: center, $justify: center);
       will-change: transform;
@@ -57,13 +54,7 @@
       animation: spin 3s linear infinite;
     }
 
-    &::ng-deep .search,
-    &::ng-deep .search_close,
-    &::ng-deep .sync {
-      fill: var(--font-primary-color-100);
-      width: px-to-rem(34);
-      height: px-to-rem(34);
-    }
+    @include svg-icon($icon-class: 'search-button-icon', $height: 100%, $width: 100%, $fill-color: var(--font-primary-color-100));
   }
 
   &:not(.active) {

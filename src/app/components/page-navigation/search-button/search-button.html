@@ -19,7 +19,8 @@
   }
 
   <span
+    class="icon-container"
     [class.spin]="showSearch && !(searchService.dataLoaded$ | async)"
-    [innerHTML]="svgIconsService.returnIcon(showSearch ? ((searchService.dataLoaded$ | async) ? 'search_close' : 'sync') : 'search')"
+    [innerHTML]="svgIconsService.returnIcon(showSearch ? ((searchService.dataLoaded$ | async) ? 'search_close' : 'sync') : 'search', 'search-button-icon')"
   ></span>
 </button>
