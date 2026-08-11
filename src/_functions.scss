@@ -36,11 +36,24 @@
   * @param {Number|String} $value - The value to convert, which can be a number with 'px' unit or any other value.
   * @return {Number|String} - The converted value in rem units if the input was a pixel value, otherwise returns the original value.
   */
-
 @function convert-to-rem-if-needed($value) {
   @if meta.type-of($value) == 'number' and math.unit($value) == 'px' {
     @return px-to-rem(math.div($value, 1px));
   }
 
+  @return $value;
+}
+
+/**
+  * Converts pixel values to viewport width (vw) units based on a given factor.
+  *
+  * @param {Number|String} $value - The value to convert, which can be a number with 'px' unit or any other value.
+  * @param {Number} $factor - The factor to multiply the pixel value by to get the vw value (default is 0.06).
+  * @return {Number|String} - The converted value in vw units if the input was a pixel value, otherwise returns the original value.
+  */
+@function convert-px-to-vw($value, $factor: 0.06) {
+  @if meta.type-of($value) == 'number' and math.unit($value) == 'px' {
+    @return #{math.div($value, 1px) * $factor}vw;
+  }
   @return $value;
 }
