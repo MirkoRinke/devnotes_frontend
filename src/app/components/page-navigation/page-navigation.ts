@@ -1,44 +1,42 @@
-import { Component } from '@angular/core';
+import { Component, inject, DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { filter } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { RouterModule, ActivatedRoute, Router, NavigationEnd } from '@angular/router';
-
-import { filter, takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
-
-import { Search } from '../search/search';
 
 import { SvgIconsService } from '../../services/svg.icons.service';
 import { SearchService } from '../../services/search.service';
 
 import { PageContextEnums } from '../../enums/context';
 
+import { SearchButton } from './search-button/search-button';
+import { Search } from '../search/search';
 @Component({
   selector: 'app-page-navigation',
-  imports: [CommonModule, RouterModule, Search],
+  imports: [CommonModule, RouterModule, Search, SearchButton],
   templateUrl: './page-navigation.html',
   styleUrl: './page-navigation.scss',
 })
 export class PageNavigation {
-  context: PageContextEnums | null = null;
-  activeMap: { [key in PageContextEnums]?: boolean } = {};
+  private context: PageContextEnums | null = null;
 
   readonly PageContextEnums = PageContextEnums;
 
-  navigationLinks = [
+  readonly navigationLinks = [
     { label: 'myArea', path: '/my-area', context: PageContextEnums.MY_AREA },
     { label: 'favorites', path: '/favorites', context: PageContextEnums.FAVORITES },
     { label: 'network', path: '/network', context: PageContextEnums.NETWORK },
     { label: 'community', path: '/community', context: PageContextEnums.COMMUNITY },
   ];
 
-  showSearch: boolean = false;
-  delayedSearch: boolean = false;
+  public activeMap: { [key in PageContextEnums]?: boolean } = {};
 
-  hasSearchValue: boolean = false;
+  public showSearch: boolean = false;
+  public delayedSearch: boolean = false;
 
   private lastBaseUrl: string = '';
 
-  private destroy$ = new Subject<void>();
+  private destroyRef = inject(DestroyRef);
 
   constructor(
     private route: ActivatedRoute,
@@ -49,20 +47,11 @@ export class PageNavigation {
     this.subscribeNavigationEnd();
   }
 
-  ngOnInit() {
-    this.searchValueInput();
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
   /**
    * Subscribe to route query params and router events to update context and active map
    */
-  subscribeNavigationEnd() {
-    this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe((params) => {
+  private subscribeNavigationEnd(): void {
+    this.route.queryParams.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((params) => {
       this.context = params['context'] || null;
     });
 
@@ -71,7 +60,7 @@ export class PageNavigation {
     this.router.events
       .pipe(
         filter((event) => event instanceof NavigationEnd),
-        takeUntil(this.destroy$),
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe((event: NavigationEnd) => {
         this.updateActiveMap();
@@ -87,7 +76,7 @@ export class PageNavigation {
   /**
    * Update activeMap based on current context or URL
    */
-  updateActiveMap() {
+  private updateActiveMap(): void {
     const url = window.location.href;
 
     this.navigationLinks.forEach((link) => {
@@ -97,10 +86,8 @@ export class PageNavigation {
 
   /**
    * Toggle search visibility
-   *
-   * @returns
    */
-  toggleSearch() {
+  public toggleSearch(): void {
     if (!this.searchService.enableSearchValue) {
       return;
     }
@@ -117,21 +104,5 @@ export class PageNavigation {
         this.delayedSearch = false;
       }, 500);
     }
-  }
-
-  /**
-   * Subscribes to search value changes and filters tiles accordingly.
-   */
-  searchValueInput() {
-    this.searchService.searchValue$.pipe(takeUntil(this.destroy$)).subscribe((inputValue) => {
-      this.hasSearchValue = inputValue ? inputValue.trim().length > 0 : false;
-    });
-  }
-
-  /**
-   * Clears the search input and resets the search state in the SearchService. This method is typically called when the user clicks a "clear search" button.
-   */
-  clearSearch() {
-    this.searchService.searchValueInput(null);
   }
 }
