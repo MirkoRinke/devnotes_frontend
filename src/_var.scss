@@ -82,65 +82,65 @@ $transition-duration-ultra-slow: 2000ms !default;
 
 /* @media breakpoints */
 
-/** 3440px or smaller */
+/** 3440px */
 $breakpoint-ultra: px-to-rem(3440) !default;
 
-/** 2560px or smaller (WQHD) */
+/** 2560px (WQHD) */
 $breakpoint-wqhd: px-to-rem(2560) !default;
 
-/** 1920px or smaller */
+/** 1920px */
 $breakpoint-full-hd: px-to-rem(1920) !default;
 
-/** 1280px or smaller */
+/** 1280px */
 $breakpoint-hd: px-to-rem(1280) !default;
 
-/** 1024px or smaller */
+/** 1024px */
 $breakpoint-lg: px-to-rem(1024) !default;
 
-/** 768px or smaller */
+/** 768px */
 $breakpoint-md: px-to-rem(768) !default;
 
-/** 640px or smaller */
+/** 640px */
 $breakpoint-sm: px-to-rem(640) !default;
 
-/** 450px or smaller */
+/** 450px */
 $breakpoint-xs: px-to-rem(450) !default;
 
-/** 384px or smaller */
+/** 384px */
 $breakpoint-xxs: px-to-rem(384) !default;
 
 /** 3440px or smaller */
-@media (max-width: $breakpoint-ultra) {
-}
+// @media (max-width: var.$breakpoint-ultra) {
+// }
 
 /** 2560px or smaller (WQHD) */
-@media (max-width: $breakpoint-wqhd) {
-}
+// @media (max-width: var.$breakpoint-wqhd) {
+// }
 
 /** 1920px or smaller */
-@media (max-width: $breakpoint-full-hd) {
-}
+// @media (max-width: var.$breakpoint-full-hd) {
+// }
 
 /** 1280px or smaller */
-@media (max-width: $breakpoint-hd) {
-}
+// @media (max-width: var.$breakpoint-hd) {
+// }
 
 /** 1024px or smaller */
-@media (max-width: $breakpoint-lg) {
-}
+// @media (max-width: var.$breakpoint-lg) {
+// }
 
 /** 768px or smaller */
-@media (max-width: $breakpoint-md) {
-}
+// @media (max-width: var.$breakpoint-md) {
+// }
 
 /** 640px or smaller */
-@media (max-width: $breakpoint-sm) {
-}
+// @media (max-width: var.$breakpoint-sm) {
+// }
 
 /** 450px or smaller */
-@media (max-width: $breakpoint-xs) {
-}
+// @media (max-width: var.$breakpoint-xs) {
+// }
 
 /** 384px or smaller */
-@media (max-width: $breakpoint-xxs) {
-}
+// @media (max-width: var.$breakpoint-xxs) {
+// }
