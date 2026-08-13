@@ -14,7 +14,11 @@
     }
 
     .display-name {
-      color: var(--font-primary-color-100);
+      @include font-settings();
+
+      @media (max-width: var.$breakpoint-lg) {
+        display: none;
+      }
 
       &::first-letter {
         text-transform: uppercase;
