@@ -2,6 +2,19 @@
 @use '../../../../var' as var;
 @use '../../../../mixins' as *;
 
+:host {
+  position: absolute;
+  right: 100%;
+
+  @media (max-width: var.$breakpoint-hd) {
+    position: static;
+  }
+
+  @media (max-width: var.$breakpoint-md) {
+    display: none;
+  }
+}
+
 .search-button {
   @include button-preset();
   @include golden-ratio-padding();
@@ -11,6 +24,11 @@
   border-radius: px-to-rem(15);
   width: px-to-rem(60);
   height: px-to-rem(60);
+
+  @media (max-width: var.$breakpoint-hd) {
+    width: px-to-rem(48);
+    height: px-to-rem(48);
+  }
 
   transition: box-shadow var.$transition-duration-medium ease-in-out;
 
