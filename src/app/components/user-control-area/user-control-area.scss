@@ -5,4 +5,8 @@
 :host {
   @include display-flex($justify: end);
   flex: 1;
+
+  @media (max-width: var.$breakpoint-hd) {
+    flex: 0;
+  }
 }
