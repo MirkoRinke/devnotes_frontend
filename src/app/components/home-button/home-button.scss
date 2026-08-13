@@ -5,14 +5,25 @@
 :host {
   @include display-flex($justify: start);
   flex: 1;
+
+  @media (max-width: var.$breakpoint-hd) {
+    flex: 0;
+  }
 }
 
 .home-button {
   @include button-preset();
   @include display-flex($justify: center, $align: center, $gap: px-to-rem(10));
-  @include font-settings($font-size: 24, $font-weight: 700);
 
   .icon {
     @include svg-icon($icon-class: 'home', $height: 60px, $width: 60px, $fill-color: var(--font-primary-color-50));
+  }
+
+  .label {
+    @include font-settings($font-size: 24, $font-weight: 700);
+
+    @media (max-width: var.$breakpoint-lg) {
+      display: none;
+    }
   }
 }
