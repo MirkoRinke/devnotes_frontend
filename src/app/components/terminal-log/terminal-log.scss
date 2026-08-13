@@ -58,7 +58,7 @@
 
     .message {
       @include font-settings($font-size: 16);
-      @include fade-in-with-delay(--animation-delay);
+      @include fade-animation($animation: 'fadeIn', $duration: var.$transition-duration-medium, $delay: --animation-delay);
 
       &.info {
         color: var(--info-color-100);
