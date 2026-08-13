@@ -17,16 +17,22 @@
   }
 }
 
-@mixin svg-icon($icon-class, $height: 24px, $width: 24px, $min-size: px-to-rem(48), $fill-color: null) {
+@mixin svg-icon($icon-class, $height: 24px, $width: 24px, $min-size: 48px, $fill-color: null) {
   @include display-flex($justify: center, $align: center);
 
   &::ng-deep .#{$icon-class} {
     @if math.unit($height) == 'px' and math.unit($width) == 'px' {
+      @if ($height < $min-size or $width < $min-size) {
+        $min-size: max($height, $width);
+      }
+
       height: clamp(convert-to-rem-if-needed($min-size), convert-px-to-vw($height), convert-to-rem-if-needed($height));
       width: clamp(convert-to-rem-if-needed($min-size), convert-px-to-vw($width), convert-to-rem-if-needed($width));
     } @else {
       height: convert-to-rem-if-needed($height);
+      min-height: convert-to-rem-if-needed($height);
       width: convert-to-rem-if-needed($width);
+      min-width: convert-to-rem-if-needed($width);
     }
 
     @if $fill-color != null {
@@ -44,14 +50,15 @@
   gap: $gap;
 }
 
-@mixin display-grid($align: stretch, $justify: stretch, $justify-content: unset) {
+@mixin display-grid($align: stretch, $justify: stretch, $justify-content: unset, $gap: unset) {
   display: grid;
   align-items: $align;
   justify-items: $justify;
   justify-content: $justify-content;
+  gap: $gap;
 }
 
-@mixin font-settings($font-size: 16, $font-weight: 400, $color: var(--font-primary-color), $font-family: 'FiraCode') {
+@mixin font-settings($font-size: 16, $font-weight: 400, $color: var(--font-primary-color-100), $font-family: 'FiraCode') {
   font-weight: $font-weight;
   color: $color;
   font-family: $font-family;
@@ -647,7 +654,7 @@
 
   overflow: hidden;
 
-  @include fade-in-with-delay(var(--animation-delay));
+  @include fade-animation($animation: 'fadeIn', $duration: var.$transition-duration-medium, $delay: var(--animation-delay));
 
   @if $caret == true {
     &::after {
@@ -720,10 +727,15 @@
   }
 }
 
-@mixin fade-in-with-delay($delay: 0s) {
-  opacity: 0;
-  animation: fadeIn var.$transition-duration-medium forwards;
+@mixin fade-animation($animation, $duration: var.$transition-duration-medium, $delay: 0s) {
+  animation: #{$animation} $duration forwards;
   animation-delay: $delay;
+
+  @if $animation == 'fadeIn' {
+    opacity: 0;
+  } @else if $animation == 'fadeOut' {
+    opacity: 1;
+  }
 
   @keyframes fadeIn {
     from {
@@ -731,6 +743,50 @@
     }
     to {
       opacity: 1;
+    }
+  }
+
+  @keyframes fadeOut {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+}
+
+@mixin width-slide-animation($animation, $duration: var.$transition-duration-medium, $delay: 0s) {
+  animation: #{$animation} $duration forwards;
+  animation-delay: $delay;
+
+  @if $animation == 'widthSlideIn' {
+    width: 0%;
+    opacity: 0;
+  } @else if $animation == 'widthSlideOut' {
+    width: 100%;
+    opacity: 1;
+  }
+
+  @keyframes widthSlideIn {
+    0% {
+      width: 0%;
+      opacity: 0;
+    }
+    100% {
+      width: 100%;
+      opacity: 1;
+    }
+  }
+
+  @keyframes widthSlideOut {
+    0% {
+      width: 100%;
+      opacity: 1;
+    }
+    100% {
+      width: 0%;
+      opacity: 0;
     }
   }
 }
