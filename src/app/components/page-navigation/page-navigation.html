@@ -10,7 +10,7 @@
       [class.animated-in]="showSearch && (searchService.dataLoaded$ | async) && delayedSearch"
       [class.animated-out]="!showSearch && delayedSearch"
       class="search"
-      [attr.aria-hidden]="!showSearch"
+      [attr.inert]="!showSearch ? '' : null"
     ></app-search>
 
     <div
@@ -18,7 +18,7 @@
       [class.animated-in]="!showSearch && delayedSearch"
       [class.animated-out]="showSearch && delayedSearch && (searchService.dataLoaded$ | async)"
       class="links"
-      [attr.aria-hidden]="showSearch"
+      [attr.inert]="showSearch ? '' : null"
     >
       @for (link of navigationLinks; track $index) {
         <a
@@ -28,9 +28,11 @@
         >
           <span
             class="icon-container"
-            [innerHTML]="svgIconsService.returnIcon(link.label)"
+            [innerHTML]="svgIconsService.returnIcon(link.label, 'icon')"
           ></span>
-          {{ link.label }}
+          <span class="label">
+            {{ link.label }}
+          </span>
         </a>
       }
     </div>

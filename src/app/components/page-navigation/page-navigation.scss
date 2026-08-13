@@ -2,13 +2,37 @@
 @use '../../../var' as var;
 @use '../../../mixins' as *;
 
+:host {
+  @include display-flex($align: center, $justify: center);
+
+  @media (max-width: var.$breakpoint-hd) {
+    flex: 1;
+  }
+}
+
 .page-navigation {
-  @include display-flex($align: center, $justify: center, $gap: px-to-rem(25));
-  padding-right: px-to-rem(85);
+  @include display-flex($align: center);
+  position: relative;
+  flex-shrink: 0;
+
+  @media (max-width: var.$breakpoint-hd) {
+    min-width: 100%;
+  }
 
   .elements {
     @include display-flex($align: center, $justify: center);
     position: relative;
+    margin-inline: px-to-rem(25);
+
+    @media (max-width: var.$breakpoint-hd) {
+      flex: 1;
+      min-width: 0;
+    }
+
+    @media (max-width: var.$breakpoint-md) {
+      display: none;
+      pointer-events: none;
+    }
 
     .search {
       @include display-flex($align: center, $justify: center, $gap: px-to-rem(25));
@@ -16,50 +40,34 @@
       height: 100%;
 
       &.animated-in {
-        animation: animated-in (var.$transition-duration-slow * 2) ease-in-out forwards;
+        @include width-slide-animation($animation: 'widthSlideIn', $duration: var.$transition-duration-slow * 2);
       }
 
       &.animated-out {
-        animation: animated-out (var.$transition-duration-slow) ease-in-out forwards;
+        @include width-slide-animation($animation: 'widthSlideOut', $duration: var.$transition-duration-slow);
       }
 
       &:not(.active) {
         opacity: 0;
         pointer-events: none;
       }
-
-      @keyframes animated-in {
-        0% {
-          width: 0%;
-          opacity: 0;
-        }
-        100% {
-          width: 100%;
-          opacity: 1;
-        }
-      }
-
-      @keyframes animated-out {
-        0% {
-          width: 100%;
-          opacity: 1;
-        }
-        100% {
-          width: 0%;
-          opacity: 0;
-        }
-      }
     }
 
     .links {
-      @include display-flex($align: center, $justify: center, $gap: px-to-rem(25));
+      @include display-grid($gap: px-to-rem(25));
+      grid-template-columns: repeat(4, minmax(max-content, 1fr));
+      flex-shrink: 0;
+
+      @media (max-width: var.$breakpoint-hd) {
+        gap: px-to-rem(15);
+      }
 
       &.animated-in {
-        animation: expand-opacity-in (var.$transition-duration-slow * 2) ease-in-out forwards;
+        @include fade-animation($animation: 'fadeIn', $duration: var.$transition-duration-slow * 2);
       }
 
       &.animated-out {
-        animation: expand-opacity-out var.$transition-duration-slow ease-in-out forwards;
+        @include fade-animation($animation: 'fadeOut', $duration: var.$transition-duration-slow);
       }
 
       &:not(.active) {
@@ -68,13 +76,16 @@
       }
 
       .link {
+        @include display-flex($align: center, $justify: center, $gap: px-to-rem(10));
         @include golden-ratio-padding();
-        @include display-flex($align: center, $justify: center);
-        @include font-settings();
         background-color: var(--page-primary-color-100);
         border-radius: px-to-rem(15);
-        min-width: px-to-rem(210);
+
         height: px-to-rem(60);
+
+        @media (max-width: var.$breakpoint-hd) {
+          height: px-to-rem(48);
+        }
 
         transition: box-shadow var.$transition-duration-medium ease-in-out;
 
@@ -87,34 +98,18 @@
         }
 
         .icon-container {
-          &::ng-deep .myArea,
-          &::ng-deep .favorites,
-          &::ng-deep .network,
-          &::ng-deep .community {
-            fill: var(--font-primary-color-100);
-            width: px-to-rem(34);
-            height: px-to-rem(34);
-            margin-right: px-to-rem(10);
+          height: 100%;
+
+          @include svg-icon($icon-class: 'icon', $height: 90%, $width: 90%, $fill-color: var(--font-primary-color-100));
+        }
+
+        .label {
+          @include font-settings();
+
+          @media (max-width: var.$breakpoint-hd) {
+            display: none;
           }
         }
-      }
-    }
-
-    @keyframes expand-opacity-out {
-      0% {
-        opacity: 1;
-      }
-      100% {
-        opacity: 0;
-      }
-    }
-
-    @keyframes expand-opacity-in {
-      0% {
-        opacity: 0;
-      }
-      100% {
-        opacity: 1;
       }
     }
   }
