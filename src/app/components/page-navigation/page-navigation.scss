@@ -16,6 +16,8 @@
   flex-shrink: 0;
 
   @media (max-width: var.$breakpoint-hd) {
+    // Add right padding to center navigation despite the left search button
+    padding-right: px-to-rem(48);
     min-width: 100%;
   }
 
