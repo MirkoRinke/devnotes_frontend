@@ -10,7 +10,7 @@
   }
 }
 
-.page-navigation {
+.page-navigation-desktop {
   @include display-flex($align: center);
   position: relative;
   flex-shrink: 0;
@@ -21,6 +21,11 @@
     min-width: 100%;
   }
 
+  @media (max-width: var.$breakpoint-md) {
+    display: none;
+    pointer-events: none;
+  }
+
   .elements {
     @include display-flex($align: center, $justify: center);
     position: relative;
@@ -29,11 +34,6 @@
     @media (max-width: var.$breakpoint-hd) {
       flex: 1;
       min-width: 0;
-    }
-
-    @media (max-width: var.$breakpoint-md) {
-      display: none;
-      pointer-events: none;
     }
 
     .search {
@@ -114,5 +114,20 @@
         }
       }
     }
+  }
+}
+
+.page-navigation-mobile {
+  display: none;
+  width: 100%;
+
+  @media (max-width: var.$breakpoint-md) {
+    @include display-flex($align: center, $justify: center);
+  }
+
+  .search-mobile {
+    position: absolute;
+    width: 100%;
+    z-index: 999;
   }
 }

@@ -1,4 +1,4 @@
-<nav class="page-navigation">
+<nav class="page-navigation-desktop">
   <app-search-button
     [showSearch]="showSearch"
     (toggleSearchEvent)="toggleSearch()"
@@ -37,4 +37,15 @@
       }
     </div>
   </div>
+</nav>
+
+<nav class="page-navigation-mobile">
+  <app-search-button
+    [showSearch]="showSearch"
+    (toggleSearchEvent)="toggleSearch()"
+  ></app-search-button>
+
+  @if ((searchService.enableSearch$ | async) && showSearch) {
+    <app-search class="search-mobile"></app-search>
+  }
 </nav>
