@@ -10,7 +10,8 @@
       class="user-badge"
       [class.menu-active]="menuActive"
     >
-      <span class="display-name">{{ user.display_name }}</span>
+      <!-- TODO: Re-evaluate -->
+      <!-- <span class="display-name">{{ user.display_name }}</span> -->
       <app-avatar-layer
         [avatarMvpId]="user.avatar_mvp_id ?? null"
         [menuOpen]="menuOpen"

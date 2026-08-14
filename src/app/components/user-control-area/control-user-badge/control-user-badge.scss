@@ -6,23 +6,24 @@
   position: relative;
 
   .user-badge {
-    @include display-flex(center);
-    gap: px-to-rem(10);
+    @include display-flex($align: center, $gap: px-to-rem(10));
+    height: px-to-rem(60);
 
     &:hover {
       cursor: pointer;
     }
 
-    .display-name {
-      @include font-settings();
+    // TODO: Re-evaluate
+    // .display-name {
+    //   @include font-settings();
 
-      @media (max-width: var.$breakpoint-lg) {
-        display: none;
-      }
+    //   @media (max-width: var.$breakpoint-lg) {
+    //     display: none;
+    //   }
 
-      &::first-letter {
-        text-transform: uppercase;
-      }
-    }
+    //   &::first-letter {
+    //     text-transform: uppercase;
+    //   }
+    // }
   }
 }
