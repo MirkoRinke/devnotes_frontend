@@ -3,17 +3,25 @@
 @use './var' as var;
 
 @mixin max-content-settings {
-  max-width: 3440px;
+  max-width: var.$breakpoint-ultra;
   width: 100%;
   margin: auto;
   padding: px-to-rem(25);
 
-  @media (min-width: 3440px) {
-    padding-inline: px-to-rem(200);
+  @media (max-width: var.$breakpoint-ultra) {
+    padding-inline: px-to-rem(50);
   }
 
-  @media (min-width: 2560px) {
-    padding-inline: px-to-rem(100);
+  @media (max-width: var.$breakpoint-hd) {
+    padding-inline: px-to-rem(25);
+  }
+
+  @media (max-width: var.$breakpoint-md) {
+    padding-inline: px-to-rem(15);
+  }
+
+  @media (max-width: var.$breakpoint-xs) {
+    padding: px-to-rem(15);
   }
 }
 
