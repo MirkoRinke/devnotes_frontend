@@ -6,8 +6,8 @@
   position: relative;
 
   .user-badge {
-    @include display-flex(center);
-    gap: px-to-rem(10);
+    @include display-flex($align: center, $gap: px-to-rem(10));
+    height: px-to-rem(50);
 
     &:hover {
       cursor: pointer;
