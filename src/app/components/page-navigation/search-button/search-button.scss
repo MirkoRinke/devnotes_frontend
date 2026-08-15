@@ -2,15 +2,6 @@
 @use '../../../../var' as var;
 @use '../../../../mixins' as *;
 
-:host {
-  position: absolute;
-  right: 100%;
-
-  @media (max-width: var.$breakpoint-hd) {
-    position: static;
-  }
-}
-
 .search-button {
   @include button-preset();
   @include golden-ratio-padding();
