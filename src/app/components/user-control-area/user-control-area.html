@@ -1,8 +1,4 @@
-@if (authService.isLoggedIn() && user) {
-  <app-control-user-badge
-    [user]="user"
-    [menuActive]="true"
-  ></app-control-user-badge>
-} @else {
-  <app-control-guest-actions></app-control-guest-actions>
-}
+<app-control-user-badge
+  [user]="user"
+  [menuActive]="true"
+></app-control-user-badge>

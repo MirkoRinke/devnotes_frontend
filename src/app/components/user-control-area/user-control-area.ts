@@ -15,11 +15,10 @@ import type { BackendErrorResponseInterface, BusinessActionInterface } from '../
 import type { ApiResponseObjektInterface } from '../../interfaces/api-response';
 import type { UserInterface } from '../../interfaces/user';
 import { ControlUserBadge } from './control-user-badge/control-user-badge';
-import { ControlGuestActions } from './control-guest-actions/control-guest-actions';
 
 @Component({
   selector: 'app-user-control-area',
-  imports: [ControlUserBadge, ControlGuestActions],
+  imports: [ControlUserBadge],
   templateUrl: './user-control-area.html',
   styleUrl: './user-control-area.scss',
 })
