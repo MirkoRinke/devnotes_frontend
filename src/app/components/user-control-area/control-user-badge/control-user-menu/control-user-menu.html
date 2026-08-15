@@ -1,11 +1,11 @@
-@if (user) {
-  <div
-    class="values"
-    [class.active]="isUserBadgeMenuOpen"
-    [class.animated-in]="isUserBadgeMenuAnimating"
-    [class.animated-out]="!isUserBadgeMenuAnimating"
-    (animationend)="onAnimationEnd($event)"
-  >
+<div
+  class="values"
+  [class.active]="isUserBadgeMenuOpen"
+  [class.animated-in]="isUserBadgeMenuAnimating"
+  [class.animated-out]="!isUserBadgeMenuAnimating"
+  (animationend)="onAnimationEnd($event)"
+>
+  @if (authService.isLoggedIn() && user) {
     <button
       class="value"
       [routerLink]="['/user-profile', user.id]"
@@ -53,7 +53,7 @@
     <span class="divider"></span>
     <button
       class="value"
-      (click)="logoutService.logout()"
+      (click)="onClose(); logoutService.logout()"
     >
       <span
         class="icon-container"
@@ -61,5 +61,29 @@
       ></span
       >Abmelden
     </button>
-  </div>
-}
+  } @else {
+    <button
+      class="value"
+      [routerLink]="['/login']"
+      (click)="onClose()"
+    >
+      <span
+        class="icon-container"
+        [innerHTML]="svgIconsService.returnIcon('login', 'icon')"
+      ></span
+      >Anmelden
+    </button>
+
+    <button
+      class="value"
+      [routerLink]="['/register']"
+      (click)="onClose()"
+    >
+      <span
+        class="icon-container"
+        [innerHTML]="svgIconsService.returnIcon('register', 'icon')"
+      ></span
+      >Registrieren
+    </button>
+  }
+</div>

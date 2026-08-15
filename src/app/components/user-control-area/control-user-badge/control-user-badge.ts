@@ -6,6 +6,8 @@ import { ClickOutsideDirective } from '../../../directives/click-outside.directi
 import { AvatarLayer } from '../../avatar-layer/avatar-layer';
 import { ControlUserMenu } from './control-user-menu/control-user-menu';
 
+import { AuthService } from '../../../services/auth.service';
+
 @Component({
   selector: 'app-control-user-badge',
   imports: [ClickOutsideDirective, AvatarLayer, ControlUserMenu],
@@ -19,7 +21,7 @@ export class ControlUserBadge {
   menuOpen = false;
   menuAnimating = false;
 
-  constructor() {}
+  constructor(public authService: AuthService) {}
 
   /**
    * Toggle Settings Dropdown
