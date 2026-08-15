@@ -12,18 +12,5 @@
     &:hover {
       cursor: pointer;
     }
-
-    // TODO: Re-evaluate
-    // .display-name {
-    //   @include font-settings();
-
-    //   @media (max-width: var.$breakpoint-lg) {
-    //     display: none;
-    //   }
-
-    //   &::first-letter {
-    //     text-transform: uppercase;
-    //   }
-    // }
   }
 }

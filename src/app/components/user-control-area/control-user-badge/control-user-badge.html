@@ -1,31 +1,35 @@
-@if (user) {
+<div
+  class="control-user-badge"
+  appClickOutsideDirective
+  [clickOutsideEnabled]="menuOpen"
+  (clickOutside)="triggerCloseBadgeMenu()"
+>
   <div
-    class="control-user-badge"
-    appClickOutsideDirective
-    [clickOutsideEnabled]="menuOpen"
-    (clickOutside)="triggerCloseBadgeMenu()"
+    (click)="menuActive ? toggleBadgeMenu() : null"
+    class="user-badge"
+    [class.menu-active]="menuActive"
   >
-    <div
-      (click)="menuActive ? toggleBadgeMenu() : null"
-      class="user-badge"
-      [class.menu-active]="menuActive"
-    >
-      <!-- TODO: Re-evaluate -->
-      <!-- <span class="display-name">{{ user.display_name }}</span> -->
+    @if (authService.isLoggedIn() && user) {
       <app-avatar-layer
         [avatarMvpId]="user.avatar_mvp_id ?? null"
         [menuOpen]="menuOpen"
         [direction]="'left'"
       ></app-avatar-layer>
-    </div>
-
-    @if (menuActive && menuOpen) {
-      <app-control-user-menu
-        [user]="user"
-        [isUserBadgeMenuOpen]="menuOpen"
-        [isUserBadgeMenuAnimating]="menuAnimating"
-        (closeMenu)="closeBadgeMenu()"
-      ></app-control-user-menu>
+    } @else {
+      <app-avatar-layer
+        [avatarMvpId]="'guest'"
+        [menuOpen]="menuOpen"
+        [direction]="'left'"
+      ></app-avatar-layer>
     }
   </div>
-}
+
+  @if (menuActive && menuOpen) {
+    <app-control-user-menu
+      [user]="user"
+      [isUserBadgeMenuOpen]="menuOpen"
+      [isUserBadgeMenuAnimating]="menuAnimating"
+      (closeMenu)="closeBadgeMenu()"
+    ></app-control-user-menu>
+  }
+</div>
