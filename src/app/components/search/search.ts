@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnDestroy, AfterViewInit, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, NavigationEnd } from '@angular/router';
 
@@ -16,6 +16,8 @@ import { SearchService } from '../../services/search.service';
 })
 export class Search implements OnDestroy, AfterViewInit {
   @ViewChild('searchInput') searchInput!: ElementRef<HTMLInputElement>;
+
+  @Output() closeSearchEvent = new EventEmitter<void>();
 
   private destroy$ = new Subject<void>();
   private lastBaseUrl: string = '';
@@ -112,5 +114,12 @@ export class Search implements OnDestroy, AfterViewInit {
         this.updateIndicators(inputValue);
       }
     });
+  }
+
+  /**
+   * Emits an event to close the visibility of the search input. This method is typically called when the user clicks the close search button.
+   */
+  public closeSearch(): void {
+    this.closeSearchEvent.emit();
   }
 }

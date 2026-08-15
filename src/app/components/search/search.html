@@ -2,6 +2,12 @@
   [attr.aria-disabled]="!(searchService.enableSearch$ | async)"
   class="search"
 >
+  <button
+    class="close-search"
+    (click)="closeSearch()"
+    [innerHTML]="svgIconsService.returnIcon('search_close')"
+  ></button>
+
   @if ((searchService.cageIcon$ | async) !== null) {
     <span
       class="icon"

@@ -16,10 +16,23 @@
 
   transition: box-shadow var.$transition-duration-medium ease-in-out;
 
+  .close-search {
+    @include button-preset();
+    display: none;
+    height: px-to-rem(30);
+    width: px-to-rem(30);
+    min-width: px-to-rem(30);
+    min-height: px-to-rem(30);
+
+    @include svg-icon($icon-class: 'search_close', $height: 100%, $width: 100%, $fill-color: var(--font-primary-color-50), $hover-fill-color: var(--font-primary-color-100));
+  }
+
   .icon {
     cursor: default;
-    width: px-to-rem(30);
     height: px-to-rem(30);
+    width: px-to-rem(30);
+    min-width: px-to-rem(30);
+    min-height: px-to-rem(30);
 
     flex: 0 0 px-to-rem(30);
 
