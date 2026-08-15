@@ -25,7 +25,7 @@
   }
 }
 
-@mixin svg-icon($icon-class, $height: 24px, $width: 24px, $min-size: 48px, $fill-color: null) {
+@mixin svg-icon($icon-class, $height: 24px, $width: 24px, $min-size: 48px, $fill-color: null, $hover-fill-color: null) {
   @include display-flex($justify: center, $align: center);
 
   &::ng-deep .#{$icon-class} {
@@ -44,8 +44,14 @@
     }
 
     @if $fill-color != null {
-      transition: fill var.$transition-duration-medium ease-in-out;
       fill: $fill-color;
+    }
+
+    @if $hover-fill-color != null {
+      transition: fill var.$transition-duration-medium ease-in-out;
+      &:hover {
+        fill: $hover-fill-color;
+      }
     }
   }
 }
