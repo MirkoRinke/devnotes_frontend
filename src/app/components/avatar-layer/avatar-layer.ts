@@ -8,7 +8,7 @@ import { SimpleChanges } from '@angular/core';
   styleUrl: './avatar-layer.scss',
 })
 export class AvatarLayer {
-  @Input() avatarMvpId: number | null = null;
+  @Input() avatarMvpId: number | null | 'guest' = null;
   @Input() menuOpen: boolean = false;
   @Input() direction: 'right' | 'left' = 'right';
 
@@ -39,7 +39,11 @@ export class AvatarLayer {
    *
    * @returns The valid avatar ID, which is either the provided avatar ID if valid, or 1 if invalid.
    */
-  validAvatarID(): number {
+  validAvatarID(): number | 'guest' {
+    if (this.avatarMvpId === 'guest') {
+      return 'guest';
+    }
+
     const avatarMvpId = this.avatarMvpId ?? 1;
     const isStandard = avatarMvpId && avatarMvpId >= 1 && avatarMvpId <= 20;
     const isSystem = avatarMvpId && (avatarMvpId === this.adminAvatarID || avatarMvpId === this.moderatorAvatarID || avatarMvpId === this.systemAvatarID);
