@@ -4,42 +4,24 @@
 
 :host {
   @include display-flex($align: center, $justify: center);
+  position: relative;
 
-  @media (max-width: var.$breakpoint-hd) {
-    flex: 1;
+  @media (max-width: var.$breakpoint-md) {
+    position: unset;
   }
 }
 
-.page-navigation-desktop {
+.page-navigation {
   @include display-flex($align: center);
-  position: relative;
   flex-shrink: 0;
 
-  @media (max-width: var.$breakpoint-hd) {
-    // Add right padding to center navigation despite the left search button
-    padding-right: px-to-rem(48);
-    min-width: 100%;
-  }
-
-  @media (max-width: var.$breakpoint-md) {
-    display: none;
-    pointer-events: none;
-  }
-
   .elements {
-    @include display-flex($align: center, $justify: center);
-    position: relative;
-    margin-inline: px-to-rem(25);
-
-    @media (max-width: var.$breakpoint-hd) {
-      flex: 1;
-      min-width: 0;
-    }
+    @include display-flex($align: center, $justify: center, $gap: px-to-rem(25));
 
     .search {
-      @include display-flex($align: center, $justify: center, $gap: px-to-rem(25));
       position: absolute;
-      height: 100%;
+      width: 100%;
+      z-index: 999;
 
       &.animated-in {
         @include width-slide-animation($animation: 'widthSlideIn', $duration: var.$transition-duration-slow * 2);
@@ -57,11 +39,15 @@
 
     .links {
       @include display-grid($gap: px-to-rem(25));
-      grid-template-columns: repeat(4, minmax(max-content, 1fr));
+      grid-template-columns: 1fr 1fr auto 1fr 1fr;
       flex-shrink: 0;
 
       @media (max-width: var.$breakpoint-hd) {
         gap: px-to-rem(15);
+      }
+
+      @media (max-width: var.$breakpoint-md) {
+        grid-template-columns: repeat(1, minmax(max-content, 1fr));
       }
 
       &.animated-in {
@@ -89,6 +75,11 @@
           height: px-to-rem(48);
         }
 
+        @media (max-width: var.$breakpoint-md) {
+          display: none;
+          pointer-events: none;
+        }
+
         transition: box-shadow var.$transition-duration-medium ease-in-out;
 
         &:hover {
@@ -113,21 +104,10 @@
           }
         }
       }
+
+      .search-button {
+        @include display-flex($align: center, $justify: center);
+      }
     }
-  }
-}
-
-.page-navigation-mobile {
-  display: none;
-  width: 100%;
-
-  @media (max-width: var.$breakpoint-md) {
-    @include display-flex($align: center, $justify: center);
-  }
-
-  .search-mobile {
-    position: absolute;
-    width: 100%;
-    z-index: 999;
   }
 }

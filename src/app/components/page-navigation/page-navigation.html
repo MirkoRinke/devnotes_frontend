@@ -1,14 +1,10 @@
-<nav class="page-navigation-desktop">
-  <app-search-button
-    [showSearch]="showSearch"
-    (toggleSearchEvent)="toggleSearch()"
-  ></app-search-button>
-
+<nav class="page-navigation">
   <div class="elements">
     <app-search
       [class.active]="showSearch && (searchService.dataLoaded$ | async) && delayedSearch"
       [class.animated-in]="showSearch && (searchService.dataLoaded$ | async) && delayedSearch"
       [class.animated-out]="!showSearch && delayedSearch"
+      (closeSearchEvent)="toggleSearch()"
       class="search"
       [attr.inert]="!showSearch ? '' : null"
     ></app-search>
@@ -34,18 +30,15 @@
             {{ link.label }}
           </span>
         </a>
+
+        @if ($index == navigationLinks.length / 2 - 1) {
+          <app-search-button
+            [showSearch]="showSearch"
+            (toggleSearchEvent)="toggleSearch()"
+            class="search-button"
+          ></app-search-button>
+        }
       }
     </div>
   </div>
-</nav>
-
-<nav class="page-navigation-mobile">
-  <app-search-button
-    [showSearch]="showSearch"
-    (toggleSearchEvent)="toggleSearch()"
-  ></app-search-button>
-
-  @if ((searchService.enableSearch$ | async) && showSearch) {
-    <app-search class="search-mobile"></app-search>
-  }
 </nav>
