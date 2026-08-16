@@ -133,7 +133,7 @@ export function passwordStrengthValidator(errorKey: string = 'weakPassword'): Va
  * @param errorKey The error key to return if validation fails. Defaults to 'tooMuchWhitespace'.
  * @returns A ValidatorFn or null.
  */
-export function toMuchWhitespaceValidator(errorKey: string = 'tooMuchWhitespace'): ValidatorFn {
+export function tooMuchWhitespaceValidator(errorKey: string = 'tooMuchWhitespace'): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const value = control.value;
     if (!value) return null;

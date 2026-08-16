@@ -1,15 +1,15 @@
 import { ValidatorFn, Validators } from '@angular/forms';
-import { emailOrUsernameValidator, passwordStrengthValidator, toMuchWhitespaceValidator } from '../utils/custom-validators';
+import { emailOrUsernameValidator, passwordStrengthValidator, tooMuchWhitespaceValidator } from '../utils/custom-validators';
 import { RegexEnums } from '../enums/regex';
 
 export const AUTH_FORMS_CONFIG = {
   name: (defaultValue: string = '', required: boolean = true): [string, ValidatorFn[]] => [
     defaultValue,
-    [...(required ? [Validators.required] : []), Validators.minLength(2), Validators.maxLength(40), Validators.pattern(RegexEnums.username), toMuchWhitespaceValidator('tooMuchWhitespace')],
+    [...(required ? [Validators.required] : []), Validators.minLength(2), Validators.maxLength(40), Validators.pattern(RegexEnums.username), tooMuchWhitespaceValidator('tooMuchWhitespace')],
   ],
   display_name: (defaultValue: string = '', required: boolean = true): [string, ValidatorFn[]] => [
     defaultValue,
-    [...(required ? [Validators.required] : []), Validators.minLength(2), Validators.maxLength(40), Validators.pattern(RegexEnums.username), toMuchWhitespaceValidator('tooMuchWhitespace')],
+    [...(required ? [Validators.required] : []), Validators.minLength(2), Validators.maxLength(40), Validators.pattern(RegexEnums.username), tooMuchWhitespaceValidator('tooMuchWhitespace')],
   ],
   email: (defaultValue: string = '', required: boolean = true): [string, ValidatorFn[]] => [defaultValue, [...(required ? [Validators.required] : []), Validators.email, Validators.maxLength(255)]],
   registerPassword: (defaultValue: string = '', required: boolean = true): [string, ValidatorFn[]] => [
