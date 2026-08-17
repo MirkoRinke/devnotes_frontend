@@ -4,10 +4,12 @@
 
 .app-header {
   @include display-grid($align: center, $gap: px-to-rem(25));
-
   grid-template-columns: 1fr auto 1fr;
+  grid-template-rows: px-to-rem(60);
 
   @media (max-width: var.$breakpoint-hd) {
     grid-template-columns: max-content auto max-content;
+    grid-template-rows: px-to-rem(48);
   }
+  position: relative;
 }
