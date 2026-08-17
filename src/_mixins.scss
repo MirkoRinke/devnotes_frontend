@@ -25,7 +25,7 @@
   }
 }
 
-@mixin svg-icon($icon-class, $height: 24px, $width: 24px, $min-size: 48px, $fill-color: null, $hover-fill-color: null) {
+@mixin svg-icon($icon-class, $height: 24px, $width: 24px, $min-size: 48px, $fill-color: null, $hover-fill-color: null, $active-fill-color: null) {
   @include display-flex($justify: center, $align: center);
 
   &::ng-deep .#{$icon-class} {
@@ -51,6 +51,15 @@
       transition: fill var.$transition-duration-medium ease-in-out;
       &:hover {
         fill: $hover-fill-color;
+      }
+    }
+  }
+
+  @if $active-fill-color != null {
+    &.active {
+      &::ng-deep .#{$icon-class} {
+        transition: fill var.$transition-duration-medium ease-in-out;
+        fill: $active-fill-color;
       }
     }
   }
@@ -95,8 +104,8 @@
   }
 }
 
-@mixin golden-ratio-padding($font-size: 16) {
-  $vertical: math.div($font-size, 2);
+@mixin golden-ratio-padding($size: 16) {
+  $vertical: math.div($size, 2);
   $horizontal: $vertical * 1.618;
   padding: px-to-rem($vertical) px-to-rem($horizontal);
 }
