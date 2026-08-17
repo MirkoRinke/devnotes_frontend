@@ -2,6 +2,11 @@
 @use '../../../../var' as var;
 @use '../../../../mixins' as *;
 
+:host {
+  @include display-flex(center, center);
+  height: 100%;
+}
+
 .search-button {
   @include button-preset();
   @include golden-ratio-padding();
@@ -9,13 +14,7 @@
   position: relative;
   background-color: var(--page-primary-color-100);
   border-radius: px-to-rem(15);
-  width: px-to-rem(60);
-  height: px-to-rem(60);
-
-  @media (max-width: var.$breakpoint-hd) {
-    width: px-to-rem(48);
-    height: px-to-rem(48);
-  }
+  height: 100%;
 
   transition: box-shadow var.$transition-duration-medium ease-in-out;
 
@@ -29,6 +28,7 @@
 
   .search-clear {
     @include display-flex($align: center, $justify: center);
+    //TODO use @include position-absolute
     position: absolute;
     top: px-to-rem(-5);
     right: px-to-rem(-5);
@@ -37,8 +37,8 @@
     border-radius: 50%;
     padding: px-to-rem(2);
 
-    width: px-to-rem(20);
-    height: px-to-rem(20);
+    height: 35%;
+    width: 35%;
 
     transition: transform var.$transition-duration-medium ease-in-out;
 
@@ -47,10 +47,12 @@
       transition: transform var.$transition-duration-medium ease-in-out;
     }
 
-    @include svg-icon($icon-class: 'search_clear', $height: 80%, $width: 80%, $fill-color: var(--red-color-100));
+    @include svg-icon($icon-class: 'search_clear', $height: 100%, $width: 100%, $fill-color: var(--red-color-100));
   }
 
   .icon-container {
+    height: 100%;
+
     &.spin {
       @include display-flex($align: center, $justify: center);
       will-change: transform;
