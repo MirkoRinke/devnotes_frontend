@@ -4,4 +4,5 @@
 
 :host {
   @include display-flex($justify: end);
+  height: 100%;
 }

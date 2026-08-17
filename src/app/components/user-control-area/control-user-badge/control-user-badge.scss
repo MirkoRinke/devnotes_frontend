@@ -4,10 +4,11 @@
 
 .control-user-badge {
   position: relative;
+  height: 100%;
 
   .user-badge {
     @include display-flex($align: center, $gap: px-to-rem(10));
-    height: px-to-rem(60);
+    height: 100%;
 
     &:hover {
       cursor: pointer;
