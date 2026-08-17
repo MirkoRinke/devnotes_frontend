@@ -4,13 +4,13 @@
 
 :host {
   @include display-flex($justify: start);
+  height: 100%;
 }
 
 .home-button {
   @include button-preset();
   @include display-flex($justify: center, $align: center, $gap: px-to-rem(10));
-  height: px-to-rem(60);
-  min-width: max-content;
+  height: 100%;
 
   .icon {
     height: 100%;
