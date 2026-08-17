@@ -10,7 +10,7 @@
 
   @if ((searchService.cageIcon$ | async) !== null) {
     <span
-      class="icon"
+      class="cage-icon-container"
       [innerHTML]="svgIconsService.returnIcon((searchService.cageIcon$ | async) ?? '', 'cage')"
     ></span>
   }
@@ -37,15 +37,15 @@
   @if ((searchService.searchMode$ | async) !== null) {
     <div class="indicators">
       <span
-        class="icon"
+        class="indicator-icon-container"
         [class.active]="hasText"
-        [innerHTML]="svgIconsService.returnIcon('title_search')"
+        [innerHTML]="svgIconsService.returnIcon('title_search', 'indicator')"
         aria-label="Title Search Indicator"
       ></span>
       <span
-        class="icon"
+        class="indicator-icon-container"
         [class.active]="hasTags"
-        [innerHTML]="svgIconsService.returnIcon('tags_search')"
+        [innerHTML]="svgIconsService.returnIcon('tags_search', 'indicator')"
         aria-label="Tags Search Indicator"
       ></span>
     </div>
