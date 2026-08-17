@@ -1,44 +1,41 @@
 <nav class="page-navigation">
-  <div class="elements">
-    <app-search
-      [class.active]="showSearch && (searchService.dataLoaded$ | async) && delayedSearch"
-      [class.animated-in]="showSearch && (searchService.dataLoaded$ | async) && delayedSearch"
-      [class.animated-out]="!showSearch && delayedSearch"
-      (closeSearchEvent)="toggleSearch()"
-      class="search"
-      [attr.inert]="!showSearch ? '' : null"
-    ></app-search>
+  <app-search
+    [class.active]="showSearch && (searchService.dataLoaded$ | async) && delayedSearch"
+    [class.animated-in]="showSearch && (searchService.dataLoaded$ | async) && delayedSearch"
+    [class.animated-out]="!showSearch && delayedSearch"
+    (closeSearchEvent)="toggleSearch()"
+    class="search"
+    [attr.inert]="!showSearch ? '' : null"
+  ></app-search>
 
-    <div
-      [class.active]="!showSearch || !(searchService.dataLoaded$ | async) || !delayedSearch"
-      [class.animated-in]="!showSearch && delayedSearch"
-      [class.animated-out]="showSearch && delayedSearch && (searchService.dataLoaded$ | async)"
-      class="links"
-      [attr.inert]="showSearch ? '' : null"
-    >
-      @for (link of navigationLinks; track $index) {
-        <a
-          class="link"
-          [routerLink]="link.path"
-          [class.active]="activeMap[link.context]"
-        >
-          <span
-            class="icon-container"
-            [innerHTML]="svgIconsService.returnIcon(link.label, 'icon')"
-          ></span>
-          <span class="label">
-            {{ link.label }}
-          </span>
-        </a>
+  <div
+    [class.active]="!showSearch || !(searchService.dataLoaded$ | async) || !delayedSearch"
+    [class.animated-in]="!showSearch && delayedSearch"
+    [class.animated-out]="showSearch && delayedSearch && (searchService.dataLoaded$ | async)"
+    class="links"
+    [attr.inert]="showSearch ? '' : null"
+  >
+    @for (link of navigationLinks; track $index) {
+      <a
+        class="link"
+        [routerLink]="link.path"
+        [class.active]="activeMap[link.context]"
+      >
+        <span
+          class="icon-container"
+          [innerHTML]="svgIconsService.returnIcon(link.label, 'icon')"
+        ></span>
+        <span class="label">
+          {{ link.label }}
+        </span>
+      </a>
 
-        @if ($index == navigationLinks.length / 2 - 1) {
-          <app-search-button
-            [showSearch]="showSearch"
-            (toggleSearchEvent)="toggleSearch()"
-            class="search-button"
-          ></app-search-button>
-        }
+      @if ($index == navigationLinks.length / 2 - 1) {
+        <app-search-button
+          [showSearch]="showSearch"
+          (toggleSearchEvent)="toggleSearch()"
+        ></app-search-button>
       }
-    </div>
+    }
   </div>
 </nav>
