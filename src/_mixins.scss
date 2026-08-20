@@ -65,20 +65,55 @@
   }
 }
 
-@mixin display-flex($align: stretch, $justify: flex-start, $direction: row, $gap: unset) {
+@mixin display-flex($align: null, $justify: null, $direction: null, $gap: null) {
   display: flex;
-  align-items: $align;
-  justify-content: $justify;
-  flex-direction: $direction;
-  gap: $gap;
+
+  @if $align != null {
+    align-items: $align;
+  }
+  @if $justify != null {
+    justify-content: $justify;
+  }
+  @if $direction != null {
+    flex-direction: $direction;
+  }
+  @if $gap != null {
+    gap: convert-to-rem-if-needed($gap);
+  }
 }
 
-@mixin display-grid($align: stretch, $justify: stretch, $justify-content: unset, $gap: unset) {
+@mixin display-grid($align: null, $justify: null, $justify-content: null, $gap: null) {
   display: grid;
-  align-items: $align;
-  justify-items: $justify;
-  justify-content: $justify-content;
-  gap: $gap;
+
+  @if $align != null {
+    align-items: $align;
+  }
+  @if $justify != null {
+    justify-items: $justify;
+  }
+  @if $justify-content != null {
+    justify-content: $justify-content;
+  }
+  @if $gap != null {
+    gap: convert-to-rem-if-needed($gap);
+  }
+}
+
+@mixin position-absolute($top: null, $bottom: null, $left: null, $right: null) {
+  position: absolute;
+
+  @if $top != null {
+    top: convert-to-rem-if-needed($top);
+  }
+  @if $bottom != null {
+    bottom: convert-to-rem-if-needed($bottom);
+  }
+  @if $left != null {
+    left: convert-to-rem-if-needed($left);
+  }
+  @if $right != null {
+    right: convert-to-rem-if-needed($right);
+  }
 }
 
 @mixin font-settings($font-size: 16, $font-weight: 400, $color: var(--font-primary-color-100), $font-family: 'FiraCode') {
@@ -514,15 +549,23 @@
   }
 }
 
-@mixin context-box($max-width: unset, $width: unset, $max-height: unset, $height: unset) {
+@mixin context-box($max-width: null, $width: null, $max-height: null, $height: null) {
   background-color: var(--page-primary-color-100);
   border-radius: px-to-rem(15);
   padding: px-to-rem(25) px-to-rem(50);
 
-  max-width: convert-to-rem-if-needed($max-width);
-  width: convert-to-rem-if-needed($width);
-  max-height: convert-to-rem-if-needed($max-height);
-  height: convert-to-rem-if-needed($height);
+  @if $max-width != null {
+    max-width: convert-to-rem-if-needed($max-width);
+  }
+  @if $width != null {
+    width: convert-to-rem-if-needed($width);
+  }
+  @if $max-height != null {
+    max-height: convert-to-rem-if-needed($max-height);
+  }
+  @if $height != null {
+    height: convert-to-rem-if-needed($height);
+  }
 }
 
 @mixin content-highlight-box($focus-highlight-class: null) {
@@ -542,16 +585,19 @@
   box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-100);
 }
 
-@mixin input-feld($height: unset, $color: null) {
+@mixin input-feld($height: null, $color: null) {
   @if $color != null {
     color: $color;
+  }
+
+  @if $height != null {
+    height: convert-to-rem-if-needed($height);
   }
 
   padding: px-to-rem(10) px-to-rem(15);
   border-radius: px-to-rem(5);
   border: none;
 
-  height: convert-to-rem-if-needed($height);
   min-width: 0;
   width: 100%;
 
@@ -587,15 +633,26 @@
   }
 }
 
-@mixin status-dot($parent-selector: null, $selector: null, $color: var(--status-dot-color-success-100), $size: 8px, $top: unset, $bottom: unset, $left: unset, $right: unset) {
+@mixin status-dot($parent-selector: null, $selector: null, $color: var(--status-dot-color-success-100), $size: 8px, $top: null, $bottom: null, $left: null, $right: null) {
   &::after {
     content: '';
     position: absolute;
 
-    top: convert-to-rem-if-needed($top);
-    bottom: convert-to-rem-if-needed($bottom);
-    left: convert-to-rem-if-needed($left);
-    right: convert-to-rem-if-needed($right);
+    @if $top != null {
+      top: convert-to-rem-if-needed($top);
+    }
+
+    @if $bottom != null {
+      bottom: convert-to-rem-if-needed($bottom);
+    }
+
+    @if $left != null {
+      left: convert-to-rem-if-needed($left);
+    }
+
+    @if $right != null {
+      right: convert-to-rem-if-needed($right);
+    }
 
     width: convert-to-rem-if-needed($size);
     height: convert-to-rem-if-needed($size);
@@ -631,20 +688,33 @@
   }
 }
 
-@mixin absolute-child($class: null, $top: unset, $bottom: unset, $right: unset, $left: unset, $transform: unset, $z-index: null, $margin-bottom: 10px) {
+@mixin absolute-child($class: null, $top: null, $bottom: null, $right: null, $left: null, $transform: null, $z-index: null, $margin-bottom: 10px) {
   position: relative;
 
   @if $class != null {
     #{$class} {
       position: absolute;
-      top: convert-to-rem-if-needed($top);
-      bottom: convert-to-rem-if-needed($bottom);
-      right: convert-to-rem-if-needed($right);
-      left: convert-to-rem-if-needed($left);
+
+      @if $top != null {
+        top: convert-to-rem-if-needed($top);
+      }
+
+      @if $bottom != null {
+        bottom: convert-to-rem-if-needed($bottom);
+      }
+
+      @if $left != null {
+        left: convert-to-rem-if-needed($left);
+      }
+
+      @if $right != null {
+        right: convert-to-rem-if-needed($right);
+      }
+
       @if $z-index != null {
         z-index: $z-index;
       }
-      @if $transform != unset {
+      @if $transform != null {
         transform: $transform;
       }
       margin-bottom: convert-to-rem-if-needed($margin-bottom);
@@ -653,19 +723,19 @@
   }
 }
 
-@mixin error-badge($left: unset, $right: unset, $caret: true) {
+@mixin error-badge($left: null, $right: null, $caret: true) {
   @include badge($bg-color: var(--error-color-100), $left: $left, $right: $right, $caret: $caret);
 }
 
-@mixin info-badge($left: unset, $right: unset, $caret: true) {
+@mixin info-badge($left: null, $right: null, $caret: true) {
   @include badge($bg-color: var(--info-color-100), $left: $left, $right: $right, $caret: $caret);
 }
 
-@mixin success-badge($left: unset, $right: unset, $caret: true) {
+@mixin success-badge($left: null, $right: null, $caret: true) {
   @include badge($bg-color: var(--success-color-100), $left: $left, $right: $right, $caret: $caret);
 }
 
-@mixin badge($bg-color: var(--error-color-100), $font-size: 14px, $left: unset, $right: unset, $caret: true, $border-radius: 5px, $z-index: 10) {
+@mixin badge($bg-color: var(--error-color-100), $font-size: 14px, $left: null, $right: null, $caret: true, $border-radius: 5px, $z-index: 10) {
   width: max-content;
   max-width: 100%;
 
@@ -685,9 +755,9 @@
       position: absolute;
       bottom: px-to-rem(-4);
 
-      @if $left != unset and $right == unset {
+      @if $left != null and $right == null {
         left: convert-to-rem-if-needed($left);
-      } @else if $right != unset and $left == unset {
+      } @else if $right != null and $left == null {
         right: convert-to-rem-if-needed($right);
       } @else {
         left: 50%;
