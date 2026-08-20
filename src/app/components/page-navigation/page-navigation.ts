@@ -7,13 +7,15 @@ import { RouterModule, ActivatedRoute, Router, NavigationEnd } from '@angular/ro
 import { SvgIconsService } from '../../services/svg.icons.service';
 import { SearchService } from '../../services/search.service';
 
+import { TranslatePipe } from '../../i18n/translate-pipe';
+
 import { PageContextEnums } from '../../enums/context';
 
 import { SearchButton } from './search-button/search-button';
 import { Search } from '../search/search';
 @Component({
   selector: 'app-page-navigation',
-  imports: [CommonModule, RouterModule, Search, SearchButton],
+  imports: [CommonModule, RouterModule, Search, SearchButton, TranslatePipe],
   templateUrl: './page-navigation.html',
   styleUrl: './page-navigation.scss',
 })

@@ -1,3 +1,5 @@
+@let translatePath = 'PageNavigation' + '.';
+
 <nav class="page-navigation">
   <app-search
     [class.active]="showSearch && (searchService.dataLoaded$ | async) && delayedSearch"
@@ -20,13 +22,17 @@
         class="link"
         [routerLink]="link.path"
         [class.active]="activeMap[link.context]"
+        [attr.aria-label]="translatePath + link.label | translate"
       >
         <span
           class="icon-container"
           [innerHTML]="svgIconsService.returnIcon(link.label, 'icon')"
         ></span>
-        <span class="label">
-          {{ link.label }}
+        <span
+          class="label"
+          aria-hidden="true"
+        >
+          {{ translatePath + link.label | translate }}
         </span>
       </a>
 
