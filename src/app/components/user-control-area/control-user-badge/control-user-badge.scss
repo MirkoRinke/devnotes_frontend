@@ -7,6 +7,7 @@
   height: 100%;
 
   .user-badge {
+    @include button-preset();
     @include display-flex($align: center, $gap: px-to-rem(10));
     height: 100%;
 

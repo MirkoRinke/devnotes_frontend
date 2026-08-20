@@ -1,13 +1,19 @@
+@let translatePath = 'ControlUserBadge' + '.';
+@let translatePathAriaLabel = translatePath + 'ariaLabel' + '.';
+
 <div
   class="control-user-badge"
   appClickOutsideDirective
   [clickOutsideEnabled]="menuOpen"
   (clickOutside)="triggerCloseBadgeMenu()"
 >
-  <div
-    (click)="menuActive ? toggleBadgeMenu() : null"
+  <button
     class="user-badge"
+    type="button"
+    (click)="menuActive ? toggleBadgeMenu() : null"
     [class.menu-active]="menuActive"
+    [attr.aria-label]="translatePathAriaLabel + (menuOpen ? 'closeMenu' : 'openMenu') | translate"
+    [attr.aria-expanded]="menuOpen"
   >
     @if (authService.isLoggedIn() && user) {
       <app-avatar-layer
@@ -22,7 +28,7 @@
         [direction]="'left'"
       ></app-avatar-layer>
     }
-  </div>
+  </button>
 
   @if (menuActive && menuOpen) {
     <app-control-user-menu

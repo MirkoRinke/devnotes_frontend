@@ -1,16 +1,19 @@
 import { Component, Input } from '@angular/core';
 
-import type { UserInterface } from '../../../interfaces/user';
+import { AuthService } from '../../../services/auth.service';
+
+import { TranslatePipe } from '../../../i18n/translate-pipe';
 
 import { ClickOutsideDirective } from '../../../directives/click-outside.directive';
+
+import type { UserInterface } from '../../../interfaces/user';
+
 import { AvatarLayer } from '../../avatar-layer/avatar-layer';
 import { ControlUserMenu } from './control-user-menu/control-user-menu';
 
-import { AuthService } from '../../../services/auth.service';
-
 @Component({
   selector: 'app-control-user-badge',
-  imports: [ClickOutsideDirective, AvatarLayer, ControlUserMenu],
+  imports: [ClickOutsideDirective, AvatarLayer, ControlUserMenu, TranslatePipe],
   templateUrl: './control-user-badge.html',
   styleUrl: './control-user-badge.scss',
 })
@@ -18,15 +21,15 @@ export class ControlUserBadge {
   @Input() user: UserInterface | null = null;
   @Input() menuActive: boolean = false;
 
-  menuOpen = false;
-  menuAnimating = false;
+  public menuOpen = false;
+  public menuAnimating = false;
 
   constructor(public authService: AuthService) {}
 
   /**
    * Toggle Settings Dropdown
    */
-  toggleBadgeMenu(): void {
+  public toggleBadgeMenu(): void {
     if (this.menuOpen) {
       this.menuAnimating = false;
     } else {
@@ -38,7 +41,7 @@ export class ControlUserBadge {
   /**
    * Close Badge Menu from menu component
    */
-  closeBadgeMenu(): void {
+  public closeBadgeMenu(): void {
     this.menuOpen = false;
   }
 
@@ -46,7 +49,7 @@ export class ControlUserBadge {
    * Close Badge Menu from click outside directive
    * This method is called when a click outside the badge menu is detected
    */
-  triggerCloseBadgeMenu(): void {
+  public triggerCloseBadgeMenu(): void {
     this.menuAnimating = false;
   }
 }
