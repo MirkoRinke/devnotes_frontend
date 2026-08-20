@@ -1,4 +1,4 @@
-export interface ControlUserBadgeInterface {
+export interface ControlUserBadgeMessagesInterface {
   ariaLabel: {
     openMenu: string;
     closeMenu: string;

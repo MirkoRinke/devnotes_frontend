@@ -8,7 +8,7 @@ import { TermsMessagesInterface } from './terms.interface';
 import { HomeButtonMessagesInterface } from './components/home-buttom.interface';
 import { PostTypesMessagesInterface } from './components/post-types.interface';
 import { SearchButtonMessagesInterface } from './components/search-button.interface';
-import { ControlUserBadgeInterface } from './components/control-user-badge.interface';
+import { ControlUserBadgeMessagesInterface } from './components/control-user-badge.interface';
 
 export interface Content extends ContentUI, LegalContent, Notifications {}
 
@@ -16,7 +16,7 @@ export interface ContentUI {
   HomeButton: HomeButtonMessagesInterface;
   PostTypes: PostTypesMessagesInterface;
   SearchButton: SearchButtonMessagesInterface;
-  ControlUserBadge: ControlUserBadgeInterface;
+  ControlUserBadge: ControlUserBadgeMessagesInterface;
 }
 
 export interface LegalContent {
