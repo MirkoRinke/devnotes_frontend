@@ -8,10 +8,6 @@
 }
 
 .home-button {
-  @include button-preset();
-  @include display-flex($justify: center, $align: center, $gap: px-to-rem(10));
-  height: 100%;
-
   .icon {
     height: 100%;
     @include svg-icon($icon-class: 'home', $height: 100%, $width: 100%, $fill-color: var(--font-primary-color-50));
