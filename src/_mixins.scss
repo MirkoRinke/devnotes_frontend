@@ -329,7 +329,10 @@
 
 @mixin value-list-item($item-spacing-vertical: px-to-rem(10), $item-spacing-horizontal: px-to-rem(15), $font-size: 16, $height: 100%, $width: 100%, $justify-content: space-between) {
   .value {
-    @include button-preset();
+    &:where(:is(button)) {
+      @include button-preset();
+    }
+
     @include display-flex(center, $justify-content);
     @include font-settings($font-size, 400);
     gap: px-to-rem(10);
