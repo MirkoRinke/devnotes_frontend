@@ -20,6 +20,13 @@ export const CONTENT_UI_EN: ContentUI = {
       closeMenu: 'Close user menu',
     },
   },
+  PageNavigation: {
+    myArea: 'My Area',
+    favorites: 'Favorites',
+    network: 'Network',
+    community: 'Community',
+    ariaLabel: {},
+  },
   PostTypes: {
     all_types: {
       title: 'All Types',
