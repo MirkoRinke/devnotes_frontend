@@ -14,6 +14,12 @@ export const CONTENT_UI_DE: ContentUI = {
       clearSearch: 'Suchfeld leeren',
     },
   },
+  ControlUserBadge: {
+    ariaLabel: {
+      openMenu: 'Benutzermenü öffnen',
+      closeMenu: 'Benutzermenü schließen',
+    },
+  },
   PostTypes: {
     all_types: {
       title: 'Alle Typen',

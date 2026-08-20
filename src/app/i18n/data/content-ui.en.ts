@@ -14,6 +14,12 @@ export const CONTENT_UI_EN: ContentUI = {
       clearSearch: 'Clear search input',
     },
   },
+  ControlUserBadge: {
+    ariaLabel: {
+      openMenu: 'Open user menu',
+      closeMenu: 'Close user menu',
+    },
+  },
   PostTypes: {
     all_types: {
       title: 'All Types',
