@@ -6,7 +6,7 @@
   [class.active]="searchService.enableSearch$ | async"
   (click)="toggleSearch()"
   [disabled]="!(searchService.enableSearch$ | async)"
-  [attr.aria-label]="showSearch ? (translatePathAriaLabel + 'closeSearch' | translate) : (translatePathAriaLabel + 'openSearch' | translate)"
+  [attr.aria-label]="translatePathAriaLabel + (showSearch ? 'closeSearch' : 'openSearch') | translate"
 >
   @if (hasSearchValue) {
     <span

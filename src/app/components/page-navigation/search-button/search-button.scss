@@ -3,14 +3,14 @@
 @use '../../../../mixins' as *;
 
 :host {
-  @include display-flex(center, center);
+  @include display-flex($align: center, $justify: center);
   height: 100%;
 }
 
 .search-button {
   @include button-preset();
   @include golden-ratio-padding();
-  @include display-flex(center, center, column);
+  @include display-flex($align: center, $justify: center, $direction: column);
   position: relative;
   background-color: var(--page-primary-color-100);
   border-radius: px-to-rem(15);
@@ -28,17 +28,15 @@
 
   .search-clear {
     @include display-flex($align: center, $justify: center);
-    //TODO use @include position-absolute
-    position: absolute;
-    top: px-to-rem(-5);
-    right: px-to-rem(-5);
+    @include position-absolute($top: px-to-rem(-5), $right: px-to-rem(-5));
+
     background-color: var(--page-primary-color-100);
     border: 2px solid var(--red-color-100);
     border-radius: 50%;
     padding: px-to-rem(2);
 
     height: 35%;
-    width: 35%;
+    width: fit-content;
 
     transition: transform var.$transition-duration-medium ease-in-out;
 
@@ -54,11 +52,7 @@
     height: 100%;
 
     &.spin {
-      @include display-flex($align: center, $justify: center);
-      will-change: transform;
-      backface-visibility: hidden;
-      transform: translateZ(0);
-      animation: spin 3s linear infinite;
+      @include spin($duration: var.$transition-duration-ultra-slow);
     }
 
     @include svg-icon($icon-class: 'search-button-icon', $height: 100%, $width: 100%, $fill-color: var(--font-primary-color-100));
@@ -67,14 +61,5 @@
   &:not(.active) {
     opacity: 0;
     pointer-events: none;
-  }
-
-  @keyframes spin {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
   }
 }
