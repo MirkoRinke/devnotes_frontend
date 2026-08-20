@@ -6,7 +6,6 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ApiService } from '../../services/api.service';
 import { ApiErrorHandlingService } from '../../services/api-error-handling.service';
-
 import { UserControlRefreshService } from '../../services/user-control-refresh.service';
 
 import { ApiEndpointEnums } from '../../enums/api-endpoint';
@@ -33,8 +32,8 @@ export class UserControlArea {
     private router: Router,
   ) {}
 
-  user: UserInterface | null = null;
-  necessaryUserFields: string = 'display_name,avatar_items,avatar_mvp_id';
+  public user: UserInterface | null = null;
+  private readonly necessaryUserFields: string = 'display_name,avatar_items,avatar_mvp_id';
 
   ngOnInit(): void {
     this.subscribeRefresh();
@@ -46,7 +45,7 @@ export class UserControlArea {
    *
    * @returns
    */
-  subscribeRefresh() {
+  private subscribeRefresh() {
     this.userControlRefreshService.refresh$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => this.getUser());
   }
 
