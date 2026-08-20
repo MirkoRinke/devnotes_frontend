@@ -6,7 +6,7 @@
   (animationend)="onAnimationEnd($event)"
 >
   @if (authService.isLoggedIn() && user) {
-    <button
+    <a
       class="value"
       [routerLink]="['/user-profile', user.id]"
       (click)="onClose()"
@@ -16,8 +16,8 @@
         [innerHTML]="svgIconsService.returnIcon('user_profile', 'icon')"
       ></span
       >Mein Profil
-    </button>
-    <button
+    </a>
+    <a
       class="value"
       [routerLink]="['/account-settings']"
       (click)="onClose()"
@@ -27,8 +27,8 @@
         [innerHTML]="svgIconsService.returnIcon('account_settings', 'icon')"
       ></span
       >Konto
-    </button>
-    <button
+    </a>
+    <a
       class="value"
       [routerLink]="['/avatar-settings']"
       (click)="onClose()"
@@ -38,8 +38,8 @@
         [innerHTML]="svgIconsService.returnIcon('avatar_settings', 'icon')"
       ></span
       >Avatar
-    </button>
-    <button
+    </a>
+    <a
       class="value"
       [routerLink]="['/app-settings']"
       (click)="onClose()"
@@ -49,7 +49,7 @@
         [innerHTML]="svgIconsService.returnIcon('app_settings', 'icon')"
       ></span
       >Einstellungen
-    </button>
+    </a>
     <span class="divider"></span>
     <button
       class="value"
@@ -62,7 +62,7 @@
       >Abmelden
     </button>
   } @else {
-    <button
+    <a
       class="value"
       [routerLink]="['/login']"
       (click)="onClose()"
@@ -72,9 +72,9 @@
         [innerHTML]="svgIconsService.returnIcon('login', 'icon')"
       ></span
       >Anmelden
-    </button>
+    </a>
 
-    <button
+    <a
       class="value"
       [routerLink]="['/register']"
       (click)="onClose()"
@@ -84,6 +84,6 @@
         [innerHTML]="svgIconsService.returnIcon('register', 'icon')"
       ></span
       >Registrieren
-    </button>
+    </a>
   }
 </div>
