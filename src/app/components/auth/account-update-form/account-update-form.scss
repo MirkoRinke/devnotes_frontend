@@ -34,7 +34,7 @@
     width: 100%;
     margin-block: px-to-rem(15);
 
-    @include position-absolute($class: '.badge', $bottom: 100%, $left: 50%, $transform: translateX(-50%));
+    @include absolute-child($class: '.badge', $bottom: 100%, $left: 50%, $transform: translateX(-50%));
   }
 
   .form {
@@ -47,7 +47,7 @@
       @include display-flex($justify: space-between, $direction: row);
       gap: px-to-rem(15);
 
-      @include position-absolute($class: '.badge', $bottom: 100%);
+      @include absolute-child($class: '.badge', $bottom: 100%);
     }
 
     .input-container {
@@ -63,7 +63,7 @@
 
       .password-input-wrapper {
         @include display-flex(center);
-        @include position-absolute($class: '.password-toggle-button', $right: px-to-rem(20), $margin-bottom: unset);
+        @include absolute-child($class: '.password-toggle-button', $right: px-to-rem(20), $margin-bottom: unset);
       }
 
       .input {
@@ -74,8 +74,8 @@
         border-radius: px-to-rem(10);
       }
 
-      @include position-absolute($class: '.badge', $bottom: 100%, $left: 0);
-      @include position-absolute($class: '.password-strength-feedback', $bottom: 100%, $left: 0);
+      @include absolute-child($class: '.badge', $bottom: 100%, $left: 0);
+      @include absolute-child($class: '.password-strength-feedback', $bottom: 100%, $left: 0);
     }
 
     @include divider();

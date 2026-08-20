@@ -70,7 +70,7 @@
         transition: opacity var.$transition-duration-medium ease-in-out;
       }
 
-      @include position-absolute('.dice-icon', $top: px-to-rem(10), $right: px-to-rem(10));
+      @include absolute-child('.dice-icon', $top: px-to-rem(10), $right: px-to-rem(10));
 
       .dice-icon {
         opacity: 0;

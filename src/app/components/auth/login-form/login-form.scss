@@ -46,7 +46,7 @@
         height: 100%;
       }
     }
-    @include position-absolute($class: '.badge', $bottom: 100%, $left: 50%, $transform: translateX(-50%));
+    @include absolute-child($class: '.badge', $bottom: 100%, $left: 50%, $transform: translateX(-50%));
   }
 
   .form {
@@ -61,7 +61,7 @@
 
       .password-input-wrapper {
         @include display-flex(center);
-        @include position-absolute($class: '.password-toggle-button', $right: px-to-rem(20), $margin-bottom: unset);
+        @include absolute-child($class: '.password-toggle-button', $right: px-to-rem(20), $margin-bottom: unset);
       }
 
       .input {
@@ -72,7 +72,7 @@
         border-radius: px-to-rem(10);
       }
 
-      @include position-absolute($class: '.badge', $bottom: 100%, $left: 0);
+      @include absolute-child($class: '.badge', $bottom: 100%, $left: 0);
     }
 
     .conditions-warning {
@@ -81,7 +81,7 @@
       margin-top: px-to-rem(25);
       width: 100%;
 
-      @include position-absolute($class: '.badge', $bottom: 100%, $left: 0);
+      @include absolute-child($class: '.badge', $bottom: 100%, $left: 0);
     }
 
     .submit-button {

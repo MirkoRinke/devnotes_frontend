@@ -631,7 +631,7 @@
   }
 }
 
-@mixin position-absolute($class: null, $top: unset, $bottom: unset, $right: unset, $left: unset, $transform: unset, $z-index: null, $margin-bottom: 10px) {
+@mixin absolute-child($class: null, $top: unset, $bottom: unset, $right: unset, $left: unset, $transform: unset, $z-index: null, $margin-bottom: 10px) {
   position: relative;
 
   @if $class != null {
@@ -850,6 +850,19 @@
     }
     100% {
       transform: translateY(0);
+    }
+  }
+}
+
+@mixin spin($suffix: 'spinner', $duration: var.$transition-duration-slow) {
+  animation: spin-#{$suffix} $duration linear infinite;
+
+  @keyframes spin-#{$suffix} {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
     }
   }
 }
