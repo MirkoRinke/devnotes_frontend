@@ -4,11 +4,11 @@
 <a
   class="home-button"
   [routerLink]="'/'"
-  type="button"
   [attr.aria-label]="translatePathAriaLabel + 'goToHome' | translate"
 >
   <span
     class="icon"
     [innerHTML]="svgIconsService.returnIcon('home')"
+    aria-hidden="true"
   ></span>
 </a>

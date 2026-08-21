@@ -11,5 +11,5 @@ import { SvgIconsService } from '../../services/svg.icons.service';
   styleUrl: './home-button.scss',
 })
 export class HomeButton {
-  constructor(public svgIconsService: SvgIconsService) {}
+  constructor(public readonly svgIconsService: SvgIconsService) {}
 }
