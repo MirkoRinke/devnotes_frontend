@@ -5,11 +5,13 @@ import { AuthService } from '../../../../services/auth.service';
 import { LogoutService } from '../../../../services/logout.service';
 import { SvgIconsService } from '../../../../services/svg.icons.service';
 
+import { TranslatePipe } from '../../../../i18n/translate-pipe';
+
 import type { UserInterface } from '../../../../interfaces/user';
 
 @Component({
   selector: 'app-control-user-menu',
-  imports: [RouterModule],
+  imports: [RouterModule, TranslatePipe],
   templateUrl: './control-user-menu.html',
   styleUrl: './control-user-menu.scss',
 })
@@ -20,19 +22,36 @@ export class ControlUserMenu {
   @Input() isUserBadgeMenuAnimating: boolean = false;
 
   @Output() closeMenu = new EventEmitter<void>();
-  @Output() openReportModal = new EventEmitter<void>();
+
+  readonly userNavigationLinks = [
+    { label: 'userProfile', path: '/user-profile', icon: 'user_profile' },
+    { label: 'accountSettings', path: '/account-settings', icon: 'account_settings' },
+    { label: 'avatarSettings', path: '/avatar-settings', icon: 'avatar_settings' },
+    { label: 'appSettings', path: '/app-settings', icon: 'app_settings' },
+  ];
 
   constructor(
-    public authService: AuthService,
-    public logoutService: LogoutService,
-    public svgIconsService: SvgIconsService,
+    public readonly authService: AuthService,
+    public readonly logoutService: LogoutService,
+    public readonly svgIconsService: SvgIconsService,
   ) {}
+
+  /**
+   * Get the link path for a given navigation link and user
+   *
+   * @param link
+   * @param user
+   * @returns
+   */
+  getLinkPath(link: { path: string }, user: UserInterface): (string | number)[] {
+    return link.path === '/user-profile' ? [link.path, user.id] : [link.path];
+  }
 
   /**
    * Handle close event from parent component
    * triggered onAnimationEnd when animated out
    */
-  onClose() {
+  onClose(): void {
     this.isUserBadgeMenuAnimating = false;
   }
 
@@ -41,7 +60,7 @@ export class ControlUserMenu {
    *
    * @param event
    */
-  onAnimationEnd(event: AnimationEvent) {
+  onAnimationEnd(event: AnimationEvent): void {
     if (event.animationName.endsWith('animated-out')) {
       this.closeMenu.emit();
     }
