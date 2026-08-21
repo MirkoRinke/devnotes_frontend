@@ -1,4 +1,4 @@
-import { Component, inject, DestroyRef } from '@angular/core';
+import { Component, inject, DestroyRef, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -21,15 +21,15 @@ import { ControlUserBadge } from './control-user-badge/control-user-badge';
   templateUrl: './user-control-area.html',
   styleUrl: './user-control-area.scss',
 })
-export class UserControlArea {
-  private destroyRef = inject(DestroyRef);
+export class UserControlArea implements OnInit {
+  private readonly destroyRef = inject(DestroyRef);
 
   constructor(
-    private apiService: ApiService,
-    public authService: AuthService,
-    private userControlRefreshService: UserControlRefreshService,
-    private apiErrorHandlingService: ApiErrorHandlingService,
-    private router: Router,
+    private readonly authService: AuthService,
+    private readonly apiService: ApiService,
+    private readonly userControlRefreshService: UserControlRefreshService,
+    private readonly apiErrorHandlingService: ApiErrorHandlingService,
+    private readonly router: Router,
   ) {}
 
   public user: UserInterface | null = null;
@@ -43,9 +43,8 @@ export class UserControlArea {
    * Subscribes to the `refresh$` observable from the `UserControlRefreshService`. When a refresh event is emitted, it calls the `getUser()` method to fetch the current user's data.
    * The subscription is automatically cleaned up when the component is destroyed, thanks to the `takeUntilDestroyed` operator.
    *
-   * @returns
    */
-  private subscribeRefresh() {
+  private subscribeRefresh(): void {
     this.userControlRefreshService.refresh$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => this.getUser());
   }
 
@@ -53,7 +52,6 @@ export class UserControlArea {
    * Fetches the current user's data from the API and updates the `user` property.
    * If an error occurs during the API call, it handles the error using the `ApiErrorHandlingService` and navigates to a "bad gateway" page if the error is unknown.
    *
-   * @returns
    */
   private getUser(): void {
     const user_id = this.authService.getCurrentUserId();
