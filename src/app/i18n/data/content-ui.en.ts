@@ -27,6 +27,16 @@ export const CONTENT_UI_EN: ContentUI = {
     community: 'Community',
     ariaLabel: {},
   },
+  ControlUserMenu: {
+    userProfile: 'My Profile',
+    accountSettings: 'Account',
+    avatarSettings: 'Avatar',
+    appSettings: 'Settings',
+    logout: 'Logout',
+    login: 'Login',
+    register: 'Register',
+    ariaLabel: {},
+  },
   PostTypes: {
     all_types: {
       title: 'All Types',
