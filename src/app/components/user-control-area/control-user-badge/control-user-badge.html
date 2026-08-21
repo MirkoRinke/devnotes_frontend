@@ -10,10 +10,12 @@
   <button
     class="user-badge"
     type="button"
-    (click)="menuActive ? toggleBadgeMenu() : null"
+    (click)="toggleBadgeMenu()"
     [class.menu-active]="menuActive"
     [attr.aria-label]="translatePathAriaLabel + (menuOpen ? 'closeMenu' : 'openMenu') | translate"
     [attr.aria-expanded]="menuOpen"
+    aria-controls="control-user-menu"
+    [disabled]="!menuActive"
   >
     @if (authService.isLoggedIn() && user) {
       <app-avatar-layer
@@ -32,6 +34,7 @@
 
   @if (menuActive && menuOpen) {
     <app-control-user-menu
+      id="control-user-menu"
       [user]="user"
       [isUserBadgeMenuOpen]="menuOpen"
       [isUserBadgeMenuAnimating]="menuAnimating"

@@ -24,12 +24,15 @@ export class ControlUserBadge {
   public menuOpen = false;
   public menuAnimating = false;
 
-  constructor(public authService: AuthService) {}
+  constructor(public readonly authService: AuthService) {}
 
   /**
-   * Toggle Settings Dropdown
+   * Toggle Badge Menu from user badge button click
+   * This method is called when the user badge button is clicked
    */
   public toggleBadgeMenu(): void {
+    if (!this.menuActive) return;
+
     if (this.menuOpen) {
       this.menuAnimating = false;
     } else {
