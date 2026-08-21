@@ -1,26 +1,31 @@
 @let translatePath = 'SearchButton' + '.';
 @let translatePathAriaLabel = translatePath + 'ariaLabel' + '.';
 
-<button
-  class="search-button"
-  [class.active]="searchService.enableSearch$ | async"
-  (click)="toggleSearch()"
-  [disabled]="!(searchService.enableSearch$ | async)"
-  [attr.aria-label]="translatePathAriaLabel + (showSearch ? 'closeSearch' : 'openSearch') | translate"
->
-  @if (hasSearchValue) {
+@let searchServiceEnableSearch = searchService.enableSearch$ | async;
+
+<div class="search-button-container">
+  <button
+    class="search-button"
+    [class.active]="searchServiceEnableSearch"
+    (click)="toggleSearch()"
+    [disabled]="!searchServiceEnableSearch"
+    [attr.aria-label]="translatePathAriaLabel + (showSearch ? 'closeSearch' : 'openSearch') | translate"
+  >
     <span
-      appAccessibleButtonDirective
-      [accessibleButtonAction]="clearSearch.bind(this)"
+      class="icon-container"
+      [class.spin]="showSearch && !(searchService.dataLoaded$ | async)"
+      [innerHTML]="svgIconsService.returnIcon(showSearch ? ((searchService.dataLoaded$ | async) ? 'search_close' : 'sync') : 'search', 'search-button-icon')"
+      aria-hidden="true"
+    ></span>
+  </button>
+
+  @if (hasSearchValue) {
+    <button
+      type="button"
       class="search-clear"
+      (click)="clearSearch()"
       [innerHTML]="svgIconsService.returnIcon('search_clear')"
       [attr.aria-label]="translatePathAriaLabel + 'clearSearch' | translate"
-    ></span>
+    ></button>
   }
-
-  <span
-    class="icon-container"
-    [class.spin]="showSearch && !(searchService.dataLoaded$ | async)"
-    [innerHTML]="svgIconsService.returnIcon(showSearch ? ((searchService.dataLoaded$ | async) ? 'search_close' : 'sync') : 'search', 'search-button-icon')"
-  ></span>
-</button>
+</div>

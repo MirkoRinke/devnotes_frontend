@@ -7,26 +7,46 @@
   height: 100%;
 }
 
-.search-button {
-  @include button-preset();
-  @include golden-ratio-padding();
-  @include display-flex($align: center, $justify: center, $direction: column);
+.search-button-container {
   position: relative;
-  background-color: var(--page-primary-color-100);
-  border-radius: px-to-rem(15);
   height: 100%;
 
-  transition: box-shadow var.$transition-duration-medium ease-in-out;
-
-  &:hover:not(:has(.search-clear:hover)) {
-    box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-50);
-  }
-
-  &:has(.search-clear:hover) {
+  &:has(.search-clear:hover) .search-button {
     box-shadow: 0 0 px-to-rem(8) var(--red-color-100);
   }
 
+  .search-button {
+    @include button-preset();
+    @include golden-ratio-padding();
+    @include display-flex($align: center, $justify: center, $direction: column);
+    background-color: var(--page-primary-color-100);
+    border-radius: px-to-rem(15);
+    height: 100%;
+
+    transition: box-shadow var.$transition-duration-medium ease-in-out;
+
+    &:hover:not(:has(.search-clear:hover)) {
+      box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-50);
+    }
+
+    .icon-container {
+      height: 100%;
+
+      &.spin {
+        @include spin($duration: var.$transition-duration-ultra-slow);
+      }
+
+      @include svg-icon($icon-class: 'search-button-icon', $height: 100%, $width: 100%, $fill-color: var(--font-primary-color-100));
+    }
+
+    &:not(.active) {
+      opacity: 0;
+      pointer-events: none;
+    }
+  }
+
   .search-clear {
+    @include button-preset();
     @include display-flex($align: center, $justify: center);
     @include position-absolute($top: px-to-rem(-5), $right: px-to-rem(-5));
 
@@ -46,20 +66,5 @@
     }
 
     @include svg-icon($icon-class: 'search_clear', $height: 100%, $width: 100%, $fill-color: var(--red-color-100));
-  }
-
-  .icon-container {
-    height: 100%;
-
-    &.spin {
-      @include spin($duration: var.$transition-duration-ultra-slow);
-    }
-
-    @include svg-icon($icon-class: 'search-button-icon', $height: 100%, $width: 100%, $fill-color: var(--font-primary-color-100));
-  }
-
-  &:not(.active) {
-    opacity: 0;
-    pointer-events: none;
   }
 }

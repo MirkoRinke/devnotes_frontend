@@ -7,11 +7,9 @@ import { SearchService } from '../../../services/search.service';
 
 import { TranslatePipe } from '../../../i18n/translate-pipe';
 
-import { AccessibleButtonDirective } from '../../../directives/accessible-button-directive';
-
 @Component({
   selector: 'app-search-button',
-  imports: [CommonModule, TranslatePipe, AccessibleButtonDirective],
+  imports: [CommonModule, TranslatePipe],
   templateUrl: './search-button.html',
   styleUrl: './search-button.scss',
 })
@@ -22,11 +20,11 @@ export class SearchButton implements OnInit {
 
   public hasSearchValue: boolean = false;
 
-  private destroyRef = inject(DestroyRef);
+  private readonly destroyRef = inject(DestroyRef);
 
   constructor(
-    public svgIconsService: SvgIconsService,
-    public searchService: SearchService,
+    public readonly svgIconsService: SvgIconsService,
+    public readonly searchService: SearchService,
   ) {}
 
   ngOnInit(): void {
