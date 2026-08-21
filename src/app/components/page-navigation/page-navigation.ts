@@ -22,14 +22,14 @@ import { Search } from '../search/search';
 export class PageNavigation {
   private context: PageContextEnums | null = null;
 
-  readonly PageContextEnums = PageContextEnums;
-
   readonly navigationLinks = [
-    { label: 'myArea', path: '/my-area', context: PageContextEnums.MY_AREA },
-    { label: 'favorites', path: '/favorites', context: PageContextEnums.FAVORITES },
-    { label: 'network', path: '/network', context: PageContextEnums.NETWORK },
-    { label: 'community', path: '/community', context: PageContextEnums.COMMUNITY },
+    { label: 'myArea', path: '/my-area', icon: 'my_area', context: PageContextEnums.MY_AREA },
+    { label: 'favorites', path: '/favorites', icon: 'favorites', context: PageContextEnums.FAVORITES },
+    { label: 'network', path: '/network', icon: 'network', context: PageContextEnums.NETWORK },
+    { label: 'community', path: '/community', icon: 'community', context: PageContextEnums.COMMUNITY },
   ];
+
+  readonly searchButtonIndex = this.navigationLinks.length / 2 - 1;
 
   public activeMap: { [key in PageContextEnums]?: boolean } = {};
 
@@ -38,13 +38,13 @@ export class PageNavigation {
 
   private lastBaseUrl: string = '';
 
-  private destroyRef = inject(DestroyRef);
+  private readonly destroyRef = inject(DestroyRef);
 
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    public svgIconsService: SvgIconsService,
-    public searchService: SearchService,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    public readonly svgIconsService: SvgIconsService,
+    public readonly searchService: SearchService,
   ) {
     this.subscribeNavigationEnd();
   }
@@ -79,7 +79,7 @@ export class PageNavigation {
    * Update activeMap based on current context or URL
    */
   private updateActiveMap(): void {
-    const url = window.location.href;
+    const url = this.router.url;
 
     this.navigationLinks.forEach((link) => {
       this.activeMap[link.context] = this.context === link.context || url.includes(link.path);

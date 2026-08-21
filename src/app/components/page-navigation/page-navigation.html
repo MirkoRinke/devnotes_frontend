@@ -23,10 +23,12 @@
         [routerLink]="link.path"
         [class.active]="activeMap[link.context]"
         [attr.aria-label]="translatePath + link.label | translate"
+        [attr.aria-current]="activeMap[link.context] ? 'page' : null"
       >
         <span
           class="icon-container"
-          [innerHTML]="svgIconsService.returnIcon(link.label, 'icon')"
+          [innerHTML]="svgIconsService.returnIcon(link.icon, 'icon')"
+          aria-hidden="true"
         ></span>
         <span
           class="label"
@@ -36,7 +38,7 @@
         </span>
       </a>
 
-      @if ($index == navigationLinks.length / 2 - 1) {
+      @if ($index == searchButtonIndex) {
         <app-search-button
           [showSearch]="showSearch"
           (toggleSearchEvent)="toggleSearch()"
