@@ -1,6 +1,6 @@
 export function getAppIcon(iconName: string, className: string): string | undefined {
   switch (iconName) {
-    case 'myarea':
+    case 'my_area':
     case 'private_posts':
       return /*html*/ `
     <!-- Icon used are from Google Material Symbols, licensed under the Apache License 2.0. -->
