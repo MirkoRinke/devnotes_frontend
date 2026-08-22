@@ -26,6 +26,14 @@
       max-height: px-to-rem(48);
     }
 
+    padding-block: px-to-rem(15);
+
+    @media (max-width: var.$breakpoint-xs) {
+      padding-block: px-to-rem(10);
+    }
+
+    background-color: var(--background-color-100);
+
     .footer {
       flex: 0;
     }

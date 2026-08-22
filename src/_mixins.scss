@@ -10,19 +10,16 @@
   padding-bottom: 0;
 
   @media (max-width: var.$breakpoint-ultra) {
-    padding-top: px-to-rem(50);
+    padding-top: px-to-rem(25);
   }
 
-  @media (max-width: var.$breakpoint-hd) {
-    padding-inline: px-to-rem(25);
-  }
-
-  @media (max-width: var.$breakpoint-md) {
-    padding-inline: px-to-rem(15);
+  @media (max-width: var.$breakpoint-full-hd) {
+    padding: px-to-rem(15);
+    padding-bottom: 0;
   }
 
   @media (max-width: var.$breakpoint-xs) {
-    padding: px-to-rem(15);
+    padding: px-to-rem(10);
     padding-bottom: 0;
   }
 }

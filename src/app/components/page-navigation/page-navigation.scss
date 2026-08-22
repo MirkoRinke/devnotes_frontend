@@ -16,7 +16,6 @@
     @media (max-width: var.$breakpoint-md) {
       @include display-flex($align: center, $justify: center);
     }
-    background-color: var(--background-color-100);
   }
 }
 

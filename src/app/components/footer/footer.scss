@@ -4,11 +4,6 @@
 
 .footer {
   background-color: var(--background-color-100);
-  padding-bottom: px-to-rem(25);
-
-  @media (max-width: var.$breakpoint-xs) {
-    padding-bottom: px-to-rem(15);
-  }
 
   @media (max-width: var.$breakpoint-md) {
     display: none;
