@@ -690,6 +690,17 @@ export function getAppIcon(iconName: string, className: string): string | undefi
     </svg>
     `;
 
+    case 'legal':
+      return /*html*/ `
+    <!-- Icon used are from Google Material Symbols, licensed under the Apache License 2.0. -->
+    <svg class="${className}" viewBox="0 0 19 19" xmlns="http://www.w3.org/2000/svg">
+        <g transform="matrix(1,0,0,1,-4,-2)">
+            <g transform="matrix(0.0263889,0,0,0.025,-0.222222,24)">
+                <path d="M160,-120L160,-200L640,-200L640,-120L160,-120ZM386,-314L160,-540L244,-626L472,-400L386,-314ZM640,-568L414,-796L500,-880L726,-654L640,-568ZM824,-160L302,-682L358,-738L880,-216L824,-160Z" style="fill-rule:nonzero;"/>
+            </g>
+        </g>
+    </svg>    `;
+
     case 'one_dice':
       return /*html*/ `
     <!-- © Mirko Rinke – All rights reserved.-->
