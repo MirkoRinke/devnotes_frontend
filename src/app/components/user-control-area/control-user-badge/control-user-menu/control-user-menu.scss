@@ -9,6 +9,14 @@
 .values {
   @include divider();
 
+  .legal-mobile {
+    display: none;
+
+    @media (max-width: var.$breakpoint-md) {
+      display: flex;
+    }
+  }
+
   .value {
     gap: px-to-rem(15);
 

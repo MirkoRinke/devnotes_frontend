@@ -23,6 +23,18 @@
       </a>
     }
     <span class="divider"></span>
+    <a
+      class="value legal-mobile"
+      [routerLink]="['/legal/legal-mobile']"
+      (click)="onClose()"
+    >
+      <span
+        class="icon-container"
+        [innerHTML]="svgIconsService.returnIcon('legal', 'icon')"
+        aria-hidden="true"
+      ></span
+      >{{ translatePath + 'legal' | translate }}
+    </a>
     <button
       class="value"
       (click)="onClose(); logoutService.logout()"
@@ -47,7 +59,6 @@
       ></span
       >{{ translatePath + 'login' | translate }}
     </a>
-
     <a
       class="value"
       [routerLink]="['/register']"
@@ -59,6 +70,18 @@
         aria-hidden="true"
       ></span
       >{{ translatePath + 'register' | translate }}
+    </a>
+    <a
+      class="value legal-mobile"
+      [routerLink]="['/legal/legal-mobile']"
+      (click)="onClose()"
+    >
+      <span
+        class="icon-container"
+        [innerHTML]="svgIconsService.returnIcon('legal', 'icon')"
+        aria-hidden="true"
+      ></span
+      >{{ translatePath + 'legal' | translate }}
     </a>
   }
 </div>
