@@ -1,13 +1,15 @@
 <footer class="footer">
-  <div class="left">
-    <a href="https://mirkorinke.dev/">Portfolio</a>
-    <a href="https://github.com/MirkoRinke">GitHub</a>
-    <a href="mailto:contact@mirkorinke.dev">Kontakt</a>
-  </div>
-  <div class="center"><span [innerHTML]="svgIconsService.returnIcon('copyright')"></span> {{ currentYear }} Mirko Rinke</div>
-  <div class="right">
-    <a [routerLink]="'/legal/terms'">Nutzungsbedingungen</a>
-    <a [routerLink]="'/legal/privacy'">Datenschutz</a>
-    <a [routerLink]="'/legal/imprint'">Impressum</a>
+  <div class="content">
+    <div class="left">
+      <a href="https://mirkorinke.dev/">Portfolio</a>
+      <a href="https://github.com/MirkoRinke">GitHub</a>
+      <a href="mailto:contact@mirkorinke.dev">Kontakt</a>
+    </div>
+    <div class="center"><span [innerHTML]="svgIconsService.returnIcon('copyright')"></span> {{ currentYear }} Mirko Rinke</div>
+    <div class="right">
+      <a [routerLink]="'/legal/terms'">Nutzungsbedingungen</a>
+      <a [routerLink]="'/legal/privacy'">Datenschutz</a>
+      <a [routerLink]="'/legal/imprint'">Impressum</a>
+    </div>
   </div>
 </footer>
