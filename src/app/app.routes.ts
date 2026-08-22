@@ -24,6 +24,7 @@ import { DontDuckWithMe } from './pages/dont-duck-with-me/dont-duck-with-me';
 import { Imprint } from './pages/legal/imprint/imprint';
 import { Privacy } from './pages/legal/privacy/privacy';
 import { Terms } from './pages/legal/terms/terms';
+import { LegalMobile } from './pages/legal/legal-mobile/legal-mobile';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -50,4 +51,5 @@ export const routes: Routes = [
   { path: 'legal/imprint', component: Imprint },
   { path: 'legal/privacy', component: Privacy },
   { path: 'legal/terms', component: Terms },
+  { path: 'legal/legal-mobile', component: LegalMobile },
 ];
