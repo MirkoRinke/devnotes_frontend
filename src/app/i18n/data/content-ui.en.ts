@@ -35,7 +35,16 @@ export const CONTENT_UI_EN: ContentUI = {
     logout: 'Logout',
     login: 'Login',
     register: 'Register',
+    legal: 'Legal',
     ariaLabel: {},
+  },
+  LegalMobile: {
+    imprint: 'Imprint',
+    privacy: 'Privacy',
+    terms: 'Terms of Use',
+    ariaLabel: {
+      legalNav: 'Navigation Legal',
+    },
   },
   PostTypes: {
     all_types: {
