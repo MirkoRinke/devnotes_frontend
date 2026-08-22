@@ -1,0 +1,32 @@
+@let translatePath = 'LegalMobile' + '.';
+@let translatePathAriaLabel = translatePath + 'ariaLabel' + '.';
+
+<section class="legal-mobile">
+  <nav
+    class="links"
+    #links
+    [attr.aria-label]="translatePathAriaLabel + 'legalNav' | translate"
+  >
+    <a
+      [routerLink]="[]"
+      fragment="imprint"
+      >{{ translatePath + 'imprint' | translate }}</a
+    >
+    <a
+      [routerLink]="[]"
+      fragment="privacy"
+      >{{ translatePath + 'privacy' | translate }}</a
+    >
+    <a
+      [routerLink]="[]"
+      fragment="terms"
+      >{{ translatePath + 'terms' | translate }}</a
+    >
+  </nav>
+
+  <div class="content">
+    <app-imprint id="imprint"></app-imprint>
+    <app-privacy id="privacy"></app-privacy>
+    <app-terms id="terms"></app-terms>
+  </div>
+</section>
