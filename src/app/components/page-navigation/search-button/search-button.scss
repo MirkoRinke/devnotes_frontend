@@ -5,6 +5,10 @@
 :host {
   @include display-flex($align: center, $justify: center);
   height: 100%;
+
+  .mobile & {
+    display: none;
+  }
 }
 
 .search-button-container {
@@ -48,7 +52,7 @@
   .search-clear {
     @include button-preset();
     @include display-flex($align: center, $justify: center);
-    @include position-absolute($top: px-to-rem(-5), $right: px-to-rem(-5));
+    @include position($position: 'absolute', $top: px-to-rem(-5), $right: px-to-rem(-5));
 
     background-color: var(--page-primary-color-100);
     border: 2px solid var(--red-color-100);
