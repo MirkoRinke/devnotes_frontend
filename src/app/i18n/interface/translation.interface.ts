@@ -11,6 +11,7 @@ import { SearchButtonMessagesInterface } from './components/search-button.interf
 import { ControlUserBadgeMessagesInterface } from './components/control-user-badge.interface';
 import { PageNavigationMessagesInterface } from './components/page-navigation.interface';
 import { ControlUserMenuMessagesInterface } from './components/control-user-menu.interface';
+import { LegalMobileMessagesInterface } from './components/legal-mobile.interface';
 
 export interface Content extends ContentUI, LegalContent, Notifications {}
 
@@ -21,6 +22,7 @@ export interface ContentUI {
   ControlUserBadge: ControlUserBadgeMessagesInterface;
   PageNavigation: PageNavigationMessagesInterface;
   ControlUserMenu: ControlUserMenuMessagesInterface;
+  LegalMobile: LegalMobileMessagesInterface;
 }
 
 export interface LegalContent {

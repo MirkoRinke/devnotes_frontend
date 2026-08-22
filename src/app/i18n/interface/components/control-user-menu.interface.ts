@@ -6,5 +6,6 @@ export interface ControlUserMenuMessagesInterface {
   logout: string;
   login: string;
   register: string;
+  legal: string;
   ariaLabel: {};
 }
