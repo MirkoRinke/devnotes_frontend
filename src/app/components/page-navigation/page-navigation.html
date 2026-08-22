@@ -1,14 +1,16 @@
 @let translatePath = 'PageNavigation' + '.';
 
 <nav class="page-navigation">
-  <app-search
-    [class.active]="showSearch && (searchService.dataLoaded$ | async) && delayedSearch"
-    [class.animated-in]="showSearch && (searchService.dataLoaded$ | async) && delayedSearch"
-    [class.animated-out]="!showSearch && delayedSearch"
-    (closeSearchEvent)="toggleSearch()"
-    class="search"
-    [attr.inert]="!showSearch ? '' : null"
-  ></app-search>
+  @if (enableSearch) {
+    <app-search
+      [class.active]="showSearch && (searchService.dataLoaded$ | async) && delayedSearch"
+      [class.animated-in]="showSearch && (searchService.dataLoaded$ | async) && delayedSearch"
+      [class.animated-out]="!showSearch && delayedSearch"
+      (closeSearchEvent)="toggleSearch()"
+      class="search"
+      [attr.inert]="!showSearch ? '' : null"
+    ></app-search>
+  }
 
   <div
     [class.active]="!showSearch || !(searchService.dataLoaded$ | async) || !delayedSearch"
@@ -27,6 +29,7 @@
       >
         <span
           class="icon-container"
+          [class.active]="activeMap[link.context]"
           [innerHTML]="svgIconsService.returnIcon(link.icon, 'icon')"
           aria-hidden="true"
         ></span>
@@ -38,7 +41,7 @@
         </span>
       </a>
 
-      @if ($index == searchButtonIndex) {
+      @if ($index == searchButtonIndex && enableSearch) {
         <app-search-button
           [showSearch]="showSearch"
           (toggleSearchEvent)="toggleSearch()"

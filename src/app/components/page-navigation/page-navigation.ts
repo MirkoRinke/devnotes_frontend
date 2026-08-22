@@ -1,4 +1,4 @@
-import { Component, inject, DestroyRef } from '@angular/core';
+import { Component, inject, DestroyRef, Input } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { filter } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
@@ -21,6 +21,7 @@ import { Search } from '../search/search';
 })
 export class PageNavigation {
   private context: PageContextEnums | null = null;
+  @Input() enableSearch: boolean = false;
 
   readonly navigationLinks = [
     { label: 'myArea', path: '/my-area', icon: 'my_area', context: PageContextEnums.MY_AREA },

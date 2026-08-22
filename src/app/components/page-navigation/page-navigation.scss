@@ -10,11 +10,33 @@
   @media (max-width: var.$breakpoint-md) {
     position: unset;
   }
+
+  &.mobile {
+    display: none;
+    @media (max-width: var.$breakpoint-md) {
+      @include display-flex($align: center, $justify: center);
+    }
+
+    height: px-to-rem(68);
+    max-height: px-to-rem(68);
+    width: 100%;
+
+    padding-block: px-to-rem(10);
+
+    border-radius: px-to-rem(15);
+    background-color: var(--background-color-100);
+  }
 }
 
 .page-navigation {
   @include display-flex($align: center, $justify: center, $gap: px-to-rem(25));
   height: 100%;
+
+  :host(.mobile) & {
+    background-color: var(--page-primary-color-100);
+    border-radius: px-to-rem(15);
+    width: 100%;
+  }
 
   .search {
     position: absolute;
@@ -46,7 +68,15 @@
     }
 
     @media (max-width: var.$breakpoint-md) {
-      grid-template-columns: repeat(1, minmax(max-content, 1fr));
+      :host:not(.mobile) & {
+        grid-template-columns: repeat(1, minmax(max-content, 1fr));
+      }
+
+      :host(.mobile) & {
+        gap: px-to-rem(0);
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        flex-shrink: 0;
+      }
     }
 
     &.animated-in {
@@ -70,23 +100,40 @@
       height: 100%;
 
       @media (max-width: var.$breakpoint-md) {
-        display: none;
-        pointer-events: none;
+        :host:not(.mobile) & {
+          display: none;
+          pointer-events: none;
+        }
       }
 
-      transition: box-shadow var.$transition-duration-medium ease-in-out;
+      :host:not(.mobile) & {
+        transition: box-shadow var.$transition-duration-medium ease-in-out;
 
-      &:hover {
-        box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-50);
-      }
+        &:hover {
+          box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-50);
+        }
 
-      &.active {
-        box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-100);
+        &.active {
+          box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-100);
+        }
       }
 
       .icon-container {
         height: 100%;
-        @include svg-icon($icon-class: 'icon', $height: 100%, $width: 100%, $fill-color: var(--font-primary-color-100));
+        :host:not(.mobile) & {
+          @include svg-icon($icon-class: 'icon', $height: 100%, $width: 100%, $fill-color: var(--font-primary-color-100));
+        }
+
+        :host(.mobile) & {
+          @include svg-icon(
+            $icon-class: 'icon',
+            $height: 100%,
+            $width: 100%,
+            $fill-color: var(--font-primary-color-50),
+            $hover-fill-color: var(--font-primary-color-100),
+            $active-fill-color: var(--font-primary-color-100)
+          );
+        }
       }
 
       .label {
