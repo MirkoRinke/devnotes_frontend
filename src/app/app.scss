@@ -18,7 +18,11 @@
     padding-block: px-to-rem(25);
   }
 
-  .footer {
-    flex: 0;
+  .footer-container {
+    @include position($position: sticky, $bottom: 0);
+
+    .footer {
+      flex: 0;
+    }
   }
 }

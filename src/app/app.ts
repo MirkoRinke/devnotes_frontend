@@ -5,10 +5,11 @@ import { Footer } from './components/footer/footer';
 
 import * as Prism from 'prismjs';
 import 'prismjs/plugins/autoloader/prism-autoloader';
+import { PageNavigation } from './components/page-navigation/page-navigation';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Header, Footer],
+  imports: [RouterOutlet, Header, Footer, PageNavigation],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
