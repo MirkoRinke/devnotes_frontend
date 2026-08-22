@@ -21,6 +21,11 @@
   .footer-container {
     @include position($position: sticky, $bottom: 0);
 
+    .mobile-menu {
+      height: px-to-rem(48);
+      max-height: px-to-rem(48);
+    }
+
     .footer {
       flex: 0;
     }

@@ -11,19 +11,11 @@
     position: unset;
   }
 
-  &.mobile {
+  &.mobile-menu {
     display: none;
     @media (max-width: var.$breakpoint-md) {
       @include display-flex($align: center, $justify: center);
     }
-
-    height: px-to-rem(68);
-    max-height: px-to-rem(68);
-    width: 100%;
-
-    padding-block: px-to-rem(10);
-
-    border-radius: px-to-rem(15);
     background-color: var(--background-color-100);
   }
 }
@@ -32,7 +24,7 @@
   @include display-flex($align: center, $justify: center, $gap: px-to-rem(25));
   height: 100%;
 
-  :host(.mobile) & {
+  :host(.mobile-menu) & {
     background-color: var(--page-primary-color-100);
     border-radius: px-to-rem(15);
     width: 100%;
@@ -68,11 +60,11 @@
     }
 
     @media (max-width: var.$breakpoint-md) {
-      :host:not(.mobile) & {
+      :host:not(.mobile-menu) & {
         grid-template-columns: repeat(1, minmax(max-content, 1fr));
       }
 
-      :host(.mobile) & {
+      :host(.mobile-menu) & {
         gap: px-to-rem(0);
         grid-template-columns: 1fr 1fr 1fr 1fr;
         flex-shrink: 0;
@@ -100,13 +92,13 @@
       height: 100%;
 
       @media (max-width: var.$breakpoint-md) {
-        :host:not(.mobile) & {
+        :host:not(.mobile-menu) & {
           display: none;
           pointer-events: none;
         }
       }
 
-      :host:not(.mobile) & {
+      :host:not(.mobile-menu) & {
         transition: box-shadow var.$transition-duration-medium ease-in-out;
 
         &:hover {
@@ -120,11 +112,11 @@
 
       .icon-container {
         height: 100%;
-        :host:not(.mobile) & {
+        :host:not(.mobile-menu) & {
           @include svg-icon($icon-class: 'icon', $height: 100%, $width: 100%, $fill-color: var(--font-primary-color-100));
         }
 
-        :host(.mobile) & {
+        :host(.mobile-menu) & {
           @include svg-icon(
             $icon-class: 'icon',
             $height: 100%,
