@@ -38,6 +38,14 @@ export const CONTENT_UI_EN: ContentUI = {
     legal: 'Legal',
     ariaLabel: {},
   },
+  Search: {
+    search: 'Search by text or #tags...',
+    filter: 'Search...',
+    ariaLabel: {
+      startSearch: 'Start search',
+      closeSearch: 'Close search',
+    },
+  },
   LegalMobile: {
     imprint: 'Imprint',
     privacy: 'Privacy',
