@@ -1,37 +1,44 @@
+@let translatePath = 'Search' + '.';
+@let translatePathAriaLabel = translatePath + 'ariaLabel' + '.';
+
 <div
   [attr.aria-disabled]="!(searchService.enableSearch$ | async)"
-  class="search"
+  class="search-container"
 >
   <button
     class="close-search"
     (click)="closeSearch()"
     [innerHTML]="svgIconsService.returnIcon('search_close')"
+    aria-label="{{ translatePathAriaLabel + 'closeSearch' | translate }}"
   ></button>
 
   @if ((searchService.cageIcon$ | async) !== null) {
     <span
       class="cage-icon-container"
       [innerHTML]="svgIconsService.returnIcon((searchService.cageIcon$ | async) ?? '', 'cage')"
+      aria-hidden="true"
     ></span>
   }
 
-  <input
-    #searchInput
-    type="text"
-    class="search-input"
-    [placeholder]="(searchService.searchMode$ | async) !== null ? 'Search by text or #tags...' : 'Search...'"
-    label="Search"
-    aria-label="Search"
-    (input)="updateIndicators(searchInput.value)"
-    (keydown.enter)="startSearch(searchInput.value)"
-    [attr.aria-disabled]="!(searchService.enableSearch$ | async)"
-  />
+  <search class="search">
+    <input
+      #searchInput
+      type="text"
+      class="search-input"
+      name="search-input"
+      [placeholder]="(searchService.searchMode$ | async) !== null ? (translatePath + 'search' | translate) : (translatePath + 'filter' | translate)"
+      [attr.aria-label]="(searchService.searchMode$ | async) !== null ? (translatePath + 'search' | translate) : (translatePath + 'filter' | translate)"
+      (input)="updateIndicators(searchInput.value)"
+      (keydown.enter)="startSearch(searchInput.value)"
+      [attr.aria-disabled]="!(searchService.enableSearch$ | async)"
+    />
+  </search>
 
   <button
     class="start-search"
     (click)="startSearch(searchInput.value)"
     [innerHTML]="svgIconsService.returnIcon('send')"
-    aria-label="Start Search"
+    aria-label="{{ translatePathAriaLabel + 'startSearch' | translate }}"
   ></button>
 
   @if ((searchService.searchMode$ | async) !== null) {
@@ -40,13 +47,13 @@
         class="indicator-icon-container"
         [class.active]="hasText"
         [innerHTML]="svgIconsService.returnIcon('title_search', 'indicator')"
-        aria-label="Title Search Indicator"
+        aria-hidden="true"
       ></span>
       <span
         class="indicator-icon-container"
         [class.active]="hasTags"
         [innerHTML]="svgIconsService.returnIcon('tags_search', 'indicator')"
-        aria-label="Tags Search Indicator"
+        aria-hidden="true"
       ></span>
     </div>
   }

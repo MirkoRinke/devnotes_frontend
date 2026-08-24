@@ -1,34 +1,36 @@
-import { Component, ViewChild, ElementRef, OnDestroy, AfterViewInit, Output, EventEmitter } from '@angular/core';
+import { Component, ViewChild, ElementRef, AfterViewInit, Output, EventEmitter, inject, DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { Router, NavigationEnd } from '@angular/router';
 
-import { Subject } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 
 import { SvgIconsService } from '../../services/svg.icons.service';
 import { SearchService } from '../../services/search.service';
 
+import { TranslatePipe } from '../../i18n/translate-pipe';
+
 @Component({
   selector: 'app-search',
-  imports: [CommonModule],
+  imports: [CommonModule, TranslatePipe],
   templateUrl: './search.html',
   styleUrl: './search.scss',
 })
-export class Search implements OnDestroy, AfterViewInit {
+export class Search implements AfterViewInit {
   @ViewChild('searchInput') searchInput!: ElementRef<HTMLInputElement>;
 
   @Output() closeSearchEvent = new EventEmitter<void>();
 
-  private destroy$ = new Subject<void>();
+  private readonly destroyRef = inject(DestroyRef);
   private lastBaseUrl: string = '';
 
-  hasTags: boolean = false;
-  hasText: boolean = false;
+  public hasTags: boolean = false;
+  public hasText: boolean = false;
 
   constructor(
-    public svgIconsService: SvgIconsService,
-    public searchService: SearchService,
-    private router: Router,
+    public readonly svgIconsService: SvgIconsService,
+    public readonly searchService: SearchService,
+    private readonly router: Router,
   ) {}
 
   ngAfterViewInit(): void {
@@ -36,22 +38,17 @@ export class Search implements OnDestroy, AfterViewInit {
     this.searchValueInput();
   }
 
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
   /**
    * Manages the persistence of the search input across different routes. It listens to router events and resets the search input when the user navigates to a different base URL.
    * This ensures that the search state is cleared appropriately when the user navigates to a different section of the application.
    */
-  manageSearchPersistence() {
+  private manageSearchPersistence(): void {
     this.lastBaseUrl = this.router.url.split('?')[0];
 
     this.router.events
       .pipe(
         filter((event): event is NavigationEnd => event instanceof NavigationEnd),
-        takeUntil(this.destroy$),
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe((event: NavigationEnd) => {
         const newBaseUrl = event.urlAfterRedirects.split('?')[0];
@@ -69,7 +66,7 @@ export class Search implements OnDestroy, AfterViewInit {
    * Resets the search input field and clears the search value in the SearchService.
    * This method is called when the user navigates to a different base URL, ensuring that the search state is cleared appropriately.
    */
-  private resetSearchInput() {
+  private resetSearchInput(): void {
     if (this.searchInput?.nativeElement) {
       this.searchInput.nativeElement.value = '';
       this.searchService.searchValueInput(null);
@@ -82,7 +79,7 @@ export class Search implements OnDestroy, AfterViewInit {
    * @param value
    * @returns
    */
-  updateIndicators(value: string): void {
+  public updateIndicators(value: string): void {
     this.hasTags = value.includes('#');
     this.hasText =
       value
@@ -96,15 +93,15 @@ export class Search implements OnDestroy, AfterViewInit {
    *
    * @param value
    */
-  startSearch(value: string): void {
+  public startSearch(value: string): void {
     this.searchService.searchValueInput(value);
   }
 
   /**
    * Subscribes to search value changes and update the input value.
    */
-  searchValueInput() {
-    this.searchService.searchValue$.pipe(takeUntil(this.destroy$)).subscribe((inputValue) => {
+  private searchValueInput(): void {
+    this.searchService.searchValue$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((inputValue) => {
       this.searchInput.nativeElement.value = inputValue ?? '';
 
       if (inputValue === null || inputValue.length === 0) {
