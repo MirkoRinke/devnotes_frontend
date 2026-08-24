@@ -257,10 +257,7 @@
     }
 
     .search-input {
-      height: px-to-rem(35);
-      padding: px-to-rem(10) px-to-rem(15);
-      width: 100%;
-      border: none;
+      @include input-feld($border-radius: null, $enableShadow: false);
     }
 
     @if $orientation == center {
@@ -587,17 +584,21 @@
   box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-100);
 }
 
-@mixin input-feld($height: null, $color: null) {
-  @if $color != null {
-    color: $color;
-  }
-
+@mixin input-feld($height: null, $color: null, $border-radius: 5px, $enableShadow: true) {
   @if $height != null {
     height: convert-to-rem-if-needed($height);
   }
 
-  padding: px-to-rem(10) px-to-rem(15);
-  border-radius: px-to-rem(5);
+  @if $color != null {
+    color: $color;
+  }
+
+  @if $border-radius != null {
+    border-radius: convert-to-rem-if-needed($border-radius);
+  }
+
+  @include golden-ratio-padding();
+
   border: none;
 
   min-width: 0;
@@ -616,7 +617,9 @@
 
   &:focus {
     outline: none;
-    box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-50);
+    @if $enableShadow == true {
+      box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-50);
+    }
   }
 
   &::placeholder {
