@@ -51,8 +51,9 @@
 
   .search-clear {
     @include button-preset();
-    @include display-flex($align: center, $justify: center);
-    @include position($position: 'absolute', $top: px-to-rem(-5), $right: px-to-rem(-5));
+    @include svg-icon($icon-class: 'search_clear', $height: 100%, $width: 100%, $fill-color: var(--red-color-100));
+
+    @include position($position: absolute, $top: -5px, $right: -5px);
 
     background-color: var(--page-primary-color-100);
     border: 2px solid var(--red-color-100);
@@ -68,7 +69,5 @@
       transform: scale(1.1);
       transition: transform var.$transition-duration-medium ease-in-out;
     }
-
-    @include svg-icon($icon-class: 'search_clear', $height: 100%, $width: 100%, $fill-color: var(--red-color-100));
   }
 }
