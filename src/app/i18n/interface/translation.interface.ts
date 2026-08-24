@@ -12,6 +12,7 @@ import { ControlUserBadgeMessagesInterface } from './components/control-user-bad
 import { PageNavigationMessagesInterface } from './components/page-navigation.interface';
 import { ControlUserMenuMessagesInterface } from './components/control-user-menu.interface';
 import { LegalMobileMessagesInterface } from './components/legal-mobile.interface';
+import { SearchMessagesInterface } from './components/search.interface';
 
 export interface Content extends ContentUI, LegalContent, Notifications {}
 
@@ -22,6 +23,7 @@ export interface ContentUI {
   ControlUserBadge: ControlUserBadgeMessagesInterface;
   PageNavigation: PageNavigationMessagesInterface;
   ControlUserMenu: ControlUserMenuMessagesInterface;
+  Search: SearchMessagesInterface;
   LegalMobile: LegalMobileMessagesInterface;
 }
 
