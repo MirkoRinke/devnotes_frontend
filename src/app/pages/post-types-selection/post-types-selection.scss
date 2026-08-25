@@ -3,6 +3,12 @@
 @use '../../../mixins' as *;
 
 :host {
+  --content-max-width: #{var.$content-max-width};
+
+  &.is-fluid {
+    --content-max-width: 100%;
+  }
+
   --tile-width: #{px-to-rem(280)};
   --tile-height: #{px-to-rem(280)};
   --column-gap: #{px-to-rem(50)};
@@ -21,6 +27,9 @@
     @include display-grid(start, center, center);
     grid-template-columns: repeat(auto-fill, var(--tile-width));
     gap: var(--row-gap) var(--column-gap);
+    max-width: var(--content-max-width);
+    width: 100%;
+    margin-inline: auto;
 
     .tile {
       @include display-flex(center, space-between, column);
