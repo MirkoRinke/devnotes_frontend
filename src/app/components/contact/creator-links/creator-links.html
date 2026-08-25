@@ -5,7 +5,7 @@
   class="creator-links"
   [attr.aria-label]="translatePathAriaLabel + 'creatorNav' | translate"
 >
-  @for (link of creatorLinks; track link.label) {
+  @for (link of navigationLinks; track link.label) {
     <a
       class="link"
       [href]="link.path"

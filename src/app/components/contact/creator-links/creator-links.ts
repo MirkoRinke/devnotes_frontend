@@ -14,7 +14,7 @@ import type { NavigationLinksInterface } from '../../../interfaces/navigation-li
 export class CreatorLinks {
   constructor(public readonly svgIconsService: SvgIconsService) {}
 
-  public readonly creatorLinks: NavigationLinksInterface[] = [
+  public readonly navigationLinks: NavigationLinksInterface[] = [
     { label: 'portfolio', path: 'https://mirkorinke.dev/', icon: 'portfolio' },
     { label: 'github', path: 'https://github.com/MirkoRinke', icon: 'github' },
     { label: 'contact', path: 'mailto:contact@mirkorinke.dev', icon: 'contact' },
