@@ -1,0 +1,22 @@
+@use '../../../functions' as *;
+@use '../../../var' as var;
+@use '../../../mixins' as *;
+
+:host {
+  flex: 1;
+}
+
+.legal-links {
+  @include display-flex($align: center, $justify: center, $gap: px-to-rem(10));
+
+  .link {
+    @include font-settings();
+
+    color: var(--font-primary-color-100);
+    transition: color var.$transition-duration-medium ease-in-out;
+
+    &:hover {
+      color: var(--font-primary-color-50);
+    }
+  }
+}

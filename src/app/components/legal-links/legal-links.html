@@ -1,0 +1,15 @@
+@let translatePath = 'LegalLinks' + '.';
+@let translatePathAriaLabel = translatePath + 'ariaLabel' + '.';
+
+<nav
+  class="legal-links"
+  [attr.aria-label]="translatePathAriaLabel + 'legalNav' | translate"
+>
+  @for (links of navigationLinks; track $index) {
+    <a
+      class="link"
+      [routerLink]="links.path"
+      >{{ translatePath + links.label | translate }}</a
+    >
+  }
+</nav>
