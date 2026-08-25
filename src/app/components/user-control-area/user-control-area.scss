@@ -3,6 +3,5 @@
 @use '../../../mixins' as *;
 
 :host {
-  @include display-flex($justify: end);
   height: 100%;
 }
