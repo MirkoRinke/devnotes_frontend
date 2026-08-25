@@ -1,0 +1,43 @@
+@use '../../../../functions' as *;
+@use '../../../../var' as var;
+@use '../../../../mixins' as *;
+
+:host {
+  height: px-to-rem(16);
+  flex: 1;
+}
+
+.creator-links {
+  @include display-flex($align: center, $justify: start, $gap: px-to-rem(10));
+  height: 100%;
+
+  .link {
+    @include font-settings();
+    flex-shrink: 0;
+    color: var(--font-primary-color-100);
+    height: 100%;
+
+    transition: color var.$transition-duration-medium ease-in-out;
+    &:hover {
+      color: var(--font-primary-color-50);
+    }
+
+    .icon-container {
+      display: none;
+      height: 100%;
+
+      @media (max-width: var.$breakpoint-lg) {
+        @include svg-icon($icon-class: 'icon', $height: 100%, $width: 100%, $fill-color: var(--font-primary-color-100));
+      }
+    }
+
+    .link-text {
+      @include display-flex($align: center, $justify: center);
+      @include font-settings();
+
+      @media (max-width: var.$breakpoint-lg) {
+        display: none;
+      }
+    }
+  }
+}

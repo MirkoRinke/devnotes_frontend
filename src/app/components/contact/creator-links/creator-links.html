@@ -1,0 +1,26 @@
+@let translatePath = 'CreatorLinks' + '.';
+@let translatePathAriaLabel = translatePath + 'ariaLabel' + '.';
+
+<nav
+  class="creator-links"
+  [attr.aria-label]="translatePathAriaLabel + 'creatorNav' | translate"
+>
+  @for (link of creatorLinks; track link.label) {
+    <a
+      class="link"
+      [href]="link.path"
+      [attr.aria-label]="translatePath + link.label | translate"
+    >
+      <span
+        class="icon-container"
+        [innerHTML]="svgIconsService.returnIcon(link.icon ?? '', 'icon')"
+        aria-hidden="true"
+      ></span>
+      <span
+        class="link-text"
+        aria-hidden="true"
+        >{{ translatePath + link.label | translate }}</span
+      >
+    </a>
+  }
+</nav>
