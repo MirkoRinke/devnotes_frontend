@@ -23,14 +23,14 @@
       <a
         class="link"
         [routerLink]="link.path"
-        [class.active]="activeMap[link.context]"
+        [class.active]="link.context ? activeMap[link.context] : false"
         [attr.aria-label]="translatePath + link.label | translate"
-        [attr.aria-current]="activeMap[link.context] ? 'page' : null"
+        [attr.aria-current]="link.context ? (activeMap[link.context] ? 'page' : null) : null"
       >
         <span
           class="icon-container"
-          [class.active]="activeMap[link.context]"
-          [innerHTML]="svgIconsService.returnIcon(link.icon, 'icon')"
+          [class.active]="link.context ? activeMap[link.context] : false"
+          [innerHTML]="svgIconsService.returnIcon(link.icon ?? '', 'icon')"
           aria-hidden="true"
         ></span>
         <span

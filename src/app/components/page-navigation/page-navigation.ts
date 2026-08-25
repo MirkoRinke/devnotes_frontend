@@ -13,6 +13,9 @@ import { PageContextEnums } from '../../enums/context';
 
 import { SearchButton } from './search-button/search-button';
 import { Search } from '../search/search';
+
+import type { NavigationLinksInterface } from '../../interfaces/navigation-links';
+
 @Component({
   selector: 'app-page-navigation',
   imports: [CommonModule, RouterModule, Search, SearchButton, TranslatePipe],
@@ -23,7 +26,7 @@ export class PageNavigation {
   private context: PageContextEnums | null = null;
   @Input() enableSearch: boolean = false;
 
-  readonly navigationLinks = [
+  readonly navigationLinks: NavigationLinksInterface[] = [
     { label: 'myArea', path: '/my-area', icon: 'my_area', context: PageContextEnums.MY_AREA },
     { label: 'favorites', path: '/favorites', icon: 'favorites', context: PageContextEnums.FAVORITES },
     { label: 'network', path: '/network', icon: 'network', context: PageContextEnums.NETWORK },
@@ -83,7 +86,9 @@ export class PageNavigation {
     const url = this.router.url;
 
     this.navigationLinks.forEach((link) => {
-      this.activeMap[link.context] = this.context === link.context || url.includes(link.path);
+      if (link.context) {
+        this.activeMap[link.context] = this.context === link.context || url.includes(link.path);
+      }
     });
   }
 
