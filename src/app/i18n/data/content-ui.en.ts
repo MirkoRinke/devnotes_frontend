@@ -54,6 +54,28 @@ export const CONTENT_UI_EN: ContentUI = {
       legalNav: 'Navigation Legal',
     },
   },
+  CreatorLinks: {
+    portfolio: 'Portfolio',
+    github: 'GitHub',
+    contact: 'Contact',
+    ariaLabel: {
+      creatorNav: 'Navigation Creator',
+    },
+  },
+  Copyright: {
+    creator: 'Mirko Rinke',
+    ariaLabel: {
+      copyright: 'Copyright',
+    },
+  },
+  LegalLinks: {
+    terms: 'Terms of Use',
+    privacy: 'Privacy',
+    imprint: 'Imprint',
+    ariaLabel: {
+      legalNav: 'Navigation Legal',
+    },
+  },
   PostTypes: {
     all_types: {
       title: 'All Types',
