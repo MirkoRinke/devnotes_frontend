@@ -1,16 +1,15 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
 
-import { SvgIconsService } from '../../services/svg.icons.service';
+import { CreatorLinks } from '../contact/creator-links/creator-links';
+import { Copyright } from '../copyright/copyright';
+import { LegalLinks } from '../legal-links/legal-links';
 
 @Component({
   selector: 'app-footer',
-  imports: [RouterLink],
+  imports: [CreatorLinks, Copyright, LegalLinks],
   templateUrl: './footer.html',
   styleUrl: './footer.scss',
 })
 export class Footer {
-  constructor(public svgIconsService: SvgIconsService) {}
-
-  currentYear = new Date().getFullYear();
+  constructor() {}
 }
