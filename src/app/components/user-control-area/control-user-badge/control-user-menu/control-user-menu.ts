@@ -8,6 +8,7 @@ import { SvgIconsService } from '../../../../services/svg.icons.service';
 import { TranslatePipe } from '../../../../i18n/translate-pipe';
 
 import type { UserInterface } from '../../../../interfaces/user';
+import type { NavigationLinksInterface } from '../../../../interfaces/navigation-links';
 
 @Component({
   selector: 'app-control-user-menu',
@@ -23,7 +24,7 @@ export class ControlUserMenu {
 
   @Output() closeMenu = new EventEmitter<void>();
 
-  readonly userNavigationLinks = [
+  readonly userNavigationLinks: NavigationLinksInterface[] = [
     { label: 'userProfile', path: '/user-profile', icon: 'user_profile' },
     { label: 'accountSettings', path: '/account-settings', icon: 'account_settings' },
     { label: 'avatarSettings', path: '/avatar-settings', icon: 'avatar_settings' },

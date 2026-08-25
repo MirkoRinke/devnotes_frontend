@@ -16,7 +16,7 @@
       >
         <span
           class="icon-container"
-          [innerHTML]="svgIconsService.returnIcon(navigationLink.icon, 'icon')"
+          [innerHTML]="svgIconsService.returnIcon(navigationLink.icon ?? '', 'icon')"
           aria-hidden="true"
         ></span
         >{{ translatePath + navigationLink.label | translate }}
