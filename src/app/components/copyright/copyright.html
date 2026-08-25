@@ -1,0 +1,19 @@
+@let translatePath = 'Copyright' + '.';
+@let translatePathAriaLabel = translatePath + 'ariaLabel' + '.';
+
+<small
+  class="copyright"
+  [attr.aria-label]="(translatePathAriaLabel + 'copyright' | translate) + ' ' + currentYear + ' ' + (translatePath + 'creator' | translate)"
+>
+  <span
+    class="icon-container"
+    [innerHTML]="svgIconsService.returnIcon('copyright')"
+    aria-hidden="true"
+  ></span>
+
+  <span
+    class="text"
+    aria-hidden="true"
+    >{{ currentYear }} {{ translatePath + 'creator' | translate }}</span
+  >
+</small>
