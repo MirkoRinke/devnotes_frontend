@@ -13,6 +13,9 @@ import { PageNavigationMessagesInterface } from './components/page-navigation.in
 import { ControlUserMenuMessagesInterface } from './components/control-user-menu.interface';
 import { LegalMobileMessagesInterface } from './components/legal-mobile.interface';
 import { SearchMessagesInterface } from './components/search.interface';
+import { CreatorLinksMessagesInterface } from './components/creator-links.interface';
+import { CopyrightMessagesInterface } from './components/copyright.interface';
+import { LegalLinksMessagesInterface } from './components/legal-links.interface';
 
 export interface Content extends ContentUI, LegalContent, Notifications {}
 
@@ -25,6 +28,9 @@ export interface ContentUI {
   ControlUserMenu: ControlUserMenuMessagesInterface;
   Search: SearchMessagesInterface;
   LegalMobile: LegalMobileMessagesInterface;
+  CreatorLinks: CreatorLinksMessagesInterface;
+  Copyright: CopyrightMessagesInterface;
+  LegalLinks: LegalLinksMessagesInterface;
 }
 
 export interface LegalContent {
