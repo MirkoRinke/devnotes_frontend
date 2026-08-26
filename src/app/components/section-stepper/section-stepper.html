@@ -1,6 +1,16 @@
+@let translatePath = 'SectionStepper' + '.';
+@let translatePathAriaLabel = translatePath + 'ariaLabel' + '.';
+
 <button
   (click)="handleClick()"
-  [innerHTML]="svgIconsService.returnIcon(direction === 'backward' ? 'arrow_backward' : 'arrow_forward', 'direction-icon')"
   type="button"
-  [attr.aria-label]="direction === 'backward' ? 'Zurück' : 'Vorwärts'"
-></button>
+  [class.active]="totalPages > 1"
+  [attr.aria-label]="translatePathAriaLabel + ariaLabelKey() | translate: ariaLabelParams()"
+  [attr.disabled]="totalPages > 1 ? null : true"
+>
+  <span
+    class="direction-icon-container"
+    [innerHTML]="svgIconsService.returnIcon(direction === 'backward' ? 'arrow_backward' : 'arrow_forward', 'direction-icon')"
+    aria-hidden="true"
+  ></span>
+</button>
