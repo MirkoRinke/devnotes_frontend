@@ -1,5 +1,7 @@
-app-tech-block {
-  &:not(.active) {
-    display: none;
-  }
+@use '../../../functions' as *;
+@use '../../../var' as var;
+@use '../../../mixins' as *;
+
+.community {
+  @include display-flex($direction: column, $gap: px-to-rem(50));
 }
