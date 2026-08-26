@@ -14,13 +14,17 @@ import { SvgIconsService } from '../../services/svg.icons.service';
 import { AvailableValuesService } from '../../services/available-values.service';
 import { SearchService } from '../../services/search.service';
 
+import { TranslatePipe } from '../../i18n/translate-pipe';
+
 import { getCssVariableValue, getElementSizeFrom } from '../../utils/css-helper';
 import { blurActiveElementInside } from '../../utils/dom-helper';
 import { SectionStepper } from '../section-stepper/section-stepper';
+import { Loading } from '../loading/loading';
+import { NoResults } from '../no-results/no-results';
 
 @Component({
   selector: 'app-tech-block',
-  imports: [TechTile, SectionStepper],
+  imports: [TechTile, SectionStepper, Loading, TranslatePipe, NoResults],
   templateUrl: './tech-block.html',
   styleUrl: './tech-block.scss',
 })
@@ -34,34 +38,34 @@ export class TechBlock implements OnDestroy, OnInit {
 
   @Output() hasAvailableData = new EventEmitter<boolean>();
 
-  isLoading = true;
+  public isLoading = true;
 
-  pageSize = 10;
-  currentPage: number = 0;
-  totalPages: number = 0;
+  private pageSize = 10;
+  public currentPage: number = 0;
+  public totalPages: number = 0;
 
   private destroy$ = new Subject<void>();
   private resize$ = new Subject<void>();
 
-  availableTiles: AvailableValuesInterface[] = [];
-  filteredTiles: AvailableValuesInterface[] = [];
-  favoriteTechStack: Array<string> = [];
-  favoriteUpdateStack: Array<string> = [];
+  private availableTiles: AvailableValuesInterface[] = [];
+  private filteredTiles: AvailableValuesInterface[] = [];
+  private favoriteTechStack: Array<string> = [];
+  private favoriteUpdateStack: Array<string> = [];
 
-  currentSearchValue: string | null = null;
+  private currentSearchValue: string | null = null;
 
-  refreshFeedbackAnimation: boolean = false;
+  public refreshFeedbackAnimation: boolean = false;
 
-  paginatedTiles: AvailableValuesInterface[] = [];
-  containerSize: ElementRef | null = null;
+  public paginatedTiles: AvailableValuesInterface[] = [];
+  private containerSize: ElementRef | null = null;
   private initialLoad = true;
 
   constructor(
-    public userFavoriteTechnologiesService: UserFavoriteTechnologiesService,
-    public svgIconsService: SvgIconsService,
-    private availableValuesService: AvailableValuesService,
-    private searchService: SearchService,
-    private cdr: ChangeDetectorRef,
+    public readonly userFavoriteTechnologiesService: UserFavoriteTechnologiesService,
+    public readonly svgIconsService: SvgIconsService,
+    private readonly availableValuesService: AvailableValuesService,
+    private readonly searchService: SearchService,
+    private readonly cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit() {
@@ -91,7 +95,7 @@ export class TechBlock implements OnDestroy, OnInit {
   /**
    * Subscribes to search value changes and filters tiles accordingly.
    */
-  searchValueInput() {
+  private searchValueInput(): void {
     this.searchService.searchValue$.pipe(takeUntil(this.destroy$)).subscribe((inputValue) => {
       this.currentSearchValue = inputValue;
       this.filterFunction(inputValue || '');
@@ -102,14 +106,14 @@ export class TechBlock implements OnDestroy, OnInit {
    * Handles window resize events.
    */
   @HostListener('window:resize')
-  onResize() {
+  public onResize(): void {
     this.resize$.next();
   }
 
   /**
    * Refreshes the pagination by updating the pagination state and paginating the items.
    */
-  private refreshPagination() {
+  private refreshPagination(): void {
     this.updatePaginationState();
     this.pagedItems();
   }
@@ -117,7 +121,7 @@ export class TechBlock implements OnDestroy, OnInit {
   /**
    * Updates the pagination state based on the filtered tiles.
    */
-  private updatePaginationState() {
+  private updatePaginationState(): void {
     this.totalPages = Math.max(1, Math.ceil(this.filteredTiles.length / this.pageSize));
 
     if (this.currentPage > this.totalPages - 1) {
@@ -128,7 +132,7 @@ export class TechBlock implements OnDestroy, OnInit {
   /**
    * Paginates the items based on the current page and page size.
    */
-  private pagedItems() {
+  private pagedItems(): void {
     const start = this.currentPage * this.pageSize;
     const pagedItems = this.filteredTiles.slice(start, start + this.pageSize);
     this.paginatedTiles = pagedItems;
@@ -137,7 +141,7 @@ export class TechBlock implements OnDestroy, OnInit {
   /**
    * Initializes the resize subscription to handle window resize events.
    */
-  private initResizeSubscription() {
+  private initResizeSubscription(): void {
     this.resize$.pipe(debounceTime(200), takeUntil(this.destroy$)).subscribe(() => {
       this.tilesPerPage();
     });
@@ -160,7 +164,7 @@ export class TechBlock implements OnDestroy, OnInit {
   /**
    * Calculates the number of tiles that can fit on a page based on the container width, tile size, and gap.
    */
-  private tilesPerPage() {
+  private tilesPerPage(): void {
     if (!this.containerSize?.nativeElement) return;
     const container = this.containerSize.nativeElement;
     const containerWidth = getElementSizeFrom(container, 'width');
@@ -198,7 +202,7 @@ export class TechBlock implements OnDestroy, OnInit {
   /**
    * Sets the current tiles based on the heading.
    */
-  private setCurrentTiles() {
+  private setCurrentTiles(): void {
     if (this.version === 'favorites') {
       this.filteredTiles = this.availableTiles.filter((tile) => this.favoriteTechStack.includes(tile.name) || this.favoriteUpdateStack.includes(tile.name));
     } else if (this.version === 'search-results') {
@@ -213,7 +217,7 @@ export class TechBlock implements OnDestroy, OnInit {
    *
    * @param inputValue
    */
-  filterFunction(inputValue: string) {
+  private filterFunction(inputValue: string): void {
     const input = (inputValue || '').toLowerCase().trim();
     if (input.length > 0) {
       this.setCurrentTiles();
@@ -230,7 +234,7 @@ export class TechBlock implements OnDestroy, OnInit {
    *
    * @param newPage
    */
-  onPageChange(newPage: number) {
+  public onPageChange(newPage: number): void {
     this.currentPage = newPage;
     this.refreshPagination();
   }
@@ -239,7 +243,7 @@ export class TechBlock implements OnDestroy, OnInit {
    * Fetches available values from the service and sorts them before assigning to tiles.
    * Also handles loading state and search results state.
    */
-  private getAvailableValues(params: Array<string>, endPoint: string) {
+  private getAvailableValues(params: Array<string>, endPoint: string): void {
     this.availableValuesService
       .getAvailableValues(params, endPoint)
       .pipe(take(1))
@@ -258,7 +262,7 @@ export class TechBlock implements OnDestroy, OnInit {
   /**
    * Emits an event indicating whether there is available data.
    */
-  private emitAvailableData() {
+  private emitAvailableData(): void {
     this.hasAvailableData.emit(this.availableTiles.length > 0);
   }
 
@@ -280,7 +284,7 @@ export class TechBlock implements OnDestroy, OnInit {
   /**
    * Fetches the user's favorite tech stack from the service.
    */
-  private getUserFavoriteTechStack() {
+  private getUserFavoriteTechStack(): void {
     this.userFavoriteTechnologiesService.favoriteTechStack$.pipe(takeUntil(this.destroy$)).subscribe((stack) => {
       this.favoriteTechStack = stack;
       if (this.currentSearchValue === null || this.currentSearchValue.trim() === '') {
@@ -296,7 +300,7 @@ export class TechBlock implements OnDestroy, OnInit {
    * This stack is used to immediately reflect changes in the UI when a user adds or removes a technology from their favorites.
    * The actual update to the backend is handled in the TechTile component, so this function only listens for changes and updates the local state accordingly.
    */
-  private getUserFavoriteUpdate() {
+  private getUserFavoriteUpdate(): void {
     this.userFavoriteTechnologiesService.favoriteUpdate$.pipe(takeUntil(this.destroy$)).subscribe((stack) => {
       this.favoriteUpdateStack = stack;
       if (this.currentSearchValue === null || this.currentSearchValue.trim() === '') {
@@ -309,7 +313,7 @@ export class TechBlock implements OnDestroy, OnInit {
   /**
    * Clears the favorite update stack and triggers the refresh animation for visual feedback.
    */
-  public clearFavoriteUpdate() {
+  public clearFavoriteUpdate(): void {
     this.userFavoriteTechnologiesService.clearFavoriteUpdate();
     this.refreshFeedbackAnimation = true;
   }
@@ -319,8 +323,9 @@ export class TechBlock implements OnDestroy, OnInit {
    *
    * @param event
    */
-  onAnimationEnd(event: AnimationEvent) {
-    if (event.animationName.endsWith('rotate')) {
+  public onAnimationEnd(event: AnimationEvent): void {
+    console.log(`Animation ended: ${event.animationName}`);
+    if (event.animationName.endsWith('spin-refresh')) {
       this.refreshFeedbackAnimation = false;
     }
   }
