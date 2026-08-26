@@ -929,8 +929,8 @@
   }
 }
 
-@mixin spin($suffix: 'spinner', $duration: var.$transition-duration-slow) {
-  animation: spin-#{$suffix} $duration linear infinite;
+@mixin spin($suffix: 'spinner', $duration: var.$transition-duration-slow, $repeat: infinite) {
+  animation: spin-#{$suffix} $duration linear $repeat;
 
   @keyframes spin-#{$suffix} {
     0% {
