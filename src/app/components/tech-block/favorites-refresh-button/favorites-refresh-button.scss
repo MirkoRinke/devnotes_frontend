@@ -1,0 +1,21 @@
+@use '../../../../functions' as *;
+@use '../../../../var' as var;
+@use '../../../../mixins' as *;
+
+.favorites-refresh-button {
+  @include button-preset();
+  height: px-to-rem(24);
+
+  @include svg-icon(
+    $icon-class: 'refresh',
+    $height: 100%,
+    $width: 100%,
+    $fill-color: var(--font-primary-color-50),
+    $hover-fill-color: var(--font-primary-color-100),
+    $active-fill-color: var(--font-primary-color-100)
+  );
+
+  &.active {
+    @include spin($suffix: 'refresh', $duration: var.$transition-duration-extra-slow, $repeat: none);
+  }
+}

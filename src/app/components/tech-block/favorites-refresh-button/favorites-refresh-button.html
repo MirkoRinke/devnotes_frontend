@@ -1,0 +1,11 @@
+@let translatePath = 'FavoritesRefreshButton' + '.';
+@let translatePathAriaLabel = translatePath + 'ariaLabel' + '.';
+
+<button
+  class="favorites-refresh-button"
+  [class.active]="refreshFeedbackAnimation"
+  (click)="clearFavoriteUpdate()"
+  [innerHTML]="svgIconsService.returnIcon('refresh')"
+  (animationend)="onAnimationEnd($event)"
+  [attr.aria-label]="translatePathAriaLabel + 'refreshFavorites' | translate"
+></button>
