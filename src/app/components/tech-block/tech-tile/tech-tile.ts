@@ -10,12 +10,14 @@ import { SvgIconsService } from '../../../services/svg.icons.service';
 import { ApiService } from '../../../services/api.service';
 import { AuthService } from '../../../services/auth.service';
 
+import { TranslatePipe } from '../../../i18n/translate-pipe';
+
 import { ApiEndpointEnums } from '../../../enums/api-endpoint';
 import { PageContextEnums } from '../../../enums/context';
 
 @Component({
   selector: 'app-tech-tile',
-  imports: [RouterLink],
+  imports: [RouterLink, TranslatePipe],
   templateUrl: './tech-tile.html',
   styleUrl: './tech-tile.scss',
 })
@@ -25,18 +27,18 @@ export class TechTile {
 
   @Input() tile: AvailableValuesInterface | null = null;
 
-  favoriteTechStack: Array<string> = [];
+  private favoriteTechStack: Array<string> = [];
 
-  isProcessingFavorites = false;
-  isFavorite: boolean = false;
+  private isProcessingFavorites = false;
+  public isFavorite: boolean = false;
 
   private destroy$ = new Subject<void>();
 
   constructor(
-    public svgIconsService: SvgIconsService,
-    private userFavoriteTechnologiesService: UserFavoriteTechnologiesService,
-    private apiService: ApiService,
-    public authService: AuthService,
+    public readonly svgIconsService: SvgIconsService,
+    private readonly userFavoriteTechnologiesService: UserFavoriteTechnologiesService,
+    private readonly apiService: ApiService,
+    public readonly authService: AuthService,
   ) {}
 
   ngOnInit() {
@@ -48,11 +50,16 @@ export class TechTile {
     this.destroy$.complete();
   }
 
-  isFavoriteTech(): boolean {
+  /**
+   * Checks if the current tile is in the user's favorite tech stack.
+   *
+   * @returns
+   */
+  private isFavoriteTech(): boolean {
     return this.favoriteTechStack.includes(this.tile?.name ?? '');
   }
 
-  toggleFavorite(event: MouseEvent, tile: AvailableValuesInterface): void {
+  public toggleFavorite(event: MouseEvent, tile: AvailableValuesInterface): void {
     event.preventDefault();
     /**
      * Prevent multiple favorite/unfavorite requests and ensure user is logged in
@@ -94,7 +101,7 @@ export class TechTile {
    * @param techName The name of the technology being updated
    * @param isCurrentlyFavorite Whether the technology is currently a favorite (before the update)
    */
-  private updateLocalState(techName: string, isCurrentlyFavorite: boolean) {
+  private updateLocalState(techName: string, isCurrentlyFavorite: boolean): void {
     if (isCurrentlyFavorite) {
       this.userFavoriteTechnologiesService.removeTechFromFavoriteStack(techName);
     } else {
@@ -106,7 +113,7 @@ export class TechTile {
   /**
    * Fetches the user's favorite tech stack from the service.
    */
-  private getUserFavoriteTechStack() {
+  private getUserFavoriteTechStack(): void {
     this.userFavoriteTechnologiesService.favoriteTechStack$.pipe(takeUntil(this.destroy$)).subscribe((stack) => {
       this.favoriteTechStack = stack;
       this.isFavorite = this.isFavoriteTech();

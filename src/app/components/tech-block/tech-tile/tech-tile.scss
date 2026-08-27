@@ -2,100 +2,99 @@
 @use '../../../../var' as var;
 @use '../../../../mixins' as *;
 
-.tile {
-  @include display-flex(center, center, column);
-  background-color: var(--page-primary-color-100);
-  width: var(--tile-width);
-  height: var(--tile-height);
+.tech-tile {
+  @include display-flex($align: center);
+  padding: px-to-rem(15);
 
+  background-color: var(--page-primary-color-100);
   border-radius: px-to-rem(15);
-  padding-block: px-to-rem(5);
+  overflow: hidden;
+
+  position: relative;
+  height: var(--tile-height);
+  width: var(--tile-width);
 
   transition: box-shadow var.$transition-duration-medium ease-in-out;
 
-  &:hover:not(:has(.icon:hover)) {
+  &:hover:not(:has(.favorite-icon-container:hover)) {
     box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-50);
   }
 
-  &:has(.icon:hover) {
+  &:has(.favorite-icon-container:hover) {
     box-shadow: 0 0 px-to-rem(8) var(--favorite-color-100);
   }
 
-  .icon {
+  .tile {
+    @include display-flex($align: center, $justify: space-between, $direction: column, $gap: px-to-rem(10));
+    height: 100%;
+    width: 100%;
+
+    @media (max-width: var.$breakpoint-lg) {
+      gap: px-to-rem(5);
+    }
+
+    .header {
+      @include display-flex($align: center);
+      height: 15%;
+      width: 100%;
+
+      .count {
+        @include font-settings(14);
+        width: fit-content;
+        text-align: end;
+      }
+    }
+
+    .content {
+      @include display-flex($align: center, $justify: center, $direction: column, $gap: px-to-rem(10));
+      width: 100%;
+      min-height: 0;
+
+      .container {
+        @include display-flex($align: center, $justify: center);
+        width: 100%;
+        min-height: 0;
+
+        @include svg-icon($icon-class: 'tile-icon', $height: 100%, $width: 100%, $fill-color: var(--font-primary-color-50));
+
+        @include svg-icon($icon-class: 'fallback', $height: 100%, $width: 100%);
+      }
+    }
+
+    .footer {
+      @include display-flex($align: center, $justify: center);
+      width: 100%;
+
+      .name {
+        @include font-settings(16);
+        @include singleline-ellipsis();
+        text-transform: capitalize;
+        text-align: center;
+        width: 100%;
+      }
+    }
+  }
+
+  .favorite-icon-container {
     @include button-preset();
-    @include display-flex(end, end, row);
-    width: 100%;
-    height: px-to-rem(20);
-    padding-right: px-to-rem(15);
+    @include display-flex($align: center, $justify: end);
+    @include position($position: absolute, $top: px-to-rem(10), $right: px-to-rem(10));
+    height: 15%;
+    min-height: 0;
 
-    &.isFavorite {
-      &::ng-deep .favorite {
-        fill: var(--favorite-color-100);
-        transition: fill var.$transition-duration-medium ease-in-out;
-      }
+    width: max-content;
+
+    .icon-container {
+      height: 100%;
+
+      @include svg-icon(
+        $icon-class: 'favorite',
+        $height: 100%,
+        $width: 100%,
+        $fill-color: var(--font-primary-color-50),
+        $hover-fill-color: var(--favorite-color-100),
+        $active-fill-color: var(--favorite-color-100)
+      );
     }
-
-    &:hover:not(.isFavorite) {
-      &::ng-deep .favorite {
-        fill: var(--favorite-color-100);
-        scale: 1.1;
-        transition:
-          fill var.$transition-duration-medium ease-in-out,
-          transform var.$transition-duration-medium ease-in-out;
-      }
-    }
-
-    &:hover {
-      &::ng-deep .favorite {
-        scale: 1.1;
-        transition: transform var.$transition-duration-medium ease-in-out;
-      }
-    }
-
-    &::ng-deep .favorite {
-      fill: var(--font-primary-color-50);
-      width: px-to-rem(20);
-      height: px-to-rem(20);
-      transition:
-        fill var.$transition-duration-medium ease-in-out,
-        transform var.$transition-duration-medium ease-in-out;
-    }
-  }
-
-  .content {
-    @include display-flex(center, center, column);
-    gap: px-to-rem(10);
-    width: 100%;
-
-    .container {
-      @include display-flex(center, center, column);
-      width: px-to-rem(80);
-      height: px-to-rem(80);
-
-      &::ng-deep .tile-icon {
-        fill: var(--font-primary-color-100);
-        width: 100%;
-        height: 100%;
-      }
-
-      &::ng-deep .fallback {
-        fill: var(--font-primary-color-100);
-        width: 100%;
-        height: 100%;
-      }
-    }
-
-    .name {
-      @include font-settings(16);
-      @include singleline-ellipsis(120px);
-      text-transform: capitalize;
-    }
-  }
-
-  .count {
-    @include font-settings(14);
-    width: 100%;
-    text-align: end;
-    padding-right: px-to-rem(15);
   }
 }

@@ -1,24 +1,39 @@
+@let translatePath = 'TechTile' + '.';
+@let translatePathAriaLabel = translatePath + 'ariaLabel' + '.';
+
 @if (tile && endPoint && context) {
-  <a
-    class="tile"
-    [routerLink]="'/post-types-selection'"
-    [queryParams]="{ context: context, endPoint: endPoint, entity: tile.entity, entityValue: tile.name }"
-  >
+  <div class="tech-tile">
+    <a
+      class="tile"
+      [routerLink]="'/post-types-selection'"
+      [queryParams]="{ context: context, endPoint: endPoint, entity: tile.entity, entityValue: tile.name }"
+    >
+      <header class="header">
+        <span class="count">{{ tile.total_counts }}</span>
+      </header>
+      <div class="content">
+        <span
+          class="container"
+          [innerHTML]="svgIconsService.returnIcon(tile.name, 'tile-icon')"
+        ></span>
+      </div>
+      <div class="footer">
+        <span class="name">{{ tile.name }}</span>
+      </div>
+    </a>
     @if (authService.isLoggedIn()) {
       <button
-        class="icon"
-        [class.isFavorite]="isFavorite"
-        [innerHTML]="svgIconsService.returnIcon(isFavorite ? 'favorite' : 'favorite_outline', 'favorite')"
+        class="favorite-icon-container"
         (click)="$event.stopPropagation(); toggleFavorite($event, tile)"
-      ></button>
+        [attr.aria-label]="isFavorite ? (translatePathAriaLabel + 'removeFromFavorites' | translate) : (translatePathAriaLabel + 'addToFavorites' | translate)"
+      >
+        <span
+          class="icon-container"
+          [class.active]="isFavorite"
+          [innerHTML]="svgIconsService.returnIcon(isFavorite ? 'favorite' : 'favorite_outline', 'favorite')"
+          aria-hidden="true"
+        ></span>
+      </button>
     }
-    <div class="content">
-      <span
-        class="container"
-        [innerHTML]="svgIconsService.returnIcon(tile.name, 'tile-icon')"
-      ></span>
-      <span class="name">{{ tile.name }}</span>
-    </div>
-    <span class="count">{{ tile.total_counts }}</span>
-  </a>
+  </div>
 }
