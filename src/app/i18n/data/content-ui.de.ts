@@ -76,6 +76,35 @@ export const CONTENT_UI_DE: ContentUI = {
       legalNav: 'Navigation Rechtliches',
     },
   },
+  Loading: {
+    loadingParams: '{element} werden geladen...',
+    loading: 'Wird geladen...',
+    ariaLabel: {},
+  },
+  NoResults: {
+    noResultsParams: '{element} wurden nicht gefunden.',
+    noResults: 'Keine Ergebnisse gefunden.',
+    ariaLabel: {},
+  },
+  TechBlock: {
+    ariaLabel: {
+      refreshFavorites: 'Favoriten aktualisieren',
+    },
+  },
+  TechTile: {
+    ariaLabel: {
+      addToFavorites: 'Zu Favoriten hinzufügen',
+      removeFromFavorites: 'Aus Favoriten entfernen',
+    },
+  },
+  SectionStepper: {
+    ariaLabel: {
+      stepperForwardParams: 'Weitere {context} anzeigen',
+      stepperForward: 'Weitere anzeigen',
+      stepperBackwardParams: 'Vorherige {context} anzeigen',
+      stepperBackward: 'Vorherige anzeigen',
+    },
+  },
   PostTypes: {
     all_types: {
       title: 'Alle Typen',

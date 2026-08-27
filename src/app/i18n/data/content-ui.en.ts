@@ -76,6 +76,35 @@ export const CONTENT_UI_EN: ContentUI = {
       legalNav: 'Navigation Legal',
     },
   },
+  Loading: {
+    loadingParams: '{element} are loading...',
+    loading: 'Loading...',
+    ariaLabel: {},
+  },
+  NoResults: {
+    noResultsParams: '{element} not found.',
+    noResults: 'No results found.',
+    ariaLabel: {},
+  },
+  TechBlock: {
+    ariaLabel: {
+      refreshFavorites: 'Refresh Favorites',
+    },
+  },
+  TechTile: {
+    ariaLabel: {
+      addToFavorites: 'Add to Favorites',
+      removeFromFavorites: 'Remove from Favorites',
+    },
+  },
+  SectionStepper: {
+    ariaLabel: {
+      stepperForwardParams: 'Show more {context}',
+      stepperForward: 'Show more',
+      stepperBackwardParams: 'Show previous {context}',
+      stepperBackward: 'Show previous',
+    },
+  },
   PostTypes: {
     all_types: {
       title: 'All Types',
