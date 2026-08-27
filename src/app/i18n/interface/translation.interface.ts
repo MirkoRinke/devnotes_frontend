@@ -16,6 +16,11 @@ import { SearchMessagesInterface } from './components/search.interface';
 import { CreatorLinksMessagesInterface } from './components/creator-links.interface';
 import { CopyrightMessagesInterface } from './components/copyright.interface';
 import { LegalLinksMessagesInterface } from './components/legal-links.interface';
+import { LoadingMessagesInterface } from './components/loading.interface';
+import { NoResultsMessagesInterface } from './components/no-results.interface';
+import { TechBlockMessagesInterface } from './components/tech-block.interface';
+import { TechTileMessagesInterface } from './components/tech-tile.interface';
+import { SectionStepperMessagesInterface } from './components/section-stepper.interface';
 
 export interface Content extends ContentUI, LegalContent, Notifications {}
 
@@ -31,6 +36,11 @@ export interface ContentUI {
   CreatorLinks: CreatorLinksMessagesInterface;
   Copyright: CopyrightMessagesInterface;
   LegalLinks: LegalLinksMessagesInterface;
+  Loading: LoadingMessagesInterface;
+  NoResults: NoResultsMessagesInterface;
+  TechBlock: TechBlockMessagesInterface;
+  TechTile: TechTileMessagesInterface;
+  SectionStepper: SectionStepperMessagesInterface;
 }
 
 export interface LegalContent {
