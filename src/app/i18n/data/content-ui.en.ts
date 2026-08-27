@@ -86,11 +86,6 @@ export const CONTENT_UI_EN: ContentUI = {
     noResults: 'No results found.',
     ariaLabel: {},
   },
-  TechBlock: {
-    ariaLabel: {
-      refreshFavorites: 'Refresh Favorites',
-    },
-  },
   TechTile: {
     ariaLabel: {
       addToFavorites: 'Add to Favorites',
@@ -103,6 +98,11 @@ export const CONTENT_UI_EN: ContentUI = {
       stepperForward: 'Show more',
       stepperBackwardParams: 'Show previous {context}',
       stepperBackward: 'Show previous',
+    },
+  },
+  FavoritesRefreshButton: {
+    ariaLabel: {
+      refreshFavorites: 'Refresh Favorites',
     },
   },
   PostTypes: {
