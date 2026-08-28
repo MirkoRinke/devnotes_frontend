@@ -1,18 +1,8 @@
-@let translatePath = 'TechBlock' + '.';
-@let translatePathAriaLabel = translatePath + 'ariaLabel' + '.';
-
 <section class="tech-block">
   <header class="header">
     <h2 class="heading">{{ heading }} | {{ currentPage + 1 }} / {{ totalPages }}</h2>
     @if (version === 'favorites') {
-      <button
-        class="refresh"
-        [class.active]="refreshFeedbackAnimation"
-        (click)="clearFavoriteUpdate()"
-        [innerHTML]="svgIconsService.returnIcon('refresh')"
-        (animationend)="onAnimationEnd($event)"
-        [attr.aria-label]="translatePathAriaLabel + 'refreshFavorites' | translate"
-      ></button>
+      <app-favorites-refresh-button></app-favorites-refresh-button>
     }
   </header>
   @if (isLoading) {

@@ -1,6 +1,7 @@
-import { Component, Input, Output, EventEmitter, OnInit, OnDestroy, HostListener, ElementRef, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnDestroy, HostListener, ElementRef, ViewChild, ChangeDetectorRef, inject, DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Subject } from 'rxjs';
-import { take, takeUntil, debounceTime } from 'rxjs/operators';
+import { take, debounceTime } from 'rxjs/operators';
 
 import { TechTile } from './tech-tile/tech-tile';
 
@@ -14,17 +15,16 @@ import { SvgIconsService } from '../../services/svg.icons.service';
 import { AvailableValuesService } from '../../services/available-values.service';
 import { SearchService } from '../../services/search.service';
 
-import { TranslatePipe } from '../../i18n/translate-pipe';
-
 import { getCssVariableValue, getElementSizeFrom } from '../../utils/css-helper';
 import { blurActiveElementInside } from '../../utils/dom-helper';
 import { SectionStepper } from '../section-stepper/section-stepper';
 import { Loading } from '../loading/loading';
 import { NoResults } from '../no-results/no-results';
+import { FavoritesRefreshButton } from './favorites-refresh-button/favorites-refresh-button';
 
 @Component({
   selector: 'app-tech-block',
-  imports: [TechTile, SectionStepper, Loading, TranslatePipe, NoResults],
+  imports: [TechTile, SectionStepper, Loading, NoResults, FavoritesRefreshButton],
   templateUrl: './tech-block.html',
   styleUrl: './tech-block.scss',
 })
@@ -44,8 +44,8 @@ export class TechBlock implements OnDestroy, OnInit {
   public currentPage: number = 0;
   public totalPages: number = 0;
 
-  private destroy$ = new Subject<void>();
-  private resize$ = new Subject<void>();
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly resize$ = new Subject<void>();
 
   private availableTiles: AvailableValuesInterface[] = [];
   private filteredTiles: AvailableValuesInterface[] = [];
@@ -53,8 +53,6 @@ export class TechBlock implements OnDestroy, OnInit {
   private favoriteUpdateStack: Array<string> = [];
 
   private currentSearchValue: string | null = null;
-
-  public refreshFeedbackAnimation: boolean = false;
 
   public paginatedTiles: AvailableValuesInterface[] = [];
   private containerSize: ElementRef | null = null;
@@ -68,7 +66,7 @@ export class TechBlock implements OnDestroy, OnInit {
     private readonly cdr: ChangeDetectorRef,
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     if (!this.params || this.params.length === 0 || !this.endPoint || !(this.endPoint in ApiEndpointEnums)) {
       console.error(`URL input and valid Endpoint are required for TechBlock component ${this.heading || ''}`);
       return;
@@ -82,9 +80,7 @@ export class TechBlock implements OnDestroy, OnInit {
     this.searchValueInput();
   }
 
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
+  ngOnDestroy(): void {
     this.resize$.complete();
 
     if (this.version === 'search-results') {
@@ -96,7 +92,7 @@ export class TechBlock implements OnDestroy, OnInit {
    * Subscribes to search value changes and filters tiles accordingly.
    */
   private searchValueInput(): void {
-    this.searchService.searchValue$.pipe(takeUntil(this.destroy$)).subscribe((inputValue) => {
+    this.searchService.searchValue$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((inputValue) => {
       this.currentSearchValue = inputValue;
       this.filterFunction(inputValue || '');
     });
@@ -142,7 +138,7 @@ export class TechBlock implements OnDestroy, OnInit {
    * Initializes the resize subscription to handle window resize events.
    */
   private initResizeSubscription(): void {
-    this.resize$.pipe(debounceTime(200), takeUntil(this.destroy$)).subscribe(() => {
+    this.resize$.pipe(debounceTime(200), takeUntilDestroyed(this.destroyRef)).subscribe(() => {
       this.tilesPerPage();
     });
   }
@@ -285,7 +281,7 @@ export class TechBlock implements OnDestroy, OnInit {
    * Fetches the user's favorite tech stack from the service.
    */
   private getUserFavoriteTechStack(): void {
-    this.userFavoriteTechnologiesService.favoriteTechStack$.pipe(takeUntil(this.destroy$)).subscribe((stack) => {
+    this.userFavoriteTechnologiesService.favoriteTechStack$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((stack) => {
       this.favoriteTechStack = stack;
       if (this.currentSearchValue === null || this.currentSearchValue.trim() === '') {
         this.setCurrentTiles();
@@ -301,32 +297,12 @@ export class TechBlock implements OnDestroy, OnInit {
    * The actual update to the backend is handled in the TechTile component, so this function only listens for changes and updates the local state accordingly.
    */
   private getUserFavoriteUpdate(): void {
-    this.userFavoriteTechnologiesService.favoriteUpdate$.pipe(takeUntil(this.destroy$)).subscribe((stack) => {
+    this.userFavoriteTechnologiesService.favoriteUpdate$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((stack) => {
       this.favoriteUpdateStack = stack;
       if (this.currentSearchValue === null || this.currentSearchValue.trim() === '') {
         this.setCurrentTiles();
         this.refreshPagination();
       }
     });
-  }
-
-  /**
-   * Clears the favorite update stack and triggers the refresh animation for visual feedback.
-   */
-  public clearFavoriteUpdate(): void {
-    this.userFavoriteTechnologiesService.clearFavoriteUpdate();
-    this.refreshFeedbackAnimation = true;
-  }
-
-  /**
-   * Handle animation end events
-   *
-   * @param event
-   */
-  public onAnimationEnd(event: AnimationEvent): void {
-    console.log(`Animation ended: ${event.animationName}`);
-    if (event.animationName.endsWith('spin-refresh')) {
-      this.refreshFeedbackAnimation = false;
-    }
   }
 }
