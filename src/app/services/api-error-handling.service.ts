@@ -261,7 +261,6 @@ export class ApiErrorHandlingService {
         };
       }
 
-      this.authStorageService.clearLoginData();
       this.router.navigate(['/bad-gateway']);
       return;
     }
