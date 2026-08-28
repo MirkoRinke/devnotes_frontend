@@ -1,0 +1,9 @@
+@use '../../../functions' as *;
+@use '../../../var' as var;
+@use '../../../mixins' as *;
+
+.loading {
+  .loading-text {
+    @include font-settings();
+  }
+}
