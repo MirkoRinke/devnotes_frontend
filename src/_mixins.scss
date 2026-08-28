@@ -27,7 +27,8 @@
 @mixin svg-icon($icon-class, $height: 24px, $width: 24px, $min-size: 48px, $fill-color: null, $hover-fill-color: null, $active-fill-color: null) {
   @include display-flex($justify: center, $align: center);
 
-  &::ng-deep .#{$icon-class} {
+  &::ng-deep .#{$icon-class},
+  &::ng-deep .fallback {
     @if math.unit($height) == 'px' and math.unit($width) == 'px' {
       @if ($height < $min-size or $width < $min-size) {
         $min-size: max($height, $width);
@@ -1015,6 +1016,7 @@
 }
 
 @mixin multiline-ellipsis($lines: 4) {
+  display: -webkit-box;
   overflow: hidden;
   line-clamp: $lines;
   -webkit-line-clamp: $lines;
