@@ -56,8 +56,6 @@
         min-height: 0;
 
         @include svg-icon($icon-class: 'tile-icon', $height: 100%, $width: 100%, $fill-color: var(--font-primary-color-50));
-
-        @include svg-icon($icon-class: 'fallback', $height: 100%, $width: 100%);
       }
     }
 
