@@ -13,10 +13,26 @@
   --tile-height: #{px-to-rem(280)};
   --column-gap: #{px-to-rem(50)};
   --row-gap: #{px-to-rem(25)};
+
+  @media (max-width: var.$breakpoint-lg) {
+    --tile-width: #{px-to-rem(230)};
+    --tile-height: #{px-to-rem(230)};
+    --column-gap: #{px-to-rem(25)};
+    --row-gap: #{px-to-rem(12)};
+  }
+
+  @media (max-width: var.$breakpoint-sm) {
+    --tile-width: #{px-to-rem(180)};
+    --tile-height: #{px-to-rem(180)};
+    --column-gap: #{px-to-rem(25)};
+    --row-gap: #{px-to-rem(12)};
+  }
 }
 
 .post-types-selection {
   margin-bottom: px-to-rem(40);
+  max-width: var(--content-max-width);
+  margin-inline: auto;
 
   .heading {
     @include font-settings(24);
@@ -24,73 +40,61 @@
   }
 
   .tiles {
-    @include display-grid(start, center, center);
+    @include display-grid($align: start, $justify: center, $justify-content: center, $gap: var(--row-gap) var(--column-gap));
     grid-template-columns: repeat(auto-fill, var(--tile-width));
-    gap: var(--row-gap) var(--column-gap);
-    max-width: var(--content-max-width);
-    width: 100%;
-    margin-inline: auto;
 
     .tile {
-      @include display-flex(center, space-between, column);
-      gap: px-to-rem(5);
+      @include display-flex($align: center, $justify: space-between, $direction: column, $gap: px-to-rem(10));
       background-color: var(--page-primary-color-100);
       width: var(--tile-width);
       height: var(--tile-height);
       border-radius: px-to-rem(15);
-      padding-top: px-to-rem(25);
-      padding-bottom: px-to-rem(10);
+
+      padding: px-to-rem(15);
 
       &:hover {
         box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-50);
       }
 
       .content {
-        @include display-flex(center, start, row);
-        gap: px-to-rem(15);
-        padding-inline: px-to-rem(25);
-        margin-bottom: px-to-rem(15);
+        @include display-flex($align: center, $justify: start, $gap: px-to-rem(15));
         width: 100%;
+        min-height: 0;
 
         .container {
-          @include display-flex(center, center, column);
-          width: px-to-rem(80);
-          height: px-to-rem(80);
+          @include display-flex($align: center, $justify: center);
+          height: 100%;
+          min-width: 0;
 
-          &::ng-deep .tile-icon {
-            fill: var(--font-primary-color-100);
-            width: px-to-rem(80);
-            height: px-to-rem(80);
-          }
-
-          &::ng-deep .fallback {
-            fill: var(--font-primary-color-100);
-            width: px-to-rem(60);
-            height: px-to-rem(60);
-          }
+          @include svg-icon($icon-class: 'tile-icon', $height: 100%, $width: 100%, $fill-color: var(--font-primary-color-100));
         }
 
         .name {
-          @include font-settings(16);
+          @include font-settings();
           @include singleline-ellipsis();
           text-transform: capitalize;
         }
       }
 
-      .description {
-        @include font-settings(16);
-        @include multiline-ellipsis(6);
-        padding: 0 px-to-rem(25);
-        // word-break: break-all;
+      .description-container {
+        max-height: 50%;
+        min-height: 50%;
 
-        flex-grow: 1;
+        .description {
+          @include font-settings();
+          @include multiline-ellipsis(5);
+        }
       }
 
-      .count {
-        @include font-settings(14);
+      .count-container {
+        @include display-flex($align: center);
         width: 100%;
-        text-align: end;
-        padding-right: px-to-rem(15);
+
+        .count {
+          @include font-settings();
+          width: 100%;
+          text-align: end;
+        }
       }
     }
   }

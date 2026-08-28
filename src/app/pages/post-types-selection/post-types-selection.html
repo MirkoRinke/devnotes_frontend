@@ -1,30 +1,56 @@
-<section class="post-types-selection">
-  <h2 class="heading">Beitragstyp</h2>
-  <div class="tiles">
-    @for (postType of filteredPostTypes; track $index) {
-      @let translatePath = 'PostTypes.' + postType.name + '.';
+@let translatePath = 'PostTypes' + '.';
+@let translatePathAriaLabel = translatePath + 'ariaLabel' + '.';
 
-      <a
-        class="tile"
-        [routerLink]="'/posts-list'"
-        [queryParams]="{
-          context: context,
-          selectedEntity: selectedEntity,
-          selectedEntityValue: selectedEntityValue,
-          endPoint: endPoint,
-          selectedPostType: getQueryParam(postType?.name),
-        }"
-      >
-        <div class="content">
-          <span
-            class="container"
-            [innerHTML]="svgIconsService.returnIcon(postType.name, 'tile-icon')"
-          ></span>
-          <span class="name">{{ translatePath + 'title' | translate }}</span>
-        </div>
-        <p class="description">{{ translatePath + 'description' | translate }}</p>
-        <span class="count">{{ postType.total_counts }}</span></a
-      >
-    }
-  </div>
+<section class="post-types-selection">
+  <h2 class="heading">
+    {{ translatePath + 'heading' | translate }}
+  </h2>
+
+  @if (isLoading) {
+    <app-loading [params]="{ element: translatePath + 'loading' | translate }"></app-loading>
+  } @else if (postTypes.length > 0) {
+    <div class="tiles">
+      @for (postType of filteredPostTypes; track $index) {
+        @let PostTypes = translatePath + 'tile' + '.' + postType.name + '.';
+
+        <a
+          class="tile"
+          [routerLink]="'/posts-list'"
+          [queryParams]="{
+            context: context,
+            selectedEntity: selectedEntity,
+            selectedEntityValue: selectedEntityValue,
+            endPoint: endPoint,
+            selectedPostType: getQueryParam(postType?.name),
+          }"
+        >
+          <div class="content">
+            <span
+              class="container"
+              [innerHTML]="svgIconsService.returnIcon(postType.name, 'tile-icon')"
+              aria-hidden="true"
+            ></span>
+            <span class="name">{{ PostTypes + 'title' | translate }}</span>
+          </div>
+          <div class="description-container">
+            <p class="description">
+              {{ PostTypes + 'description' | translate }}
+            </p>
+          </div>
+          <div
+            class="count-container"
+            [attr.aria-label]="(translatePathAriaLabel + 'totalCounts' | translate) + ' ' + postType.total_counts"
+          >
+            <span
+              class="count"
+              aria-hidden="true"
+              >{{ postType.total_counts }}</span
+            >
+          </div>
+        </a>
+      }
+    </div>
+  } @else {
+    <app-no-results></app-no-results>
+  }
 </section>

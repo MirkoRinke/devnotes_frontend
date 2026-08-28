@@ -1,9 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject, DestroyRef, OnInit, OnDestroy } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { HttpParams } from '@angular/common/http';
-
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 
 import { ApiService } from '../../services/api.service';
 import { SvgIconsService } from '../../services/svg.icons.service';
@@ -22,52 +20,65 @@ import { PostListAllowedEntitiesEnums } from '../../enums/post-list-allowed-enti
 import { RegexEnums } from '../../enums/regex';
 
 import { TranslatePipe } from '../../i18n/translate-pipe';
+import { NoResults } from '../../components/no-results/no-results';
+import { Loading } from '../../components/loading/loading';
 
 @Component({
   selector: 'app-post-types-selection',
-  imports: [RouterLink, TranslatePipe],
+  imports: [RouterLink, TranslatePipe, NoResults, Loading],
   templateUrl: './post-types-selection.html',
   styleUrl: './post-types-selection.scss',
 })
-export class PostTypesSelection {
-  context: PostTypesParamsInterface['context'] = null;
-  endPoint: PostTypesParamsInterface['endPoint'] = null;
-  selectedEntity: PostTypesParamsInterface['entity'] = null;
-  selectedEntityValue: PostTypesParamsInterface['entityValue'] = null;
+export class PostTypesSelection implements OnInit, OnDestroy {
+  public context: PostTypesParamsInterface['context'] = null;
+  public endPoint: PostTypesParamsInterface['endPoint'] = null;
+  public selectedEntity: PostTypesParamsInterface['entity'] = null;
+  public selectedEntityValue: PostTypesParamsInterface['entityValue'] = null;
 
-  postTypes: PostTypesInterface[] = [];
-  filteredPostTypes: PostTypesInterface[] = [];
+  public isLoading: boolean = true;
+  public postTypes: PostTypesInterface[] = [];
+  public filteredPostTypes: PostTypesInterface[] = [];
 
-  totalCount: number = 0;
-  allTypesOption: PostTypesInterface[] = [];
+  private totalCount: number = 0;
+  private allTypesOption: PostTypesInterface[] = [];
 
-  currentUserId: number | null = null;
+  private currentUserId: number | null = null;
 
-  private destroy$ = new Subject<void>();
+  private readonly destroyRef = inject(DestroyRef);
 
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private apiService: ApiService,
-    public svgIconsService: SvgIconsService,
-    public searchService: SearchService,
-    private translationService: TranslationService,
-    private authService: AuthService,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly apiService: ApiService,
+    public readonly svgIconsService: SvgIconsService,
+    public readonly searchService: SearchService,
+    private readonly translationService: TranslationService,
+    private readonly authService: AuthService,
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.currentUserId = this.authService.getCurrentUserId();
-    this.route.queryParams.subscribe((params) => {
+    this.processQueryParams();
+  }
+
+  ngOnDestroy(): void {
+    this.searchService.clear();
+    this.searchService.enableSearch(false);
+  }
+
+  private processQueryParams(): void {
+    this.route.queryParams.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((params) => {
       const parsed = this.parseQueryParams(params);
       if (!this.areParamsValid(parsed)) {
-        this.router.navigate(['/']);
+        console.warn('Invalid query parameters');
+        this.router.navigate(['/bad-gateway']);
         return;
       }
 
       const restrictedEndpoints = ['USER_POSTS', 'FAVORITE_POSTS'];
       if (parsed.endPoint && restrictedEndpoints.includes(parsed.endPoint) && this.currentUserId === null) {
-        this.router.navigate(['/']);
-        console.warn('User ID is not available. Redirecting to home page.');
+        console.warn('Invalid access attempt to restricted endpoint without authentication');
+        this.router.navigate(['/bad-gateway']);
         return;
       }
 
@@ -80,19 +91,11 @@ export class PostTypesSelection {
     });
   }
 
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
-
-    this.searchService.clear();
-    this.searchService.enableSearch(false);
-  }
-
   /**
    * Subscribe to search input changes
    */
   private searchValueInput(): void {
-    this.searchService.searchValue$.pipe(takeUntil(this.destroy$)).subscribe((inputValue) => {
+    this.searchService.searchValue$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((inputValue) => {
       this.filterFunction(inputValue || '');
     });
   }
@@ -110,14 +113,12 @@ export class PostTypesSelection {
       this.filteredPostTypes = this.filteredPostTypes.filter((postType) => {
         const matchOriginal = postType.name.toLowerCase().startsWith(searchTerm);
 
-        const translationKey = `PostTypes.${postType.name}.title`;
+        const translationKey = `PostTypes.tile.${postType.name}.title`;
         const translatedName = this.translationService.getTranslation(translationKey).toLowerCase();
         const matchTranslated = translatedName.startsWith(searchTerm);
 
         return matchOriginal || matchTranslated;
       });
-    } else {
-      this.filteredPostTypes = [...this.allTypesOption, ...this.postTypes];
     }
   }
 
@@ -143,14 +144,12 @@ export class PostTypesSelection {
    * @returns
    */
   private areParamsValid(parsed: PostTypesParamsInterface): boolean {
-    return (
-      (parsed.context === null || typeof parsed.context === 'string') &&
-      parsed.endPoint !== null &&
-      parsed.endPoint in ApiEndpointEnums &&
-      parsed.entityValue !== null &&
-      new RegExp(RegexEnums.entityValue).test(parsed.entityValue) &&
-      Object.values(PostListAllowedEntitiesEnums).includes(parsed.entity as PostListAllowedEntitiesEnums)
-    );
+    const isContextValid = parsed.context === null || typeof parsed.context === 'string';
+    const isEndPointValid = parsed.endPoint !== null && parsed.endPoint in ApiEndpointEnums;
+    const isEntityValueValid = parsed.entityValue !== null && new RegExp(RegexEnums.entityValue).test(parsed.entityValue);
+    const isEntityValid = Object.values(PostListAllowedEntitiesEnums).includes(parsed.entity as PostListAllowedEntitiesEnums);
+
+    return isContextValid && isEndPointValid && isEntityValueValid && isEntityValid;
   }
 
   /**
@@ -188,13 +187,10 @@ export class PostTypesSelection {
 
         this.searchService.dataLoaded(true);
 
-        if (this.postTypes.length === 0) {
-          this.router.navigate(['/']);
-          console.warn('No post types found for the selected entity and tech.');
-        }
+        this.isLoading = false;
       },
-      error: (error) => {
-        console.error('Error fetching post types:', error);
+      error: () => {
+        this.router.navigate(['/bad-gateway']);
       },
     });
   }
@@ -251,7 +247,7 @@ export class PostTypesSelection {
    * @param name
    * @returns
    */
-  getQueryParam(name: string | undefined): string | null {
+  public getQueryParam(name: string | undefined): string | null {
     if (!name || name === 'all_types') {
       return null;
     }
