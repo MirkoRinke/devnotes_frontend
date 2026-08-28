@@ -2,7 +2,7 @@
 @let translatePathAriaLabel = translatePath + 'ariaLabel' + '.';
 
 @if (tile && endPoint && context) {
-  <div class="tech-tile">
+  <article class="tech-tile">
     <a
       class="tile"
       [routerLink]="'/post-types-selection'"
@@ -15,11 +15,12 @@
         <span
           class="container"
           [innerHTML]="svgIconsService.returnIcon(tile.name, 'tile-icon')"
+          aria-hidden="true"
         ></span>
       </div>
-      <div class="footer">
+      <footer class="footer">
         <span class="name">{{ tile.name }}</span>
-      </div>
+      </footer>
     </a>
     @if (authService.isLoggedIn()) {
       <button
@@ -35,5 +36,5 @@
         ></span>
       </button>
     }
-  </div>
+  </article>
 }

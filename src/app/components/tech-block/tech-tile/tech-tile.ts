@@ -1,7 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject, DestroyRef, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 
 import { AvailableValuesInterface } from '../../../interfaces/available-values';
 
@@ -21,7 +20,7 @@ import { PageContextEnums } from '../../../enums/context';
   templateUrl: './tech-tile.html',
   styleUrl: './tech-tile.scss',
 })
-export class TechTile {
+export class TechTile implements OnInit {
   @Input() context: PageContextEnums | null = null;
   @Input() endPoint: keyof typeof ApiEndpointEnums | null = null;
 
@@ -32,7 +31,7 @@ export class TechTile {
   private isProcessingFavorites = false;
   public isFavorite: boolean = false;
 
-  private destroy$ = new Subject<void>();
+  private readonly destroyRef = inject(DestroyRef);
 
   constructor(
     public readonly svgIconsService: SvgIconsService,
@@ -41,13 +40,8 @@ export class TechTile {
     public readonly authService: AuthService,
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.getUserFavoriteTechStack();
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 
   /**
@@ -84,10 +78,10 @@ export class TechTile {
     this.updateLocalState(tile.name, wasFavorite);
 
     this.apiService.patch(url, data).subscribe({
-      next: (response) => {
+      next: () => {
         this.isProcessingFavorites = false;
       },
-      error: (error) => {
+      error: () => {
         this.updateLocalState(tile.name, !wasFavorite);
         this.isProcessingFavorites = false;
       },
@@ -114,7 +108,7 @@ export class TechTile {
    * Fetches the user's favorite tech stack from the service.
    */
   private getUserFavoriteTechStack(): void {
-    this.userFavoriteTechnologiesService.favoriteTechStack$.pipe(takeUntil(this.destroy$)).subscribe((stack) => {
+    this.userFavoriteTechnologiesService.favoriteTechStack$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((stack) => {
       this.favoriteTechStack = stack;
       this.isFavorite = this.isFavoriteTech();
     });
