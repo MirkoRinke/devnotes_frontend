@@ -18,7 +18,7 @@ export class NoResults {
    *
    * @returns
    */
-  ariaLabelKey(): string {
+  public ariaLabelKey(): string {
     if (this.params) {
       return 'noResultsParams';
     } else {
@@ -31,7 +31,7 @@ export class NoResults {
    *
    * @returns
    */
-  ariaLabelParams(): ParamsInterface | null {
+  public ariaLabelParams(): ParamsInterface | null {
     return this.params ? this.params : null;
   }
 }

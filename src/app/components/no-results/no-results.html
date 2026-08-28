@@ -1,5 +1,8 @@
 @let translatePath = 'NoResults' + '.';
 
-<div class="no-results">
-  <h3>{{ translatePath + ariaLabelKey() | translate: ariaLabelParams() }}</h3>
+<div
+  class="no-results"
+  role="status"
+>
+  <span class="no-results-text">{{ translatePath + ariaLabelKey() | translate: ariaLabelParams() }}</span>
 </div>
