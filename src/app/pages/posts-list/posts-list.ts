@@ -8,9 +8,6 @@ import { forkJoin } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
 
-import { QueryParamsDropdown } from '../../components/query-params-dropdown/query-params-dropdown';
-import { QueryParamsDatepicker } from '../../components/query-params-datepicker/query-params-datepicker';
-
 import { ApiService } from '../../services/api.service';
 import { AvailableValuesService } from '../../services/available-values.service';
 import { SearchService } from '../../services/search.service';
@@ -23,6 +20,8 @@ import type { ApiResponseArrayInterface } from '../../interfaces/api-response';
 import type { PostInterface } from '../../interfaces/post';
 import type { PaginationInfoInterface } from '../../interfaces/pagination-info';
 import type { PostListParamsInterface } from '../../interfaces/post-list-params';
+import type { FilterValuesInterface } from '../../interfaces/posts-list-filter-bar';
+
 import type { Params } from '@angular/router';
 
 import { ApiEndpointEnums } from '../../enums/api-endpoint';
@@ -31,10 +30,11 @@ import { RegexEnums } from '../../enums/regex';
 
 import { PostListElement } from '../../components/post-list-element/post-list-element';
 import { SectionPagination } from '../../components/section-pagination/section-pagination';
+import { PostsListFilterBar } from '../../components/posts-list-filter-bar/posts-list-filter-bar';
 
 @Component({
   selector: 'app-posts-list',
-  imports: [QueryParamsDropdown, QueryParamsDatepicker, PostListElement, SectionPagination],
+  imports: [PostListElement, SectionPagination, PostsListFilterBar],
   templateUrl: './posts-list.html',
   styleUrl: './posts-list.scss',
 })
@@ -55,11 +55,13 @@ export class PostsList {
   minDate: string = environment.RELEASE_DATE;
   maxDate: string = this.today.getFullYear() + '-' + String(this.today.getMonth() + 1).padStart(2, '0') + '-' + String(this.today.getDate()).padStart(2, '0');
 
-  selectedFields: string = 'id,title,category,likes_count,comments_count,created_at,status';
+  selectedFields: string = 'id,title,category,likes_count,comments_count,status,updated_at';
 
   entityValueParams: string[] = [];
   postTypeParams: string[] = [];
   categoryParams: string[] = [];
+
+  filterValues: FilterValuesInterface | null = null;
 
   postsList: PostInterface[] = [];
   paginationInfo: PaginationInfoInterface<PostInterface> = {} as PaginationInfoInterface<PostInterface>;
@@ -109,6 +111,7 @@ export class PostsList {
 
       this.setSelectedValues(parsed);
       this.setParams(parsed);
+      this.createFilterValues();
 
       this.initResizeSubscription(parsed);
       this.listElementsPerPage(parsed, true);
@@ -142,7 +145,7 @@ export class PostsList {
       dateFrom: params['dateFrom'] ?? null,
       dateTo: params['dateTo'] ?? null,
       status: params['status'] ?? null,
-      sort: params['sort'] ?? '-created_at',
+      sort: params['sort'] ?? '-updated_at',
       searchTerm: params['searchTerm'] ?? null,
       page: Number.isInteger(parseInt(params['page'])) ? parseInt(params['page']) : 1,
       perPage: Number.isInteger(parseInt(params['per_page'])) ? parseInt(params['per_page']) : 5,
@@ -194,12 +197,25 @@ export class PostsList {
   }
 
   /**
-   * Change detection value for dropdowns
-   *
-   * @returns
+   * Creates the filter values object based on the current selected values and available parameters. This object is used to manage the state of the filter bar and to pass the necessary data to child components.
    */
-  public changeDetectionValue(): string {
-    return 'changeDetectionValues' + this.endPoint + this.selectedEntity + this.selectedEntityValue + this.selectedPostType + this.selectedCategory + this.selectedSort + this.selectedStatus;
+  createFilterValues(): void {
+    this.filterValues = {
+      endPoint: this.endPoint,
+      selectedEntity: this.selectedEntity,
+      selectedEntityValue: this.selectedEntityValue,
+      selectedPostType: this.selectedPostType,
+      selectedCategory: this.selectedCategory,
+      selectedStatus: this.selectedStatus,
+      selectedDateFrom: this.selectedDateFrom,
+      selectedDateTo: this.selectedDateTo,
+      selectedSort: this.selectedSort,
+      minDate: this.minDate,
+      maxDate: this.maxDate,
+      entityValueParams: [...this.entityValueParams],
+      postTypeParams: [...this.postTypeParams],
+      categoryParams: [...this.categoryParams],
+    };
   }
 
   /**
@@ -330,7 +346,11 @@ export class PostsList {
     if (parsed.selectedPostType) params = params.set('filter[post_type]', parsed.selectedPostType);
     if (parsed.selectedEntityValue) params = params.set(`filter[${parsed.selectedEntity}.name]`, `eq:${parsed.selectedEntityValue}`);
     if (parsed.category) params = params.set('filter[category]', `eq:${parsed.category}`);
-    if (parsed.dateFrom || parsed.dateTo) params = params.set('filter[created_at]', `between:[${parsed.dateFrom ? parsed.dateFrom : this.minDate},${parsed.dateTo ? parsed.dateTo : this.maxDate}]`);
+    if (parsed.dateFrom || parsed.dateTo) {
+      const from = parsed.dateFrom ? parsed.dateFrom : this.minDate;
+      const to = parsed.dateTo ? parsed.dateTo : this.maxDate;
+      params = params.set('filter[updated_at]', `between:[${from},${to}T23:59:59]`);
+    }
     if (parsed.sort) params = params.set('sort', `${parsed.sort}`);
 
     params = this.appendEndpointSpecificParams(params, parsed);
