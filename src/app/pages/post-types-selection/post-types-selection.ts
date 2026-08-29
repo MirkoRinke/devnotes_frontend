@@ -66,6 +66,10 @@ export class PostTypesSelection implements OnInit, OnDestroy {
     this.searchService.enableSearch(false);
   }
 
+  /**
+   * Process query parameters from the route and handle validation, setting selected values, and fetching post types.
+   * If the parameters are invalid or access is restricted, navigate to the "bad-gateway" page.
+   */
   private processQueryParams(): void {
     this.route.queryParams.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((params) => {
       const parsed = this.parseQueryParams(params);
