@@ -14,7 +14,7 @@
       <h3 class="title">{{ post.title }}</h3>
 
       <div class="metadata">
-        <time [attr.datetime]="post.created_at">{{ post.created_at | date: 'mediumDate' }}</time>
+        <time [attr.datetime]="post.updated_at">{{ post.updated_at | date: 'mediumDate' }}</time>
         <span> | {{ post.category }}</span>
       </div>
     </div>
