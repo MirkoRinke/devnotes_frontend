@@ -155,26 +155,38 @@ export class PostsList {
   /**
    * Check if parsed params are valid
    *
-   * @param param0
+   * @param parsed
    * @returns
    */
   private areParamsValid(parsed: PostListParamsInterface): boolean {
+    const isContextValid = parsed.context === null || typeof parsed.context === 'string';
+    const isEndPointValid = parsed.endPoint !== null && parsed.endPoint in ApiEndpointEnums;
+    const isEntityValueValid = parsed.selectedEntityValue !== null && new RegExp(RegexEnums.entityValue).test(parsed.selectedEntityValue);
+    const isEntityValid = Object.values(PostListAllowedEntitiesEnums).includes(parsed.selectedEntity as PostListAllowedEntitiesEnums);
+    const isPageValid = Number.isInteger(parsed.page);
+    const isPerPageValid = Number.isInteger(parsed.perPage);
+    const isPostTypeValid = parsed.selectedPostType === null || typeof parsed.selectedPostType === 'string';
+    const isCategoryValid = parsed.category === null || typeof parsed.category === 'string';
+    const isDateFromValid = parsed.dateFrom === null || new RegExp(RegexEnums.datepicker).test(parsed.dateFrom);
+    const isDateToValid = parsed.dateTo === null || new RegExp(RegexEnums.datepicker).test(parsed.dateTo);
+    const isStatusValid = parsed.status === null || typeof parsed.status === 'string';
+    const isSortValid = parsed.sort === null || typeof parsed.sort === 'string';
+    const isSearchTermValid = parsed.searchTerm === null || typeof parsed.searchTerm === 'string';
+
     return (
-      (parsed.context === null || typeof parsed.context === 'string') &&
-      parsed.endPoint !== null &&
-      parsed.endPoint in ApiEndpointEnums &&
-      parsed.selectedEntityValue !== null &&
-      new RegExp(RegexEnums.entityValue).test(parsed.selectedEntityValue) &&
-      Object.values(PostListAllowedEntitiesEnums).includes(parsed.selectedEntity as PostListAllowedEntitiesEnums) &&
-      Number.isInteger(parsed.page) &&
-      Number.isInteger(parsed.perPage) &&
-      (parsed.selectedPostType === null || typeof parsed.selectedPostType === 'string') &&
-      (parsed.category === null || typeof parsed.category === 'string') &&
-      (parsed.dateFrom === null || new RegExp(RegexEnums.datepicker).test(parsed.dateFrom)) &&
-      (parsed.dateTo === null || new RegExp(RegexEnums.datepicker).test(parsed.dateTo)) &&
-      (parsed.status === null || typeof parsed.status === 'string') &&
-      (parsed.sort === null || typeof parsed.sort === 'string') &&
-      (parsed.searchTerm === null || typeof parsed.searchTerm === 'string')
+      isContextValid &&
+      isEndPointValid &&
+      isEntityValueValid &&
+      isEntityValid &&
+      isPageValid &&
+      isPerPageValid &&
+      isPostTypeValid &&
+      isCategoryValid &&
+      isDateFromValid &&
+      isDateToValid &&
+      isStatusValid &&
+      isSortValid &&
+      isSearchTermValid
     );
   }
 
