@@ -82,7 +82,7 @@ export const CONTENT_UI_DE: ContentUI = {
     ariaLabel: {},
   },
   NoResults: {
-    noResultsParams: '{element} wurden nicht gefunden.',
+    noResultsParams: 'Keine {element} gefunden.',
     noResults: 'Keine Ergebnisse gefunden.',
     ariaLabel: {},
   },
@@ -141,5 +141,9 @@ export const CONTENT_UI_DE: ContentUI = {
     ariaLabel: {
       totalCounts: 'Beiträge verfügbar',
     },
+  },
+  PostList: {
+    posts: 'Beiträge',
+    ariaLabel: {},
   },
 };
