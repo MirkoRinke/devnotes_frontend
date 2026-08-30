@@ -83,8 +83,6 @@ export class PostsList implements OnInit {
   private initialLoad = true;
   private resizeSub: Subscription | null = null;
 
-  // statusMessage: string | null = null;
-
   private readonly destroyRef = inject(DestroyRef);
 
   private resize$ = new Subject<void>();
