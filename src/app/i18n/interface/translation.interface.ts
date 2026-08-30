@@ -21,6 +21,7 @@ import { NoResultsMessagesInterface } from './components/no-results.interface';
 import { TechTileMessagesInterface } from './components/tech-tile.interface';
 import { SectionStepperMessagesInterface } from './components/section-stepper.interface';
 import { FavoritesRefreshButtonMessagesInterface } from './components/favorites-refresh-button.interface';
+import { PostListMessagesInterface } from './components/posts-list';
 
 export interface Content extends ContentUI, LegalContent, Notifications {}
 
@@ -41,6 +42,7 @@ export interface ContentUI {
   TechTile: TechTileMessagesInterface;
   SectionStepper: SectionStepperMessagesInterface;
   FavoritesRefreshButton: FavoritesRefreshButtonMessagesInterface;
+  PostList: PostListMessagesInterface;
 }
 
 export interface LegalContent {
