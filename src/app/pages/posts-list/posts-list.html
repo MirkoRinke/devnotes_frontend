@@ -1,13 +1,16 @@
-<section class="posts-list-page">
+@let translatePath = 'PostList' + '.';
+<!-- @let translatePathAriaLabel = translatePath + 'ariaLabel' + '.'; -->
+
+<section class="posts-list">
   <app-posts-list-filter-bar [filterValues]="filterValues"></app-posts-list-filter-bar>
 
   <div
     #postListContainer
-    class="posts-list"
+    class="list"
   >
-    @if (postsList.length === 0) {
-      <p class="statusMessage">{{ statusMessage ? statusMessage : 'Daten werden geladen...' }}</p>
-    } @else {
+    @if (isLoading) {
+      <app-loading [params]="{ element: (translatePath + 'posts' | translate) }"></app-loading>
+    } @else if (postsList.length > 0) {
       @for (post of postsList; track $index) {
         <app-post-list-element
           [context]="context"
@@ -18,6 +21,8 @@
           [selectedPostType]="selectedPostType"
         ></app-post-list-element>
       }
+    } @else {
+      <app-no-results [params]="{ element: (translatePath + 'posts' | translate) }"></app-no-results>
     }
   </div>
   <app-section-pagination

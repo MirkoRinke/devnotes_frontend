@@ -20,7 +20,7 @@
   --pagination-height: #{px-to-rem(50)};
 }
 
-.posts-list-page {
+.posts-list {
   @include display-flex(stretch, start, column);
   flex-grow: 1;
   gap: var(--post-list-page-gap);
@@ -29,7 +29,7 @@
   max-width: var(--content-max-width);
   margin-inline: auto;
 
-  .posts-list {
+  .list {
     @include display-flex(stretch, start, column);
     flex-grow: 1;
 

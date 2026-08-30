@@ -1,9 +1,10 @@
-import { Component, HostListener, ElementRef, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, HostListener, ElementRef, ViewChild, ChangeDetectorRef, inject, DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpParams } from '@angular/common/http';
 
 import { Subject, Subscription } from 'rxjs';
-import { take, takeUntil, debounceTime } from 'rxjs/operators';
+import { take, debounceTime, max } from 'rxjs/operators';
 import { forkJoin } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
@@ -12,6 +13,8 @@ import { ApiService } from '../../services/api.service';
 import { AvailableValuesService } from '../../services/available-values.service';
 import { SearchService } from '../../services/search.service';
 import { AuthService } from '../../services/auth.service';
+
+import { TranslatePipe } from '../../i18n/translate-pipe';
 
 import { getCssVariableValue, getHeightById, getElementPositionFrom } from '../../utils/css-helper';
 import { blurActiveElementInside } from '../../utils/dom-helper';
@@ -31,14 +34,16 @@ import { RegexEnums } from '../../enums/regex';
 import { PostListElement } from '../../components/post-list-element/post-list-element';
 import { SectionPagination } from '../../components/section-pagination/section-pagination';
 import { PostsListFilterBar } from '../../components/posts-list-filter-bar/posts-list-filter-bar';
+import { Loading } from '../../components/loading/loading';
+import { NoResults } from '../../components/no-results/no-results';
 
 @Component({
   selector: 'app-posts-list',
-  imports: [PostListElement, SectionPagination, PostsListFilterBar],
+  imports: [PostListElement, SectionPagination, PostsListFilterBar, Loading, NoResults, TranslatePipe],
   templateUrl: './posts-list.html',
   styleUrl: './posts-list.scss',
 })
-export class PostsList {
+export class PostsList implements OnInit {
   context: PostListParamsInterface['context'] = null;
   endPoint: PostListParamsInterface['endPoint'] = null;
   selectedEntity: PostListParamsInterface['selectedEntity'] = null;
@@ -53,7 +58,7 @@ export class PostsList {
 
   today = new Date();
   minDate: string = environment.RELEASE_DATE;
-  maxDate: string = this.today.getFullYear() + '-' + String(this.today.getMonth() + 1).padStart(2, '0') + '-' + String(this.today.getDate()).padStart(2, '0');
+  maxDate: string = this.today.toISOString().slice(0, 10);
 
   selectedFields: string = 'id,title,category,likes_count,comments_count,status,updated_at';
 
@@ -62,6 +67,8 @@ export class PostsList {
   categoryParams: string[] = [];
 
   filterValues: FilterValuesInterface | null = null;
+
+  public isLoading = true;
 
   postsList: PostInterface[] = [];
   paginationInfo: PaginationInfoInterface<PostInterface> = {} as PaginationInfoInterface<PostInterface>;
@@ -76,10 +83,11 @@ export class PostsList {
   private initialLoad = true;
   private resizeSub: Subscription | null = null;
 
-  statusMessage: string | null = null;
+  // statusMessage: string | null = null;
+
+  private readonly destroyRef = inject(DestroyRef);
 
   private resize$ = new Subject<void>();
-  private destroy$ = new Subject<void>();
 
   constructor(
     private route: ActivatedRoute,
@@ -91,21 +99,31 @@ export class PostsList {
     private authService: AuthService,
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.currentUserId = this.authService.getCurrentUserId();
-    this.route.queryParams.subscribe((params) => {
+    this.processQueryParams();
+    this.searchService.searchMode('posts-list');
+    this.searchService.enableSearch(true);
+  }
+
+  /**
+   * Process query parameters from the route and handle validation, setting selected values, and fetching posts list.
+   * If the parameters are invalid or access is restricted, navigate to the "bad-gateway" page.
+   */
+  private processQueryParams(): void {
+    this.route.queryParams.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((params) => {
       const parsed = this.parseQueryParams(params);
 
       if (!this.areParamsValid(parsed)) {
-        this.router.navigate(['/']);
-        console.warn('Missing or invalid query parameters. Redirecting to home page.');
+        console.warn('Invalid query parameters');
+        this.router.navigate(['/bad-gateway']);
         return;
       }
 
       const restrictedEndpoints = ['USER_POSTS', 'FAVORITE_POSTS'];
       if (parsed.endPoint && restrictedEndpoints.includes(parsed.endPoint) && this.currentUserId === null) {
-        this.router.navigate(['/']);
-        console.warn('User ID is not available. Redirecting to home page.');
+        console.warn('Invalid access attempt to restricted endpoint without authentication');
+        this.router.navigate(['/bad-gateway']);
         return;
       }
 
@@ -119,13 +137,6 @@ export class PostsList {
       this.searchService.syncFromParameters(params);
       this.searchService.cageIcon(parsed.selectedEntityValue);
     });
-    this.searchService.searchMode('posts-list');
-    this.searchService.enableSearch(true);
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 
   /**
@@ -236,7 +247,7 @@ export class PostsList {
    * @param element
    */
   @ViewChild('postListContainer') set postListContainerRef(element: ElementRef) {
-    if (element) {
+    if (element && element !== this.postListContainer) {
       this.postListContainer = element;
       requestAnimationFrame(() => {
         this.resize$.next();
@@ -260,7 +271,7 @@ export class PostsList {
       this.resizeSub.unsubscribe();
     }
 
-    this.resizeSub = this.resize$.pipe(debounceTime(200), takeUntil(this.destroy$)).subscribe(() => {
+    this.resizeSub = this.resize$.pipe(debounceTime(200), takeUntilDestroyed(this.destroyRef)).subscribe(() => {
       this.listElementsPerPage(parsed, false);
     });
   }
@@ -291,7 +302,7 @@ export class PostsList {
     const listGap = getCssVariableValue(style, '--posts-list-gap');
     const paginationHeight = getCssVariableValue(style, '--pagination-height');
     const footerHeight = getHeightById('app-footer');
-    const buffer = getCssVariableValue(style, '--list-element-max-height');
+    const buffer = listElementSize;
 
     /**
      * Available height for the list: We take the window height and subtract the container's
@@ -379,15 +390,11 @@ export class PostsList {
       next: (response) => {
         this.postsList = response.data.data;
         this.paginationInfo = response.data as PaginationInfoInterface<PostInterface>;
-        if (this.postsList.length === 0) {
-          console.warn('No posts found for the selected criteria');
-          this.statusMessage = 'Keine Beiträge gefunden.';
-        }
         this.searchService.dataLoaded(true);
+        this.isLoading = false;
       },
-      error: (error) => {
-        console.error('Error fetching posts list:', error);
-        this.statusMessage = 'Wir haben grade Probleme. Bitte versuche es später noch einmal.';
+      error: () => {
+        this.router.navigate(['/bad-gateway']);
       },
     });
   }
@@ -537,9 +544,9 @@ export class PostsList {
           this.getPostsList(parsed);
         }
       },
-      error: (error) => {
-        console.error('Error validating dropdown parameters:', error);
-        this.statusMessage = 'Wir haben grade Probleme. Bitte versuche es später noch einmal.';
+      error: () => {
+        console.warn('Error fetching available values for dropdown validation');
+        this.router.navigate(['/bad-gateway']);
       },
     });
   }
