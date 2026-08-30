@@ -12,10 +12,10 @@ import type { ParamsInterface } from '../../interfaces/error-handling';
 })
 export class Loading implements OnInit, OnDestroy {
   @Input() params: ParamsInterface | null = null;
+  @Input() defaultTimeout: number = 1000;
 
   public showLoadingIndicator = false;
 
-  private readonly defaultTimeout = 1000;
   private showTimeout?: ReturnType<typeof setTimeout>;
 
   ngOnInit(): void {
