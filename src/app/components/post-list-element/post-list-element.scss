@@ -3,13 +3,19 @@
 @use '../../../mixins' as *;
 
 .post-list-element {
-  @include display-flex(center, space-between, row);
+  @include display-flex($align: center, $justify: space-between, $gap: px-to-rem(25));
   background-color: var(--page-primary-color-100);
   border-radius: px-to-rem(15);
   padding-inline: px-to-rem(50);
 
-  min-height: var(--list-element-min-height);
+  @media (max-width: var.$breakpoint-md) {
+    padding-inline: px-to-rem(25);
+  }
+
   max-height: var(--list-element-max-height);
+  min-height: var(--list-element-min-height);
+
+  height: 100%;
 
   transition: box-shadow var.$transition-duration-medium ease-in-out;
   &:hover {
@@ -18,56 +24,87 @@
   }
 
   .left-section {
-    @include display-flex(start, start, column);
-    gap: px-to-rem(5);
+    @include display-flex($align: start, $justify: start, $direction: column, $gap: px-to-rem(5));
+    flex: 1;
+    min-width: 0;
+
+    @media (max-width: var.$breakpoint-md) {
+      gap: px-to-rem(2.5);
+    }
 
     .title {
       @include font-settings(16, 700);
+      @include singleline-ellipsis();
     }
 
     .metadata {
-      @include font-settings(14);
+      @include display-flex($align: center, $justify: start, $gap: px-to-rem(10));
+
+      .date {
+        @include font-settings(14, 400);
+      }
+
+      .category {
+        @include font-settings(14, 400);
+
+        @media (max-width: var.$breakpoint-sm) {
+          display: none;
+        }
+      }
     }
   }
 
   .right-section {
+    height: 35%;
+    flex: 0 0 auto;
+
     .engagement-metrics {
-      @include display-flex(center, center, row);
-      gap: px-to-rem(20);
+      @include display-flex($align: center, $justify: center, $gap: px-to-rem(20));
+      height: 100%;
 
       .metric {
-        @include display-flex(center, center, row);
-        gap: px-to-rem(10);
+        @include display-flex($align: center, $justify: center, $gap: px-to-rem(10));
+        height: 100%;
+        min-width: 0;
 
-        .icon {
-          @include display-flex(center, center, row);
+        @media (max-width: var.$breakpoint-sm) {
+          display: none;
+        }
 
-          &::ng-deep .like,
-          &::ng-deep .comment {
-            fill: var(--font-primary-color-100);
-            width: px-to-rem(30);
-            height: px-to-rem(30);
-            margin-right: px-to-rem(10);
+        .icon-container {
+          height: 100%;
+          min-width: 0;
+          aspect-ratio: 1 / 1;
+
+          @include svg-icon($icon-class: 'metric-icon', $height: 100%, $width: 100%, $fill-color: var(--font-primary-color-100));
+        }
+      }
+
+      .status {
+        @include display-flex($align: center, $justify: center);
+        height: 100%;
+        min-width: 0;
+
+        .status-icon {
+          height: 100%;
+          min-width: 0;
+          aspect-ratio: 1 / 1;
+
+          --status-fill-color: var(--font-primary-color-100);
+
+          @include svg-icon($icon-class: 'status-icon', $height: 100%, $width: 100%, $fill-color: var(--status-fill-color));
+
+          &.draft {
+            --status-fill-color: var(--font-primary-color-100);
           }
-
-          &::ng-deep .draft,
-          &::ng-deep .private,
-          &::ng-deep .published,
-          &::ng-deep .archived {
-            width: px-to-rem(30);
-            height: px-to-rem(30);
-            transition: fill var.$transition-duration-medium ease-in-out;
-            fill: var(--font-primary-color-50);
-
-            &.private {
-              fill: rgb(182, 112, 202);
-            }
-            &.published {
-              fill: rgb(156, 220, 254);
-            }
-            &.archived {
-              fill: rgb(196, 145, 117);
-            }
+          &.private {
+            --status-fill-color: rgb(182, 112, 202);
+          }
+          &.published {
+            --status-fill-color: rgb(156, 220, 254);
+          }
+          &.archived {
+            --status-fill-color: rgb(196, 145, 117);
           }
         }
       }
