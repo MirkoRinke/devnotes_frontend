@@ -3,7 +3,7 @@
 @use '../../../mixins' as *;
 
 :host {
-  @include display-flex(stretch, start);
+  @include display-flex($align: stretch, $justify: start);
   flex-grow: 1;
   width: 100%;
 
@@ -17,26 +17,27 @@
   --list-element-max-height: #{px-to-rem(80)};
   --posts-list-gap: #{px-to-rem(25)};
   --post-list-page-gap: #{px-to-rem(25)};
-  --pagination-height: #{px-to-rem(50)};
+  --pagination-height: #{px-to-rem(25)};
+
+  @media (max-width: var.$breakpoint-md) {
+    --list-element-min-height: #{px-to-rem(60)};
+    --list-element-max-height: #{px-to-rem(60)};
+    --posts-list-gap: #{px-to-rem(12.5)};
+    --post-list-page-gap: #{px-to-rem(25)};
+    --pagination-height: #{px-to-rem(12.5)};
+  }
 }
 
 .posts-list {
-  @include display-flex(stretch, start, column);
+  @include display-flex($align: stretch, $justify: start, $direction: column, $gap: var(--post-list-page-gap));
   flex-grow: 1;
-  gap: var(--post-list-page-gap);
 
   width: 100%;
   max-width: var(--content-max-width);
   margin-inline: auto;
 
   .list {
-    @include display-flex(stretch, start, column);
+    @include display-flex($align: stretch, $justify: start, $direction: column, $gap: var(--posts-list-gap));
     flex-grow: 1;
-
-    gap: var(--posts-list-gap);
-
-    .statusMessage {
-      padding: px-to-rem(25) px-to-rem(50);
-    }
   }
 }

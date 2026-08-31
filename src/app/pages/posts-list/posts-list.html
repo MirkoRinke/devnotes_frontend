@@ -1,5 +1,4 @@
 @let translatePath = 'PostList' + '.';
-<!-- @let translatePathAriaLabel = translatePath + 'ariaLabel' + '.'; -->
 
 <section class="posts-list">
   <app-posts-list-filter-bar [filterValues]="filterValues"></app-posts-list-filter-bar>
@@ -25,8 +24,5 @@
       <app-no-results [params]="{ element: (translatePath + 'posts' | translate) }"></app-no-results>
     }
   </div>
-  <app-section-pagination
-    #paginationRef
-    [paginationInfo]="paginationInfo"
-  ></app-section-pagination>
+  <app-section-pagination [paginationInfo]="paginationInfo"></app-section-pagination>
 </section>

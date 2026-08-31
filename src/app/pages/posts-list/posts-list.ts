@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HttpParams } from '@angular/common/http';
 
 import { Subject, Subscription } from 'rxjs';
-import { take, debounceTime, max } from 'rxjs/operators';
+import { take, debounceTime } from 'rxjs/operators';
 import { forkJoin } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
@@ -44,41 +44,39 @@ import { NoResults } from '../../components/no-results/no-results';
   styleUrl: './posts-list.scss',
 })
 export class PostsList implements OnInit {
-  context: PostListParamsInterface['context'] = null;
-  endPoint: PostListParamsInterface['endPoint'] = null;
-  selectedEntity: PostListParamsInterface['selectedEntity'] = null;
-  selectedEntityValue: PostListParamsInterface['selectedEntityValue'] = null;
-  selectedPostType: PostListParamsInterface['selectedPostType'] = null;
+  public context: PostListParamsInterface['context'] = null;
+  public endPoint: PostListParamsInterface['endPoint'] = null;
+  public selectedEntity: PostListParamsInterface['selectedEntity'] = null;
+  public selectedEntityValue: PostListParamsInterface['selectedEntityValue'] = null;
+  public selectedPostType: PostListParamsInterface['selectedPostType'] = null;
 
-  selectedCategory: PostListParamsInterface['category'] = null;
-  selectedDateFrom: PostListParamsInterface['dateFrom'] = null;
-  selectedDateTo: PostListParamsInterface['dateTo'] = null;
-  selectedSort: PostListParamsInterface['sort'] = null;
-  selectedStatus: PostListParamsInterface['status'] = null;
+  private selectedCategory: PostListParamsInterface['category'] = null;
+  private selectedDateFrom: PostListParamsInterface['dateFrom'] = null;
+  private selectedDateTo: PostListParamsInterface['dateTo'] = null;
+  private selectedSort: PostListParamsInterface['sort'] = null;
+  private selectedStatus: PostListParamsInterface['status'] = null;
 
-  today = new Date();
-  minDate: string = environment.RELEASE_DATE;
-  maxDate: string = this.today.toISOString().slice(0, 10);
+  private readonly today = new Date();
+  private readonly minDate: string = environment.RELEASE_DATE;
+  private readonly maxDate: string = this.today.toISOString().slice(0, 10);
 
-  selectedFields: string = 'id,title,category,likes_count,comments_count,status,updated_at';
+  private readonly selectedFields: string = 'id,title,category,likes_count,comments_count,status,updated_at';
 
-  entityValueParams: string[] = [];
-  postTypeParams: string[] = [];
-  categoryParams: string[] = [];
+  private entityValueParams: string[] = [];
+  private postTypeParams: string[] = [];
+  private categoryParams: string[] = [];
 
-  filterValues: FilterValuesInterface | null = null;
+  public filterValues: FilterValuesInterface | null = null;
 
   public isLoading = true;
 
-  postsList: PostInterface[] = [];
-  paginationInfo: PaginationInfoInterface<PostInterface> = {} as PaginationInfoInterface<PostInterface>;
+  public postsList: PostInterface[] = [];
+  public paginationInfo: PaginationInfoInterface<PostInterface> = {} as PaginationInfoInterface<PostInterface>;
 
-  perPage: number | null = null;
-  postListContainer: ElementRef | null = null;
+  private perPage: number | null = null;
+  private postListContainer: ElementRef | null = null;
 
-  currentUserId: number | null = null;
-
-  @ViewChild('paginationRef', { read: ElementRef }) paginationRef!: ElementRef;
+  private currentUserId: number | null = null;
 
   private initialLoad = true;
   private resizeSub: Subscription | null = null;
@@ -88,13 +86,13 @@ export class PostsList implements OnInit {
   private resize$ = new Subject<void>();
 
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private apiService: ApiService,
-    private availableValuesService: AvailableValuesService,
-    private searchService: SearchService,
-    private cdr: ChangeDetectorRef,
-    private authService: AuthService,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly apiService: ApiService,
+    private readonly availableValuesService: AvailableValuesService,
+    private readonly searchService: SearchService,
+    private readonly cdr: ChangeDetectorRef,
+    private readonly authService: AuthService,
   ) {}
 
   ngOnInit(): void {
@@ -220,7 +218,7 @@ export class PostsList implements OnInit {
   /**
    * Creates the filter values object based on the current selected values and available parameters. This object is used to manage the state of the filter bar and to pass the necessary data to child components.
    */
-  createFilterValues(): void {
+  private createFilterValues(): void {
     this.filterValues = {
       endPoint: this.endPoint,
       selectedEntity: this.selectedEntity,
@@ -244,7 +242,7 @@ export class PostsList implements OnInit {
    *
    * @param element
    */
-  @ViewChild('postListContainer') set postListContainerRef(element: ElementRef) {
+  @ViewChild('postListContainer') public set postListContainerRef(element: ElementRef) {
     if (element && element !== this.postListContainer) {
       this.postListContainer = element;
       requestAnimationFrame(() => {
@@ -299,7 +297,7 @@ export class PostsList implements OnInit {
     const listElementSize = getCssVariableValue(style, '--list-element-max-height');
     const listGap = getCssVariableValue(style, '--posts-list-gap');
     const paginationHeight = getCssVariableValue(style, '--pagination-height');
-    const footerHeight = getHeightById('app-footer');
+    const footerHeight = getHeightById('footer-container');
     const buffer = listElementSize;
 
     /**
@@ -392,9 +390,29 @@ export class PostsList implements OnInit {
         this.isLoading = false;
       },
       error: () => {
+        console.warn('Error fetching posts list from API');
         this.router.navigate(['/bad-gateway']);
       },
     });
+  }
+
+  /**
+   * Single source of truth for the endpoint specific filter rules, shared by the HttpParams and query-string variants.
+   *
+   * @param parsed
+   * @returns
+   */
+  private getEndpointSpecificFilters(parsed: PostListParamsInterface): Record<string, string> {
+    const filters: Record<string, string> = {};
+
+    if (parsed.endPoint === 'POSTS') {
+      filters['filter[status]'] = 'eq:published';
+    } else if (parsed.endPoint === 'USER_POSTS') {
+      if (parsed.status) filters['filter[status]'] = `eq:${parsed.status}`;
+      if (this.currentUserId !== null) filters['filter[user_id]'] = `eq:${this.currentUserId}`;
+    }
+
+    return filters;
   }
 
   /**
@@ -405,16 +423,22 @@ export class PostsList implements OnInit {
    * @returns
    */
   private appendEndpointSpecificParams(params: HttpParams, parsed: PostListParamsInterface): HttpParams {
-    if (parsed.endPoint === 'POSTS') {
-      return params.set('filter[status]', 'eq:published');
-    }
+    const filters = this.getEndpointSpecificFilters(parsed);
+    const updatedParams = Object.entries(filters).reduce((accParams, [key, value]) => accParams.set(key, value), params);
 
-    if (parsed.endPoint === 'USER_POSTS') {
-      if (parsed.status) params = params.set('filter[status]', `eq:${parsed.status}`);
-      if (this.currentUserId !== null) params = params.set('filter[user_id]', `eq:${this.currentUserId}`);
-    }
+    return updatedParams;
+  }
 
-    return params;
+  /**
+   * Returns common filter query string based on endpoint
+   */
+  private getEndpointSpecificFilterQuery(parsed: PostListParamsInterface): string {
+    const filters = this.getEndpointSpecificFilters(parsed);
+    const filterQuery = Object.entries(filters)
+      .map(([key, value]) => `&${key}=${value}`)
+      .join('');
+
+    return filterQuery;
   }
 
   /**
@@ -472,22 +496,6 @@ export class PostsList implements OnInit {
       query += `&filter[post_type]=${encodeURIComponent(parsed.selectedPostType)}`;
     }
     return query + this.getEndpointSpecificFilterQuery(parsed);
-  }
-
-  /**
-   * Returns common filter query string based on endpoint
-   */
-  private getEndpointSpecificFilterQuery(parsed: PostListParamsInterface): string {
-    let query = '';
-
-    if (parsed.endPoint === 'POSTS') {
-      query += '&filter[status]=eq:published';
-    } else if (parsed.endPoint === 'USER_POSTS') {
-      if (parsed.status) query += `&filter[status]=eq:${parsed.status}`;
-      if (this.currentUserId !== null) query += `&filter[user_id]=eq:${this.currentUserId}`;
-    }
-
-    return query;
   }
 
   /**
