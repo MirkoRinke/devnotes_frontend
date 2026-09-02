@@ -215,6 +215,14 @@
   }
 }
 
+@mixin box-shadow-on-hover($hover-box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-50)) {
+  transition: box-shadow var.$transition-duration-medium ease-in-out;
+  &:hover {
+    box-shadow: $hover-box-shadow;
+    cursor: pointer;
+  }
+}
+
 @mixin dropdown-values($border-radius: px-to-rem(15), $docked: true, $orientation: left, $z-index: 10) {
   .values {
     @include display-flex(start, start, column);
