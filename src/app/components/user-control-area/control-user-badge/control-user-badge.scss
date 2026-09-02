@@ -9,7 +9,7 @@
 
   .user-badge {
     @include button-preset();
-    @include display-flex($align: center, $gap: px-to-rem(10));
+    @include display-flex($align: center);
     height: 100%;
   }
 }
