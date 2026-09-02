@@ -215,10 +215,11 @@
   }
 }
 
-@mixin box-shadow-on-hover($hover-box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-50)) {
+@mixin box-shadow-on($modifier, $box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-50)) {
   transition: box-shadow var.$transition-duration-medium ease-in-out;
-  &:hover {
-    box-shadow: $hover-box-shadow;
+
+  &#{$modifier} {
+    box-shadow: $box-shadow;
     cursor: pointer;
   }
 }
