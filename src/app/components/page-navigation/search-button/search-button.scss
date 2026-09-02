@@ -15,9 +15,7 @@
   position: relative;
   height: 100%;
 
-  &:has(.search-clear:hover) .search-button {
-    box-shadow: 0 0 px-to-rem(8) var(--red-color-100);
-  }
+  @include box-shadow-on($modifier: ':has(.search-clear:hover) .search-button', $box-shadow: 0 0 px-to-rem(8) var(--red-color-100));
 
   .search-button {
     @include button-preset();
@@ -29,9 +27,7 @@
 
     transition: box-shadow var.$transition-duration-medium ease-in-out;
 
-    &:hover:not(:has(.search-clear:hover)) {
-      box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-50);
-    }
+    @include box-shadow-on($modifier: ':hover:not(:has(.search-clear:hover))');
 
     .icon-container {
       height: 100%;

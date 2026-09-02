@@ -98,15 +98,8 @@
       }
 
       :host:not(.mobile-menu) & {
-        transition: box-shadow var.$transition-duration-medium ease-in-out;
-
-        &:hover {
-          box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-50);
-        }
-
-        &.active {
-          box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-100);
-        }
+        @include box-shadow-on($modifier: ':hover');
+        @include box-shadow-on($modifier: '.active', $box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-100));
       }
 
       .icon-container {

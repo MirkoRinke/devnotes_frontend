@@ -22,7 +22,7 @@
       padding-inline: px-to-rem(25);
     }
 
-    @include box-shadow-on-hover();
+    @include box-shadow-on($modifier: ':hover');
 
     .left-section {
       @include display-flex($align: start, $justify: start, $direction: column, $gap: px-to-rem(5));

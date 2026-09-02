@@ -35,10 +35,7 @@
     }
   }
 
-  transition: box-shadow var.$transition-duration-medium ease-in-out;
-  &:focus-within {
-    box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-50);
-  }
+  @include box-shadow-on($modifier: ':focus-within');
 
   .search {
     @include display-flex($align: center, $justify: center);

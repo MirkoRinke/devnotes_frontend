@@ -52,9 +52,7 @@
 
       padding: px-to-rem(15);
 
-      &:hover {
-        box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-50);
-      }
+      @include box-shadow-on($modifier: ':hover');
 
       .content {
         @include display-flex($align: center, $justify: start, $gap: px-to-rem(15));
