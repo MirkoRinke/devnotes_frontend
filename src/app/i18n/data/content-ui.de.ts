@@ -146,4 +146,18 @@ export const CONTENT_UI_DE: ContentUI = {
     posts: 'Beiträge',
     ariaLabel: {},
   },
+  PostListElement: {
+    ariaLabel: {
+      count: {
+        comment: '{count} Kommentare',
+        like: '{count} Gefällt mir',
+      },
+      status: {
+        draft: 'Beitragsstatus: Entwurf',
+        published: 'Beitragsstatus: Veröffentlicht',
+        private: 'Beitragsstatus: Privat',
+        archived: 'Beitragsstatus: Archiviert',
+      },
+    },
+  },
 };
