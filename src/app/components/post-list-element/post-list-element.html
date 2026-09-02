@@ -1,58 +1,86 @@
+@let translatePath = 'PostListElement' + '.';
+@let translatePathAriaLabel = translatePath + 'ariaLabel' + '.';
+
 @if (post) {
-  <article
-    class="post-list-element"
-    [routerLink]="['/post', post.id]"
-    [queryParams]="{
-      context: context,
-      endPoint: endPoint,
-      selectedEntity: selectedEntity,
-      selectedEntityValue: selectedEntityValue,
-      selectedPostType: selectedPostType,
-    }"
-  >
-    <div class="left-section">
-      <h3 class="title">{{ post.title }}</h3>
+  <article class="post-list-element">
+    <a
+      class="element"
+      [routerLink]="['/post', post.id]"
+      [queryParams]="{
+        context: context,
+        endPoint: endPoint,
+        selectedEntity: selectedEntity,
+        selectedEntityValue: selectedEntityValue,
+        selectedPostType: selectedPostType,
+      }"
+    >
+      <div class="left-section">
+        <h3 class="title">{{ post.title }}</h3>
 
-      <div class="metadata">
-        <time
-          class="date"
-          [attr.datetime]="post.updated_at"
-          >{{ post.updated_at | date: 'mediumDate' }}</time
-        >
-        <span class="category"> | {{ post.category }}</span>
+        <div class="metadata">
+          <time
+            class="date"
+            [attr.datetime]="post.updated_at"
+            >{{ post.updated_at | date: 'mediumDate' }}</time
+          >
+          <span class="category"> | {{ post.category }}</span>
+        </div>
       </div>
-    </div>
 
-    <div class="right-section">
-      <div class="engagement-metrics">
-        <div class="metric">
-          <span class="count">{{ post.comments_count }}</span>
-          <span
-            class="icon-container"
-            [innerHTML]="svgIconsService.returnIcon('comment', 'metric-icon')"
-            aria-hidden="true"
-          ></span>
-        </div>
-        <div class="metric">
-          <span class="count">{{ post.likes_count }}</span>
-          <span
-            class="icon-container"
-            [innerHTML]="svgIconsService.returnIcon('like', 'metric-icon')"
-            aria-hidden="true"
-          ></span>
-        </div>
-
-        @if (post.status && endPoint === 'USER_POSTS') {
-          <div class="status">
+      <div class="right-section">
+        <div class="engagement-metrics">
+          <div class="metric">
             <span
-              class="status-icon"
-              [class]="post.status"
-              [innerHTML]="svgIconsService.returnIcon(post.status + '_posts', 'status-icon')"
+              class="count-container"
+              [attr.aria-label]="translatePathAriaLabel + 'count.' + 'comment' | translate: { count: post.comments_count ?? 0 }"
+            >
+              <span
+                class="count"
+                aria-hidden="true"
+              >
+                {{ post.comments_count }}
+              </span>
+            </span>
+            <span
+              class="icon-container"
+              [innerHTML]="svgIconsService.returnIcon('comment', 'metric-icon')"
               aria-hidden="true"
             ></span>
           </div>
-        }
+          <div class="metric">
+            <span
+              class="count-container"
+              [attr.aria-label]="translatePathAriaLabel + 'count.' + 'like' | translate: { count: post.likes_count ?? 0 }"
+            >
+              <span
+                class="count"
+                aria-hidden="true"
+              >
+                {{ post.likes_count }}
+              </span>
+            </span>
+            <span
+              class="icon-container"
+              [innerHTML]="svgIconsService.returnIcon('like', 'metric-icon')"
+              aria-hidden="true"
+            ></span>
+          </div>
+
+          @if (post.status && endPoint === 'USER_POSTS') {
+            <div
+              class="status"
+              [attr.aria-label]="translatePathAriaLabel + 'status.' + post.status | translate"
+            >
+              <span
+                class="status-icon"
+                [class]="post.status"
+                [innerHTML]="svgIconsService.returnIcon(post.status + '_posts', 'status-icon')"
+                aria-hidden="true"
+              ></span>
+            </div>
+          }
+        </div>
       </div>
-    </div>
+    </a>
   </article>
 }

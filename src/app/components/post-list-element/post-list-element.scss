@@ -3,108 +3,117 @@
 @use '../../../mixins' as *;
 
 .post-list-element {
-  @include display-flex($align: center, $justify: space-between, $gap: px-to-rem(25));
-  background-color: var(--page-primary-color-100);
-  border-radius: px-to-rem(15);
-  padding-inline: px-to-rem(50);
-
-  @media (max-width: var.$breakpoint-md) {
-    padding-inline: px-to-rem(25);
-  }
-
+  @include display-flex($align: center);
   max-height: var(--list-element-max-height);
   min-height: var(--list-element-min-height);
-
   height: 100%;
 
-  transition: box-shadow var.$transition-duration-medium ease-in-out;
-  &:hover {
-    box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-50);
-    cursor: pointer;
-  }
+  .element {
+    @include display-flex($align: center, $justify: space-between, $gap: px-to-rem(25));
+    height: 100%;
+    width: 100%;
 
-  .left-section {
-    @include display-flex($align: start, $justify: start, $direction: column, $gap: px-to-rem(5));
-    flex: 1;
-    min-width: 0;
+    background-color: var(--page-primary-color-100);
+    border-radius: px-to-rem(15);
+
+    padding-inline: px-to-rem(50);
 
     @media (max-width: var.$breakpoint-md) {
-      gap: px-to-rem(2.5);
+      padding-inline: px-to-rem(25);
     }
 
-    .title {
-      @include font-settings(16, 700);
-      @include singleline-ellipsis();
-    }
+    @include box-shadow-on-hover();
 
-    .metadata {
-      @include display-flex($align: center, $justify: start, $gap: px-to-rem(10));
+    .left-section {
+      @include display-flex($align: start, $justify: start, $direction: column, $gap: px-to-rem(5));
+      flex: 1;
+      min-width: 0;
 
-      .date {
-        @include font-settings(14, 400);
+      @media (max-width: var.$breakpoint-md) {
+        gap: px-to-rem(2.5);
       }
 
-      .category {
-        @include font-settings(14, 400);
+      .title {
+        @include font-settings(16, 700);
+        @include singleline-ellipsis();
+      }
 
-        @media (max-width: var.$breakpoint-sm) {
-          display: none;
+      .metadata {
+        @include display-flex($align: center, $justify: start, $gap: px-to-rem(10));
+
+        .date {
+          @include font-settings(14, 400);
+        }
+
+        .category {
+          @include font-settings(14, 400);
+
+          @media (max-width: var.$breakpoint-sm) {
+            display: none;
+          }
         }
       }
     }
-  }
 
-  .right-section {
-    height: 35%;
-    flex: 0 0 auto;
+    .right-section {
+      height: 35%;
+      flex: 0 0 auto;
 
-    .engagement-metrics {
-      @include display-flex($align: center, $justify: center, $gap: px-to-rem(20));
-      height: 100%;
-
-      .metric {
-        @include display-flex($align: center, $justify: center, $gap: px-to-rem(10));
+      .engagement-metrics {
+        @include display-flex($align: center, $justify: center, $gap: px-to-rem(20));
         height: 100%;
-        min-width: 0;
 
-        @media (max-width: var.$breakpoint-sm) {
-          display: none;
-        }
-
-        .icon-container {
+        .metric {
+          @include display-flex($align: center, $justify: center, $gap: px-to-rem(10));
           height: 100%;
           min-width: 0;
-          aspect-ratio: 1 / 1;
 
-          @include svg-icon($icon-class: 'metric-icon', $height: 100%, $width: 100%, $fill-color: var(--font-primary-color-100));
+          @media (max-width: var.$breakpoint-sm) {
+            display: none;
+          }
+
+          .count-container {
+            @include display-flex($align: center, $justify: center);
+            .count {
+              @include font-settings();
+            }
+          }
+
+          .icon-container {
+            height: 100%;
+            min-width: 0;
+            aspect-ratio: 1 / 1;
+
+            @include svg-icon($icon-class: 'metric-icon', $height: 100%, $width: 100%, $fill-color: var(--font-primary-color-100));
+          }
         }
-      }
 
-      .status {
-        @include display-flex($align: center, $justify: center);
-        height: 100%;
-        min-width: 0;
-
-        .status-icon {
+        .status {
+          @include display-flex($align: center, $justify: center);
           height: 100%;
           min-width: 0;
-          aspect-ratio: 1 / 1;
 
-          --status-fill-color: var(--font-primary-color-100);
+          .status-icon {
+            height: 100%;
+            min-width: 0;
+            aspect-ratio: 1 / 1;
 
-          @include svg-icon($icon-class: 'status-icon', $height: 100%, $width: 100%, $fill-color: var(--status-fill-color));
-
-          &.draft {
             --status-fill-color: var(--font-primary-color-100);
-          }
-          &.private {
-            --status-fill-color: rgb(182, 112, 202);
-          }
-          &.published {
-            --status-fill-color: rgb(156, 220, 254);
-          }
-          &.archived {
-            --status-fill-color: rgb(196, 145, 117);
+
+            @include svg-icon($icon-class: 'status-icon', $height: 100%, $width: 100%, $fill-color: var(--status-fill-color));
+
+            &.draft {
+              --status-fill-color: var(--font-primary-color-100);
+            }
+            &.private {
+              --status-fill-color: rgb(182, 112, 202);
+            }
+            &.published {
+              --status-fill-color: rgb(156, 220, 254);
+            }
+            &.archived {
+              --status-fill-color: rgb(196, 145, 117);
+            }
           }
         }
       }
