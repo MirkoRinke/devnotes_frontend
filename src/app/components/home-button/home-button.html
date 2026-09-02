@@ -1,14 +1,16 @@
 @let translatePath = 'HomeButton' + '.';
 @let translatePathAriaLabel = translatePath + 'ariaLabel' + '.';
 
-<a
-  class="home-button"
-  [routerLink]="'/'"
-  [attr.aria-label]="translatePathAriaLabel + 'goToHome' | translate"
->
-  <span
-    class="icon"
-    [innerHTML]="svgIconsService.returnIcon('home')"
-    aria-hidden="true"
-  ></span>
-</a>
+<div class="home-button-container">
+  <a
+    class="home-button"
+    [routerLink]="'/'"
+    [attr.aria-label]="translatePathAriaLabel + 'goToHome' | translate"
+  >
+    <span
+      class="icon"
+      [innerHTML]="svgIconsService.returnIcon('home')"
+      aria-hidden="true"
+    ></span>
+  </a>
+</div>
