@@ -3,44 +3,77 @@
 @use '../../../mixins' as *;
 
 .pagination {
-  @include display-flex(center, center);
-  gap: px-to-rem(10);
-
+  @include display-flex($align: center, $justify: center, $gap: px-to-rem(10));
   height: var(--pagination-height);
 
-  .first-page,
-  .previous-page,
-  .next-page,
-  .last-page,
-  .page-number {
-    @include display-flex(center, center);
+  --maxPages: 18;
 
+  @media (max-width: var.$breakpoint-full-hd) {
+    --maxPages: 9;
+  }
+
+  @media (max-width: var.$breakpoint-md) {
+    --maxPages: 5;
+  }
+
+  @media (max-width: var.$breakpoint-sm) {
+    flex-direction: column;
+  }
+
+  .page-number-container {
+    @include display-flex($align: center, $justify: center, $gap: px-to-rem(10));
+    height: 100%;
+    flex-shrink: 0;
+  }
+
+  .pagination-controls {
+    @include display-flex($align: center, $justify: center, $gap: px-to-rem(10));
+    height: 100%;
+    flex-shrink: 0;
+
+    @media (max-width: var.$breakpoint-sm) {
+      display: none;
+    }
+  }
+
+  .pagination-controls-mobile {
+    display: none;
+
+    @media (max-width: var.$breakpoint-sm) {
+      @include display-flex($align: center, $justify: center, $gap: px-to-rem(10));
+      height: 100%;
+      min-width: 0;
+      flex-shrink: 0;
+    }
+  }
+
+  .pagination-link,
+  .page-number {
+    @include display-flex($align: center, $justify: center);
+    @include font-settings(14, 400, var(--font-primary-color-50));
     @include golden-ratio-padding();
+    height: 100%;
+    flex-shrink: 0;
+
     background-color: var(--page-primary-color-100);
     border-radius: px-to-rem(5);
 
-    @include font-settings(14, 400, var(--font-primary-color-50));
     font-variant-numeric: tabular-nums;
     color: var(--font-primary-color-50);
+
+    @include box-shadow-on($modifier: ':hover');
 
     transition:
       box-shadow var.$transition-duration-medium ease-in-out,
       color var.$transition-duration-medium ease-in-out,
       font-size var.$transition-duration-medium ease-in-out;
 
-    &:hover {
-      box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-50);
-    }
-
     .icon-container {
-      @include display-flex(center, center);
+      --status-fill-color: var(--font-primary-color-100);
+      height: 100%;
+      min-width: 0;
 
-      & ::ng-deep svg {
-        fill: var(--font-primary-color-100);
-        width: px-to-rem(14);
-        height: px-to-rem(14);
-        transition: fill var.$transition-duration-medium ease;
-      }
+      @include svg-icon($icon-class: 'icon', $height: 100%, $width: 100%, $fill-color: var(--status-fill-color));
     }
 
     &.disabled {
@@ -48,9 +81,7 @@
       opacity: 0.5;
 
       .icon-container {
-        & ::ng-deep svg {
-          fill: var(--font-primary-color-50);
-        }
+        --status-fill-color: var(--font-primary-color-50);
       }
     }
 

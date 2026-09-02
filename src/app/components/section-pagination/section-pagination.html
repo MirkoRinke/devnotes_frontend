@@ -1,73 +1,75 @@
 @if (paginationInfo && paginationInfo.last_page > 1) {
-  <nav class="pagination">
-    <!-- First Page -->
-    <a
-      class="first-page"
-      [routerLink]="[]"
-      [queryParams]="{ page: 1 }"
-      [queryParamsHandling]="'merge'"
-      [class.disabled]="paginationInfo.current_page === 1"
-    >
-      <span
-        class="icon-container"
-        [innerHTML]="svgIconsService.returnIcon('first_page')"
-      ></span>
-    </a>
+  <nav
+    class="pagination"
+    #paginationContainer
+  >
+    <div class="pagination-controls">
+      @for (link of leftNavigationLinks; track $index) {
+        <a
+          class="pagination-link"
+          [class]="link.label"
+          [routerLink]="[link.path]"
+          [queryParams]="params(link.label)"
+          [queryParamsHandling]="'merge'"
+          [class.disabled]="isLinkDisabled(link.label)"
+        >
+          <span
+            class="icon-container"
+            [innerHTML]="svgIconsService.returnIcon(link.icon ?? '', 'icon')"
+          ></span>
+        </a>
+      }
+    </div>
 
-    <!-- Previous Page -->
-    <a
-      class="previous-page"
-      [routerLink]="[]"
-      [queryParams]="{ page: paginationInfo.current_page - 1 }"
-      [queryParamsHandling]="'merge'"
-      [class.disabled]="paginationInfo.current_page === 1"
-    >
-      <span
-        class="icon-container"
-        [innerHTML]="svgIconsService.returnIcon('previous_page')"
-      ></span>
-    </a>
+    <div class="page-number-container">
+      @for (page of getPages(paginationInfo.current_page, paginationInfo.last_page); track $index) {
+        <a
+          class="page-number"
+          [routerLink]="[]"
+          [queryParams]="{ page: page }"
+          [queryParamsHandling]="'merge'"
+          [class.active]="page === paginationInfo.current_page"
+          [class]="getDistanceClass(paginationInfo.current_page, page)"
+        >
+          {{ page }}
+        </a>
+      }
+    </div>
 
-    <!-- Page Numbers (max 4, centered around current page) -->
-    @for (page of getPages(paginationInfo.current_page, paginationInfo.last_page); track $index) {
-      <a
-        class="page-number"
-        [routerLink]="[]"
-        [queryParams]="{ page: page }"
-        [queryParamsHandling]="'merge'"
-        [class.active]="page === paginationInfo.current_page"
-        [class]="getDistanceClass(paginationInfo.current_page, page)"
-      >
-        {{ page }}
-      </a>
-    }
+    <div class="pagination-controls">
+      @for (link of rightNavigationLinks; track $index) {
+        <a
+          class="pagination-link"
+          [class]="link.label"
+          [routerLink]="[link.path]"
+          [queryParams]="params(link.label)"
+          [queryParamsHandling]="'merge'"
+          [class.disabled]="isLinkDisabled(link.label)"
+        >
+          <span
+            class="icon-container"
+            [innerHTML]="svgIconsService.returnIcon(link.icon ?? '', 'icon')"
+          ></span>
+        </a>
+      }
+    </div>
 
-    <!-- Next Page -->
-    <a
-      class="next-page"
-      [routerLink]="[]"
-      [queryParams]="{ page: paginationInfo.current_page + 1 }"
-      [queryParamsHandling]="'merge'"
-      [class.disabled]="paginationInfo.current_page === paginationInfo.last_page"
-    >
-      <span
-        class="icon-container"
-        [innerHTML]="svgIconsService.returnIcon('next_page')"
-      ></span>
-    </a>
-
-    <!-- Last Page -->
-    <a
-      class="last-page"
-      [routerLink]="[]"
-      [queryParams]="{ page: paginationInfo.last_page }"
-      [queryParamsHandling]="'merge'"
-      [class.disabled]="paginationInfo.current_page === paginationInfo.last_page"
-    >
-      <span
-        class="icon-container"
-        [innerHTML]="svgIconsService.returnIcon('last_page')"
-      ></span>
-    </a>
+    <div class="pagination-controls-mobile">
+      @for (link of leftNavigationLinks.concat(rightNavigationLinks); track $index) {
+        <a
+          class="pagination-link"
+          [class]="link.label"
+          [routerLink]="[link.path]"
+          [queryParams]="params(link.label)"
+          [queryParamsHandling]="'merge'"
+          [class.disabled]="isLinkDisabled(link.label)"
+        >
+          <span
+            class="icon-container"
+            [innerHTML]="svgIconsService.returnIcon(link.icon ?? '', 'icon')"
+          ></span>
+        </a>
+      }
+    </div>
   </nav>
 }

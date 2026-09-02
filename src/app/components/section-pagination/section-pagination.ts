@@ -1,9 +1,16 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ElementRef, ViewChild, HostListener, inject, DestroyRef, OnInit } from '@angular/core';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
 
 import type { PaginationInfoInterface } from '../../interfaces/pagination-info';
 
 import { SvgIconsService } from '../../services/svg.icons.service';
+
+import { getCssVariableValue } from '../../utils/css-helper';
+
+import type { NavigationLinksInterface } from '../../interfaces/navigation-links';
 
 @Component({
   selector: 'app-section-pagination',
@@ -11,19 +18,122 @@ import { SvgIconsService } from '../../services/svg.icons.service';
   templateUrl: './section-pagination.html',
   styleUrl: './section-pagination.scss',
 })
-export class SectionPagination<T> {
+export class SectionPagination<T> implements OnInit {
   @Input() paginationInfo: PaginationInfoInterface<T> | null = null;
 
   constructor(public svgIconsService: SvgIconsService) {}
+
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly resize$ = new Subject<void>();
+
+  private paginationContainer: ElementRef | null = null;
+  private maxPages: number = 5;
+
+  public readonly leftNavigationLinks: NavigationLinksInterface[] = [
+    { label: 'first-page', path: '.', icon: 'first_page' },
+    { label: 'previous-page', path: '.', icon: 'previous_page' },
+  ];
+
+  public readonly rightNavigationLinks: NavigationLinksInterface[] = [
+    { label: 'next-page', path: '.', icon: 'next_page' },
+    { label: 'last-page', path: '.', icon: 'last_page' },
+  ];
+
+  ngOnInit(): void {
+    this.initResizeSubscription();
+  }
+
+  /**
+   * Returns the query parameters for the given pagination link label.
+   *
+   * @param label The label of the pagination link (e.g., 'first-page', 'previous-page', 'next-page', 'last-page').
+   * @returns An object containing the query parameters for the specified pagination link.
+   */
+  public params(label: string) {
+    if (!this.paginationInfo) return {};
+
+    const paramsMap: Record<string, Record<string, number>> = {
+      'first-page': { page: 1 },
+      'previous-page': { page: this.paginationInfo.current_page - 1 },
+      'next-page': { page: this.paginationInfo.current_page + 1 },
+      'last-page': { page: this.paginationInfo.last_page },
+    };
+
+    return paramsMap[label] || {};
+  }
+
+  /**
+   * Checks if a pagination link should be disabled based on the current pagination state.
+   *
+   * @param label The label of the pagination link (e.g., 'first-page', 'previous-page', 'next-page', 'last-page').
+   * @returns True if the link should be disabled, false otherwise.
+   */
+  public isLinkDisabled(label: string): boolean {
+    if (!this.paginationInfo) return false;
+
+    switch (label) {
+      case 'first-page':
+      case 'previous-page':
+        return this.paginationInfo.current_page === 1;
+      case 'next-page':
+      case 'last-page':
+        return this.paginationInfo.current_page === this.paginationInfo.last_page;
+      default:
+        return false;
+    }
+  }
+
+  /**
+   * Sets the reference to the container element and initializes the resize observer to update the maximum number of pages dynamically.
+   *
+   * @param element
+   */
+  @ViewChild('paginationContainer') public set paginationContainerRef(element: ElementRef) {
+    if (element && element !== this.paginationContainer) {
+      this.paginationContainer = element;
+      requestAnimationFrame(() => {
+        this.updateMaxPages();
+      });
+    }
+  }
+
+  /**
+   * Handles window resize events.
+   */
+  @HostListener('window:resize')
+  public onResize(): void {
+    this.resize$.next();
+  }
+
+  /**
+   * Initializes the resize subscription to handle window resize events.
+   */
+  private initResizeSubscription(): void {
+    this.resize$.pipe(debounceTime(200), takeUntilDestroyed(this.destroyRef)).subscribe(() => {
+      this.updateMaxPages();
+    });
+  }
+
+  /**
+   * Updates the maximum number of pages based on the container's CSS variable.
+   *
+   * @returns
+   */
+  private updateMaxPages(): void {
+    if (!this.paginationContainer) return;
+    const style = getComputedStyle(this.paginationContainer.nativeElement);
+    const value = getCssVariableValue(style, '--maxPages');
+    this.maxPages = value > 0 ? value : this.maxPages;
+  }
 
   /**
    * Get pages to display
    *
    * @returns
    */
-  getPages(currentPage: number, totalPages: number): number[] {
+  public getPages(currentPage: number, totalPages: number): number[] {
     const pages: number[] = [];
-    const maxPages = 9;
+    const maxPages = this.maxPages;
 
     let start = 1;
     let end = totalPages;
@@ -56,7 +166,7 @@ export class SectionPagination<T> {
    * @param page
    * @returns
    */
-  getDistanceClass(current_page: number, page: number): string {
+  public getDistanceClass(current_page: number, page: number): string {
     const distance = Math.abs(page - current_page);
     return distance > 0 && distance <= 4 ? `is-near-${distance}` : '';
   }
