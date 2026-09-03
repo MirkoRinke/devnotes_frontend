@@ -23,6 +23,7 @@ import { SectionStepperMessagesInterface } from './components/section-stepper.in
 import { FavoritesRefreshButtonMessagesInterface } from './components/favorites-refresh-button.interface';
 import { PostListMessagesInterface } from './components/posts-list';
 import { PostListElementMessagesInterface } from './components/post-list-element';
+import { SectionPaginationMessagesInterface } from './components/section-pagination.interface';
 
 export interface Content extends ContentUI, LegalContent, Notifications {}
 
@@ -45,6 +46,7 @@ export interface ContentUI {
   FavoritesRefreshButton: FavoritesRefreshButtonMessagesInterface;
   PostList: PostListMessagesInterface;
   PostListElement: PostListElementMessagesInterface;
+  SectionPagination: SectionPaginationMessagesInterface;
 }
 
 export interface LegalContent {
