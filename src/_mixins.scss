@@ -155,12 +155,17 @@
   user-select: none;
 }
 
-@mixin button-default-style($hover-border-color: var(--font-primary-color-50), $min-width: px-to-rem(200)) {
+@mixin button-default-style($hover-border-color: var(--font-primary-color-50), $width: px-to-rem(200), $height: px-to-rem(48)) {
   @include button-preset();
   @include golden-ratio-padding(14);
   @include font-settings(14, 500);
   max-width: fit-content;
-  min-width: convert-to-rem-if-needed($min-width);
+  min-width: convert-to-rem-if-needed($width);
+  width: convert-to-rem-if-needed($width);
+
+  max-height: convert-to-rem-if-needed($height);
+  min-height: convert-to-rem-if-needed($height);
+  height: convert-to-rem-if-needed($height);
 
   background-color: var(--page-primary-color-100);
 
@@ -558,22 +563,22 @@
   }
 }
 
-@mixin context-box($max-width: null, $width: null, $max-height: null, $height: null) {
+@mixin context-box($max-height: null, $height: null, $max-width: null, $width: null) {
   background-color: var(--page-primary-color-100);
   border-radius: px-to-rem(15);
   padding: px-to-rem(25) px-to-rem(50);
 
-  @if $max-width != null {
-    max-width: convert-to-rem-if-needed($max-width);
-  }
-  @if $width != null {
-    width: convert-to-rem-if-needed($width);
-  }
   @if $max-height != null {
     max-height: convert-to-rem-if-needed($max-height);
   }
   @if $height != null {
     height: convert-to-rem-if-needed($height);
+  }
+  @if $max-width != null {
+    max-width: convert-to-rem-if-needed($max-width);
+  }
+  @if $width != null {
+    width: convert-to-rem-if-needed($width);
   }
 }
 
