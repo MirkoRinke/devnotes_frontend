@@ -3,10 +3,13 @@ import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
+import { NgTemplateOutlet } from '@angular/common';
 
 import type { PaginationInfoInterface } from '../../interfaces/pagination-info';
 
 import { SvgIconsService } from '../../services/svg.icons.service';
+
+import { TranslatePipe } from '../../i18n/translate-pipe';
 
 import { getCssVariableValue } from '../../utils/css-helper';
 
@@ -14,14 +17,12 @@ import type { NavigationLinksInterface } from '../../interfaces/navigation-links
 
 @Component({
   selector: 'app-section-pagination',
-  imports: [RouterLink],
+  imports: [TranslatePipe, RouterLink, NgTemplateOutlet],
   templateUrl: './section-pagination.html',
   styleUrl: './section-pagination.scss',
 })
 export class SectionPagination<T> implements OnInit {
   @Input() paginationInfo: PaginationInfoInterface<T> | null = null;
-
-  constructor(public svgIconsService: SvgIconsService) {}
 
   private readonly destroyRef = inject(DestroyRef);
   private readonly resize$ = new Subject<void>();
@@ -30,14 +31,20 @@ export class SectionPagination<T> implements OnInit {
   private maxPages: number = 5;
 
   public readonly leftNavigationLinks: NavigationLinksInterface[] = [
-    { label: 'first-page', path: '.', icon: 'first_page' },
-    { label: 'previous-page', path: '.', icon: 'previous_page' },
+    { label: 'firstPage', path: '.', icon: 'first_page' },
+    { label: 'previousPage', path: '.', icon: 'previous_page' },
   ];
 
   public readonly rightNavigationLinks: NavigationLinksInterface[] = [
-    { label: 'next-page', path: '.', icon: 'next_page' },
-    { label: 'last-page', path: '.', icon: 'last_page' },
+    { label: 'nextPage', path: '.', icon: 'next_page' },
+    { label: 'lastPage', path: '.', icon: 'last_page' },
   ];
+
+  public readonly mobileNavigationLinks: NavigationLinksInterface[] = [];
+
+  constructor(public readonly svgIconsService: SvgIconsService) {
+    this.mobileNavigationLinks = this.leftNavigationLinks.concat(this.rightNavigationLinks);
+  }
 
   ngOnInit(): void {
     this.initResizeSubscription();
@@ -46,17 +53,17 @@ export class SectionPagination<T> implements OnInit {
   /**
    * Returns the query parameters for the given pagination link label.
    *
-   * @param label The label of the pagination link (e.g., 'first-page', 'previous-page', 'next-page', 'last-page').
+   * @param label The label of the pagination link (e.g., 'firstPage', 'previousPage', 'nextPage', 'lastPage').
    * @returns An object containing the query parameters for the specified pagination link.
    */
-  public params(label: string) {
+  public params(label: string): Record<string, number> {
     if (!this.paginationInfo) return {};
 
     const paramsMap: Record<string, Record<string, number>> = {
-      'first-page': { page: 1 },
-      'previous-page': { page: this.paginationInfo.current_page - 1 },
-      'next-page': { page: this.paginationInfo.current_page + 1 },
-      'last-page': { page: this.paginationInfo.last_page },
+      firstPage: { page: 1 },
+      previousPage: { page: this.paginationInfo.current_page - 1 },
+      nextPage: { page: this.paginationInfo.current_page + 1 },
+      lastPage: { page: this.paginationInfo.last_page },
     };
 
     return paramsMap[label] || {};
@@ -65,18 +72,18 @@ export class SectionPagination<T> implements OnInit {
   /**
    * Checks if a pagination link should be disabled based on the current pagination state.
    *
-   * @param label The label of the pagination link (e.g., 'first-page', 'previous-page', 'next-page', 'last-page').
+   * @param label The label of the pagination link (e.g., 'firstPage', 'previousPage', 'nextPage', 'lastPage').
    * @returns True if the link should be disabled, false otherwise.
    */
   public isLinkDisabled(label: string): boolean {
     if (!this.paginationInfo) return false;
 
     switch (label) {
-      case 'first-page':
-      case 'previous-page':
+      case 'firstPage':
+      case 'previousPage':
         return this.paginationInfo.current_page === 1;
-      case 'next-page':
-      case 'last-page':
+      case 'nextPage':
+      case 'lastPage':
         return this.paginationInfo.current_page === this.paginationInfo.last_page;
       default:
         return false;

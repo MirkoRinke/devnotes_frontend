@@ -2,9 +2,8 @@
 @use '../../../var' as var;
 @use '../../../mixins' as *;
 
-.pagination {
+.section-pagination {
   @include display-flex($align: center, $justify: center, $gap: px-to-rem(10));
-  height: var(--pagination-height);
 
   --maxPages: 18;
 
@@ -22,13 +21,12 @@
 
   .page-number-container {
     @include display-flex($align: center, $justify: center, $gap: px-to-rem(10));
-    height: 100%;
     flex-shrink: 0;
   }
 
   .pagination-controls {
     @include display-flex($align: center, $justify: center, $gap: px-to-rem(10));
-    height: 100%;
+    height: px-to-rem(35);
     flex-shrink: 0;
 
     @media (max-width: var.$breakpoint-sm) {
@@ -41,8 +39,7 @@
 
     @media (max-width: var.$breakpoint-sm) {
       @include display-flex($align: center, $justify: center, $gap: px-to-rem(10));
-      height: 100%;
-      min-width: 0;
+      height: px-to-rem(35);
       flex-shrink: 0;
     }
   }
@@ -50,8 +47,11 @@
   .pagination-link,
   .page-number {
     @include display-flex($align: center, $justify: center);
-    @include font-settings(14, 400, var(--font-primary-color-50));
     @include golden-ratio-padding();
+    font-size: px-to-rem(14);
+    font-weight: 400;
+    color: var(--font-primary-color-50);
+
     height: 100%;
     flex-shrink: 0;
 
@@ -59,7 +59,6 @@
     border-radius: px-to-rem(5);
 
     font-variant-numeric: tabular-nums;
-    color: var(--font-primary-color-50);
 
     @include box-shadow-on($modifier: ':hover');
 
@@ -86,23 +85,33 @@
     }
 
     &.active {
-      @include font-settings(22, 600, var(--font-primary-color-100));
+      font-size: px-to-rem(22);
+      font-weight: 800;
+      color: var(--font-primary-color-100);
     }
 
     &.is-near-1 {
-      @include font-settings(20, 500, var(--font-primary-color-50));
+      font-size: px-to-rem(20);
+      font-weight: 700;
+      color: var(--font-primary-color-50);
     }
 
     &.is-near-2 {
-      @include font-settings(18, 400, var(--font-primary-color-50));
+      font-size: px-to-rem(18);
+      font-weight: 600;
+      color: var(--font-primary-color-50);
     }
 
     &.is-near-3 {
-      @include font-settings(16, 400, var(--font-primary-color-50));
+      font-size: px-to-rem(16);
+      font-weight: 500;
+      color: var(--font-primary-color-50);
     }
 
     &.is-near-4 {
-      @include font-settings(14, 400, var(--font-primary-color-50));
+      font-size: px-to-rem(14);
+      font-weight: 400;
+      color: var(--font-primary-color-50);
     }
   }
 }

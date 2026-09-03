@@ -1,23 +1,36 @@
+@let translatePath = 'SectionPagination' + '.';
+@let translatePathAriaLabel = translatePath + 'ariaLabel' + '.';
+
+<ng-template
+  #paginationLinkTemplate
+  let-link="link"
+>
+  <a
+    class="pagination-link"
+    [class]="link.label"
+    [routerLink]="isLinkDisabled(link.label) ? null : [link.path]"
+    [queryParams]="params(link.label)"
+    [queryParamsHandling]="'merge'"
+    [class.disabled]="isLinkDisabled(link.label)"
+    [attr.aria-label]="translatePathAriaLabel + link.label | translate"
+    [attr.aria-disabled]="isLinkDisabled(link.label)"
+  >
+    <span
+      class="icon-container"
+      [innerHTML]="svgIconsService.returnIcon(link.icon ?? '', 'icon')"
+      aria-hidden="true"
+    ></span>
+  </a>
+</ng-template>
+
 @if (paginationInfo && paginationInfo.last_page > 1) {
   <nav
-    class="pagination"
+    class="section-pagination"
     #paginationContainer
   >
     <div class="pagination-controls">
       @for (link of leftNavigationLinks; track $index) {
-        <a
-          class="pagination-link"
-          [class]="link.label"
-          [routerLink]="[link.path]"
-          [queryParams]="params(link.label)"
-          [queryParamsHandling]="'merge'"
-          [class.disabled]="isLinkDisabled(link.label)"
-        >
-          <span
-            class="icon-container"
-            [innerHTML]="svgIconsService.returnIcon(link.icon ?? '', 'icon')"
-          ></span>
-        </a>
+        <ng-container *ngTemplateOutlet="paginationLinkTemplate; context: { link: link }" />
       }
     </div>
 
@@ -25,11 +38,12 @@
       @for (page of getPages(paginationInfo.current_page, paginationInfo.last_page); track $index) {
         <a
           class="page-number"
-          [routerLink]="[]"
+          [class]="getDistanceClass(paginationInfo.current_page, page)"
+          [class.active]="page === paginationInfo.current_page"
+          [routerLink]="['.']"
           [queryParams]="{ page: page }"
           [queryParamsHandling]="'merge'"
-          [class.active]="page === paginationInfo.current_page"
-          [class]="getDistanceClass(paginationInfo.current_page, page)"
+          [attr.aria-label]="translatePathAriaLabel + 'page' | translate: { page: page }"
         >
           {{ page }}
         </a>
@@ -38,37 +52,13 @@
 
     <div class="pagination-controls">
       @for (link of rightNavigationLinks; track $index) {
-        <a
-          class="pagination-link"
-          [class]="link.label"
-          [routerLink]="[link.path]"
-          [queryParams]="params(link.label)"
-          [queryParamsHandling]="'merge'"
-          [class.disabled]="isLinkDisabled(link.label)"
-        >
-          <span
-            class="icon-container"
-            [innerHTML]="svgIconsService.returnIcon(link.icon ?? '', 'icon')"
-          ></span>
-        </a>
+        <ng-container *ngTemplateOutlet="paginationLinkTemplate; context: { link: link }" />
       }
     </div>
 
     <div class="pagination-controls-mobile">
-      @for (link of leftNavigationLinks.concat(rightNavigationLinks); track $index) {
-        <a
-          class="pagination-link"
-          [class]="link.label"
-          [routerLink]="[link.path]"
-          [queryParams]="params(link.label)"
-          [queryParamsHandling]="'merge'"
-          [class.disabled]="isLinkDisabled(link.label)"
-        >
-          <span
-            class="icon-container"
-            [innerHTML]="svgIconsService.returnIcon(link.icon ?? '', 'icon')"
-          ></span>
-        </a>
+      @for (link of mobileNavigationLinks; track $index) {
+        <ng-container *ngTemplateOutlet="paginationLinkTemplate; context: { link: link }" />
       }
     </div>
   </nav>
