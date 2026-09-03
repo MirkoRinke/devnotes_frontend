@@ -296,7 +296,7 @@ export class PostsList implements OnInit {
 
     const listElementSize = getCssVariableValue(style, '--list-element-max-height');
     const listGap = getCssVariableValue(style, '--posts-list-gap');
-    const paginationHeight = getCssVariableValue(style, '--pagination-height');
+    const paginationHeight = getHeightById('pagination-container');
     const footerHeight = getHeightById('footer-container');
     const buffer = listElementSize;
 

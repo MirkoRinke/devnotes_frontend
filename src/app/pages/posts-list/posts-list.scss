@@ -17,14 +17,12 @@
   --list-element-max-height: #{px-to-rem(80)};
   --posts-list-gap: #{px-to-rem(25)};
   --post-list-page-gap: #{px-to-rem(25)};
-  --pagination-height: #{px-to-rem(35)};
 
   @media (max-width: var.$breakpoint-md) {
     --list-element-min-height: #{px-to-rem(60)};
     --list-element-max-height: #{px-to-rem(60)};
     --posts-list-gap: #{px-to-rem(12.5)};
     --post-list-page-gap: #{px-to-rem(12.5)};
-    --pagination-height: #{px-to-rem(35)};
   }
 }
 
