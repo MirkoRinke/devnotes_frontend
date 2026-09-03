@@ -5,12 +5,12 @@
 button {
   @include button-preset();
   @include display-flex($align: center, $justify: center);
-  max-height: px-to-rem(34);
-  max-width: px-to-rem(34);
+  height: px-to-rem(34);
+  width: px-to-rem(34);
 
   @media (max-width: var.$breakpoint-md) {
-    max-height: px-to-rem(24);
-    max-width: px-to-rem(24);
+    height: px-to-rem(24);
+    width: px-to-rem(24);
   }
 
   &:not(.active) {
