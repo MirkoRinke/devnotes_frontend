@@ -160,4 +160,13 @@ export const CONTENT_UI_DE: ContentUI = {
       },
     },
   },
+  SectionPagination: {
+    ariaLabel: {
+      firstPage: 'Zur ersten Seite',
+      previousPage: 'Zur vorherigen Seite',
+      nextPage: 'Zur nächsten Seite',
+      lastPage: 'Zur letzten Seite',
+      page: 'Seite {page}',
+    },
+  },
 };
