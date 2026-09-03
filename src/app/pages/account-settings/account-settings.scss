@@ -3,10 +3,10 @@
 @use '../../../mixins' as *;
 
 :host {
-  @include display-flex(stretch, center);
+  @include display-flex($justify: center);
   flex-grow: 1;
 }
 
 .account-settings-page {
-  @include display-flex($justify: center, $gap: px-to-rem(25));
+  @include display-flex($justify: center);
 }
