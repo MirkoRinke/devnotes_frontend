@@ -21,8 +21,8 @@ import { NoResultsMessagesInterface } from './components/no-results.interface';
 import { TechTileMessagesInterface } from './components/tech-tile.interface';
 import { SectionStepperMessagesInterface } from './components/section-stepper.interface';
 import { FavoritesRefreshButtonMessagesInterface } from './components/favorites-refresh-button.interface';
-import { PostListMessagesInterface } from './components/posts-list';
-import { PostListElementMessagesInterface } from './components/post-list-element';
+import { PostListMessagesInterface } from './components/posts-list.interface';
+import { PostListElementMessagesInterface } from './components/post-list-element.interface';
 import { SectionPaginationMessagesInterface } from './components/section-pagination.interface';
 
 export interface Content extends ContentUI, LegalContent, Notifications {}
