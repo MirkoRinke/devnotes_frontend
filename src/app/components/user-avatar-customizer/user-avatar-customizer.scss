@@ -3,11 +3,16 @@
 @use '../../../mixins' as *;
 
 .user-avatar-customizer {
-  @include display-flex($align: center, $direction: column, $gap: px-to-rem(25));
-  @include context-box($max-width: 700px, $width: 700px, $max-height: 700px, $height: 100%);
+  @include display-flex($align: center, $justify: space-between, $direction: column, $gap: px-to-rem(50));
+  @include context-box($max-width: 700px, $width: 100%, $max-height: 700px, $height: 100%);
+
+  @media (max-width: var.$breakpoint-md) {
+    max-height: max-content;
+  }
 
   .header {
     @include display-flex($align: center, $direction: column, $gap: px-to-rem(10));
+    height: max-content;
     width: 100%;
 
     .heading-wrapper {
@@ -31,34 +36,47 @@
 
   .avatar-carousel {
     @include display-flex($gap: px-to-rem(50));
-    margin-block: px-to-rem(40);
+    max-height: 50%;
+    min-height: 0;
+    width: 100%;
+
+    @media (max-width: var.$breakpoint-sm) {
+      gap: px-to-rem(25);
+    }
 
     .prev,
     .next {
       @include button-preset();
 
-      &:hover {
-        &::ng-deep .direction-icon {
-          fill: var(--font-primary-color-50);
-        }
+      height: px-to-rem(34);
+      width: px-to-rem(34);
+
+      @media (max-width: var.$breakpoint-md) {
+        height: px-to-rem(24);
+        width: px-to-rem(24);
       }
 
-      &::ng-deep .direction-icon {
-        fill: var(--font-primary-color-100);
-        width: px-to-rem(60);
-        height: px-to-rem(60);
-      }
+      flex-shrink: 0;
+
+      margin: auto;
+
+      @include svg-icon($icon-class: 'direction-icon', $height: 100%, $width: 100%, $fill-color: var(--font-primary-color-100), $hover-fill-color: var(--font-primary-color-50));
     }
 
     .avatar-container {
       position: relative;
+      aspect-ratio: 1 / 1;
 
       .avatar {
         display: block;
-        width: px-to-rem(250);
-        height: px-to-rem(250);
+        height: 100%;
+        width: 100%;
 
         border-radius: px-to-rem(15);
+
+        @media (max-width: var.$breakpoint-sm) {
+          border-radius: px-to-rem(10);
+        }
 
         &:hover {
           cursor: pointer;
@@ -73,6 +91,14 @@
       @include absolute-child('.dice-icon', $top: px-to-rem(10), $right: px-to-rem(10));
 
       .dice-icon {
+        height: px-to-rem(34);
+        width: px-to-rem(34);
+
+        @media (max-width: var.$breakpoint-md) {
+          height: px-to-rem(24);
+          width: px-to-rem(24);
+        }
+
         opacity: 0;
 
         &:hover {
@@ -85,24 +111,49 @@
           @include shake($suffix: 'dice', $intensity: 2px);
         }
 
-        &::ng-deep .dice {
-          fill: var(--page-primary-color-100);
-          width: px-to-rem(34);
-          height: px-to-rem(34);
-        }
+        @include svg-icon($icon-class: 'dice', $height: 100%, $width: 100%);
       }
     }
   }
 
   .avatar-actions {
     @include display-flex($align: end, $justify: space-between, $gap: px-to-rem(20));
+    max-height: max-content;
     width: 100%;
-    flex: 1;
 
     .save,
     .reset {
+      --height: 48px;
+
       @include button-preset();
-      @include button-default-style();
+      @include button-default-style($height: var(--height));
+      @include display-flex($align: center, $justify: center, $gap: px-to-rem(10));
+
+      @media (max-width: var.$breakpoint-sm) {
+        --height: 38px;
+        min-width: 0;
+        background-color: transparent;
+        border: none;
+
+        &:hover {
+          background-color: transparent;
+          border: none;
+        }
+      }
+
+      .icon-container {
+        height: 100%;
+
+        @include svg-icon($icon-class: 'action-icon', $height: 100%, $width: 100%, $fill-color: var(--font-primary-color-100), $hover-fill-color: var(--font-primary-color-50));
+      }
+
+      .text {
+        @include font-settings($font-size: 16);
+
+        @media (max-width: var.$breakpoint-sm) {
+          display: none;
+        }
+      }
     }
   }
 }

@@ -43,13 +43,22 @@
       class="reset"
       (click)="resetAvatar()"
     >
-      Zurücksetzen
+      <span
+        class="icon-container"
+        [innerHTML]="svgIconsService.returnIcon('reset', 'action-icon')"
+      ></span>
+      <span class="text">Zurücksetzen</span>
     </button>
+
     <button
       class="save"
       (click)="saveAvatar()"
     >
-      Speichern
+      <span
+        class="icon-container"
+        [innerHTML]="svgIconsService.returnIcon('save', 'action-icon')"
+      ></span>
+      <span class="text">Speichern</span>
     </button>
   </div>
 </section>

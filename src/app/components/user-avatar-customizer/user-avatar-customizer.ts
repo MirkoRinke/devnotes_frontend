@@ -70,7 +70,10 @@ export class UserAvatarCustomizer {
    */
   private getUser(): void {
     const user_id = this.authService.getCurrentUserId();
-    if (user_id === null) return;
+    if (user_id === null) {
+      this.router.navigate(['/bad-gateway']);
+      return;
+    }
 
     const options = {
       params: new HttpParams().set('select', this.necessaryUserFields),
