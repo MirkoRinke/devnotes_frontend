@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 
@@ -9,6 +9,8 @@ import { SvgIconsService } from '../../services/svg.icons.service';
 
 import { UserControlRefreshService } from '../../services/user-control-refresh.service';
 
+import { TranslatePipe } from '../../i18n/translate-pipe';
+
 import { ApiEndpointEnums } from '../../enums/api-endpoint';
 
 import type { BackendErrorResponseInterface, BusinessActionInterface } from '../../interfaces/error-handling';
@@ -18,48 +20,48 @@ import { MvpPill } from '../mvp-pill/mvp-pill';
 
 @Component({
   selector: 'app-user-avatar-customizer',
-  imports: [MvpPill],
+  imports: [MvpPill, TranslatePipe],
   templateUrl: './user-avatar-customizer.html',
   styleUrl: './user-avatar-customizer.scss',
 })
 
 //TODO This is only the MVP Avatar System, before we implement the full Avatar System with items and customization, this is a temporary solution to allow users to select their avatar from a predefined set of avatars.
-export class UserAvatarCustomizer {
-  user: UserInterface | null = null;
-  necessaryUserFields: string = 'display_name,avatar_mvp_id,role';
+export class UserAvatarCustomizer implements OnInit, OnDestroy {
+  private user: UserInterface | null = null;
+  private readonly necessaryUserFields: string = 'display_name,avatar_mvp_id,role';
 
-  isProcessing: boolean = false;
+  private isProcessing: boolean = false;
 
-  currentAvatarID: number = 1;
-  availableAvatars: number = 20;
+  public currentAvatarID: number = 1;
+  private readonly availableAvatars: number = 20;
 
-  adminAvatarID: number = 1000;
-  moderatorAvatarID: number = 1001;
-  systemAvatarID: number = 1002;
+  private readonly adminAvatarID: number = 1000;
+  private readonly moderatorAvatarID: number = 1001;
+  private readonly systemAvatarID: number = 1002;
 
-  avatarMvpPath: string | null = null;
+  public avatarMvpPath: string | null = null;
 
-  isLoading: boolean = true;
+  private isLoading: boolean = true;
 
-  randomizeTimeout: ReturnType<typeof setTimeout> | null = null;
-  landOnCorrectAvatar: boolean = false;
-  randomizeCount: number = 10;
+  private randomizeTimeout: ReturnType<typeof setTimeout> | null = null;
+  private landOnCorrectAvatar: boolean = false;
+  public randomizeCount: number = 10;
 
   constructor(
-    private apiService: ApiService,
-    public authService: AuthService,
-    public userControlRefreshService: UserControlRefreshService,
-    private apiErrorHandlingService: ApiErrorHandlingService,
-    public svgIconsService: SvgIconsService,
-    private router: Router,
+    private readonly apiService: ApiService,
+    public readonly authService: AuthService,
+    public readonly userControlRefreshService: UserControlRefreshService,
+    private readonly apiErrorHandlingService: ApiErrorHandlingService,
+    public readonly svgIconsService: SvgIconsService,
+    private readonly router: Router,
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.randomizeAvatar();
     this.getUser();
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     if (this.randomizeTimeout) clearTimeout(this.randomizeTimeout);
   }
 
@@ -103,7 +105,7 @@ export class UserAvatarCustomizer {
   /**
    * Sets the current avatar ID based on the user's avatar_mvp_id or defaults to 1 if not set.
    */
-  setCurrentAvatarID(): void {
+  private setCurrentAvatarID(): void {
     this.currentAvatarID = this.validAvatarID();
   }
 
@@ -120,7 +122,7 @@ export class UserAvatarCustomizer {
    *
    * @param user
    */
-  mvpAvatarPath(): void {
+  private mvpAvatarPath(): void {
     this.avatarMvpPath = `/avatar-mvp/mvp_${this.currentAvatarID}.webp`;
   }
 
@@ -129,7 +131,7 @@ export class UserAvatarCustomizer {
    *
    * @returns The valid avatar ID, which is either the provided avatar ID if valid, or 1 if invalid.
    */
-  validAvatarID(): number {
+  private validAvatarID(): number {
     const avatarMvpId = this.user?.avatar_mvp_id ?? 1;
     const isStandard = avatarMvpId && avatarMvpId >= 1 && avatarMvpId <= 20;
     const isSystem = avatarMvpId && (avatarMvpId === this.adminAvatarID || avatarMvpId === this.moderatorAvatarID || avatarMvpId === this.systemAvatarID);

@@ -10,6 +10,10 @@
     max-height: max-content;
   }
 
+  @media (max-width: var.$breakpoint-sm) {
+    padding-inline: px-to-rem(25);
+  }
+
   .header {
     @include display-flex($align: center, $direction: column, $gap: px-to-rem(10));
     height: max-content;
@@ -48,11 +52,11 @@
     .next {
       @include button-preset();
 
-      height: px-to-rem(34);
+      height: max-content;
       width: px-to-rem(34);
 
       @media (max-width: var.$breakpoint-md) {
-        height: px-to-rem(24);
+        height: max-content;
         width: px-to-rem(24);
       }
 
@@ -91,6 +95,8 @@
       @include absolute-child('.dice-icon', $top: px-to-rem(10), $right: px-to-rem(10));
 
       .dice-icon {
+        @include button-preset();
+
         height: px-to-rem(34);
         width: px-to-rem(34);
 
@@ -111,7 +117,12 @@
           @include shake($suffix: 'dice', $intensity: 2px);
         }
 
-        @include svg-icon($icon-class: 'dice', $height: 100%, $width: 100%);
+        .icon-container {
+          height: 100%;
+          width: 100%;
+
+          @include svg-icon($icon-class: 'dice', $height: 100%, $width: 100%);
+        }
       }
     }
   }
@@ -120,6 +131,11 @@
     @include display-flex($align: end, $justify: space-between, $gap: px-to-rem(20));
     max-height: max-content;
     width: 100%;
+
+    @media (max-width: var.$breakpoint-sm) {
+      justify-content: center;
+      gap: px-to-rem(50);
+    }
 
     .save,
     .reset {

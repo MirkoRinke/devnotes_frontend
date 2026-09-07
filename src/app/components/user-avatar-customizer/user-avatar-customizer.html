@@ -1,18 +1,27 @@
+@let translatePath = 'UserAvatarCustomizer' + '.';
+@let translatePathAriaLabel = translatePath + 'ariaLabel' + '.';
+
+@let translatePathAvatarAlt = 'UserAvatarAlt' + '.';
+
 <section class="user-avatar-customizer">
   <header class="header">
     <div class="heading-wrapper">
-      <h1 class="heading">Avatar Anpassung</h1>
+      <h1 class="heading">{{ translatePath + 'heading' | translate }}</h1>
       <app-mvp-pill></app-mvp-pill>
     </div>
-    <h2 class="subheading">Suche dir einen Avatar aus, der zu dir passt.</h2>
+    <h2 class="subheading">{{ translatePath + 'subheading' | translate }}</h2>
   </header>
 
   <div class="avatar-carousel">
     <button
       class="prev"
       (click)="switchAvatar('prev')"
+      [attr.aria-label]="translatePathAriaLabel + 'prev' | translate"
     >
-      <span [innerHTML]="svgIconsService.returnIcon('arrow_backward', 'direction-icon')"></span>
+      <span
+        [innerHTML]="svgIconsService.returnIcon('arrow_backward', 'direction-icon')"
+        aria-hidden="true"
+      ></span>
     </button>
 
     <div class="avatar-container">
@@ -20,21 +29,31 @@
         class="avatar"
         (click)="randomizeAvatar()"
         [src]="avatarMvpPath"
-        alt=""
+        [alt]="translatePathAvatarAlt + 'mvp_' + currentAvatarID | translate"
       />
-      <span
+      <button
         class="dice-icon"
-        [class.shake]="randomizeCount < 10"
         (click)="randomizeAvatar()"
-        [innerHTML]="svgIconsService.returnIcon('one_dice', 'dice')"
-      ></span>
+        [class.shake]="randomizeCount < 10"
+        [attr.aria-label]="translatePathAriaLabel + 'randomize' | translate"
+      >
+        <span
+          class="icon-container"
+          [innerHTML]="svgIconsService.returnIcon('one_dice', 'dice')"
+          aria-hidden="true"
+        ></span>
+      </button>
     </div>
 
     <button
       class="next"
       (click)="switchAvatar('next')"
+      [attr.aria-label]="translatePathAriaLabel + 'next' | translate"
     >
-      <span [innerHTML]="svgIconsService.returnIcon('arrow_forward', 'direction-icon')"></span>
+      <span
+        [innerHTML]="svgIconsService.returnIcon('arrow_forward', 'direction-icon')"
+        aria-hidden="true"
+      ></span>
     </button>
   </div>
 
@@ -42,23 +61,35 @@
     <button
       class="reset"
       (click)="resetAvatar()"
+      [attr.aria-label]="translatePathAriaLabel + 'reset' | translate"
     >
       <span
         class="icon-container"
         [innerHTML]="svgIconsService.returnIcon('reset', 'action-icon')"
+        aria-hidden="true"
       ></span>
-      <span class="text">Zurücksetzen</span>
+      <span
+        class="text"
+        aria-hidden="true"
+        >{{ translatePath + 'reset' | translate }}</span
+      >
     </button>
 
     <button
       class="save"
       (click)="saveAvatar()"
+      [attr.aria-label]="translatePathAriaLabel + 'save' | translate"
     >
       <span
         class="icon-container"
         [innerHTML]="svgIconsService.returnIcon('save', 'action-icon')"
+        aria-hidden="true"
       ></span>
-      <span class="text">Speichern</span>
+      <span
+        class="text"
+        aria-hidden="true"
+        >{{ translatePath + 'save' | translate }}</span
+      >
     </button>
   </div>
 </section>
