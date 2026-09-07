@@ -24,6 +24,8 @@ import { FavoritesRefreshButtonMessagesInterface } from './components/favorites-
 import { PostListMessagesInterface } from './components/posts-list.interface';
 import { PostListElementMessagesInterface } from './components/post-list-element.interface';
 import { SectionPaginationMessagesInterface } from './components/section-pagination.interface';
+import { UserAvatarCustomizerMessagesInterface } from './components/user-avatar-customizer.interface';
+import { UserAvatarAltMessagesInterface } from './components/user-avatar-alt.interface';
 
 export interface Content extends ContentUI, LegalContent, Notifications {}
 
@@ -47,6 +49,8 @@ export interface ContentUI {
   PostList: PostListMessagesInterface;
   PostListElement: PostListElementMessagesInterface;
   SectionPagination: SectionPaginationMessagesInterface;
+  UserAvatarCustomizer: UserAvatarCustomizerMessagesInterface;
+  UserAvatarAlt: UserAvatarAltMessagesInterface;
 }
 
 export interface LegalContent {
