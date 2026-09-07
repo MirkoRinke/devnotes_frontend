@@ -5,14 +5,13 @@
         <h1 class="heading">Konto Sicherheit</h1>
         <h2 class="subheading">Benutzername, E-Mail-Adresse und Passwort ändern</h2>
       </div>
-
-      <div class="global-message-wrapper">
-        <app-badge
-          class="badge"
-          [messages]="messages['accountSettings']"
-          [caret]="'none'"
-        ></app-badge>
-      </div>
+    </div>
+    <div class="global-message-wrapper">
+      <app-badge
+        class="badge"
+        [messages]="messages['accountSettings']"
+        [caret]="'none'"
+      ></app-badge>
     </div>
 
     <form
@@ -165,14 +164,24 @@
         <a
           [routerLink]="['/account-deletion']"
           class="link"
-          >Konto löschen</a
         >
+          Konto löschen
+        </a>
 
         <button
           class="submit-button"
           (click)="onSubmit()"
         >
-          Speichern
+          <span
+            class="icon-container"
+            [innerHTML]="svgIconsService.returnIcon('save', 'action-icon')"
+            aria-hidden="true"
+          ></span>
+          <span
+            class="text"
+            aria-hidden="true"
+            >Speichern</span
+          >
         </button>
       </footer>
     </form>

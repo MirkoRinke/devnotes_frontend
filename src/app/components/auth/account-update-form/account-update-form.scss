@@ -2,13 +2,29 @@
 @use '../../../../var' as var;
 @use '../../../../mixins' as *;
 
+:host {
+  @include display-flex($justify: center);
+  flex-grow: 1;
+}
+
 .account-update-form {
-  @include display-flex($align: center, $direction: column, $gap: px-to-rem(25));
-  @include context-box($max-width: 700px, $width: 700px, $max-height: 700px, $height: 100%);
+  @include display-flex($align: center, $direction: column);
+  @include context-box($max-width: 700px, $width: 100%, $max-height: 700px, $height: 100%);
+
+  @media (max-width: var.$breakpoint-md) {
+    width: 100%;
+    max-height: max-content;
+    height: 100%;
+  }
+
+  @media (max-width: var.$breakpoint-xs) {
+    padding-inline: px-to-rem(25);
+  }
 
   .header {
-    @include display-flex($align: center, $direction: column, $gap: px-to-rem(10));
+    @include display-flex($align: center, $direction: column);
     width: 100%;
+    margin-bottom: px-to-rem(50);
 
     .heading-wrapper {
       @include display-flex($align: center, $direction: column, $gap: px-to-rem(10));
@@ -30,31 +46,30 @@
   }
 
   .global-message-wrapper {
-    @include display-flex(center, center);
+    @include display-flex($align: center, $justify: center);
     width: 100%;
-    margin-block: px-to-rem(15);
 
     @include absolute-child($class: '.badge', $bottom: 100%, $left: 50%, $transform: translateX(-50%));
   }
 
   .form {
-    @include display-flex($direction: column);
-    gap: px-to-rem(50);
+    @include display-flex($direction: column, $gap: px-to-rem(50));
     width: 100%;
-    flex-grow: 1;
 
     .input-row {
-      @include display-flex($justify: space-between, $direction: row);
-      gap: px-to-rem(15);
+      @include display-flex($justify: space-between, $direction: row, $gap: px-to-rem(15));
+
+      @media (max-width: var.$breakpoint-md) {
+        flex-direction: column;
+        gap: px-to-rem(50);
+      }
 
       @include absolute-child($class: '.badge', $bottom: 100%);
     }
 
     .input-container {
-      @include display-flex($direction: column);
-      gap: px-to-rem(5);
+      @include display-flex($direction: column, $gap: px-to-rem(5));
       width: 100%;
-      flex: 1;
 
       .password-strength-feedback {
         @include display-flex($align: center, $justify: center, $direction: row, $gap: px-to-rem(20));
@@ -62,12 +77,13 @@
       }
 
       .password-input-wrapper {
-        @include display-flex(center);
+        @include display-flex($align: center);
         @include absolute-child($class: '.password-toggle-button', $right: px-to-rem(20), $margin-bottom: unset);
       }
 
       .input {
         @include input-feld($height: 50px, $color: var(--font-primary-color-100));
+        padding-right: px-to-rem(50);
 
         background-color: var(--page-secondary-color-50);
         border: px-to-rem(2) solid var(--font-primary-color-25);
@@ -96,9 +112,39 @@
       }
 
       .submit-button {
+        --height: #{px-to-rem(48)};
+
         @include button-preset();
-        @include button-default-style();
+        @include button-default-style($height: var(--height));
+        @include display-flex($align: center, $justify: center, $gap: px-to-rem(10));
+
+        @media (max-width: var.$breakpoint-sm) {
+          --height: #{px-to-rem(38)};
+          min-width: 0;
+          background-color: transparent;
+          border: none;
+
+          &:hover {
+            background-color: transparent;
+            border: none;
+          }
+        }
+
         align-self: center;
+
+        .icon-container {
+          height: 100%;
+
+          @include svg-icon($icon-class: 'action-icon', $height: 100%, $width: 100%, $fill-color: var(--font-primary-color-100), $hover-fill-color: var(--font-primary-color-50));
+        }
+
+        .text {
+          @include font-settings($font-size: 16);
+
+          @media (max-width: var.$breakpoint-sm) {
+            display: none;
+          }
+        }
       }
     }
   }
