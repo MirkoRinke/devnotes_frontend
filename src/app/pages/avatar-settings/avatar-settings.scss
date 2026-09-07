@@ -9,4 +9,5 @@
 
 .avatar-settings-page {
   @include display-flex($justify: center);
+  width: 100%;
 }
