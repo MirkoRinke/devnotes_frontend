@@ -3,22 +3,24 @@
 @use '../../../mixins' as *;
 
 .query-bar {
-  @include display-flex(center);
-  min-height: px-to-rem(80);
-
-  padding-inline: px-to-rem(50);
+  @include display-flex($align: center);
   background-color: var(--page-primary-color-100);
   border-radius: px-to-rem(15);
+  padding-inline: px-to-rem(50);
+
+  min-height: px-to-rem(80);
 
   .filter {
-    @include display-flex(center, center);
-    gap: px-to-rem(10);
+    @include display-flex($align: center, $justify: center, $gap: px-to-rem(10));
     border-bottom: 2px solid var(--font-primary-color-50);
+
+    .date-filters {
+      @include display-flex($align: center, $justify: center, $gap: px-to-rem(10));
+    }
   }
 
   .sort {
-    @include display-flex(center, end);
-    gap: px-to-rem(10);
+    @include display-flex($align: center, $justify: end, $gap: px-to-rem(10));
     border-bottom: 2px solid var(--font-primary-color-50);
     flex-grow: 1;
   }

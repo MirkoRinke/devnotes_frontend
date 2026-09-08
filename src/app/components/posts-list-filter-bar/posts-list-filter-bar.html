@@ -4,12 +4,13 @@
       <app-query-params-dropdown
         class="left-aligned"
         [mode]="'URL'"
-        [showCount]="true"
-        [label]="filterValues.selectedEntity === 'languages' ? 'Tech-Stack' : filterValues.selectedEntity === 'technologies' ? 'Tool' : 'Entität'"
-        [key]="'selectedEntityValue'"
-        [defaultValueLabel]="filterValues.selectedEntityValue"
-        [defaultValue]="filterValues.selectedEntityValue"
-        [enableSearch]="true"
+        [features]="{ showCount: true, enableSearch: true }"
+        [display]="{
+          label: filterValues.selectedEntity === 'languages' ? 'Tech-Stack' : filterValues.selectedEntity === 'technologies' ? 'Tool' : 'Entität',
+          key: 'selectedEntityValue',
+          defaultValueLabel: filterValues.selectedEntityValue,
+          defaultValue: filterValues.selectedEntityValue,
+        }"
         [endPoint]="filterValues.endPoint"
         [params]="filterValues.entityValueParams"
         [changeDetectionToken]="changeDetectionValue()"
@@ -18,13 +19,13 @@
       <app-query-params-dropdown
         class="left-aligned"
         [mode]="'URL'"
-        [showCount]="true"
-        [label]="'Beitragstyp'"
-        [key]="'selectedPostType'"
-        [defaultValueLabel]="filterValues.selectedPostType ? filterValues.selectedPostType : 'Alle'"
-        [defaultValue]="filterValues.selectedPostType ? filterValues.selectedPostType : ''"
-        [enableAllOption]="true"
-        [enableSearch]="true"
+        [features]="{ showCount: true, enableSearch: true, enableAllOption: true }"
+        [display]="{
+          label: 'Beitragstyp',
+          key: 'selectedPostType',
+          defaultValueLabel: filterValues.selectedPostType ?? 'Alle',
+          defaultValue: filterValues.selectedPostType ?? '',
+        }"
         [endPoint]="filterValues.endPoint"
         [params]="filterValues.postTypeParams"
         [changeDetectionToken]="changeDetectionValue()"
@@ -33,13 +34,13 @@
       <app-query-params-dropdown
         class="left-aligned"
         [mode]="'URL'"
-        [showCount]="true"
-        [label]="'Kategorie'"
-        [key]="'category'"
-        [defaultValueLabel]="filterValues.selectedCategory ? filterValues.selectedCategory : 'Alle'"
-        [defaultValue]="filterValues.selectedCategory ? filterValues.selectedCategory : ''"
-        [enableAllOption]="true"
-        [enableSearch]="true"
+        [features]="{ showCount: true, enableSearch: true, enableAllOption: true }"
+        [display]="{
+          label: 'Kategorie',
+          key: 'category',
+          defaultValueLabel: filterValues.selectedCategory ?? 'Alle',
+          defaultValue: filterValues.selectedCategory ?? '',
+        }"
         [endPoint]="filterValues.endPoint"
         [params]="filterValues.categoryParams"
         [changeDetectionToken]="changeDetectionValue()"
@@ -47,44 +48,48 @@
 
       @if (filterValues.endPoint === 'USER_POSTS') {
         <app-query-params-dropdown
-          [mode]="'URL'"
           class="left-aligned"
-          [label]="'Status'"
-          [key]="'status'"
-          [defaultValueLabel]="filterValues.selectedStatus ? filterValues.selectedStatus : 'Alle'"
-          [defaultValue]="filterValues.selectedStatus ? filterValues.selectedStatus : ''"
-          [enableAllOption]="true"
-          [enableSearch]="false"
+          [mode]="'URL'"
+          [features]="{ enableAllOption: true }"
+          [display]="{
+            label: 'Status',
+            key: 'status',
+            defaultValueLabel: filterValues.selectedStatus ?? 'Alle',
+            defaultValue: filterValues.selectedStatus ?? '',
+          }"
           [endPoint]="filterValues.endPoint"
           [values]="{ published: 'Veröffentlicht', private: 'Privat', draft: 'Entwurf', archived: 'Archiviert' }"
         >
         </app-query-params-dropdown>
       }
 
-      <app-query-params-datepicker
-        [label]="'Von'"
-        [value]="filterValues.selectedDateFrom"
-        [key]="'dateFrom'"
-        [min]="filterValues.minDate"
-        [max]="filterValues.maxDate"
-      ></app-query-params-datepicker>
-      <app-query-params-datepicker
-        [label]="'bis'"
-        [value]="filterValues.selectedDateTo"
-        [key]="'dateTo'"
-        [min]="filterValues.minDate"
-        [max]="filterValues.maxDate"
-      ></app-query-params-datepicker>
+      <div class="date-filters">
+        <app-query-params-datepicker
+          [label]="'Von'"
+          [value]="filterValues.selectedDateFrom"
+          [key]="'dateFrom'"
+          [min]="filterValues.minDate"
+          [max]="filterValues.maxDate"
+        ></app-query-params-datepicker>
+        <app-query-params-datepicker
+          [label]="'bis'"
+          [value]="filterValues.selectedDateTo"
+          [key]="'dateTo'"
+          [min]="filterValues.minDate"
+          [max]="filterValues.maxDate"
+        ></app-query-params-datepicker>
+      </div>
     </section>
     <section class="sort">
       <app-query-params-dropdown
-        [mode]="'URL'"
         class="right-aligned"
-        [label]="'Sortieren'"
-        [key]="'sort'"
-        [defaultValueLabel]="filterValues.selectedSort ? filterValues.selectedSort : 'Datum ↑'"
-        [defaultValue]="filterValues.selectedSort ? filterValues.selectedSort : '-updated_at'"
-        [enableSearch]="false"
+        [mode]="'URL'"
+        [display]="{
+          label: 'Sortieren',
+          key: 'sort',
+          defaultValueLabel: filterValues.selectedSort ?? 'Datum ↑',
+          defaultValue: filterValues.selectedSort ?? '-updated_at',
+        }"
         [endPoint]="filterValues.endPoint"
         [values]="{ '-updated_at': 'Latest', updated_at: 'Oldest', '-likes_count': 'Most Liked' }"
       >
