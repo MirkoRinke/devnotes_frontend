@@ -24,8 +24,8 @@
               [display]="{
                 label: 'Beitragstyp',
                 key: null,
-                defaultValueLabel: getDefaultValue('post_type', 'Beitragstyp'),
                 defaultValue: getDefaultValue('post_type', ''),
+                emptyStateLabel: 'Auswählen',
               }"
               [endPoint]="'POST_ALLOWED_VALUES'"
               [params]="getAllowedValuesParams('post_type')"
@@ -50,8 +50,8 @@
               [display]="{
                 label: 'Category',
                 key: null,
-                defaultValueLabel: getDefaultValue('category', 'Category'),
                 defaultValue: getDefaultValue('category', ''),
+                emptyStateLabel: 'Auswählen',
               }"
               [endPoint]="'POST_ALLOWED_VALUES'"
               [params]="getAllowedValuesParams('category')"
@@ -76,8 +76,8 @@
               [display]="{
                 label: 'Syntax',
                 key: 'entityValue',
-                defaultValueLabel: getDefaultValue('syntax_highlighting', 'Syntax'),
                 defaultValue: getDefaultValue('syntax_highlighting', ''),
+                emptyStateLabel: 'Auswählen',
               }"
               [endPoint]="'POST_ALLOWED_VALUES'"
               [params]="['?filter[type]=language&select=count:name']"
@@ -101,8 +101,8 @@
               [display]="{
                 label: 'Status',
                 key: null,
-                defaultValueLabel: getDefaultValue('status', 'Status'),
                 defaultValue: getDefaultValue('status', ''),
+                emptyStateLabel: 'Auswählen',
               }"
               [endPoint]="'POST_ALLOWED_VALUES'"
               [params]="getAllowedValuesParams('status')"
