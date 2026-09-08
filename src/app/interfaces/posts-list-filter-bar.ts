@@ -16,3 +16,13 @@ export interface FilterValuesInterface {
   postTypeParams: string[];
   categoryParams: string[];
 }
+
+export interface EntityLabelsInterface {
+  entity: string;
+  postTypes: string;
+  category: string;
+  status: string;
+  dateFrom: string;
+  dateTo: string;
+  sort: string;
+}
