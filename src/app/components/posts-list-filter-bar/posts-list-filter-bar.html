@@ -1,3 +1,5 @@
+@let translatePath = 'QueryBar' + '.';
+
 @if (filterValues) {
   <aside class="query-bar">
     <section class="filter">
@@ -6,9 +8,10 @@
         [mode]="'URL'"
         [features]="{ showCount: true, enableSearch: true }"
         [display]="{
-          label: filterValues.selectedEntity === 'languages' ? 'Tech-Stack' : filterValues.selectedEntity === 'technologies' ? 'Tool' : 'Entität',
+          label: selectedEntityLabel('entity'),
           key: 'selectedEntityValue',
           currentValue: filterValues.selectedEntityValue,
+          translatePath: translatePath,
         }"
         [endPoint]="filterValues.endPoint"
         [params]="filterValues.entityValueParams"
@@ -20,9 +23,10 @@
         [mode]="'URL'"
         [features]="{ showCount: true, enableSearch: true, enableAllOption: true }"
         [display]="{
-          label: 'Beitragstyp',
+          label: selectedEntityLabel('postTypes'),
           key: 'selectedPostType',
           currentValue: filterValues.selectedPostType ?? '',
+          translatePath: translatePath,
         }"
         [endPoint]="filterValues.endPoint"
         [params]="filterValues.postTypeParams"
@@ -34,9 +38,10 @@
         [mode]="'URL'"
         [features]="{ showCount: true, enableSearch: true, enableAllOption: true }"
         [display]="{
-          label: 'Kategorie',
+          label: selectedEntityLabel('category'),
           key: 'category',
           currentValue: filterValues.selectedCategory ?? '',
+          translatePath: translatePath,
         }"
         [endPoint]="filterValues.endPoint"
         [params]="filterValues.categoryParams"
@@ -49,26 +54,27 @@
           [mode]="'URL'"
           [features]="{ enableAllOption: true }"
           [display]="{
-            label: 'Status',
+            label: selectedEntityLabel('status'),
             key: 'status',
             currentValue: filterValues.selectedStatus ?? '',
+            translatePath: translatePath,
           }"
           [endPoint]="filterValues.endPoint"
-          [values]="{ published: 'Veröffentlicht', private: 'Privat', draft: 'Entwurf', archived: 'Archiviert' }"
+          [values]="{ published: 'published', private: 'private', draft: 'draft', archived: 'archived' }"
         >
         </app-query-params-dropdown>
       }
 
       <div class="date-filters">
         <app-query-params-datepicker
-          [label]="'Von'"
+          [label]="selectedEntityLabel('dateFrom')"
           [value]="filterValues.selectedDateFrom"
           [key]="'dateFrom'"
           [min]="filterValues.minDate"
           [max]="filterValues.maxDate"
         ></app-query-params-datepicker>
         <app-query-params-datepicker
-          [label]="'bis'"
+          [label]="selectedEntityLabel('dateTo')"
           [value]="filterValues.selectedDateTo"
           [key]="'dateTo'"
           [min]="filterValues.minDate"
@@ -81,12 +87,13 @@
         class="right-aligned"
         [mode]="'URL'"
         [display]="{
-          label: 'Sortieren',
+          label: selectedEntityLabel('sort'),
           key: 'sort',
           currentValue: filterValues.selectedSort ?? '-updated_at',
+          translatePath: translatePath,
         }"
         [endPoint]="filterValues.endPoint"
-        [values]="{ '-updated_at': 'Latest', updated_at: 'Oldest', '-likes_count': 'Most Liked' }"
+        [values]="{ '-updated_at': '-updated_at', updated_at: 'updated_at', '-likes_count': '-likes_count' }"
       >
       </app-query-params-dropdown>
     </section>
