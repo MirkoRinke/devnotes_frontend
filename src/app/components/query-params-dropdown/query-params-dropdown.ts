@@ -96,7 +96,7 @@ export class QueryParamsDropdown {
    * Derives the displayed selection label from the raw value, falling back to the empty-state text when unset
    */
   get selectedLabel(): string | null {
-    const value = this.display?.defaultValue;
+    const value = this.display?.currentValue;
     if (!value) {
       return this.display?.emptyStateLabel ?? null;
     }

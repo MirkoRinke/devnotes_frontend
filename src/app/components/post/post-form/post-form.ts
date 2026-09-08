@@ -171,13 +171,13 @@ export class PostForm {
   }
 
   /**
-   * Helper method to get the default value for a form control. If the control has a value, it returns that; otherwise, it returns the provided fallback value.
+   * Helper method to get the current value for a form control. If the control has a value, it returns that; otherwise, it returns the provided fallback value.
    *
    * @param controlName The name of the form control.
    * @param fallback The fallback value to return if the control has no value.
    * @returns The value of the form control or the fallback value.
    */
-  public getDefaultValue(controlName: string, fallback: string): string {
+  public getCurrentValue(controlName: string, fallback: string): string {
     const value = this.postForm?.get(controlName)?.value;
     return value && typeof value === 'string' ? value : fallback;
   }

@@ -1,7 +1,7 @@
 export interface DropdownDisplayConfigInterface {
   label: string | null;
   key: string | null;
-  defaultValue: string | null;
+  currentValue: string | null;
   emptyStateLabel?: string;
 }
 

@@ -1,4 +1,4 @@
-@if (display != null && display.label != null && display.defaultValue != null && mode != null) {
+@if (display != null && display.label != null && display.currentValue != null && mode != null) {
   <div
     class="dropdown-component"
     appClickOutsideDirective
@@ -44,7 +44,7 @@
           />
         }
 
-        @if (display.defaultValue !== '' && features.enableAllOption) {
+        @if (display.currentValue !== '' && features.enableAllOption) {
           <button
             type="button"
             role="option"

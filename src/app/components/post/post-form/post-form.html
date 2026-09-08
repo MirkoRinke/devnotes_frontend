@@ -24,7 +24,7 @@
               [display]="{
                 label: 'Beitragstyp',
                 key: null,
-                defaultValue: getDefaultValue('post_type', ''),
+                currentValue: getCurrentValue('post_type', ''),
                 emptyStateLabel: 'Auswählen',
               }"
               [endPoint]="'POST_ALLOWED_VALUES'"
@@ -50,7 +50,7 @@
               [display]="{
                 label: 'Category',
                 key: null,
-                defaultValue: getDefaultValue('category', ''),
+                currentValue: getCurrentValue('category', ''),
                 emptyStateLabel: 'Auswählen',
               }"
               [endPoint]="'POST_ALLOWED_VALUES'"
@@ -76,7 +76,7 @@
               [display]="{
                 label: 'Syntax',
                 key: 'entityValue',
-                defaultValue: getDefaultValue('syntax_highlighting', ''),
+                currentValue: getCurrentValue('syntax_highlighting', ''),
                 emptyStateLabel: 'Auswählen',
               }"
               [endPoint]="'POST_ALLOWED_VALUES'"
@@ -101,7 +101,7 @@
               [display]="{
                 label: 'Status',
                 key: null,
-                defaultValue: getDefaultValue('status', ''),
+                currentValue: getCurrentValue('status', ''),
                 emptyStateLabel: 'Auswählen',
               }"
               [endPoint]="'POST_ALLOWED_VALUES'"

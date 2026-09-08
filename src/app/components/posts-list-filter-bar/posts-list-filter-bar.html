@@ -8,7 +8,7 @@
         [display]="{
           label: filterValues.selectedEntity === 'languages' ? 'Tech-Stack' : filterValues.selectedEntity === 'technologies' ? 'Tool' : 'Entität',
           key: 'selectedEntityValue',
-          defaultValue: filterValues.selectedEntityValue,
+          currentValue: filterValues.selectedEntityValue,
         }"
         [endPoint]="filterValues.endPoint"
         [params]="filterValues.entityValueParams"
@@ -22,7 +22,7 @@
         [display]="{
           label: 'Beitragstyp',
           key: 'selectedPostType',
-          defaultValue: filterValues.selectedPostType ?? '',
+          currentValue: filterValues.selectedPostType ?? '',
         }"
         [endPoint]="filterValues.endPoint"
         [params]="filterValues.postTypeParams"
@@ -36,7 +36,7 @@
         [display]="{
           label: 'Kategorie',
           key: 'category',
-          defaultValue: filterValues.selectedCategory ?? '',
+          currentValue: filterValues.selectedCategory ?? '',
         }"
         [endPoint]="filterValues.endPoint"
         [params]="filterValues.categoryParams"
@@ -51,7 +51,7 @@
           [display]="{
             label: 'Status',
             key: 'status',
-            defaultValue: filterValues.selectedStatus ?? '',
+            currentValue: filterValues.selectedStatus ?? '',
           }"
           [endPoint]="filterValues.endPoint"
           [values]="{ published: 'Veröffentlicht', private: 'Privat', draft: 'Entwurf', archived: 'Archiviert' }"
@@ -83,7 +83,7 @@
         [display]="{
           label: 'Sortieren',
           key: 'sort',
-          defaultValue: filterValues.selectedSort ?? '-updated_at',
+          currentValue: filterValues.selectedSort ?? '-updated_at',
         }"
         [endPoint]="filterValues.endPoint"
         [values]="{ '-updated_at': 'Latest', updated_at: 'Oldest', '-likes_count': 'Most Liked' }"
