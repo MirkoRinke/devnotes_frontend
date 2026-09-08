@@ -21,10 +21,12 @@
             <app-query-params-dropdown
               class="post-from-dropdown"
               [mode]="'Component'"
-              [label]="'Beitragstyp'"
-              [defaultValueLabel]="getDefaultValue('post_type', 'Beitragstyp')"
-              [defaultValue]="getDefaultValue('post_type', '')"
-              [enableSearch]="false"
+              [display]="{
+                label: 'Beitragstyp',
+                key: null,
+                defaultValueLabel: getDefaultValue('post_type', 'Beitragstyp'),
+                defaultValue: getDefaultValue('post_type', ''),
+              }"
               [endPoint]="'POST_ALLOWED_VALUES'"
               [params]="getAllowedValuesParams('post_type')"
               (selectionChange)="patchDropdownValues($event, 'post_type')"
@@ -44,10 +46,13 @@
             <app-query-params-dropdown
               class="post-from-dropdown"
               [mode]="'Component'"
-              [label]="'Category'"
-              [defaultValueLabel]="getDefaultValue('category', 'Category')"
-              [defaultValue]="getDefaultValue('category', '')"
-              [enableSearch]="true"
+              [features]="{ enableSearch: true }"
+              [display]="{
+                label: 'Category',
+                key: null,
+                defaultValueLabel: getDefaultValue('category', 'Category'),
+                defaultValue: getDefaultValue('category', ''),
+              }"
               [endPoint]="'POST_ALLOWED_VALUES'"
               [params]="getAllowedValuesParams('category')"
               (selectionChange)="patchDropdownValues($event, 'category')"
@@ -67,13 +72,14 @@
             <app-query-params-dropdown
               class="post-from-dropdown"
               [mode]="'Component'"
-              [showCount]="false"
-              [label]="'Syntax'"
-              [key]="'entityValue'"
-              [enableSearch]="true"
+              [features]="{ enableSearch: true }"
+              [display]="{
+                label: 'Syntax',
+                key: 'entityValue',
+                defaultValueLabel: getDefaultValue('syntax_highlighting', 'Syntax'),
+                defaultValue: getDefaultValue('syntax_highlighting', ''),
+              }"
               [endPoint]="'POST_ALLOWED_VALUES'"
-              [defaultValueLabel]="getDefaultValue('syntax_highlighting', 'Syntax')"
-              [defaultValue]="getDefaultValue('syntax_highlighting', '')"
               [params]="['?filter[type]=language&select=count:name']"
               (selectionChange)="patchDropdownValues($event, 'syntax_highlighting')"
             ></app-query-params-dropdown>
@@ -92,10 +98,12 @@
             <app-query-params-dropdown
               class="right-aligned post-from-dropdown"
               [mode]="'Component'"
-              [label]="'Status'"
-              [defaultValueLabel]="getDefaultValue('status', 'Status')"
-              [defaultValue]="getDefaultValue('status', '')"
-              [enableSearch]="false"
+              [display]="{
+                label: 'Status',
+                key: null,
+                defaultValueLabel: getDefaultValue('status', 'Status'),
+                defaultValue: getDefaultValue('status', ''),
+              }"
               [endPoint]="'POST_ALLOWED_VALUES'"
               [params]="getAllowedValuesParams('status')"
               (selectionChange)="patchDropdownValues($event, 'status')"
