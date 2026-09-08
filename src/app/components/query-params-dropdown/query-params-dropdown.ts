@@ -8,6 +8,7 @@ import { SvgIconsService } from '../../services/svg.icons.service';
 import { ClickOutsideDirective } from '../../directives/click-outside.directive';
 
 import type { AvailableValuesInterface } from '../../interfaces/available-values';
+import type { DropdownDisplayConfigInterface, DropdownFeaturesInterface } from '../../interfaces/query-params-dropdown';
 
 import { ApiEndpointEnums } from '../../enums/api-endpoint';
 
@@ -18,20 +19,13 @@ import { ApiEndpointEnums } from '../../enums/api-endpoint';
   styleUrl: './query-params-dropdown.scss',
 })
 export class QueryParamsDropdown {
+  @Input() mode: 'URL' | 'Component' | null = null;
+
+  @Input() features: DropdownFeaturesInterface = {};
+  @Input() display: DropdownDisplayConfigInterface | null = null;
+
   @Input() endPoint: keyof typeof ApiEndpointEnums | null = null;
   @Input() params: Array<string> | null = null;
-
-  @Input() mode: 'URL' | 'Component' | null = null;
-  @Input() showCount: boolean = false;
-
-  @Input() label: string | null = null;
-  @Input() key: string | null = null;
-
-  @Input() defaultValueLabel: string | null = null;
-  @Input() defaultValue: string | null = null;
-
-  @Input() enableAllOption: boolean = false;
-  @Input() enableSearch: boolean = false;
 
   @Input() values: { [key: string]: string } | null = null;
 
@@ -102,7 +96,7 @@ export class QueryParamsDropdown {
    * Sets the limit of displayed values based on the enableSearch flag
    */
   setShowValuesLimit() {
-    if (this.enableSearch) {
+    if (this.features.enableSearch) {
       this.filteredValues = this.availableValues.slice(0, 10);
     } else {
       this.filteredValues = this.availableValues;
