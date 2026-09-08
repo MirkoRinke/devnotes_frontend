@@ -65,7 +65,7 @@ export class QueryParamsDropdown {
       if (this.endPoint && this.params) {
         this.getAvailableValues(this.params, this.endPoint);
       }
-    } else if (this.values) {
+    } else if (changes['values'] && this.values) {
       this.availableValues = Object.keys(this.values).map((key) => ({ name: key, total_counts: 0, entity: '' }));
       this.setShowValuesLimit();
     }
@@ -90,6 +90,17 @@ export class QueryParamsDropdown {
    */
   calculateTotalCount() {
     this.totalCount = this.availableValues.reduce((sum, current) => sum + current.total_counts, 0);
+  }
+
+  /**
+   * Derives the displayed selection label from the raw value, falling back to the empty-state text when unset
+   */
+  get selectedLabel(): string | null {
+    const value = this.display?.defaultValue;
+    if (!value) {
+      return this.display?.emptyStateLabel ?? null;
+    }
+    return this.values?.[value] ?? value;
   }
 
   /**
@@ -146,6 +157,17 @@ export class QueryParamsDropdown {
     if (event.animationName.endsWith('animated-out')) {
       this.showDropdownValues = false;
       this.filterFunction('');
+    }
+  }
+
+  /**
+   * Dispatches the selection via URL navigation or the component output, depending on the configured mode
+   */
+  select(value: string): void {
+    if (this.mode === 'URL' && this.display?.key) {
+      this.onSelectURL(value, this.display.key);
+    } else if (this.mode === 'Component') {
+      this.onSelectComponent(value);
     }
   }
 

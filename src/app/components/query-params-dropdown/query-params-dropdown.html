@@ -1,4 +1,4 @@
-@if (display != null && display.label != null && display.defaultValueLabel != null && display.defaultValue != null && mode != null) {
+@if (display != null && display.label != null && display.defaultValue != null && mode != null) {
   <div
     class="dropdown-component"
     appClickOutsideDirective
@@ -15,7 +15,7 @@
         <span class="label"> {{ display.label }}: </span>
 
         <span class="selected-value">
-          {{ values && values[display.defaultValueLabel] ? values[display.defaultValueLabel] : display.defaultValueLabel }}
+          {{ selectedLabel ?? 'Alle' }}
         </span>
         <span
           class="chevron-icon"
@@ -49,7 +49,7 @@
             type="button"
             role="option"
             class="value"
-            (click)="mode === 'URL' && display.key ? onSelectURL('', display.key) : onSelectComponent('')"
+            (click)="select('')"
           >
             <span class="name">Alle {{ display.label }}</span>
 
@@ -64,7 +64,7 @@
             role="option"
             class="value"
             [title]="value.name"
-            (click)="mode === 'URL' && display.key ? onSelectURL(value.name, display.key) : onSelectComponent(value.name)"
+            (click)="select(value.name)"
           >
             <span class="name">{{ values && values[value.name] ? values[value.name] : value.name }}</span>
             @if (features.showCount) {
