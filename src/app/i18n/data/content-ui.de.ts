@@ -146,6 +146,52 @@ export const CONTENT_UI_DE: ContentUI = {
     posts: 'Beiträge',
     ariaLabel: {},
   },
+  PostListQueryBar: {
+    languages: {
+      languages: 'Tech Stack',
+      ariaLabel: {},
+    },
+    technologies: {
+      technologies: 'Tools',
+      ariaLabel: {},
+    },
+    postTypes: {
+      postTypes: 'Beitragstypen',
+      all: 'Alle',
+      all_types: 'Alle Typen',
+      feedback: 'Feedback',
+      questions: 'Fragen',
+      resources: 'Ressourcen',
+      showcase: 'Showcase',
+      snippets: 'Snippets',
+      tutorials: 'Tutorials',
+      ariaLabel: {},
+    },
+    category: {
+      category: 'Kategorie',
+      all: 'Alle',
+      ariaLabel: {},
+    },
+    status: {
+      status: 'Status',
+      all: 'Alle',
+      ariaLabel: {},
+    },
+    dateFrom: 'Datum von',
+    dateTo: 'Datum bis',
+    sort: {
+      sort: 'Sortieren',
+      '-updated_at': 'Neuste',
+      updated_at: 'Älteste',
+      '-likes_count': 'Likes',
+      ariaLabel: {},
+    },
+  },
+  DropdownComponent: {
+    ariaLabel: {
+      results: 'Ergebnisse',
+    },
+  },
   PostListElement: {
     ariaLabel: {
       count: {
