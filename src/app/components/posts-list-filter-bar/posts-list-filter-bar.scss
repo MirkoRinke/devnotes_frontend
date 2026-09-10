@@ -2,7 +2,7 @@
 @use '../../../var' as var;
 @use '../../../mixins' as *;
 
-.query-bar {
+.post-list-query-bar {
   @include display-flex($align: center);
   background-color: var(--page-primary-color-100);
   border-radius: px-to-rem(15);

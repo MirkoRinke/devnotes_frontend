@@ -1,17 +1,17 @@
-@let translatePath = 'QueryBar' + '.';
+@let translatePath = 'PostListQueryBar' + '.';
 
 @if (filterValues) {
-  <aside class="query-bar">
+  <aside class="post-list-query-bar">
     <section class="filter">
       <app-query-params-dropdown
         class="left-aligned"
         [mode]="'URL'"
-        [features]="{ showCount: true, enableSearch: true }"
+        [features]="{ showCount: true, enableSearch: true, enableAllOption: false, translateValues: false }"
         [display]="{
           label: selectedEntityLabel('entity'),
           key: 'selectedEntityValue',
           currentValue: filterValues.selectedEntityValue,
-          translatePath: translatePath,
+          translatePath: translatePath + selectedEntityLabel('entity') + '.',
         }"
         [endPoint]="filterValues.endPoint"
         [params]="filterValues.entityValueParams"
@@ -21,12 +21,12 @@
       <app-query-params-dropdown
         class="left-aligned"
         [mode]="'URL'"
-        [features]="{ showCount: true, enableSearch: true, enableAllOption: true }"
+        [features]="{ showCount: true, enableSearch: true, enableAllOption: true, translateValues: true }"
         [display]="{
           label: selectedEntityLabel('postTypes'),
           key: 'selectedPostType',
           currentValue: filterValues.selectedPostType ?? '',
-          translatePath: translatePath,
+          translatePath: translatePath + 'postTypes' + '.',
         }"
         [endPoint]="filterValues.endPoint"
         [params]="filterValues.postTypeParams"
@@ -36,12 +36,12 @@
       <app-query-params-dropdown
         class="left-aligned"
         [mode]="'URL'"
-        [features]="{ showCount: true, enableSearch: true, enableAllOption: true }"
+        [features]="{ showCount: true, enableSearch: true, enableAllOption: true, translateValues: false }"
         [display]="{
           label: selectedEntityLabel('category'),
           key: 'category',
           currentValue: filterValues.selectedCategory ?? '',
-          translatePath: translatePath,
+          translatePath: translatePath + 'category' + '.',
         }"
         [endPoint]="filterValues.endPoint"
         [params]="filterValues.categoryParams"
@@ -52,12 +52,12 @@
         <app-query-params-dropdown
           class="left-aligned"
           [mode]="'URL'"
-          [features]="{ enableAllOption: true }"
+          [features]="{ showCount: false, enableSearch: false, enableAllOption: true, translateValues: true }"
           [display]="{
             label: selectedEntityLabel('status'),
             key: 'status',
             currentValue: filterValues.selectedStatus ?? '',
-            translatePath: translatePath,
+            translatePath: translatePath + 'status' + '.',
           }"
           [endPoint]="filterValues.endPoint"
           [values]="{ published: 'published', private: 'private', draft: 'draft', archived: 'archived' }"
@@ -86,11 +86,12 @@
       <app-query-params-dropdown
         class="right-aligned"
         [mode]="'URL'"
+        [features]="{ showCount: false, enableSearch: false, enableAllOption: false, translateValues: true }"
         [display]="{
           label: selectedEntityLabel('sort'),
           key: 'sort',
           currentValue: filterValues.selectedSort ?? '-updated_at',
-          translatePath: translatePath,
+          translatePath: translatePath + 'sort' + '.',
         }"
         [endPoint]="filterValues.endPoint"
         [values]="{ '-updated_at': '-updated_at', updated_at: 'updated_at', '-likes_count': '-likes_count' }"
