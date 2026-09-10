@@ -23,12 +23,13 @@
             <app-query-params-dropdown
               class="post-from-dropdown"
               [mode]="'Component'"
+              [features]="{ showCount: false, enableSearch: false, enableAllOption: false, translateValues: false }"
               [display]="{
-                label: 'Beitragstyp',
+                label: 'postTypes',
                 key: null,
                 currentValue: getCurrentValue('post_type', ''),
                 emptyStateLabel: 'Auswählen',
-                translatePath: translatePath,
+                translatePath: translatePath + 'postTypes' + '.',
               }"
               [endPoint]="'POST_ALLOWED_VALUES'"
               [params]="getAllowedValuesParams('post_type')"
@@ -49,13 +50,13 @@
             <app-query-params-dropdown
               class="post-from-dropdown"
               [mode]="'Component'"
-              [features]="{ enableSearch: true }"
+              [features]="{ showCount: false, enableSearch: true, enableAllOption: false, translateValues: false }"
               [display]="{
-                label: 'Category',
+                label: 'category',
                 key: null,
                 currentValue: getCurrentValue('category', ''),
                 emptyStateLabel: 'Auswählen',
-                translatePath: translatePath,
+                translatePath: translatePath + 'category' + '.',
               }"
               [endPoint]="'POST_ALLOWED_VALUES'"
               [params]="getAllowedValuesParams('category')"
@@ -76,13 +77,13 @@
             <app-query-params-dropdown
               class="post-from-dropdown"
               [mode]="'Component'"
-              [features]="{ enableSearch: true }"
+              [features]="{ showCount: false, enableSearch: true, enableAllOption: false, translateValues: false }"
               [display]="{
-                label: 'Syntax',
+                label: 'syntax',
                 key: 'entityValue',
                 currentValue: getCurrentValue('syntax_highlighting', ''),
                 emptyStateLabel: 'Auswählen',
-                translatePath: translatePath,
+                translatePath: translatePath + 'syntax' + '.',
               }"
               [endPoint]="'POST_ALLOWED_VALUES'"
               [params]="['?filter[type]=language&select=count:name']"
@@ -103,12 +104,13 @@
             <app-query-params-dropdown
               class="right-aligned post-from-dropdown"
               [mode]="'Component'"
+              [features]="{ showCount: false, enableSearch: false, enableAllOption: false, translateValues: false }"
               [display]="{
-                label: 'Status',
+                label: 'status',
                 key: null,
                 currentValue: getCurrentValue('status', ''),
                 emptyStateLabel: 'Auswählen',
-                translatePath: translatePath,
+                translatePath: translatePath + 'status' + '.',
               }"
               [endPoint]="'POST_ALLOWED_VALUES'"
               [params]="getAllowedValuesParams('status')"
