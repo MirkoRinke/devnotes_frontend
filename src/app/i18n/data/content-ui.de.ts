@@ -157,7 +157,6 @@ export const CONTENT_UI_DE: ContentUI = {
     },
     postTypes: {
       postTypes: 'Beitragstypen',
-      all: 'Alle',
       all_types: 'Alle Typen',
       feedback: 'Feedback',
       questions: 'Fragen',
@@ -169,12 +168,10 @@ export const CONTENT_UI_DE: ContentUI = {
     },
     category: {
       category: 'Kategorie',
-      all: 'Alle',
       ariaLabel: {},
     },
     status: {
       status: 'Status',
-      all: 'Alle',
       ariaLabel: {},
     },
     dateFrom: 'Datum von',
@@ -188,6 +185,7 @@ export const CONTENT_UI_DE: ContentUI = {
     },
   },
   DropdownComponent: {
+    all: 'Alle',
     ariaLabel: {
       results: 'Ergebnisse',
     },

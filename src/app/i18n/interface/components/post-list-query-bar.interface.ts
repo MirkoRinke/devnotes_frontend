@@ -9,7 +9,7 @@ export interface PostListQueryBarMessagesInterface {
   };
   postTypes: {
     postTypes: string;
-    all: string;
+
     all_types: string;
     feedback: string;
     questions: string;
@@ -21,12 +21,12 @@ export interface PostListQueryBarMessagesInterface {
   };
   category: {
     category: string;
-    all: string;
+
     ariaLabel: {};
   };
   status: {
     status: string;
-    all: string;
+
     ariaLabel: {};
   };
   dateFrom: string;
