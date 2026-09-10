@@ -1,3 +1,5 @@
+@let translatePath = 'PostForm' + '.';
+
 @if (postForm !== null && (mode === 'create' || mode === 'edit') && currentUser !== null) {
   <article
     class="post"
@@ -26,6 +28,7 @@
                 key: null,
                 currentValue: getCurrentValue('post_type', ''),
                 emptyStateLabel: 'Auswählen',
+                translatePath: translatePath,
               }"
               [endPoint]="'POST_ALLOWED_VALUES'"
               [params]="getAllowedValuesParams('post_type')"
@@ -52,6 +55,7 @@
                 key: null,
                 currentValue: getCurrentValue('category', ''),
                 emptyStateLabel: 'Auswählen',
+                translatePath: translatePath,
               }"
               [endPoint]="'POST_ALLOWED_VALUES'"
               [params]="getAllowedValuesParams('category')"
@@ -78,6 +82,7 @@
                 key: 'entityValue',
                 currentValue: getCurrentValue('syntax_highlighting', ''),
                 emptyStateLabel: 'Auswählen',
+                translatePath: translatePath,
               }"
               [endPoint]="'POST_ALLOWED_VALUES'"
               [params]="['?filter[type]=language&select=count:name']"
@@ -103,6 +108,7 @@
                 key: null,
                 currentValue: getCurrentValue('status', ''),
                 emptyStateLabel: 'Auswählen',
+                translatePath: translatePath,
               }"
               [endPoint]="'POST_ALLOWED_VALUES'"
               [params]="getAllowedValuesParams('status')"
