@@ -1,7 +1,7 @@
-@if (display != null && display.label != null && display.currentValue != null && mode != null) {
-  <!--  Using translatePath for translations -->
-  <!-- @let translatePath = display.translatePath; -->
-  <!-- @let translatePathAriaLabel = translatePath + 'ariaLabel' + '.'; -->
+@if (features != null && display != null && display.label != null && display.currentValue != null && mode != null) {
+  @let parentTranslatePath = display.translatePath;
+  @let translatePath = 'DropdownComponent' + '.';
+  @let translatePathAriaLabel = translatePath + 'ariaLabel' + '.';
 
   <div
     class="dropdown-component"
@@ -14,24 +14,27 @@
         type="button"
         [class.active]="filteredValues.length > 0"
         (click)="toggleDropdown()"
+        [attr.aria-expanded]="showDropdownValues"
+        [attr.aria-controls]="'filter-dropdown-menu' + '_' + display.label"
         aria-haspopup="listbox"
       >
-        <span class="label"> {{ display.label }}: </span>
-
+        <span class="label">{{ parentTranslatePath + display.label | translate }}:</span>
         <span class="selected-value">
-          {{ selectedLabel ?? 'Alle' }}
+          {{ features.translateValues ? (parentTranslatePath + (selectedLabel ?? 'all') | translate) : (selectedLabel ?? (parentTranslatePath + 'all' | translate)) }}
         </span>
         <span
           class="chevron-icon"
           [class.active]="filteredValues.length > 0"
           [innerHTML]="svgIconsService.returnIcon('chevron')"
           [class.open]="showDropdownValues"
+          aria-hidden="true"
         ></span>
       </button>
     </div>
 
     @if (showDropdownValues) {
       <div
+        [id]="'filter-dropdown-menu' + '_' + display.label"
         class="values"
         [class.active]="showDropdownValues"
         [class.animated-in]="showAnimation"
@@ -41,11 +44,19 @@
       >
         @if (features.enableSearch) {
           <input
+            #searchInput
             type="text"
+            name="search"
             class="search-input"
             placeholder="Search.."
-            (input)="filterFunction($event.target.value)"
+            (input)="filterFunction(searchInput.value)"
           />
+
+          <span
+            class="search-input-aria-count"
+            aria-live="polite"
+            >{{ showAriaCounter ? filteredValues.length + ' ' + (translatePathAriaLabel + 'results' | translate) : '' }}</span
+          >
         }
 
         @if (display.currentValue !== '' && features.enableAllOption) {
@@ -53,9 +64,10 @@
             type="button"
             role="option"
             class="value"
+            [title]="features.translateValues ? (parentTranslatePath + 'all' | translate) : 'all'"
             (click)="select('')"
           >
-            <span class="name">Alle {{ display.label }}</span>
+            <span class="name">{{ parentTranslatePath + 'all' | translate }}</span>
 
             @if (features.showCount) {
               <span class="count">{{ totalCount > 0 ? totalCount : '' }}</span>
@@ -67,12 +79,13 @@
             type="button"
             role="option"
             class="value"
-            [title]="value.name"
+            [attr.aria-selected]="display.currentValue ? display.currentValue === value.name : false"
+            [title]="features.translateValues ? (parentTranslatePath + value.name | translate) : value.name"
             (click)="select(value.name)"
           >
-            <span class="name">{{ values && values[value.name] ? values[value.name] : value.name }}</span>
-            @if (features.showCount) {
-              <span class="count">{{ value.total_counts ? value.total_counts : '' }}</span>
+            <span class="name">{{ features.translateValues ? (parentTranslatePath + value.name | translate) : value.name }}</span>
+            @if (features.showCount && value.total_counts) {
+              <span class="count">{{ value.total_counts }}</span>
             }
           </button>
         }

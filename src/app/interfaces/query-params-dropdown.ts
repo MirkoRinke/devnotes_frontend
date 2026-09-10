@@ -7,8 +7,8 @@ export interface DropdownDisplayConfigInterface {
 }
 
 export interface DropdownFeaturesInterface {
-  showCount?: boolean;
-  enableSearch?: boolean;
-  enableAllOption?: boolean;
-  translateValues?: boolean;
+  showCount: boolean;
+  enableSearch: boolean;
+  enableAllOption: boolean;
+  translateValues: boolean;
 }

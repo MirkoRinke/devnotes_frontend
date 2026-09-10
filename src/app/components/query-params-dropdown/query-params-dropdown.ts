@@ -5,6 +5,8 @@ import { take } from 'rxjs/operators';
 import { AvailableValuesService } from '../../services/available-values.service';
 import { SvgIconsService } from '../../services/svg.icons.service';
 
+import { TranslatePipe } from '../../i18n/translate-pipe';
+
 import { ClickOutsideDirective } from '../../directives/click-outside.directive';
 
 import type { AvailableValuesInterface } from '../../interfaces/available-values';
@@ -14,14 +16,14 @@ import { ApiEndpointEnums } from '../../enums/api-endpoint';
 
 @Component({
   selector: 'app-query-params-dropdown',
-  imports: [ClickOutsideDirective],
+  imports: [ClickOutsideDirective, TranslatePipe],
   templateUrl: './query-params-dropdown.html',
   styleUrl: './query-params-dropdown.scss',
 })
 export class QueryParamsDropdown {
   @Input() mode: 'URL' | 'Component' | null = null;
 
-  @Input() features: DropdownFeaturesInterface = {};
+  @Input() features: DropdownFeaturesInterface | null = null;
   @Input() display: DropdownDisplayConfigInterface | null = null;
 
   @Input() endPoint: keyof typeof ApiEndpointEnums | null = null;
@@ -39,6 +41,9 @@ export class QueryParamsDropdown {
 
   showDropdownValues = false;
   showAnimation = false;
+
+  searchTimeout?: ReturnType<typeof setTimeout>;
+  showAriaCounter = false;
 
   constructor(
     private router: Router,
@@ -107,7 +112,7 @@ export class QueryParamsDropdown {
    * Sets the limit of displayed values based on the enableSearch flag
    */
   setShowValuesLimit() {
-    if (this.features.enableSearch) {
+    if (this.features?.enableSearch) {
       this.filteredValues = this.availableValues.slice(0, 10);
     } else {
       this.filteredValues = this.availableValues;
@@ -120,9 +125,17 @@ export class QueryParamsDropdown {
    * @param inputValue
    */
   filterFunction(inputValue: string) {
+    this.showAriaCounter = false;
     const input = (inputValue || '').toLowerCase().trim();
+    if (this.searchTimeout) {
+      clearTimeout(this.searchTimeout);
+    }
+
     if (input.length > 0) {
       this.filteredValues = this.availableValues.filter((value) => value.name.toLowerCase().startsWith(input));
+      this.searchTimeout = setTimeout(() => {
+        this.showAriaCounter = this.filteredValues.length > 0;
+      }, 500);
     } else {
       this.setShowValuesLimit();
     }
