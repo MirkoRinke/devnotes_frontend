@@ -22,10 +22,12 @@ import { TechTileMessagesInterface } from './components/tech-tile.interface';
 import { SectionStepperMessagesInterface } from './components/section-stepper.interface';
 import { FavoritesRefreshButtonMessagesInterface } from './components/favorites-refresh-button.interface';
 import { PostListMessagesInterface } from './components/posts-list.interface';
+import { PostListQueryBarMessagesInterface } from './components/post-list-query-bar.interface';
 import { PostListElementMessagesInterface } from './components/post-list-element.interface';
 import { SectionPaginationMessagesInterface } from './components/section-pagination.interface';
 import { UserAvatarCustomizerMessagesInterface } from './components/user-avatar-customizer.interface';
 import { UserAvatarAltMessagesInterface } from './components/user-avatar-alt.interface';
+import { DropdownComponentMessagesInterface } from './components/dropdown-component.interface';
 
 export interface Content extends ContentUI, LegalContent, Notifications {}
 
@@ -47,10 +49,12 @@ export interface ContentUI {
   SectionStepper: SectionStepperMessagesInterface;
   FavoritesRefreshButton: FavoritesRefreshButtonMessagesInterface;
   PostList: PostListMessagesInterface;
+  PostListQueryBar: PostListQueryBarMessagesInterface;
   PostListElement: PostListElementMessagesInterface;
   SectionPagination: SectionPaginationMessagesInterface;
   UserAvatarCustomizer: UserAvatarCustomizerMessagesInterface;
   UserAvatarAlt: UserAvatarAltMessagesInterface;
+  DropdownComponent: DropdownComponentMessagesInterface;
 }
 
 export interface LegalContent {
