@@ -20,7 +20,7 @@
       >
         <span class="label">{{ parentTranslatePath + display.label | translate }}:</span>
         <span class="selected-value">
-          {{ features.translateValues ? (parentTranslatePath + (selectedLabel ?? 'all') | translate) : (selectedLabel ?? (parentTranslatePath + 'all' | translate)) }}
+          {{ selectedLabel ? (features.translateValues ? (parentTranslatePath + selectedLabel | translate) : selectedLabel) : (translatePath + 'all' | translate) }}
         </span>
         <span
           class="chevron-icon"
@@ -64,10 +64,10 @@
             type="button"
             role="option"
             class="value"
-            [title]="features.translateValues ? (parentTranslatePath + 'all' | translate) : 'all'"
+            [title]="translatePath + 'all' | translate"
             (click)="select('')"
           >
-            <span class="name">{{ parentTranslatePath + 'all' | translate }}</span>
+            <span class="name">{{ translatePath + 'all' | translate }}</span>
 
             @if (features.showCount) {
               <span class="count">{{ totalCount > 0 ? totalCount : '' }}</span>
