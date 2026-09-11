@@ -27,22 +27,19 @@
         justify-content: flex-end;
       }
 
-      max-width: 100%;
       width: px-to-rem(220);
 
       color: var(--font-primary-color-100);
       white-space: nowrap;
 
-      &:hover {
-        .label {
-          color: var(--font-primary-color-100);
-        }
-      }
-
       .label {
         transition: color var.$transition-duration-medium ease-in-out;
         color: var(--font-primary-color-50);
-        cursor: pointer;
+
+        &:hover {
+          cursor: pointer;
+          color: var(--font-primary-color-100);
+        }
       }
 
       .selected-value {
@@ -58,7 +55,7 @@
     }
   }
 
-  @include dropdown-values($orientation: left, $width: max-content, $max-width: px-to-rem(300));
+  @include dropdown-values($orientation: left, $width: max-content, $max-width: px-to-rem(300), $min-width: 60%);
   @include value-list-item($height: unset, $width: 100%);
 
   :host(.right-aligned) & {
