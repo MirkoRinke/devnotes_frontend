@@ -65,22 +65,22 @@
         </app-query-params-dropdown>
       }
 
-      <div class="date-filters">
-        <app-query-params-datepicker
-          [label]="selectedEntityLabel('dateFrom')"
-          [value]="filterValues.selectedDateFrom"
-          [key]="'dateFrom'"
-          [min]="filterValues.minDate"
-          [max]="filterValues.maxDate"
-        ></app-query-params-datepicker>
-        <app-query-params-datepicker
-          [label]="selectedEntityLabel('dateTo')"
-          [value]="filterValues.selectedDateTo"
-          [key]="'dateTo'"
-          [min]="filterValues.minDate"
-          [max]="filterValues.maxDate"
-        ></app-query-params-datepicker>
-      </div>
+      <app-query-params-datepicker
+        class="date-filters"
+        [label]="selectedEntityLabel('dateFrom')"
+        [value]="filterValues.selectedDateFrom"
+        [key]="'dateFrom'"
+        [min]="filterValues.minDate"
+        [max]="filterValues.maxDate"
+      ></app-query-params-datepicker>
+      <app-query-params-datepicker
+        class="date-filters"
+        [label]="selectedEntityLabel('dateTo')"
+        [value]="filterValues.selectedDateTo"
+        [key]="'dateTo'"
+        [min]="filterValues.minDate"
+        [max]="filterValues.maxDate"
+      ></app-query-params-datepicker>
     </section>
     <section class="sort">
       <app-query-params-dropdown

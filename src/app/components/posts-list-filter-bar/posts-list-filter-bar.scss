@@ -12,13 +12,9 @@
   border-radius: px-to-rem(15);
 
   .filter {
-    @include display-flex($align: center, $justify: center, $gap: px-to-rem(10));
+    @include display-flex($align: center, $justify: center, $gap: px-to-rem(25));
     height: 100%;
     border-bottom: 2px solid var(--font-primary-color-50);
-
-    .date-filters {
-      @include display-flex($align: center, $justify: center, $gap: px-to-rem(10));
-    }
   }
 
   .sort {
