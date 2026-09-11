@@ -2,36 +2,22 @@
 @use '../../../var' as var;
 @use '../../../mixins' as *;
 
+:host {
+  height: 100%;
+}
+
 .dropdown-component {
-  @include display-flex(center, center, column);
+  @include display-flex($align: center, $justify: center, $direction: column);
   position: relative;
-  min-height: px-to-rem(40);
-
-  :host(.post-from-dropdown) & {
-    min-height: px-to-rem(0);
-
-    .values {
-      margin-top: px-to-rem(14);
-      max-width: px-to-rem(220);
-    }
-  }
-
-  :host(.post-from-dropdown.right-aligned) & {
-    .values {
-      width: max-content;
-      right: 0;
-      left: auto;
-    }
-  }
+  height: 100%;
 
   .dropdown {
-    @include display-flex(center);
-    gap: px-to-rem(10);
+    @include display-flex($align: center, $gap: px-to-rem(10));
     cursor: pointer;
 
     button {
       @include button-preset();
-      @include display-flex(center, center);
+      @include display-flex($align: center, $justify: center, $gap: px-to-rem(10));
 
       :host(.left-aligned) & {
         justify-content: flex-start;
@@ -41,14 +27,11 @@
         justify-content: flex-end;
       }
 
-      white-space: nowrap;
-      gap: px-to-rem(10);
-      color: var(--font-primary-color-100);
-      text-align: left;
-
+      max-width: 100%;
       width: px-to-rem(220);
 
-      max-width: 100%;
+      color: var(--font-primary-color-100);
+      white-space: nowrap;
 
       &:hover {
         .label {
@@ -75,9 +58,20 @@
     }
   }
 
-  @include dropdown-values($orientation: left);
+  @include dropdown-values($orientation: left, $width: max-content, $max-width: px-to-rem(300));
+  @include value-list-item($height: unset, $width: 100%);
 
-  @include value-list-item($item-spacing-vertical: px-to-rem(10), $item-spacing-horizontal: px-to-rem(35), $height: unset, $width: 100%);
+  :host(.right-aligned) & {
+    // Orientation right for the dropdown values
+    .values {
+      right: 0;
+      left: auto;
+
+      .value .name {
+        text-align: right;
+      }
+    }
+  }
 
   .values {
     border-top: 2px solid var(--font-primary-color-50);
