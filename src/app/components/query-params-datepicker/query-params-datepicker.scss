@@ -4,8 +4,8 @@
 
 .datepicker-component {
   @include display-flex(center, center);
-  width: px-to-rem(220);
   max-width: 100%;
+  width: px-to-rem(220);
 
   .datepicker {
     @include display-flex(center, center, row);
@@ -33,10 +33,12 @@
       border: none;
       color: var(--font-primary-color-100);
       outline: none;
+      cursor: text;
 
       &::-webkit-calendar-picker-indicator {
         opacity: 0;
         padding-left: px-to-rem(10);
+        cursor: pointer;
       }
     }
 

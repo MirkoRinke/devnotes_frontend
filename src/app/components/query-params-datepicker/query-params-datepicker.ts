@@ -30,7 +30,9 @@ export class QueryParamsDatepicker {
    * @param value
    */
   onSelect(value: string) {
-    if (value) {
+    const validYear = value.charAt(0) !== '0';
+
+    if (value && validYear) {
       this.router.navigate([], {
         queryParams: { [this.key]: value, page: null },
         queryParamsHandling: 'merge',
