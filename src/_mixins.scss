@@ -24,7 +24,7 @@
   }
 }
 
-@mixin svg-icon($icon-class, $height: 24px, $width: 24px, $min-size: 48px, $fill-color: null, $hover-fill-color: null, $active-fill-color: null) {
+@mixin svg-icon($icon-class, $height: 24px, $width: 24px, $min-size: 48px, $fill-color: null, $hover-fill-color: null, $active-fill-color: null, $open-fill-color: null) {
   @include display-flex($justify: center, $align: center);
 
   &::ng-deep .#{$icon-class},
@@ -60,6 +60,15 @@
       &::ng-deep .#{$icon-class} {
         transition: fill var.$transition-duration-medium ease-in-out;
         fill: $active-fill-color;
+      }
+    }
+  }
+
+  @if $open-fill-color != null {
+    &.open {
+      &::ng-deep .#{$icon-class} {
+        transition: fill var.$transition-duration-medium ease-in-out;
+        fill: $open-fill-color;
       }
     }
   }
@@ -203,20 +212,18 @@
       pointer-events: none;
     }
 
-    &::ng-deep .chevron {
-      transition: fill var.$transition-duration-medium ease-in-out;
-      width: px-to-rem(10);
-      height: px-to-rem(10);
-      fill: var(--font-primary-color-50);
-    }
-
     &.open {
       transform: rotateX(180deg);
-      &::ng-deep .chevron {
-        transition: fill var.$transition-duration-medium ease-in-out;
-        fill: var(--font-primary-color-100);
-      }
     }
+
+    @include svg-icon(
+      $icon-class: 'chevron',
+      $height: 10px,
+      $width: 10px,
+      $fill-color: var(--font-primary-color-50),
+      $hover-fill-color: var(--font-primary-color-100),
+      $open-fill-color: var(--font-primary-color-100)
+    );
   }
 }
 
@@ -231,13 +238,12 @@
 
 @mixin dropdown-values($border-radius: px-to-rem(15), $docked: true, $orientation: left, $width: 100%, $max-width: 100%, $min-width: 100%, $z-index: 10) {
   .values {
-    @include display-flex(start, start, column);
-
-    color: var(--font-primary-color-100);
+    @include display-flex($align: start, $justify: start, $direction: column);
 
     background-color: var(--page-primary-color-100);
-
     border: 2px solid var(--font-primary-color-50);
+
+    color: var(--font-primary-color-100);
 
     @if ($docked == true) {
       border-top: unset;
@@ -301,15 +307,15 @@
 
 @mixin dropside-values($border-radius: px-to-rem(15), $orientation: left, $z-index: 10) {
   .values {
-    @include display-flex(center, center, row);
-    width: max-content;
+    @include display-flex($align: center, $justify: center, $direction: row);
     height: px-to-rem(50);
+    width: max-content;
+
+    background-color: var(--page-primary-color-100);
+    border: 2px solid var(--font-primary-color-50);
 
     color: var(--font-primary-color-100);
 
-    background-color: var(--page-primary-color-100);
-
-    border: 2px solid var(--font-primary-color-50);
     @if $orientation == right {
       border-radius: $border-radius;
       border-top-left-radius: unset;
