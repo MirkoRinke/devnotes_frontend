@@ -229,7 +229,7 @@
   }
 }
 
-@mixin dropdown-values($border-radius: px-to-rem(15), $docked: true, $orientation: left, $z-index: 10) {
+@mixin dropdown-values($border-radius: px-to-rem(15), $docked: true, $orientation: left, $width: 100%, $max-width: 100%, $z-index: 10) {
   .values {
     @include display-flex(start, start, column);
 
@@ -243,7 +243,8 @@
       border-top: unset;
       border-bottom-left-radius: $border-radius;
       border-bottom-right-radius: $border-radius;
-      width: 100%;
+      width: $width;
+      max-width: $max-width;
     } @else {
       margin-top: px-to-rem(15);
       border-radius: $border-radius;
@@ -255,8 +256,10 @@
 
     @if $orientation == left {
       left: 0;
+      right: auto;
     } @else if $orientation == right {
       right: 0;
+      left: auto;
     } @else if $orientation == center {
       left: 50%;
       transform: translateX(-50%);
@@ -350,21 +353,20 @@
   }
 }
 
+//TODO Remove item-spacing parameters
 @mixin value-list-item($item-spacing-vertical: px-to-rem(10), $item-spacing-horizontal: px-to-rem(15), $font-size: 16, $height: 100%, $width: 100%, $justify-content: space-between) {
   .value {
     &:where(:is(button)) {
       @include button-preset();
     }
 
-    @include display-flex(center, $justify-content);
+    @include display-flex($align: center, $justify: $justify-content, $gap: px-to-rem(20));
+    @include golden-ratio-padding($font-size);
     @include font-settings($font-size, 400);
-    gap: px-to-rem(10);
-    text-align: left;
+
     height: convert-to-rem-if-needed($height);
     width: convert-to-rem-if-needed($width);
     color: var(--font-primary-color-100);
-    padding-inline: $item-spacing-horizontal;
-    padding-block: $item-spacing-vertical;
 
     &:hover {
       background-color: var(--page-secondary-color-100);
@@ -373,6 +375,9 @@
     .name {
       color: var(--font-primary-color-100);
       @include singleline-ellipsis();
+
+      text-align: left;
+      width: 100%;
 
       &::first-letter {
         text-transform: uppercase;
