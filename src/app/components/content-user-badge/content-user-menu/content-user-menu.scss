@@ -4,7 +4,7 @@
 
 @include dropside-values($border-radius: px-to-rem(9999), $orientation: right, $z-index: 1);
 
-@include value-list-item($item-spacing-vertical: px-to-rem(10), $item-spacing-horizontal: px-to-rem(30), $height: px-to-rem(50), $width: max-content);
+@include value-list-item($height: px-to-rem(50), $width: max-content);
 
 .values {
   .value {

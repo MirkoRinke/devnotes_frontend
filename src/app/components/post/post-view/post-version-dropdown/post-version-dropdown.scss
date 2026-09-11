@@ -3,6 +3,8 @@
 @use '../../../../../mixins' as *;
 
 .version-dropdown {
+  position: relative;
+
   .version-display {
     @include button-preset();
     @include font-settings(16);
@@ -51,7 +53,7 @@
 
   @include dropdown-values($orientation: left);
 
-  @include value-list-item($item-spacing-vertical: px-to-rem(10), $item-spacing-horizontal: px-to-rem(35), $height: unset, $width: 100%);
+  @include value-list-item($height: unset, $width: 100%);
 
   .values {
     border-top: 2px solid var(--font-primary-color-50);

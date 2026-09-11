@@ -4,7 +4,7 @@
 
 @include dropdown-values($docked: false, $orientation: right);
 
-@include value-list-item($item-spacing-vertical: px-to-rem(15), $item-spacing-horizontal: px-to-rem(15), $width: 100%, $justify-content: left);
+@include value-list-item($width: 100%, $justify-content: left);
 
 .values {
   @include divider();
