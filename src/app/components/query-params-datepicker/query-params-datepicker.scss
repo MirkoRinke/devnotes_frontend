@@ -3,13 +3,11 @@
 @use '../../../mixins' as *;
 
 .datepicker-component {
-  @include display-flex(center, center);
-  max-width: 100%;
+  @include display-flex($align: center, $justify: center);
   width: px-to-rem(220);
 
   .datepicker {
-    @include display-flex(center, center, row);
-    gap: px-to-rem(10);
+    @include display-flex($align: center, $justify: center, $direction: row, $gap: px-to-rem(10));
     position: relative;
 
     &:hover {
@@ -43,7 +41,7 @@
     }
 
     .new-icon {
-      @include display-flex(center, center);
+      @include display-flex($align: center, $justify: center);
       position: absolute;
       right: -10px;
       background-color: var(--page-primary-color-100);
