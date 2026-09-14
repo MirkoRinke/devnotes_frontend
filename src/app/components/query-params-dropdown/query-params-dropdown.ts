@@ -37,7 +37,7 @@ export class QueryParamsDropdown {
 
   @Output() selectionChange = new EventEmitter<string>();
 
-  private availableValues: AvailableValuesInterface[] = [];
+  public availableValues: AvailableValuesInterface[] = [];
   public filteredValues: AvailableValuesInterface[] = [];
   public totalCount: number = 0;
 

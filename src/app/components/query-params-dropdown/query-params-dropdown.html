@@ -55,9 +55,9 @@
             type="text"
             name="search"
             class="search-input"
-            [placeholder]="translatePath + 'search' | translate"
+            [placeholder]="translatePath + 'search' | translate: { count: availableValues.length }"
             (input)="filterFunction(searchInput.value)"
-            [attr.aria-label]="translatePathAriaLabel + 'search' | translate"
+            [attr.aria-label]="translatePathAriaLabel + 'search' | translate: { count: availableValues.length }"
           />
 
           <span
