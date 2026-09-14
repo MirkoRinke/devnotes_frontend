@@ -33,8 +33,8 @@
       white-space: nowrap;
 
       .label {
+        @include font-settings($color: var(--font-primary-color-50));
         transition: color var.$transition-duration-medium ease-in-out;
-        color: var(--font-primary-color-50);
 
         &:hover {
           cursor: pointer;
@@ -44,7 +44,7 @@
 
       .selected-value {
         @include singleline-ellipsis();
-        color: var(--font-primary-color-100);
+        @include font-settings($color: var(--font-primary-color-100));
 
         &::first-letter {
           text-transform: uppercase;
