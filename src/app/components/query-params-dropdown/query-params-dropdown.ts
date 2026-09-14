@@ -39,6 +39,7 @@ export class QueryParamsDropdown {
 
   public availableValues: AvailableValuesInterface[] = [];
   public filteredValues: AvailableValuesInterface[] = [];
+  private readonly initialDisplayLimit = 10;
   public totalCount: number = 0;
 
   public showDropdownValues = false;
@@ -115,7 +116,7 @@ export class QueryParamsDropdown {
    */
   private setShowValuesLimit(): void {
     if (this.features?.enableSearch) {
-      this.filteredValues = this.availableValues.slice(0, 10);
+      this.filteredValues = this.availableValues.slice(0, this.initialDisplayLimit);
     } else {
       this.filteredValues = this.availableValues;
     }
