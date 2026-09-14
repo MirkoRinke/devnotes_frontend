@@ -186,8 +186,10 @@ export const CONTENT_UI_EN: ContentUI = {
   },
   DropdownComponent: {
     all: 'All',
+    search: 'Search',
     ariaLabel: {
       results: 'Results',
+      search: 'Search',
     },
   },
   PostListElement: {
