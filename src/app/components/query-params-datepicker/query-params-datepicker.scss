@@ -3,7 +3,7 @@
 @use '../../../mixins' as *;
 
 .datepicker-component {
-  @include display-flex($align: center, $justify: center);
+  @include display-flex($align: center, $justify: start);
   width: px-to-rem(220);
 
   .datepicker {
@@ -22,8 +22,8 @@
     }
 
     .label {
+      @include font-settings($color: var(--font-primary-color-50));
       transition: color var.$transition-duration-medium ease-in-out;
-      color: var(--font-primary-color-50);
     }
 
     .input {
