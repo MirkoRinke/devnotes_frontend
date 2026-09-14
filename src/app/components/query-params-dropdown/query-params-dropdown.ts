@@ -8,6 +8,8 @@ import { SvgIconsService } from '../../services/svg.icons.service';
 import { TranslatePipe } from '../../i18n/translate-pipe';
 
 import { ClickOutsideDirective } from '../../directives/click-outside.directive';
+import { RovingFocusDirective } from '../../directives/roving-focus.directive';
+import { EscapeCloseDirective } from '../../directives/escape-close.directive';
 
 import type { AvailableValuesInterface } from '../../interfaces/available-values';
 import type { DropdownDisplayConfigInterface, DropdownFeaturesInterface } from '../../interfaces/query-params-dropdown';
@@ -16,7 +18,7 @@ import { ApiEndpointEnums } from '../../enums/api-endpoint';
 
 @Component({
   selector: 'app-query-params-dropdown',
-  imports: [ClickOutsideDirective, TranslatePipe],
+  imports: [ClickOutsideDirective, TranslatePipe, RovingFocusDirective, EscapeCloseDirective],
   templateUrl: './query-params-dropdown.html',
   styleUrl: './query-params-dropdown.scss',
 })
@@ -35,26 +37,26 @@ export class QueryParamsDropdown {
 
   @Output() selectionChange = new EventEmitter<string>();
 
-  availableValues: AvailableValuesInterface[] = [];
-  filteredValues: AvailableValuesInterface[] = [];
-  totalCount: number = 0;
+  private availableValues: AvailableValuesInterface[] = [];
+  public filteredValues: AvailableValuesInterface[] = [];
+  public totalCount: number = 0;
 
-  showDropdownValues = false;
-  showAnimation = false;
+  public showDropdownValues = false;
+  public showAnimation = false;
 
-  searchTimeout?: ReturnType<typeof setTimeout>;
-  showAriaCounter = false;
+  private searchTimeout?: ReturnType<typeof setTimeout>;
+  public showAriaCounter = false;
 
   constructor(
-    private router: Router,
-    private availableValuesService: AvailableValuesService,
-    public svgIconsService: SvgIconsService,
+    private readonly router: Router,
+    private readonly availableValuesService: AvailableValuesService,
+    public readonly svgIconsService: SvgIconsService,
   ) {}
 
   /**
    * Initializes the component and fetches available values if necessary
    */
-  ngOnInit() {
+  ngOnInit(): void {
     if (this.endPoint && this.params && this.mode === 'Component') {
       this.getAvailableValues(this.params, this.endPoint);
     }
@@ -65,7 +67,7 @@ export class QueryParamsDropdown {
    *
    * @param changes
    */
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges(changes: SimpleChanges): void {
     if (this.changeDetectionToken && changes['changeDetectionToken']) {
       if (this.endPoint && this.params) {
         this.getAvailableValues(this.params, this.endPoint);
@@ -79,7 +81,7 @@ export class QueryParamsDropdown {
   /**
    * Fetches available values from the service based on provided params and endpoint
    */
-  getAvailableValues(params: Array<string>, endPoint: keyof typeof ApiEndpointEnums) {
+  private getAvailableValues(params: Array<string>, endPoint: keyof typeof ApiEndpointEnums): void {
     this.availableValuesService
       .getAvailableValues(params, endPoint)
       .pipe(take(1))
@@ -93,14 +95,14 @@ export class QueryParamsDropdown {
   /**
    * Calculates the total count of all available values
    */
-  calculateTotalCount() {
+  private calculateTotalCount(): void {
     this.totalCount = this.availableValues.reduce((sum, current) => sum + current.total_counts, 0);
   }
 
   /**
    * Derives the displayed selection label from the raw value, falling back to the empty-state text when unset
    */
-  get selectedLabel(): string | null {
+  public get selectedLabel(): string | null {
     const value = this.display?.currentValue;
     if (!value) {
       return this.display?.emptyStateLabel ?? null;
@@ -111,7 +113,7 @@ export class QueryParamsDropdown {
   /**
    * Sets the limit of displayed values based on the enableSearch flag
    */
-  setShowValuesLimit() {
+  private setShowValuesLimit(): void {
     if (this.features?.enableSearch) {
       this.filteredValues = this.availableValues.slice(0, 10);
     } else {
@@ -124,7 +126,7 @@ export class QueryParamsDropdown {
    *
    * @param inputValue
    */
-  filterFunction(inputValue: string) {
+  public filterFunction(inputValue: string): void {
     this.showAriaCounter = false;
     const input = (inputValue || '').toLowerCase().trim();
     if (this.searchTimeout) {
@@ -144,7 +146,7 @@ export class QueryParamsDropdown {
   /**
    * Toggles the visibility of the dropdown values
    */
-  toggleDropdown() {
+  public toggleDropdown(): void {
     if (this.showDropdownValues) {
       this.showAnimation = false;
     } else {
@@ -157,7 +159,7 @@ export class QueryParamsDropdown {
    * Closes the dropdown values with an animation
    * This method is called when a click outside the dropdown is detected
    */
-  closeDropdown() {
+  public closeDropdown(): void {
     this.showAnimation = false;
   }
 
@@ -166,7 +168,7 @@ export class QueryParamsDropdown {
    *
    * @param event
    */
-  onAnimationEnd(event: AnimationEvent) {
+  public onAnimationEnd(event: AnimationEvent): void {
     if (event.animationName.endsWith('animated-out')) {
       this.showDropdownValues = false;
       this.filterFunction('');
@@ -176,7 +178,7 @@ export class QueryParamsDropdown {
   /**
    * Dispatches the selection via URL navigation or the component output, depending on the configured mode
    */
-  select(value: string): void {
+  public select(value: string): void {
     if (this.mode === 'URL' && this.display?.key) {
       this.onSelectURL(value, this.display.key);
     } else if (this.mode === 'Component') {
@@ -190,20 +192,12 @@ export class QueryParamsDropdown {
    *
    * @param value
    */
-  onSelectURL(value: string, key: string) {
-    if (value) {
-      this.router.navigate([], {
-        queryParams: { [key]: value, page: null },
-        queryParamsHandling: 'merge',
-        replaceUrl: true,
-      });
-    } else {
-      this.router.navigate([], {
-        queryParams: { [key]: null, page: null },
-        queryParamsHandling: 'merge',
-        replaceUrl: true,
-      });
-    }
+  private onSelectURL(value: string, key: string): void {
+    this.router.navigate([], {
+      queryParams: { [key]: value || null, page: null },
+      queryParamsHandling: 'merge',
+      replaceUrl: true,
+    });
     this.showDropdownValues = false;
   }
 
@@ -213,7 +207,7 @@ export class QueryParamsDropdown {
    *
    * @param value
    */
-  onSelectComponent(value: string) {
+  private onSelectComponent(value: string): void {
     this.selectionChange.emit(value);
     this.showAnimation = false;
   }

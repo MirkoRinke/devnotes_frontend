@@ -8,10 +8,15 @@
     appClickOutsideDirective
     [clickOutsideEnabled]="showDropdownValues"
     (clickOutside)="closeDropdown()"
+    appEscapeCloseDirective
+    [appEscapeCloseEnabled]="showDropdownValues"
+    [appEscapeClose]="toggleButton"
+    (escapePressed)="closeDropdown()"
   >
     <div class="dropdown">
       <button
         type="button"
+        #toggleButton
         [class.active]="filteredValues.length > 0"
         (click)="toggleDropdown()"
         [attr.aria-expanded]="showDropdownValues"
@@ -36,6 +41,8 @@
       <div
         [id]="'filter-dropdown-menu' + '_' + display.label"
         class="values"
+        appRovingFocusDirective
+        [appInputFocusElements]="'input'"
         [class.active]="showDropdownValues"
         [class.animated-in]="showAnimation"
         [class.animated-out]="!showAnimation"
@@ -48,8 +55,9 @@
             type="text"
             name="search"
             class="search-input"
-            placeholder="Search.."
+            [placeholder]="translatePath + 'search' | translate"
             (input)="filterFunction(searchInput.value)"
+            [attr.aria-label]="translatePathAriaLabel + 'search' | translate"
           />
 
           <span
