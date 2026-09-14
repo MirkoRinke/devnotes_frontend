@@ -749,6 +749,18 @@ export function getAppIcon(iconName: string, className: string): string | undefi
     </svg>
     `;
 
+    case 'filter':
+      return /*html*/ `
+    <!-- Icon used are from Google Material Symbols, licensed under the Apache License 2.0. -->
+    <svg class="${className}" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+        <g transform="matrix(1,0,0,1,-3,-3)">
+            <g transform="matrix(0.025,0,0,0.025,0,24)">
+                <path d="M440,-120L440,-360L520,-360L520,-280L840,-280L840,-200L520,-200L520,-120L440,-120ZM120,-200L120,-280L360,-280L360,-200L120,-200ZM280,-360L280,-440L120,-440L120,-520L280,-520L280,-600L360,-600L360,-360L280,-360ZM440,-440L440,-520L840,-520L840,-440L440,-440ZM600,-600L600,-840L680,-840L680,-760L840,-760L840,-680L680,-680L680,-600L600,-600ZM120,-680L120,-760L520,-760L520,-680L120,-680Z"/>
+            </g>
+        </g>
+    </svg>
+    `;
+
     case 'one_dice':
       return /*html*/ `
     <!-- © Mirko Rinke – All rights reserved.-->
