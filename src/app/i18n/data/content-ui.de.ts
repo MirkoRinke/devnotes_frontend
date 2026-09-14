@@ -186,10 +186,10 @@ export const CONTENT_UI_DE: ContentUI = {
   },
   DropdownComponent: {
     all: 'Alle',
-    search: 'Suche',
+    search: 'Suche über {count} Einträge',
     ariaLabel: {
       results: 'Ergebnisse',
-      search: 'Suche',
+      search: 'Suche über {count} Einträge',
     },
   },
   PostListElement: {
