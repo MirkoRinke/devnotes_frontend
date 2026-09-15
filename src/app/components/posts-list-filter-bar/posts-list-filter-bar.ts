@@ -3,6 +3,8 @@ import { Component, Input } from '@angular/core';
 import { QueryParamsDropdown } from '../../components/query-params-dropdown/query-params-dropdown';
 import { QueryParamsDatepicker } from '../../components/query-params-datepicker/query-params-datepicker';
 
+import { SvgIconsService } from '../../services/svg.icons.service';
+
 import type { FilterValuesInterface, EntityLabelsInterface } from '../../interfaces/posts-list-filter-bar';
 
 @Component({
@@ -13,6 +15,11 @@ import type { FilterValuesInterface, EntityLabelsInterface } from '../../interfa
 })
 export class PostsListFilterBar {
   @Input() filterValues: FilterValuesInterface | null = null;
+
+  public showMoreFilters: boolean = false;
+  public showAnimation = false;
+
+  constructor(public readonly svgIconsService: SvgIconsService) {}
 
   public changeDetectionValue(): string {
     return 'changeDetectionValues' + JSON.stringify(this.filterValues);
@@ -37,5 +44,30 @@ export class PostsListFilterBar {
     };
 
     return entityLabels[labelKey as keyof EntityLabelsInterface];
+  }
+
+  /**
+   * Toggles the visibility of the secondary filters section.
+   * If the section is currently visible, it triggers the fade-out animation.
+   * If the section is currently hidden, it makes the section visible and triggers the fade-in animation.
+   */
+  public toggleMoreFilters(): void {
+    if (this.showMoreFilters) {
+      this.showAnimation = false;
+    } else {
+      this.showMoreFilters = true;
+      requestAnimationFrame(() => (this.showAnimation = true));
+    }
+  }
+
+  /**
+   * Handles the end of the fade-out animation for the secondary filters section.
+   *
+   * @param event
+   */
+  public onAnimationEnd(event: AnimationEvent): void {
+    if (event.animationName.endsWith('fadeOut')) {
+      this.showMoreFilters = false;
+    }
   }
 }

@@ -3,25 +3,96 @@
 @use '../../../mixins' as *;
 
 .post-list-query-bar {
-  @include display-flex($align: center);
-  height: px-to-rem(80);
+  @include display-flex($align: center, $justify: center, $direction: column, $gap: px-to-rem(10));
+  position: relative;
   min-width: max-content;
 
   background-color: var(--page-primary-color-100);
-  padding: px-to-rem(20) px-to-rem(50);
   border-radius: px-to-rem(15);
 
-  .filter {
-    @include display-flex($align: center, $justify: center, $gap: px-to-rem(25));
-    height: 100%;
+  padding: px-to-rem(20) px-to-rem(50);
+
+  .primary {
+    @include display-flex($align: center, $justify: center, $gap: px-to-rem(10));
+    height: px-to-rem(40);
+    width: 100%;
+
     border-bottom: 2px solid var(--font-primary-color-50);
+
+    .filter {
+      @include display-flex($align: center, $justify: center, $gap: px-to-rem(25));
+      height: 100%;
+    }
+
+    .more-filters {
+      @include button-preset();
+      @include display-flex($align: center, $justify: center, $gap: px-to-rem(10));
+
+      &:hover {
+        .icon-container {
+          &::ng-deep .filter {
+            fill: var(--font-primary-color-100);
+          }
+        }
+        .label {
+          color: var(--font-primary-color-100);
+        }
+      }
+
+      .icon-container {
+        height: px-to-rem(16);
+        min-width: 0;
+
+        @include svg-icon($icon-class: 'filter', $height: 100%, $width: 100%, $fill-color: var(--font-primary-color-50), $hover-fill-color: var(--font-primary-color-100));
+      }
+
+      .label {
+        @include font-settings($color: var(--font-primary-color-50));
+        transition: color var.$transition-duration-medium ease-in-out;
+      }
+
+      @include chevron-icon();
+    }
+
+    .sort {
+      @include display-flex($align: center, $justify: end);
+      height: 100%;
+
+      flex-grow: 1;
+    }
   }
 
-  .sort {
-    @include display-flex($align: center, $justify: end);
-    height: 100%;
-    border-bottom: 2px solid var(--font-primary-color-50);
+  .secondary {
+    @include display-flex($align: center, $justify: start);
 
-    flex-grow: 1;
+    @include position($position: absolute, $bottom: 0);
+    transform: translateY(calc(100% - px-to-rem(15)));
+    height: px-to-rem(0);
+    width: 100%;
+
+    padding-inline: px-to-rem(50);
+
+    background-color: var(--page-primary-color-100);
+    transition: height var.$transition-duration-medium ease-in-out;
+
+    border-radius: px-to-rem(15);
+    border-top-left-radius: px-to-rem(0);
+    border-top-right-radius: px-to-rem(0);
+
+    &.active {
+      height: px-to-rem(120);
+    }
+
+    .filters {
+      @include display-flex($align: center, $justify: start, $gap: px-to-rem(25));
+
+      &:not(.active) {
+        @include fade-animation($animation: 'fadeOut', $duration: var.$transition-duration-medium);
+      }
+
+      &.active {
+        @include fade-animation($animation: 'fadeIn', $duration: var.$transition-duration-medium, $delay: var.$transition-duration-medium);
+      }
+    }
   }
 }
