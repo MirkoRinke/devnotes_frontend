@@ -2,13 +2,23 @@
 @use '../../../var' as var;
 @use '../../../mixins' as *;
 
+:host {
+  width: 100%;
+}
+
 .datepicker-component {
   @include display-flex($align: center, $justify: start);
-  width: px-to-rem(220);
+
+  max-width: px-to-rem(220);
+  :host(.max) & {
+    min-width: 100%;
+  }
 
   .datepicker {
     @include display-flex($align: center, $justify: center, $direction: row, $gap: px-to-rem(10));
     position: relative;
+
+    overflow: hidden;
 
     &:hover {
       .label {
@@ -43,7 +53,7 @@
     .new-icon {
       @include display-flex($align: center, $justify: center);
       position: absolute;
-      right: -10px;
+      right: px-to-rem(-8);
       background-color: var(--page-primary-color-100);
       width: px-to-rem(30);
       height: px-to-rem(30);
