@@ -1,7 +1,16 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ElementRef, ViewChild, HostListener, inject, DestroyRef } from '@angular/core';
+import { Subject, Subscription } from 'rxjs';
+
+import { debounceTime } from 'rxjs/operators';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
+import { NgTemplateOutlet } from '@angular/common';
 
 import { QueryParamsDropdown } from '../../components/query-params-dropdown/query-params-dropdown';
 import { QueryParamsDatepicker } from '../../components/query-params-datepicker/query-params-datepicker';
+
+import { ClickOutsideDirective } from '../../directives/click-outside.directive';
+import { EscapeCloseDirective } from '../../directives/escape-close.directive';
 
 import { SvgIconsService } from '../../services/svg.icons.service';
 
@@ -9,7 +18,7 @@ import type { FilterValuesInterface, EntityLabelsInterface } from '../../interfa
 
 @Component({
   selector: 'app-posts-list-filter-bar',
-  imports: [QueryParamsDropdown, QueryParamsDatepicker],
+  imports: [QueryParamsDropdown, QueryParamsDatepicker, ClickOutsideDirective, EscapeCloseDirective, NgTemplateOutlet],
   templateUrl: './posts-list-filter-bar.html',
   styleUrl: './posts-list-filter-bar.scss',
 })
@@ -19,7 +28,19 @@ export class PostsListFilterBar {
   public showMoreFilters: boolean = false;
   public showAnimation = false;
 
+  private filterContainer: ElementRef | null = null;
+  public filterChildrenCount: number = 0;
+  public windowsWidth: number = window.innerWidth;
+
+  private resize$ = new Subject<void>();
+
+  private readonly destroyRef = inject(DestroyRef);
+
   constructor(public readonly svgIconsService: SvgIconsService) {}
+
+  ngOnInit(): void {
+    this.initResizeSubscription();
+  }
 
   public changeDetectionValue(): string {
     return 'changeDetectionValues' + JSON.stringify(this.filterValues);
@@ -66,8 +87,48 @@ export class PostsListFilterBar {
    * @param event
    */
   public onAnimationEnd(event: AnimationEvent): void {
-    if (event.animationName.endsWith('fadeOut')) {
+    if (event.animationName.endsWith('animated-out-filters')) {
       this.showMoreFilters = false;
     }
+  }
+
+  /**
+   * Sets the reference to the filter container element and updates the count of its child elements.
+   *
+   * @param element The reference to the filter container element.
+   */
+  @ViewChild('filter') public set filterContainerRef(element: ElementRef) {
+    if (element && element.nativeElement) {
+      this.filterContainer = element;
+      requestAnimationFrame(() => {
+        this.filterChildrenCountValue();
+      });
+    }
+  }
+
+  private filterChildrenCountValue() {
+    if (this.filterContainer) {
+      this.filterChildrenCount = this.filterContainer.nativeElement.children.length;
+    }
+  }
+
+  /**
+   * Handles window resize events.
+   */
+  @HostListener('window:resize')
+  public onResize(): void {
+    this.resize$.next();
+  }
+
+  /**
+   * Initializes the resize subscription to handle window resize events.
+   */
+  private initResizeSubscription(): void {
+    this.resize$.pipe(debounceTime(200), takeUntilDestroyed(this.destroyRef)).subscribe(() => {
+      this.windowsWidth = window.innerWidth;
+      requestAnimationFrame(() => {
+        this.filterChildrenCountValue();
+      });
+    });
   }
 }

@@ -4,95 +4,102 @@
 
 .post-list-query-bar {
   @include display-flex($align: center, $justify: center, $direction: column, $gap: px-to-rem(10));
-  position: relative;
-  min-width: max-content;
-
   background-color: var(--page-primary-color-100);
   border-radius: px-to-rem(15);
 
   padding: px-to-rem(20) px-to-rem(50);
 
   .primary {
-    @include display-flex($align: center, $justify: center, $gap: px-to-rem(10));
+    @include display-flex($align: center, $justify: start, $gap: px-to-rem(25));
     height: px-to-rem(40);
     width: 100%;
 
     border-bottom: 2px solid var(--font-primary-color-50);
 
     .filter {
-      @include display-flex($align: center, $justify: center, $gap: px-to-rem(25));
+      @include display-grid($align: center, $justify: start, $gap: px-to-rem(25));
+      grid-template-columns: repeat(var(--filterChildrenCount), px-to-rem(220));
       height: 100%;
+
+      flex-shrink: 0;
+      flex-grow: 1;
     }
 
-    .more-filters {
-      @include button-preset();
-      @include display-flex($align: center, $justify: center, $gap: px-to-rem(10));
+    .more-filters-container {
+      @include display-flex($align: center, $justify: center);
+      position: relative;
+      height: 100%;
 
-      &:hover {
-        .icon-container {
-          &::ng-deep .filter {
-            fill: var(--font-primary-color-100);
+      .more-filters-button {
+        @include button-preset();
+        @include display-flex($align: center, $justify: center, $gap: px-to-rem(10));
+
+        padding-inline: px-to-rem(10);
+
+        min-width: max-content;
+
+        width: 100%;
+        flex: 1;
+
+        &:hover {
+          .icon-container {
+            &::ng-deep .filter {
+              fill: var(--font-primary-color-100);
+            }
+          }
+          .label {
+            color: var(--font-primary-color-100);
           }
         }
+
+        .icon-container {
+          height: px-to-rem(16);
+          min-width: 0;
+
+          @include svg-icon($icon-class: 'filter', $height: 100%, $width: 100%, $fill-color: var(--font-primary-color-50), $hover-fill-color: var(--font-primary-color-100));
+        }
+
         .label {
-          color: var(--font-primary-color-100);
+          @include font-settings($color: var(--font-primary-color-50));
+          transition: color var.$transition-duration-medium ease-in-out;
+        }
+
+        @include chevron-icon();
+      }
+
+      .more-filters {
+        @include display-flex($align: center, $justify: start);
+        @include position($position: absolute, $top: 100%, $right: 0);
+
+        .more-filters-content {
+          @include display-grid($align: center, $justify: start, $gap: px-to-rem(25) px-to-rem(0));
+          grid-template-columns: 1fr;
+          min-width: px-to-rem(320);
+
+          padding: px-to-rem(25) px-to-rem(25);
+
+          background-color: var(--page-primary-color-100);
+
+          border-radius: px-to-rem(15);
+          border: 2px solid var(--font-primary-color-50);
+          border-top-left-radius: 0;
+          border-top-right-radius: 0;
+
+          @include dropdown-animations($suffix: '-filters', $origin: top, $translateX: 0%);
+
+          :nth-child(n) {
+            border-bottom: 2px solid var(--font-primary-color-50);
+            padding-bottom: px-to-rem(10);
+            width: 100%;
+          }
         }
       }
-
-      .icon-container {
-        height: px-to-rem(16);
-        min-width: 0;
-
-        @include svg-icon($icon-class: 'filter', $height: 100%, $width: 100%, $fill-color: var(--font-primary-color-50), $hover-fill-color: var(--font-primary-color-100));
-      }
-
-      .label {
-        @include font-settings($color: var(--font-primary-color-50));
-        transition: color var.$transition-duration-medium ease-in-out;
-      }
-
-      @include chevron-icon();
     }
 
     .sort {
       @include display-flex($align: center, $justify: end);
       height: 100%;
-
-      flex-grow: 1;
-    }
-  }
-
-  .secondary {
-    @include display-flex($align: center, $justify: start);
-
-    @include position($position: absolute, $bottom: 0);
-    transform: translateY(calc(100% - px-to-rem(15)));
-    height: px-to-rem(0);
-    width: 100%;
-
-    padding-inline: px-to-rem(50);
-
-    background-color: var(--page-primary-color-100);
-    transition: height var.$transition-duration-medium ease-in-out;
-
-    border-radius: px-to-rem(15);
-    border-top-left-radius: px-to-rem(0);
-    border-top-right-radius: px-to-rem(0);
-
-    &.active {
-      height: px-to-rem(120);
-    }
-
-    .filters {
-      @include display-flex($align: center, $justify: start, $gap: px-to-rem(25));
-
-      &:not(.active) {
-        @include fade-animation($animation: 'fadeOut', $duration: var.$transition-duration-medium);
-      }
-
-      &.active {
-        @include fade-animation($animation: 'fadeIn', $duration: var.$transition-duration-medium, $delay: var.$transition-duration-medium);
-      }
+      min-width: px-to-rem(220);
     }
   }
 }

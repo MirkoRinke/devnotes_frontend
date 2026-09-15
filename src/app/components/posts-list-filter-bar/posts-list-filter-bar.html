@@ -1,91 +1,152 @@
 @let translatePath = 'PostListQueryBar' + '.';
 
 @if (filterValues) {
-  <aside class="post-list-query-bar">
+  <ng-template
+    #filterTemplate
+    let-isMore="isMore"
+  >
+    @if (!isMore) {
+      <app-query-params-dropdown
+        class="left-aligned"
+        [class.max]="isMore"
+        [mode]="'URL'"
+        [features]="{ showCount: true, enableSearch: true, enableAllOption: false, translateValues: false }"
+        [display]="{
+          label: selectedEntityLabel('entity'),
+          key: 'selectedEntityValue',
+          currentValue: filterValues.selectedEntityValue,
+          translatePath: translatePath + selectedEntityLabel('entity') + '.',
+        }"
+        [endPoint]="filterValues.endPoint"
+        [params]="filterValues.entityValueParams"
+        [changeDetectionToken]="changeDetectionValue()"
+      ></app-query-params-dropdown>
+    }
+
+    @if ((!isMore && windowsWidth >= 1920) || (isMore && windowsWidth < 1920)) {
+      <app-query-params-dropdown
+        class="left-aligned"
+        [class.max]="isMore"
+        [mode]="'URL'"
+        [features]="{ showCount: true, enableSearch: true, enableAllOption: true, translateValues: true }"
+        [display]="{
+          label: selectedEntityLabel('postTypes'),
+          key: 'selectedPostType',
+          currentValue: filterValues.selectedPostType ?? '',
+          translatePath: translatePath + 'postTypes' + '.',
+        }"
+        [endPoint]="filterValues.endPoint"
+        [params]="filterValues.postTypeParams"
+        [changeDetectionToken]="changeDetectionValue()"
+      ></app-query-params-dropdown>
+
+      <app-query-params-dropdown
+        class="left-aligned"
+        [class.max]="isMore"
+        [mode]="'URL'"
+        [features]="{ showCount: true, enableSearch: true, enableAllOption: true, translateValues: false }"
+        [display]="{
+          label: selectedEntityLabel('category'),
+          key: 'category',
+          currentValue: filterValues.selectedCategory ?? '',
+          translatePath: translatePath + 'category' + '.',
+        }"
+        [endPoint]="filterValues.endPoint"
+        [params]="filterValues.categoryParams"
+        [changeDetectionToken]="changeDetectionValue()"
+      ></app-query-params-dropdown>
+
+      @if (filterValues.endPoint === 'USER_POSTS') {
+        <app-query-params-dropdown
+          class="left-aligned"
+          [mode]="'URL'"
+          [features]="{ showCount: false, enableSearch: false, enableAllOption: true, translateValues: true }"
+          [display]="{
+            label: selectedEntityLabel('status'),
+            key: 'status',
+            currentValue: filterValues.selectedStatus ?? '',
+            translatePath: translatePath + 'status' + '.',
+          }"
+          [endPoint]="filterValues.endPoint"
+          [values]="{ published: 'published', private: 'private', draft: 'draft', archived: 'archived' }"
+        >
+        </app-query-params-dropdown>
+      }
+    }
+  </ng-template>
+
+  <aside
+    class="post-list-query-bar"
+    [style.--filterChildrenCount]="filterChildrenCount"
+  >
     <section class="primary">
-      <section class="filter">
-        <app-query-params-dropdown
-          class="left-aligned"
-          [mode]="'URL'"
-          [features]="{ showCount: true, enableSearch: true, enableAllOption: false, translateValues: false }"
-          [display]="{
-            label: selectedEntityLabel('entity'),
-            key: 'selectedEntityValue',
-            currentValue: filterValues.selectedEntityValue,
-            translatePath: translatePath + selectedEntityLabel('entity') + '.',
-          }"
-          [endPoint]="filterValues.endPoint"
-          [params]="filterValues.entityValueParams"
-          [changeDetectionToken]="changeDetectionValue()"
-        ></app-query-params-dropdown>
-
-        <app-query-params-dropdown
-          class="left-aligned"
-          [mode]="'URL'"
-          [features]="{ showCount: true, enableSearch: true, enableAllOption: true, translateValues: true }"
-          [display]="{
-            label: selectedEntityLabel('postTypes'),
-            key: 'selectedPostType',
-            currentValue: filterValues.selectedPostType ?? '',
-            translatePath: translatePath + 'postTypes' + '.',
-          }"
-          [endPoint]="filterValues.endPoint"
-          [params]="filterValues.postTypeParams"
-          [changeDetectionToken]="changeDetectionValue()"
-        ></app-query-params-dropdown>
-
-        <app-query-params-dropdown
-          class="left-aligned"
-          [mode]="'URL'"
-          [features]="{ showCount: true, enableSearch: true, enableAllOption: true, translateValues: false }"
-          [display]="{
-            label: selectedEntityLabel('category'),
-            key: 'category',
-            currentValue: filterValues.selectedCategory ?? '',
-            translatePath: translatePath + 'category' + '.',
-          }"
-          [endPoint]="filterValues.endPoint"
-          [params]="filterValues.categoryParams"
-          [changeDetectionToken]="changeDetectionValue()"
-        ></app-query-params-dropdown>
-
-        @if (filterValues.endPoint === 'USER_POSTS') {
-          <app-query-params-dropdown
-            class="left-aligned"
-            [mode]="'URL'"
-            [features]="{ showCount: false, enableSearch: false, enableAllOption: true, translateValues: true }"
-            [display]="{
-              label: selectedEntityLabel('status'),
-              key: 'status',
-              currentValue: filterValues.selectedStatus ?? '',
-              translatePath: translatePath + 'status' + '.',
-            }"
-            [endPoint]="filterValues.endPoint"
-            [values]="{ published: 'published', private: 'private', draft: 'draft', archived: 'archived' }"
-          >
-          </app-query-params-dropdown>
-        }
-      </section>
-
-      <!-- Todo under construction -->
-      <!-- <button
-        class="more-filters"
-        (click)="toggleMoreFilters()"
+      <section
+        class="filter"
+        #filter
       >
-        <span
-          class="icon-container"
-          [innerHTML]="svgIconsService.returnIcon('filter')"
-        ></span>
-        <span class="label">More Filters</span>
-        <span
-          class="chevron-icon"
-          [class.active]="true"
-          [innerHTML]="svgIconsService.returnIcon('chevron')"
-          [class.open]="showMoreFilters"
-          aria-hidden="true"
-        ></span>
-      </button> -->
+        <ng-container *ngTemplateOutlet="filterTemplate; context: { isMore: false }"></ng-container>
+      </section>
+      <!-- Todo under construction -->
+      <div class="more-filters-container">
+        <button
+          class="more-filters-button"
+          #filterButton
+          (click)="toggleMoreFilters()"
+          (keydown.escape)="toggleMoreFilters()"
+        >
+          <span
+            class="icon-container"
+            [innerHTML]="svgIconsService.returnIcon('filter')"
+          ></span>
+          <span class="label">More Filters</span>
+          <span
+            class="chevron-icon"
+            [class.active]="true"
+            [innerHTML]="svgIconsService.returnIcon('chevron')"
+            [class.open]="showMoreFilters"
+            aria-hidden="true"
+          ></span>
+        </button>
+        <section
+          class="more-filters"
+          appClickOutsideDirective
+          [clickOutsideEnabled]="showAnimation"
+          (clickOutside)="toggleMoreFilters()"
+          appEscapeCloseDirective
+          [appEscapeCloseEnabled]="showAnimation"
+          [appEscapeClose]="filterButton"
+          (escapePressed)="toggleMoreFilters()"
+        >
+          @if (showMoreFilters) {
+            <div
+              class="more-filters-content"
+              [class.active]="showAnimation"
+              [class.animated-in-filters]="showAnimation"
+              [class.animated-out-filters]="!showAnimation"
+              (animationend)="onAnimationEnd($event)"
+            >
+              <ng-container *ngTemplateOutlet="filterTemplate; context: { isMore: true }"></ng-container>
 
+              <app-query-params-datepicker
+                class="date-filters max"
+                [label]="selectedEntityLabel('dateFrom')"
+                [value]="filterValues.selectedDateFrom"
+                [key]="'dateFrom'"
+                [min]="filterValues.minDate"
+                [max]="filterValues.maxDate"
+              ></app-query-params-datepicker>
+              <app-query-params-datepicker
+                class="date-filters max"
+                [label]="selectedEntityLabel('dateTo')"
+                [value]="filterValues.selectedDateTo"
+                [key]="'dateTo'"
+                [min]="filterValues.minDate"
+                [max]="filterValues.maxDate"
+              ></app-query-params-datepicker>
+            </div>
+          }
+        </section>
+      </div>
       <section class="sort">
         <app-query-params-dropdown
           class="right-aligned"
@@ -103,51 +164,5 @@
         </app-query-params-dropdown>
       </section>
     </section>
-
-    <!-- Todo under construction -->
-    <!-- <section
-      class="secondary"
-      [class.active]="showMoreFilters"
-    >
-      @if (showMoreFilters) {
-        <div
-          class="filters"
-          [class.active]="showAnimation"
-          (animationend)="onAnimationEnd($event)"
-        >
-          <app-query-params-dropdown
-            class="left-aligned"
-            [mode]="'URL'"
-            [features]="{ showCount: true, enableSearch: true, enableAllOption: false, translateValues: false }"
-            [display]="{
-              label: selectedEntityLabel('entity'),
-              key: 'selectedEntityValue',
-              currentValue: filterValues.selectedEntityValue,
-              translatePath: translatePath + selectedEntityLabel('entity') + '.',
-            }"
-            [endPoint]="filterValues.endPoint"
-            [params]="filterValues.entityValueParams"
-            [changeDetectionToken]="changeDetectionValue()"
-          ></app-query-params-dropdown>
-
-          <app-query-params-datepicker
-            class="date-filters"
-            [label]="selectedEntityLabel('dateFrom')"
-            [value]="filterValues.selectedDateFrom"
-            [key]="'dateFrom'"
-            [min]="filterValues.minDate"
-            [max]="filterValues.maxDate"
-          ></app-query-params-datepicker>
-          <app-query-params-datepicker
-            class="date-filters"
-            [label]="selectedEntityLabel('dateTo')"
-            [value]="filterValues.selectedDateTo"
-            [key]="'dateTo'"
-            [min]="filterValues.minDate"
-            [max]="filterValues.maxDate"
-          ></app-query-params-datepicker>
-        </div>
-      }
-    </section> -->
   </aside>
 }
