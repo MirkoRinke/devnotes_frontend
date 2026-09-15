@@ -4,20 +4,31 @@
 
 :host {
   height: 100%;
+  width: 100%;
+  position: relative;
 }
 
 .dropdown-component {
-  @include display-flex($align: center, $justify: center, $direction: column);
-  position: relative;
+  @include display-flex($align: start, $justify: center, $direction: column);
   height: 100%;
+
+  max-width: px-to-rem(220);
+  :host(.max) & {
+    min-width: 100%;
+  }
 
   .dropdown {
     @include display-flex($align: center, $gap: px-to-rem(10));
     cursor: pointer;
+    width: 100%;
 
     button {
       @include button-preset();
-      @include display-flex($align: center, $justify: center, $gap: px-to-rem(10));
+      @include display-flex($align: center, $justify: start, $gap: px-to-rem(10));
+      min-width: 100%;
+
+      color: var(--font-primary-color-100);
+      white-space: nowrap;
 
       :host(.left-aligned) & {
         justify-content: flex-start;
@@ -26,11 +37,6 @@
       :host(.right-aligned) & {
         justify-content: flex-end;
       }
-
-      width: px-to-rem(220);
-
-      color: var(--font-primary-color-100);
-      white-space: nowrap;
 
       .label {
         @include font-settings($color: var(--font-primary-color-50));
@@ -55,7 +61,7 @@
     }
   }
 
-  @include dropdown-values($orientation: left, $width: max-content, $max-width: px-to-rem(300), $min-width: 60%);
+  @include dropdown-values($orientation: left, $width: max-content, $max-width: 100%, $min-width: 100%);
   @include value-list-item($height: unset, $width: 100%);
 
   :host(.right-aligned) & {
