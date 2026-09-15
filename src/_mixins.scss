@@ -404,20 +404,20 @@
   }
 }
 
-@mixin dropdown-animations($origin: top, $transform-scale-axis: 'Y', $transform-scale: 1, $translateX: 0%) {
+@mixin dropdown-animations($suffix: '', $origin: top, $transform-scale-axis: 'Y', $transform-scale: 1, $translateX: 0%) {
   transform-origin: $origin;
   will-change: transform;
   backface-visibility: hidden;
 
-  &.animated-in {
-    animation: animated-in var.$transition-duration-medium ease-in-out forwards;
+  &.animated-in#{$suffix} {
+    animation: animated-in#{$suffix} var.$transition-duration-medium ease-in-out forwards;
   }
 
-  &.animated-out {
-    animation: animated-out var.$transition-duration-medium ease-in-out forwards;
+  &.animated-out#{$suffix} {
+    animation: animated-out#{$suffix} var.$transition-duration-medium ease-in-out forwards;
   }
 
-  @keyframes animated-in {
+  @keyframes animated-in#{$suffix} {
     0% {
       transform: translateX($translateX) scale#{$transform-scale-axis }(0);
       opacity: 0;
@@ -428,7 +428,7 @@
     }
   }
 
-  @keyframes animated-out {
+  @keyframes animated-out#{$suffix} {
     0% {
       transform: translateX($translateX) scale#{$transform-scale-axis }(1);
       opacity: 1;
