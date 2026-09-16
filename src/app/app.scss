@@ -6,7 +6,7 @@
   @include max-content-settings();
   @include display-flex($direction: column);
 
-  min-height: 100vh;
+  min-height: 100dvh;
 
   .header {
     flex: 0;
