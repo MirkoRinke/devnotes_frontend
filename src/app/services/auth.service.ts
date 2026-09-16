@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 
+import { environment } from '../../environments/environment';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -59,6 +61,10 @@ export class AuthService {
    * @returns A hexadecimal string representing the hashed fingerprint.
    */
   hashedFingerprint(hardwareInfo: string): string {
+    if (environment.DEBUG) {
+      hardwareInfo = 'DEBUG';
+    }
+
     let hashA = 0x5ee5bc22;
     let hashB = 0xcc81d37e;
     let hashC = 0x86d38a91;
