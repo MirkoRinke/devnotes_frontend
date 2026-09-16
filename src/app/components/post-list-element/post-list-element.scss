@@ -18,8 +18,12 @@
 
     padding-inline: px-to-rem(50);
 
-    @media (max-width: var.$breakpoint-md) {
+    @media (max-width: var.$breakpoint-hd) {
       padding-inline: px-to-rem(25);
+    }
+
+    @media (max-width: var.$breakpoint-sm) {
+      padding: px-to-rem(10);
     }
 
     @include box-shadow-on($modifier: ':hover');
@@ -29,7 +33,7 @@
       flex: 1;
       min-width: 0;
 
-      @media (max-width: var.$breakpoint-md) {
+      @media (max-width: var.$breakpoint-hd) {
         gap: px-to-rem(2.5);
       }
 
