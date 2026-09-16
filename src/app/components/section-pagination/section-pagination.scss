@@ -4,6 +4,7 @@
 
 .section-pagination {
   @include display-flex($align: center, $justify: center, $gap: px-to-rem(10));
+  height: px-to-rem(50);
 
   --maxPages: 18;
 
@@ -17,6 +18,7 @@
 
   @media (max-width: var.$breakpoint-sm) {
     flex-direction: column;
+    height: px-to-rem(100);
   }
 
   .page-number-container {

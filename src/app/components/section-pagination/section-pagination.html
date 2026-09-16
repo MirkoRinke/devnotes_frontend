@@ -23,11 +23,12 @@
   </a>
 </ng-template>
 
-@if (paginationInfo && paginationInfo.last_page > 1) {
-  <nav
-    class="section-pagination"
-    #paginationContainer
-  >
+<nav
+  class="section-pagination"
+  #paginationContainer
+  id="pagination-container"
+>
+  @if (paginationInfo && paginationInfo.last_page > 1) {
     <div class="pagination-controls">
       @for (link of leftNavigationLinks; track $index) {
         <ng-container *ngTemplateOutlet="paginationLinkTemplate; context: { link: link }" />
@@ -61,5 +62,5 @@
         <ng-container *ngTemplateOutlet="paginationLinkTemplate; context: { link: link }" />
       }
     </div>
-  </nav>
-}
+  }
+</nav>
