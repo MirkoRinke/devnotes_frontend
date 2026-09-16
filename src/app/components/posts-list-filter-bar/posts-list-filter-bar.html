@@ -23,7 +23,7 @@
       ></app-query-params-dropdown>
     }
 
-    @if ((!isMore && windowsWidth >= 1920) || (isMore && windowsWidth < 1920)) {
+    @if ((!isMore && windowsWidth > 1280) || (isMore && windowsWidth <= 1280)) {
       <app-query-params-dropdown
         class="left-aligned"
         [class.max]="isMore"
@@ -55,23 +55,30 @@
         [params]="filterValues.categoryParams"
         [changeDetectionToken]="changeDetectionValue()"
       ></app-query-params-dropdown>
+    }
+  </ng-template>
 
-      @if (filterValues.endPoint === 'USER_POSTS') {
+  <ng-template
+    #sortTemplate
+    let-isMore="isMore"
+  >
+    @if ((!isMore && windowsWidth > 768) || (isMore && windowsWidth <= 768)) {
+      <section [class]="isMore ? '' : 'sort'">
         <app-query-params-dropdown
-          class="left-aligned"
+          [class]="isMore ? 'left-aligned' : 'right-aligned'"
           [mode]="'URL'"
-          [features]="{ showCount: false, enableSearch: false, enableAllOption: true, translateValues: true }"
+          [features]="{ showCount: false, enableSearch: false, enableAllOption: false, translateValues: true }"
           [display]="{
-            label: selectedEntityLabel('status'),
-            key: 'status',
-            currentValue: filterValues.selectedStatus ?? '',
-            translatePath: translatePath + 'status' + '.',
+            label: selectedEntityLabel('sort'),
+            key: 'sort',
+            currentValue: filterValues.selectedSort ?? '-updated_at',
+            translatePath: translatePath + 'sort' + '.',
           }"
           [endPoint]="filterValues.endPoint"
-          [values]="{ published: 'published', private: 'private', draft: 'draft', archived: 'archived' }"
+          [values]="{ '-updated_at': '-updated_at', updated_at: 'updated_at', '-likes_count': '-likes_count' }"
         >
         </app-query-params-dropdown>
-      }
+      </section>
     }
   </ng-template>
 
@@ -79,15 +86,14 @@
     class="post-list-query-bar"
     [style.--filterChildrenCount]="filterChildrenCount"
   >
-    <section class="primary">
+    <div class="primary">
       <section
         class="filter"
         #filter
       >
         <ng-container *ngTemplateOutlet="filterTemplate; context: { isMore: false }"></ng-container>
       </section>
-      <!-- Todo under construction -->
-      <div class="more-filters-container">
+      <section class="more-filters-container">
         <button
           class="more-filters-button"
           #filterButton
@@ -143,26 +149,30 @@
                 [min]="filterValues.minDate"
                 [max]="filterValues.maxDate"
               ></app-query-params-datepicker>
+
+              <ng-container *ngTemplateOutlet="sortTemplate; context: { isMore: true }"></ng-container>
+
+              @if (filterValues.endPoint === 'USER_POSTS') {
+                <app-query-params-dropdown
+                  class="left-aligned"
+                  [mode]="'URL'"
+                  [features]="{ showCount: false, enableSearch: false, enableAllOption: true, translateValues: true }"
+                  [display]="{
+                    label: selectedEntityLabel('status'),
+                    key: 'status',
+                    currentValue: filterValues.selectedStatus ?? '',
+                    translatePath: translatePath + 'status' + '.',
+                  }"
+                  [endPoint]="filterValues.endPoint"
+                  [values]="{ published: 'published', private: 'private', draft: 'draft', archived: 'archived' }"
+                >
+                </app-query-params-dropdown>
+              }
             </div>
           }
         </section>
-      </div>
-      <section class="sort">
-        <app-query-params-dropdown
-          class="right-aligned"
-          [mode]="'URL'"
-          [features]="{ showCount: false, enableSearch: false, enableAllOption: false, translateValues: true }"
-          [display]="{
-            label: selectedEntityLabel('sort'),
-            key: 'sort',
-            currentValue: filterValues.selectedSort ?? '-updated_at',
-            translatePath: translatePath + 'sort' + '.',
-          }"
-          [endPoint]="filterValues.endPoint"
-          [values]="{ '-updated_at': '-updated_at', updated_at: 'updated_at', '-likes_count': '-likes_count' }"
-        >
-        </app-query-params-dropdown>
       </section>
-    </section>
+      <ng-container *ngTemplateOutlet="sortTemplate; context: { isMore: false }"></ng-container>
+    </div>
   </aside>
 }
