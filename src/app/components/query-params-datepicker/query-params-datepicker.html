@@ -1,26 +1,44 @@
 @let translatePath = 'Datepicker' + '.';
+@let translatePathAriaLabel = translatePath + 'ariaLabel' + '.';
 
 @if (config) {
   <div class="datepicker">
-    <label
-      class="label"
-      [for]="config.key + '-datepicker'"
-      >{{ translatePath + config.label | translate }}</label
-    >
-    <input
-      class="input"
-      #dateInput
-      [id]="config.key + '-datepicker'"
-      (change)="onSelect(dateInput.value, config.key)"
-      type="date"
-      [value]="config.value"
-      [min]="config.min"
-      [max]="config.max"
-    />
-    <span
-      class="new-icon"
-      [innerHTML]="svgIconsService.returnIcon('calendar')"
-      aria-hidden="true"
-    ></span>
+    <div class="picker">
+      <label
+        class="label"
+        [for]="config.key + '-datepicker'"
+        >{{ translatePath + config.label | translate }}</label
+      >
+      <input
+        class="input"
+        #dateInput
+        [id]="config.key + '-datepicker'"
+        (change)="onSelect(dateInput.value, config.key)"
+        type="date"
+        [value]="config.value"
+        [min]="config.min"
+        [max]="config.max"
+      />
+
+      <span
+        class="calendar-icon"
+        [innerHTML]="svgIconsService.returnIcon('calendar')"
+        aria-hidden="true"
+      ></span>
+    </div>
+    @if (config.value) {
+      <button
+        class="reset-button"
+        (click)="resetDatePicker(config.key)"
+        type="button"
+        [attr.aria-label]="translatePathAriaLabel + 'resetDatepicker' | translate"
+      >
+        <span
+          class="reset-icon"
+          [innerHTML]="svgIconsService.returnIcon('reset')"
+          aria-hidden="true"
+        ></span>
+      </button>
+    }
   </div>
 }

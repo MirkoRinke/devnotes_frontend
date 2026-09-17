@@ -20,26 +20,36 @@ export class QueryParamsDatepicker {
   ) {}
 
   /**
-   * Handles selection change in the datepicker component
-   * Set or removes the query param in the URL based on selection
+   * Handles the selection of a date in the datepicker. Updates the query parameter for the given key with the selected value.
    *
-   * @param value
+   * @param value The selected date value.
+   * @param key The query parameter key associated with the datepicker.
    */
   public onSelect(value: string, key: string): void {
     const validYear = value.charAt(0) !== '0';
+    this.updateDateParam(key, value && validYear ? value : null);
+  }
 
-    if (value && validYear) {
-      this.router.navigate([], {
-        queryParams: { [key]: value, page: null },
-        queryParamsHandling: 'merge',
-        replaceUrl: true,
-      });
-    } else {
-      this.router.navigate([], {
-        queryParams: { [key]: null, page: null },
-        queryParamsHandling: 'merge',
-        replaceUrl: true,
-      });
-    }
+  /**
+   * Resets the datepicker for the given key, removing the associated query parameter from the URL.
+   *
+   * @param key
+   */
+  public resetDatePicker(key: string): void {
+    this.updateDateParam(key, null);
+  }
+
+  /**
+   * Updates the query parameter for the given key with the specified value. If the value is null, the parameter is removed from the URL.
+   *
+   * @param key
+   * @param value
+   */
+  private updateDateParam(key: string, value: string | null): void {
+    this.router.navigate([], {
+      queryParams: { [key]: value || null, page: null },
+      queryParamsHandling: 'merge',
+      replaceUrl: true,
+    });
   }
 }

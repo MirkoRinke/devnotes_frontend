@@ -8,47 +8,67 @@
 }
 
 .datepicker {
-  @include display-flex($align: center, $justify: start, $direction: row, $gap: px-to-rem(10));
-  height: 100%;
-  width: max-content;
-  position: relative;
+  @include display-flex($align: center, $justify: start, $direction: row, $gap: px-to-rem(25));
 
-  &:hover {
-    .label {
-      color: var(--font-primary-color-100);
-    }
-    .new-icon {
-      &::ng-deep .calendar {
-        fill: var(--font-primary-color-100);
+  .picker {
+    @include display-flex($align: center, $justify: start, $direction: row, $gap: px-to-rem(10));
+    height: 100%;
+    width: max-content;
+    position: relative;
+
+    &:hover {
+      .label {
+        color: var(--font-primary-color-100);
+      }
+      .calendar-icon {
+        &::ng-deep .calendar {
+          fill: var(--font-primary-color-100);
+        }
       }
     }
-  }
 
-  .label {
-    @include font-settings($color: var(--font-primary-color-50));
-    transition: color var.$transition-duration-medium ease-in-out;
-  }
+    .label {
+      @include font-settings($color: var(--font-primary-color-50));
+      transition: color var.$transition-duration-medium ease-in-out;
+    }
 
-  .input {
-    background-color: transparent;
-    border: none;
-    color: var(--font-primary-color-100);
-    outline: none;
-    cursor: text;
+    .input {
+      background-color: transparent;
+      border: none;
+      color: var(--font-primary-color-100);
+      outline: none;
+      cursor: text;
 
-    &::-webkit-calendar-picker-indicator {
-      opacity: 0;
-      padding-left: px-to-rem(10);
-      cursor: pointer;
+      &::-webkit-calendar-picker-indicator {
+        opacity: 0;
+        padding-left: px-to-rem(10);
+        cursor: pointer;
+      }
+    }
+
+    .calendar-icon {
+      @include display-flex($align: center, $justify: center);
+      @include position($position: absolute, $right: 0);
+      height: px-to-rem(16);
+      pointer-events: none;
+      background-color: var(--page-primary-color-100);
+
+      @include svg-icon($icon-class: 'calendar', $height: 100%, $width: 100%, $fill-color: var(--font-primary-color-50));
     }
   }
 
-  .new-icon {
+  .reset-button {
+    @include button-preset();
     @include display-flex($align: center, $justify: center);
-    @include position($position: absolute, $right: 0);
     height: px-to-rem(16);
-    pointer-events: none;
+    width: px-to-rem(16);
+    cursor: pointer;
 
-    @include svg-icon($icon-class: 'calendar', $height: 100%, $width: 100%, $fill-color: var(--font-primary-color-50));
+    .reset-icon {
+      @include display-flex($align: center, $justify: center);
+      height: 100%;
+
+      @include svg-icon($icon-class: 'reset', $height: 100%, $width: 100%, $fill-color: var(--font-primary-color-50), $hover-fill-color: var(--font-primary-color-100));
+    }
   }
 }
