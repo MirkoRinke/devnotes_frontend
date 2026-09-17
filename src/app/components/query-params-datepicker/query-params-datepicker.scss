@@ -7,61 +7,48 @@
   width: 100%;
 }
 
-.datepicker-component {
-  @include display-flex($align: center, $justify: start);
+.datepicker {
+  @include display-flex($align: center, $justify: start, $direction: row, $gap: px-to-rem(10));
   height: 100%;
+  width: max-content;
+  position: relative;
 
-  .datepicker {
-    @include display-flex($align: center, $justify: center, $direction: row, $gap: px-to-rem(10));
-    position: relative;
-
-    overflow: hidden;
-
-    &:hover {
-      .label {
-        color: var(--font-primary-color-100);
-      }
-      .new-icon {
-        &::ng-deep .calendar {
-          fill: var(--font-primary-color-100);
-        }
-      }
-    }
-
+  &:hover {
     .label {
-      @include font-settings($color: var(--font-primary-color-50));
-      transition: color var.$transition-duration-medium ease-in-out;
-    }
-
-    .input {
-      background-color: transparent;
-      border: none;
       color: var(--font-primary-color-100);
-      outline: none;
-      cursor: text;
-
-      &::-webkit-calendar-picker-indicator {
-        opacity: 0;
-        padding-left: px-to-rem(10);
-        cursor: pointer;
-      }
     }
-
     .new-icon {
-      @include display-flex($align: center, $justify: center);
-      position: absolute;
-      right: px-to-rem(-8);
-      background-color: var(--page-primary-color-100);
-      width: px-to-rem(30);
-      height: px-to-rem(30);
-      pointer-events: none;
-
       &::ng-deep .calendar {
-        transition: fill var.$transition-duration-medium ease-in-out;
-        width: px-to-rem(16);
-        height: px-to-rem(16);
-        fill: var(--font-primary-color-50);
+        fill: var(--font-primary-color-100);
       }
     }
+  }
+
+  .label {
+    @include font-settings($color: var(--font-primary-color-50));
+    transition: color var.$transition-duration-medium ease-in-out;
+  }
+
+  .input {
+    background-color: transparent;
+    border: none;
+    color: var(--font-primary-color-100);
+    outline: none;
+    cursor: text;
+
+    &::-webkit-calendar-picker-indicator {
+      opacity: 0;
+      padding-left: px-to-rem(10);
+      cursor: pointer;
+    }
+  }
+
+  .new-icon {
+    @include display-flex($align: center, $justify: center);
+    @include position($position: absolute, $right: 0);
+    height: px-to-rem(16);
+    pointer-events: none;
+
+    @include svg-icon($icon-class: 'calendar', $height: 100%, $width: 100%, $fill-color: var(--font-primary-color-50));
   }
 }

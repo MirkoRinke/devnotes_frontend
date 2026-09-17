@@ -1,22 +1,25 @@
-<div class="datepicker-component">
+@let translatePath = 'Datepicker' + '.';
+
+@if (config) {
   <div class="datepicker">
     <label
       class="label"
-      for="{{ key + '-datepicker' }}"
-      >{{ label }}</label
+      for="{{ config.key + '-datepicker' }}"
+      >{{ translatePath + config.label | translate }}</label
     >
     <input
       class="input"
-      (change)="onSelect($event.target.value)"
+      (change)="onSelect($event.target.value, config.key)"
       type="date"
-      id="{{ key + '-datepicker' }}"
-      [value]="value"
-      [min]="min"
-      [max]="max"
+      id="{{ config.key + '-datepicker' }}"
+      [value]="config.value"
+      [min]="config.min"
+      [max]="config.max"
     />
     <span
       class="new-icon"
       [innerHTML]="svgIconsService.returnIcon('calendar')"
+      aria-hidden="true"
     ></span>
   </div>
-</div>
+}
