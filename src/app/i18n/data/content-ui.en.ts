@@ -203,8 +203,8 @@ export const CONTENT_UI_EN: ContentUI = {
     },
   },
   Datepicker: {
-    dateFrom: 'Date From',
-    dateTo: 'Date To',
+    dateFrom: 'From:',
+    dateTo: 'To:',
     ariaLabel: {
       resetDatepicker: 'Reset datepicker',
     },
