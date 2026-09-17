@@ -9,6 +9,8 @@ import { NgTemplateOutlet } from '@angular/common';
 import { SvgIconsService } from '../../services/svg.icons.service';
 import { TranslatePipe } from '../../i18n/translate-pipe';
 
+import { BREAKPOINTS } from '../../utils/breakpoints';
+
 import { QueryParamsDropdown } from '../../components/query-params-dropdown/query-params-dropdown';
 import { QueryParamsDatepicker } from '../../components/query-params-datepicker/query-params-datepicker';
 
@@ -36,6 +38,8 @@ export class PostsListFilterBar {
   private resize$ = new Subject<void>();
 
   private readonly destroyRef = inject(DestroyRef);
+
+  public readonly BREAKPOINTS = BREAKPOINTS;
 
   constructor(public readonly svgIconsService: SvgIconsService) {}
 
@@ -115,7 +119,7 @@ export class PostsListFilterBar {
   /**
    * Updates the count of child elements within the filter container.
    */
-  private filterChildrenCountValue() {
+  private filterChildrenCountValue(): void {
     if (this.filterContainer) {
       this.filterChildrenCount = this.filterContainer.nativeElement.children.length;
     }

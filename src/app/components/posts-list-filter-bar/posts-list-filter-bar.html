@@ -23,7 +23,7 @@
       ></app-query-params-dropdown>
     }
 
-    @if ((!isMore && windowsWidth > 1280) || (isMore && windowsWidth <= 1280)) {
+    @if ((!isMore && windowsWidth > BREAKPOINTS.hd) || (isMore && windowsWidth <= BREAKPOINTS.hd)) {
       <app-query-params-dropdown
         class="left-aligned"
         [mode]="'URL'"
@@ -60,7 +60,7 @@
     #sortTemplate
     let-isMore="isMore"
   >
-    @if ((!isMore && windowsWidth > 768) || (isMore && windowsWidth <= 768)) {
+    @if ((!isMore && windowsWidth > BREAKPOINTS.md) || (isMore && windowsWidth <= BREAKPOINTS.md)) {
       <div [class]="isMore ? '' : 'sort'">
         <app-query-params-dropdown
           [class]="isMore ? 'left-aligned' : 'right-aligned'"
