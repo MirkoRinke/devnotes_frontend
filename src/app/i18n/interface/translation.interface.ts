@@ -28,6 +28,7 @@ import { SectionPaginationMessagesInterface } from './components/section-paginat
 import { UserAvatarCustomizerMessagesInterface } from './components/user-avatar-customizer.interface';
 import { UserAvatarAltMessagesInterface } from './components/user-avatar-alt.interface';
 import { DropdownComponentMessagesInterface } from './components/dropdown-component.interface';
+import { DatepickerMessagesInterface } from './components/datepicker.interface';
 
 export interface Content extends ContentUI, LegalContent, Notifications {}
 
@@ -55,6 +56,7 @@ export interface ContentUI {
   UserAvatarCustomizer: UserAvatarCustomizerMessagesInterface;
   UserAvatarAlt: UserAvatarAltMessagesInterface;
   DropdownComponent: DropdownComponentMessagesInterface;
+  Datepicker: DatepickerMessagesInterface;
 }
 
 export interface LegalContent {
