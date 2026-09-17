@@ -9,7 +9,6 @@
     @if (!isMore) {
       <app-query-params-dropdown
         class="left-aligned"
-        [class.max]="isMore"
         [mode]="'URL'"
         [features]="{ showCount: true, enableSearch: true, enableAllOption: false, translateValues: false }"
         [display]="{
@@ -27,7 +26,6 @@
     @if ((!isMore && windowsWidth > 1280) || (isMore && windowsWidth <= 1280)) {
       <app-query-params-dropdown
         class="left-aligned"
-        [class.max]="isMore"
         [mode]="'URL'"
         [features]="{ showCount: true, enableSearch: true, enableAllOption: true, translateValues: true }"
         [display]="{
@@ -43,7 +41,6 @@
 
       <app-query-params-dropdown
         class="left-aligned"
-        [class.max]="isMore"
         [mode]="'URL'"
         [features]="{ showCount: true, enableSearch: true, enableAllOption: true, translateValues: false }"
         [display]="{
@@ -146,7 +143,7 @@
               <ng-container *ngTemplateOutlet="filterTemplate; context: { isMore: true }"></ng-container>
 
               <app-query-params-datepicker
-                class="date-filters max"
+                class="date-filters"
                 [label]="selectedEntityLabel('dateFrom')"
                 [value]="filterValues.selectedDateFrom"
                 [key]="'dateFrom'"
@@ -154,7 +151,7 @@
                 [max]="filterValues.maxDate"
               ></app-query-params-datepicker>
               <app-query-params-datepicker
-                class="date-filters max"
+                class="date-filters"
                 [label]="selectedEntityLabel('dateTo')"
                 [value]="filterValues.selectedDateTo"
                 [key]="'dateTo'"

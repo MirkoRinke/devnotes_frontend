@@ -30,7 +30,12 @@
 
     .filter {
       @include display-grid($align: center, $justify: start, $gap: px-to-rem(5));
-      grid-template-columns: repeat(var(--filterChildrenCount), px-to-rem(220));
+      grid-template-columns: repeat(var(--filterChildrenCount), minmax(0, 1fr));
+
+      > *:only-child {
+        max-width: px-to-rem(220);
+      }
+
       height: 100%;
       flex: 1;
     }
@@ -47,9 +52,6 @@
       .more-options-button {
         @include button-preset();
         @include display-flex($align: center, $justify: end, $gap: px-to-rem(10));
-        min-width: px-to-rem(220);
-        width: 100%;
-
         padding-inline: px-to-rem(10);
 
         @media (max-width: var.$breakpoint-sm) {
