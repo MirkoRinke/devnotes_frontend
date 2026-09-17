@@ -42,11 +42,11 @@ export class QueryParamsDropdown {
   private readonly initialDisplayLimit = 10;
   public totalCount: number = 0;
 
-  public showDropdownValues = false;
-  public showAnimation = false;
+  public showDropdownValues: boolean = false;
+  public showAnimation: boolean = false;
 
   private searchTimeout?: ReturnType<typeof setTimeout>;
-  public showAriaCounter = false;
+  public showAriaCounter: boolean = false;
 
   constructor(
     private readonly router: Router,
