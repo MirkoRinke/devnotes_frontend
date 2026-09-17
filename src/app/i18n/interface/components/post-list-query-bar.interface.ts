@@ -1,4 +1,8 @@
 export interface PostListQueryBarMessagesInterface {
+  moreOptions: string;
+  ariaLabel: {
+    moreOptions: string;
+  };
   languages: {
     languages: string;
     ariaLabel: {};
@@ -26,6 +30,11 @@ export interface PostListQueryBarMessagesInterface {
   };
   status: {
     status: string;
+
+    published: string;
+    draft: string;
+    private: string;
+    archived: string;
 
     ariaLabel: {};
   };

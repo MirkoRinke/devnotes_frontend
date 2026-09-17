@@ -147,6 +147,10 @@ export const CONTENT_UI_DE: ContentUI = {
     ariaLabel: {},
   },
   PostListQueryBar: {
+    moreOptions: 'Weitere Optionen',
+    ariaLabel: {
+      moreOptions: 'Weitere Optionen Anzeigen',
+    },
     languages: {
       languages: 'Tech Stack',
       ariaLabel: {},
@@ -172,6 +176,12 @@ export const CONTENT_UI_DE: ContentUI = {
     },
     status: {
       status: 'Status',
+
+      published: 'Veröffentlicht',
+      draft: 'Entwurf',
+      private: 'Privat',
+      archived: 'Archiviert',
+
       ariaLabel: {},
     },
     dateFrom: 'Datum von',
