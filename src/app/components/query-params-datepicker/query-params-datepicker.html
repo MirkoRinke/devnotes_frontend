@@ -4,14 +4,15 @@
   <div class="datepicker">
     <label
       class="label"
-      for="{{ config.key + '-datepicker' }}"
+      [for]="config.key + '-datepicker'"
       >{{ translatePath + config.label | translate }}</label
     >
     <input
       class="input"
-      (change)="onSelect($event.target.value, config.key)"
+      #dateInput
+      [id]="config.key + '-datepicker'"
+      (change)="onSelect(dateInput.value, config.key)"
       type="date"
-      id="{{ config.key + '-datepicker' }}"
       [value]="config.value"
       [min]="config.min"
       [max]="config.max"
