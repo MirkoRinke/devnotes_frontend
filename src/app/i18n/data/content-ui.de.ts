@@ -205,7 +205,9 @@ export const CONTENT_UI_DE: ContentUI = {
   Datepicker: {
     dateFrom: 'Datum von',
     dateTo: 'Datum bis',
-    ariaLabel: {},
+    ariaLabel: {
+      resetDatepicker: 'Datum zurücksetzen',
+    },
   },
   PostListElement: {
     ariaLabel: {

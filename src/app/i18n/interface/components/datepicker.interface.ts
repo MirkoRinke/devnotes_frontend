@@ -1,5 +1,7 @@
 export interface DatepickerMessagesInterface {
   dateFrom: string;
   dateTo: string;
-  ariaLabel: {};
+  ariaLabel: {
+    resetDatepicker: string;
+  };
 }
