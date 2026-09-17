@@ -202,6 +202,11 @@ export const CONTENT_UI_EN: ContentUI = {
       search: 'Search over {count} entries',
     },
   },
+  Datepicker: {
+    dateFrom: 'Date From',
+    dateTo: 'Date To',
+    ariaLabel: {},
+  },
   PostListElement: {
     ariaLabel: {
       count: {
