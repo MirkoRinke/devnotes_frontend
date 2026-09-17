@@ -12,11 +12,6 @@
   @include display-flex($align: start, $justify: center, $direction: column);
   height: 100%;
 
-  max-width: px-to-rem(220);
-  :host(.max) & {
-    min-width: 100%;
-  }
-
   .dropdown {
     @include display-flex($align: center, $gap: px-to-rem(10));
     cursor: pointer;
