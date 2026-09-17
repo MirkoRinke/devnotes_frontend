@@ -8,10 +8,12 @@
 }
 
 .datepicker {
-  @include display-flex($align: center, $justify: start, $direction: row, $gap: px-to-rem(25));
+  @include display-flex($align: center, $justify: start, $gap: px-to-rem(25));
+  height: 100%;
+  width: px-to-rem(220);
 
   .picker {
-    @include display-flex($align: center, $justify: start, $direction: row, $gap: px-to-rem(10));
+    @include display-flex($align: center, $justify: start, $gap: px-to-rem(10));
     height: 100%;
     width: max-content;
     position: relative;

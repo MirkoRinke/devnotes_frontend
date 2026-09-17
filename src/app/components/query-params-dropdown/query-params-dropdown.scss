@@ -11,6 +11,7 @@
 .dropdown-component {
   @include display-flex($align: start, $justify: center, $direction: column);
   height: 100%;
+  width: px-to-rem(220);
 
   .dropdown {
     @include display-flex($align: center, $gap: px-to-rem(10));

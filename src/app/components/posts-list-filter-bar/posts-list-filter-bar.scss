@@ -109,7 +109,6 @@
         .more-options-content {
           @include display-grid($align: center, $justify: start, $gap: px-to-rem(25) px-to-rem(0));
           grid-template-columns: 1fr;
-          min-width: px-to-rem(320);
 
           @media (max-width: var.$breakpoint-xs) {
             min-width: 100%;
