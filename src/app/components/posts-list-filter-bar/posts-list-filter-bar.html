@@ -1,4 +1,5 @@
 @let translatePath = 'PostListQueryBar' + '.';
+@let translatePathAriaLabel = translatePath + 'ariaLabel' + '.';
 
 @if (filterValues) {
   <ng-template
@@ -63,7 +64,7 @@
     let-isMore="isMore"
   >
     @if ((!isMore && windowsWidth > 768) || (isMore && windowsWidth <= 768)) {
-      <section [class]="isMore ? '' : 'sort'">
+      <div [class]="isMore ? '' : 'sort'">
         <app-query-params-dropdown
           [class]="isMore ? 'left-aligned' : 'right-aligned'"
           [mode]="'URL'"
@@ -78,7 +79,7 @@
           [values]="{ '-updated_at': '-updated_at', updated_at: 'updated_at', '-likes_count': '-likes_count' }"
         >
         </app-query-params-dropdown>
-      </section>
+      </div>
     }
   </ng-template>
 
@@ -87,48 +88,59 @@
     [style.--filterChildrenCount]="filterChildrenCount"
   >
     <div class="primary">
-      <section
+      <div
         class="filter"
         #filter
       >
         <ng-container *ngTemplateOutlet="filterTemplate; context: { isMore: false }"></ng-container>
-      </section>
-      <section class="more-filters-container">
+      </div>
+
+      <div class="more-options-container">
         <button
-          class="more-filters-button"
+          class="more-options-button"
           #filterButton
-          (click)="toggleMoreFilters()"
-          (keydown.escape)="toggleMoreFilters()"
+          (click)="toggleMoreOptions()"
+          (keydown.escape)="toggleMoreOptions()"
+          [attr.aria-expanded]="showMoreOptions"
+          [attr.aria-controls]="'more-options'"
+          [attr.aria-label]="translatePathAriaLabel + 'moreOptions' | translate"
         >
           <span
             class="icon-container"
             [innerHTML]="svgIconsService.returnIcon('filter')"
+            aria-hidden="true"
           ></span>
-          <span class="label">More Filters</span>
+          <span
+            class="label"
+            aria-hidden="true"
+            >{{ translatePath + 'moreOptions' | translate }}</span
+          >
           <span
             class="chevron-icon"
             [class.active]="true"
             [innerHTML]="svgIconsService.returnIcon('chevron')"
-            [class.open]="showMoreFilters"
+            [class.open]="showMoreOptions"
             aria-hidden="true"
           ></span>
         </button>
-        <section
-          class="more-filters"
+
+        <div
+          class="more-options"
+          id="more-options"
           appClickOutsideDirective
           [clickOutsideEnabled]="showAnimation"
-          (clickOutside)="toggleMoreFilters()"
+          (clickOutside)="toggleMoreOptions()"
           appEscapeCloseDirective
           [appEscapeCloseEnabled]="showAnimation"
           [appEscapeClose]="filterButton"
-          (escapePressed)="toggleMoreFilters()"
+          (escapePressed)="toggleMoreOptions()"
         >
-          @if (showMoreFilters) {
+          @if (showMoreOptions) {
             <div
-              class="more-filters-content"
+              class="more-options-content"
               [class.active]="showAnimation"
-              [class.animated-in-filters]="showAnimation"
-              [class.animated-out-filters]="!showAnimation"
+              [class.animated-in-options]="showAnimation"
+              [class.animated-out-options]="!showAnimation"
               (animationend)="onAnimationEnd($event)"
             >
               <ng-container *ngTemplateOutlet="filterTemplate; context: { isMore: true }"></ng-container>
@@ -170,8 +182,8 @@
               }
             </div>
           }
-        </section>
-      </section>
+        </div>
+      </div>
       <ng-container *ngTemplateOutlet="sortTemplate; context: { isMore: false }"></ng-container>
     </div>
   </aside>
