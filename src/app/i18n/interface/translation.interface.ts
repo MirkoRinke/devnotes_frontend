@@ -19,7 +19,6 @@ import { LegalLinksMessagesInterface } from './components/legal-links.interface'
 import { LoadingMessagesInterface } from './components/loading.interface';
 import { NoResultsMessagesInterface } from './components/no-results.interface';
 import { TechTileMessagesInterface } from './components/tech-tile.interface';
-import { LoginMessagesInterface } from './components/login.interface';
 import { SectionStepperMessagesInterface } from './components/section-stepper.interface';
 import { FavoritesRefreshButtonMessagesInterface } from './components/favorites-refresh-button.interface';
 import { PostListMessagesInterface } from './components/posts-list.interface';
@@ -30,6 +29,8 @@ import { UserAvatarCustomizerMessagesInterface } from './components/user-avatar-
 import { UserAvatarAltMessagesInterface } from './components/user-avatar-alt.interface';
 import { DropdownComponentMessagesInterface } from './components/dropdown-component.interface';
 import { DatepickerMessagesInterface } from './components/datepicker.interface';
+import { LoginMessagesInterface } from './components/login.interface';
+import { AccountUpdateMessagesInterface } from './components/account-update.interface';
 
 export interface Content extends ContentUI, LegalContent, Notifications {}
 
@@ -59,6 +60,7 @@ export interface ContentUI {
   DropdownComponent: DropdownComponentMessagesInterface;
   Datepicker: DatepickerMessagesInterface;
   Login: LoginMessagesInterface;
+  AccountUpdate: AccountUpdateMessagesInterface;
 }
 
 export interface LegalContent {
