@@ -274,15 +274,15 @@ export const CONTENT_UI_EN: ContentUI = {
   Login: {
     heading: 'Login',
     subheading: 'Login to get started.',
-    identifierPlaceholder: 'Enter email address or username',
+    identifierPlaceholder: 'Enter email or username',
     passwordPlaceholder: 'Enter password',
     submitButton: 'Login',
     accountDeletion: 'Delete account',
     noAccount: 'No account yet?',
     createAccount: 'Create account',
     ariaLabel: {
-      identifier: 'Enter email address or username',
-      password: 'Enter password',
+      identifier: 'Enter email or username here',
+      password: 'Enter password here',
     },
   },
 };

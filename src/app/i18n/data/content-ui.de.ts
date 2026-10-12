@@ -274,14 +274,14 @@ export const CONTENT_UI_DE: ContentUI = {
   Login: {
     heading: 'Anmelden',
     subheading: 'Anmelden, um loszulegen.',
-    identifierPlaceholder: 'E-Mail-Adresse oder Benutzernamen eingeben',
-    passwordPlaceholder: 'Passwort eingeben',
+    identifierPlaceholder: 'E-Mail oder Benutzername',
+    passwordPlaceholder: 'Passwort',
     submitButton: 'Anmelden',
     accountDeletion: 'Konto löschen',
     noAccount: 'Noch kein Konto?',
     createAccount: 'Konto erstellen',
     ariaLabel: {
-      identifier: 'E-Mail-Adresse oder Benutzernamen eingeben',
+      identifier: 'E-Mail oder Benutzername eingeben',
       password: 'Passwort eingeben',
     },
   },
