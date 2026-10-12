@@ -271,4 +271,18 @@ export const CONTENT_UI_DE: ContentUI = {
     mvp_1002: 'Pixel-Art-Ente in Gold mit leuchtenden Leiterbahn-Mustern, trägt eine futuristische VR-Brille und hält ein Tablet in der Flosse.',
     mvp_guest: 'Pixel-Art-Ente mit runder Brille, die vorsichtig hinter einer geöffneten Zimmertür hervorschaut.',
   },
+  Login: {
+    heading: 'Anmelden',
+    subheading: 'Anmelden, um loszulegen.',
+    identifierPlaceholder: 'E-Mail-Adresse oder Benutzernamen eingeben',
+    passwordPlaceholder: 'Passwort eingeben',
+    submitButton: 'Anmelden',
+    accountDeletion: 'Konto löschen',
+    noAccount: 'Noch kein Konto?',
+    createAccount: 'Konto erstellen',
+    ariaLabel: {
+      identifier: 'E-Mail-Adresse oder Benutzernamen eingeben',
+      password: 'Passwort eingeben',
+    },
+  },
 };

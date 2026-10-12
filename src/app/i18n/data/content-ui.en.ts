@@ -271,4 +271,18 @@ export const CONTENT_UI_EN: ContentUI = {
     mvp_1002: 'Pixel art duck in gold with glowing circuit board patterns, wearing futuristic VR goggles and holding a tablet in its wing.',
     mvp_guest: 'Pixel art duck with round glasses, cautiously peeking out from behind an open room door.',
   },
+  Login: {
+    heading: 'Login',
+    subheading: 'Login to get started.',
+    identifierPlaceholder: 'Enter email address or username',
+    passwordPlaceholder: 'Enter password',
+    submitButton: 'Login',
+    accountDeletion: 'Delete account',
+    noAccount: 'No account yet?',
+    createAccount: 'Create account',
+    ariaLabel: {
+      identifier: 'Enter email address or username',
+      password: 'Enter password',
+    },
+  },
 };

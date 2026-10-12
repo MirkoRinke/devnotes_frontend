@@ -19,6 +19,7 @@ import { LegalLinksMessagesInterface } from './components/legal-links.interface'
 import { LoadingMessagesInterface } from './components/loading.interface';
 import { NoResultsMessagesInterface } from './components/no-results.interface';
 import { TechTileMessagesInterface } from './components/tech-tile.interface';
+import { LoginMessagesInterface } from './components/login.interface';
 import { SectionStepperMessagesInterface } from './components/section-stepper.interface';
 import { FavoritesRefreshButtonMessagesInterface } from './components/favorites-refresh-button.interface';
 import { PostListMessagesInterface } from './components/posts-list.interface';
@@ -57,6 +58,7 @@ export interface ContentUI {
   UserAvatarAlt: UserAvatarAltMessagesInterface;
   DropdownComponent: DropdownComponentMessagesInterface;
   Datepicker: DatepickerMessagesInterface;
+  Login: LoginMessagesInterface;
 }
 
 export interface LegalContent {
