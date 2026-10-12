@@ -41,7 +41,7 @@ export class LoginForm {
     login: { ...badgeMessagesInit },
   };
 
-  private messageKeys: (keyof LoginMessagesInterface)[] = ['identifier', 'password', 'acceptedConditions'];
+  private readonly messageKeys: (keyof LoginMessagesInterface)[] = ['identifier', 'password', 'acceptedConditions'];
 
   public isProcessing: boolean = false;
   public loginSuccessful: boolean = false;
@@ -49,9 +49,9 @@ export class LoginForm {
   public isPasswordFocused: boolean = false;
   public isPasswordVisible: boolean = false;
 
-  private destroyRef = inject(DestroyRef);
+  private readonly destroyRef = inject(DestroyRef);
 
-  private msg = new BadgeMessageHandler<LoginMessagesInterface>(this.messages, 'Auth', inject(TranslationService));
+  private readonly msg = new BadgeMessageHandler<LoginMessagesInterface>(this.messages, 'Auth', inject(TranslationService));
 
   constructor(
     private readonly fb: FormBuilder,

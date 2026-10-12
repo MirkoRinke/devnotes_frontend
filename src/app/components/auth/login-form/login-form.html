@@ -103,7 +103,10 @@
       >
 
       <span class="register-wrapper">
-        {{ translatePath + 'noAccount' | translate }}
+        <span class="no-account-text">
+          {{ translatePath + 'noAccount' | translate }}
+        </span>
+
         <a
           [routerLink]="['/register']"
           class="link"
