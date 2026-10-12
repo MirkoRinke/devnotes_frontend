@@ -731,8 +731,10 @@
   }
 }
 
-@mixin absolute-child($class: null, $top: null, $bottom: null, $right: null, $left: null, $transform: null, $z-index: null, $margin-bottom: 10px) {
-  position: relative;
+@mixin absolute-child($parent-position: relative, $class: null, $top: null, $bottom: null, $right: null, $left: null, $transform: null, $z-index: null, $margin-bottom: 10px) {
+  @if $parent-position != unset {
+    position: $parent-position;
+  }
 
   @if $class != null {
     #{$class} {
