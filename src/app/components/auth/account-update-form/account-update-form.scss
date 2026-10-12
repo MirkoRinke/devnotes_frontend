@@ -7,12 +7,11 @@
   flex-grow: 1;
 }
 
-.account-update-form {
+.account-update {
   @include display-flex($align: center, $direction: column);
   @include context-box($max-width: 700px, $width: 100%, $max-height: 700px, $height: 100%);
 
   @media (max-width: var.$breakpoint-md) {
-    width: 100%;
     max-height: max-content;
     height: 100%;
   }

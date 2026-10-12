@@ -1,11 +1,14 @@
+@let translatePath = 'AccountUpdate' + '.';
+@let translatePathAriaLabel = translatePath + 'ariaLabel' + '.';
+
 @if (accountSettingsForm !== null) {
-  <div class="account-update-form">
-    <div class="header">
+  <section class="account-update">
+    <header class="header">
       <div class="heading-wrapper">
-        <h1 class="heading">Konto Sicherheit</h1>
-        <h2 class="subheading">Benutzername, E-Mail-Adresse und Passwort ändern</h2>
+        <h1 class="heading">{{ translatePath + 'heading' | translate }}</h1>
+        <h2 class="subheading">{{ translatePath + 'subheading' | translate }}</h2>
       </div>
-    </div>
+    </header>
     <div class="global-message-wrapper">
       <app-badge
         class="badge"
@@ -33,7 +36,8 @@
             formControlName="name"
             maxlength="40"
             spellcheck="false"
-            placeholder="Benutzername"
+            [placeholder]="translatePath + 'username' | translate"
+            [aria-label]="translatePathAriaLabel + 'username' | translate"
           />
         </div>
       </div>
@@ -52,7 +56,8 @@
             name="email"
             formControlName="email"
             spellcheck="false"
-            placeholder="E-Mail-Adresse"
+            [placeholder]="translatePath + 'email' | translate"
+            [aria-label]="translatePathAriaLabel + 'email' | translate"
           />
         </div>
 
@@ -69,7 +74,8 @@
             name="email_confirmation"
             formControlName="email_confirmation"
             spellcheck="false"
-            placeholder="E-Mail-Adresse Bestätigen"
+            [placeholder]="translatePath + 'emailConfirmation' | translate"
+            [aria-label]="translatePathAriaLabel + 'emailConfirmation' | translate"
           />
         </div>
       </div>
@@ -102,7 +108,8 @@
               (focus)="isPasswordFocused = true"
               (blur)="isPasswordFocused = false"
               formControlName="password"
-              placeholder="Passwort eingeben"
+              [placeholder]="translatePath + 'password' | translate"
+              [aria-label]="translatePathAriaLabel + 'password' | translate"
             />
           </div>
         </div>
@@ -128,7 +135,8 @@
               (focus)="isPasswordFocused = true"
               (blur)="isPasswordFocused = false"
               formControlName="password_confirmation"
-              placeholder="Passwort bestätigen"
+              [placeholder]="translatePath + 'passwordConfirmation' | translate"
+              [aria-label]="translatePathAriaLabel + 'passwordConfirmation' | translate"
             />
           </div>
         </div>
@@ -155,7 +163,8 @@
             [type]="isPasswordVisible ? 'text' : 'password'"
             name="current_password"
             formControlName="current_password"
-            placeholder="Aktuelles Passwort zur Bestätigung eingeben"
+            [placeholder]="translatePath + 'currentPassword' | translate"
+            [aria-label]="translatePathAriaLabel + 'currentPassword' | translate"
           />
         </div>
       </div>
@@ -165,12 +174,12 @@
           [routerLink]="['/account-deletion']"
           class="link"
         >
-          Konto löschen
+          {{ translatePath + 'accountDeletion' | translate }}
         </a>
-
         <button
           class="submit-button"
           (click)="onSubmit()"
+          [attr.aria-label]="translatePathAriaLabel + 'save' | translate"
         >
           <span
             class="icon-container"
@@ -180,10 +189,10 @@
           <span
             class="text"
             aria-hidden="true"
-            >Speichern</span
+            >{{ translatePath + 'save' | translate }}</span
           >
         </button>
       </footer>
     </form>
-  </div>
+  </section>
 }

@@ -1,6 +1,6 @@
 import { Component, inject, DestroyRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ReactiveFormsModule, FormBuilder, FormGroup, FormControl, AbstractControl } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormGroup, AbstractControl } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 import { mismatchedFieldsValidator } from '../../../utils/custom-validators';
@@ -8,8 +8,9 @@ import { mismatchedFieldsValidator } from '../../../utils/custom-validators';
 import { AuthService } from '../../../services/auth.service';
 import { ApiService } from '../../../services/api.service';
 import { ApiErrorHandlingService } from '../../../services/api-error-handling.service';
-import { TranslationService } from '../../../i18n/translation.service';
 import { UserNameAvailabilityService } from '../../../services/user-name-availability.service';
+import { TranslationService } from '../../../i18n/translation.service';
+import { TranslatePipe } from '../../../i18n/translate-pipe';
 
 import { BadgeMessageHandler } from '../../../utils/badge-message-handler';
 import { AUTH_FORMS_CONFIG } from '../../../config/auth-forms.config';
@@ -22,6 +23,7 @@ import type {
 } from '../../../interfaces/account-settings';
 import type { BackendErrorResponseInterface, BusinessActionInterface, ParamsInterface } from '../../../interfaces/error-handling';
 import type { BadgeMessagesInterface } from '../../../interfaces/validation-messages';
+import type { RegistrationAvailabilityResponseInterface } from '../../../interfaces/register-form';
 import { badgeMessagesInit } from '../../../interfaces/validation-messages';
 
 import type { ApiResponseObjektInterface } from '../../../interfaces/api-response';
@@ -32,20 +34,20 @@ import { ApiEndpointEnums } from '../../../enums/api-endpoint';
 import { SvgIconsService } from '../../../services/svg.icons.service';
 import { Badge } from '../../badge/badge';
 
-import { catchError, debounceTime, distinctUntilChanged, of, switchMap, tap } from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, Observable, of, switchMap, tap } from 'rxjs';
 import { PasswordToggleButton } from '../password-toggle-button/password-toggle-button';
 import { PasswordStrengthFeedback } from '../password-strength-feedback/password-strength-feedback';
 
 @Component({
   selector: 'app-account-update-form',
-  imports: [ReactiveFormsModule, RouterModule, Badge, PasswordToggleButton, PasswordStrengthFeedback],
+  imports: [ReactiveFormsModule, RouterModule, Badge, PasswordToggleButton, PasswordStrengthFeedback, TranslatePipe],
   templateUrl: './account-update-form.html',
   styleUrl: './account-update-form.scss',
 })
 export class AccountUpdateForm {
-  accountSettingsForm: FormGroup | null = null;
+  public accountSettingsForm: FormGroup | null = null;
 
-  messages: AccountSettingsMessagesInterface = {
+  public messages: AccountSettingsMessagesInterface = {
     email: { ...badgeMessagesInit },
     email_confirmation: { ...badgeMessagesInit },
     name: { ...badgeMessagesInit },
@@ -57,7 +59,7 @@ export class AccountUpdateForm {
     current_password: { ...badgeMessagesInit },
   };
 
-  private messageKeys: (keyof AccountSettingsMessagesInterface)[] = [
+  private readonly messageKeys: (keyof AccountSettingsMessagesInterface)[] = [
     'name',
     'email',
     'email_confirmation',
@@ -69,25 +71,25 @@ export class AccountUpdateForm {
     'emailMismatch',
   ];
 
-  isProcessing: boolean = false;
+  private isProcessing: boolean = false;
 
-  isPasswordFocused: boolean = false;
-  isPasswordVisible: boolean = false;
+  public isPasswordFocused: boolean = false;
+  public isPasswordVisible: boolean = false;
 
-  private destroyRef = inject(DestroyRef);
+  private readonly destroyRef = inject(DestroyRef);
 
-  private msg = new BadgeMessageHandler<AccountSettingsMessagesInterface>(this.messages, 'Auth', inject(TranslationService));
+  private readonly msg = new BadgeMessageHandler<AccountSettingsMessagesInterface>(this.messages, 'Auth', inject(TranslationService));
 
   constructor(
-    private fb: FormBuilder,
-    private authService: AuthService,
-    private apiService: ApiService,
-    public svgIconsService: SvgIconsService,
-    private apiErrorHandlingService: ApiErrorHandlingService,
-    private userNameAvailabilityService: UserNameAvailabilityService,
+    private readonly fb: FormBuilder,
+    private readonly authService: AuthService,
+    private readonly apiService: ApiService,
+    public readonly svgIconsService: SvgIconsService,
+    private readonly apiErrorHandlingService: ApiErrorHandlingService,
+    private readonly userNameAvailabilityService: UserNameAvailabilityService,
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.createForm();
   }
 
@@ -95,7 +97,7 @@ export class AccountUpdateForm {
    * Initializes the accountSettings form with form controls and their respective validators.
    * The form controls include name, email, email_confirmation, password, password_confirmation, and current_password.
    */
-  private createForm() {
+  private createForm(): void {
     this.accountSettingsForm = this.fb.group(
       {
         name: AUTH_FORMS_CONFIG.name('', false),
@@ -115,24 +117,11 @@ export class AccountUpdateForm {
   }
 
   /**
-   * Helper method to get a form control by name. Returns null if the form is not initialized or if the control does not exist.
-   *
-   * @param name The name of the form control.
-   * @returns The form control or null if it does not exist.
-   */
-  public getControl(name: string): FormControl | null {
-    if (!this.accountSettingsForm) {
-      return null;
-    }
-    return this.accountSettingsForm.get(name) as FormControl;
-  }
-
-  /**
    * Initializes the availability check for specific form controls by subscribing to their value changes.
    * It checks the availability of the entered values and updates the form control's error state accordingly.
    * This provides real-time feedback to the user regarding the availability of their chosen name.
    */
-  private initAvailabilityCheck() {
+  private initAvailabilityCheck(): void {
     const fields: (keyof AccountSettingsAvailabilityResponseInterface)[] = ['name'];
 
     fields.forEach((controlName) => {
@@ -149,7 +138,10 @@ export class AccountUpdateForm {
    * @param controlName The name of the control to check for availability.
    * @returns An observable that emits the availability check results.
    */
-  private createAvailabilityStream(formControl: AbstractControl, controlName: keyof AccountSettingsAvailabilityResponseInterface) {
+  private createAvailabilityStream(
+    formControl: AbstractControl,
+    controlName: keyof AccountSettingsAvailabilityResponseInterface,
+  ): Observable<ApiResponseObjektInterface<RegistrationAvailabilityResponseInterface> | null> {
     return formControl.valueChanges.pipe(
       debounceTime(500),
       distinctUntilChanged(),
@@ -199,7 +191,7 @@ export class AccountUpdateForm {
    * It checks for specific validation errors and sets or clears the corresponding messages accordingly.
    * This provides real-time feedback to the user as they interact with the form controls.
    */
-  private initLiveFeedback() {
+  private initLiveFeedback(): void {
     const fieldConfigs: { control: string; field: keyof AccountSettingsMessagesInterface; type: keyof BadgeMessagesInterface; errorKey: string }[] = [
       { control: 'name', field: 'accountSettings', type: 'info', errorKey: 'tooMuchWhitespace' },
       { control: 'name', field: 'name', type: 'error', errorKey: 'tooMuchWhitespace' },
@@ -231,7 +223,7 @@ export class AccountUpdateForm {
    *
    * @returns
    */
-  public onSubmit() {
+  public onSubmit(): void {
     if (!this.accountSettingsForm) return;
 
     if (this.accountSettingsForm.invalid) {
@@ -271,7 +263,7 @@ export class AccountUpdateForm {
    * @param data
    * @returns
    */
-  private saveAccountSettings(data: AccountSettingsFormInterface) {
+  private saveAccountSettings(data: AccountSettingsFormInterface): void {
     /**
      * Prevent multiple submissions while the request is being processed.
      */
@@ -287,7 +279,7 @@ export class AccountUpdateForm {
     const url = `${ApiEndpointEnums.USER}${user_id}/`;
 
     this.apiService.patch<ApiResponseObjektInterface<UserInterface>>(url, data).subscribe({
-      next: (response) => {
+      next: () => {
         this.msg.setMessage('accountSettings', 'success', 'ACCOUNT_SETTINGS_UPDATED');
         this.isProcessing = false;
       },
@@ -312,12 +304,10 @@ export class AccountUpdateForm {
    * Sets the error messages for the form controls based on the validation errors present in the form.
    * It iterates through the defined fields and checks if there are any errors for each field.
    */
-  private setErrorMessage() {
+  private setErrorMessage(): void {
     const controlErrors = this.getFormErrors();
     const formErrors = this.accountSettingsForm?.errors || {};
     const allErrors = { ...controlErrors, ...formErrors };
-
-    console.log('Form validation errors:', allErrors);
 
     this.messageKeys.forEach((field) => {
       if (allErrors[field]) {
@@ -343,11 +333,11 @@ export class AccountUpdateForm {
    *
    * @returns
    */
-  private getFormErrors() {
+  private getFormErrors(): { [key: string]: AccountSettingsFormErrorsInterface } {
     const errors: { [key: string]: AccountSettingsFormErrorsInterface } = {};
     Object.entries(this.accountSettingsForm?.controls || {}).forEach(([key, control]) => {
       if (control.invalid && control.errors) {
-        (errors as any)[key] = control.errors;
+        errors[key] = control.errors;
       }
     });
     return errors;
@@ -356,7 +346,7 @@ export class AccountUpdateForm {
   /**
    * Retrieves the appropriate error message for the password confirmation field based on its validation state.
    */
-  get passwordConfirmationErrorMessage() {
+  public get passwordConfirmationErrorMessage(): BadgeMessagesInterface | null {
     const control = this.accountSettingsForm?.get('password_confirmation');
 
     if (control?.invalid && control?.touched) {
@@ -370,7 +360,10 @@ export class AccountUpdateForm {
     return null;
   }
 
-  get emailConfirmationErrorMessage() {
+  /**
+   * Retrieves the appropriate error message for the email confirmation field based on its validation state.
+   */
+  public get emailConfirmationErrorMessage(): BadgeMessagesInterface | null {
     const control = this.accountSettingsForm?.get('email_confirmation');
 
     if (control?.invalid && control?.touched) {
