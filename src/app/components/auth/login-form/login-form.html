@@ -1,9 +1,12 @@
+@let translatePath = 'Login' + '.';
+@let translatePathAriaLabel = translatePath + 'ariaLabel' + '.';
+
 @if (loginForm !== null) {
-  <div class="login">
-    <div class="header">
-      <h1 class="heading">Anmelden</h1>
-      <h2 class="subheading">Anmelden, um loszulegen.</h2>
-    </div>
+  <section class="login">
+    <header class="header">
+      <h1 class="heading">{{ translatePath + 'heading' | translate }}</h1>
+      <h2 class="subheading">{{ translatePath + 'subheading' | translate }}</h2>
+    </header>
 
     <div class="icon-wrapper">
       <app-badge
@@ -16,6 +19,7 @@
         [class.processing]="isProcessing"
         [class.success]="loginSuccessful"
         [innerHTML]="svgIconsService.returnIcon(getDuckIcon(), 'icon')"
+        aria-hidden="true"
       ></span>
     </div>
 
@@ -36,7 +40,8 @@
           name="identifier"
           formControlName="identifier"
           spellcheck="false"
-          placeholder="E-Mail-Adresse oder Benutzernamen eingeben"
+          [placeholder]="translatePath + 'identifierPlaceholder' | translate"
+          [attr.aria-label]="translatePathAriaLabel + 'identifier' | translate"
         />
       </div>
 
@@ -61,7 +66,8 @@
             (focus)="isPasswordFocused = true"
             (blur)="isPasswordFocused = false"
             formControlName="password"
-            placeholder="Passwort eingeben"
+            [placeholder]="translatePath + 'passwordPlaceholder' | translate"
+            [attr.aria-label]="translatePathAriaLabel + 'password' | translate"
           />
         </div>
       </div>
@@ -85,25 +91,25 @@
         class="submit-button"
         (click)="onSubmit()"
       >
-        Anmelden
+        {{ translatePath + 'submitButton' | translate }}
       </button>
     </form>
 
-    <div class="footer-links">
+    <footer class="footer-links">
       <a
         [routerLink]="['/account-deletion']"
         class="link"
-        >Konto löschen</a
+        >{{ translatePath + 'accountDeletion' | translate }}</a
       >
 
       <span class="register-wrapper">
-        Noch kein Konto?
+        {{ translatePath + 'noAccount' | translate }}
         <a
           [routerLink]="['/register']"
           class="link"
-          >Konto erstellen</a
+          >{{ translatePath + 'createAccount' | translate }}</a
         >
       </span>
-    </div>
-  </div>
+    </footer>
+  </section>
 }

@@ -6,6 +6,7 @@ import { Router, RouterModule } from '@angular/router';
 import { LoginService } from '../../../services/login.service';
 import { ApiErrorHandlingService } from '../../../services/api-error-handling.service';
 import { TranslationService } from '../../../i18n/translation.service';
+import { TranslatePipe } from '../../../i18n/translate-pipe';
 
 import { BadgeMessageHandler } from '../../../utils/badge-message-handler';
 import { AUTH_FORMS_CONFIG } from '../../../config/auth-forms.config';
@@ -23,17 +24,17 @@ import { LegalAcceptance } from '../legal-acceptance/legal-acceptance';
 
 @Component({
   selector: 'app-login-form',
-  imports: [ReactiveFormsModule, Badge, RouterModule, PasswordToggleButton, LegalAcceptance],
+  imports: [ReactiveFormsModule, Badge, RouterModule, PasswordToggleButton, LegalAcceptance, TranslatePipe],
   templateUrl: './login-form.html',
   styleUrl: './login-form.scss',
 })
 export class LoginForm {
   @Input() agreementPage: boolean = false;
 
-  loginForm: FormGroup | null = null;
-  mustAcceptConditions: boolean = false;
+  public loginForm: FormGroup | null = null;
+  public mustAcceptConditions: boolean = false;
 
-  messages: LoginMessagesInterface = {
+  public messages: LoginMessagesInterface = {
     identifier: { ...badgeMessagesInit },
     password: { ...badgeMessagesInit },
     acceptedConditions: { ...badgeMessagesInit },
@@ -42,25 +43,25 @@ export class LoginForm {
 
   private messageKeys: (keyof LoginMessagesInterface)[] = ['identifier', 'password', 'acceptedConditions'];
 
-  isProcessing: boolean = false;
-  loginSuccessful: boolean = false;
+  public isProcessing: boolean = false;
+  public loginSuccessful: boolean = false;
 
-  isPasswordFocused: boolean = false;
-  isPasswordVisible: boolean = false;
+  public isPasswordFocused: boolean = false;
+  public isPasswordVisible: boolean = false;
 
   private destroyRef = inject(DestroyRef);
 
   private msg = new BadgeMessageHandler<LoginMessagesInterface>(this.messages, 'Auth', inject(TranslationService));
 
   constructor(
-    private fb: FormBuilder,
-    private loginService: LoginService,
-    private router: Router,
-    public svgIconsService: SvgIconsService,
-    private apiErrorHandlingService: ApiErrorHandlingService,
+    private readonly fb: FormBuilder,
+    private readonly loginService: LoginService,
+    private readonly router: Router,
+    public readonly svgIconsService: SvgIconsService,
+    private readonly apiErrorHandlingService: ApiErrorHandlingService,
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     if (this.agreementPage) {
       this.mustAcceptConditions = true;
     }
@@ -70,7 +71,7 @@ export class LoginForm {
   /**
    * Initializes the login form with form controls and validators. If the user must accept conditions, it adds a requiredTrue validator to the acceptedConditions control.
    */
-  private createForm() {
+  private createForm(): void {
     const acceptedConditionsValidators = this.mustAcceptConditions ? AUTH_FORMS_CONFIG.acceptedConditions() : [false, []];
 
     this.loginForm = this.fb.group({
@@ -99,7 +100,7 @@ export class LoginForm {
    *
    * @returns
    */
-  public onSubmit() {
+  public onSubmit(): void {
     if (!this.loginForm) return;
 
     if (this.loginForm.invalid) {
@@ -136,7 +137,7 @@ export class LoginForm {
    * @param data
    * @returns
    */
-  private login(data: LoginFormInterface) {
+  private login(data: LoginFormInterface): void {
     /**
      * Prevent multiple submissions while the login request is being processed.
      */
@@ -150,7 +151,7 @@ export class LoginForm {
       .login(data)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (response) => {
+        next: () => {
           this.msg.setMessage('login', 'success', 'LOGIN_SUCCESSFUL');
 
           this.loginSuccessful = true;
@@ -211,7 +212,7 @@ export class LoginForm {
    * Sets the error messages for the form controls based on the validation errors present in the form.
    * It iterates through the defined fields and checks if there are any errors for each field.
    */
-  private setErrorMessage() {
+  private setErrorMessage(): void {
     const errors = this.getFormErrors();
 
     this.messageKeys.forEach((field) => {
@@ -228,13 +229,13 @@ export class LoginForm {
    * Retrieves the validation errors from the form controls and returns an object containing the errors for each control.
    * It iterates through the form controls, checks if they are invalid, and if so, adds their errors to the resulting object.
    *
-   * @returns
+   * @returns An object containing the validation errors for each form control.
    */
-  private getFormErrors() {
+  private getFormErrors(): { [key: string]: LoginFormErrorsInterface } {
     const errors: { [key: string]: LoginFormErrorsInterface } = {};
     Object.entries(this.loginForm?.controls || {}).forEach(([key, control]) => {
       if (control.invalid && control.errors) {
-        (errors as any)[key] = control.errors;
+        errors[key] = control.errors;
       }
     });
     return errors;
