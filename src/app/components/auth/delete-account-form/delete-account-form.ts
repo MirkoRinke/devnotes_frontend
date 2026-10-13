@@ -115,8 +115,7 @@ export class DeleteAccountForm {
    */
   public onCancel(): void {
     if (this.authService.isLoggedIn()) {
-      //TODO replace with a /settings or /profile later, when such a page exists
-      this.router.navigate(['/my-area']);
+      this.router.navigate(['/account-settings']);
     } else {
       this.router.navigate(['/login']);
     }
