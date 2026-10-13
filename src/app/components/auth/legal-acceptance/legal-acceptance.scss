@@ -2,27 +2,39 @@
 @use '../../../../var' as var;
 @use '../../../../mixins' as *;
 
-.checkbox-container {
-  @include display-flex(center);
-  gap: px-to-rem(10);
+.legal-acceptance {
+  @include display-flex($align: center, $gap: px-to-rem(10));
 
   .checkbox-text {
-    @include display-flex(center, center);
+    @include display-flex($align: center, $justify: center, $gap: 1ch);
+    width: 100%;
 
-    .terms,
-    .privacy {
-      margin-inline: 1ch;
+    @media (max-width: var.$breakpoint-md) {
+      flex-direction: column;
+    }
 
-      &:hover {
-        cursor: pointer;
-        color: var(--font-primary-color-50);
-        transition: color var.$transition-duration-medium ease-in-out;
+    .terms-privacy-links {
+      @include display-flex($align: center, $justify: center, $gap: 1ch);
+
+      @media (max-width: var.$breakpoint-sm) {
+        flex-direction: column;
       }
 
-      @include framed-link();
+      .terms,
+      .privacy {
+        &:hover {
+          cursor: pointer;
+          color: var(--font-primary-color-50);
+          transition: color var.$transition-duration-medium ease-in-out;
+        }
+      }
 
-      &.privacy {
-        margin-right: 0;
+      .terms {
+        @include framed-link($after: '] &');
+      }
+
+      .privacy {
+        @include framed-link($after: '].');
       }
     }
   }

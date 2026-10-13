@@ -1,27 +1,36 @@
+@let translatePath = 'LegalAcceptance' + '.';
+@let translatePathAriaLabel = translatePath + 'ariaLabel' + '.';
+
 @if (control) {
-  <label class="checkbox-container">
+  <section class="legal-acceptance">
     <input
       class="checkbox"
       type="checkbox"
       [formControl]="control"
       (change)="onCheckboxChange()"
+      [attr.aria-label]="translatePathAriaLabel + 'checkbox' | translate"
     />
-    <span class="custom-checkbox"></span>
-    <span class="checkbox-text">
-      Ich akzeptiere die
-      <a
-        class="terms"
-        [routerLink]="['/legal/terms']"
-        target="_blank"
-        >Nutzungsbedingungen</a
-      >
-      &
-      <a
-        class="privacy"
-        [routerLink]="['/legal/privacy']"
-        target="_blank"
-        >Datenschutzerklärung</a
-      >.
-    </span>
-  </label>
+    <span
+      class="custom-checkbox"
+      aria-hidden="true"
+    ></span>
+    <label class="checkbox-text">
+      {{ translatePath + 'introduction' | translate }}
+      <span class="terms-privacy-links">
+        <a
+          class="terms"
+          [routerLink]="['/legal/terms']"
+          target="_blank"
+          >{{ translatePath + 'terms' | translate }}</a
+        >
+
+        <a
+          class="privacy"
+          [routerLink]="['/legal/privacy']"
+          target="_blank"
+          >{{ translatePath + 'privacy' | translate }}</a
+        >
+      </span>
+    </label>
+  </section>
 }
