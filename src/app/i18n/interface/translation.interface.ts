@@ -32,6 +32,8 @@ import { DatepickerMessagesInterface } from './components/datepicker.interface';
 import { LoginMessagesInterface } from './components/login.interface';
 import { AccountUpdateMessagesInterface } from './components/account-update.interface';
 import { DeleteAccountMessagesInterface } from './components/delete-account.interface';
+import { RegisterMessagesInterface } from './components/register.interface';
+import { LegalAcceptanceMessagesInterface } from './components/legal-acceptance.interface';
 
 export interface Content extends ContentUI, LegalContent, Notifications {}
 
@@ -63,6 +65,8 @@ export interface ContentUI {
   Login: LoginMessagesInterface;
   AccountUpdate: AccountUpdateMessagesInterface;
   DeleteAccount: DeleteAccountMessagesInterface;
+  Register: RegisterMessagesInterface;
+  LegalAcceptance: LegalAcceptanceMessagesInterface;
 }
 
 export interface LegalContent {

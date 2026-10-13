@@ -321,4 +321,32 @@ export const CONTENT_UI_EN: ContentUI = {
       password: 'Enter password here',
     },
   },
+  Register: {
+    heading: 'Register',
+    subheading: 'Create a new account.',
+    username: 'Username',
+    displayName: 'Display Name',
+    email: 'Email',
+    password: 'Password',
+    passwordConfirmation: 'Confirm Password',
+    register: 'Register',
+    contactLink: 'Contact',
+    alreadyHaveAccount: 'Already have an account?',
+    loginLink: 'Login',
+    ariaLabel: {
+      username: 'Enter username here',
+      displayName: 'Enter display name here',
+      email: 'Enter email here',
+      password: 'Enter password here',
+      passwordConfirmation: 'Confirm password here',
+    },
+  },
+  LegalAcceptance: {
+    introduction: 'I accept the',
+    terms: 'Terms of Service',
+    privacy: 'Privacy Policy',
+    ariaLabel: {
+      checkbox: 'Accept terms and privacy policy',
+    },
+  },
 };
