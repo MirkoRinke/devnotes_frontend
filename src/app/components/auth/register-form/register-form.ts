@@ -4,6 +4,7 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, FormControl, AbstractContr
 import { Router, RouterModule } from '@angular/router';
 
 import { RegisterService } from '../../../services/register.service';
+import { TranslatePipe } from '../../../i18n/translate-pipe';
 
 import { mismatchedFieldsValidator } from '../../../utils/custom-validators';
 
@@ -17,26 +18,27 @@ import { AUTH_FORMS_CONFIG } from '../../../config/auth-forms.config';
 import type { RegisterFormErrorsInterface, RegisterMessagesInterface, RegisterFormInterface, RegistrationAvailabilityResponseInterface } from '../../../interfaces/register-form';
 import type { BackendErrorResponseInterface, BusinessActionInterface, ParamsInterface } from '../../../interfaces/error-handling';
 import type { BadgeMessagesInterface } from '../../../interfaces/validation-messages';
+import type { ApiResponseObjektInterface } from '../../../interfaces/api-response';
 import { badgeMessagesInit } from '../../../interfaces/validation-messages';
 
 import { SvgIconsService } from '../../../services/svg.icons.service';
 import { Badge } from '../../badge/badge';
 
-import { catchError, debounceTime, distinctUntilChanged, of, switchMap, tap } from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, Observable, of, switchMap, tap } from 'rxjs';
 import { PasswordToggleButton } from '../password-toggle-button/password-toggle-button';
 import { PasswordStrengthFeedback } from '../password-strength-feedback/password-strength-feedback';
 import { LegalAcceptance } from '../legal-acceptance/legal-acceptance';
 
 @Component({
   selector: 'app-register-form',
-  imports: [ReactiveFormsModule, RouterModule, Badge, PasswordToggleButton, PasswordStrengthFeedback, LegalAcceptance],
+  imports: [ReactiveFormsModule, RouterModule, Badge, PasswordToggleButton, PasswordStrengthFeedback, LegalAcceptance, TranslatePipe],
   templateUrl: './register-form.html',
   styleUrl: './register-form.scss',
 })
 export class RegisterForm {
-  registerForm: FormGroup | null = null;
+  public registerForm: FormGroup | null = null;
 
-  messages: RegisterMessagesInterface = {
+  public messages: RegisterMessagesInterface = {
     email: { ...badgeMessagesInit },
     name: { ...badgeMessagesInit },
     display_name: { ...badgeMessagesInit },
@@ -47,28 +49,28 @@ export class RegisterForm {
     passwordMismatch: { ...badgeMessagesInit },
   };
 
-  private messageKeys: (keyof RegisterMessagesInterface)[] = ['email', 'name', 'display_name', 'password', 'password_confirmation', 'acceptedConditions'];
+  private readonly messageKeys: (keyof RegisterMessagesInterface)[] = ['email', 'name', 'display_name', 'password', 'password_confirmation', 'acceptedConditions'];
 
-  isProcessing: boolean = false;
-  registerSuccessful: boolean = false;
+  public isProcessing: boolean = false;
+  public registerSuccessful: boolean = false;
 
-  isPasswordFocused: boolean = false;
-  isPasswordVisible: boolean = false;
+  public isPasswordFocused: boolean = false;
+  public isPasswordVisible: boolean = false;
 
-  private destroyRef = inject(DestroyRef);
+  private readonly destroyRef = inject(DestroyRef);
 
-  private msg = new BadgeMessageHandler<RegisterMessagesInterface>(this.messages, 'Auth', inject(TranslationService));
+  private readonly msg = new BadgeMessageHandler<RegisterMessagesInterface>(this.messages, 'Auth', inject(TranslationService));
 
   constructor(
-    private fb: FormBuilder,
-    private registerService: RegisterService,
-    private router: Router,
-    public svgIconsService: SvgIconsService,
-    private apiErrorHandlingService: ApiErrorHandlingService,
-    private userNameAvailabilityService: UserNameAvailabilityService,
+    private readonly fb: FormBuilder,
+    private readonly registerService: RegisterService,
+    private readonly router: Router,
+    public readonly svgIconsService: SvgIconsService,
+    private readonly apiErrorHandlingService: ApiErrorHandlingService,
+    private readonly userNameAvailabilityService: UserNameAvailabilityService,
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.createForm();
   }
 
@@ -76,7 +78,7 @@ export class RegisterForm {
    * Initializes the register form with form controls and their respective validators.
    * The form controls include email, name, display_name, password, password_confirmation, and acceptedConditions.
    */
-  private createForm() {
+  private createForm(): void {
     this.registerForm = this.fb.group(
       {
         name: AUTH_FORMS_CONFIG.name(),
@@ -113,7 +115,7 @@ export class RegisterForm {
    * It checks the availability of the entered values and updates the form control's error state accordingly.
    * This provides real-time feedback to the user regarding the availability of their chosen name and display name.
    */
-  private initAvailabilityCheck() {
+  private initAvailabilityCheck(): void {
     const fields: (keyof RegistrationAvailabilityResponseInterface)[] = ['name', 'display_name'];
 
     fields.forEach((controlName) => {
@@ -130,7 +132,10 @@ export class RegisterForm {
    * @param controlName The name of the control to check for availability.
    * @returns An observable that emits the availability check results.
    */
-  private createAvailabilityStream(formControl: AbstractControl, controlName: keyof RegistrationAvailabilityResponseInterface) {
+  private createAvailabilityStream(
+    formControl: AbstractControl,
+    controlName: keyof RegistrationAvailabilityResponseInterface,
+  ): Observable<ApiResponseObjektInterface<RegistrationAvailabilityResponseInterface> | null> {
     return formControl.valueChanges.pipe(
       debounceTime(500),
       distinctUntilChanged(),
@@ -180,7 +185,7 @@ export class RegisterForm {
    * It checks for specific validation errors and sets or clears the corresponding messages accordingly.
    * This provides real-time feedback to the user as they interact with the form controls.
    */
-  private initLiveFeedback() {
+  private initLiveFeedback(): void {
     const fieldConfigs: { control: string; field: keyof RegisterMessagesInterface; type: keyof BadgeMessagesInterface; errorKey: string }[] = [
       { control: 'name', field: 'register', type: 'info', errorKey: 'tooMuchWhitespace' },
       { control: 'display_name', field: 'register', type: 'info', errorKey: 'tooMuchWhitespace' },
@@ -214,7 +219,7 @@ export class RegisterForm {
    *
    * @returns
    */
-  public onSubmit() {
+  public onSubmit(): void {
     if (!this.registerForm) return;
 
     if (this.registerForm.invalid) {
@@ -245,7 +250,7 @@ export class RegisterForm {
    * @param data
    * @returns
    */
-  private register(data: RegisterFormInterface) {
+  private register(data: RegisterFormInterface): void {
     /**
      * Prevent multiple submissions while the registration request is being processed.
      */
@@ -259,7 +264,7 @@ export class RegisterForm {
       .register(data)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (response) => {
+        next: () => {
           this.msg.setMessage('register', 'success', 'REGISTER_SUCCESSFUL');
           this.registerSuccessful = true;
           this.isProcessing = false;
@@ -303,7 +308,7 @@ export class RegisterForm {
    * Sets the error messages for the form controls based on the validation errors present in the form.
    * It iterates through the defined fields and checks if there are any errors for each field.
    */
-  private setErrorMessage() {
+  private setErrorMessage(): void {
     const controlErrors = this.getFormErrors();
     const formErrors = this.registerForm?.errors || {};
     const allErrors = { ...controlErrors, ...formErrors };
@@ -328,11 +333,11 @@ export class RegisterForm {
    *
    * @returns
    */
-  private getFormErrors() {
+  private getFormErrors(): { [key: string]: RegisterFormErrorsInterface } {
     const errors: { [key: string]: RegisterFormErrorsInterface } = {};
     Object.entries(this.registerForm?.controls || {}).forEach(([key, control]) => {
       if (control.invalid && control.errors) {
-        (errors as any)[key] = control.errors;
+        errors[key] = control.errors;
       }
     });
     return errors;
@@ -356,7 +361,7 @@ export class RegisterForm {
   /**
    * Retrieves the appropriate error message for the password confirmation field based on its validation state.
    */
-  get passwordConfirmationErrorMessage() {
+  public get passwordConfirmationErrorMessage(): BadgeMessagesInterface | null {
     const control = this.registerForm?.get('password_confirmation');
 
     if (control?.invalid && control?.touched) {

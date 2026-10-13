@@ -1,9 +1,12 @@
+@let translatePath = 'Register' + '.';
+@let translatePathAriaLabel = translatePath + 'ariaLabel' + '.';
+
 @if (registerForm !== null) {
-  <div class="register">
-    <div class="header">
-      <h1 class="heading">Register</h1>
-      <h2 class="subheading">Registrieren, um loszulegen.</h2>
-    </div>
+  <section class="register">
+    <header class="header">
+      <h1 class="heading">{{ translatePath + 'heading' | translate }}</h1>
+      <h2 class="subheading">{{ translatePath + 'subheading' | translate }}</h2>
+    </header>
 
     <div class="icon-wrapper">
       <app-badge
@@ -16,6 +19,7 @@
         [class.processing]="isProcessing"
         [class.success]="registerSuccessful"
         [innerHTML]="svgIconsService.returnIcon(getDuckIcon(), 'icon')"
+        aria-hidden="true"
       ></span>
     </div>
 
@@ -38,7 +42,9 @@
             formControlName="name"
             maxlength="40"
             spellcheck="false"
-            placeholder="Benutzername"
+            autocomplete="name"
+            [placeholder]="translatePath + 'username' | translate"
+            [attr.aria-label]="translatePathAriaLabel + 'username' | translate"
           />
         </div>
 
@@ -56,7 +62,8 @@
             formControlName="display_name"
             maxlength="40"
             spellcheck="false"
-            placeholder="Anzeigename"
+            [placeholder]="translatePath + 'displayName' | translate"
+            [attr.aria-label]="translatePathAriaLabel + 'displayName' | translate"
           />
         </div>
       </div>
@@ -74,7 +81,9 @@
           name="email"
           formControlName="email"
           spellcheck="false"
-          placeholder="E-Mail-Adresse"
+          autocomplete="email"
+          [placeholder]="translatePath + 'email' | translate"
+          [attr.aria-label]="translatePathAriaLabel + 'email' | translate"
         />
       </div>
 
@@ -93,12 +102,6 @@
           ></app-password-strength-feedback>
 
           <div class="password-input-wrapper">
-            <app-password-toggle-button
-              class="password-toggle-button"
-              [isPasswordVisible]="isPasswordVisible"
-              (passwordVisibilityChange)="isPasswordVisible = $event"
-            ></app-password-toggle-button>
-
             <input
               class="input"
               [type]="isPasswordVisible ? 'text' : 'password'"
@@ -106,8 +109,15 @@
               (focus)="isPasswordFocused = true"
               (blur)="isPasswordFocused = false"
               formControlName="password"
-              placeholder="Passwort eingeben"
+              [placeholder]="translatePath + 'password' | translate"
+              [attr.aria-label]="translatePathAriaLabel + 'password' | translate"
             />
+
+            <app-password-toggle-button
+              class="password-toggle-button"
+              [isPasswordVisible]="isPasswordVisible"
+              (passwordVisibilityChange)="isPasswordVisible = $event"
+            ></app-password-toggle-button>
           </div>
         </div>
 
@@ -119,21 +129,22 @@
           ></app-badge>
 
           <div class="password-input-wrapper">
-            <app-password-toggle-button
-              class="password-toggle-button"
-              [isPasswordVisible]="isPasswordVisible"
-              (passwordVisibilityChange)="isPasswordVisible = $event"
-            ></app-password-toggle-button>
-
             <input
               class="input"
               [type]="isPasswordVisible ? 'text' : 'password'"
               name="password_confirmation"
               (focus)="isPasswordFocused = true"
               (blur)="isPasswordFocused = false"
+              [placeholder]="translatePath + 'passwordConfirmation' | translate"
+              [attr.aria-label]="translatePathAriaLabel + 'passwordConfirmation' | translate"
               formControlName="password_confirmation"
-              placeholder="Passwort bestätigen"
             />
+
+            <app-password-toggle-button
+              class="password-toggle-button"
+              [isPasswordVisible]="isPasswordVisible"
+              (passwordVisibilityChange)="isPasswordVisible = $event"
+            ></app-password-toggle-button>
           </div>
         </div>
       </div>
@@ -153,28 +164,28 @@
 
       <button
         class="submit-button"
+        type="button"
         (click)="onSubmit()"
       >
-        Registrieren
+        {{ translatePath + 'register' | translate }}
       </button>
     </form>
 
-    <div class="footer-links">
-      <!--TODO Replace the routerLink with the actual route to your contact page -->
+    <footer class="footer-links">
       <a
-        [routerLink]="['/']"
+        [routerLink]="['/contact']"
         class="link"
-        >Kontakt</a
+        >{{ translatePath + 'contactLink' | translate }}</a
       >
 
       <span class="register-wrapper">
-        Bereits ein Konto?
+        {{ translatePath + 'alreadyHaveAccount' | translate }}
         <a
           [routerLink]="['/login']"
           class="link"
-          >Anmelden</a
+          >{{ translatePath + 'loginLink' | translate }}</a
         >
       </span>
-    </div>
-  </div>
+    </footer>
+  </section>
 }

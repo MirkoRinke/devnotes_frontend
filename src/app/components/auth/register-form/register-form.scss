@@ -2,10 +2,24 @@
 @use '../../../../var' as var;
 @use '../../../../mixins' as *;
 
+:host {
+  @include display-flex($justify: center);
+  flex-grow: 1;
+}
+
 .register {
   @include display-flex($align: center, $direction: column, $gap: px-to-rem(25));
-  @include context-box($max-width: 700px, $width: 700px);
+  @include context-box($max-width: 700px, $width: 100%, $max-height: max-content, $height: 100%);
   margin-inline: auto;
+
+  @media (max-width: var.$breakpoint-md) {
+    max-height: max-content;
+    height: 100%;
+  }
+
+  @media (max-width: var.$breakpoint-xs) {
+    padding-inline: px-to-rem(25);
+  }
 
   .header {
     @include display-flex($align: center, $direction: column);
@@ -21,15 +35,20 @@
   }
 
   .icon-wrapper {
-    @include display-flex(center, center);
+    @include display-flex($align: center, $justify: center);
     margin-top: px-to-rem(5);
     width: 100%;
 
     .icon-container {
-      @include display-flex(center);
+      @include display-flex($align: center, $justify: center);
       max-width: px-to-rem(160);
       max-height: px-to-rem(160);
       align-self: center;
+
+      @media (max-width: var.$breakpoint-xs) {
+        max-width: px-to-rem(100);
+        max-height: px-to-rem(100);
+      }
 
       &.processing {
         @include shake();
@@ -40,30 +59,26 @@
         animation-delay: var.$transition-duration-medium;
       }
 
-      &::ng-deep .icon {
-        max-width: px-to-rem(160);
-        max-height: px-to-rem(160);
-        width: 100%;
-        height: 100%;
-      }
+      @include svg-icon($icon-class: 'icon', $height: 100%, $width: 100%);
     }
 
     @include absolute-child($class: '.badge', $bottom: 100%, $left: 50%, $transform: translateX(-50%));
   }
 
   .form {
-    @include display-flex($direction: column);
-    gap: px-to-rem(25);
+    @include display-flex($direction: column, $gap: px-to-rem(25));
     width: 100%;
 
     .input-row {
-      @include display-flex($justify: space-between, $direction: row);
-      gap: px-to-rem(15);
+      @include display-flex($justify: space-between, $direction: row, $gap: px-to-rem(15));
+
+      @media (max-width: var.$breakpoint-md) {
+        flex-direction: column;
+      }
     }
 
     .input-container {
-      @include display-flex($direction: column);
-      gap: px-to-rem(15);
+      @include display-flex($direction: column, $gap: px-to-rem(15));
       margin-top: px-to-rem(25);
 
       flex: 1;
@@ -74,7 +89,7 @@
       }
 
       .password-input-wrapper {
-        @include display-flex(center);
+        @include display-flex($align: center);
         @include absolute-child($class: '.password-toggle-button', $right: px-to-rem(20), $margin-bottom: unset);
       }
 
@@ -91,46 +106,10 @@
     }
 
     .conditions-warning {
-      @include display-flex($direction: column);
+      @include display-flex($direction: column, $gap: px-to-rem(15));
       @include font-settings(14);
-      gap: px-to-rem(15);
       text-align: center;
       margin-top: px-to-rem(25);
-
-      .checkbox-container {
-        @include display-flex(center);
-        gap: px-to-rem(10);
-
-        .checkbox-text {
-          @include display-flex(center, center);
-
-          .terms,
-          .privacy {
-            margin-inline: 1ch;
-
-            &:hover {
-              cursor: pointer;
-              color: var(--font-primary-color-50);
-              transition: color var.$transition-duration-medium ease-in-out;
-            }
-
-            &::before {
-              content: '[';
-              margin-right: 0.5ch;
-            }
-            &::after {
-              content: ']';
-              margin-left: 0.5ch;
-            }
-
-            &.privacy {
-              margin-right: 0;
-            }
-          }
-        }
-
-        @include custom-check-box('.custom-checkbox');
-      }
 
       @include absolute-child($class: '.badge', $bottom: 100%, $left: 0);
     }
@@ -143,7 +122,7 @@
   }
 
   .footer-links {
-    @include display-flex(center, space-between);
+    @include display-flex($align: end, $justify: space-between, $gap: px-to-rem(20));
     width: 100%;
 
     .link {
@@ -161,6 +140,7 @@
     .register-wrapper {
       @include font-settings(14);
       color: var(--font-primary-color-50);
+      text-align: right;
 
       .link {
         color: var(--font-primary-color-50);
