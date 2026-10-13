@@ -31,6 +31,7 @@ import { DropdownComponentMessagesInterface } from './components/dropdown-compon
 import { DatepickerMessagesInterface } from './components/datepicker.interface';
 import { LoginMessagesInterface } from './components/login.interface';
 import { AccountUpdateMessagesInterface } from './components/account-update.interface';
+import { DeleteAccountMessagesInterface } from './components/delete-account.interface';
 
 export interface Content extends ContentUI, LegalContent, Notifications {}
 
@@ -61,6 +62,7 @@ export interface ContentUI {
   Datepicker: DatepickerMessagesInterface;
   Login: LoginMessagesInterface;
   AccountUpdate: AccountUpdateMessagesInterface;
+  DeleteAccount: DeleteAccountMessagesInterface;
 }
 
 export interface LegalContent {

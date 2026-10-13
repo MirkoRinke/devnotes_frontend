@@ -306,4 +306,19 @@ export const CONTENT_UI_DE: ContentUI = {
       save: 'Änderungen speichern',
     },
   },
+  DeleteAccount: {
+    heading: 'Konto löschen',
+    subheading: 'Geben Sie Ihre Anmeldedaten ein, um Ihr Konto zu löschen.',
+    identifierPlaceholder: 'E-Mail oder Benutzername',
+    passwordPlaceholder: 'Passwort',
+    confirmDeleteButton: 'Löschen bestätigen',
+    deleteButton: 'Konto löschen',
+    cancelButton: 'Abbrechen',
+    contactLink: 'Kontakt',
+    loginLink: 'Anmelden',
+    ariaLabel: {
+      identifier: 'E-Mail oder Benutzername eingeben',
+      password: 'Passwort eingeben',
+    },
+  },
 };

@@ -306,4 +306,19 @@ export const CONTENT_UI_EN: ContentUI = {
       save: 'Save changes',
     },
   },
+  DeleteAccount: {
+    heading: 'Delete Account',
+    subheading: 'Enter your login details to delete your account.',
+    identifierPlaceholder: 'Enter email or username',
+    passwordPlaceholder: 'Enter password',
+    confirmDeleteButton: 'Confirm Delete',
+    deleteButton: 'Delete Account',
+    cancelButton: 'Cancel',
+    contactLink: 'Contact',
+    loginLink: 'Login',
+    ariaLabel: {
+      identifier: 'Enter email or username here',
+      password: 'Enter password here',
+    },
+  },
 };
