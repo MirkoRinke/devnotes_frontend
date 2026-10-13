@@ -52,12 +52,6 @@
         ></app-badge>
 
         <div class="password-input-wrapper">
-          <app-password-toggle-button
-            class="password-toggle-button"
-            [isPasswordVisible]="isPasswordVisible"
-            (passwordVisibilityChange)="isPasswordVisible = $event"
-          ></app-password-toggle-button>
-
           <input
             class="input"
             [type]="isPasswordVisible ? 'text' : 'password'"
@@ -68,6 +62,12 @@
             [placeholder]="translatePath + 'passwordPlaceholder' | translate"
             [attr.aria-label]="translatePathAriaLabel + 'password' | translate"
           />
+
+          <app-password-toggle-button
+            class="password-toggle-button"
+            [isPasswordVisible]="isPasswordVisible"
+            (passwordVisibilityChange)="isPasswordVisible = $event"
+          ></app-password-toggle-button>
         </div>
       </div>
 
