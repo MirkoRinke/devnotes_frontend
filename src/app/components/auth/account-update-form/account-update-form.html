@@ -95,12 +95,6 @@
           ></app-password-strength-feedback>
 
           <div class="password-input-wrapper">
-            <app-password-toggle-button
-              class="password-toggle-button"
-              [isPasswordVisible]="isPasswordVisible"
-              (passwordVisibilityChange)="isPasswordVisible = $event"
-            ></app-password-toggle-button>
-
             <input
               class="input"
               [type]="isPasswordVisible ? 'text' : 'password'"
@@ -111,6 +105,12 @@
               [placeholder]="translatePath + 'password' | translate"
               [aria-label]="translatePathAriaLabel + 'password' | translate"
             />
+
+            <app-password-toggle-button
+              class="password-toggle-button"
+              [isPasswordVisible]="isPasswordVisible"
+              (passwordVisibilityChange)="isPasswordVisible = $event"
+            ></app-password-toggle-button>
           </div>
         </div>
 
@@ -122,12 +122,6 @@
           ></app-badge>
 
           <div class="password-input-wrapper">
-            <app-password-toggle-button
-              class="password-toggle-button"
-              [isPasswordVisible]="isPasswordVisible"
-              (passwordVisibilityChange)="isPasswordVisible = $event"
-            ></app-password-toggle-button>
-
             <input
               class="input"
               [type]="isPasswordVisible ? 'text' : 'password'"
@@ -138,6 +132,12 @@
               [placeholder]="translatePath + 'passwordConfirmation' | translate"
               [aria-label]="translatePathAriaLabel + 'passwordConfirmation' | translate"
             />
+
+            <app-password-toggle-button
+              class="password-toggle-button"
+              [isPasswordVisible]="isPasswordVisible"
+              (passwordVisibilityChange)="isPasswordVisible = $event"
+            ></app-password-toggle-button>
           </div>
         </div>
       </div>
@@ -152,12 +152,6 @@
         ></app-badge>
 
         <div class="password-input-wrapper">
-          <app-password-toggle-button
-            class="password-toggle-button"
-            [isPasswordVisible]="isPasswordVisible"
-            (passwordVisibilityChange)="isPasswordVisible = $event"
-          ></app-password-toggle-button>
-
           <input
             class="input"
             [type]="isPasswordVisible ? 'text' : 'password'"
@@ -166,6 +160,12 @@
             [placeholder]="translatePath + 'currentPassword' | translate"
             [aria-label]="translatePathAriaLabel + 'currentPassword' | translate"
           />
+
+          <app-password-toggle-button
+            class="password-toggle-button"
+            [isPasswordVisible]="isPasswordVisible"
+            (passwordVisibilityChange)="isPasswordVisible = $event"
+          ></app-password-toggle-button>
         </div>
       </div>
 
