@@ -1,9 +1,12 @@
+@let translatePath = 'DeleteAccount' + '.';
+@let translatePathAriaLabel = translatePath + 'ariaLabel' + '.';
+
 @if (deleteAccountForm !== null) {
-  <div class="delete-account">
-    <div class="header">
-      <h1 class="heading">Konto löschen</h1>
-      <h2 class="subheading">Möchten Sie Ihr Konto wirklich löschen?</h2>
-    </div>
+  <section class="delete-account">
+    <header class="header">
+      <h1 class="heading">{{ translatePath + 'heading' | translate }}</h1>
+      <h2 class="subheading">{{ translatePath + 'subheading' | translate }}</h2>
+    </header>
 
     <div class="icon-wrapper">
       <app-badge
@@ -15,6 +18,7 @@
         class="icon-container"
         [class.animated]="isProcessing"
         [innerHTML]="svgIconsService.returnIcon(getDuckIcon(), 'icon')"
+        aria-hidden="true"
       ></span>
     </div>
 
@@ -35,7 +39,8 @@
           name="identifier"
           formControlName="identifier"
           spellcheck="false"
-          placeholder="E-Mail-Adresse oder Benutzernamen eingeben"
+          [placeholder]="translatePath + 'identifierPlaceholder' | translate"
+          [attr.aria-label]="translatePathAriaLabel + 'identifier' | translate"
         />
       </div>
 
@@ -60,7 +65,8 @@
             (focus)="isPasswordFocused = true"
             (blur)="isPasswordFocused = false"
             formControlName="password"
-            placeholder="Passwort eingeben"
+            [placeholder]="translatePath + 'passwordPlaceholder' | translate"
+            [attr.aria-label]="translatePathAriaLabel + 'password' | translate"
           />
         </div>
       </div>
@@ -71,29 +77,27 @@
           class="cancel-button"
           (click)="onCancel()"
         >
-          Abbrechen
+          {{ translatePath + 'cancelButton' | translate }}
         </button>
         <button
           class="submit-button"
           (click)="onSubmit()"
         >
-          {{ doubleCheckIdentifier ? 'Ja, Konto löschen' : 'Konto löschen' }}
+          {{ doubleCheckIdentifier ? (translatePath + 'confirmDeleteButton' | translate) : (translatePath + 'deleteButton' | translate) }}
         </button>
       </div>
     </form>
-    <!--TODO Replace the routerLink with the actual route to your contact page -->
-    <div class="footer-links">
+    <footer class="footer-links">
       <a
-        [routerLink]="['/']"
+        [routerLink]="['/contact']"
         class="link"
-        >Kontakt</a
+        >{{ translatePath + 'contactLink' | translate }}</a
       >
-
       <a
         [routerLink]="['/login']"
         class="link dimmed"
-        >Anmelden</a
+        >{{ translatePath + 'loginLink' | translate }}</a
       >
-    </div>
-  </div>
+    </footer>
+  </section>
 }

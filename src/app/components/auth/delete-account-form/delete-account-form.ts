@@ -7,6 +7,7 @@ import { SvgIconsService } from '../../../services/svg.icons.service';
 import { DeleteAccountService } from '../../../services/delete-account.service';
 import { ApiErrorHandlingService } from '../../../services/api-error-handling.service';
 import { TranslationService } from '../../../i18n/translation.service';
+import { TranslatePipe } from '../../../i18n/translate-pipe';
 
 import { BadgeMessageHandler } from '../../../utils/badge-message-handler';
 import { AUTH_FORMS_CONFIG } from '../../../config/auth-forms.config';
@@ -24,48 +25,48 @@ import { PasswordToggleButton } from '../password-toggle-button/password-toggle-
 
 @Component({
   selector: 'app-delete-account-form',
-  imports: [ReactiveFormsModule, Badge, RouterModule, PasswordToggleButton],
+  imports: [ReactiveFormsModule, Badge, RouterModule, PasswordToggleButton, TranslatePipe],
   templateUrl: './delete-account-form.html',
   styleUrl: './delete-account-form.scss',
 })
 export class DeleteAccountForm {
-  deleteAccountForm: FormGroup | null = null;
-  doubleCheckIdentifier = false;
+  public deleteAccountForm: FormGroup | null = null;
+  public doubleCheckIdentifier = false;
 
-  messages: DeleteAccountMessagesInterface = {
+  public messages: DeleteAccountMessagesInterface = {
     identifier: { ...badgeMessagesInit },
     password: { ...badgeMessagesInit },
     deleteAccount: { ...badgeMessagesInit },
   };
 
-  private messageKeys: (keyof DeleteAccountMessagesInterface)[] = ['identifier', 'password'];
+  private readonly messageKeys: (keyof DeleteAccountMessagesInterface)[] = ['identifier', 'password'];
 
-  isProcessing: boolean = false;
+  public isProcessing: boolean = false;
 
-  isPasswordFocused: boolean = false;
-  isPasswordVisible: boolean = false;
+  public isPasswordFocused: boolean = false;
+  public isPasswordVisible: boolean = false;
 
-  private destroyRef = inject(DestroyRef);
+  private readonly destroyRef = inject(DestroyRef);
 
-  private msg = new BadgeMessageHandler<DeleteAccountMessagesInterface>(this.messages, 'Auth', inject(TranslationService));
+  private readonly msg = new BadgeMessageHandler<DeleteAccountMessagesInterface>(this.messages, 'Auth', inject(TranslationService));
 
   constructor(
-    private fb: FormBuilder,
-    private deleteAccountService: DeleteAccountService,
-    private router: Router,
-    public svgIconsService: SvgIconsService,
-    private apiErrorHandlingService: ApiErrorHandlingService,
-    private authService: AuthService,
+    private readonly fb: FormBuilder,
+    private readonly deleteAccountService: DeleteAccountService,
+    private readonly router: Router,
+    public readonly svgIconsService: SvgIconsService,
+    private readonly apiErrorHandlingService: ApiErrorHandlingService,
+    private readonly authService: AuthService,
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.createForm();
   }
 
   /**
    * Initializes the delete account form with form controls and validators. If the user must accept conditions, it adds a requiredTrue validator to the acceptedConditions control.
    */
-  createForm() {
+  private createForm(): void {
     this.deleteAccountForm = this.fb.group({
       identifier: AUTH_FORMS_CONFIG.identifier(),
       password: AUTH_FORMS_CONFIG.loginPassword(),
@@ -78,7 +79,7 @@ export class DeleteAccountForm {
    *
    * @returns
    */
-  onSubmit() {
+  public onSubmit(): void {
     if (!this.deleteAccountForm) return;
 
     if (this.deleteAccountForm.invalid) {
@@ -112,7 +113,7 @@ export class DeleteAccountForm {
   /**
    * Handles the cancel action
    */
-  onCancel() {
+  public onCancel(): void {
     if (this.authService.isLoggedIn()) {
       //TODO replace with a /settings or /profile later, when such a page exists
       this.router.navigate(['/my-area']);
@@ -128,7 +129,7 @@ export class DeleteAccountForm {
    * @param data
    * @returns
    */
-  deleteAccount(data: DeleteAccountInterface) {
+  private deleteAccount(data: DeleteAccountInterface): void {
     /**
      * Prevent multiple submissions while the delete account request is being processed.
      */
@@ -142,7 +143,7 @@ export class DeleteAccountForm {
       .deleteAccount(data)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (response) => {
+        next: () => {
           this.msg.setMessage('deleteAccount', 'success', 'DELETE_ACCOUNT_SUCCESSFUL');
 
           this.isProcessing = false;
@@ -173,7 +174,7 @@ export class DeleteAccountForm {
    * Sets the error messages for the form controls based on the validation errors present in the form.
    * It iterates through the defined fields and checks if there are any errors for each field.
    */
-  private setErrorMessage() {
+  private setErrorMessage(): void {
     const errors = this.getFormErrors();
 
     this.messageKeys.forEach((field) => {
@@ -190,13 +191,13 @@ export class DeleteAccountForm {
    * Retrieves the validation errors from the form controls and returns an object containing the errors for each control.
    * It iterates through the form controls, checks if they are invalid, and if so, adds their errors to the resulting object.
    *
-   * @returns
+   * @returns An object containing the validation errors for each form control.
    */
-  getFormErrors() {
+  private getFormErrors(): { [key: string]: DeleteAccountErrorsInterface } {
     const errors: { [key: string]: DeleteAccountErrorsInterface } = {};
     Object.entries(this.deleteAccountForm?.controls || {}).forEach(([key, control]) => {
       if (control.invalid && control.errors) {
-        (errors as any)[key] = control.errors;
+        errors[key] = control.errors;
       }
     });
     return errors;
@@ -207,7 +208,7 @@ export class DeleteAccountForm {
    *
    * @returns The name of the duck icon to display.
    */
-  getDuckIcon(): string {
+  public getDuckIcon(): string {
     if (!this.isPasswordFocused) return 'delete_account_normal_duck';
 
     const length = this.deleteAccountForm?.get('password')?.value?.length || 0;

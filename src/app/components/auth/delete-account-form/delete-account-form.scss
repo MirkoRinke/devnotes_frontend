@@ -2,9 +2,23 @@
 @use '../../../../var' as var;
 @use '../../../../mixins' as *;
 
+:host {
+  @include display-flex($justify: center);
+  flex-grow: 1;
+}
+
 .delete-account {
   @include display-flex($align: center, $direction: column, $gap: px-to-rem(25));
-  @include context-box($max-width: 700px, $width: 700px, $max-height: 700px, $height: 100%);
+  @include context-box($max-width: 700px, $width: 100%, $max-height: 700px, $height: 100%);
+
+  @media (max-width: var.$breakpoint-md) {
+    max-height: max-content;
+    height: 100%;
+  }
+
+  @media (max-width: var.$breakpoint-xs) {
+    padding-inline: px-to-rem(25);
+  }
 
   .header {
     @include display-flex($align: center, $direction: column);
@@ -30,29 +44,27 @@
       max-height: px-to-rem(160);
       align-self: center;
 
+      @media (max-width: var.$breakpoint-xs) {
+        max-width: px-to-rem(100);
+        max-height: px-to-rem(100);
+      }
+
       &.animated {
         @include shake();
       }
 
-      &::ng-deep .icon {
-        max-width: px-to-rem(160);
-        max-height: px-to-rem(160);
-        width: 100%;
-        height: 100%;
-      }
+      @include svg-icon($icon-class: 'icon', $height: 100%, $width: 100%);
     }
 
     @include absolute-child($class: '.badge', $bottom: 100%, $left: 50%, $transform: translateX(-50%));
   }
 
   .form {
-    @include display-flex($direction: column);
-    gap: px-to-rem(25);
+    @include display-flex($direction: column, $gap: px-to-rem(25));
     width: 100%;
 
     .input-container {
-      @include display-flex($direction: column);
-      gap: px-to-rem(15);
+      @include display-flex($direction: column, $gap: px-to-rem(15));
       margin-top: px-to-rem(25);
 
       .password-input-wrapper {
@@ -72,8 +84,11 @@
     }
 
     .action-buttons {
-      @include display-flex(center, center);
-      gap: px-to-rem(15);
+      @include display-flex($align: center, $justify: center, $gap: px-to-rem(15));
+
+      @media (max-width: var.$breakpoint-sm) {
+        flex-direction: column-reverse;
+      }
 
       .submit-button {
         @include button-preset();
