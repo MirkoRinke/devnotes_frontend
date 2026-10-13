@@ -25,6 +25,7 @@ import { Imprint } from './pages/legal/imprint/imprint';
 import { Privacy } from './pages/legal/privacy/privacy';
 import { Terms } from './pages/legal/terms/terms';
 import { LegalMobile } from './pages/legal/legal-mobile/legal-mobile';
+import { Contact } from './pages/contact/contact';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -52,4 +53,5 @@ export const routes: Routes = [
   { path: 'legal/privacy', component: Privacy },
   { path: 'legal/terms', component: Terms },
   { path: 'legal/legal-mobile', component: LegalMobile },
+  { path: 'contact', component: Contact },
 ];
