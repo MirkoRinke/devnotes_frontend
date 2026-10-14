@@ -61,7 +61,7 @@
         animation-delay: var.$transition-duration-medium;
       }
 
-      @include svg-icon($icon-class: 'icon', $height: 100%, $width: 100%);
+      @include svg-icon($icon-class: '.icon', $height: 100%, $width: 100%);
     }
     @include absolute-child($class: '.badge', $bottom: 100%, $left: 50%, $transform: translateX(-50%));
   }

@@ -11,7 +11,7 @@
   @include display-flex($align: center, $justify: center, $gap: px-to-rem(5));
 
   .icon-container {
-    @include svg-icon($icon-class: 'copyright', $height: 16px, $width: 16px, $fill-color: var(--font-primary-color-100));
+    @include svg-icon($icon-class: '.copyright', $height: 16px, $width: 16px, $fill-color: var(--font-primary-color-100));
   }
 
   .text {

@@ -19,7 +19,7 @@
     height: 100%;
     flex-shrink: 0;
 
-    @include svg-icon($icon-class: 'search_close', $height: 100%, $width: 100%, $fill-color: var(--font-primary-color-50), $hover-fill-color: var(--font-primary-color-100));
+    @include svg-icon($icon-class: '.search_close', $height: 100%, $width: 100%, $fill-color: var(--font-primary-color-50), $hover-fill-color: var(--font-primary-color-100));
   }
 
   .cage-icon-container {
@@ -28,7 +28,7 @@
     height: 100%;
     flex-shrink: 0;
 
-    @include svg-icon($icon-class: 'cage', $height: 100%, $width: 100%, $fill-color: var(--font-primary-color-50));
+    @include svg-icon($icon-class: '.cage', $height: 100%, $width: 100%, $fill-color: var(--font-primary-color-50));
 
     @media (max-width: var.$breakpoint-md) {
       display: none;
@@ -59,7 +59,7 @@
     height: 100%;
     flex-shrink: 0;
 
-    @include svg-icon($icon-class: 'send', $height: 100%, $width: 100%, $fill-color: var(--font-primary-color-50), $hover-fill-color: var(--font-primary-color-100));
+    @include svg-icon($icon-class: '.send', $height: 100%, $width: 100%, $fill-color: var(--font-primary-color-50), $hover-fill-color: var(--font-primary-color-100));
   }
 
   .indicators {
@@ -76,7 +76,7 @@
       @include golden-ratio-padding();
       height: 100%;
 
-      @include svg-icon($icon-class: 'indicator', $height: 100%, $width: 100%, $fill-color: var(--font-primary-color-50), $active-fill-color: var(--font-primary-color-100));
+      @include svg-icon($icon-class: '.indicator', $height: 100%, $width: 100%, $fill-color: var(--font-primary-color-50), $active-fill-color: var(--font-primary-color-100));
     }
   }
 }

@@ -88,7 +88,7 @@
             min-width: 0;
             aspect-ratio: 1 / 1;
 
-            @include svg-icon($icon-class: 'metric-icon', $height: 100%, $width: 100%, $fill-color: var(--font-primary-color-100));
+            @include svg-icon($icon-class: '.metric-icon', $height: 100%, $width: 100%, $fill-color: var(--font-primary-color-100));
           }
         }
 
@@ -104,7 +104,7 @@
 
             --status-fill-color: var(--font-primary-color-100);
 
-            @include svg-icon($icon-class: 'status-icon', $height: 100%, $width: 100%, $fill-color: var(--status-fill-color));
+            @include svg-icon($icon-class: '.status-icon', $height: 100%, $width: 100%, $fill-color: var(--status-fill-color));
 
             &.draft {
               --status-fill-color: var(--font-primary-color-100);

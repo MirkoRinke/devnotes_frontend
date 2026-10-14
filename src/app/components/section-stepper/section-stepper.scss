@@ -20,7 +20,7 @@ button {
 
   .direction-icon-container {
     @include svg-icon(
-      $icon-class: 'direction-icon',
+      $icon-class: '.direction-icon',
       $height: 100%,
       $width: 100%,
       $fill-color: var(--font-primary-color-50),

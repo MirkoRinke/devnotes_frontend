@@ -36,7 +36,7 @@
         @include spin($duration: var.$transition-duration-ultra-slow);
       }
 
-      @include svg-icon($icon-class: 'search-button-icon', $height: 100%, $width: 100%, $fill-color: var(--font-primary-color-100));
+      @include svg-icon($icon-class: '.search-button-icon', $height: 100%, $width: 100%, $fill-color: var(--font-primary-color-100));
     }
 
     &:not(.active) {
@@ -47,7 +47,7 @@
 
   .search-clear {
     @include button-preset();
-    @include svg-icon($icon-class: 'search_clear', $height: 100%, $width: 100%, $fill-color: var(--red-color-100));
+    @include svg-icon($icon-class: '.search_clear', $height: 100%, $width: 100%, $fill-color: var(--red-color-100));
 
     @include position($position: absolute, $top: -5px, $right: -5px);
 

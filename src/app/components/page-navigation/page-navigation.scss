@@ -105,12 +105,12 @@
       .icon-container {
         height: 100%;
         :host:not(.mobile-menu) & {
-          @include svg-icon($icon-class: 'icon', $height: 100%, $width: 100%, $fill-color: var(--font-primary-color-100));
+          @include svg-icon($icon-class: '.icon', $height: 100%, $width: 100%, $fill-color: var(--font-primary-color-100));
         }
 
         :host(.mobile-menu) & {
           @include svg-icon(
-            $icon-class: 'icon',
+            $icon-class: '.icon',
             $height: 100%,
             $width: 100%,
             $fill-color: var(--font-primary-color-50),

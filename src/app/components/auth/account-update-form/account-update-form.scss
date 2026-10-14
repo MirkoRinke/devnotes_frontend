@@ -134,7 +134,7 @@
         .icon-container {
           height: 100%;
 
-          @include svg-icon($icon-class: 'action-icon', $height: 100%, $width: 100%, $fill-color: var(--font-primary-color-100), $hover-fill-color: var(--font-primary-color-50));
+          @include svg-icon($icon-class: '.action-icon', $height: 100%, $width: 100%, $fill-color: var(--font-primary-color-100), $hover-fill-color: var(--font-primary-color-50));
         }
 
         .text {

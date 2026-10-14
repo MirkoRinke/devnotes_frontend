@@ -64,7 +64,7 @@
           height: 100%;
           min-width: 0;
 
-          @include svg-icon($icon-class: 'tile-icon', $height: 100%, $width: 100%, $fill-color: var(--font-primary-color-100));
+          @include svg-icon($icon-class: '.tile-icon', $height: 100%, $width: 100%, $fill-color: var(--font-primary-color-100));
         }
 
         .name {

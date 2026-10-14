@@ -21,7 +21,7 @@
     gap: px-to-rem(15);
 
     .icon-container {
-      @include svg-icon($icon-class: icon, $height: 25px, $width: 25px, $fill-color: var(--font-primary-color-50));
+      @include svg-icon($icon-class: '.icon', $height: 25px, $width: 25px, $fill-color: var(--font-primary-color-50));
     }
   }
 }

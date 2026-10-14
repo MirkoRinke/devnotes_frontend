@@ -73,7 +73,7 @@
           height: px-to-rem(16);
           min-width: 0;
 
-          @include svg-icon($icon-class: 'filter', $height: 100%, $width: 100%, $fill-color: var(--font-primary-color-50), $hover-fill-color: var(--font-primary-color-100));
+          @include svg-icon($icon-class: '.filter', $height: 100%, $width: 100%, $fill-color: var(--font-primary-color-50), $hover-fill-color: var(--font-primary-color-100));
         }
 
         .label {

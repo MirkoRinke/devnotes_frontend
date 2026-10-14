@@ -51,7 +51,7 @@
         width: 100%;
         min-height: 0;
 
-        @include svg-icon($icon-class: 'tile-icon', $height: 100%, $width: 100%, $fill-color: var(--font-primary-color-50));
+        @include svg-icon($icon-class: '.tile-icon', $height: 100%, $width: 100%, $fill-color: var(--font-primary-color-50));
       }
     }
 
@@ -82,7 +82,7 @@
       height: 100%;
 
       @include svg-icon(
-        $icon-class: 'favorite',
+        $icon-class: '.favorite',
         $height: 100%,
         $width: 100%,
         $fill-color: var(--font-primary-color-50),

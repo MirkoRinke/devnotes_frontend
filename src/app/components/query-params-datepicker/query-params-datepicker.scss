@@ -55,7 +55,7 @@
       pointer-events: none;
       background-color: var(--page-primary-color-100);
 
-      @include svg-icon($icon-class: 'calendar', $height: 100%, $width: 100%, $fill-color: var(--font-primary-color-50));
+      @include svg-icon($icon-class: '.calendar', $height: 100%, $width: 100%, $fill-color: var(--font-primary-color-50));
     }
   }
 
@@ -70,7 +70,7 @@
       @include display-flex($align: center, $justify: center);
       height: 100%;
 
-      @include svg-icon($icon-class: 'reset', $height: 100%, $width: 100%, $fill-color: var(--font-primary-color-50), $hover-fill-color: var(--font-primary-color-100));
+      @include svg-icon($icon-class: '.reset', $height: 100%, $width: 100%, $fill-color: var(--font-primary-color-50), $hover-fill-color: var(--font-primary-color-100));
     }
   }
 }

@@ -27,7 +27,7 @@
 @mixin svg-icon($icon-class, $height: 24px, $width: 24px, $min-size: 48px, $fill-color: null, $hover-fill-color: null, $active-fill-color: null, $open-fill-color: null) {
   @include display-flex($justify: center, $align: center);
 
-  &::ng-deep .#{$icon-class},
+  &::ng-deep #{$icon-class},
   &::ng-deep .fallback {
     @if math.unit($height) == 'px' and math.unit($width) == 'px' {
       @if ($height < $min-size or $width < $min-size) {
@@ -57,7 +57,7 @@
 
   @if $active-fill-color != null {
     &.active {
-      &::ng-deep .#{$icon-class} {
+      &::ng-deep #{$icon-class} {
         transition: fill var.$transition-duration-medium ease-in-out;
         fill: $active-fill-color;
       }
@@ -66,7 +66,7 @@
 
   @if $open-fill-color != null {
     &.open {
-      &::ng-deep .#{$icon-class} {
+      &::ng-deep #{$icon-class} {
         transition: fill var.$transition-duration-medium ease-in-out;
         fill: $open-fill-color;
       }
@@ -217,7 +217,7 @@
     }
 
     @include svg-icon(
-      $icon-class: 'chevron',
+      $icon-class: '.chevron',
       $height: 10px,
       $width: 10px,
       $fill-color: var(--font-primary-color-50),

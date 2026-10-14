@@ -71,7 +71,7 @@
 
       margin: auto;
 
-      @include svg-icon($icon-class: 'direction-icon', $height: 100%, $width: 100%, $fill-color: var(--font-primary-color-100), $hover-fill-color: var(--font-primary-color-50));
+      @include svg-icon($icon-class: '.direction-icon', $height: 100%, $width: 100%, $fill-color: var(--font-primary-color-100), $hover-fill-color: var(--font-primary-color-50));
     }
 
     .avatar-container {
@@ -128,7 +128,7 @@
           height: 100%;
           width: 100%;
 
-          @include svg-icon($icon-class: 'dice', $height: 100%, $width: 100%);
+          @include svg-icon($icon-class: '.dice', $height: 100%, $width: 100%);
         }
       }
     }
@@ -167,7 +167,7 @@
       .icon-container {
         height: 100%;
 
-        @include svg-icon($icon-class: 'action-icon', $height: 100%, $width: 100%, $fill-color: var(--font-primary-color-100), $hover-fill-color: var(--font-primary-color-50));
+        @include svg-icon($icon-class: '.action-icon', $height: 100%, $width: 100%, $fill-color: var(--font-primary-color-100), $hover-fill-color: var(--font-primary-color-50));
       }
 
       .text {

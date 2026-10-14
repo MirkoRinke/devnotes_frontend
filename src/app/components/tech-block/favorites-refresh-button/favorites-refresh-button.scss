@@ -7,7 +7,7 @@
   height: px-to-rem(24);
 
   @include svg-icon(
-    $icon-class: 'refresh',
+    $icon-class: '.refresh',
     $height: 100%,
     $width: 100%,
     $fill-color: var(--font-primary-color-50),
