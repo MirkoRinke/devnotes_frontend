@@ -99,11 +99,13 @@
             class="password-strength-feedback"
             [isPasswordFocused]="isPasswordFocused"
             [control]="registerForm.get('password')"
+            [passwordFieldId]="'password'"
           ></app-password-strength-feedback>
 
           <div class="password-input-wrapper">
             <input
               class="input"
+              id="password"
               [type]="isPasswordVisible ? 'text' : 'password'"
               name="password"
               (focus)="isPasswordFocused = true"
@@ -111,6 +113,7 @@
               formControlName="password"
               [placeholder]="translatePath + 'password' | translate"
               [attr.aria-label]="translatePathAriaLabel + 'password' | translate"
+              [attr.aria-describedby]="isPasswordFocused ? 'password-requirements-description' : null"
             />
 
             <app-password-toggle-button
