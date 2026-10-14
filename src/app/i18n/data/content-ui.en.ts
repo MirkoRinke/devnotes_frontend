@@ -349,4 +349,21 @@ export const CONTENT_UI_EN: ContentUI = {
       checkbox: 'Accept terms and privacy policy',
     },
   },
+  PasswordStrengthFeedback: {
+    hasUpperCase: 'A-Z',
+    hasLowerCase: 'a-z',
+    hasNumber: '0-9',
+    hasSpecialChar: '!?$',
+    srOnly: {
+      hasUpperCaseMet: 'Uppercase letter present',
+      hasUpperCaseNotMet: 'No uppercase letter present',
+      hasLowerCaseMet: 'Lowercase letter present',
+      hasLowerCaseNotMet: 'No lowercase letter present',
+      hasNumberMet: 'Number present',
+      hasNumberNotMet: 'No number present',
+      hasSpecialCharMet: 'Special character present',
+      hasSpecialCharNotMet: 'No special character present',
+    },
+    ariaLabel: {},
+  },
 };

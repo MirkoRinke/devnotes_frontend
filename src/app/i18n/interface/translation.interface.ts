@@ -34,6 +34,7 @@ import { AccountUpdateMessagesInterface } from './components/account-update.inte
 import { DeleteAccountMessagesInterface } from './components/delete-account.interface';
 import { RegisterMessagesInterface } from './components/register.interface';
 import { LegalAcceptanceMessagesInterface } from './components/legal-acceptance.interface';
+import { PasswordStrengthFeedbackInterface } from './components/password-strength-feedback.interface';
 
 export interface Content extends ContentUI, LegalContent, Notifications {}
 
@@ -67,6 +68,7 @@ export interface ContentUI {
   DeleteAccount: DeleteAccountMessagesInterface;
   Register: RegisterMessagesInterface;
   LegalAcceptance: LegalAcceptanceMessagesInterface;
+  PasswordStrengthFeedback: PasswordStrengthFeedbackInterface;
 }
 
 export interface LegalContent {

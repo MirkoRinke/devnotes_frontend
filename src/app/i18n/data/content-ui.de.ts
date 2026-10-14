@@ -349,4 +349,21 @@ export const CONTENT_UI_DE: ContentUI = {
       checkbox: 'Nutzungsbedingungen und Datenschutzerklärung akzeptieren',
     },
   },
+  PasswordStrengthFeedback: {
+    hasUpperCase: 'A-Z',
+    hasLowerCase: 'a-z',
+    hasNumber: '0-9',
+    hasSpecialChar: '!?$',
+    srOnly: {
+      hasUpperCaseMet: 'Großbuchstabe vorhanden',
+      hasUpperCaseNotMet: 'Kein Großbuchstabe vorhanden',
+      hasLowerCaseMet: 'Kleinbuchstabe vorhanden',
+      hasLowerCaseNotMet: 'Kein Kleinbuchstabe vorhanden',
+      hasNumberMet: 'Zahl vorhanden',
+      hasNumberNotMet: 'Keine Zahl vorhanden',
+      hasSpecialCharMet: 'Sonderzeichen vorhanden',
+      hasSpecialCharNotMet: 'Kein Sonderzeichen vorhanden',
+    },
+    ariaLabel: {},
+  },
 };
