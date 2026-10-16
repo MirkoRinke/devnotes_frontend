@@ -4,11 +4,16 @@
 >
   <header class="header">
     <h3 class="title">Beitrag löschen</h3>
-    <span
-      class="icon"
-      [innerHTML]="svgIconsService.returnIcon('close')"
+    <button
+      class="close-button"
       (click)="onClose()"
-    ></span>
+    >
+      <span
+        class="icon-container"
+        [innerHTML]="svgIconsService.returnIcon('close')"
+        aria-hidden="true"
+      ></span>
+    </button>
   </header>
 
   @if (post) {
