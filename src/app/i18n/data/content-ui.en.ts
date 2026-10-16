@@ -366,4 +366,10 @@ export const CONTENT_UI_EN: ContentUI = {
     },
     ariaLabel: {},
   },
+  PasswordToggleButton: {
+    ariaLabel: {
+      visible: 'Make password visible',
+      hidden: 'Hide password',
+    },
+  },
 };
