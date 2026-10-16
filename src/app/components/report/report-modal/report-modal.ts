@@ -3,11 +3,13 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { SvgIconsService } from '../../../services/svg.icons.service';
 import { ApiService } from '../../../services/api.service';
 
+import { TranslatePipe } from '../../../i18n/translate-pipe';
+
 import { ApiEndpointEnums } from '../../../enums/api-endpoint';
 
 @Component({
   selector: 'app-report-modal',
-  imports: [],
+  imports: [TranslatePipe],
   templateUrl: './report-modal.html',
   styleUrl: './report-modal.scss',
 })
@@ -17,20 +19,22 @@ export class ReportModal {
 
   @Output() closeModal = new EventEmitter<void>();
 
-  submitResponse: boolean | null = null;
-  alreadyReported: boolean = false;
+  private readonly timeToAutoClose: number = 2000;
 
-  isProcessingReported = false;
+  public submitResponse: boolean | null = null;
+  public alreadyReported: boolean = false;
+
+  public isProcessingReported: boolean = false;
 
   constructor(
-    public svgIconsService: SvgIconsService,
-    private apiService: ApiService,
+    public readonly svgIconsService: SvgIconsService,
+    private readonly apiService: ApiService,
   ) {}
 
   /**
    * Close the report modal
    */
-  onClose() {
+  public onClose(): void {
     this.closeModal.emit();
   }
 
@@ -42,7 +46,7 @@ export class ReportModal {
    * @param reason The optional reason for reporting the entity
    * @returns void
    */
-  submitReport(reportId: number | null, reportContext: 'post' | 'comment' | 'userProfile' | 'user' | null, reason: string) {
+  public submitReport(reportId: number | null, reportContext: 'post' | 'comment' | 'userProfile' | 'user' | null, reason: string): void {
     if (this.isProcessingReported) {
       return;
     }
@@ -59,24 +63,27 @@ export class ReportModal {
 
     const url = ApiEndpointEnums.REPORT;
 
-    let data = {
+    const data = {
       reportable_type: reportContext,
       reportable_id: reportId,
       reason: reason,
     };
 
     this.apiService.post(url, data).subscribe({
-      next: (response) => {
+      next: () => {
         this.submitResponse = true;
         this.isProcessingReported = false;
         setTimeout(() => {
           this.onClose();
-        }, 1500);
+        }, this.timeToAutoClose);
       },
       error: (error) => {
         if (error.error.errors === 'ALREADY_REPORTED') {
           this.alreadyReported = true;
           this.submitResponse = true;
+          setTimeout(() => {
+            this.onClose();
+          }, this.timeToAutoClose);
         } else {
           this.submitResponse = false;
         }

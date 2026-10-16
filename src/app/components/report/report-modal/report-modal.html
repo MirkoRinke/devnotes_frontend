@@ -1,26 +1,41 @@
+@let translatePath = 'ReportModal' + '.';
+@let translatePathContext = translatePath + 'context' + '.';
+@let translatePathAriaLabel = translatePath + 'ariaLabel' + '.';
+
 @if (reportId !== null && reportContext !== null) {
-  <div
+  @let translateContext = translatePathContext + reportContext | translate;
+
+  <section
     class="report-modal"
     (click)="$event.stopPropagation()"
+    role="dialog"
+    aria-modal="true"
   >
-    <div class="header">
-      <h3 class="title">{{ reportContext }} melden</h3>
-      <span
-        class="icon"
-        [innerHTML]="svgIconsService.returnIcon('close')"
+    <header class="header">
+      <h3 class="title">{{ translatePath + 'heading' | translate: { context: translateContext } }}</h3>
+
+      <button
+        class="close-button"
         (click)="onClose()"
-      ></span>
-    </div>
+        [attr.aria-label]="translatePathAriaLabel + 'close' | translate"
+      >
+        <span
+          class="icon-container"
+          [innerHTML]="svgIconsService.returnIcon('close')"
+          aria-hidden="true"
+        ></span>
+      </button>
+    </header>
 
     @if (submitResponse === true) {
       <div class="content">
         <div class="response-message">
           @if (alreadyReported) {
-            <p class="success-message">Du hast dieses {{ reportContext }} bereits gemeldet.</p>
-            <p class="success-message">Wir werden deine Meldung so schnell wie möglich überprüfen.</p>
+            <p class="success-message">{{ translatePath + 'alreadyReported' | translate: { context: translateContext } }}</p>
+            <p class="success-message">{{ translatePath + 'responseMessage' | translate }}</p>
           } @else {
-            <p class="success-message">Vielen Dank für deine Meldung.</p>
-            <p class="success-message">Wir werden sie so schnell wie möglich überprüfen.</p>
+            <p class="success-message">{{ translatePath + 'thankYouMessage' | translate }}</p>
+            <p class="success-message">{{ translatePath + 'responseMessage' | translate }}</p>
           }
         </div>
         <button
@@ -28,41 +43,50 @@
           type="button"
           (click)="onClose()"
         >
-          Schließen
+          {{ translatePath + 'close' | translate }}
         </button>
       </div>
     } @else {
       <div class="content">
-        <textarea
-          #reasonInput
-          class="reason"
-          rows="5"
-          maxlength="500"
-          placeholder="Grund für die Meldung eingeben..."
-        ></textarea>
-        <button
-          class="submit"
-          type="button"
-          [disabled]="isProcessingReported"
-          (click)="submitReport(reportId, reportContext, reasonInput.value)"
-        >
-          Melden
-        </button>
         @if (submitResponse === false) {
           <div class="response-message">
-            <p class="error-message">Fehler beim Senden der Meldung aufgetreten.</p>
-            <p class="error-message">Bitte versuche es erneut.</p>
+            <p class="error-message">{{ translatePath + 'errorMessage' | translate }}</p>
+            <p class="error-message">{{ translatePath + 'retryMessage' | translate }}</p>
           </div>
+          <button
+            class="submit"
+            type="button"
+            (click)="onClose()"
+          >
+            {{ translatePath + 'close' | translate }}
+          </button>
+        } @else {
+          <textarea
+            #reasonInput
+            class="reason"
+            rows="5"
+            maxlength="500"
+            [placeholder]="translatePath + 'reasonPlaceholder' | translate"
+            [attr.aria-label]="translatePathAriaLabel + 'reason' | translate"
+          ></textarea>
+          <button
+            class="submit"
+            type="button"
+            [disabled]="isProcessingReported"
+            (click)="submitReport(reportId, reportContext, reasonInput.value)"
+          >
+            {{ translatePath + 'report' | translate }}
+          </button>
         }
       </div>
     }
-  </div>
+  </section>
 } @else {
-  <div class="report-modal">
+  <section class="report-modal">
     <div class="content">
       <div class="response-message">
-        <p class="error-message">Fehler: Ungültige Daten.</p>
-        <p class="error-message">Bitte versuche es erneut.</p>
+        <p class="error-message">{{ translatePath + 'invalidDataError' | translate }}</p>
+        <p class="error-message">{{ translatePath + 'retryMessage' | translate }}</p>
       </div>
 
       <button
@@ -70,8 +94,8 @@
         type="button"
         (click)="onClose()"
       >
-        Schließen
+        {{ translatePath + 'close' | translate }}
       </button>
     </div>
-  </div>
+  </section>
 }
