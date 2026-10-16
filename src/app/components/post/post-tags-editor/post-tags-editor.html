@@ -4,11 +4,17 @@
 >
   <div class="header">
     <h3 class="title">Pick Tags</h3>
-    <span
-      class="icon"
-      [innerHTML]="svgIconsService.returnIcon('close')"
+
+    <button
+      class="close-button"
       (click)="pushToControl()"
-    ></span>
+    >
+      <span
+        class="icon-container"
+        [innerHTML]="svgIconsService.returnIcon('close')"
+        aria-hidden="true"
+      ></span>
+    </button>
   </div>
   @if (enableSearch) {
     <div class="search-section">
