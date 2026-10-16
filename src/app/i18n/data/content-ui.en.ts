@@ -372,4 +372,26 @@ export const CONTENT_UI_EN: ContentUI = {
       hidden: 'Hide password',
     },
   },
+  ReportModal: {
+    heading: '{{ context }} Report',
+    alreadyReported: 'You have already reported this {{ context }}.',
+    thankYouMessage: 'Thank you for your report.',
+    responseMessage: 'We will review your report as soon as possible.',
+    reasonPlaceholder: 'Enter reason for the report...',
+    report: 'Report',
+    close: 'Close',
+    errorMessage: 'An error occurred while sending the report.',
+    retryMessage: 'Please try again later.',
+    invalidDataError: 'Invalid data.',
+    context: {
+      post: 'Post',
+      comment: 'Comment',
+      userProfile: 'User Profile',
+      user: 'User',
+    },
+    ariaLabel: {
+      reason: 'Enter reason for the report',
+      close: 'Close',
+    },
+  },
 };

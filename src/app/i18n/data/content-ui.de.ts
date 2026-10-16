@@ -372,4 +372,26 @@ export const CONTENT_UI_DE: ContentUI = {
       hidden: 'Passwort verbergen',
     },
   },
+  ReportModal: {
+    heading: '{context} Melden',
+    alreadyReported: 'Du hast dieses {context} bereits gemeldet.',
+    thankYouMessage: 'Vielen Dank für deine Meldung.',
+    responseMessage: 'Wir werden deine Meldung so schnell wie möglich überprüfen.',
+    reasonPlaceholder: 'Grund für die Meldung eingeben...',
+    report: 'Melden',
+    close: 'Schließen',
+    errorMessage: 'Beim Senden der Meldung ist ein Fehler aufgetreten.',
+    retryMessage: 'Bitte versuche es später noch einmal.',
+    invalidDataError: 'Ungültige Daten.',
+    context: {
+      post: 'Beitrag',
+      comment: 'Kommentar',
+      userProfile: 'Benutzerprofil',
+      user: 'Benutzer',
+    },
+    ariaLabel: {
+      reason: 'Grund für die Meldung eingeben',
+      close: 'Schließen',
+    },
+  },
 };
