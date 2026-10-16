@@ -13,7 +13,13 @@
 }
 
 .description-container {
-  @include content-highlight-box($focus-highlight-class: '.description-input');
+  @include content-highlight-box();
+
+  transition:
+    box-shadow var.$transition-duration-medium ease-in-out,
+    border-color var.$transition-duration-medium ease-in-out;
+
+  @include focus-highlight-style($focus-highlight-class: '.description-input');
 
   position: relative;
   margin-top: px-to-rem(25);
