@@ -546,8 +546,7 @@
 
 @mixin modal-header($font-size: 24, $font-weight: 600) {
   .header {
-    @include display-flex(center, space-between);
-    gap: px-to-rem(25);
+    @include display-flex($align: center, $justify: space-between, $gap: px-to-rem(25));
 
     .title {
       @include font-settings($font-size, $font-weight);
@@ -557,22 +556,15 @@
       }
     }
 
-    .icon {
-      width: px-to-rem(20);
+    .close-button {
+      @include button-preset();
+      @include display-flex($align: center, $justify: center);
       height: px-to-rem(20);
-      cursor: pointer;
 
-      &:hover {
-        &::ng-deep .close {
-          fill: var(--font-primary-color-100);
-        }
-      }
-
-      &::ng-deep .close {
-        width: 100%;
+      .icon-container {
         height: 100%;
-        fill: var(--font-primary-color-50);
-        transition: fill var.$transition-duration-medium ease-in-out;
+
+        @include svg-icon($icon-class: '.close', $height: 100%, $width: 100%, $fill-color: var(--font-primary-color-50), $hover-fill-color: var(--font-primary-color-100));
       }
     }
   }
@@ -597,21 +589,41 @@
   }
 }
 
-@mixin content-highlight-box($focus-highlight-class: null) {
+@mixin content-highlight-box() {
   background-color: var(--page-secondary-color-45);
   border: px-to-rem(2) solid var(--font-primary-color-25);
   border-radius: px-to-rem(10);
   padding: px-to-rem(20) px-to-rem(5) px-to-rem(35) px-to-rem(25);
+}
 
-  @if $focus-highlight-class != null {
-    &:has(#{$focus-highlight-class}:focus) {
-      @include focus-highlight-style();
+@mixin hover-highlight-style($hover-highlight-class: null) {
+  @if $hover-highlight-class != null {
+    &:has(#{$hover-highlight-class}:hover) {
+      border-color: transparent;
+      box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-100);
+    }
+  } @else {
+    &:hover {
+      border-color: transparent;
+      box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-100);
     }
   }
 }
 
-@mixin focus-highlight-style() {
-  box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-100);
+@mixin focus-highlight-style($focus-highlight-class: null) {
+  @if $focus-highlight-class != null {
+    &:has(#{$focus-highlight-class}:focus) {
+      border-color: transparent;
+      outline: unset;
+      box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-100);
+    }
+  } @else {
+    &:focus {
+      border-color: transparent;
+      outline: unset;
+      box-shadow: 0 0 px-to-rem(8) var(--font-primary-color-100);
+    }
+  }
 }
 
 @mixin input-feld($height: null, $color: null, $border-radius: 5px, $enableShadow: true) {
