@@ -1,9 +1,11 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { SvgIconsService } from '../../../services/svg.icons.service';
 
+import { TranslatePipe } from '../../../i18n/translate-pipe';
+
 @Component({
   selector: 'app-password-toggle-button',
-  imports: [],
+  imports: [TranslatePipe],
   templateUrl: './password-toggle-button.html',
   styleUrl: './password-toggle-button.scss',
 })
@@ -12,9 +14,9 @@ export class PasswordToggleButton {
 
   @Output() passwordVisibilityChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  constructor(public svgIconsService: SvgIconsService) {}
+  constructor(public readonly svgIconsService: SvgIconsService) {}
 
-  togglePasswordVisibility(): void {
+  public togglePasswordVisibility(): void {
     this.isPasswordVisible = !this.isPasswordVisible;
     this.passwordVisibilityChange.emit(this.isPasswordVisible);
   }
