@@ -4,11 +4,17 @@
 >
   <header class="header">
     <h3 class="title">Media Links Editor</h3>
-    <span
-      class="icon"
-      [innerHTML]="svgIconsService.returnIcon('close')"
+
+    <button
+      class="close-button"
       (click)="pushToControl()"
-    ></span>
+    >
+      <span
+        class="icon-container"
+        [innerHTML]="svgIconsService.returnIcon('close')"
+        aria-hidden="true"
+      ></span>
+    </button>
   </header>
   <div class="tabs">
     <button
