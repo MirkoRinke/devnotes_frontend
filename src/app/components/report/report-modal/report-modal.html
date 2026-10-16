@@ -2,15 +2,21 @@
 @let translatePathContext = translatePath + 'context' + '.';
 @let translatePathAriaLabel = translatePath + 'ariaLabel' + '.';
 
-@if (reportId !== null && reportContext !== null) {
-  @let translateContext = translatePathContext + reportContext | translate;
+<section
+  class="report-modal"
+  (click)="$event.stopPropagation()"
+  role="dialog"
+  aria-modal="true"
+  appClickOutsideDirective
+  [clickOutsideEnabled]="true"
+  (clickOutside)="onClose()"
+  appEscapeCloseDirective
+  [appEscapeCloseEnabled]="true"
+  (escapePressed)="onClose()"
+>
+  @if (reportId !== null && reportContext !== null) {
+    @let translateContext = translatePathContext + reportContext | translate;
 
-  <section
-    class="report-modal"
-    (click)="$event.stopPropagation()"
-    role="dialog"
-    aria-modal="true"
-  >
     <header class="header">
       <h3 class="title">{{ translatePath + 'heading' | translate: { context: translateContext } }}</h3>
 
@@ -80,9 +86,7 @@
         }
       </div>
     }
-  </section>
-} @else {
-  <section class="report-modal">
+  } @else {
     <div class="content">
       <div class="response-message">
         <p class="error-message">{{ translatePath + 'invalidDataError' | translate }}</p>
@@ -97,5 +101,5 @@
         {{ translatePath + 'close' | translate }}
       </button>
     </div>
-  </section>
-}
+  }
+</section>

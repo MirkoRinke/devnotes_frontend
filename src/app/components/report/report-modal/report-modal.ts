@@ -7,9 +7,12 @@ import { TranslatePipe } from '../../../i18n/translate-pipe';
 
 import { ApiEndpointEnums } from '../../../enums/api-endpoint';
 
+import { ClickOutsideDirective } from '../../../directives/click-outside.directive';
+import { EscapeCloseDirective } from '../../../directives/escape-close.directive';
+
 @Component({
   selector: 'app-report-modal',
-  imports: [TranslatePipe],
+  imports: [TranslatePipe, ClickOutsideDirective, EscapeCloseDirective],
   templateUrl: './report-modal.html',
   styleUrl: './report-modal.scss',
 })
