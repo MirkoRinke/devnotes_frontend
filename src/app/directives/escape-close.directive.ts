@@ -9,7 +9,7 @@ export class EscapeCloseDirective {
 
   @Output() escapePressed = new EventEmitter<void>();
 
-  @HostListener('keydown.escape')
+  @HostListener('document:keydown.escape')
   onEscape(): void {
     if (!this.enabled) return;
     this.escapePressed.emit();
