@@ -13,6 +13,7 @@
   appEscapeCloseDirective
   [appEscapeCloseEnabled]="true"
   (escapePressed)="onClose()"
+  appAutoFocusDirective
 >
   @if (reportId !== null && reportContext !== null) {
     @let translateContext = translatePathContext + reportContext | translate;
@@ -72,6 +73,7 @@
             class="reason"
             rows="5"
             maxlength="500"
+            appAutoFocusTarget
             [placeholder]="translatePath + 'reasonPlaceholder' | translate"
             [attr.aria-label]="translatePathAriaLabel + 'reason' | translate"
           ></textarea>

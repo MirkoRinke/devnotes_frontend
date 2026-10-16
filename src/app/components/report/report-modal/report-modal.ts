@@ -9,10 +9,11 @@ import { ApiEndpointEnums } from '../../../enums/api-endpoint';
 
 import { ClickOutsideDirective } from '../../../directives/click-outside.directive';
 import { EscapeCloseDirective } from '../../../directives/escape-close.directive';
+import { AutoFocusDirective } from '../../../directives/auto-focus.directive';
 
 @Component({
   selector: 'app-report-modal',
-  imports: [TranslatePipe, ClickOutsideDirective, EscapeCloseDirective],
+  imports: [TranslatePipe, ClickOutsideDirective, EscapeCloseDirective, AutoFocusDirective],
   templateUrl: './report-modal.html',
   styleUrl: './report-modal.scss',
 })
