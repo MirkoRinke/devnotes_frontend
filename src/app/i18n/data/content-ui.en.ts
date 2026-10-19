@@ -394,4 +394,10 @@ export const CONTENT_UI_EN: ContentUI = {
       close: 'Close',
     },
   },
+  ReportButton: {
+    label: 'Report',
+    ariaLabel: {
+      label: 'Report',
+    },
+  },
 };

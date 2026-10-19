@@ -37,6 +37,7 @@ import { LegalAcceptanceMessagesInterface } from './components/legal-acceptance.
 import { PasswordStrengthFeedbackInterface } from './components/password-strength-feedback.interface';
 import { PasswordToggleButtonInterface } from './components/password-toggle-button.interface';
 import { ReportModalMessagesInterface } from './components/report-modal.interface';
+import { ReportButtonMessagesInterface } from './components/report-button.interface';
 
 export interface Content extends ContentUI, LegalContent, Notifications {}
 
@@ -73,6 +74,7 @@ export interface ContentUI {
   PasswordStrengthFeedback: PasswordStrengthFeedbackInterface;
   PasswordToggleButton: PasswordToggleButtonInterface;
   ReportModal: ReportModalMessagesInterface;
+  ReportButton: ReportButtonMessagesInterface;
 }
 
 export interface LegalContent {
