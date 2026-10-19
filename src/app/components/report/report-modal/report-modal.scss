@@ -3,8 +3,9 @@
 @use '../../../../mixins' as *;
 
 :host(.overlay) {
-  @include display-flex($align: center, $justify: center);
+  @include display-flex($align: start, $justify: center);
   @include absolute-overlay($animation-style: fade);
+  padding-top: px-to-rem(100);
 }
 
 .report-modal {

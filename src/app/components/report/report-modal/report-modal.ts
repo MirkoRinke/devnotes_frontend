@@ -23,7 +23,7 @@ export class ReportModal {
 
   @Output() closeModal = new EventEmitter<void>();
 
-  private readonly timeToAutoClose: number = 2000;
+  private readonly timeToAutoClose: number = 4000;
 
   public submitResponse: boolean | null = null;
   public alreadyReported: boolean = false;
