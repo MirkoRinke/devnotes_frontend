@@ -1,13 +1,18 @@
+@let translatePath = 'ReportButton' + '.';
+@let translatePathAriaLabel = translatePath + 'ariaLabel' + '.';
+
 <button
-  class="report"
+  class="report-button"
   type="button"
   (click)="onReportClick()"
+  [attr.aria-label]="!showLabel ? (translatePathAriaLabel + 'label' | translate) : null"
 >
   @if (showLabel) {
-    Melden
+    {{ translatePath + 'label' | translate }}
   }
   <span
     class="icon"
     [innerHTML]="svgIconsService.returnIcon('report')"
+    aria-hidden="true"
   ></span>
 </button>
