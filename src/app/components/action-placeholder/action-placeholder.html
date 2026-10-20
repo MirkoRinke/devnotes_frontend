@@ -1,29 +1,30 @@
-<div class="action-placeholder">
-  @if (title) {
-    <h1 class="title">{{ title }}</h1>
-  }
+@let parentTranslatePath = parentTranslatePathInput;
 
-  @if (returnIcon) {
-    <span
-      class="icon-container"
-      [innerHTML]="svgIconsService.returnIcon(returnIcon, 'icon')"
-    ></span>
-  }
+@if (features) {
+  <section class="action-placeholder">
+    @if (features.enableTitle) {
+      <h2 class="heading">{{ parentTranslatePath + 'heading' | translate }}</h2>
+    }
 
-  @if (message) {
-    <div class="message">
-      @for (item of message; track $index) {
-        <p>{{ item }}</p>
-      }
-    </div>
-  }
+    @if (returnIcon) {
+      <span
+        class="icon-container"
+        [innerHTML]="svgIconsService.returnIcon(returnIcon, 'icon')"
+        aria-hidden="true"
+      ></span>
+    }
 
-  @if (buttonLink && buttonText) {
-    <button
-      class="action-button"
-      [routerLink]="buttonLink"
-    >
-      {{ buttonText }}
-    </button>
-  }
-</div>
+    @if (features.enableMessage) {
+      <p class="message">{{ parentTranslatePath + 'message' | translate }}</p>
+    }
+
+    @if (features.enableButton && buttonLink) {
+      <a
+        class="action-button"
+        [routerLink]="buttonLink"
+      >
+        {{ parentTranslatePath + 'buttonText' | translate }}
+      </a>
+    }
+  </section>
+}
