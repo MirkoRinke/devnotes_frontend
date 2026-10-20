@@ -1,3 +1,6 @@
+@let translatePath = 'Community' + '.';
+<!-- @let translatePathAriaLabel = translatePath + 'ariaLabel' + '.'; -->
+
 <section class="community">
   @if (hasAvailableData !== false) {
     @if (searchService.showSearchResults$ | async) {
@@ -25,9 +28,8 @@
     } @else if (!(searchService.searchActive$ | async)) {
       <app-action-placeholder
         class="center small"
-        [title]="'Favoriten'"
-        [message]="['Bitte melde dich an, um deine Favoriten zu sehen.']"
-        [buttonText]="'Anmelden'"
+        [parentTranslatePathInput]="translatePath + 'actionPlaceholder' + '.' + 'favorite' + '.'"
+        [features]="{ enableTitle: true, enableMessage: true, enableButton: true }"
         [buttonLink]="'/login'"
       ></app-action-placeholder>
     }
@@ -56,18 +58,16 @@
   } @else if (authService.isLoggedIn() && hasAvailableData === false) {
     <app-action-placeholder
       class="center"
-      [title]="'Willkommen in der Community!'"
-      [message]="['Es sind noch keine Beiträge in der Community verfügbar. Sei der Erste, der einen Beitrag erstellt!']"
-      [buttonText]="'Beitrag erstellen'"
+      [parentTranslatePathInput]="translatePath + 'actionPlaceholder' + '.' + 'loggedIn' + '.'"
+      [features]="{ enableTitle: true, enableMessage: true, enableButton: true }"
       [buttonLink]="'/post-create'"
       [returnIcon]="'my_area_duck'"
     ></app-action-placeholder>
   } @else {
     <app-action-placeholder
       class="center"
-      [title]="'Willkommen in der Community!'"
-      [message]="['Es sind noch keine Beiträge in der Community verfügbar. Melde dich an und sei der Erste, der einen Beitrag erstellt!']"
-      [buttonText]="'Anmelden'"
+      [parentTranslatePathInput]="translatePath + 'actionPlaceholder' + '.' + 'notLoggedIn' + '.'"
+      [features]="{ enableTitle: true, enableMessage: true, enableButton: true }"
       [buttonLink]="'/login'"
       [returnIcon]="'not_logged_in_duck'"
     ></app-action-placeholder>

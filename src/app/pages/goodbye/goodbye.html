@@ -1,8 +1,10 @@
+@let translatePath = 'Goodbye' + '.';
+<!-- @let translatePathAriaLabel = translatePath + 'ariaLabel' + '.'; -->
+
 <app-action-placeholder
   class="center translate-animation-right"
-  [title]="'Schönen Feierabend!'"
-  [message]="['Komm doch gerne wieder vorbei, bis zum nächsten Mal!']"
-  [buttonText]="'Zum Login'"
+  [parentTranslatePathInput]="translatePath + 'actionPlaceholder' + '.'"
+  [features]="{ enableTitle: true, enableMessage: true, enableButton: true }"
   [buttonLink]="'/login'"
   [returnIcon]="'goodbye_duck'"
 ></app-action-placeholder>
