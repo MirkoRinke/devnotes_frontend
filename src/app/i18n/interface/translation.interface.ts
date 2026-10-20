@@ -39,9 +39,16 @@ import { PasswordToggleButtonInterface } from './components/password-toggle-butt
 import { ReportModalMessagesInterface } from './components/report-modal.interface';
 import { ReportButtonMessagesInterface } from './components/report-button.interface';
 
+import { NetworkMessagesInterface } from './pages/network.interface';
+import { CommunityMessagesInterface } from './pages/community.interface';
+import { FarewellMessagesInterface } from './pages/farewell.interface';
+import { FavoritesMessagesInterface } from './pages/favorites.interface';
+import { GoodbyeMessagesInterface } from './pages/goodbye.interface';
+import { MyAreaMessagesInterface } from './pages/my-area.interface';
+
 export interface Content extends ContentUI, LegalContent, Notifications {}
 
-export interface ContentUI {
+export interface ContentUI extends Pages {
   HomeButton: HomeButtonMessagesInterface;
   PostTypes: PostTypesMessagesInterface;
   SearchButton: SearchButtonMessagesInterface;
@@ -75,6 +82,19 @@ export interface ContentUI {
   PasswordToggleButton: PasswordToggleButtonInterface;
   ReportModal: ReportModalMessagesInterface;
   ReportButton: ReportButtonMessagesInterface;
+}
+
+export interface Pages {
+  Network: NetworkMessagesInterface;
+  Community: CommunityMessagesInterface;
+  Farewell: FarewellMessagesInterface;
+  Favorites: FavoritesMessagesInterface;
+  Goodbye: GoodbyeMessagesInterface;
+  MyArea: MyAreaMessagesInterface;
+}
+
+export interface Pages {
+  Network: NetworkMessagesInterface;
 }
 
 export interface LegalContent {

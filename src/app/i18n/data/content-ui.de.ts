@@ -400,4 +400,98 @@ export const CONTENT_UI_DE: ContentUI = {
       label: 'Melden',
     },
   },
+
+  Network: {
+    actionPlaceholder: {
+      loggedIn: {
+        heading: 'Netzwerk',
+        message: 'Entdecke spannende Profile, folge ihnen und bau dir dein persönliches Entwickler-Netzwerk auf.',
+        buttonText: 'Zur Community',
+        ariaLabel: {},
+      },
+      notLoggedIn: {
+        heading: 'Hey, kommst du rein?',
+        message: 'Melde dich an, um spannende Profile zu entdecken, ihnen zu folgen und dein persönliches Entwickler-Netzwerk aufzubauen.',
+        buttonText: 'Anmelden',
+        ariaLabel: {},
+      },
+    },
+    ariaLabel: {},
+  },
+  Community: {
+    actionPlaceholder: {
+      favorite: {
+        heading: 'Favoriten',
+        message: 'Bitte melde dich an, um deine Favoriten zu sehen.',
+        buttonText: 'Anmelden',
+        ariaLabel: {},
+      },
+      loggedIn: {
+        heading: 'Willkommen in der Community!',
+        message: 'Es sind noch keine Beiträge in der Community verfügbar. Sei der Erste, der einen Beitrag erstellt!',
+        buttonText: 'Beitrag erstellen',
+        ariaLabel: {},
+      },
+      notLoggedIn: {
+        heading: 'Willkommen in der Community!',
+        message: 'Melde dich an, um spannende Profile zu entdecken, ihnen zu folgen und dein persönliches Entwickler-Netzwerk aufzubauen.',
+        buttonText: 'Anmelden',
+        ariaLabel: {},
+      },
+      ariaLabel: {},
+    },
+    ariaLabel: {},
+  },
+  Farewell: {
+    actionPlaceholder: {
+      heading: 'Tschüss!',
+      message: 'Schade, dass du gehst. Komme gerne wieder, wenn du es dir anders überlegt hast.',
+      buttonText: 'Erneut registrieren',
+      ariaLabel: {},
+    },
+    ariaLabel: {},
+  },
+  Favorites: {
+    actionPlaceholder: {
+      loggedIn: {
+        heading: 'Noch keine Favoriten?',
+        message: 'Markiere interessante Beiträge mit einem Stern, damit du sie hier jederzeit schnell wiederfindest.',
+        buttonText: 'Zur Community',
+        ariaLabel: {},
+      },
+      notLoggedIn: {
+        heading: 'Hey, kommst du rein?',
+        message: 'Melde dich an, um deine Favoriten zu sehen und genau da weiterzumachen, wo du aufgehört hast.',
+        buttonText: 'Anmelden',
+        ariaLabel: {},
+      },
+    },
+    ariaLabel: {},
+  },
+  Goodbye: {
+    actionPlaceholder: {
+      heading: 'Schönen Feierabend!',
+      message: 'Komm doch gerne wieder vorbei, bis zum nächsten Mal!',
+      buttonText: 'Zum Login',
+      ariaLabel: {},
+    },
+    ariaLabel: {},
+  },
+  MyArea: {
+    actionPlaceholder: {
+      loggedIn: {
+        heading: 'Bereit für den ersten Post?',
+        message: 'Dein Bereich ist aktuell noch leer. Erstelle deinen ersten Beitrag und werde Teil der Community!',
+        buttonText: 'Beitrag erstellen',
+        ariaLabel: {},
+      },
+      notLoggedIn: {
+        heading: 'Hey, kommst du rein?',
+        message: 'Melde dich an, mach es dir gemütlich und entdecke deine persönliche Ecke in unserer Community.',
+        buttonText: 'Anmelden',
+        ariaLabel: {},
+      },
+    },
+    ariaLabel: {},
+  },
 };

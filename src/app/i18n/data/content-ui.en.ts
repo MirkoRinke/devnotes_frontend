@@ -400,4 +400,97 @@ export const CONTENT_UI_EN: ContentUI = {
       label: 'Report',
     },
   },
+  Network: {
+    actionPlaceholder: {
+      loggedIn: {
+        heading: 'Network',
+        message: 'Discover exciting profiles, follow them, and build your personal developer network.',
+        buttonText: 'To the Community',
+        ariaLabel: {},
+      },
+      notLoggedIn: {
+        heading: 'Hey, are you coming in?',
+        message: 'Log in to discover exciting profiles, follow them, and build your personal developer network.',
+        buttonText: 'Login',
+        ariaLabel: {},
+      },
+    },
+    ariaLabel: {},
+  },
+  Community: {
+    actionPlaceholder: {
+      favorite: {
+        heading: 'Favorites',
+        message: 'Please log in to see your favorites.',
+        buttonText: 'Login',
+        ariaLabel: {},
+      },
+      loggedIn: {
+        heading: 'Welcome to the Community!',
+        message: 'There are no posts available in the community yet. Be the first to create a post!',
+        buttonText: 'Create Post',
+        ariaLabel: {},
+      },
+      notLoggedIn: {
+        heading: 'Welcome to the Community!',
+        message: 'Log in to discover exciting profiles, follow them, and build your personal developer network.',
+        buttonText: 'Login',
+        ariaLabel: {},
+      },
+      ariaLabel: {},
+    },
+    ariaLabel: {},
+  },
+  Farewell: {
+    actionPlaceholder: {
+      heading: 'Goodbye!',
+      message: 'Sorry to see you go. Feel free to come back if you change your mind.',
+      buttonText: 'Register Again',
+      ariaLabel: {},
+    },
+    ariaLabel: {},
+  },
+  Favorites: {
+    actionPlaceholder: {
+      loggedIn: {
+        heading: 'No favorites yet?',
+        message: 'Mark interesting posts with a star so you can quickly find them here anytime.',
+        buttonText: 'To the Community',
+        ariaLabel: {},
+      },
+      notLoggedIn: {
+        heading: 'Hey, are you coming in?',
+        message: 'Log in to see your favorites and continue right where you left off.',
+        buttonText: 'Login',
+        ariaLabel: {},
+      },
+    },
+    ariaLabel: {},
+  },
+  Goodbye: {
+    actionPlaceholder: {
+      heading: 'Have a nice evening!',
+      message: 'Feel free to come back anytime, see you next time!',
+      buttonText: 'To the Login',
+      ariaLabel: {},
+    },
+    ariaLabel: {},
+  },
+  MyArea: {
+    actionPlaceholder: {
+      loggedIn: {
+        heading: 'Ready for your first post?',
+        message: 'Your area is currently empty. Create your first post and become part of the community!',
+        buttonText: 'Create Post',
+        ariaLabel: {},
+      },
+      notLoggedIn: {
+        heading: 'Hey, are you coming in?',
+        message: 'Log in, get comfortable, and discover your personal corner in our community.',
+        buttonText: 'Login',
+        ariaLabel: {},
+      },
+    },
+    ariaLabel: {},
+  },
 };
