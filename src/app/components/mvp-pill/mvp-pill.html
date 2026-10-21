@@ -1,5 +1,9 @@
+@let translatePath = 'MvpPill' + '.';
+
 <span
   class="mvp-pill"
-  [title]="'This is part of the MVP and will be updated in future versions.'"
-  >MVP</span
+  [title]="translatePath + 'tooltip' | translate"
 >
+  {{ translatePath + 'label' | translate }}
+  <span class="sr-only">{{ translatePath + 'tooltip' | translate }}</span>
+</span>

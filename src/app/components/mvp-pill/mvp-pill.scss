@@ -2,9 +2,19 @@
 @use '../../../var' as var;
 @use '../../../mixins' as *;
 
+:host {
+  flex: 0;
+  min-width: max-content;
+}
+
 .mvp-pill {
-  @include font-settings($font-size: 16);
+  @include font-settings();
   @include golden-ratio-padding();
   border-radius: px-to-rem(50);
   background-color: var(--page-secondary-color-100);
+
+  position: relative;
+  .sr-only {
+    @include sr-only();
+  }
 }
