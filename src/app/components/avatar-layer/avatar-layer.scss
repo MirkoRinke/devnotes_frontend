@@ -9,39 +9,29 @@
 }
 
 .avatar {
-  width: 100%;
   height: 100%;
-
   overflow: hidden;
   border-radius: 50%;
 
-  &:hover {
-    cursor: pointer;
-    .image {
-      transform: scale(1.1);
-
-      &.rotated {
-        transform: scale(1.1) rotateY(180deg);
-      }
-    }
+  &:hover .image {
+    --scale: 1.1;
   }
 
   .image {
-    width: 100%;
     height: 100%;
+    width: 100%;
     object-fit: cover;
+
+    --scale: 1;
+    --flip: 0deg;
+    transform: scale(var(--scale)) rotateY(var(--flip));
     transition: transform var.$transition-duration-medium ease-in-out;
 
-    &.opened {
-      transform: scale(1.1);
-    }
-
-    &.opened.rotated {
-      transform: scale(1.1) rotateY(180deg);
-    }
-
     &.rotated {
-      transform: rotateY(180deg);
+      --flip: 180deg;
+    }
+    &.opened {
+      --scale: 1.1;
     }
   }
 }

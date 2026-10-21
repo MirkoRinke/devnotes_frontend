@@ -5,20 +5,7 @@
       [class.opened]="menuOpen"
       [class.rotated]="direction === 'left'"
       [src]="avatarMvpPath"
+      alt=""
     />
   </div>
 }
-
-<!--TODO For later avatar implementation -->
-<!-- @for (avatarItem of avatarItemsEntries(); track $index) {
-      <div>
-        @if (avatarItem.url) {
-          <img
-            [src]="avatarItem.url"
-            [alt]="avatarItem.key"
-            [class]="avatarItem.key"
-          />
-        }
-      </div>
-    } 
--->
