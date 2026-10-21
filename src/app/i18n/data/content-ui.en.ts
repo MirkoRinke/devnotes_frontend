@@ -400,6 +400,14 @@ export const CONTENT_UI_EN: ContentUI = {
       label: 'Report',
     },
   },
+  MvpPill: {
+    label: 'MVP',
+    tooltip: 'This is part of the MVP and will be updated in future versions.',
+    ariaLabel: {},
+  },
+
+  /* Page section */
+
   Network: {
     actionPlaceholder: {
       loggedIn: {
