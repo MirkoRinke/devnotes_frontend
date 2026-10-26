@@ -271,16 +271,21 @@ export class AccountUpdateForm {
       return;
     }
 
-    this.isProcessing = true;
-
     const user_id = this.authService.getCurrentUserId();
     if (user_id === null) return;
+
+    this.isProcessing = true;
 
     const url = `${ApiEndpointEnums.USER}${user_id}/`;
 
     this.apiService.patch<ApiResponseObjektInterface<UserInterface>>(url, data).subscribe({
       next: () => {
-        this.msg.setMessage('accountSettings', 'success', 'ACCOUNT_SETTINGS_UPDATED');
+        if (data.email) {
+          this.msg.setMessage('accountSettings', 'success', 'ACCOUNT_SETTINGS_UPDATED_EMAIL');
+        } else {
+          this.msg.setMessage('accountSettings', 'success', 'ACCOUNT_SETTINGS_UPDATED');
+        }
+
         this.isProcessing = false;
       },
       error: (error) => {
@@ -290,7 +295,11 @@ export class AccountUpdateForm {
         const params: ParamsInterface | null = businessAction?.messages?.params || null;
 
         if (businessAction) {
-          this.msg.setMessage('accountSettings', businessAction.messages.messageType, businessAction.messages.validatorKey, params);
+          if (businessAction.messages.validatorKey === 'FORBIDDEN_NAME' && data.name) {
+            this.msg.setMessage('accountSettings', businessAction.messages.messageType, businessAction.messages.validatorKey, { name: data.name });
+          } else {
+            this.msg.setMessage('accountSettings', businessAction.messages.messageType, businessAction.messages.validatorKey, params);
+          }
         } else {
           this.msg.setMessage('accountSettings', 'error', 'UNKNOWN_ERROR');
         }

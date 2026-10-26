@@ -6,8 +6,8 @@ export interface AuthMessagesInterface {
 
 // #region Error Messages
 interface AuthErrorMessages {
-  name: Pick<AuthFormFieldErrors, 'required' | 'minlength' | 'maxlength' | 'pattern' | 'tooMuchWhitespace'>;
-  display_name: Pick<AuthFormFieldErrors, 'required' | 'minlength' | 'maxlength' | 'pattern'>;
+  name: Pick<AuthFormFieldErrors, 'required' | 'minlength' | 'maxlength' | 'pattern' | 'tooMuchWhitespace' | 'userNameUnavailable'>;
+  display_name: Pick<AuthFormFieldErrors, 'required' | 'minlength' | 'maxlength' | 'pattern' | 'tooMuchWhitespace' | 'userNameUnavailable'>;
   email: Pick<AuthFormFieldErrors, 'required' | 'email' | 'maxlength'>;
   email_confirmation: Pick<AuthFormFieldErrors, 'required' | 'email' | 'maxlength'>;
   identifier: Pick<AuthFormFieldErrors, 'required' | 'auth_identifier_invalid' | 'maxlength'>;
@@ -33,6 +33,7 @@ interface AuthFormFieldErrors {
   auth_identifier_invalid: string;
   weakPassword: string;
   tooMuchWhitespace: string;
+  userNameUnavailable: string;
 }
 
 interface BaseError {
@@ -44,11 +45,13 @@ interface LoginActionErrors extends BaseError {
 }
 
 interface RegisterActionErrors extends BaseError {
-  VALIDATION_FAILED: string;
   FORBIDDEN_NAME: string;
   FORBIDDEN_DISPLAY_NAME: string;
   EMAIL_ALREADY_IN_USE: string;
   PASSWORD_MUST_BE_UNCOMPROMISED: string;
+
+  NAME_ALREADY_IN_USE: string;
+  DISPLAY_NAME_ALREADY_IN_USE: string;
 }
 
 interface DeleteAccountErrors extends BaseError {
@@ -59,6 +62,11 @@ interface DeleteAccountErrors extends BaseError {
 interface AccountSettingsErrors extends BaseError {
   PASSWORD_MUST_BE_UNCOMPROMISED: string;
   FORBIDDEN_NAME: string;
+
+  NAME_ALREADY_IN_USE: string;
+  EMAIL_ALREADY_IN_USE: string;
+
+  INCORRECT_PASSWORD: string;
 }
 
 // #endregion
@@ -120,6 +128,7 @@ interface DeleteAccountActionSuccess {
 
 interface AccountSettingsSuccess {
   ACCOUNT_SETTINGS_UPDATED: string;
+  ACCOUNT_SETTINGS_UPDATED_EMAIL: string;
   NAME_AVAILABLE: string;
 }
 

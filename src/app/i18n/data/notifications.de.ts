@@ -14,13 +14,16 @@ export const NOTIFICATIONS_DE: Notifications = {
         minlength: 'Der Name muss mindestens 2 Zeichen lang sein.',
         maxlength: 'Der Name darf maximal 40 Zeichen lang sein.',
         pattern: 'Der Benutzername darf nur aus Buchstaben (A-Z), Zahlen, Punkten, Unterstrichen, Bindestrichen und einfachen Leerzeichen bestehen.',
-        tooMuchWhitespace: 'Der Benutzername darf nicht mehr als 2 aufeinanderfolgende Leerzeichen enthalten.',
+        tooMuchWhitespace: 'Der Benutzername darf nicht mehr als 1 aufeinanderfolgende Leerzeichen enthalten.',
+        userNameUnavailable: 'Der Benutzername ist bereits vergeben.',
       },
       display_name: {
         required: 'Anzeigenamen eingeben.',
         minlength: 'Der Anzeigename muss mindestens 2 Zeichen lang sein.',
         maxlength: 'Der Anzeigename darf maximal 40 Zeichen lang sein.',
         pattern: 'Der Anzeigename darf nur aus Buchstaben (A-Z), Zahlen, Punkten, Unterstrichen, Bindestrichen und einfachen Leerzeichen bestehen.',
+        tooMuchWhitespace: 'Der Anzeigename darf nicht mehr als 1 aufeinanderfolgende Leerzeichen enthalten.',
+        userNameUnavailable: 'Der Anzeigename ist bereits vergeben.',
       },
       email: {
         required: 'E-Mail-Adresse eingeben.',
@@ -69,12 +72,13 @@ export const NOTIFICATIONS_DE: Notifications = {
       },
       register: {
         UNKNOWN_ERROR: 'Fehler bei der Registrierung. Bitte erneut versuchen.',
-        VALIDATION_FAILED: 'Verifizierung fehlgeschlagen. Bitte überprüfe deine Eingaben.',
         FORBIDDEN_NAME: '"{name}" ist nicht erlaubt.',
         FORBIDDEN_DISPLAY_NAME: '"{name}" ist nicht erlaubt.',
         EMAIL_ALREADY_IN_USE: 'Die E-Mail-Adresse ist bereits vergeben.',
         PASSWORD_MUST_BE_UNCOMPROMISED:
           'Dein Passwort wurde in einem Datenleck gefunden. Bitte wähle ein anderes Passwort. Weitere Informationen findest du unter [href]="https://haveibeenpwned.com/Passwords|Have I Been Pwned"',
+        NAME_ALREADY_IN_USE: 'Der Benutzername ist bereits vergeben.',
+        DISPLAY_NAME_ALREADY_IN_USE: 'Der Anzeigename ist bereits vergeben.',
       },
       deleteAccount: {
         UNKNOWN_ERROR: 'Fehler beim Löschen des Kontos. Bitte erneut versuchen.',
@@ -86,6 +90,9 @@ export const NOTIFICATIONS_DE: Notifications = {
         PASSWORD_MUST_BE_UNCOMPROMISED:
           'Dein Passwort wurde in einem Datenleck gefunden. Bitte wähle ein anderes Passwort. Weitere Informationen findest du unter [href]="https://haveibeenpwned.com/Passwords|Have I Been Pwned"',
         FORBIDDEN_NAME: '"{name}" ist nicht erlaubt.',
+        NAME_ALREADY_IN_USE: 'Der Benutzername ist bereits vergeben.',
+        EMAIL_ALREADY_IN_USE: 'Die E-Mail-Adresse ist bereits vergeben.',
+        INCORRECT_PASSWORD: 'Das aktuelle Passwort ist falsch.',
       },
     },
     info: {
@@ -121,6 +128,7 @@ export const NOTIFICATIONS_DE: Notifications = {
       },
       accountSettings: {
         ACCOUNT_SETTINGS_UPDATED: 'Kontoeinstellungen erfolgreich aktualisiert.',
+        ACCOUNT_SETTINGS_UPDATED_EMAIL: 'Kontoeinstellungen erfolgreich aktualisiert. Bei Änderung der E-Mail ist eine Bestätigung erforderlich.',
         NAME_AVAILABLE: '"{name}" ist verfügbar.',
       },
       acceptedConditions: {

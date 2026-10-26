@@ -280,7 +280,13 @@ export class RegisterForm {
           const params: ParamsInterface | null = businessAction?.messages?.params || null;
 
           if (businessAction) {
-            this.msg.setMessage('register', businessAction.messages.messageType, businessAction.messages.validatorKey, params);
+            if (businessAction.messages.validatorKey === 'FORBIDDEN_NAME') {
+              this.msg.setMessage('register', businessAction.messages.messageType, businessAction.messages.validatorKey, { name: data.name });
+            } else if (businessAction.messages.validatorKey === 'FORBIDDEN_DISPLAY_NAME') {
+              this.msg.setMessage('register', businessAction.messages.messageType, businessAction.messages.validatorKey, { name: data.display_name });
+            } else {
+              this.msg.setMessage('register', businessAction.messages.messageType, businessAction.messages.validatorKey, params);
+            }
           } else {
             this.msg.setMessage('register', 'error', 'UNKNOWN_ERROR');
           }

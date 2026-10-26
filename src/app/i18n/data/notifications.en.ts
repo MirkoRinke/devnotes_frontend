@@ -14,13 +14,16 @@ export const NOTIFICATIONS_EN: Notifications = {
         minlength: 'The name must be at least 2 characters long.',
         maxlength: 'The name must be at most 40 characters long.',
         pattern: 'The username may only contain letters (A-Z), numbers, periods, underscores, hyphens, and spaces.',
-        tooMuchWhitespace: 'The username may not contain more than 2 consecutive whitespace characters.',
+        tooMuchWhitespace: 'The username may not contain more than 1 consecutive whitespace characters.',
+        userNameUnavailable: 'The username is already taken.',
       },
       display_name: {
         required: 'Enter display name.',
         minlength: 'The display name must be at least 2 characters long.',
         maxlength: 'The display name must be at most 40 characters long.',
         pattern: 'The display name may only contain letters (A-Z), numbers, periods, underscores, hyphens, and spaces.',
+        tooMuchWhitespace: 'The display name may not contain more than 1 consecutive whitespace characters.',
+        userNameUnavailable: 'The display name is already taken.',
       },
       email: {
         required: 'Enter email address.',
@@ -69,12 +72,13 @@ export const NOTIFICATIONS_EN: Notifications = {
       },
       register: {
         UNKNOWN_ERROR: 'An error occurred during registration. Please try again.',
-        VALIDATION_FAILED: 'Validation failed. Please check your input.',
         FORBIDDEN_NAME: '"{name}" is not allowed.',
         FORBIDDEN_DISPLAY_NAME: '"{name}" is not allowed.',
         EMAIL_ALREADY_IN_USE: 'The email address is already in use.',
         PASSWORD_MUST_BE_UNCOMPROMISED:
           'Your password has been found in a data breach. Please choose a different password. For more information, visit [href]="https://haveibeenpwned.com/Passwords|Have I Been Pwned"',
+        NAME_ALREADY_IN_USE: 'The username is already taken.',
+        DISPLAY_NAME_ALREADY_IN_USE: 'The display name is already taken.',
       },
       deleteAccount: {
         UNKNOWN_ERROR: 'Error deleting the account. Please try again.',
@@ -86,6 +90,9 @@ export const NOTIFICATIONS_EN: Notifications = {
         PASSWORD_MUST_BE_UNCOMPROMISED:
           'Your password has been found in a data breach. Please choose a different password. For more information, visit [href]="https://haveibeenpwned.com/Passwords|Have I Been Pwned"',
         FORBIDDEN_NAME: '"{name}" is not allowed.',
+        NAME_ALREADY_IN_USE: 'The username is already taken.',
+        EMAIL_ALREADY_IN_USE: 'The email address is already in use.',
+        INCORRECT_PASSWORD: 'The current password is incorrect.',
       },
     },
     info: {
@@ -98,8 +105,8 @@ export const NOTIFICATIONS_EN: Notifications = {
       },
       register: {
         tooMuchWhitespace: '"{name}" has too many consecutive whitespace characters.',
-        NAME_ALREADY_IN_USE: '"{name}" is already in use.',
-        DISPLAY_NAME_ALREADY_IN_USE: '"{name}" is already in use.',
+        NAME_ALREADY_IN_USE: 'The username is already taken.',
+        DISPLAY_NAME_ALREADY_IN_USE: 'The display name is already taken.',
       },
       accountSettings: {
         tooMuchWhitespace: '"{name}" has too many consecutive whitespace characters.',
@@ -121,6 +128,7 @@ export const NOTIFICATIONS_EN: Notifications = {
       },
       accountSettings: {
         ACCOUNT_SETTINGS_UPDATED: 'Account settings successfully updated.',
+        ACCOUNT_SETTINGS_UPDATED_EMAIL: 'Account settings successfully updated. Email change requires confirmation.',
         NAME_AVAILABLE: '"{name}" is available.',
       },
       acceptedConditions: {
