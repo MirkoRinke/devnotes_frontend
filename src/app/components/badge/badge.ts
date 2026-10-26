@@ -19,15 +19,15 @@ export class Badge implements AfterViewChecked {
 
   badgeText: ElementRef | null = null;
 
-  isOverflowingY = false;
-  isTranslationsPath = false;
+  public isOverflowingY = false;
+  public isTranslationsPath = false;
 
-  hasCheckedOverflow = false;
+  private hasCheckedOverflow = false;
 
   constructor(
-    private cdr: ChangeDetectorRef,
-    private router: Router,
-    private sanitizer: DomSanitizer,
+    private readonly cdr: ChangeDetectorRef,
+    private readonly router: Router,
+    private readonly sanitizer: DomSanitizer,
   ) {}
 
   ngOnChanges(): void {
@@ -91,7 +91,7 @@ export class Badge implements AfterViewChecked {
    *
    * @returns The active badge details or null if no active messages.
    */
-  getActiveBadge(): ActiveBadgeInterface | null {
+  public getActiveBadge(): ActiveBadgeInterface | null {
     const baseDetails = this.getBaseBadgeDetails();
     if (!baseDetails) return null;
 
@@ -197,7 +197,7 @@ export class Badge implements AfterViewChecked {
    *
    * @param event The click event.
    */
-  handleLinkClick(event: Event) {
+  public handleLinkClick(event: Event): void {
     const target = event.target as HTMLElement;
     if (target.tagName === 'A') {
       const href = target.getAttribute('href');
