@@ -162,6 +162,15 @@ export class ApiErrorHandlingService {
   }
 
   private handle422(error: BackendErrorResponseInterface): BusinessActionInterface | void {
+    if (error.errors === 'INCORRECT_PASSWORD') {
+      return {
+        messages: {
+          validatorKey: 'INCORRECT_PASSWORD',
+          messageType: 'error',
+        },
+      };
+    }
+
     if (typeof error.errors === 'object' && error.errors !== null && !Array.isArray(error.errors)) {
       const errors = error.errors as ValidationErrorsInterface;
       const keys = Object.keys(errors);
