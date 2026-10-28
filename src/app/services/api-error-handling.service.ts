@@ -248,6 +248,16 @@ export class ApiErrorHandlingService {
       this.router.navigate(['/']);
       return;
     }
+
+    if (error.errors === 'EMAIL_CHANGE_RATE_LIMIT_EXCEEDED') {
+      return {
+        messages: {
+          validatorKey: 'EMAIL_CHANGE_RATE_LIMIT_EXCEEDED',
+          messageType: 'error',
+        },
+      };
+    }
+
     return this.handleDefault(error);
   }
 

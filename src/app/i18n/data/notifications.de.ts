@@ -93,6 +93,7 @@ export const NOTIFICATIONS_DE: Notifications = {
         NAME_ALREADY_IN_USE: 'Der Benutzername ist bereits vergeben.',
         EMAIL_ALREADY_IN_USE: 'Die E-Mail-Adresse ist bereits vergeben.',
         INCORRECT_PASSWORD: 'Das aktuelle Passwort ist falsch.',
+        EMAIL_CHANGE_RATE_LIMIT_EXCEEDED: 'Die E-Mail-Änderung wurde zu oft versucht. Bitte warten Sie und versuchen Sie es später erneut.',
       },
     },
     info: {

@@ -67,6 +67,7 @@ interface AccountSettingsErrors extends BaseError {
   EMAIL_ALREADY_IN_USE: string;
 
   INCORRECT_PASSWORD: string;
+  EMAIL_CHANGE_RATE_LIMIT_EXCEEDED: string;
 }
 
 // #endregion

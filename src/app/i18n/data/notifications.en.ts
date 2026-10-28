@@ -93,6 +93,7 @@ export const NOTIFICATIONS_EN: Notifications = {
         NAME_ALREADY_IN_USE: 'The username is already taken.',
         EMAIL_ALREADY_IN_USE: 'The email address is already in use.',
         INCORRECT_PASSWORD: 'The current password is incorrect.',
+        EMAIL_CHANGE_RATE_LIMIT_EXCEEDED: 'Email change attempted too frequently. Please wait and try again later.',
       },
     },
     info: {
