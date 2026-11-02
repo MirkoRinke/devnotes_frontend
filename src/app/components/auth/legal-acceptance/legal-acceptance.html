@@ -9,6 +9,7 @@
       [formControl]="control"
       (change)="onCheckboxChange()"
       [attr.aria-label]="translatePathAriaLabel + 'checkbox' | translate"
+      [attr.aria-describedby]="ariaDescribedBy"
     />
     <span
       class="custom-checkbox"
