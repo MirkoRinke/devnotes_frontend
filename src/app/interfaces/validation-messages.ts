@@ -1,5 +1,3 @@
-import { SafeHtml } from '@angular/platform-browser';
-
 export interface InfoTypeInterface {
   info: string | null;
 }
@@ -16,7 +14,7 @@ export interface ActiveBadgeInterface {
   type: keyof BadgeMessagesInterface;
   icon: string;
   text: string;
-  htmlText?: SafeHtml;
+  htmlText?: string;
 }
 
 /**

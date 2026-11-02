@@ -1,11 +1,33 @@
-@if (getActiveBadge(); as badge) {
+<!--
+  A11y Usage Note for Parent Components
+
+  To properly link this badge as a screen reader description for form controls, 
+  assign a unique id to the <app-badge> and conditionally bind [attr.aria-describedby]
+  on the target input element when it is invalid and touched.
+  
+  Example:
+
+  <app-badge 
+    id="identifier-badge" 
+    [messages]="..." 
+    [caret]="'left'">
+  </app-badge>
+
+  <input 
+    [attr.aria-describedby]="form.get('field')?.invalid && form.get('field')?.touched ? 'identifier-badge' : null" 
+  />
+-->
+
+@if (activeBadge) {
   <div
-    class="badge {{ badge.type }}"
+    class="badge {{ activeBadge.type }}"
     [class.center]="!caret || caret === 'center'"
     [class.left]="caret === 'left'"
     [class.right]="caret === 'right'"
     [class.none]="caret === 'none'"
     [style.--animation-delay]="animationDelay + 'ms'"
+    role="status"
+    [attr.tabindex]="isOverflowingY ? 0 : null"
   >
     <span
       class="badge-text"
@@ -13,14 +35,14 @@
       [class.is-overflowing-y]="isOverflowingY"
       [class.single-word]="isTranslationsPath"
     >
-      <span>{{ badge.icon }}</span>
-      @if (badge.htmlText) {
+      <span aria-hidden="true">{{ activeBadge.icon }}</span>
+      @if (activeBadge.htmlText) {
         <span
           (click)="handleLinkClick($event)"
-          [innerHTML]="badge.htmlText"
+          [innerHTML]="activeBadge.htmlText"
         ></span>
       } @else {
-        <span>{{ badge.text }}</span>
+        <span>{{ activeBadge.text }}</span>
       }
     </span>
   </div>

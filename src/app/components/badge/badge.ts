@@ -1,6 +1,5 @@
-import { Component, Input, ViewChild, ElementRef, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, ViewChild, ElementRef, AfterViewChecked, ChangeDetectorRef, OnChanges } from '@angular/core';
 import { Router } from '@angular/router';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 import type { BadgeMessagesInterface, ActiveBadgeInterface } from '../../interfaces/validation-messages';
 
@@ -12,12 +11,13 @@ import { environment } from '../../../environments/environment';
   templateUrl: './badge.html',
   styleUrl: './badge.scss',
 })
-export class Badge implements AfterViewChecked {
+export class Badge implements AfterViewChecked, OnChanges {
   @Input() messages: BadgeMessagesInterface | null = null;
   @Input() caret: 'left' | 'right' | 'center' | 'none' | null = null;
   @Input() animationDelay: number = 0;
 
-  badgeText: ElementRef | null = null;
+  public activeBadge: ActiveBadgeInterface | null = null;
+  private badgeText: ElementRef<HTMLElement> | null = null;
 
   public isOverflowingY = false;
   public isTranslationsPath = false;
@@ -27,18 +27,17 @@ export class Badge implements AfterViewChecked {
   constructor(
     private readonly cdr: ChangeDetectorRef,
     private readonly router: Router,
-    private readonly sanitizer: DomSanitizer,
   ) {}
 
   ngOnChanges(): void {
     this.hasCheckedOverflow = false;
-    if (this.messages?.error || this.messages?.info || this.messages?.success) {
-      this.checkForTranslationsPath(this.getActiveBadge()?.text || '');
-    }
+    this.isOverflowingY = false;
+    this.activeBadge = this.getActiveBadge();
+    this.isTranslationsPath = this.looksLikeTranslationPath(this.activeBadge?.text ?? '');
   }
 
   ngAfterViewChecked(): void {
-    if (!this.hasCheckedOverflow && (this.messages?.error || this.messages?.info || this.messages?.success)) {
+    if (!this.hasCheckedOverflow && this.activeBadge) {
       this.checkIsOverflowingY();
     }
   }
@@ -46,7 +45,7 @@ export class Badge implements AfterViewChecked {
   /**
    * Sets the reference to the badge text element and updates the `badgeText` property.
    */
-  @ViewChild('badgeText') set badgeTextRef(content: ElementRef) {
+  @ViewChild('badgeText') set badgeTextRef(content: ElementRef<HTMLElement>) {
     this.badgeText = content;
   }
 
@@ -69,20 +68,19 @@ export class Badge implements AfterViewChecked {
   }
 
   /**
-   * Checks if the provided text is a translations path based on specific criteria.
+   * Checks if the provided text looks like a translation key (single word containing a message type).
+   * Only relevant in DEBUG mode.
    *
    * @param text The text to check.
-   * @returns void
+   * @returns True if the text looks like a translation path.
    */
-  private checkForTranslationsPath(text: string): void {
-    if (!text || !environment.DEBUG) return;
-    const count = text.trim().split(/\s+/).length;
+  private looksLikeTranslationPath(text: string): boolean {
+    if (!text || !environment.DEBUG) return false;
 
-    const includes: (keyof BadgeMessagesInterface)[] = ['error', 'info', 'success'];
+    const isSingleWord = text.trim().split(/\s+/).length === 1;
+    const messageTypes: (keyof BadgeMessagesInterface)[] = ['error', 'info', 'success'];
 
-    if (count === 1 && includes.some((key) => text.includes(key))) {
-      this.isTranslationsPath = true;
-    }
+    return isSingleWord && messageTypes.some((type) => text.includes(type));
   }
 
   /**
@@ -91,42 +89,41 @@ export class Badge implements AfterViewChecked {
    *
    * @returns The active badge details or null if no active messages.
    */
-  public getActiveBadge(): ActiveBadgeInterface | null {
+  private getActiveBadge(): ActiveBadgeInterface | null {
     const baseDetails = this.getBaseBadgeDetails();
     if (!baseDetails) return null;
 
     const { text, type, icon } = baseDetails;
-    const htmlText: SafeHtml | null = this.resolveSafeHtml(text);
+    const htmlText: string | null = this.resolveHtml(text);
 
     if (htmlText) {
-      return { type, icon, text: text, htmlText };
+      return { type, icon, text, htmlText };
     }
 
-    return { type, icon, text: text };
+    return { type, icon, text };
   }
 
   /**
-   * Checks if the provided text contains custom link patterns or specific HTML entities and returns a SafeHtml version of the text if it does.
+   * Resolves the HTML content for the given text, including parsing custom links and checking for HTML entities.
    *
-   * @param text
-   * @returns
+   * @param text The text to resolve.
+   * @returns The resolved HTML content or null if no HTML content is found.
    */
-  private resolveSafeHtml(text: string): SafeHtml | null {
-    const hasLinks = this.parseMessageForLinks(text);
-    const hasHtmlEntities = this.hasHtmlEntities(text);
-    return hasLinks || hasHtmlEntities;
+  private resolveHtml(text: string): string | null {
+    const withLinks = this.parseMessageForLinks(text);
+    if (withLinks) return withLinks;
+    return this.hasHtmlEntities(text) ? text : null;
   }
 
   /**
-   * Checks if the provided text contains specific HTML entities and returns a SafeHtml version of the text if it does.
+   * Checks if the given text contains any HTML entities.
    *
-   * @param text
-   * @returns
+   * @param text The text to check.
+   * @returns True if the text contains HTML entities, false otherwise.
    */
-  private hasHtmlEntities(text: string): SafeHtml | null {
+  private hasHtmlEntities(text: string): boolean {
     const htmlEntities = ['&nbsp;', '&shy;'];
-    const containsHtmlEntity = htmlEntities.some((entity) => text.includes(entity));
-    return containsHtmlEntity ? this.sanitizer.bypassSecurityTrustHtml(text) : null;
+    return htmlEntities.some((entity) => text.includes(entity));
   }
 
   /**
@@ -152,17 +149,13 @@ export class Badge implements AfterViewChecked {
   }
 
   /**
-   * Parses the provided message for custom link patterns and replaces them with HTML anchor tags.
-   *
-   * The expected format for custom links is: [type]="url|alias"
-   * - type: "routerLink" or "href"
-   * - url: The URL or route
-   * - alias: (Optional) The text to display for the link
+   * Parses the given message for custom links of the form [routerLink] or [href].
+   * Replaces them with appropriate HTML anchor tags.
    *
    * @param message The message to parse.
-   * @returns The parsed message with HTML anchor tags or null if no custom links are found.
+   * @returns The parsed message with HTML links or null if no custom links are found.
    */
-  private parseMessageForLinks(message: string): SafeHtml | null {
+  private parseMessageForLinks(message: string): string | null {
     const typePart = `\\[(routerLink|href)\\]`;
     const urlPart = `([^"|]+)`;
     const optionalAliasPart = `(?:\\|([^"]+))?`;
@@ -173,22 +166,22 @@ export class Badge implements AfterViewChecked {
       return null;
     }
 
-    const parsedMessage = message.replace(customLinkRegex, (match, type, url, alias) => {
+    const parsedMessage = message.replace(customLinkRegex, (match: string, type: string, url: string, alias?: string) => {
       const linkText = alias || url;
 
       if (type === 'routerLink') {
-        const routerLinkHTML = `<a class="badge-link" aria-label="${linkText}" href="${url}">${linkText}</a>`;
+        const routerLinkHTML = `<a class="badge-link" href="${url}">${linkText}</a>`;
         return routerLinkHTML;
       }
       if (type === 'href') {
         const fullUrl = url.startsWith('www.') ? `https://${url}` : url;
-        const hrefHTML = `<a class="badge-link" aria-label="${linkText}" href="${fullUrl}" target="_blank" rel="noopener noreferrer">${linkText}</a>`;
+        const hrefHTML = `<a class="badge-link" href="${fullUrl}" target="_blank" rel="noopener noreferrer">${linkText}</a>`;
         return hrefHTML;
       }
       return match;
     });
 
-    return this.sanitizer.bypassSecurityTrustHtml(parsedMessage);
+    return parsedMessage;
   }
 
   /**
@@ -204,7 +197,7 @@ export class Badge implements AfterViewChecked {
 
       if (href && href.startsWith('/')) {
         event.preventDefault();
-        this.router.navigate([href]);
+        this.router.navigateByUrl(href);
       }
     }
   }

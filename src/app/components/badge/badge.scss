@@ -2,43 +2,25 @@
 @use '../../../var' as var;
 @use '../../../mixins' as *;
 
-@mixin badges($type) {
+$badge-colors: (
+  'error': var(--error-color-100),
+  'info': var(--info-color-100),
+  'success': var(--success-color-100),
+);
+
+@mixin badges($bg-color) {
   &.center {
-    @include dispatch-badge($type);
+    @include badge($bg-color: $bg-color);
   }
   &.left {
-    @include dispatch-badge($type, $left: 8px);
+    @include badge($bg-color: $bg-color, $left: 8px);
   }
   &.right {
-    @include dispatch-badge($type, $right: 8px);
+    @include badge($bg-color: $bg-color, $right: 8px);
   }
   &.none {
-    @include dispatch-badge($type, $caret: false);
+    @include badge($bg-color: $bg-color, $caret: false);
   }
-}
-
-@mixin dispatch-badge($type, $left: unset, $right: unset, $caret: true) {
-  @if $type == 'error' {
-    @include error-badge($left: $left, $right: $right, $caret: $caret);
-  }
-  @if $type == 'info' {
-    @include info-badge($left: $left, $right: $right, $caret: $caret);
-  }
-  @if $type == 'success' {
-    @include success-badge($left: $left, $right: $right, $caret: $caret);
-  }
-}
-
-@mixin error-badge($left: null, $right: null, $caret: true) {
-  @include badge($bg-color: var(--error-color-100), $left: $left, $right: $right, $caret: $caret);
-}
-
-@mixin info-badge($left: null, $right: null, $caret: true) {
-  @include badge($bg-color: var(--info-color-100), $left: $left, $right: $right, $caret: $caret);
-}
-
-@mixin success-badge($left: null, $right: null, $caret: true) {
-  @include badge($bg-color: var(--success-color-100), $left: $left, $right: $right, $caret: $caret);
 }
 
 @mixin badge($bg-color: var(--error-color-100), $font-size: 14px, $left: null, $right: null, $caret: true, $border-radius: 5px, $z-index: 10) {
@@ -73,6 +55,12 @@
       border-left: px-to-rem(4) solid transparent;
       border-right: px-to-rem(4) solid transparent;
       border-top: px-to-rem(4) solid $bg-color;
+    }
+  }
+
+  &:focus-within {
+    .badge-text {
+      max-height: 10rem;
     }
   }
 
@@ -127,13 +115,9 @@
 }
 
 .badge {
-  &.error {
-    @include badges('error');
-  }
-  &.info {
-    @include badges('info');
-  }
-  &.success {
-    @include badges('success');
+  @each $type, $color in $badge-colors {
+    &.#{$type} {
+      @include badges($color);
+    }
   }
 }
