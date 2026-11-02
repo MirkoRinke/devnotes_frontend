@@ -30,6 +30,7 @@
       <div class="input-container">
         <app-badge
           class="badge"
+          id="identifier-badge"
           [messages]="loginForm.get('identifier')?.invalid && loginForm.get('identifier')?.touched ? messages['identifier'] : null"
           [caret]="'left'"
         ></app-badge>
@@ -42,12 +43,14 @@
           spellcheck="false"
           [placeholder]="translatePath + 'identifierPlaceholder' | translate"
           [attr.aria-label]="translatePathAriaLabel + 'identifier' | translate"
+          [attr.aria-describedby]="loginForm.get('identifier')?.invalid && loginForm.get('identifier')?.touched ? 'identifier-badge' : null"
         />
       </div>
 
       <div class="input-container">
         <app-badge
           class="badge"
+          id="password-badge"
           [messages]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched ? messages['password'] : null"
           [caret]="'left'"
         ></app-badge>
@@ -62,6 +65,7 @@
             formControlName="password"
             [placeholder]="translatePath + 'passwordPlaceholder' | translate"
             [attr.aria-label]="translatePathAriaLabel + 'password' | translate"
+            [attr.aria-describedby]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched ? 'password-badge' : null"
           />
 
           <app-password-toggle-button
@@ -76,6 +80,7 @@
         <div class="conditions-warning">
           <app-badge
             class="badge"
+            id="accepted-conditions-badge"
             [messages]="loginForm.get('acceptedConditions')?.invalid || loginForm.get('acceptedConditions')?.valid ? messages['acceptedConditions'] : null"
             [caret]="'left'"
           ></app-badge>
@@ -83,6 +88,7 @@
           <app-legal-acceptance
             [control]="getControl('acceptedConditions')"
             (acceptedConditionsChange)="onAcceptedConditionsChange($event)"
+            [ariaDescribedBy]="loginForm.get('acceptedConditions')?.invalid && loginForm.get('acceptedConditions')?.touched ? 'accepted-conditions-badge' : null"
           ></app-legal-acceptance>
         </div>
       }
