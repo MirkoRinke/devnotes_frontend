@@ -117,6 +117,25 @@ export class AccountUpdateForm {
   }
 
   /**
+   * Resets the password-related fields (current_password, password, and password_confirmation) in the account settings form.
+   * This is typically used after a successful password update to clear the input fields.
+   */
+  private resetPasswordFields(success: boolean): void {
+    if (this.accountSettingsForm?.get('current_password')) {
+      this.accountSettingsForm.get('current_password')?.reset();
+    }
+
+    if (success) {
+      if (this.accountSettingsForm?.get('password')) {
+        this.accountSettingsForm.get('password')?.reset();
+      }
+      if (this.accountSettingsForm?.get('password_confirmation')) {
+        this.accountSettingsForm.get('password_confirmation')?.reset();
+      }
+    }
+  }
+
+  /**
    * Initializes the availability check for specific form controls by subscribing to their value changes.
    * It checks the availability of the entered values and updates the form control's error state accordingly.
    * This provides real-time feedback to the user regarding the availability of their chosen name.
@@ -286,6 +305,8 @@ export class AccountUpdateForm {
           this.msg.setMessage('accountSettings', 'success', 'ACCOUNT_SETTINGS_UPDATED');
         }
 
+        this.resetPasswordFields(true);
+
         this.isProcessing = false;
       },
       error: (error) => {
@@ -303,6 +324,8 @@ export class AccountUpdateForm {
         } else {
           this.msg.setMessage('accountSettings', 'error', 'UNKNOWN_ERROR');
         }
+
+        this.resetPasswordFields(false);
 
         this.isProcessing = false;
       },
