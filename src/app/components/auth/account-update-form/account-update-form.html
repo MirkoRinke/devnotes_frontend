@@ -25,7 +25,8 @@
         <div class="input-container">
           <app-badge
             class="badge"
-            [messages]="accountSettingsForm.get('name')?.invalid && accountSettingsForm.get('name')?.touched ? messages['name'] : null"
+            id="name-badge"
+            [messages]="isInvalid('name') ? messages['name'] : null"
             [caret]="'left'"
           ></app-badge>
 
@@ -36,8 +37,11 @@
             formControlName="name"
             maxlength="40"
             spellcheck="false"
+            autocomplete="username"
             [placeholder]="translatePath + 'username' | translate"
-            [aria-label]="translatePathAriaLabel + 'username' | translate"
+            [attr.aria-label]="translatePathAriaLabel + 'username' | translate"
+            [attr.aria-describedby]="isInvalid('name') ? 'name-badge' : null"
+            [attr.aria-invalid]="isInvalid('name')"
           />
         </div>
       </div>
@@ -46,7 +50,8 @@
         <div class="input-container">
           <app-badge
             class="badge"
-            [messages]="accountSettingsForm.get('email')?.invalid && accountSettingsForm.get('email')?.touched ? messages['email'] : null"
+            id="email-badge"
+            [messages]="isInvalid('email') ? messages['email'] : null"
             [caret]="'left'"
           ></app-badge>
 
@@ -56,14 +61,18 @@
             name="email"
             formControlName="email"
             spellcheck="false"
+            autocomplete="email"
             [placeholder]="translatePath + 'email' | translate"
-            [aria-label]="translatePathAriaLabel + 'email' | translate"
+            [attr.aria-label]="translatePathAriaLabel + 'email' | translate"
+            [attr.aria-describedby]="isInvalid('email') ? 'email-badge' : null"
+            [attr.aria-invalid]="isInvalid('email')"
           />
         </div>
 
         <div class="input-container">
           <app-badge
             class="badge"
+            id="email-confirmation-badge"
             [messages]="emailConfirmationErrorMessage"
             [caret]="'left'"
           ></app-badge>
@@ -74,8 +83,11 @@
             name="email_confirmation"
             formControlName="email_confirmation"
             spellcheck="false"
+            autocomplete="email"
             [placeholder]="translatePath + 'emailConfirmation' | translate"
-            [aria-label]="translatePathAriaLabel + 'emailConfirmation' | translate"
+            [attr.aria-label]="translatePathAriaLabel + 'emailConfirmation' | translate"
+            [attr.aria-describedby]="emailConfirmationErrorMessage ? 'email-confirmation-badge' : null"
+            [attr.aria-invalid]="emailConfirmationErrorMessage ? 'true' : 'false'"
           />
         </div>
       </div>
@@ -84,7 +96,8 @@
         <div class="input-container">
           <app-badge
             class="badge"
-            [messages]="accountSettingsForm.get('password')?.invalid && accountSettingsForm.get('password')?.touched && !isPasswordFocused ? messages['password'] : null"
+            id="password-badge"
+            [messages]="isInvalid('password') && !isPasswordFocused ? messages['password'] : null"
             [caret]="'left'"
           ></app-badge>
 
@@ -105,8 +118,9 @@
               (blur)="isPasswordFocused = false"
               formControlName="password"
               [placeholder]="translatePath + 'password' | translate"
-              [aria-label]="translatePathAriaLabel + 'password' | translate"
-              [attr.aria-describedby]="isPasswordFocused ? 'password-requirements-description' : null"
+              [attr.aria-label]="translatePathAriaLabel + 'password' | translate"
+              [attr.aria-describedby]="isPasswordFocused ? 'password-requirements-description' : isInvalid('password') ? 'password-badge' : null"
+              [attr.aria-invalid]="isInvalid('password')"
             />
 
             <app-password-toggle-button
@@ -120,6 +134,7 @@
         <div class="input-container">
           <app-badge
             class="badge"
+            id="password-confirmation-badge"
             [messages]="passwordConfirmationErrorMessage"
             [caret]="'left'"
           ></app-badge>
@@ -133,7 +148,9 @@
               (blur)="isPasswordFocused = false"
               formControlName="password_confirmation"
               [placeholder]="translatePath + 'passwordConfirmation' | translate"
-              [aria-label]="translatePathAriaLabel + 'passwordConfirmation' | translate"
+              [attr.aria-label]="translatePathAriaLabel + 'passwordConfirmation' | translate"
+              [attr.aria-describedby]="passwordConfirmationErrorMessage ? 'password-confirmation-badge' : null"
+              [attr.aria-invalid]="passwordConfirmationErrorMessage ? 'true' : 'false'"
             />
 
             <app-password-toggle-button
@@ -150,7 +167,8 @@
       <div class="input-container">
         <app-badge
           class="badge"
-          [messages]="accountSettingsForm.get('current_password')?.invalid && accountSettingsForm.get('current_password')?.touched ? messages['current_password'] : null"
+          id="current-password-badge"
+          [messages]="isInvalid('current_password') ? messages['current_password'] : null"
           [caret]="'left'"
         ></app-badge>
 
@@ -160,8 +178,11 @@
             [type]="isPasswordVisible ? 'text' : 'password'"
             name="current_password"
             formControlName="current_password"
+            autocomplete="current-password"
             [placeholder]="translatePath + 'currentPassword' | translate"
-            [aria-label]="translatePathAriaLabel + 'currentPassword' | translate"
+            [attr.aria-label]="translatePathAriaLabel + 'currentPassword' | translate"
+            [attr.aria-describedby]="isInvalid('current_password') ? 'current-password-badge' : null"
+            [attr.aria-invalid]="isInvalid('current_password')"
           />
 
           <app-password-toggle-button

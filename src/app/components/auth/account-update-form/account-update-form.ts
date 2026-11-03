@@ -20,6 +20,7 @@ import type {
   AccountSettingsMessagesInterface,
   AccountSettingsFormInterface,
   AccountSettingsAvailabilityResponseInterface,
+  AccountSettingsFormControlsInterface,
 } from '../../../interfaces/account-settings';
 import type { BackendErrorResponseInterface, BusinessActionInterface, ParamsInterface } from '../../../interfaces/error-handling';
 import type { BadgeMessagesInterface } from '../../../interfaces/validation-messages';
@@ -373,6 +374,17 @@ export class AccountUpdateForm {
       }
     });
     return errors;
+  }
+
+  /**
+   * Checks if the specified form control is invalid and has been touched.
+   *
+   * @param controlName The name of the form control to check.
+   * @returns True if the control is invalid and has been touched, otherwise false.
+   */
+  public isInvalid(controlName: keyof AccountSettingsFormControlsInterface): boolean {
+    const control = this.accountSettingsForm?.get(controlName);
+    return control?.invalid && control?.touched ? true : false;
   }
 
   /**

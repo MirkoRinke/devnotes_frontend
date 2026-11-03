@@ -20,6 +20,13 @@ export interface AccountSettingsFormInterface {
   current_password: string;
 }
 
+export interface AccountSettingsFormControlsInterface {
+  name: string;
+  email: string;
+  password: string;
+  current_password: string;
+}
+
 export interface AccountSettingsMessagesInterface {
   name: BadgeMessagesInterface;
   email: BadgeMessagesInterface;
