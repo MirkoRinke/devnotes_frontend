@@ -15,7 +15,13 @@ import { UserNameAvailabilityService } from '../../../services/user-name-availab
 import { BadgeMessageHandler } from '../../../utils/badge-message-handler';
 import { AUTH_FORMS_CONFIG } from '../../../config/auth-forms.config';
 
-import type { RegisterFormErrorsInterface, RegisterMessagesInterface, RegisterFormInterface, RegistrationAvailabilityResponseInterface } from '../../../interfaces/register-form';
+import type {
+  RegisterFormErrorsInterface,
+  RegisterMessagesInterface,
+  RegisterFormInterface,
+  RegistrationAvailabilityResponseInterface,
+  RegisterFormControlsInterface,
+} from '../../../interfaces/register-form';
 import type { BackendErrorResponseInterface, BusinessActionInterface, ParamsInterface } from '../../../interfaces/error-handling';
 import type { BadgeMessagesInterface } from '../../../interfaces/validation-messages';
 import type { ApiResponseObjektInterface } from '../../../interfaces/api-response';
@@ -347,6 +353,17 @@ export class RegisterForm {
       }
     });
     return errors;
+  }
+
+  /**
+   * Checks if the specified form control is invalid and has been touched.
+   *
+   * @param controlName The name of the form control to check.
+   * @returns True if the control is invalid and has been touched, otherwise false.
+   */
+  public isInvalid(controlName: keyof RegisterFormControlsInterface): boolean {
+    const control = this.registerForm?.get(controlName);
+    return control?.invalid && control?.touched ? true : false;
   }
 
   /**

@@ -11,6 +11,15 @@ export interface RegisterFormErrorsInterface {
   passwordMismatch?: boolean;
 }
 
+export interface RegisterFormControlsInterface {
+  name: string;
+  display_name: string;
+  email: string;
+  password: string;
+  password_confirmation: string;
+  acceptedConditions: boolean;
+}
+
 export interface RegisterFormInterface {
   email: string;
   name: string;

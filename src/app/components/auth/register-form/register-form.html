@@ -31,7 +31,8 @@
         <div class="input-container">
           <app-badge
             class="badge"
-            [messages]="registerForm.get('name')?.invalid && registerForm.get('name')?.touched ? messages['name'] : null"
+            id="name-badge"
+            [messages]="isInvalid('name') ? messages['name'] : null"
             [caret]="'left'"
           ></app-badge>
 
@@ -42,16 +43,18 @@
             formControlName="name"
             maxlength="40"
             spellcheck="false"
-            autocomplete="name"
             [placeholder]="translatePath + 'username' | translate"
             [attr.aria-label]="translatePathAriaLabel + 'username' | translate"
+            [attr.aria-describedby]="isInvalid('name') ? 'name-badge' : null"
+            [attr.aria-invalid]="isInvalid('name')"
           />
         </div>
 
         <div class="input-container">
           <app-badge
             class="badge"
-            [messages]="registerForm.get('display_name')?.invalid && registerForm.get('display_name')?.touched ? messages['display_name'] : null"
+            id="display-name-badge"
+            [messages]="isInvalid('display_name') ? messages['display_name'] : null"
             [caret]="'left'"
           ></app-badge>
 
@@ -64,6 +67,8 @@
             spellcheck="false"
             [placeholder]="translatePath + 'displayName' | translate"
             [attr.aria-label]="translatePathAriaLabel + 'displayName' | translate"
+            [attr.aria-describedby]="isInvalid('display_name') ? 'display-name-badge' : null"
+            [attr.aria-invalid]="isInvalid('display_name')"
           />
         </div>
       </div>
@@ -71,7 +76,8 @@
       <div class="input-container">
         <app-badge
           class="badge"
-          [messages]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched ? messages['email'] : null"
+          id="email-badge"
+          [messages]="isInvalid('email') ? messages['email'] : null"
           [caret]="'left'"
         ></app-badge>
 
@@ -84,6 +90,8 @@
           autocomplete="email"
           [placeholder]="translatePath + 'email' | translate"
           [attr.aria-label]="translatePathAriaLabel + 'email' | translate"
+          [attr.aria-describedby]="isInvalid('email') ? 'email-badge' : null"
+          [attr.aria-invalid]="isInvalid('email')"
         />
       </div>
 
@@ -91,7 +99,8 @@
         <div class="input-container">
           <app-badge
             class="badge"
-            [messages]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched && !isPasswordFocused ? messages['password'] : null"
+            id="password-badge"
+            [messages]="isInvalid('password') && !isPasswordFocused ? messages['password'] : null"
             [caret]="'left'"
           ></app-badge>
 
@@ -111,9 +120,11 @@
               (focus)="isPasswordFocused = true"
               (blur)="isPasswordFocused = false"
               formControlName="password"
+              autocomplete="new-password"
               [placeholder]="translatePath + 'password' | translate"
               [attr.aria-label]="translatePathAriaLabel + 'password' | translate"
-              [attr.aria-describedby]="isPasswordFocused ? 'password-requirements-description' : null"
+              [attr.aria-describedby]="isPasswordFocused ? 'password-requirements-description' : isInvalid('password') ? 'password-badge' : null"
+              [attr.aria-invalid]="isInvalid('password')"
             />
 
             <app-password-toggle-button
@@ -127,6 +138,7 @@
         <div class="input-container">
           <app-badge
             class="badge"
+            id="password-confirmation-badge"
             [messages]="passwordConfirmationErrorMessage"
             [caret]="'left'"
           ></app-badge>
@@ -141,6 +153,9 @@
               [placeholder]="translatePath + 'passwordConfirmation' | translate"
               [attr.aria-label]="translatePathAriaLabel + 'passwordConfirmation' | translate"
               formControlName="password_confirmation"
+              autocomplete="new-password"
+              [attr.aria-describedby]="passwordConfirmationErrorMessage ? 'password-confirmation-badge' : null"
+              [attr.aria-invalid]="passwordConfirmationErrorMessage ? 'true' : 'false'"
             />
 
             <app-password-toggle-button
@@ -155,6 +170,7 @@
       <div class="conditions-warning">
         <app-badge
           class="badge"
+          id="accepted-conditions-badge"
           [messages]="registerForm.get('acceptedConditions')?.invalid || registerForm.get('acceptedConditions')?.valid ? messages['acceptedConditions'] : null"
           [caret]="'left'"
         ></app-badge>
@@ -162,12 +178,13 @@
         <app-legal-acceptance
           [control]="getControl('acceptedConditions')"
           (acceptedConditionsChange)="onAcceptedConditionsChange($event)"
+          [ariaDescribedBy]="isInvalid('acceptedConditions') ? 'accepted-conditions-badge' : null"
+          [isInvalid]="isInvalid('acceptedConditions')"
         ></app-legal-acceptance>
       </div>
 
       <button
         class="submit-button"
-        type="button"
         (click)="onSubmit()"
       >
         {{ translatePath + 'register' | translate }}
