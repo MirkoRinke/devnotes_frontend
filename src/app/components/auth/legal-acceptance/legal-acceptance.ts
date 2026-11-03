@@ -14,6 +14,7 @@ import { TranslatePipe } from '../../../i18n/translate-pipe';
 export class LegalAcceptance {
   @Input() control: FormControl | null = null;
   @Input() ariaDescribedBy: string | null = null;
+  @Input() isInvalid: boolean = false;
 
   @Output() acceptedConditionsChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 

@@ -10,6 +10,7 @@
       (change)="onCheckboxChange()"
       [attr.aria-label]="translatePathAriaLabel + 'checkbox' | translate"
       [attr.aria-describedby]="ariaDescribedBy"
+      [attr.aria-invalid]="isInvalid"
     />
     <span
       class="custom-checkbox"
