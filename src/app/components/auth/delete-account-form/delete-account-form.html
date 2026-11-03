@@ -29,7 +29,8 @@
       <div class="input-container">
         <app-badge
           class="badge"
-          [messages]="deleteAccountForm.get('identifier')?.invalid && deleteAccountForm.get('identifier')?.touched ? messages['identifier'] : null"
+          id="identifier-badge"
+          [messages]="isInvalid('identifier') ? messages['identifier'] : null"
           [caret]="'left'"
         ></app-badge>
 
@@ -39,15 +40,19 @@
           name="identifier"
           formControlName="identifier"
           spellcheck="false"
+          autocomplete="off"
           [placeholder]="translatePath + 'identifierPlaceholder' | translate"
           [attr.aria-label]="translatePathAriaLabel + 'identifier' | translate"
+          [attr.aria-describedby]="isInvalid('identifier') ? 'identifier-badge' : null"
+          [attr.aria-invalid]="isInvalid('identifier')"
         />
       </div>
 
       <div class="input-container">
         <app-badge
           class="badge"
-          [messages]="deleteAccountForm.get('password')?.invalid && deleteAccountForm.get('password')?.touched ? messages['password'] : null"
+          id="password-badge"
+          [messages]="isInvalid('password') ? messages['password'] : null"
           [caret]="'left'"
         ></app-badge>
 
@@ -59,8 +64,11 @@
             (focus)="isPasswordFocused = true"
             (blur)="isPasswordFocused = false"
             formControlName="password"
+            autocomplete="off"
             [placeholder]="translatePath + 'passwordPlaceholder' | translate"
             [attr.aria-label]="translatePathAriaLabel + 'password' | translate"
+            [attr.aria-describedby]="isInvalid('password') ? 'password-badge' : null"
+            [attr.aria-invalid]="isInvalid('password')"
           />
 
           <app-password-toggle-button

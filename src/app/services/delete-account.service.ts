@@ -7,7 +7,7 @@ import { ApiService } from './api.service';
 import { ApiEndpointEnums } from '../enums/api-endpoint';
 import { AuthStorageService } from './auth-storage.service';
 
-import type { DeleteAccountInterface } from '../interfaces/delete-account-form';
+import type { DeleteAccountFormInterface } from '../interfaces/delete-account-form';
 import type { ApiResponseObjektInterface } from '../interfaces/api-response';
 
 @Injectable({
@@ -25,7 +25,7 @@ export class DeleteAccountService {
    * @param data
    * @returns
    */
-  deleteAccount(data: DeleteAccountInterface): Observable<ApiResponseObjektInterface<null>> {
+  deleteAccount(data: DeleteAccountFormInterface): Observable<ApiResponseObjektInterface<null>> {
     return this.apiService.delete<ApiResponseObjektInterface<null>>(ApiEndpointEnums.DELETE_ACCOUNT, data).pipe(
       tap(() => {
         this.authStorageService.clearLoginData();

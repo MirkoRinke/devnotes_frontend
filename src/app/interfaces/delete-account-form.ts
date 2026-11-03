@@ -8,9 +8,13 @@ export interface DeleteAccountErrorsInterface {
   auth_identifier_invalid?: boolean;
 }
 
-export interface DeleteAccountInterface {
+export interface DeleteAccountFormInterface {
   email?: string;
   user_name?: string;
+  password: string;
+}
+export interface DeleteAccountFormControlsInterface {
+  identifier: string;
   password: string;
 }
 

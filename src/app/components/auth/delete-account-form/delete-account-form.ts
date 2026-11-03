@@ -14,7 +14,7 @@ import { AUTH_FORMS_CONFIG } from '../../../config/auth-forms.config';
 
 import { AuthService } from '../../../services/auth.service';
 
-import type { DeleteAccountErrorsInterface, DeleteAccountInterface, DeleteAccountMessagesInterface } from '../../../interfaces/delete-account-form';
+import type { DeleteAccountErrorsInterface, DeleteAccountFormInterface, DeleteAccountMessagesInterface, DeleteAccountFormControlsInterface } from '../../../interfaces/delete-account-form';
 import type { BackendErrorResponseInterface, BusinessActionInterface, ParamsInterface } from '../../../interfaces/error-handling';
 import { badgeMessagesInit } from '../../../interfaces/validation-messages';
 
@@ -64,7 +64,7 @@ export class DeleteAccountForm {
   }
 
   /**
-   * Initializes the delete account form with form controls and validators. If the user must accept conditions, it adds a requiredTrue validator to the acceptedConditions control.
+   * Initializes the delete account form with form controls and their respective validators.
    */
   private createForm(): void {
     this.deleteAccountForm = this.fb.group({
@@ -77,7 +77,7 @@ export class DeleteAccountForm {
    * Handles the form submission. It first checks if the form is valid. If not, it marks all controls as touched, retrieves form errors, and sets appropriate error messages.
    * If the form is valid, it constructs a DeleteAccountInterface object based on the form values and calls the deleteAccount method to perform the delete account operation.
    *
-   * @returns
+   * @returns void
    */
   public onSubmit(): void {
     if (!this.deleteAccountForm) return;
@@ -96,7 +96,7 @@ export class DeleteAccountForm {
 
     const formData = this.deleteAccountForm.value;
 
-    const data: DeleteAccountInterface = {
+    const data: DeleteAccountFormInterface = {
       password: formData.password,
     };
 
@@ -128,7 +128,7 @@ export class DeleteAccountForm {
    * @param data
    * @returns
    */
-  private deleteAccount(data: DeleteAccountInterface): void {
+  private deleteAccount(data: DeleteAccountFormInterface): void {
     /**
      * Prevent multiple submissions while the delete account request is being processed.
      */
@@ -200,6 +200,17 @@ export class DeleteAccountForm {
       }
     });
     return errors;
+  }
+
+  /**
+   * Checks if the specified form control is invalid and has been touched.
+   *
+   * @param controlName The name of the form control to check.
+   * @returns True if the control is invalid and has been touched, otherwise false.
+   */
+  public isInvalid(controlName: keyof DeleteAccountFormControlsInterface): boolean {
+    const control = this.deleteAccountForm?.get(controlName);
+    return control?.invalid && control?.touched ? true : false;
   }
 
   /**
