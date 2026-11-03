@@ -16,6 +16,12 @@ export interface LoginFormInterface {
   terms_of_service_accepted?: boolean;
 }
 
+export interface LoginFormControlsInterface {
+  identifier: string;
+  password: string;
+  acceptedConditions: boolean;
+}
+
 export interface LoginDataInterface extends LoginFormInterface {
   device_name: string;
   device_fingerprint: string;

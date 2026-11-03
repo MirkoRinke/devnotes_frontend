@@ -11,7 +11,7 @@ import { TranslatePipe } from '../../../i18n/translate-pipe';
 import { BadgeMessageHandler } from '../../../utils/badge-message-handler';
 import { AUTH_FORMS_CONFIG } from '../../../config/auth-forms.config';
 
-import type { LoginFormErrorsInterface, LoginFormInterface, LoginMessagesInterface } from '../../../interfaces/login-form';
+import type { LoginFormErrorsInterface, LoginFormInterface, LoginMessagesInterface, LoginFormControlsInterface } from '../../../interfaces/login-form';
 import type { BackendErrorResponseInterface, BusinessActionInterface, ParamsInterface } from '../../../interfaces/error-handling';
 import { badgeMessagesInit } from '../../../interfaces/validation-messages';
 
@@ -239,6 +239,17 @@ export class LoginForm {
       }
     });
     return errors;
+  }
+
+  /**
+   * Checks if the specified form control is invalid and has been touched.
+   *
+   * @param controlName The name of the form control to check.
+   * @returns True if the control is invalid and has been touched, otherwise false.
+   */
+  public isInvalid(controlName: keyof LoginFormControlsInterface): boolean {
+    const control = this.loginForm?.get(controlName);
+    return control?.invalid && control?.touched ? true : false;
   }
 
   /**

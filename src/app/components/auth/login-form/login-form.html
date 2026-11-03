@@ -31,7 +31,7 @@
         <app-badge
           class="badge"
           id="identifier-badge"
-          [messages]="loginForm.get('identifier')?.invalid && loginForm.get('identifier')?.touched ? messages['identifier'] : null"
+          [messages]="isInvalid('identifier') ? messages['identifier'] : null"
           [caret]="'left'"
         ></app-badge>
 
@@ -41,9 +41,11 @@
           name="identifier"
           formControlName="identifier"
           spellcheck="false"
+          autocomplete="username"
           [placeholder]="translatePath + 'identifierPlaceholder' | translate"
           [attr.aria-label]="translatePathAriaLabel + 'identifier' | translate"
-          [attr.aria-describedby]="loginForm.get('identifier')?.invalid && loginForm.get('identifier')?.touched ? 'identifier-badge' : null"
+          [attr.aria-describedby]="isInvalid('identifier') ? 'identifier-badge' : null"
+          [attr.aria-invalid]="isInvalid('identifier')"
         />
       </div>
 
@@ -51,7 +53,7 @@
         <app-badge
           class="badge"
           id="password-badge"
-          [messages]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched ? messages['password'] : null"
+          [messages]="isInvalid('password') ? messages['password'] : null"
           [caret]="'left'"
         ></app-badge>
 
@@ -63,9 +65,11 @@
             (focus)="isPasswordFocused = true"
             (blur)="isPasswordFocused = false"
             formControlName="password"
+            autocomplete="current-password"
             [placeholder]="translatePath + 'passwordPlaceholder' | translate"
             [attr.aria-label]="translatePathAriaLabel + 'password' | translate"
-            [attr.aria-describedby]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched ? 'password-badge' : null"
+            [attr.aria-describedby]="isInvalid('password') ? 'password-badge' : null"
+            [attr.aria-invalid]="isInvalid('password')"
           />
 
           <app-password-toggle-button
@@ -88,7 +92,8 @@
           <app-legal-acceptance
             [control]="getControl('acceptedConditions')"
             (acceptedConditionsChange)="onAcceptedConditionsChange($event)"
-            [ariaDescribedBy]="loginForm.get('acceptedConditions')?.invalid && loginForm.get('acceptedConditions')?.touched ? 'accepted-conditions-badge' : null"
+            [ariaDescribedBy]="isInvalid('acceptedConditions') ? 'accepted-conditions-badge' : null"
+            [isInvalid]="isInvalid('acceptedConditions')"
           ></app-legal-acceptance>
         </div>
       }
