@@ -16,7 +16,7 @@
 
     .display-name {
       @include singleline-ellipsis($max-width: 16ch);
-      color: var(--font-primary-color-100);
+      @include font-settings($color: var(--font-primary-color-100));
 
       &::first-letter {
         text-transform: uppercase;

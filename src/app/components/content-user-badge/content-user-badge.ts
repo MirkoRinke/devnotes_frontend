@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewChild, ElementRef } from '@angular/core';
 
 import { TranslatePipe } from '../../i18n/translate-pipe';
 
@@ -75,6 +75,11 @@ export class ContentUserBadge {
   }
 
   /**
+   * Reference to the toggle button element for focus management after closing the report modal.
+   */
+  @ViewChild('toggleButton') private toggleButton?: ElementRef<HTMLButtonElement>;
+
+  /**
    * Handle animation end events
    *
    * @param event
@@ -83,6 +88,7 @@ export class ContentUserBadge {
     if (event.animationName.endsWith('fade-out')) {
       if (this.reportModalOpen) {
         this.reportModalOpen = false;
+        this.toggleButton?.nativeElement.focus();
       }
     }
   }
