@@ -39,6 +39,7 @@ import { PasswordToggleButtonInterface } from './components/password-toggle-butt
 import { ReportModalMessagesInterface } from './components/report-modal.interface';
 import { ReportButtonMessagesInterface } from './components/report-button.interface';
 import { MvpPillMessagesInterface } from './components/mvp-pill.interface';
+import { ContentUserBadgeMessagesInterface } from './components/content-user-badge';
 
 import { NetworkMessagesInterface } from './pages/network.interface';
 import { CommunityMessagesInterface } from './pages/community.interface';
@@ -84,6 +85,7 @@ export interface ContentUI extends Pages {
   ReportModal: ReportModalMessagesInterface;
   ReportButton: ReportButtonMessagesInterface;
   MvpPill: MvpPillMessagesInterface;
+  ContentUserBadge: ContentUserBadgeMessagesInterface;
 }
 
 export interface Pages {

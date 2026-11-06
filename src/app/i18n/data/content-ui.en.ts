@@ -405,6 +405,11 @@ export const CONTENT_UI_EN: ContentUI = {
     tooltip: 'This is part of the MVP and will be updated in future versions.',
     ariaLabel: {},
   },
+  ContentUserBadge: {
+    ariaLabel: {
+      userBadge: 'Author Options for {name}',
+    },
+  },
 
   /* Page section */
 
