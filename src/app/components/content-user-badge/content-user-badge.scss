@@ -2,18 +2,20 @@
 @use '../../../var' as var;
 @use '../../../mixins' as *;
 
-.user-badge-component {
+.content-user-badge {
   position: relative;
 
   .user-badge {
+    @include button-preset();
     @include display-flex($align: center, $gap: px-to-rem(10));
     height: px-to-rem(50);
 
-    &:hover {
-      cursor: pointer;
+    &:not(.active) {
+      cursor: default;
     }
 
     .display-name {
+      @include singleline-ellipsis($max-width: 16ch);
       color: var(--font-primary-color-100);
 
       &::first-letter {

@@ -1,3 +1,6 @@
+@let translatePath = 'ContentUserBadge' + '.';
+@let translatePathAriaLabel = translatePath + 'ariaLabel' + '.';
+
 @if (user) {
   @if (reportModalOpen) {
     <app-report-modal
@@ -13,26 +16,42 @@
   }
 
   <div
-    class="user-badge-component"
+    class="content-user-badge"
     appClickOutsideDirective
     [clickOutsideEnabled]="menuOpen"
     (clickOutside)="triggerCloseBadgeMenu()"
   >
-    <div
-      (click)="menuActive ? toggleBadgeMenu() : null"
+    <button
       class="user-badge"
-      [class.menu-active]="menuActive"
+      [class.active]="menuActive"
+      [disabled]="!menuActive"
+      #toggleButton
+      (click)="toggleBadgeMenu()"
+      type="button"
+      appEscapeCloseDirective
+      [appEscapeCloseEnabled]="menuOpen"
+      [appEscapeClose]="toggleButton"
+      (escapePressed)="triggerCloseBadgeMenu()"
+      [attr.aria-label]="translatePathAriaLabel + 'userBadge' | translate: { name: user.display_name ?? '' }"
+      [attr.aria-expanded]="menuOpen"
+      [attr.aria-haspopup]="'menu'"
+      [attr.aria-controls]="menuId"
     >
       <app-avatar-layer
-        [avatarMvpId]="user.avatar_mvp_id ?? null"
         [menuOpen]="menuOpen"
+        [avatarMvpId]="user.avatar_mvp_id ?? null"
       ></app-avatar-layer>
-      <span class="display-name">{{ user.display_name }}</span>
-    </div>
+      <span
+        class="display-name"
+        [attr.title]="user.display_name"
+        >{{ user.display_name }}</span
+      >
+    </button>
 
     @if (menuActive && menuOpen) {
       <app-content-user-menu
         [user]="user"
+        [menuId]="menuId"
         [menuOpen]="menuOpen"
         [menuAnimating]="menuAnimating"
         (closeMenu)="closeBadgeMenu()"

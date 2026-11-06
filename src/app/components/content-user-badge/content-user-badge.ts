@@ -1,15 +1,19 @@
 import { Component, Input } from '@angular/core';
 
+import { TranslatePipe } from '../../i18n/translate-pipe';
+
 import type { UserInterface } from '../../interfaces/user';
 import { ReportModal } from '../report/report-modal/report-modal';
 
 import { ClickOutsideDirective } from '../../directives/click-outside.directive';
+import { EscapeCloseDirective } from '../../directives/escape-close.directive';
+
 import { AvatarLayer } from '../avatar-layer/avatar-layer';
 import { ContentUserMenu } from './content-user-menu/content-user-menu';
 
 @Component({
   selector: 'app-content-user-badge',
-  imports: [ReportModal, ClickOutsideDirective, AvatarLayer, ContentUserMenu],
+  imports: [ReportModal, ClickOutsideDirective, EscapeCloseDirective, AvatarLayer, ContentUserMenu, TranslatePipe],
   templateUrl: './content-user-badge.html',
   styleUrl: './content-user-badge.scss',
 })
@@ -17,18 +21,21 @@ export class ContentUserBadge {
   @Input() user: UserInterface | null = null;
   @Input() menuActive: boolean = false;
 
-  menuOpen = false;
-  menuAnimating = false;
+  private static nextId = 0;
+  public readonly menuId = `content-user-menu-${ContentUserBadge.nextId++}`;
 
-  reportModalOpen = false;
-  reportModalAnimating = false;
+  public menuOpen = false;
+  public menuAnimating = false;
 
-  constructor() {}
+  public reportModalOpen = false;
+  public reportModalAnimating = false;
 
   /**
    * Toggle Settings Dropdown
    */
-  toggleBadgeMenu(): void {
+  public toggleBadgeMenu(): void {
+    if (!this.menuActive) return;
+
     if (this.menuOpen) {
       this.menuAnimating = false;
     } else {
@@ -40,7 +47,7 @@ export class ContentUserBadge {
   /**
    * Close Badge Menu from menu component
    */
-  closeBadgeMenu(): void {
+  public closeBadgeMenu(): void {
     this.menuOpen = false;
   }
 
@@ -48,14 +55,14 @@ export class ContentUserBadge {
    * Close Badge Menu from click outside directive
    * This method is called when a click outside the badge menu is detected
    */
-  triggerCloseBadgeMenu(): void {
+  public triggerCloseBadgeMenu(): void {
     this.menuAnimating = false;
   }
 
   /**
    * Open Report Modal
    */
-  openReportModal(): void {
+  public openReportModal(): void {
     this.reportModalOpen = true;
     requestAnimationFrame(() => (this.reportModalAnimating = true));
   }
@@ -63,7 +70,7 @@ export class ContentUserBadge {
   /**
    * Close Report Modal
    */
-  closeReportModal(): void {
+  public closeReportModal(): void {
     this.reportModalAnimating = false;
   }
 
@@ -72,7 +79,7 @@ export class ContentUserBadge {
    *
    * @param event
    */
-  onAnimationEnd(event: AnimationEvent): void {
+  public onAnimationEnd(event: AnimationEvent): void {
     if (event.animationName.endsWith('fade-out')) {
       if (this.reportModalOpen) {
         this.reportModalOpen = false;
