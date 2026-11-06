@@ -16,6 +16,7 @@ import { ApiEndpointEnums } from '../../../enums/api-endpoint';
 })
 export class ContentUserMenu {
   @Input() user: UserInterface | null = null;
+  @Input() menuId: string = '';
 
   @Input() menuOpen: boolean = false;
   @Input() menuAnimating: boolean = false;
