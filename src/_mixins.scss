@@ -370,8 +370,13 @@
       background-color: var(--page-secondary-color-100);
     }
 
+    &:focus {
+      outline: none;
+      background-color: var(--page-secondary-color-100);
+    }
+
     .name {
-      color: var(--font-primary-color-100);
+      @include font-settings($color: var(--font-primary-color-100));
       @include singleline-ellipsis();
 
       text-align: left;
