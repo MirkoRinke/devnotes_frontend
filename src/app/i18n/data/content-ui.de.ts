@@ -410,6 +410,14 @@ export const CONTENT_UI_DE: ContentUI = {
       userBadge: 'Autor Optionen für {name}',
     },
   },
+  ContentUserMenu: {
+    myProfile: 'Mein Profil',
+    viewProfile: 'Profil anzeigen',
+    follow: 'Folgen',
+    unfollow: 'Entfolgen',
+    report: 'Melden',
+    ariaLabel: {},
+  },
 
   /* Page section */
 

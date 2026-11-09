@@ -40,6 +40,7 @@ import { ReportModalMessagesInterface } from './components/report-modal.interfac
 import { ReportButtonMessagesInterface } from './components/report-button.interface';
 import { MvpPillMessagesInterface } from './components/mvp-pill.interface';
 import { ContentUserBadgeMessagesInterface } from './components/content-user-badge';
+import { ContentUserMenuMessagesInterface } from './components/content-user-menu.interface';
 
 import { NetworkMessagesInterface } from './pages/network.interface';
 import { CommunityMessagesInterface } from './pages/community.interface';
@@ -86,6 +87,7 @@ export interface ContentUI extends Pages {
   ReportButton: ReportButtonMessagesInterface;
   MvpPill: MvpPillMessagesInterface;
   ContentUserBadge: ContentUserBadgeMessagesInterface;
+  ContentUserMenu: ContentUserMenuMessagesInterface;
 }
 
 export interface Pages {
