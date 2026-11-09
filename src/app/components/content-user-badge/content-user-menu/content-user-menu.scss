@@ -2,14 +2,26 @@
 @use '../../../../var' as var;
 @use '../../../../mixins' as *;
 
-@include dropside-values($border-radius: px-to-rem(9999), $orientation: right, $z-index: 1);
+@media (min-width: calc(var.$breakpoint-md + px-to-rem(1))) {
+  @include dropside-values($border-radius: px-to-rem(9999), $orientation: right, $z-index: 1);
+}
+
+@media (max-width: var.$breakpoint-md) {
+  @include dropdown-values($border-radius: px-to-rem(15), $docked: false, $orientation: left, $z-index: 1);
+}
 
 @include value-list-item($height: px-to-rem(50), $width: max-content);
 
 .values {
   .value {
+    @media (max-width: var.$breakpoint-md) {
+      width: 100%;
+    }
+
     &:first-child {
-      padding-left: px-to-rem(45);
+      @media (min-width: calc(var.$breakpoint-md + px-to-rem(1))) {
+        padding-left: px-to-rem(45);
+      }
     }
   }
 }

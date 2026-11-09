@@ -1,6 +1,10 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
+import { RovingFocusDirective } from '../../../directives/roving-focus.directive';
+
+import { TranslatePipe } from '../../../i18n/translate-pipe';
+
 import { ApiService } from '../../../services/api.service';
 import { AuthService } from '../../../services/auth.service';
 
@@ -10,7 +14,7 @@ import { ApiEndpointEnums } from '../../../enums/api-endpoint';
 
 @Component({
   selector: 'app-content-user-menu',
-  imports: [RouterModule],
+  imports: [RouterModule, TranslatePipe, RovingFocusDirective],
   templateUrl: './content-user-menu.html',
   styleUrl: './content-user-menu.scss',
 })
@@ -24,18 +28,18 @@ export class ContentUserMenu {
   @Output() closeMenu = new EventEmitter<void>();
   @Output() openReportModal = new EventEmitter<void>();
 
-  isProcessingFollow: boolean = false;
+  public isProcessingFollow: boolean = false;
 
   constructor(
-    public authService: AuthService,
-    private apiService: ApiService,
+    public readonly authService: AuthService,
+    private readonly apiService: ApiService,
   ) {}
 
   /**
    * Handle close event from parent component
    * triggered onAnimationEnd when animated out
    */
-  onClose() {
+  public onClose(): void {
     this.menuAnimating = false;
   }
 
@@ -44,7 +48,7 @@ export class ContentUserMenu {
    *
    * @param event
    */
-  onAnimationEnd(event: AnimationEvent) {
+  public onAnimationEnd(event: AnimationEvent): void {
     if (event.animationName.endsWith('animated-out')) {
       this.closeMenu.emit();
     }
@@ -53,7 +57,7 @@ export class ContentUserMenu {
   /**
    * Toggle follow/unfollow user and update the UI accordingly.
    */
-  toggleFollowUser(user: UserInterface) {
+  public toggleFollowUser(user: UserInterface): void {
     /**
      * Prevent multiple follow/unfollow requests and ensure user is logged in
      */
@@ -70,10 +74,10 @@ export class ContentUserMenu {
     user.is_following = !user.is_following;
 
     this.apiService[method](url).subscribe({
-      next: (response) => {
+      next: () => {
         this.isProcessingFollow = false;
       },
-      error: (error) => {
+      error: () => {
         user.is_following = !user.is_following;
         this.isProcessingFollow = false;
       },
@@ -83,7 +87,7 @@ export class ContentUserMenu {
   /**
    * Open the report user modal by emitting an event to the parent component.
    */
-  reportUser() {
+  public reportUser(): void {
     this.openReportModal.emit();
   }
 
@@ -93,7 +97,7 @@ export class ContentUserMenu {
    * @param user
    * @returns
    */
-  isOwner(user: UserInterface | null): boolean {
+  public isOwner(user: UserInterface | null): boolean {
     return this.authService.isOwner(user?.id ?? null);
   }
 
@@ -102,7 +106,7 @@ export class ContentUserMenu {
    *
    * @returns
    */
-  isLoggedIn(): boolean {
+  public isLoggedIn(): boolean {
     return this.authService.isLoggedIn();
   }
 }

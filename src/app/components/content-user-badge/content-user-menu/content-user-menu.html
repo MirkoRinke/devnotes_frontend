@@ -1,3 +1,5 @@
+@let translatePath = 'ContentUserMenu' + '.';
+
 @if (user) {
   <div
     class="values"
@@ -7,44 +9,52 @@
     [class.animated-in]="menuAnimating"
     [class.animated-out]="!menuAnimating"
     (animationend)="onAnimationEnd($event)"
+    appRovingFocusDirective
+    [appInputFocusElements]="'[role=menuitem]'"
   >
-    <button
+    <a
       class="value"
       role="menuitem"
       [routerLink]="['/user-profile', user.id]"
       (click)="onClose()"
     >
-      {{ isOwner(user) ? 'Mein Profil' : 'Profil anzeigen' }}
-    </button>
+      {{ isOwner(user) ? (translatePath + 'myProfile' | translate) : (translatePath + 'viewProfile' | translate) }}
+    </a>
 
     @if (!isOwner(user)) {
       @if (isLoggedIn()) {
         <button
           class="value"
           role="menuitem"
+          type="button"
+          [disabled]="isProcessingFollow"
           (click)="toggleFollowUser(user); onClose()"
         >
-          {{ user.is_following ? 'Entfolgen' : 'Folgen' }}
+          {{ user.is_following ? (translatePath + 'unfollow' | translate) : (translatePath + 'follow' | translate) }}
         </button>
       } @else {
-        <button
+        <a
           class="value"
           role="menuitem"
           [routerLink]="['/login']"
           (click)="onClose()"
         >
-          Folgen
-        </button>
+          {{ translatePath + 'follow' | translate }}
+        </a>
       }
 
-      <span class="divider"></span>
+      <span
+        class="divider"
+        role="separator"
+      ></span>
 
       <button
         class="value"
         role="menuitem"
+        type="button"
         (click)="reportUser(); onClose()"
       >
-        Melden
+        {{ translatePath + 'report' | translate }}
       </button>
     }
   </div>
