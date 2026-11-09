@@ -10,10 +10,20 @@ export class RovingFocusDirective {
 
   constructor(private readonly el: ElementRef<HTMLElement>) {}
 
-  @HostListener('keydown.arrowDown') onArrowDown() {
+  @HostListener('keydown.arrowDown', ['$event']) onArrowDown(event: Event): void {
+    event.preventDefault();
     this.move(1);
   }
-  @HostListener('keydown.arrowUp') onArrowUp() {
+  @HostListener('keydown.arrowUp', ['$event']) onArrowUp(event: Event): void {
+    event.preventDefault();
+    this.move(-1);
+  }
+  @HostListener('keydown.arrowRight', ['$event']) onArrowRight(event: Event): void {
+    event.preventDefault();
+    this.move(1);
+  }
+  @HostListener('keydown.arrowLeft', ['$event']) onArrowLeft(event: Event): void {
+    event.preventDefault();
     this.move(-1);
   }
 
