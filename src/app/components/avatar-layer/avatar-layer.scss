@@ -24,7 +24,10 @@
     object-fit: cover;
     --scale: 1;
     --flip: 0deg;
-    transform: scale(var(--scale)) rotateY(var(--flip));
+
+    will-change: transform;
+    transform: translateZ(0) scale(var(--scale)) rotateY(var(--flip));
+
     transition: transform var.$transition-duration-medium ease-in-out;
 
     &.rotated {
