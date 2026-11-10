@@ -7,7 +7,7 @@ import { ApiService } from '../../services/api.service';
 import { SvgIconsService } from '../../services/svg.icons.service';
 import { SearchService } from '../../services/search.service';
 import { AuthService } from '../../services/auth.service';
-
+import { AppSettingsService } from '../../services/app.settings.service';
 import { TranslationService } from '../../i18n/translation.service';
 
 import type { PostTypesInterface } from '../../interfaces/post-types.ts';
@@ -45,6 +45,9 @@ export class PostTypesSelection implements OnInit, OnDestroy {
   private currentUserId: number | null = null;
 
   private readonly destroyRef = inject(DestroyRef);
+
+  public readonly appSettingsService = inject(AppSettingsService);
+  public readonly isFluid = this.appSettingsService.isFluid;
 
   constructor(
     private readonly route: ActivatedRoute,

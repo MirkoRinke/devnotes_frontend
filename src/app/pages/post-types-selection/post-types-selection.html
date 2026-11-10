@@ -1,7 +1,10 @@
 @let translatePath = 'PostTypes' + '.';
 @let translatePathAriaLabel = translatePath + 'ariaLabel' + '.';
 
-<section class="post-types-selection">
+<section
+  class="post-types-selection"
+  [class.is-fluid]="isFluid()"
+>
   <h2 class="heading">
     {{ translatePath + 'heading' | translate }}
   </h2>
