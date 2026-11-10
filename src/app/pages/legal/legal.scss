@@ -17,8 +17,8 @@
   overflow-wrap: break-word;
   hyphens: auto;
 
-  .header,
-  .address,
+  header,
+  address,
   .representedBy,
   .contact {
     margin-block: px-to-rem(10);
@@ -71,7 +71,6 @@
     color: var(--font-primary-color-100);
   }
 
-  .address,
   .representedBy,
   .contact {
     & p {
