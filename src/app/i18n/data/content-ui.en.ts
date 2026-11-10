@@ -505,6 +505,10 @@ export const CONTENT_UI_EN: ContentUI = {
     ariaLabel: {},
   },
   MyArea: {
+    searchResults: 'Search Results',
+    favorites: 'Favorites',
+    languagesAndTechnologies: 'Languages / Frameworks',
+    tools: 'Tools',
     actionPlaceholder: {
       loggedIn: {
         heading: 'Ready for your first post?',

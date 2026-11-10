@@ -1,4 +1,8 @@
 export interface MyAreaMessagesInterface {
+  searchResults: string;
+  favorites: string;
+  languagesAndTechnologies: string;
+  tools: string;
   actionPlaceholder: {
     loggedIn: {
       heading: string;
