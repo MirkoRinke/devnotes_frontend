@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { PostForm } from '../../components/post/post-form/post-form';
+import { AppSettingsService } from '../../services/app.settings.service';
 
 @Component({
   selector: 'app-post-create',
@@ -7,4 +8,7 @@ import { PostForm } from '../../components/post/post-form/post-form';
   templateUrl: './post-create.html',
   styleUrl: './post-create.scss',
 })
-export class PostCreate {}
+export class PostCreate {
+  public readonly appSettingsService = inject(AppSettingsService);
+  public readonly isFluid = this.appSettingsService.isFluid;
+}
