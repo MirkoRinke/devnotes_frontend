@@ -9,10 +9,6 @@
 
   --content-max-width: #{var.$content-max-width};
 
-  &.is-fluid {
-    --content-max-width: 100%;
-  }
-
   --list-element-min-height: #{px-to-rem(80)};
   --list-element-max-height: #{px-to-rem(80)};
   --posts-list-gap: #{px-to-rem(25)};
@@ -27,6 +23,10 @@
 }
 
 .posts-list {
+  &.is-fluid {
+    --content-max-width: 100%;
+  }
+
   @include display-flex($align: stretch, $justify: start, $direction: column, $gap: var(--post-list-page-gap));
   flex-grow: 1;
 

@@ -13,6 +13,7 @@ import { ApiService } from '../../services/api.service';
 import { AvailableValuesService } from '../../services/available-values.service';
 import { SearchService } from '../../services/search.service';
 import { AuthService } from '../../services/auth.service';
+import { AppSettingsService } from '../../services/app.settings.service';
 
 import { TranslatePipe } from '../../i18n/translate-pipe';
 
@@ -82,6 +83,9 @@ export class PostsList implements OnInit {
   private resizeSub: Subscription | null = null;
 
   private readonly destroyRef = inject(DestroyRef);
+
+  public readonly appSettingsService = inject(AppSettingsService);
+  public readonly isFluid = this.appSettingsService.isFluid;
 
   private resize$ = new Subject<void>();
 

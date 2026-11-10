@@ -1,6 +1,9 @@
 @let translatePath = 'PostList' + '.';
 
-<section class="posts-list">
+<section
+  class="posts-list"
+  [class.is-fluid]="isFluid()"
+>
   <app-posts-list-filter-bar [filterValues]="filterValues"></app-posts-list-filter-bar>
 
   <div
