@@ -1,14 +1,15 @@
 @let translatePath = 'Community' + '.';
-<!-- @let translatePathAriaLabel = translatePath + 'ariaLabel' + '.'; -->
+
+@let searchActive = (searchService.searchActive$ | async) ?? false;
 
 <section class="community">
   @if (hasAvailableData !== false) {
     @if (searchService.showSearchResults$ | async) {
       <app-tech-block
-        [class.active]="searchService.searchActive$ | async"
-        [attr.aria-hidden]="!(searchService.searchActive$ | async)"
+        [class.active]="searchActive"
+        [attr.aria-hidden]="!searchActive"
         [context]="PageContextEnums.COMMUNITY"
-        [heading]="'Suchergebnisse'"
+        [heading]="translatePath + 'searchResults' | translate"
         [version]="'search-results'"
         [endPoint]="endPoint"
         [params]="languagesTechnologies"
@@ -17,15 +18,15 @@
 
     @if (authService.isLoggedIn()) {
       <app-tech-block
-        [class.active]="!(searchService.searchActive$ | async)"
-        [attr.aria-hidden]="searchService.searchActive$ | async"
+        [class.active]="!searchActive"
+        [attr.aria-hidden]="searchActive"
         [context]="PageContextEnums.COMMUNITY"
-        [heading]="'Favoriten'"
+        [heading]="translatePath + 'favorites' | translate"
         [version]="'favorites'"
         [endPoint]="endPoint"
         [params]="languagesTechnologies"
       ></app-tech-block>
-    } @else if (!(searchService.searchActive$ | async)) {
+    } @else if (!searchActive) {
       <app-action-placeholder
         class="center small"
         [parentTranslatePathInput]="translatePath + 'actionPlaceholder' + '.' + 'favorite' + '.'"
@@ -35,10 +36,10 @@
     }
 
     <app-tech-block
-      [class.active]="!(searchService.searchActive$ | async)"
-      [attr.aria-hidden]="searchService.searchActive$ | async"
+      [class.active]="!searchActive"
+      [attr.aria-hidden]="searchActive"
       [context]="PageContextEnums.COMMUNITY"
-      [heading]="'Sprachen / Frameworks'"
+      [heading]="translatePath + 'languagesAndTechnologies' | translate"
       [version]="'default'"
       [endPoint]="endPoint"
       [params]="languages"
@@ -46,10 +47,10 @@
     ></app-tech-block>
 
     <app-tech-block
-      [class.active]="!(searchService.searchActive$ | async)"
-      [attr.aria-hidden]="searchService.searchActive$ | async"
+      [class.active]="!searchActive"
+      [attr.aria-hidden]="searchActive"
       [context]="PageContextEnums.COMMUNITY"
-      [heading]="'Tools'"
+      [heading]="translatePath + 'tools' | translate"
       [version]="'default'"
       [endPoint]="endPoint"
       [params]="technologies"
