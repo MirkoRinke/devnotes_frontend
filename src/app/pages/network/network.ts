@@ -9,5 +9,5 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './network.scss',
 })
 export class Network {
-  constructor(public authService: AuthService) {}
+  constructor(public readonly authService: AuthService) {}
 }
