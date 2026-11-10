@@ -5,6 +5,7 @@ import { HttpParams } from '@angular/common/http';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { ApiService } from '../../services/api.service';
+import { AppSettingsService } from '../../services/app.settings.service';
 
 import type { ApiResponseObjektInterface } from '../../interfaces/api-response';
 import type { PostInterface } from '../../interfaces/post';
@@ -37,6 +38,9 @@ export class Post {
   necessaryUserFields: string = 'display_name,avatar_items,is_following,avatar_mvp_id';
 
   private destroyRef = inject(DestroyRef);
+
+  public readonly appSettingsService = inject(AppSettingsService);
+  public readonly isFluid = this.appSettingsService.isFluid;
 
   constructor(
     private route: ActivatedRoute,

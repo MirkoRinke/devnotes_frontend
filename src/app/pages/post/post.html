@@ -1,4 +1,7 @@
-<div class="post-container">
+<div
+  class="post-container"
+  [class.is-fluid]="isFluid()"
+>
   @if (postDataLoaded || mode === 'create') {
     @if (mode === 'view') {
       <app-post-view
