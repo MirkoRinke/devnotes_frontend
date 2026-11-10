@@ -1,14 +1,15 @@
 @let translatePath = 'Favorites' + '.';
-<!-- @let translatePathAriaLabel = translatePath + 'ariaLabel' + '.'; -->
+
+@let searchActive = (searchService.searchActive$ | async) ?? false;
 
 <section class="favorites">
   @if (authService.isLoggedIn() && hasAvailableData !== false) {
     @if (searchService.showSearchResults$ | async) {
       <app-tech-block
-        [class.active]="searchService.searchActive$ | async"
-        [attr.aria-hidden]="!(searchService.searchActive$ | async)"
+        [class.active]="searchActive"
+        [attr.aria-hidden]="!searchActive"
         [context]="PageContextEnums.FAVORITES"
-        [heading]="'Suchergebnisse'"
+        [heading]="translatePath + 'searchResults' | translate"
         [version]="'search-results'"
         [endPoint]="endPoint"
         [params]="languagesTechnologies"
@@ -16,20 +17,20 @@
     }
 
     <app-tech-block
-      [class.active]="!(searchService.searchActive$ | async)"
-      [attr.aria-hidden]="searchService.searchActive$ | async"
+      [class.active]="!searchActive"
+      [attr.aria-hidden]="searchActive"
       [context]="PageContextEnums.FAVORITES"
-      [heading]="'Favoriten'"
+      [heading]="translatePath + 'favorites' | translate"
       [version]="'favorites'"
       [endPoint]="endPoint"
       [params]="languagesTechnologies"
     ></app-tech-block>
 
     <app-tech-block
-      [class.active]="!(searchService.searchActive$ | async)"
-      [attr.aria-hidden]="searchService.searchActive$ | async"
+      [class.active]="!searchActive"
+      [attr.aria-hidden]="searchActive"
       [context]="PageContextEnums.FAVORITES"
-      [heading]="'Sprachen / Frameworks'"
+      [heading]="translatePath + 'languagesAndTechnologies' | translate"
       [version]="'default'"
       [endPoint]="endPoint"
       [params]="languages"
@@ -37,10 +38,10 @@
     ></app-tech-block>
 
     <app-tech-block
-      [class.active]="!(searchService.searchActive$ | async)"
-      [attr.aria-hidden]="searchService.searchActive$ | async"
+      [class.active]="!searchActive"
+      [attr.aria-hidden]="searchActive"
       [context]="PageContextEnums.FAVORITES"
-      [heading]="'Tools'"
+      [heading]="translatePath + 'tools' | translate"
       [version]="'default'"
       [endPoint]="endPoint"
       [params]="technologies"
