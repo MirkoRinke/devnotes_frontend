@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { AppSettingsService } from '../../../services/app.settings.service';
 
 import { TranslatePipe } from '../../../i18n/translate-pipe';
 
@@ -8,4 +9,7 @@ import { TranslatePipe } from '../../../i18n/translate-pipe';
   templateUrl: './terms.html',
   styleUrls: ['../legal.scss', './terms.scss'],
 })
-export class Terms {}
+export class Terms {
+  public readonly appSettingsService = inject(AppSettingsService);
+  public readonly isFluid = this.appSettingsService.isFluid;
+}

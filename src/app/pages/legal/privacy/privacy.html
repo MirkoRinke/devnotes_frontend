@@ -1,6 +1,9 @@
 @let translatePath = 'Privacy.';
 
-<section class="legal">
+<section
+  class="legal"
+  [class.is-fluid]="isFluid()"
+>
   <h1>{{ translatePath + 'title' | translate }}</h1>
   <p>{{ translatePath + 'lastUpdated' | translate }}</p>
   <h2>{{ translatePath + 'dataProtectionAtAGlance.title' | translate }}</h2>

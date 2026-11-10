@@ -1,6 +1,9 @@
 @let translatePath = 'Imprint.';
 
-<section class="legal">
+<section
+  class="legal"
+  [class.is-fluid]="isFluid()"
+>
   <header class="header">
     <h1>{{ translatePath + 'header.title' | translate }}</h1>
     <p>{{ translatePath + 'header.info' | translate }}</p>
