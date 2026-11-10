@@ -476,6 +476,10 @@ export const CONTENT_UI_DE: ContentUI = {
     ariaLabel: {},
   },
   Favorites: {
+    searchResults: 'Suchergebnisse',
+    favorites: 'Favoriten',
+    languagesAndTechnologies: 'Sprachen / Frameworks',
+    tools: 'Tools',
     actionPlaceholder: {
       loggedIn: {
         heading: 'Noch keine Favoriten?',

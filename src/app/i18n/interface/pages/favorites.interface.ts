@@ -1,4 +1,8 @@
 export interface FavoritesMessagesInterface {
+  searchResults: string;
+  favorites: string;
+  languagesAndTechnologies: string;
+  tools: string;
   actionPlaceholder: {
     loggedIn: {
       heading: string;
