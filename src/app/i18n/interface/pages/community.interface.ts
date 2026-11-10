@@ -1,4 +1,8 @@
 export interface CommunityMessagesInterface {
+  searchResults: string;
+  favorites: string;
+  languagesAndTechnologies: string;
+  tools: string;
   actionPlaceholder: {
     favorite: {
       heading: string;

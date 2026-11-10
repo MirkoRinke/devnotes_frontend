@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { TechBlock } from '../../components/tech-block/tech-block';
@@ -8,42 +8,44 @@ import { AuthService } from '../../services/auth.service';
 import { SearchService } from '../../services/search.service';
 import { UserFavoriteTechnologiesService } from '../../services/user-favorite-technologies.service';
 
+import { TranslatePipe } from '../../i18n/translate-pipe';
+
 import { ApiEndpointEnums } from '../../enums/api-endpoint';
 import { PageContextEnums } from '../../enums/context';
 
 @Component({
   selector: 'app-community',
-  imports: [TechBlock, ActionPlaceholder, CommonModule],
+  imports: [TechBlock, ActionPlaceholder, CommonModule, TranslatePipe],
   templateUrl: './community.html',
   styleUrl: './community.scss',
 })
-export class Community {
-  readonly PageContextEnums = PageContextEnums;
+export class Community implements OnInit, OnDestroy {
+  public readonly PageContextEnums = PageContextEnums;
 
-  endPoint: keyof typeof ApiEndpointEnums = 'POSTS';
+  public readonly endPoint: keyof typeof ApiEndpointEnums = 'POSTS';
 
-  languagesTechnologies: Array<string> = [];
-  languages: Array<string> = [];
-  technologies: Array<string> = [];
+  public languagesTechnologies: Array<string> = [];
+  public languages: Array<string> = [];
+  public technologies: Array<string> = [];
 
-  hasAvailableData: boolean | null = null;
-  hasLanguages: boolean | null = null;
-  hasTechnologies: boolean | null = null;
+  public hasAvailableData: boolean | null = null;
+  private hasLanguages: boolean | null = null;
+  private hasTechnologies: boolean | null = null;
 
   constructor(
-    public authService: AuthService,
-    public searchService: SearchService,
-    private userFavoriteTechnologiesService: UserFavoriteTechnologiesService,
+    public readonly authService: AuthService,
+    public readonly searchService: SearchService,
+    private readonly userFavoriteTechnologiesService: UserFavoriteTechnologiesService,
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.setParams();
     this.searchService.cageIcon('tiles');
     this.enableSearch();
     this.userFavoriteTechnologiesService.clearFavoriteUpdate();
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.searchService.enableSearch(false);
   }
 
@@ -53,7 +55,7 @@ export class Community {
    * and will be disabled only if the TechBlock component explicitly emits
    * an event indicating that no data is available.
    */
-  enableSearch() {
+  private enableSearch(): void {
     if (this.hasAvailableData !== false) {
       this.searchService.enableSearch(true);
     } else {
@@ -68,7 +70,7 @@ export class Community {
    * @param hasData
    * @param dataType
    */
-  handleHasAvailableData(hasData: boolean, dataType: 'languages' | 'technologies') {
+  public handleHasAvailableData(hasData: boolean, dataType: 'languages' | 'technologies'): void {
     if (dataType === 'languages') {
       this.hasLanguages = hasData;
     } else if (dataType === 'technologies') {
@@ -83,7 +85,7 @@ export class Community {
   /**
    * Set the parameters for the API calls to fetch the community's languages and technologies, including a cache TTL to optimize performance.
    */
-  setParams() {
+  private setParams(): void {
     this.languages = ['?select=count:languages.name&filter[status]=eq:published'];
     this.technologies = ['?select=count:technologies.name&filter[status]=eq:published'];
     this.languagesTechnologies = [...this.languages, ...this.technologies];
