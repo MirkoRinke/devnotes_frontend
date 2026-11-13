@@ -73,7 +73,7 @@ export class UserAvatarCustomizer implements OnInit, OnDestroy {
   private getUser(): void {
     const user_id = this.authService.getCurrentUserId();
     if (user_id === null) {
-      this.router.navigate(['/bad-gateway']);
+      this.router.navigate(['/not-found']);
       return;
     }
 
