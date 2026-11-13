@@ -1,8 +1,10 @@
+@let translatePath = 'PostContainer' + '.';
+
 <div
   class="post-container"
   [class.is-fluid]="isFluid()"
 >
-  @if (postDataLoaded || mode === 'create') {
+  @if (postDataLoaded) {
     @if (mode === 'view') {
       <app-post-view
         [context]="context"
@@ -14,7 +16,7 @@
         (modeChange)="mode = $event"
         (resourceRefreshRequest)="updatePost()"
       ></app-post-view>
-    } @else if (mode === 'edit' && post) {
+    } @else if (mode === 'edit') {
       <app-post-form
         [mode]="mode"
         [post]="post"
@@ -23,6 +25,6 @@
       ></app-post-form>
     }
   } @else {
-    <p>Lade Beitrag...</p>
+    <app-loading [inputTranslatePath]="translatePath"></app-loading>
   }
 </div>

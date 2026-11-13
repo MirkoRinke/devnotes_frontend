@@ -1,4 +1,4 @@
-import { Component, inject, DestroyRef } from '@angular/core';
+import { Component, inject, DestroyRef, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { combineLatest } from 'rxjs';
 import { HttpParams } from '@angular/common/http';
@@ -16,36 +16,37 @@ import type { ResourceRefreshInterface } from '../../interfaces/post-form';
 import { ApiEndpointEnums } from '../../enums/api-endpoint';
 import { PostView } from '../../components/post/post-view/post-view';
 import { PostForm } from '../../components/post/post-form/post-form';
+import { Loading } from '../../components/loading/loading';
 
 @Component({
   selector: 'app-post',
-  imports: [PostView, PostForm],
+  imports: [PostView, PostForm, Loading],
   templateUrl: './post.html',
   styleUrl: './post.scss',
 })
-export class Post {
-  context: PostParamsInterface['context'] = null;
-  endPoint: PostParamsInterface['endPoint'] = null;
-  selectedEntity: PostParamsInterface['selectedEntity'] = null;
-  selectedEntityValue: PostParamsInterface['selectedEntityValue'] = null;
-  selectedPostType: PostParamsInterface['selectedPostType'] = null;
+export class Post implements OnInit {
+  public context: PostParamsInterface['context'] = null;
+  public endPoint: PostParamsInterface['endPoint'] = null;
+  public selectedEntity: PostParamsInterface['selectedEntity'] = null;
+  public selectedEntityValue: PostParamsInterface['selectedEntityValue'] = null;
+  public selectedPostType: PostParamsInterface['selectedPostType'] = null;
 
-  post: PostInterface = {} as PostInterface;
+  public post: PostInterface = {} as PostInterface;
 
-  postDataLoaded: boolean = false;
-  mode = 'view';
+  public postDataLoaded: boolean = false;
+  public mode = 'view';
 
-  necessaryUserFields: string = 'display_name,avatar_items,is_following,avatar_mvp_id';
+  private readonly necessaryUserFields: string = 'display_name,avatar_items,is_following,avatar_mvp_id';
 
-  private destroyRef = inject(DestroyRef);
+  private readonly destroyRef = inject(DestroyRef);
 
-  public readonly appSettingsService = inject(AppSettingsService);
+  private readonly appSettingsService = inject(AppSettingsService);
   public readonly isFluid = this.appSettingsService.isFluid;
 
   constructor(
-    private route: ActivatedRoute,
-    private apiService: ApiService,
-    private router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly apiService: ApiService,
+    private readonly router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -73,7 +74,7 @@ export class Post {
   /**
    * Update the current post with new data from the child component or reload it from the API
    */
-  updatePost(event?: ResourceRefreshInterface): void {
+  public updatePost(event?: ResourceRefreshInterface): void {
     if (event?.updatedPost) {
       this.post = { ...this.post, ...event.updatedPost };
       if (event.entity && event.entityValue) {
@@ -138,16 +139,15 @@ export class Post {
     this.apiService.get<ApiResponseObjektInterface<PostInterface>>(url).subscribe({
       next: (response) => {
         this.post = response.data.data;
-        this.postDataLoaded = true;
         if (this.checkAllowedEntityValue(response.data.data)) {
-          this.router.navigate(['/']);
           console.warn('Invalid entity value');
-          return;
+          this.router.navigate(['/bad-gateway']);
         }
+        this.postDataLoaded = true;
       },
-      error: (error) => {
-        this.router.navigate(['/']);
-        console.error('Error fetching posts list:', error);
+      error: () => {
+        console.error('Error fetching posts list');
+        this.router.navigate(['/bad-gateway']);
       },
     });
   }
