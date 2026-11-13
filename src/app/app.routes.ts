@@ -20,6 +20,7 @@ import { AvatarSettings } from './pages/avatar-settings/avatar-settings';
 import { AccountSettings } from './pages/account-settings/account-settings';
 import { AppSettings } from './pages/app-settings/app-settings';
 import { BadGateway } from './pages/bad-gateway/bad-gateway';
+import { NotFound } from './pages/not-found/not-found';
 import { DontDuckWithMe } from './pages/dont-duck-with-me/dont-duck-with-me';
 import { Imprint } from './pages/legal/imprint/imprint';
 import { Privacy } from './pages/legal/privacy/privacy';
@@ -48,10 +49,12 @@ export const routes: Routes = [
   { path: 'account-settings', component: AccountSettings },
   { path: 'app-settings', component: AppSettings },
   { path: 'bad-gateway', component: BadGateway },
+  { path: 'not-found', component: NotFound },
   { path: 'dont-duck-with-me', component: DontDuckWithMe },
   { path: 'legal/imprint', component: Imprint },
   { path: 'legal/privacy', component: Privacy },
   { path: 'legal/terms', component: Terms },
   { path: 'legal/legal-mobile', component: LegalMobile },
   { path: 'contact', component: Contact },
+  { path: '**', component: NotFound },
 ];
