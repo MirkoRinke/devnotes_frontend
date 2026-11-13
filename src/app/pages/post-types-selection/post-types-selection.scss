@@ -4,6 +4,7 @@
 
 :host {
   --content-max-width: #{var.$content-max-width};
+  @include fluid-content-max-width('post-types-selection');
 
   --tile-width: #{px-to-rem(280)};
   --tile-height: #{px-to-rem(280)};
@@ -26,10 +27,6 @@
 }
 
 .post-types-selection {
-  &.is-fluid {
-    --content-max-width: 100%;
-  }
-
   margin-bottom: px-to-rem(40);
   max-width: var(--content-max-width);
   margin-inline: auto;
