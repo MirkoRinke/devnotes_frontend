@@ -51,6 +51,13 @@ export class Post implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.initRouteListener();
+  }
+
+  /**
+   * Initialize the route listener to handle changes in route parameters and query parameters.
+   */
+  initRouteListener(): void {
     combineLatest([this.route.paramMap, this.route.queryParams])
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(([path, params]) => {
@@ -142,13 +149,14 @@ export class Post implements OnInit {
         this.post = response.data.data;
         if (this.checkAllowedEntityValue(response.data.data)) {
           console.warn('Invalid entity value');
-          this.router.navigate(['/bad-gateway']);
+          this.router.navigate(['/not-found']);
+          return;
         }
         this.postDataLoaded = true;
       },
-      error: () => {
-        console.error('Error fetching posts list');
-        this.router.navigate(['/bad-gateway']);
+      error: (error) => {
+        const target = error.status === 404 ? '/not-found' : '/bad-gateway';
+        this.router.navigate([target]);
       },
     });
   }
