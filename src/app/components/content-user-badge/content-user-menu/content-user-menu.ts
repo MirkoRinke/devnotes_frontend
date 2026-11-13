@@ -1,7 +1,9 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, inject, DestroyRef } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { RovingFocusDirective } from '../../../directives/roving-focus.directive';
+import { AutoFocusDirective } from '../../../directives/auto-focus.directive';
 
 import { TranslatePipe } from '../../../i18n/translate-pipe';
 
@@ -14,7 +16,7 @@ import { ApiEndpointEnums } from '../../../enums/api-endpoint';
 
 @Component({
   selector: 'app-content-user-menu',
-  imports: [RouterModule, TranslatePipe, RovingFocusDirective],
+  imports: [RouterModule, TranslatePipe, RovingFocusDirective, AutoFocusDirective],
   templateUrl: './content-user-menu.html',
   styleUrl: './content-user-menu.scss',
 })
@@ -30,6 +32,8 @@ export class ContentUserMenu {
 
   public isProcessingFollow: boolean = false;
 
+  private readonly destroyRef = inject(DestroyRef);
+
   constructor(
     public readonly authService: AuthService,
     private readonly apiService: ApiService,
@@ -40,7 +44,7 @@ export class ContentUserMenu {
    * triggered onAnimationEnd when animated out
    */
   public onClose(): void {
-    this.menuAnimating = false;
+    this.closeMenu.emit();
   }
 
   /**
@@ -73,15 +77,17 @@ export class ContentUserMenu {
 
     user.is_following = !user.is_following;
 
-    this.apiService[method](url).subscribe({
-      next: () => {
-        this.isProcessingFollow = false;
-      },
-      error: () => {
-        user.is_following = !user.is_following;
-        this.isProcessingFollow = false;
-      },
-    });
+    this.apiService[method](url)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => {
+          this.isProcessingFollow = false;
+        },
+        error: () => {
+          user.is_following = !user.is_following;
+          this.isProcessingFollow = false;
+        },
+      });
   }
 
   /**

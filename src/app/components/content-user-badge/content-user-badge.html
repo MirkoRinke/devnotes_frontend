@@ -35,7 +35,7 @@
       [attr.aria-label]="translatePathAriaLabel + 'userBadge' | translate: { name: user.display_name ?? '' }"
       [attr.aria-expanded]="menuOpen"
       [attr.aria-haspopup]="'menu'"
-      [attr.aria-controls]="menuId"
+      [attr.aria-controls]="menuOpen ? menuId : null"
     >
       <app-avatar-layer
         [menuOpen]="menuOpen"

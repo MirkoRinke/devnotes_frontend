@@ -11,12 +11,14 @@
     (animationend)="onAnimationEnd($event)"
     appRovingFocusDirective
     [appInputFocusElements]="'[role=menuitem]'"
+    appAutoFocusDirective
   >
     <a
       class="value"
       role="menuitem"
       [routerLink]="['/user-profile', user.id]"
       (click)="onClose()"
+      appAutoFocusTarget
     >
       {{ isOwner(user) ? (translatePath + 'myProfile' | translate) : (translatePath + 'viewProfile' | translate) }}
     </a>
