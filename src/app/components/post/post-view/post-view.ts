@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import type { PostInterface } from '../../../interfaces/post';
 import type { PostResourceModalInterface, PostResourceType } from '../../../interfaces/post-resource-modal';
 import type { ExternalSourceInterface } from '../../../interfaces/post-external-source';
+import type { PostMode } from '../../../interfaces/post-mode';
 
 import { PostResourceModal } from './post-resource-modal/post-resource-modal';
 
@@ -66,7 +67,7 @@ export class PostView implements OnChanges {
   isReportModalOpen = false;
   isReportModalAnimating = false;
 
-  @Output() modeChange = new EventEmitter<string>();
+  @Output() modeChange = new EventEmitter<PostMode>();
 
   isDeleteModalOpen = false;
   isDeleteModalAnimating = false;
@@ -230,7 +231,7 @@ export class PostView implements OnChanges {
     return this.authService.isOwner(post?.user_id ?? null);
   }
 
-  switchMode(mode: 'edit') {
+  switchMode(mode: PostMode) {
     this.modeChange.emit(mode);
   }
 }

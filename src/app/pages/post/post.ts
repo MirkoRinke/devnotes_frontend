@@ -12,6 +12,7 @@ import type { PostInterface } from '../../interfaces/post';
 import type { PostParamsInterface } from '../../interfaces/post-params';
 import type { Params } from '@angular/router';
 import type { ResourceRefreshInterface } from '../../interfaces/post-form';
+import type { PostMode } from '../../interfaces/post-mode';
 
 import { ApiEndpointEnums } from '../../enums/api-endpoint';
 import { PostView } from '../../components/post/post-view/post-view';
@@ -34,7 +35,7 @@ export class Post implements OnInit {
   public post: PostInterface = {} as PostInterface;
 
   public postDataLoaded: boolean = false;
-  public mode = 'view';
+  public mode: PostMode = 'view';
 
   private readonly necessaryUserFields: string = 'display_name,avatar_items,is_following,avatar_mvp_id';
 

@@ -3,6 +3,8 @@ import { Component, Output, EventEmitter } from '@angular/core';
 import { SvgIconsService } from '../../../../services/svg.icons.service';
 import { RouterLink } from '@angular/router';
 
+import type { PostMode } from '../../../../interfaces/post-mode';
+
 @Component({
   selector: 'app-post-settings-dropdown',
   imports: [RouterLink],
@@ -10,7 +12,7 @@ import { RouterLink } from '@angular/router';
   styleUrl: './post-settings-dropdown.scss',
 })
 export class PostSettingsDropdown {
-  @Output() modeChange = new EventEmitter<string>();
+  @Output() modeChange = new EventEmitter<PostMode>();
   @Output() deletePost = new EventEmitter<void>();
 
   isPostSettingsDropdownOpen = false;
@@ -47,7 +49,7 @@ export class PostSettingsDropdown {
    *
    * @param mode
    */
-  switchMode(mode: 'edit' | 'create') {
+  switchMode(mode: PostMode) {
     this.modeChange.emit(mode);
   }
 

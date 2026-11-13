@@ -23,6 +23,7 @@ import type { UserInterface } from '../../../interfaces/user';
 import type { TagsInterface } from '../../../interfaces/tags';
 import type { TechStackSelectedValueInterface, ResourceRefreshInterface, PostFormErrorsInterface, TerminalLineInterface, ErrorCodeMessagesInterface } from '../../../interfaces/post-form';
 import type { ExternalSourceInterface } from '../../../interfaces/post-external-source';
+import type { PostMode } from '../../../interfaces/post-mode';
 
 import { badgeMessagesInit } from '../../../interfaces/validation-messages';
 
@@ -63,10 +64,10 @@ import { ContentUserBadge } from '../../content-user-badge/content-user-badge';
   styleUrl: './post-form.scss',
 })
 export class PostForm {
-  @Input() mode: 'create' | 'edit' = 'create';
+  @Input() mode: PostMode = 'create';
   @Input() post: PostInterface | null = null;
 
-  @Output() modeChange = new EventEmitter<'view'>();
+  @Output() modeChange = new EventEmitter<PostMode>();
   @Output() resourceRefresh = new EventEmitter<ResourceRefreshInterface>();
 
   currentDate = new Date();
@@ -251,7 +252,7 @@ export class PostForm {
    *
    * @param messageMode The mode of the form, either 'edit' or 'create', used to determine which initial messages to display in the terminal log.
    */
-  private initialMessages(messageMode: string): void {
+  private initialMessages(messageMode: PostMode): void {
     if (messageMode === 'edit') {
       this.pushNewTerminalMessage(
         [
@@ -617,7 +618,7 @@ export class PostForm {
    *
    * @param newMode
    */
-  public switchMode(newMode: 'view') {
+  public switchMode(newMode: PostMode) {
     this.modeChange.emit(newMode);
   }
 
