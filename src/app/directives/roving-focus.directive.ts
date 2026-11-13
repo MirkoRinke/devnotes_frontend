@@ -1,4 +1,5 @@
 import { Directive, ElementRef, HostListener, Input } from '@angular/core';
+import { queryFocusableElements } from '../utils/dom-helper';
 
 @Directive({
   selector: '[appRovingFocusDirective]',
@@ -29,10 +30,13 @@ export class RovingFocusDirective {
 
   private move(direction: 1 | -1): void {
     const selector = this.inputFocusElements ? `${this.defaultFocusElements},${this.inputFocusElements}` : this.defaultFocusElements;
-    const items = Array.from(this.el.nativeElement.querySelectorAll<HTMLElement>(selector));
+    const items = queryFocusableElements(this.el.nativeElement, selector);
+
     if (items.length === 0) return;
+
     const currentIndex = items.indexOf(document.activeElement as HTMLElement);
     const nextIndex = currentIndex === -1 ? (direction === 1 ? 0 : items.length - 1) : (currentIndex + direction + items.length) % items.length;
+
     items[nextIndex].focus();
   }
 }
