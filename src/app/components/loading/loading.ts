@@ -11,6 +11,7 @@ import type { ParamsInterface } from '../../interfaces/error-handling';
   styleUrl: './loading.scss',
 })
 export class Loading implements OnInit, OnDestroy {
+  @Input() inputTranslatePath: string | null = null;
   @Input() params: ParamsInterface | null = null;
   @Input() defaultTimeout: number = 1000;
 

@@ -1,10 +1,11 @@
 @let translatePath = 'Loading' + '.';
+@let parentTranslatePath = inputTranslatePath;
 
 @if (showLoadingIndicator) {
   <div
     class="loading"
     role="status"
   >
-    <span class="loading-text">{{ translatePath + ariaLabelKey() | translate: ariaLabelParams() }}</span>
+    <span class="loading-text">{{ (parentTranslatePath ?? translatePath) + ariaLabelKey() | translate: ariaLabelParams() }}</span>
   </div>
 }
