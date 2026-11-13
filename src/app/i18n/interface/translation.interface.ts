@@ -48,6 +48,7 @@ import { FarewellMessagesInterface } from './pages/farewell.interface';
 import { FavoritesMessagesInterface } from './pages/favorites.interface';
 import { GoodbyeMessagesInterface } from './pages/goodbye.interface';
 import { MyAreaMessagesInterface } from './pages/my-area.interface';
+import { PostContainerMessagesInterface } from './pages/post-container.interface';
 
 export interface Content extends ContentUI, LegalContent, Notifications {}
 
@@ -97,6 +98,7 @@ export interface Pages {
   Favorites: FavoritesMessagesInterface;
   Goodbye: GoodbyeMessagesInterface;
   MyArea: MyAreaMessagesInterface;
+  PostContainer: PostContainerMessagesInterface;
 }
 
 export interface Pages {

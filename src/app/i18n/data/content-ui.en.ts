@@ -525,4 +525,8 @@ export const CONTENT_UI_EN: ContentUI = {
     },
     ariaLabel: {},
   },
+  PostContainer: {
+    loading: 'Loading post...',
+    ariaLabel: {},
+  },
 };
