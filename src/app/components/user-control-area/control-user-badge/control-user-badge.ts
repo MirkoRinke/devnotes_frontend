@@ -1,10 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit, inject, DestroyRef } from '@angular/core';
 
 import { AuthService } from '../../../services/auth.service';
 
 import { TranslatePipe } from '../../../i18n/translate-pipe';
 
 import { ClickOutsideDirective } from '../../../directives/click-outside.directive';
+import { EscapeCloseDirective } from '../../../directives/escape-close.directive';
 
 import type { UserInterface } from '../../../interfaces/user';
 
@@ -13,18 +14,29 @@ import { ControlUserMenu } from './control-user-menu/control-user-menu';
 
 @Component({
   selector: 'app-control-user-badge',
-  imports: [ClickOutsideDirective, AvatarLayer, ControlUserMenu, TranslatePipe],
+  imports: [ClickOutsideDirective, EscapeCloseDirective, AvatarLayer, ControlUserMenu, TranslatePipe],
   templateUrl: './control-user-badge.html',
   styleUrl: './control-user-badge.scss',
 })
-export class ControlUserBadge {
+export class ControlUserBadge implements OnInit {
   @Input() user: UserInterface | null = null;
   @Input() menuActive: boolean = false;
+
+  private static nextId = 0;
+  public readonly menuId = `control-user-menu-${ControlUserBadge.nextId++}`;
 
   public menuOpen = false;
   public menuAnimating = false;
 
+  private readonly destroyRef = inject(DestroyRef);
+
+  private closeTimer?: ReturnType<typeof setTimeout>;
+
   constructor(public readonly authService: AuthService) {}
+
+  ngOnInit(): void {
+    this.destroyRef.onDestroy(() => clearTimeout(this.closeTimer));
+  }
 
   /**
    * Toggle Badge Menu from user badge button click
@@ -37,7 +49,7 @@ export class ControlUserBadge {
       this.menuAnimating = false;
     } else {
       this.menuOpen = true;
-      requestAnimationFrame(() => (this.menuAnimating = true));
+      this.menuAnimating = true;
     }
   }
 
@@ -45,7 +57,9 @@ export class ControlUserBadge {
    * Close Badge Menu from menu component
    */
   public closeBadgeMenu(): void {
+    clearTimeout(this.closeTimer);
     this.menuOpen = false;
+    this.menuAnimating = false;
   }
 
   /**
@@ -53,6 +67,12 @@ export class ControlUserBadge {
    * This method is called when a click outside the badge menu is detected
    */
   public triggerCloseBadgeMenu(): void {
+    if (!this.menuOpen) return;
     this.menuAnimating = false;
+    /**
+     * Fallback to close the menu after animation duration
+     */
+    clearTimeout(this.closeTimer);
+    this.closeTimer = setTimeout(() => this.closeBadgeMenu(), 1000);
   }
 }

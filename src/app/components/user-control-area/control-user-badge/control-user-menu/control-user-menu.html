@@ -2,17 +2,24 @@
 
 <div
   class="values"
+  [id]="menuId"
+  role="menu"
   [class.active]="isUserBadgeMenuOpen"
   [class.animated-in]="isUserBadgeMenuAnimating"
   [class.animated-out]="!isUserBadgeMenuAnimating"
   (animationend)="onAnimationEnd($event)"
+  appRovingFocusDirective
+  [appInputFocusElements]="'[role=menuitem]'"
+  appAutoFocusDirective
 >
   @if (authService.isLoggedIn() && user) {
     @for (navigationLink of userNavigationLinks; track $index) {
       <a
         class="value"
+        role="menuitem"
         [routerLink]="getLinkPath(navigationLink, user)"
         (click)="onClose()"
+        appAutoFocusTarget
       >
         <span
           class="icon-container"
@@ -22,9 +29,13 @@
         >{{ translatePath + navigationLink.label | translate }}
       </a>
     }
-    <span class="divider"></span>
+    <span
+      class="divider"
+      role="separator"
+    ></span>
     <a
       class="value legal-mobile"
+      role="menuitem"
       [routerLink]="['/legal/legal-mobile']"
       (click)="onClose()"
     >
@@ -37,6 +48,8 @@
     </a>
     <button
       class="value"
+      role="menuitem"
+      type="button"
       (click)="onClose(); logoutService.logout()"
     >
       <span
@@ -49,6 +62,7 @@
   } @else {
     <a
       class="value"
+      role="menuitem"
       [routerLink]="['/login']"
       (click)="onClose()"
     >
@@ -61,6 +75,7 @@
     </a>
     <a
       class="value"
+      role="menuitem"
       [routerLink]="['/register']"
       (click)="onClose()"
     >
@@ -73,6 +88,7 @@
     </a>
     <a
       class="value legal-mobile"
+      role="menuitem"
       [routerLink]="['/legal/legal-mobile']"
       (click)="onClose()"
     >

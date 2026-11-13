@@ -9,13 +9,19 @@
 >
   <button
     class="user-badge"
-    type="button"
+    [class.active]="menuActive"
+    [disabled]="!menuActive"
+    #toggleButton
     (click)="toggleBadgeMenu()"
-    [class.menu-active]="menuActive"
+    type="button"
+    appEscapeCloseDirective
+    [appEscapeCloseEnabled]="menuOpen"
+    [appEscapeClose]="toggleButton"
+    (escapePressed)="triggerCloseBadgeMenu()"
     [attr.aria-label]="translatePathAriaLabel + (menuOpen ? 'closeMenu' : 'openMenu') | translate"
     [attr.aria-expanded]="menuOpen"
-    aria-controls="control-user-menu"
-    [disabled]="!menuActive"
+    [attr.aria-haspopup]="'menu'"
+    [attr.aria-controls]="menuOpen ? menuId : null"
   >
     @if (authService.isLoggedIn() && user) {
       <app-avatar-layer
@@ -34,8 +40,8 @@
 
   @if (menuActive && menuOpen) {
     <app-control-user-menu
-      id="control-user-menu"
       [user]="user"
+      [menuId]="menuId"
       [isUserBadgeMenuOpen]="menuOpen"
       [isUserBadgeMenuAnimating]="menuAnimating"
       (closeMenu)="closeBadgeMenu()"

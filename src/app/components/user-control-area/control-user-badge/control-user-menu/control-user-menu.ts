@@ -5,6 +5,9 @@ import { AuthService } from '../../../../services/auth.service';
 import { LogoutService } from '../../../../services/logout.service';
 import { SvgIconsService } from '../../../../services/svg.icons.service';
 
+import { RovingFocusDirective } from '../../../../directives/roving-focus.directive';
+import { AutoFocusDirective } from '../../../../directives/auto-focus.directive';
+
 import { TranslatePipe } from '../../../../i18n/translate-pipe';
 
 import type { UserInterface } from '../../../../interfaces/user';
@@ -12,12 +15,13 @@ import type { NavigationLinksInterface } from '../../../../interfaces/navigation
 
 @Component({
   selector: 'app-control-user-menu',
-  imports: [RouterModule, TranslatePipe],
+  imports: [RouterModule, TranslatePipe, RovingFocusDirective, AutoFocusDirective],
   templateUrl: './control-user-menu.html',
   styleUrl: './control-user-menu.scss',
 })
 export class ControlUserMenu {
   @Input() user: UserInterface | null = null;
+  @Input() menuId: string = '';
 
   @Input() isUserBadgeMenuOpen: boolean = false;
   @Input() isUserBadgeMenuAnimating: boolean = false;
@@ -44,7 +48,7 @@ export class ControlUserMenu {
    * @param user
    * @returns
    */
-  getLinkPath(link: { path: string }, user: UserInterface): (string | number)[] {
+  public getLinkPath(link: { path: string }, user: UserInterface): (string | number)[] {
     return link.path === '/user-profile' ? [link.path, user.id] : [link.path];
   }
 
@@ -52,8 +56,8 @@ export class ControlUserMenu {
    * Handle close event from parent component
    * triggered onAnimationEnd when animated out
    */
-  onClose(): void {
-    this.isUserBadgeMenuAnimating = false;
+  public onClose(): void {
+    this.closeMenu.emit();
   }
 
   /**
@@ -61,7 +65,7 @@ export class ControlUserMenu {
    *
    * @param event
    */
-  onAnimationEnd(event: AnimationEvent): void {
+  public onAnimationEnd(event: AnimationEvent): void {
     if (event.animationName.endsWith('animated-out')) {
       this.closeMenu.emit();
     }

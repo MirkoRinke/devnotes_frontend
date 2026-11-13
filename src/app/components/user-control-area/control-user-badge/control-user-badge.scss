@@ -11,5 +11,9 @@
     @include button-preset();
     @include display-flex($align: center);
     height: 100%;
+
+    &:not(.active) {
+      cursor: default;
+    }
   }
 }
