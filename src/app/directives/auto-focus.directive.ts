@@ -1,9 +1,12 @@
-import { AfterViewInit, Directive, ElementRef, HostListener, OnDestroy } from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, HostListener, OnDestroy, Input } from '@angular/core';
+import { queryFocusableElements } from '../utils/dom-helper';
 
 @Directive({
   selector: '[appAutoFocusDirective]',
 })
 export class AutoFocusDirective implements AfterViewInit, OnDestroy {
+  @Input('appAutoFocusTrap') trap: boolean = true;
+
   private readonly focusableSelector = 'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
   private previouslyFocusedElement: HTMLElement | null = null;
@@ -14,7 +17,7 @@ export class AutoFocusDirective implements AfterViewInit, OnDestroy {
     this.previouslyFocusedElement = document.activeElement as HTMLElement;
 
     const preferredTarget = this.el.nativeElement.querySelector<HTMLElement>('[appAutoFocusTarget]');
-    const elementToFocus = preferredTarget ?? this.el.nativeElement.querySelector<HTMLElement>(this.focusableSelector);
+    const elementToFocus = preferredTarget ?? queryFocusableElements(this.el.nativeElement, this.focusableSelector)[0];
 
     if (elementToFocus) {
       elementToFocus.focus();
@@ -24,22 +27,23 @@ export class AutoFocusDirective implements AfterViewInit, OnDestroy {
     }
   }
 
-  @HostListener('keydown.tab', ['$event'])
-  onTab(event: Event): void {
-    this.trapFocus(event as KeyboardEvent, false);
-  }
-
-  @HostListener('keydown.shift.tab', ['$event'])
-  onShiftTab(event: Event): void {
-    this.trapFocus(event as KeyboardEvent, true);
-  }
-
   ngOnDestroy(): void {
     this.previouslyFocusedElement?.focus();
   }
 
+  @HostListener('keydown.tab', ['$event'])
+  public onTab(event: Event): void {
+    this.trapFocus(event as KeyboardEvent, false);
+  }
+
+  @HostListener('keydown.shift.tab', ['$event'])
+  public onShiftTab(event: Event): void {
+    this.trapFocus(event as KeyboardEvent, true);
+  }
+
   private trapFocus(event: KeyboardEvent, isShiftTab: boolean): void {
-    const focusableElements = Array.from(this.el.nativeElement.querySelectorAll<HTMLElement>(this.focusableSelector));
+    if (!this.trap) return;
+    const focusableElements = queryFocusableElements(this.el.nativeElement, this.focusableSelector);
     if (focusableElements.length === 0) return;
 
     const first = focusableElements[0];
