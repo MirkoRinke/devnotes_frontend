@@ -78,14 +78,14 @@ export class PostTypesSelection implements OnInit, OnDestroy {
       const parsed = this.parseQueryParams(params);
       if (!this.areParamsValid(parsed)) {
         console.warn('Invalid query parameters');
-        this.router.navigate(['/bad-gateway']);
+        this.router.navigate(['/not-found']);
         return;
       }
 
       const restrictedEndpoints = ['USER_POSTS', 'FAVORITE_POSTS'];
       if (parsed.endPoint && restrictedEndpoints.includes(parsed.endPoint) && this.currentUserId === null) {
         console.warn('Invalid access attempt to restricted endpoint without authentication');
-        this.router.navigate(['/bad-gateway']);
+        this.router.navigate(['/not-found']);
         return;
       }
 
