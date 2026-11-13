@@ -24,6 +24,12 @@
   }
 }
 
+@mixin fluid-content-max-width($class) {
+  .#{$class}.is-fluid {
+    --content-max-width: 100%;
+  }
+}
+
 @mixin svg-icon($icon-class, $height: 24px, $width: 24px, $min-size: 48px, $fill-color: null, $hover-fill-color: null, $active-fill-color: null, $open-fill-color: null) {
   @include display-flex($justify: center, $align: center);
 
