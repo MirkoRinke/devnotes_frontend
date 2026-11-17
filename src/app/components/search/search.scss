@@ -51,6 +51,10 @@
       @include input-feld($border-radius: 15px, $enableShadow: false);
       height: 100%;
     }
+
+    .sr-only {
+      @include sr-only();
+    }
   }
 
   .start-search {

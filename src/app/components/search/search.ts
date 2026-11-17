@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, AfterViewInit, Output, EventEmitter, inject, DestroyRef } from '@angular/core';
+import { Component, ViewChild, ElementRef, AfterViewInit, Output, Input, EventEmitter, inject, DestroyRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { Router, NavigationEnd } from '@angular/router';
@@ -10,19 +10,25 @@ import { SearchService } from '../../services/search.service';
 
 import { TranslatePipe } from '../../i18n/translate-pipe';
 
+import { ClickOutsideDirective } from '../../directives/click-outside.directive';
+import { EscapeCloseDirective } from '../../directives/escape-close.directive';
+
 @Component({
   selector: 'app-search',
-  imports: [CommonModule, TranslatePipe],
+  imports: [CommonModule, TranslatePipe, ClickOutsideDirective, EscapeCloseDirective],
   templateUrl: './search.html',
   styleUrl: './search.scss',
 })
 export class Search implements AfterViewInit {
   @ViewChild('searchInput') searchInput!: ElementRef<HTMLInputElement>;
+  @Input() searchOpen: boolean = false;
 
   @Output() closeSearchEvent = new EventEmitter<void>();
 
   private readonly destroyRef = inject(DestroyRef);
+  private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   private lastBaseUrl: string = '';
+  private previouslyFocusedElement: HTMLElement | null = null;
 
   public hasTags: boolean = false;
   public hasText: boolean = false;
@@ -111,6 +117,29 @@ export class Search implements AfterViewInit {
         this.updateIndicators(inputValue);
       }
     });
+  }
+
+  /**
+   * Moves the focus to the search input. Called by the parent when the search is opened,
+   * because the component exists (inert) before it becomes visible and AutoFocusDirective only runs once on init.
+   */
+  public focusInput(): void {
+    this.previouslyFocusedElement = document.activeElement as HTMLElement | null;
+    this.searchInput?.nativeElement.focus();
+  }
+
+  /**
+   * Returns the focus to the element that had it before the search was opened, if it is still in the DOM.
+   * Only done when the focus was lost with the search (body or inside the search), so a deliberate click on another element keeps its focus.
+   */
+  public restoreFocus(): void {
+    const active = document.activeElement;
+    const focusLostWithSearch = !active || active === document.body || this.host.nativeElement.contains(active);
+
+    if (focusLostWithSearch && this.previouslyFocusedElement?.isConnected) {
+      this.previouslyFocusedElement.focus();
+    }
+    this.previouslyFocusedElement = null;
   }
 
   /**

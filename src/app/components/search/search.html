@@ -4,6 +4,12 @@
 <div
   [attr.aria-disabled]="!(searchService.enableSearch$ | async)"
   class="search-container"
+  appClickOutsideDirective
+  [clickOutsideEnabled]="searchOpen"
+  (clickOutside)="closeSearch()"
+  appEscapeCloseDirective
+  [appEscapeCloseEnabled]="searchOpen"
+  (escapePressed)="closeSearch()"
 >
   <button
     class="close-search"
@@ -31,7 +37,14 @@
       (input)="updateIndicators(searchInput.value)"
       (keydown.enter)="startSearch(searchInput.value)"
       [attr.aria-disabled]="!(searchService.enableSearch$ | async)"
+      [attr.aria-describedby]="'search-hint'"
     />
+
+    <span
+      class="sr-only"
+      id="search-hint"
+      >{{ translatePath + 'escapeHint' | translate }}</span
+    >
   </search>
 
   <button
