@@ -41,6 +41,7 @@ export const CONTENT_UI_EN: ContentUI = {
   Search: {
     search: 'Search by text or #tags...',
     filter: 'Search...',
+    escapeHint: 'Press Escape to close the search',
     ariaLabel: {
       startSearch: 'Start search',
       closeSearch: 'Close search',
