@@ -1,21 +1,24 @@
 @let translatePath = 'PageNavigation' + '.';
 
+@let searchOpen = showSearch && (searchService.dataLoaded$ | async) && delayedSearch ? true : false;
+
 <nav class="page-navigation">
   @if (enableSearch) {
     <app-search
-      [class.active]="showSearch && (searchService.dataLoaded$ | async) && delayedSearch"
-      [class.animated-in]="showSearch && (searchService.dataLoaded$ | async) && delayedSearch"
+      [class.active]="searchOpen"
+      [class.animated-in]="searchOpen"
       [class.animated-out]="!showSearch && delayedSearch"
       (closeSearchEvent)="toggleSearch()"
       class="search"
       [attr.inert]="!showSearch ? '' : null"
+      [searchOpen]="searchOpen"
     ></app-search>
   }
 
   <div
-    [class.active]="!showSearch || !(searchService.dataLoaded$ | async) || !delayedSearch"
+    [class.active]="!searchOpen"
     [class.animated-in]="!showSearch && delayedSearch"
-    [class.animated-out]="showSearch && delayedSearch && (searchService.dataLoaded$ | async)"
+    [class.animated-out]="searchOpen"
     class="links"
     [attr.inert]="showSearch ? '' : null"
   >

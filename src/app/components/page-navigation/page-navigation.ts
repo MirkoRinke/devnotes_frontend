@@ -1,4 +1,4 @@
-import { Component, inject, DestroyRef, Input } from '@angular/core';
+import { Component, inject, DestroyRef, Injector, Input, ViewChild, afterNextRender } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { filter } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
@@ -25,6 +25,7 @@ import type { NavigationLinksInterface } from '../../interfaces/navigation-links
 export class PageNavigation {
   private context: PageContextEnums | null = null;
   @Input() enableSearch: boolean = false;
+  @ViewChild(Search) private searchComponent?: Search;
 
   readonly navigationLinks: NavigationLinksInterface[] = [
     { label: 'myArea', path: '/my-area', icon: 'my_area', context: PageContextEnums.MY_AREA },
@@ -43,6 +44,7 @@ export class PageNavigation {
   private lastBaseUrl: string = '';
 
   private readonly destroyRef = inject(DestroyRef);
+  private readonly injector = inject(Injector);
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -104,10 +106,12 @@ export class PageNavigation {
 
     if (this.showSearch) {
       this.searchService.showSearchResults();
+      afterNextRender(() => this.searchComponent?.focusInput(), { injector: this.injector });
       setTimeout(() => {
         this.delayedSearch = true;
       }, 250);
     } else {
+      afterNextRender(() => this.searchComponent?.restoreFocus(), { injector: this.injector });
       setTimeout(() => {
         this.delayedSearch = false;
       }, 500);
