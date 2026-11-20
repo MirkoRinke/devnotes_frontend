@@ -12,8 +12,9 @@ import { UserNameAvailabilityService } from '../../../services/user-name-availab
 import { TranslationService } from '../../../i18n/translation.service';
 import { TranslatePipe } from '../../../i18n/translate-pipe';
 
-import { BadgeMessageHandler } from '../../../utils/badge-message-handler';
 import { AUTH_FORMS_CONFIG } from '../../../config/auth-forms.config';
+import { BadgeMessageHandler } from '../../../utils/badge-message-handler';
+import { isInvalid, getFormErrors, collectAllFormErrors, applyFieldErrorMessages, getConfirmationErrorMessage } from '../../../utils/auth-form-helpers';
 
 import type {
   AccountSettingsFormErrorsInterface,
@@ -338,42 +339,9 @@ export class AccountUpdateForm {
    * It iterates through the defined fields and checks if there are any errors for each field.
    */
   private setErrorMessage(): void {
-    const controlErrors = this.getFormErrors();
-    const formErrors = this.accountSettingsForm?.errors || {};
-    const allErrors = { ...controlErrors, ...formErrors };
-
-    this.messageKeys.forEach((field) => {
-      if (allErrors[field]) {
-        const validatorKey = Object.keys(allErrors[field])[0];
-        this.msg.setMessage(field, 'error', validatorKey);
-      } else {
-        this.msg.clearMessage(field);
-      }
-    });
-
-    if (allErrors['passwordMismatch']) {
-      this.msg.setMessage('passwordMismatch', 'error', 'passwordMismatch');
-    }
-
-    if (allErrors['emailMismatch']) {
-      this.msg.setMessage('emailMismatch', 'error', 'emailMismatch');
-    }
-  }
-
-  /**
-   * Retrieves the validation errors from the form controls and returns an object containing the errors for each control.
-   * It iterates through the form controls, checks if they are invalid, and if so, adds their errors to the resulting object.
-   *
-   * @returns
-   */
-  private getFormErrors(): { [key: string]: AccountSettingsFormErrorsInterface } {
-    const errors: { [key: string]: AccountSettingsFormErrorsInterface } = {};
-    Object.entries(this.accountSettingsForm?.controls || {}).forEach(([key, control]) => {
-      if (control.invalid && control.errors) {
-        errors[key] = control.errors;
-      }
-    });
-    return errors;
+    const controlErrors = getFormErrors<AccountSettingsFormErrorsInterface>(this.accountSettingsForm);
+    const allErrors = collectAllFormErrors(this.accountSettingsForm, controlErrors);
+    applyFieldErrorMessages(this.messageKeys, allErrors, this.msg);
   }
 
   /**
@@ -383,41 +351,26 @@ export class AccountUpdateForm {
    * @returns True if the control is invalid and has been touched, otherwise false.
    */
   public isInvalid(controlName: keyof AccountSettingsFormControlsInterface): boolean {
-    const control = this.accountSettingsForm?.get(controlName);
-    return control?.invalid && control?.touched ? true : false;
+    return isInvalid(controlName, this.accountSettingsForm);
   }
 
   /**
-   * Retrieves the appropriate error message for the password confirmation field based on its validation state.
+   * Retrieves the error message for the password confirmation field if there is a validation error.
+   * It checks for both control-level and form-level errors related to password confirmation.
+   *
+   * @returns The corresponding BadgeMessagesInterface if an error is found, otherwise null.
    */
   public get passwordConfirmationErrorMessage(): BadgeMessagesInterface | null {
-    const control = this.accountSettingsForm?.get('password_confirmation');
-
-    if (control?.invalid && control?.touched) {
-      return this.messages['password_confirmation'];
-    }
-
-    if (this.accountSettingsForm?.hasError('passwordMismatch')) {
-      return this.messages['passwordMismatch'];
-    }
-
-    return null;
+    return getConfirmationErrorMessage(this.accountSettingsForm, 'password_confirmation', 'passwordMismatch', this.messages);
   }
 
   /**
-   * Retrieves the appropriate error message for the email confirmation field based on its validation state.
+   * Retrieves the error message for the email confirmation field if there is a validation error.
+   * It checks for both control-level and form-level errors related to email confirmation.
+   *
+   * @returns The corresponding BadgeMessagesInterface if an error is found, otherwise null.
    */
   public get emailConfirmationErrorMessage(): BadgeMessagesInterface | null {
-    const control = this.accountSettingsForm?.get('email_confirmation');
-
-    if (control?.invalid && control?.touched) {
-      return this.messages['email_confirmation'];
-    }
-
-    if (this.accountSettingsForm?.hasError('emailMismatch')) {
-      return this.messages['emailMismatch'];
-    }
-
-    return null;
+    return getConfirmationErrorMessage(this.accountSettingsForm, 'email_confirmation', 'emailMismatch', this.messages);
   }
 }
