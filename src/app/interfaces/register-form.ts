@@ -8,6 +8,7 @@ export interface RegisterFormErrorsInterface {
   pattern?: { requiredPattern: string; actualValue: string };
   requiredTrue?: boolean;
 
+  // Custom form-level validators
   passwordMismatch?: boolean;
 }
 
