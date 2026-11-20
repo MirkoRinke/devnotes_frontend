@@ -1,8 +1,8 @@
-import { BadgeMessagesInterface, badgeMessagesInit } from '../interfaces/validation-messages';
+import { BadgeMessagesInterface, badgeMessagesInit, MessageHandler } from '../interfaces/validation-messages';
 import type { ParamsInterface } from '../interfaces/error-handling';
 import { TranslationService } from '../i18n/translation.service';
 
-export class BadgeMessageHandler<T extends Record<keyof T, BadgeMessagesInterface>> {
+export class BadgeMessageHandler<T extends Record<keyof T, BadgeMessagesInterface>> implements MessageHandler<Extract<keyof T, string>> {
   private _timeout: number | null = null;
 
   constructor(
@@ -18,7 +18,7 @@ export class BadgeMessageHandler<T extends Record<keyof T, BadgeMessagesInterfac
    * The message is then stored in the messages object under the specified field and type.
    *
    * @param field The field for which the message is being set.
-   * @param type The type of message (e.g., 'error', 'warning', 'info').
+   * @param type The type of message (e.g., 'error', 'success', 'info').
    * @param validatorKey The key identifying the specific validation rule.
    * @param params Optional parameters to be passed to the translation service.
    */
