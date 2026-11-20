@@ -8,8 +8,9 @@ import { ApiErrorHandlingService } from '../../../services/api-error-handling.se
 import { TranslationService } from '../../../i18n/translation.service';
 import { TranslatePipe } from '../../../i18n/translate-pipe';
 
-import { BadgeMessageHandler } from '../../../utils/badge-message-handler';
 import { AUTH_FORMS_CONFIG } from '../../../config/auth-forms.config';
+import { BadgeMessageHandler } from '../../../utils/badge-message-handler';
+import { getDuckIcon, isInvalid, getFormErrors, applyFieldErrorMessages } from '../../../utils/auth-form-helpers';
 
 import type { LoginFormErrorsInterface, LoginFormInterface, LoginMessagesInterface, LoginFormControlsInterface } from '../../../interfaces/login-form';
 import type { BackendErrorResponseInterface, BusinessActionInterface, ParamsInterface } from '../../../interfaces/error-handling';
@@ -213,32 +214,8 @@ export class LoginForm {
    * It iterates through the defined fields and checks if there are any errors for each field.
    */
   private setErrorMessage(): void {
-    const errors = this.getFormErrors();
-
-    this.messageKeys.forEach((field) => {
-      if (errors[field]) {
-        const validatorKey = Object.keys(errors[field])[0];
-        this.msg.setMessage(field, 'error', validatorKey);
-      } else {
-        this.msg.clearMessage(field);
-      }
-    });
-  }
-
-  /**
-   * Retrieves the validation errors from the form controls and returns an object containing the errors for each control.
-   * It iterates through the form controls, checks if they are invalid, and if so, adds their errors to the resulting object.
-   *
-   * @returns An object containing the validation errors for each form control.
-   */
-  private getFormErrors(): { [key: string]: LoginFormErrorsInterface } {
-    const errors: { [key: string]: LoginFormErrorsInterface } = {};
-    Object.entries(this.loginForm?.controls || {}).forEach(([key, control]) => {
-      if (control.invalid && control.errors) {
-        errors[key] = control.errors;
-      }
-    });
-    return errors;
+    const errors = getFormErrors<LoginFormErrorsInterface>(this.loginForm);
+    applyFieldErrorMessages(this.messageKeys, errors, this.msg);
   }
 
   /**
@@ -248,8 +225,7 @@ export class LoginForm {
    * @returns True if the control is invalid and has been touched, otherwise false.
    */
   public isInvalid(controlName: keyof LoginFormControlsInterface): boolean {
-    const control = this.loginForm?.get(controlName);
-    return control?.invalid && control?.touched ? true : false;
+    return isInvalid(controlName, this.loginForm);
   }
 
   /**
@@ -258,12 +234,6 @@ export class LoginForm {
    * @returns The name of the duck icon to display.
    */
   public getDuckIcon(): string {
-    if (!this.isPasswordFocused) return 'login_normal_duck';
-
-    const length = this.loginForm?.get('password')?.value?.length || 0;
-
-    if (length === 0) return 'login_half_closed_duck_1';
-    if (length <= 2) return 'login_half_closed_duck_2';
-    return 'login_close_duck';
+    return getDuckIcon('login', this.isPasswordFocused, this.loginForm?.get('password')?.value);
   }
 }
