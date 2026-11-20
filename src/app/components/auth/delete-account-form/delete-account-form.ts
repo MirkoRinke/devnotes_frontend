@@ -9,8 +9,9 @@ import { ApiErrorHandlingService } from '../../../services/api-error-handling.se
 import { TranslationService } from '../../../i18n/translation.service';
 import { TranslatePipe } from '../../../i18n/translate-pipe';
 
-import { BadgeMessageHandler } from '../../../utils/badge-message-handler';
 import { AUTH_FORMS_CONFIG } from '../../../config/auth-forms.config';
+import { BadgeMessageHandler } from '../../../utils/badge-message-handler';
+import { getDuckIcon, isInvalid, getFormErrors, applyFieldErrorMessages } from '../../../utils/auth-form-helpers';
 
 import { AuthService } from '../../../services/auth.service';
 
@@ -174,32 +175,8 @@ export class DeleteAccountForm {
    * It iterates through the defined fields and checks if there are any errors for each field.
    */
   private setErrorMessage(): void {
-    const errors = this.getFormErrors();
-
-    this.messageKeys.forEach((field) => {
-      if (errors[field]) {
-        const validatorKey = Object.keys(errors[field])[0];
-        this.msg.setMessage(field, 'error', validatorKey);
-      } else {
-        this.msg.clearMessage(field);
-      }
-    });
-  }
-
-  /**
-   * Retrieves the validation errors from the form controls and returns an object containing the errors for each control.
-   * It iterates through the form controls, checks if they are invalid, and if so, adds their errors to the resulting object.
-   *
-   * @returns An object containing the validation errors for each form control.
-   */
-  private getFormErrors(): { [key: string]: DeleteAccountErrorsInterface } {
-    const errors: { [key: string]: DeleteAccountErrorsInterface } = {};
-    Object.entries(this.deleteAccountForm?.controls || {}).forEach(([key, control]) => {
-      if (control.invalid && control.errors) {
-        errors[key] = control.errors;
-      }
-    });
-    return errors;
+    const errors = getFormErrors<DeleteAccountErrorsInterface>(this.deleteAccountForm);
+    applyFieldErrorMessages(this.messageKeys, errors, this.msg);
   }
 
   /**
@@ -209,8 +186,7 @@ export class DeleteAccountForm {
    * @returns True if the control is invalid and has been touched, otherwise false.
    */
   public isInvalid(controlName: keyof DeleteAccountFormControlsInterface): boolean {
-    const control = this.deleteAccountForm?.get(controlName);
-    return control?.invalid && control?.touched ? true : false;
+    return isInvalid(controlName, this.deleteAccountForm);
   }
 
   /**
@@ -219,12 +195,6 @@ export class DeleteAccountForm {
    * @returns The name of the duck icon to display.
    */
   public getDuckIcon(): string {
-    if (!this.isPasswordFocused) return 'delete_account_normal_duck';
-
-    const length = this.deleteAccountForm?.get('password')?.value?.length || 0;
-
-    if (length === 0) return 'delete_account_half_closed_duck_1';
-    if (length <= 2) return 'delete_account_half_closed_duck_2';
-    return 'delete_account_close_duck';
+    return getDuckIcon('delete_account', this.isPasswordFocused, this.deleteAccountForm?.get('password')?.value);
   }
 }
