@@ -12,8 +12,9 @@ import { ApiErrorHandlingService } from '../../../services/api-error-handling.se
 import { TranslationService } from '../../../i18n/translation.service';
 import { UserNameAvailabilityService } from '../../../services/user-name-availability.service';
 
-import { BadgeMessageHandler } from '../../../utils/badge-message-handler';
 import { AUTH_FORMS_CONFIG } from '../../../config/auth-forms.config';
+import { BadgeMessageHandler } from '../../../utils/badge-message-handler';
+import { getDuckIcon, isInvalid, getFormErrors, collectAllFormErrors, applyFieldErrorMessages, getConfirmationErrorMessage } from '../../../utils/auth-form-helpers';
 
 import type {
   RegisterFormErrorsInterface,
@@ -55,7 +56,7 @@ export class RegisterForm {
     passwordMismatch: { ...badgeMessagesInit },
   };
 
-  private readonly messageKeys: (keyof RegisterMessagesInterface)[] = ['email', 'name', 'display_name', 'password', 'password_confirmation', 'acceptedConditions'];
+  private readonly messageKeys: (keyof RegisterMessagesInterface)[] = ['email', 'name', 'display_name', 'password', 'password_confirmation', 'acceptedConditions', 'passwordMismatch'];
 
   public isProcessing: boolean = false;
   public registerSuccessful: boolean = false;
@@ -321,38 +322,9 @@ export class RegisterForm {
    * It iterates through the defined fields and checks if there are any errors for each field.
    */
   private setErrorMessage(): void {
-    const controlErrors = this.getFormErrors();
-    const formErrors = this.registerForm?.errors || {};
-    const allErrors = { ...controlErrors, ...formErrors };
-
-    this.messageKeys.forEach((field) => {
-      if (allErrors[field]) {
-        const validatorKey = Object.keys(allErrors[field])[0];
-        this.msg.setMessage(field, 'error', validatorKey);
-      } else {
-        this.msg.clearMessage(field);
-      }
-    });
-
-    if (allErrors['passwordMismatch']) {
-      this.msg.setMessage('passwordMismatch', 'error', 'passwordMismatch');
-    }
-  }
-
-  /**
-   * Retrieves the validation errors from the form controls and returns an object containing the errors for each control.
-   * It iterates through the form controls, checks if they are invalid, and if so, adds their errors to the resulting object.
-   *
-   * @returns
-   */
-  private getFormErrors(): { [key: string]: RegisterFormErrorsInterface } {
-    const errors: { [key: string]: RegisterFormErrorsInterface } = {};
-    Object.entries(this.registerForm?.controls || {}).forEach(([key, control]) => {
-      if (control.invalid && control.errors) {
-        errors[key] = control.errors;
-      }
-    });
-    return errors;
+    const controlErrors = getFormErrors<RegisterFormErrorsInterface>(this.registerForm);
+    const allErrors = collectAllFormErrors(this.registerForm, controlErrors);
+    applyFieldErrorMessages(this.messageKeys, allErrors, this.msg);
   }
 
   /**
@@ -362,8 +334,7 @@ export class RegisterForm {
    * @returns True if the control is invalid and has been touched, otherwise false.
    */
   public isInvalid(controlName: keyof RegisterFormControlsInterface): boolean {
-    const control = this.registerForm?.get(controlName);
-    return control?.invalid && control?.touched ? true : false;
+    return isInvalid(controlName, this.registerForm);
   }
 
   /**
@@ -372,29 +343,16 @@ export class RegisterForm {
    * @returns The name of the duck icon to display.
    */
   public getDuckIcon(): string {
-    if (!this.isPasswordFocused) return 'register_normal_duck';
-
-    const length = this.registerForm?.get('password')?.value?.length || 0;
-
-    if (length === 0) return 'register_half_closed_duck_1';
-    if (length <= 2) return 'register_half_closed_duck_2';
-    return 'register_close_duck';
+    return getDuckIcon('register', this.isPasswordFocused, this.registerForm?.get('password')?.value);
   }
 
   /**
-   * Retrieves the appropriate error message for the password confirmation field based on its validation state.
+   * Retrieves the error message for the password confirmation field if there is a validation error.
+   * It checks for both control-level and form-level errors related to password confirmation.
+   *
+   * @returns The corresponding BadgeMessagesInterface if an error is found, otherwise null.
    */
   public get passwordConfirmationErrorMessage(): BadgeMessagesInterface | null {
-    const control = this.registerForm?.get('password_confirmation');
-
-    if (control?.invalid && control?.touched) {
-      return this.messages['password_confirmation'];
-    }
-
-    if (this.registerForm?.hasError('passwordMismatch')) {
-      return this.messages['passwordMismatch'];
-    }
-
-    return null;
+    return getConfirmationErrorMessage(this.registerForm, 'password_confirmation', 'passwordMismatch', this.messages);
   }
 }
