@@ -8,7 +8,9 @@ export interface AccountSettingsFormErrorsInterface {
   pattern?: { requiredPattern: string; actualValue: string };
   requiredTrue?: boolean;
 
+  // Custom form-level validators
   passwordMismatch?: boolean;
+  emailMismatch?: boolean;
 }
 
 export interface AccountSettingsFormInterface {
