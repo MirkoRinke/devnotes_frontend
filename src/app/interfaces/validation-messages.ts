@@ -1,3 +1,5 @@
+import { ParamsInterface } from './error-handling';
+
 export interface InfoTypeInterface {
   info: string | null;
 }
@@ -15,6 +17,11 @@ export interface ActiveBadgeInterface {
   icon: string;
   text: string;
   htmlText?: string;
+}
+
+export interface MessageHandler<K extends string = string> {
+  setMessage(field: K, type: keyof BadgeMessagesInterface, validatorKey: string, params?: ParamsInterface | null): void;
+  clearMessage(key: K): void;
 }
 
 /**
